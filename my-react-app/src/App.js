@@ -2,6 +2,8 @@ import './App.css';
 import {Route, Routes} from "react-router-dom";
 import React from "react";
 import InscriptionPage from "./components/utilisateurs/inscription/etudiant/InscriptionPage";
+import UtilisateursMain from './components/utilisateurs/utilisateursMain';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   return (

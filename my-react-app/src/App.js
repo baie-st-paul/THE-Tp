@@ -9,7 +9,8 @@ function App() {
   return (
       <div>
         <Routes>
-          <Route path="/" element={<InscriptionPage/>} />
+            <Route path="/etudiant" element={<InscriptionPage/>} />
+            <Route path="/" element={<UtilisateursMain/>} />
         </Routes>
       </div>
   )

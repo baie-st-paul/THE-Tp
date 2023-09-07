@@ -97,7 +97,7 @@ const InscriptionForm = () => {
     }
 
     return (
-        <div className='card-body fondIU'>
+        <div className='card-body'>
             <form autoComplete="off" className='add-form' onSubmit={onSubmit}>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='prenom'

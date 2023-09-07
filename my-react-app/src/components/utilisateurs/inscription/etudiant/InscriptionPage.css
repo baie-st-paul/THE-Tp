@@ -4,35 +4,8 @@ body, html {
     margin: 0;
 }
 
-.headerInscription {
-    text-align: center;
-}
-
-.goConnexion {
-    margin-left: 500px;
-}
-
-.fondIU {
-    display: block;
-    height: 66vh;
-    width: 500px;
-    margin-left: 500px;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.fondInscription {
-    display: block;
-    height: 744px;
-    width: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .saisie {
     width: 350px;
-    background-color: #E7B97D;
     color: white;
     border-radius: 25px;
 }

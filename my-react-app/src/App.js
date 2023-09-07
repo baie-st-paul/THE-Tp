@@ -7,9 +7,12 @@ import InscriptionPage from "./components/utilisateurs/inscription/etudiant/Insc
 
 function App() {
   return (
-    <>
-    <UtilisateursMain></UtilisateursMain>
-    </>
+      <div>
+        <Routes>
+            <Route path="/etudiant" element={<InscriptionPage/>} />
+            <Route path="/" element={<UtilisateursMain/>} />
+        </Routes>
+      </div>
   )
 }
 

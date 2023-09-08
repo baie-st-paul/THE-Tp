@@ -13,7 +13,6 @@ const InscriptionForm = ({onAdd}) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-
         if (
             !prenom &&
             !nomFamille &&
@@ -24,55 +23,64 @@ const InscriptionForm = ({onAdd}) => {
             !password &&
             !confirmPassword
         ) {
-            alert('Veuillez remplir les champs d\'inscription')
+            alert('Veuillez remplir tous les champs d\'inscription')
+            return
         }
 
         if (
             !prenom
         ) {
             alert('Veuillez ajouter le prenom')
+           
         }
 
         if (
             !nomFamille
         ) {
             alert('Veuillez ajouter le nom de famille')
+           
         }
 
         if (
             !matricule
         ) {
             alert('Veuillez ajouter la matricule')
+           
         }
 
         if (
             !email
         ) {
             alert('Veuillez ajouter l\'email')
+          
         }
 
         if (
             !telephone
         ) {
             alert('Veuillez ajouter le numero de téléphone')
+           
         }
 
         if (
             !programmeEtude
         ) {
             alert('Veuillez ajouter le programme d\'étude')
+           
         }
 
         if (
             !password
         ) {
             alert('Veuillez ajouter le mot de passe')
+           
         }
 
         if (
             !confirmPassword
         ) {
             alert('Veuillez ajouter la confirmation du mot de passe')
+           
         }
 
         onAdd({
@@ -96,10 +104,13 @@ const InscriptionForm = ({onAdd}) => {
     }
 
     return (
-        <div className='card-body'>
-            <form autoComplete="off" className='add-form' onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='prenom'
+        <div className="root border vh-100  ">
+        <div className='card-body fondIU'>
+           <div className="divForm">
+            <form autoComplete="off" className='form font add-form' onSubmit={onSubmit}>
+            <h1 className="font text-center">Inscription Etudiant</h1>
+                <div className='form-group '>
+                    <input className='form-control saisie saisie-user ' type='text' placeholder='prenom'
                            value={prenom}
                            onChange={(e) => setPrenom(e.target.value)}/>
                 </div>
@@ -138,8 +149,10 @@ const InscriptionForm = ({onAdd}) => {
                            value={confirmPassword}
                            onChange={(e) => setConfirmPassword(e.target.value)}/>
                 </div>
-                <input type='submit' value='Inscription' className='btn btn-block bg-black text-light'/>
+                <input type='submit' value='Inscription' className='btn btn-block bg-black text-light m-0'/>
             </form>
+        </div>
+        </div>
         </div>
     )
 }

@@ -1,7 +1,41 @@
-body, html {
+.headerInscription {
+    text-align: center;
+}
+
+.goConnexion {
+    margin-left: 500px;
+}
+
+/* pour que quand on met la page en tout petit qu'on
+voit bien le formulaire quand meme
+.fondIU {
+   display: flex;
+   justify-content: center;
+    width: 50%;
+    margin: 0 auto;
     height: 100%;
+    align-content: end;
+    position: relative;
+    align-items: center;
+}
+ */
+
+.form{
+    width: 100%;
+}
+
+.divForm{
+    padding: 4em;
+    background-color:#c5c6d0 ;
+}
+
+
+.fondInscription {
+    display: block;
+    height: 744px;
     width: 100%;
     margin: 0;
+    background-size: cover;
 }
 
 .saisie {
@@ -18,4 +52,11 @@ body, html {
 .saisie-psw {
     padding-left:35px;
     background-size: 20px;
+}
+
+
+@media screen and (max-width:600px) {
+    .fondIU{
+        width: 100%;
+    }
 }

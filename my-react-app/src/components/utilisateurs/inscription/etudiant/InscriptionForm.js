@@ -1,8 +1,7 @@
 import {useState} from "react";
 import "./InscriptionPage.css"
 
-//const InscriptionForm = ({onAdd}) => {
-const InscriptionForm = () => {
+const InscriptionForm = ({onAdd}) => {
     const [prenom, setPrenom] = useState('');
     const [nomFamille, setNomFamille] = useState('');
     const [matricule, setMatricule] = useState('');
@@ -76,7 +75,7 @@ const InscriptionForm = () => {
             alert('Veuillez ajouter la confirmation du mot de passe')
         }
 
-        /*onAdd({
+        onAdd({
             prenom,
             nomFamille,
             matricule,
@@ -85,7 +84,7 @@ const InscriptionForm = () => {
             programmeEtude,
             password,
             confirmPassword
-        })*/
+        })
         setPrenom('')
         setNomFamille('')
         setMatricule('')

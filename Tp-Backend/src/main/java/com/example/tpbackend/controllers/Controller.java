@@ -1,23 +1,52 @@
 package com.example.tpbackend.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
 import com.example.tpbackend.service.StudentServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/stages") // v1 = version 1
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 
-public class Controller{
+public class Controller {
     private final StudentServices studentServices;
 
     @PostMapping("/newStudent")
-    public void createStudent(@RequestBody StudentPostDTO dto){
-        studentServices.saveStudent(dto.getFirstName(), dto.getLastName(), dto.getPhoneNumber(), dto.getMatricule(), dto.getProgram(), dto.getEmail(), dto.getPassword());
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto){
+        //il faudrait mettre une condition si le compte existe deja avec un existeByMatricule
+        /*if (studentServices.existsByMatricule(dto.getMatricule())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("La matricule est déjà prise");
+        }*/
 
+        try {
+            dto = studentServices.saveStudent(
+                    dto.getFirstName(),
+                    dto.getLastName(),
+                    dto.getPhoneNumber(),
+                    dto.getMatricule(),
+                    dto.getProgram(),
+                    dto.getEmail(),
+                    dto.getPassword());
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String jsonCreatedUser = ow.writeValueAsString(dto.toStudent());
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(jsonCreatedUser);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
     }
-
-
 }

@@ -4,7 +4,7 @@ import "./InscriptionPage.css"
 
 const InscriptionPage = () => {
     return (
-        <div>
+        <div >
             {<InscriptionForm />}
         </div>
     )

@@ -1,9 +1,3 @@
-body, html {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
-
 .headerInscription {
     text-align: center;
 }
@@ -13,20 +7,31 @@ body, html {
 }
 
 .fondIU {
-    display: block;
-    height: 66vh;
-    width: 500px;
-    margin-left: 500px;
-    background-repeat: no-repeat;
-    background-size: cover;
+   display: flex;
+   justify-content: center;
+    width: 50%;
+    margin: 0 auto;
+    height: 100%;
+    align-content: end;
+    position: relative;
+    align-items: center;
 }
+
+.form{
+    width: 100%;
+}
+
+.divForm{
+    padding: 4em;
+    background-color:#c5c6d0 ;
+}
+
 
 .fondInscription {
     display: block;
     height: 744px;
     width: 100%;
     margin: 0;
-    background-repeat: no-repeat;
     background-size: cover;
 }
 
@@ -45,4 +50,11 @@ body, html {
 .saisie-psw {
     padding-left:35px;
     background-size: 20px;
+}
+
+
+@media screen and (max-width:600px) {
+    .fondIU{
+        width: 100%;
+    }
 }

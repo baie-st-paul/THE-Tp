@@ -5,18 +5,19 @@
 
 import React from 'react'
 import DropdownUsers from "./DropdownUsers";
+import '../stylesGenerales.css'
+
 
 export default function MenuUtilisateursMain() {
   return (
     <>
-        <div className='d-flex justify-content-center'></div>
-        <div className=' menuButtons d-flex justify-content-center '>
-            <div className=''>
-                <button className='px-5 button mx-2'>
-                    <DropdownUsers titre="S'inscrire"></DropdownUsers>
+        <div className='menuButtons'>
+            <div className='font d-flex justify-content-center'>
+                <button className='button ml-2'>
+                    <DropdownUsers  titre="S'inscrire"></DropdownUsers>
                 </button>
-                <button className='px-5 button mx-2'>
-                    <DropdownUsers titre="Se connecter"></DropdownUsers>
+                <button className=' button'>
+                    <DropdownUsers titre="Se Connecter"></DropdownUsers>
                 </button>
             </div>
         </div>

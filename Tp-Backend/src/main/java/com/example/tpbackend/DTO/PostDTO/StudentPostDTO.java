@@ -36,4 +36,15 @@ public class StudentPostDTO {
         return student;
     }
 
+    public Student toStudent() {
+        return new Student(
+                firstName,
+                lastName,
+                email,
+                password,
+                phoneNumber,
+                matricule,
+                program
+        );
+    }
 }

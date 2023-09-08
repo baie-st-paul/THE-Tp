@@ -3,6 +3,7 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
 import com.example.tpbackend.service.StudentServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,8 @@ public class Controller{
         studentServices.saveStudent(dto.getFirstName(), dto.getLastName(), dto.getPhoneNumber(), dto.getMatricule(), dto.getProgram(), dto.getEmail(), dto.getPassword());
 
     }
+
+
 
 
 }

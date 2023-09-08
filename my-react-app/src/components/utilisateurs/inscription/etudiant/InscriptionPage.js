@@ -32,8 +32,11 @@ const InscriptionPage = () => {
                     <Navigate to="/"/>
                     : console.log('nothing yet')
             }
+            <div >
+                {<InscriptionForm />}
+            </div>
         </div>
-    )
+    );
 }
 
-export default InscriptionPage
+export default InscriptionPage;

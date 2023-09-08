@@ -39,6 +39,7 @@ public class StudentController {
         }
 
         // logique de la redirection de l'étudiant vers la page d'accueil
+        // (je ne sais pas si c'est comme ça qu'on fait je continue de regarder)
         // httpSession session = request.getSession();
         //session.setAttribute("student", studentPostDTO);
 

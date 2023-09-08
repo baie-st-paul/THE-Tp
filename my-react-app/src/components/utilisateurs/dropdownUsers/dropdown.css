@@ -1,0 +1,8 @@
+.dropdown a {
+    font-size: large !important;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+a:hover {
+    background-color: grey !important;
+}

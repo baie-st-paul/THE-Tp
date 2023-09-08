@@ -6,7 +6,6 @@ import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.StudentRepository;
 import com.example.tpbackend.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

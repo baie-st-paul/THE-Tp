@@ -1,25 +1,26 @@
-.centrerPage{
- display: flex;
-justify-content: center;
-}
-.logoAndre{
- width: 500px;
+.centrerPage {
+    display: flex;
+    justify-content: center;
 }
 
-.texteStage{
-font-size: 50px;
+.logoAndre {
+    width: 500px;
 }
 
-.button{
-margin-top: 10px;
-background-color: #c5c6d0;
-font-size: 20px;
-border: none;
-width:250px;
+.texteStage {
+    font-size: 50px;
+}
+
+.button {
+    margin-top: 10px;
+    background-color: #c5c6d0;
+    font-size: 20px;
+    border: none;
+    width:250px;
 }
 
 .button:hover, button:active{
-background-color: grey;  
+    background-color: grey;
 }
 
 @media screen and (max-width:600px){

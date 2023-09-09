@@ -32,15 +32,6 @@ body, html {
     background-color:#c5c6d0 ;
 }
 
-
-.fondInscription {
-    display: block;
-    height: 744px;
-    width: 100%;
-    margin: 0;
-    background-size: cover;
-}
-
 .saisie {
     width: 350px;
     color: white;

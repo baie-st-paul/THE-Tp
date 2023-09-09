@@ -19,13 +19,10 @@ public class Controller {
     private final StudentServices studentServices;
 
     @PostMapping("/newStudent")
-    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto){
-        //il faudrait mettre une condition si le compte existe deja avec un existeByMatricule
-        /*if (studentServices.existsByMatricule(dto.getMatricule())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body("La matricule est déjà prise");
-        }*/
+    public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
+        if(studentServices.existsByMatriculeOrEmail(dto.getMatricule(), dto.getEmail())){
+            return ResponseEntity.badRequest().body("Matricule ou email existe déjà");
+        }
 
         try {
             dto = studentServices.saveStudent(

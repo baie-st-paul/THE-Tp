@@ -22,12 +22,20 @@ public class Student  {
         private Utilisateur utilisateur;
 
 
-        public Student( String email, String password, String firstName, String lastName, String phoneNumber, String matricule, String program) {
+        public Student( String email,
+                        String password,
+                        String firstName,
+                        String lastName,
+                        String phoneNumber,
+                        String matricule,
+                        String program,
+                        Utilisateur utilisateur) {
                 this.firstName = firstName;
                 this.lastName = lastName;
                 this.phoneNumber = phoneNumber;
                 this.matricule = matricule;
                 this.program = program;
+                this.utilisateur = utilisateur;
         }
 
         public void setUtilisateur(Utilisateur utilisateur){

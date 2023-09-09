@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO.PostDTO;
 
 import com.example.tpbackend.models.utilisateur.Student;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -15,13 +16,23 @@ public class StudentPostDTO {
     private String phoneNumber;
     private String matricule;
     private String program;
+    private Utilisateur.Roles role;
 
-    public StudentPostDTO(String email, String password, String firstName, String lastName, String phoneNumber, String matricule, String program){
+    public StudentPostDTO(String email,
+                          String password,
+                          String firstName,
+                          String lastName,
+                          String phoneNumber,
+                          String matricule,
+                          String program,
+                          Utilisateur.Roles role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.matricule = matricule;
         this.program = program;
+        this.role = role;
+
     }
 
     public static StudentPostDTO fromStudent(Student student) {
@@ -44,7 +55,8 @@ public class StudentPostDTO {
                 password,
                 phoneNumber,
                 matricule,
-                program
+                program,
+                new Utilisateur(email, password, role)
         );
     }
 }

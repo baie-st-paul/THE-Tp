@@ -1,5 +1,8 @@
 import {useState} from "react";
 import "./InscriptionPage.css"
+import PhoneInput from 'react-phone-number-input'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
 
 const InscriptionForm = ({onAdd}) => {
     const [firstName, setFirstName] = useState('');
@@ -10,6 +13,9 @@ const InscriptionForm = ({onAdd}) => {
     const [program, setProgram] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const validMatricule = matricule.match(/^[0-9\b]+$/);
+    const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -24,6 +30,14 @@ const InscriptionForm = ({onAdd}) => {
             !confirmPassword
         ) {
             alert('Veuillez remplir tous les champs d\'inscription')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
             return
         }
 
@@ -31,56 +45,185 @@ const InscriptionForm = ({onAdd}) => {
             !firstName
         ) {
             alert('Veuillez ajouter le prenom')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !lastName
         ) {
             alert('Veuillez ajouter le nom de famille')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !matricule
         ) {
             alert('Veuillez ajouter la matricule')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !email
         ) {
             alert('Veuillez ajouter l\'email')
-          
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !phoneNumber
         ) {
             alert('Veuillez ajouter le numero de téléphone')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !program
         ) {
             alert('Veuillez ajouter le programme d\'étude')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !password
         ) {
             alert('Veuillez ajouter le mot de passe')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         if (
             !confirmPassword
         ) {
             alert('Veuillez ajouter la confirmation du mot de passe')
-           
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
+        }
+
+        if (!validMatricule) {
+            alert('La matricule doit seulement avoir des chiffres')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
+        }
+
+        if (matricule.length !== 7) {
+            alert('La matricule doit être d\'une longueur de 7')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
+        }
+
+        if (!validEmail) {
+            alert('Email invalide')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
+        }
+
+        if(!isValidPhoneNumber(phoneNumber)) {
+            alert('Le numéro de téléphone est invalide')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
+        }
+
+        if (password.length < 6) {
+            alert('Mot de passe trop petit')
+            setFirstName('')
+            setLastName('')
+            setMatricule('')
+            setEmail('')
+            setPhoneNumber('')
+            setProgram('')
+            setPassword('')
+            setConfirmPassword('')
+            return
         }
 
         onAdd({
@@ -128,11 +271,11 @@ const InscriptionForm = ({onAdd}) => {
                            value={email}
                            onChange={(e) => setEmail(e.target.value)}/>
                 </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='telephone'
-                           value={phoneNumber}
-                           onChange={(e) => setPhoneNumber(e.target.value)}/>
-                </div>
+                <PhoneInput
+                    placeholder="Entrer numéro téléphone"
+                    defaultCountry="CA"
+                    value={phoneNumber}
+                    onChange={setPhoneNumber}/>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='programme étude'
                            value={program}

@@ -26,6 +26,14 @@ public class StudentServices {
         return StudentPostDTO.fromStudent(student);
     }
 
+    public boolean existsByMatriculeOrEmail(String matricule, String email){
+        return studentRepository.existsByMatriculeOrEmail(matricule, email);
+    }
 
+    public Student createStudent(StudentPostDTO studentPostDTO){
+        Student student = studentPostDTO.fromStudentDTO(studentPostDTO);
+        studentRepository.save(student);
+        return student;
+    }
 
 }

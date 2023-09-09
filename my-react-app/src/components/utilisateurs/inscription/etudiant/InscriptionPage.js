@@ -17,6 +17,7 @@ const InscriptionPage = () => {
             })
         const data = await res.json()
         setEtudiants([...etudiants, data])
+        console.log(data)
     }
 
     return (
@@ -24,9 +25,9 @@ const InscriptionPage = () => {
             {<InscriptionForm onAdd={inscription}/>}
             <Link to='/' className='centrerPage pt-2'>Retour</Link>
             {
-                etudiants.length > 0 ?
+                /*etudiants.length > 0 ?
                     <Navigate to="/"/>
-                    : console.log('nothing yet')
+                    : console.log('nothing yet')*/
             }
         </div>
     )

@@ -2,24 +2,24 @@ import {useState} from "react";
 import "./InscriptionPage.css"
 
 const InscriptionForm = ({onAdd}) => {
-    const [prenom, setPrenom] = useState('');
-    const [nomFamille, setNomFamille] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [matricule, setMatricule] = useState('');
     const [email, setEmail] = useState('');
-    const [telephone, setTelephone] = useState('');
-    const [programmeEtude, setProgrammeEtude] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [program, setProgram] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const onSubmit = (e) => {
         e.preventDefault()
         if (
-            !prenom &&
-            !nomFamille &&
+            !firstName &&
+            !lastName &&
             !matricule &&
             !email &&
-            !telephone &&
-            !programmeEtude &&
+            !phoneNumber &&
+            !program &&
             !password &&
             !confirmPassword
         ) {
@@ -28,14 +28,14 @@ const InscriptionForm = ({onAdd}) => {
         }
 
         if (
-            !prenom
+            !firstName
         ) {
             alert('Veuillez ajouter le prenom')
            
         }
 
         if (
-            !nomFamille
+            !lastName
         ) {
             alert('Veuillez ajouter le nom de famille')
            
@@ -56,14 +56,14 @@ const InscriptionForm = ({onAdd}) => {
         }
 
         if (
-            !telephone
+            !phoneNumber
         ) {
             alert('Veuillez ajouter le numero de téléphone')
            
         }
 
         if (
-            !programmeEtude
+            !program
         ) {
             alert('Veuillez ajouter le programme d\'étude')
            
@@ -84,21 +84,20 @@ const InscriptionForm = ({onAdd}) => {
         }
 
         onAdd({
-            prenom,
-            nomFamille,
+            firstName,
+            lastName,
             matricule,
             email,
-            telephone,
-            programmeEtude,
-            password,
-            confirmPassword
+            phoneNumber,
+            program,
+            password
         })
-        setPrenom('')
-        setNomFamille('')
+        setFirstName('')
+        setLastName('')
         setMatricule('')
         setEmail('')
-        setTelephone('')
-        setProgrammeEtude('')
+        setPhoneNumber('')
+        setProgram('')
         setPassword('')
         setConfirmPassword('')
     }
@@ -111,13 +110,13 @@ const InscriptionForm = ({onAdd}) => {
             <h1 className="font text-center">Inscription Etudiant</h1>
                 <div className='form-group '>
                     <input className='form-control saisie saisie-user ' type='text' placeholder='prenom'
-                           value={prenom}
-                           onChange={(e) => setPrenom(e.target.value)}/>
+                           value={firstName}
+                           onChange={(e) => setFirstName(e.target.value)}/>
                 </div>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='nom de famille'
-                           value={nomFamille}
-                           onChange={(e) => setNomFamille(e.target.value)}/>
+                           value={lastName}
+                           onChange={(e) => setLastName(e.target.value)}/>
                 </div>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='matricule'
@@ -131,13 +130,13 @@ const InscriptionForm = ({onAdd}) => {
                 </div>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='telephone'
-                           value={telephone}
-                           onChange={(e) => setTelephone(e.target.value)}/>
+                           value={phoneNumber}
+                           onChange={(e) => setPhoneNumber(e.target.value)}/>
                 </div>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-user' type='text' placeholder='programme étude'
-                           value={programmeEtude}
-                           onChange={(e) => setProgrammeEtude(e.target.value)}/>
+                           value={program}
+                           onChange={(e) => setProgram(e.target.value)}/>
                 </div>
                 <div className='form-group'>
                     <input className='form-control saisie saisie-psw' type='password' placeholder='mot de passe'

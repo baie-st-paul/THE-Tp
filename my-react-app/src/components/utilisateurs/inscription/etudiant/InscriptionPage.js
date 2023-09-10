@@ -4,7 +4,7 @@ import "./InscriptionPage.css"
 import {Link, Navigate} from "react-router-dom";
 
 const InscriptionPage = () => {
-    const [etudiants, setEtudiants] = useState([])
+    const [etudiants, setEtudiants] = useState([]);
     const inscription = async (etudiant) => {
         const res = await fetch(
             'http://localhost:8081/api/v1/stages/newStudent',
@@ -14,7 +14,8 @@ const InscriptionPage = () => {
                     'Content-type': 'application/json',
                 },
                 body: JSON.stringify(etudiant)
-            })
+            }
+        )
         const data = await res.json()
         setEtudiants([...etudiants, data])
         console.log(data)

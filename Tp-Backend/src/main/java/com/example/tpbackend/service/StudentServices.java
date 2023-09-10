@@ -51,4 +51,13 @@ public class StudentServices {
         return student;
     }
 
+    public boolean validAuthentification(String email, String password) {
+        Utilisateur utilisateur = userRepository.findByEmailAndPassword(email, password);
+
+        if (utilisateur != null) {
+            return password.equals(utilisateur.getPassword());
+        }
+        return false;
+    }
+
 }

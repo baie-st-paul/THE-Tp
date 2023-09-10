@@ -18,8 +18,6 @@ public class StudentServices {
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
-    private UserRepository utilisateurRepository;
-    @Autowired
     private CvRepository cvRepository;
     @Autowired
     private UserRepository userRepository;
@@ -64,4 +62,12 @@ public class StudentServices {
         return cvDTO;
     }
 
+    public boolean validAuthentification(String email, String password) {
+        Utilisateur utilisateur = userRepository.findByEmailAndPassword(email, password);
+
+        if (utilisateur != null) {
+            return password.equals(utilisateur.getPassword());
+        }
+        return false;
+    }
 }

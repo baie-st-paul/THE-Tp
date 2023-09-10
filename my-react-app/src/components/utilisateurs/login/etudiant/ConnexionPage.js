@@ -10,7 +10,7 @@ const ConnexionPage = () => {
 
     async function connexion(etudiant) {
         const res = await fetch(
-            'http://localhost:8081/api/v1/stages/',
+            'http://localhost:8081/api/v1/stages/loginStudent',
             {
                 method: 'POST',
                 headers: {

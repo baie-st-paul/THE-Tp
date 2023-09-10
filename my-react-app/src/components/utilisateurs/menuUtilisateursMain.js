@@ -4,8 +4,9 @@
 */
 
 import React from 'react'
-import DropdownUsers from "./DropdownUsers";
+import DropdownUsersInscription from "./DropdownUsersInscription";
 import '../stylesGenerales.css'
+import DropdownUsersConnexion from "./DropdownUsersConnexion";
 
 
 export default function MenuUtilisateursMain() {
@@ -14,10 +15,10 @@ export default function MenuUtilisateursMain() {
         <div className='menuButtons'>
             <div className='font d-flex justify-content-center'>
                 <button className='button ml-2'>
-                    <DropdownUsers  titre="S'inscrire"></DropdownUsers>
+                    <DropdownUsersInscription titre="S'inscrire"></DropdownUsersInscription>
                 </button>
                 <button className=' button'>
-                    <DropdownUsers titre="Se Connecter"></DropdownUsers>
+                    <DropdownUsersConnexion titre="Se Connecter"></DropdownUsersConnexion>
                 </button>
             </div>
         </div>

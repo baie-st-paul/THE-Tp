@@ -246,55 +246,55 @@ const InscriptionForm = ({onAdd}) => {
     }
 
     return (
-        <div className="root border  vh-100  ">
-        <div className='card-body fondIU '>
-           <div className="divForm">
-            <form autoComplete="off" className='form font add-form' onSubmit={onSubmit}>
-            <h1 className="font text-center">Inscription Etudiant</h1>
-                <div className='form-group '>
-                    <input className='form-control saisie saisie-user ' type='text' placeholder='prenom'
-                           value={firstName}
-                           onChange={(e) => setFirstName(e.target.value)}/>
+        <div className="root border vh-100  ">
+            <div className='card-body fondIU'>
+                <div className="divForm">
+                    <form autoComplete="off" className='form font add-form' onSubmit={onSubmit}>
+                        <h1 className="font text-center">Inscription Etudiant</h1>
+                        <div className='form-group '>
+                            <input className='form-control saisie saisie-user ' type='text' placeholder='prenom'
+                                   value={firstName}
+                                   onChange={(e) => setFirstName(e.target.value)}/>
+                        </div>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-user' type='text' placeholder='nom de famille'
+                                   value={lastName}
+                                   onChange={(e) => setLastName(e.target.value)}/>
+                        </div>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-user' type='text' placeholder='matricule'
+                                   value={matricule}
+                                   onChange={(e) => setMatricule(e.target.value)}/>
+                        </div>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-user' type='text' placeholder='email'
+                                   value={email}
+                                   onChange={(e) => setEmail(e.target.value)}/>
+                        </div>
+                        <PhoneInput
+                            placeholder="Entrer numéro téléphone"
+                            defaultCountry="CA"
+                            value={phoneNumber}
+                            onChange={setPhoneNumber}/>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-user' type='text' placeholder='programme étude'
+                                   value={program}
+                                   onChange={(e) => setProgram(e.target.value)}/>
+                        </div>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-psw' type='password' placeholder='mot de passe'
+                                   value={password}
+                                   onChange={(e) => setPassword(e.target.value)}/>
+                        </div>
+                        <div className='form-group'>
+                            <input className='form-control saisie saisie-psw' type='password' placeholder='confirmer le mot de passe'
+                                   value={confirmPassword}
+                                   onChange={(e) => setConfirmPassword(e.target.value)}/>
+                        </div>
+                        <input type='submit' value='Inscription' className='btn btn-block bg-black text-light m-0'/>
+                    </form>
                 </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='nom de famille'
-                           value={lastName}
-                           onChange={(e) => setLastName(e.target.value)}/>
-                </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='matricule'
-                           value={matricule}
-                           onChange={(e) => setMatricule(e.target.value)}/>
-                </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='email'
-                           value={email}
-                           onChange={(e) => setEmail(e.target.value)}/>
-                </div>
-                <PhoneInput
-                    placeholder="Entrer numéro téléphone"
-                    defaultCountry="CA"
-                    value={phoneNumber}
-                    onChange={setPhoneNumber}/>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-user' type='text' placeholder='programme étude'
-                           value={program}
-                           onChange={(e) => setProgram(e.target.value)}/>
-                </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-psw' type='password' placeholder='mot de passe'
-                           value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <div className='form-group'>
-                    <input className='form-control saisie saisie-psw' type='password' placeholder='confirmer le mot de passe'
-                           value={confirmPassword}
-                           onChange={(e) => setConfirmPassword(e.target.value)}/>
-                </div>
-                <input type='submit' value='Inscription' className='btn btn-block bg-black text-light m-0'/>
-            </form>
-        </div>
-        </div>
+            </div>
         </div>
     )
 }

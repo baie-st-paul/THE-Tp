@@ -10,7 +10,7 @@ export class CurrentEtudiant extends Component {
             matricule: "",
             program: "",
             email: "",
-            password: ""
+            token: ""
         }
     }
 }
@@ -21,6 +21,7 @@ const Etudiant = ({etudiant}) => {
             <h3>{etudiant.matricule}</h3>
             <h3>{etudiant.firstName}</h3>
             <h3>{etudiant.lastName}</h3>
+            <h3>{etudiant.email}</h3>
         </div>
     )
 }

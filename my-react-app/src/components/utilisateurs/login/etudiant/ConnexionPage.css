@@ -1,0 +1,31 @@
+.form{
+    width: 100%;
+}
+
+.divForm{
+    padding: 4em;
+    background-color:#c5c6d0 ;
+}
+
+.saisie {
+    width: 350px;
+    color: white;
+    border-radius: 25px;
+}
+
+.saisie-user {
+    padding-left:35px;
+    background-size: 20px;
+}
+
+.saisie-psw {
+    padding-left:35px;
+    background-size: 20px;
+}
+
+
+@media screen and (max-width:600px) {
+    .fondIU{
+        width: 100%;
+    }
+}

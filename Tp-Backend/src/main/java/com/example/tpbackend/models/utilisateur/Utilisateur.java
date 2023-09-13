@@ -1,5 +1,6 @@
 package com.example.tpbackend.models.utilisateur;
 
+import com.example.tpbackend.DTO.LoginDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,18 +27,17 @@ public class Utilisateur {
     @JsonIgnore // ne pas afficher le mot de passe
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Roles role;
 
-    public Utilisateur(String email, String password, Roles role) {
+    public Utilisateur(String email, String password) {
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
-    public enum Roles {
-        ADMIN,
-        STUDENT,
-        EMPLOYER
+    public LoginDTO toLoginDTO() {
+        return new LoginDTO(
+                email,
+                password
+        );
     }
+
 }

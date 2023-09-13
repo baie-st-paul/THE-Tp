@@ -1,7 +1,8 @@
-package com.example.tpbackend.repository;
+package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.PostDTO.LoginDTO;
+import com.example.tpbackend.DTO.LoginDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,7 +13,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Utilisateur findByEmailAndPassword(String email, String password) {
+    public boolean findByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
@@ -26,11 +27,24 @@ public class UserService {
 
         newUser.setEmail(loginDTO.getEmail());
         newUser.setPassword(loginDTO.getPassword());
-        newUser.setRole(loginDTO.getRole());
 
         userRepository.save(newUser);
 
         return newUser;
     }
+
+    public Utilisateur findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean validAuthentification(String email, String password) {
+        Utilisateur utilisateur = userRepository.findByEmail(email);
+
+        if (utilisateur != null) {
+            return password.equals(utilisateur.getPassword());
+        }
+        return false;
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.PostDTO.CvDTO;
+import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -28,9 +28,8 @@ public class StudentServices {
                                       String matricule,
                                       String program,
                                       String email,
-                                      String password,
-                                      Utilisateur.Roles role){
-        Utilisateur utilisateur = new Utilisateur(email, password, Utilisateur.Roles.STUDENT);
+                                      String password){
+        Utilisateur utilisateur = new Utilisateur(email, password);
         Student student = new Student(email,
                 password,
                 firstName,
@@ -63,7 +62,7 @@ public class StudentServices {
     }
 
     public boolean validAuthentification(String email, String password) {
-        Utilisateur utilisateur = userRepository.findByEmailAndPassword(email, password);
+        Utilisateur utilisateur = userRepository.findByEmail(email);
 
         if (utilisateur != null) {
             return password.equals(utilisateur.getPassword());

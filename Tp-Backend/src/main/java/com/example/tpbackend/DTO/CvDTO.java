@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO.PostDTO;
+package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,7 +8,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor

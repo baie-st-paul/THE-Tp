@@ -1,6 +1,6 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.PostDTO.CvDTO;
+import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.service.StudentServices;

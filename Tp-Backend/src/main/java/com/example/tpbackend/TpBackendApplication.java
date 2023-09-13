@@ -1,7 +1,10 @@
 package com.example.tpbackend;
 
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.StudentPostDTO;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +19,9 @@ public class TpBackendApplication implements CommandLineRunner {
     @Autowired
     StudentServices studentServices = new StudentServices();
 
+    @Autowired
+    OffreStageService offreStageService = new OffreStageService( );
+
     public static void main(String[] args) {
         SpringApplication.run(TpBackendApplication.class, args);
     }
@@ -23,7 +29,7 @@ public class TpBackendApplication implements CommandLineRunner {
     public void run(String... args) throws IOException {
         System.out.println("hello");
         System.out.println();
-        StudentPostDTO studentPostDTO = studentServices.saveStudent("phil", "vall", "444-444-4444", "email", "informatique", "email@gmail.com", "password", Utilisateur.Roles.STUDENT);
+        StudentPostDTO studentPostDTO = studentServices.saveStudent("phil", "vall", "444-444-4444", "email", "informatique", "email@gmail.com", "password");
 
         /*StudentPostDTO studentPostDTO = studentServices.saveStudent(
                 "phil",
@@ -46,7 +52,6 @@ public class TpBackendApplication implements CommandLineRunner {
                     studentPostDTO1.setProgram("informatique");
                     studentPostDTO1.setEmail(name + "@gmail.com");
                     studentPostDTO1.setPassword("password");
-                    studentPostDTO1.setRole(Utilisateur.Roles.STUDENT);
                     studentServices.saveStudent(
                             studentPostDTO1.getFirstName(),
                             studentPostDTO1.getLastName(),
@@ -54,8 +59,9 @@ public class TpBackendApplication implements CommandLineRunner {
                             studentPostDTO1.getMatricule(),
                             studentPostDTO1.getProgram(),
                             studentPostDTO1.getEmail(),
-                            studentPostDTO1.getPassword(),
-                            studentPostDTO1.getRole());
+                            studentPostDTO1.getPassword()
+                            );
         });
     }
+
 }

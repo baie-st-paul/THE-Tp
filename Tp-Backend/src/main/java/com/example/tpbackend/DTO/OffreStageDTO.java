@@ -13,6 +13,4 @@ public class OffreStageDTO {
     private String entreprise;
     private String poste;
     private String description;
-
-
 }

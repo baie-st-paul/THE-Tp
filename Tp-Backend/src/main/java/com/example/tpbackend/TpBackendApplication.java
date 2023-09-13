@@ -1,6 +1,6 @@
 package com.example.tpbackend;
 
-import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
+import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,9 +22,8 @@ public class StudentServices {
                                       String matricule,
                                       String program,
                                       String email,
-                                      String password,
-                                      Utilisateur.Roles role){
-        Utilisateur utilisateur = new Utilisateur(email, password, Utilisateur.Roles.STUDENT);
+                                      String password){
+        Utilisateur utilisateur = new Utilisateur(email, password);
         Student student = new Student(email,
                 password,
                 firstName,
@@ -51,13 +50,6 @@ public class StudentServices {
         return student;
     }
 
-    public boolean validAuthentification(String email, String password) {
-        Utilisateur utilisateur = userRepository.findByEmailAndPassword(email, password);
 
-        if (utilisateur != null) {
-            return password.equals(utilisateur.getPassword());
-        }
-        return false;
-    }
 
 }

@@ -31,7 +31,7 @@ public class OffreStageServiceTest {
     public void testCreateOffre() {
         OffreStage offre = new OffreStage();
         offre.setId(1L);
-        when(offreStageRepository.save(any())).thenReturn(offre);
+        when(offreStageRepository.save(any())).thenReturn(offre); // si on sauvegarde n'importe quel objet, on retourne l'offre
 
         OffreStage result = offreStageService.createOffre(new OffreStage());
 

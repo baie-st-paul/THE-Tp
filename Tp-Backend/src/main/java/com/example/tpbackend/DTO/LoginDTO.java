@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO.PostDTO;
+package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import lombok.AllArgsConstructor;
@@ -12,5 +12,11 @@ import lombok.NoArgsConstructor;
 public class LoginDTO {
     private String email;
     private String password;
-    private Utilisateur.Roles role;
+
+    public Utilisateur toUtilisateur() {
+        return new Utilisateur(
+                email,
+                password
+        );
+    }
 }

@@ -16,7 +16,6 @@ public class StudentPostDTO {
     private String phoneNumber;
     private String matricule;
     private String program;
-    private Utilisateur.Roles role;
 
     public StudentPostDTO(String email,
                           String password,
@@ -24,14 +23,13 @@ public class StudentPostDTO {
                           String lastName,
                           String phoneNumber,
                           String matricule,
-                          String program,
-                          Utilisateur.Roles role) {
+                          String program
+                         ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.matricule = matricule;
         this.program = program;
-        this.role = role;
 
     }
 
@@ -56,7 +54,7 @@ public class StudentPostDTO {
                 phoneNumber,
                 matricule,
                 program,
-                new Utilisateur(email, password, role)
+                new Utilisateur(email, password)
         );
     }
 }

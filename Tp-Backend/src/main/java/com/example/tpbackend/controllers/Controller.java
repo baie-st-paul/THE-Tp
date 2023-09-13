@@ -1,7 +1,10 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.LoginDTO;
 import com.example.tpbackend.DTO.StudentPostDTO;
+import com.example.tpbackend.service.LoginService;
 import com.example.tpbackend.service.StudentServices;
+import com.example.tpbackend.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.AllArgsConstructor;
@@ -17,6 +20,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class Controller {
     private StudentServices studentServices;
+    private UserService userService;
 
     @PostMapping("/newStudent")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
@@ -34,8 +38,8 @@ public class Controller {
                     dto.getMatricule(),
                     dto.getProgram(),
                     dto.getEmail(),
-                    dto.getPassword(),
-                    dto.getRole());
+                    dto.getPassword()
+                    );
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonCreatedStudent = ow.writeValueAsString(dto.toStudent());
@@ -50,23 +54,26 @@ public class Controller {
         }
     }
 
-    @PostMapping("/loginStudent")
-    public ResponseEntity<?> loginStudent(@Valid @RequestBody StudentPostDTO dto) {
-        if (!studentServices.existsByMatriculeOrEmail(dto.getMatricule(), dto.getEmail())) {
+    @PostMapping("/loginUtilisateur")
+    public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody LoginDTO dto) {
+        if (!userService.findByEmailAndPassword( dto.getEmail(), dto.getPassword()))  {
             return ResponseEntity
                     .badRequest()
-                    .body("Cet élève n'existe pas");
+                    .body("Cet utilisteur n'existe pas");
         }
 
         try {
-            boolean valide = studentServices.validAuthentification(
+            boolean valide = userService.validAuthentification(
                     dto.getEmail(),
                     dto.getPassword());
 
             if (valide) {
-
+                dto = userService.findByEmail(dto.getEmail()).toLoginDTO();
+                String token = LoginService.genereJWT(
+                        dto.getEmail()
+                );
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String jsonConnectedStudent = ow.writeValueAsString(dto.toStudent());
+                String jsonConnectedStudent = ow.writeValueAsString(dto.toUtilisateur());
 
                 return ResponseEntity
                         .accepted()
@@ -74,7 +81,7 @@ public class Controller {
             } else {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED)
-                        .body("Mot de passe invalide");
+                        .body("Mot de passe incorrect");
             }
         } catch(Exception e) {
             return ResponseEntity
@@ -82,4 +89,6 @@ public class Controller {
                     .body(e.getMessage());
         }
     }
+
+
 }

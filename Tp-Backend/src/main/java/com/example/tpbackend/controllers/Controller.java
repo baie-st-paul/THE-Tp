@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class Controller {
     private final StudentServices studentServices;
 
-    @PostMapping("/newStudent")
+    @PostMapping(value = "/newStudent")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
         if(studentServices.existsByMatriculeOrEmail(dto.getMatricule(), dto.getEmail())){
             return ResponseEntity.badRequest().body("Matricule ou email existe déjà");

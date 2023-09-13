@@ -1,8 +1,10 @@
 package com.example.tpbackend.service;
 
+import com.example.tpbackend.DTO.PostDTO.CvDTO;
 import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.StudentRepository;
 import com.example.tpbackend.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ public class StudentServices {
     private StudentRepository studentRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private CvRepository cvRepository;
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String phoneNumber, String matricule, String program, String email, String password){
         Utilisateur utilisateur = new Utilisateur(email,password);
@@ -34,6 +38,11 @@ public class StudentServices {
         Student student = studentPostDTO.fromStudentDTO(studentPostDTO);
         studentRepository.save(student);
         return student;
+    }
+
+    public CvDTO saveCv(CvDTO cvDTO){
+        cvRepository.save(cvDTO.toCv(cvDTO));
+        return cvDTO;
     }
 
 }

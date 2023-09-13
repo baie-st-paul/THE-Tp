@@ -1,18 +1,19 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.PostDTO.CvDTO;
 import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.service.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/stages/student-signup")
+@RequestMapping("/api/v1/stages")
 public class StudentController {
 
     StudentServices studentServices;
@@ -47,5 +48,14 @@ public class StudentController {
 
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
+
+    @PostMapping(value = "/saveCV")
+    public ResponseEntity<?> saveCv(@ModelAttribute CvDTO cvDTO){
+        studentServices.saveCv(cvDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(cvDTO);
+    }
+
 }
 

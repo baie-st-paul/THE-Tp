@@ -9,12 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/stages")
+@RequestMapping("/api/v1/stages/student-signup")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
 
     StudentServices studentServices;

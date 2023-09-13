@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO.PostDTO;
+package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;

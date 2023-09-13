@@ -1,7 +1,7 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.PostDTO.CvDTO;
-import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
+import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;

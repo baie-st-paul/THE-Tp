@@ -10,6 +10,8 @@ import com.example.tpbackend.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class StudentServices {
 
@@ -40,7 +42,7 @@ public class StudentServices {
         return student;
     }
 
-    public CvDTO saveCv(CvDTO cvDTO){
+    public CvDTO saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv(cvDTO));
         return cvDTO;
     }

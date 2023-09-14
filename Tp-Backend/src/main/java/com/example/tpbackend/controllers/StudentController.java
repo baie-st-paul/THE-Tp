@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/stages")
@@ -49,8 +50,8 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/saveCV")
-    public ResponseEntity<?> saveCv(@ModelAttribute CvDTO cvDTO){
+    @PostMapping(value = "/saveCV",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> saveCv(@ModelAttribute CvDTO cvDTO) throws IOException {
         studentServices.saveCv(cvDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

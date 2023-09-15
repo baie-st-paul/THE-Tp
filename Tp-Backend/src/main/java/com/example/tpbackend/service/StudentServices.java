@@ -1,7 +1,7 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.PostDTO.CvDTO;
-import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
+import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
@@ -22,13 +22,27 @@ public class StudentServices {
     @Autowired
     private CvRepository cvRepository;
 
-    public StudentPostDTO saveStudent(String firstName, String lastName, String phoneNumber, String matricule, String program, String email, String password){
-        Utilisateur utilisateur = new Utilisateur(email,password);
-        Student student = new Student(email, password, firstName, lastName, phoneNumber, matricule, program);
+    public StudentPostDTO saveStudent(String firstName,
+                                      String lastName,
+                                      String phoneNumber,
+                                      String matricule,
+                                      String program,
+                                      String email,
+                                      String password){
+        Utilisateur utilisateur = new Utilisateur(email, password);
+        Student student = new Student(email,
+                password,
+                firstName,
+                lastName,
+                phoneNumber,
+                matricule,
+                program,
+                utilisateur);
         student.setUtilisateur(utilisateur);
         System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
+
         return StudentPostDTO.fromStudent(student);
     }
 
@@ -41,7 +55,6 @@ public class StudentServices {
         studentRepository.save(student);
         return student;
     }
-
     public CvDTO saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv(cvDTO));
         return cvDTO;

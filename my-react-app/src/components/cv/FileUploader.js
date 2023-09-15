@@ -20,7 +20,7 @@ function FileUploader(){
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8081/api/v1/stages/saveCV?matricule=1966156&fileName="+fileName+"&status=In_review", requestOptions)
+        fetch("http://localhost:8081/api/v1/student/saveCV?matricule=1966156&fileName="+fileName+"&status=In_review", requestOptions)
             .then(response => response.text())
             .then(result => console.log(result))
             .catch(error => console.log('error', error));

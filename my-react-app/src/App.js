@@ -5,12 +5,16 @@ import InscriptionPage from "./components/utilisateurs/inscription/etudiant/Insc
 import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMain';
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
+import PageNotFound from "./components/PageNotFound";
+import ConnexionPage from "./components/utilisateurs/login/ConnexionPage";
 
 function App() {
   return (
       <div>
         <Routes>
-            <Route path="/etudiant" element={<InscriptionPage/>} />
+            <Route path="*" element={<PageNotFound/>} />
+            <Route path="/etudiantInscription" element={<InscriptionPage/>} />
+            <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
             <Route path="/" element={<UtilisateursMain/>} />
             <Route path="/saveCv" element={<FileUploader/>} />
         </Routes>

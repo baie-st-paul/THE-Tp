@@ -1,8 +1,8 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.StudentPostDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.example.tpbackend.DTO.PostDTO.StudentPostDTO;
 import com.example.tpbackend.service.StudentServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

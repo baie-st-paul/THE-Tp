@@ -1,6 +1,5 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.LoginDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,28 +12,29 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean findByEmailAndPassword(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
-    }
+    /* pas utilisé
+    public Utilisateur createUser(UtilisateurDTO utilisateurDTO) {
 
-    public Utilisateur createUser(LoginDTO loginDTO) {
-
-        if (userRepository.existsByEmail(loginDTO.getEmail())) {
+        if (userRepository.existsByEmail(utilisateurDTO.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
         Utilisateur newUser = new Utilisateur();
 
-        newUser.setEmail(loginDTO.getEmail());
-        newUser.setPassword(loginDTO.getPassword());
+        newUser.setEmail(utilisateurDTO.getEmail());
+        newUser.setPassword(utilisateurDTO.getPassword());
 
         userRepository.save(newUser);
 
         return newUser;
-    }
+    }*/
 
     public Utilisateur findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     public boolean validAuthentification(String email, String password) {
@@ -45,6 +45,4 @@ public class UserService {
         }
         return false;
     }
-
-
 }

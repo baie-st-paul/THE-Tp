@@ -1,10 +1,7 @@
 package com.example.tpbackend.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.xml.bind.DatatypeConverter;
+import io.jsonwebtoken.*;
+import javax.xml.bind.DatatypeConverter;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -25,7 +22,7 @@ public class LoginService {
     private static String getPropertie() {
         if (prop.isEmpty()) {
             try {
-                File initialFile = new File("src/main/resources/application.properties");
+                File initialFile = new File("Tp-Backend/src/main/resources/application.properties");
                 InputStream inputStream = new FileInputStream(initialFile);
                 prop.load(inputStream);
                 inputStream.close();
@@ -64,6 +61,7 @@ public class LoginService {
                 .setId(email)
                 .setIssuedAt(now)
                 .setExpiration(exp)
+                .claim("email", email)
                 .signWith(signatureAlgorithm, signingKey);
 
 
@@ -76,5 +74,4 @@ public class LoginService {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(getSecretKey()))
                 .parseClaimsJws(jwt).getBody();
     }
-
 }

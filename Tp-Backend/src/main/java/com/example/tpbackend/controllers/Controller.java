@@ -1,6 +1,7 @@
 package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.LoginDTO;
+import com.example.tpbackend.DTO.UtilisateurDTO;
 import com.example.tpbackend.DTO.StudentPostDTO;
 import com.example.tpbackend.service.LoginService;
 import com.example.tpbackend.service.StudentServices;
@@ -55,11 +56,11 @@ public class Controller {
     }
 
     @PostMapping("/loginUtilisateur")
-    public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody LoginDTO dto) {
-        if (!userService.findByEmailAndPassword( dto.getEmail(), dto.getPassword()))  {
+    public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody UtilisateurDTO dto) {
+        if (!userService.existsByEmail(dto.getEmail()))  {
             return ResponseEntity
                     .badRequest()
-                    .body("Cet utilisteur n'existe pas");
+                    .body("Cet utilisateur n'existe pas");
         }
 
         try {
@@ -69,11 +70,13 @@ public class Controller {
 
             if (valide) {
                 dto = userService.findByEmail(dto.getEmail()).toLoginDTO();
+                System.out.println("dtoFindByEmail " + dto);
                 String token = LoginService.genereJWT(
                         dto.getEmail()
                 );
+                LoginDTO loginDto = new LoginDTO(token, dto.getEmail());
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String jsonConnectedStudent = ow.writeValueAsString(dto.toUtilisateur());
+                String jsonConnectedStudent = ow.writeValueAsString(loginDto.toLoginUser());
 
                 return ResponseEntity
                         .accepted()

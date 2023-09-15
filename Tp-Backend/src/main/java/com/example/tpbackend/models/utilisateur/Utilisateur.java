@@ -1,6 +1,6 @@
 package com.example.tpbackend.models.utilisateur;
 
-import com.example.tpbackend.DTO.LoginDTO;
+import com.example.tpbackend.DTO.UtilisateurDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,8 +33,8 @@ public class Utilisateur {
         this.password = password;
     }
 
-    public LoginDTO toLoginDTO() {
-        return new LoginDTO(
+    public UtilisateurDTO toLoginDTO() {
+        return new UtilisateurDTO(
                 email,
                 password
         );

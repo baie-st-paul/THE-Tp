@@ -10,7 +10,7 @@ const ConnexionPage = () => {
 
     async function connexion(etudiant) {
         const res = await fetch(
-            'http://localhost:8081/api/v1/stages/loginStudent',
+            'http://localhost:8081/api/v1/stages/loginUtilisateur',
             {
                 method: 'POST',
                 headers: {
@@ -21,16 +21,17 @@ const ConnexionPage = () => {
         )
         const data = await res.json()
         setEtudiants([...etudiants, data])
+        console.log("data", data)
         const currentEtudiant = new CurrentEtudiant(data)
         localStorage.setItem('currentEtudiant', JSON.stringify(currentEtudiant))
         let jsonCurrentEtudiant = localStorage.getItem('currentEtudiant')
         console.log('is connected ', isConnected(jsonCurrentEtudiant))
-        console.log('matricule ', getConnectedEtudiant(jsonCurrentEtudiant))
+        console.log('email ', getConnectedEtudiant(jsonCurrentEtudiant))
         console.log('token ', tokenEtudiant(jsonCurrentEtudiant))
     }
 
     function isConnected(jsonCurrentEtudiant) {
-        console.log(jsonCurrentEtudiant)
+        console.log("jsonCurrentEtudiant", jsonCurrentEtudiant)
         if (jsonCurrentEtudiant != null) {
             let currentEtudiant = JSON.parse(jsonCurrentEtudiant)
 
@@ -46,7 +47,7 @@ const ConnexionPage = () => {
     function getConnectedEtudiant(jsonCurrentEtudiant) {
         if (jsonCurrentEtudiant != null) {
             const currentEtudiant = JSON.parse(jsonCurrentEtudiant)
-            return currentEtudiant.props.matricule
+            return currentEtudiant.props.email
         } else {
             return ""
         }
@@ -55,6 +56,9 @@ const ConnexionPage = () => {
     function tokenEtudiant(jsonCurrentEtudiant) {
         if (jsonCurrentEtudiant != null) {
             const currentEtudiant = JSON.parse(jsonCurrentEtudiant)
+            console.log("token-currentEtudiant", currentEtudiant)
+            console.log("is-expired", isExpired(currentEtudiant.props.token))
+            console.log("else", currentEtudiant.props.token)
             if (isExpired(currentEtudiant.props.token)) {
                 localStorage.removeItem('currentEtudiant')
                 return "";

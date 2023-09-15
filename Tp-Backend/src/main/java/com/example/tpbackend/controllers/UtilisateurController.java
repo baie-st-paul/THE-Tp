@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/stages") // v1 = version 1
 @CrossOrigin(origins = "http://localhost:3000")
-public class Controller {
+public class UtilisateurController {
     private StudentServices studentServices;
     private UserService userService;
 
@@ -92,6 +92,4 @@ public class Controller {
                     .body(e.getMessage());
         }
     }
-
-
 }

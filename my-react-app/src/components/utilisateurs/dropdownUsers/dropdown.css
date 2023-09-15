@@ -3,6 +3,24 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+
+.dropdown{
+    margin-top: 10px;
+    background-color: #c5c6d0;
+    font-size: 20px;
+    border: none;
+    width:250px;
+}
+
 a:hover {
     background-color: grey !important;
+}
+
+@media screen and (max-width:600px){
+    span{
+        font-size: 5vw;
+    }
+    .dropdown{
+        width: 45%;
+    }
 }

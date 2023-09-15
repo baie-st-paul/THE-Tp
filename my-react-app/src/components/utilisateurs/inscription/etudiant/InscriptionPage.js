@@ -1,11 +1,16 @@
 import React, {useState} from 'react';
 import InscriptionForm from "./InscriptionForm";
 import "./InscriptionPage.css"
-import {Link, Navigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
+import Modal from 'react-bootstrap/Modal';
+import {Button} from "react-bootstrap";
 
 const InscriptionPage = () => {
     const [etudiants, setEtudiants] = useState([]);
+    const [erreur, setErreur] = useState(false);
+
     const inscription = async (etudiant) => {
+        console.log(erreur)
         const res = await fetch(
             'http://localhost:8081/api/v1/stages/newStudent',
             {
@@ -16,6 +21,20 @@ const InscriptionPage = () => {
                 body: JSON.stringify(etudiant)
             }
         )
+
+        try {
+            console.log(res.status)
+            if (res.status === 400) {
+                console.log(res.status)
+                setErreur(true)
+                throw new Error('Cette matricule ou Email est déjà associé à un compte');
+            } else {
+                setErreur(false)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+
         const data = await res.json()
         setEtudiants([...etudiants, data])
         console.log(data)
@@ -24,11 +43,30 @@ const InscriptionPage = () => {
     return (
         <div className='bg-light vh-100'>
             {<InscriptionForm onAdd={inscription}/>}
-            <Link to='/' className='centrerPage pt-2'>Retour</Link>
             {
-                /*etudiants.length > 0 ?
+                etudiants.length > 0 ?
                     <Navigate to="/"/>
-                    : console.log('nothing yet')*/
+                    : console.log('nothing yet')
+            }
+            { erreur === true &&
+                <div className='w-100 vh-100'>
+                    <div className="modal show bg-dark bg-opacity-75"
+                         style={{ display: 'flex', position: 'fixed', justifyContent: 'center', alignItems: 'center' }}>
+                        <Modal.Dialog className='w-auto h-auto'>
+                            <Modal.Header className='border-0 '>
+                                <Modal.Title className=' font'><span className='font h4'>Erreur d'inscription</span></Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className='text-danger'>
+                                <h4 className='font h5'>CETTE MATRICULE OU EMAIL</h4>
+                                <h4 className='font h5'>EST DÉJÀ ASSOCIÉ À UN COMPTE</h4>
+                            </Modal.Body>
+
+                            <Modal.Footer className='border-0'>
+                                <Button className='w-100 btn button' onClick={()=> setErreur(!erreur)} variant='success'>Okay</Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
+                    </div>
+                </div>
             }
         </div>
     )

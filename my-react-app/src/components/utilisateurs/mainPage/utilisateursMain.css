@@ -28,12 +28,8 @@
         width: 90%;
     }
     .button{
-        
         font-size: 5vw;
         width: 45%;
-    }
-    .menuButtons{
-        display: grid;
     }
     .texteStage{
         font-size : 8vw;

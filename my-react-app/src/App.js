@@ -15,7 +15,7 @@ function App() {
         <Routes>
             <Route path="*" element={<PageNotFound/>} />
             <Route path="/etudiantInscription" element={<InscriptionPage/>} />
-            <Route path="/etudiantConnexion" element={<ConnexionPage/>} />
+            <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
             <Route path="/" element={<UtilisateursMain/>} />
             <Route path="/saveCv" element={<FileUploader/>} />
         </Routes>

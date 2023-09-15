@@ -58,7 +58,7 @@ const ConnexionForm = ({onAdd}) => {
             <div className='card-body fondIU'>
                 <div className="divForm">
                     <form autoComplete="off" className='form font add-form' onSubmit={onSubmit}>
-                        <h1 className="font text-center">Connexion Etudiant</h1>
+                        <h1 className="font text-center">Connexion Utilisateur</h1>
                         <div className='form-group'>
                             <input className='form-control saisie saisie-user' type='text' placeholder='email'
                                    value={email}

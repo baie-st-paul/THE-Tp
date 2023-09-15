@@ -1,12 +1,12 @@
-import Etudiant from "./Etudiant";
+import Utilisateur from "./Utilisateur";
 
-const Etudiants = ({etudiants}) => {
+const Utilisateurs = ({utilisateurs}) => {
     return (
         <>
             <tbody>
                 {
                     React.Children.toArray(
-                        etudiants.map((etudiant) => <Etudiant/>)
+                        utilisateurs.map((utilisateur) => <Utilisateur/>)
                     )
                 }
             </tbody>
@@ -14,4 +14,4 @@ const Etudiants = ({etudiants}) => {
     )
 }
 
-export default Etudiants
+export default Utilisateurs

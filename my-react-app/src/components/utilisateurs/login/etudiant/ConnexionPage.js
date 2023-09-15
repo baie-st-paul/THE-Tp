@@ -1,14 +1,14 @@
 import React, {useState} from "react";
-import {CurrentEtudiant} from "../../inscription/etudiant/Etudiant";
+import {CurrentUtilisateur} from "../Utilisateur";
 import {isExpired} from "react-jwt";
 import './ConnexionPage.css'
-import {Link} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import ConnexionForm from "./ConnexionForm";
 
 const ConnexionPage = () => {
-    const [etudiants, setEtudiants] = useState([]);
+    const [utilisateurs, setUtilisateurs] = useState([]);
 
-    async function connexion(etudiant) {
+    async function connexion(utilisateur) {
         const res = await fetch(
             'http://localhost:8081/api/v1/stages/loginUtilisateur',
             {
@@ -16,27 +16,27 @@ const ConnexionPage = () => {
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify(etudiant)
+                body: JSON.stringify(utilisateur)
             }
         )
         const data = await res.json()
-        setEtudiants([...etudiants, data])
+        setUtilisateurs([...utilisateurs, data])
         console.log("data", data)
-        const currentEtudiant = new CurrentEtudiant(data)
-        localStorage.setItem('currentEtudiant', JSON.stringify(currentEtudiant))
-        let jsonCurrentEtudiant = localStorage.getItem('currentEtudiant')
-        console.log('is connected ', isConnected(jsonCurrentEtudiant))
-        console.log('email ', getConnectedEtudiant(jsonCurrentEtudiant))
-        console.log('token ', tokenEtudiant(jsonCurrentEtudiant))
+        const currentUtilisateur = new CurrentUtilisateur(data)
+        localStorage.setItem('currentUtilisateur', JSON.stringify(currentUtilisateur))
+        let jsonCurrentUtilisateur = localStorage.getItem('currentUtilisateur')
+        console.log('is connected ', isConnected(jsonCurrentUtilisateur))
+        console.log('email ', getConnectedUtilisateur(jsonCurrentUtilisateur))
+        console.log('token ', tokenUtilisateur(jsonCurrentUtilisateur))
     }
 
-    function isConnected(jsonCurrentEtudiant) {
-        console.log("jsonCurrentEtudiant", jsonCurrentEtudiant)
-        if (jsonCurrentEtudiant != null) {
-            let currentEtudiant = JSON.parse(jsonCurrentEtudiant)
+    function isConnected(jsonCurrentUtilisateur) {
+        console.log("jsonCurrentUtilisateur", jsonCurrentUtilisateur)
+        if (jsonCurrentUtilisateur != null) {
+            let currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
 
-            if (isExpired(currentEtudiant.props.token)) {
-                localStorage.removeItem('currentEtudiant')
+            if (isExpired(currentUtilisateur.props.token)) {
+                localStorage.removeItem('currentUtilisateur')
             } else {
                 return true
             }
@@ -44,26 +44,23 @@ const ConnexionPage = () => {
         return false
     }
 
-    function getConnectedEtudiant(jsonCurrentEtudiant) {
-        if (jsonCurrentEtudiant != null) {
-            const currentEtudiant = JSON.parse(jsonCurrentEtudiant)
-            return currentEtudiant.props.email
+    function getConnectedUtilisateur(jsonCurrentUtilisateur) {
+        if (jsonCurrentUtilisateur != null) {
+            const currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
+            return currentUtilisateur.props.email
         } else {
             return ""
         }
     }
 
-    function tokenEtudiant(jsonCurrentEtudiant) {
-        if (jsonCurrentEtudiant != null) {
-            const currentEtudiant = JSON.parse(jsonCurrentEtudiant)
-            console.log("token-currentEtudiant", currentEtudiant)
-            console.log("is-expired", isExpired(currentEtudiant.props.token))
-            console.log("else", currentEtudiant.props.token)
-            if (isExpired(currentEtudiant.props.token)) {
-                localStorage.removeItem('currentEtudiant')
+    function tokenUtilisateur(jsonCurrentUtilisateur) {
+        if (jsonCurrentUtilisateur != null) {
+            const currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
+            if (isExpired(currentUtilisateur.props.token)) {
+                localStorage.removeItem('currentUtilisateur')
                 return "";
             } else {
-                return currentEtudiant.props.token
+                return currentUtilisateur.props.token
             }
         }
         return ""
@@ -74,9 +71,9 @@ const ConnexionPage = () => {
             {<ConnexionForm onAdd={connexion}/>}
             <Link to='/' className='centrerPage pt-2'>Retour</Link>
             {
-                /*etudiants.length > 0 ?
+                utilisateurs.length > 0 ?
                     <Navigate to="/"/>
-                    : console.log('nothing yet')*/
+                    : console.log('nothing yet')
             }
         </div>
     )

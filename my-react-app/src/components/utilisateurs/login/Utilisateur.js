@@ -1,6 +1,6 @@
 import {Component} from "react";
 
-export class CurrentEtudiant extends Component {
+export class CurrentUtilisateur extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,12 +10,12 @@ export class CurrentEtudiant extends Component {
     }
 }
 
-const Etudiant = ({etudiant}) => {
+const Utilisateur = ({utilisateur}) => {
     return (
-        <div className="etudiant">
-            <h3>{etudiant.email}</h3>
+        <div className="utilisateur">
+            <h3>{utilisateur.email}</h3>
         </div>
     )
 }
 
-export default Etudiant
+export default Utilisateur

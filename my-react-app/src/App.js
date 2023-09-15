@@ -4,6 +4,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import {Route, Routes} from "react-router-dom";
 import React from "react";
 import InscriptionPage from "./components/utilisateurs/inscription/etudiant/InscriptionPage";
+import 'bootstrap/dist/css/bootstrap.css';
+import FileUploader from "./components/cv/FileUploader";
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Routes>
             <Route path="/etudiant" element={<InscriptionPage/>} />
             <Route path="/" element={<UtilisateursMain/>} />
+            <Route path="/saveCv" element={<FileUploader/>} />
         </Routes>
       </div>
   )

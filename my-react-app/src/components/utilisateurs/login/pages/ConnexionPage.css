@@ -1,28 +1,27 @@
-.form{
+.formConnection{
     width: 100%;
 }
 
-.divForm{
+.divFormConnection{
     padding: 4em;
     background-color:#c5c6d0 ;
 }
 
-.saisie {
+.saisieConnection {
     width: 350px;
     color: white;
     border-radius: 25px;
 }
 
-.saisie-user {
+.saisie-user-connection {
     padding-left:35px;
     background-size: 20px;
 }
 
-.saisie-psw {
+.saisie-psw-connection {
     padding-left:35px;
     background-size: 20px;
 }
-
 
 @media screen and (max-width:600px) {
     .fondIU{

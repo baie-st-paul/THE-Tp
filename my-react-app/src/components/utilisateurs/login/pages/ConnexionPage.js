@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {CurrentUtilisateur} from "./Utilisateur";
+import {CurrentUtilisateur} from "../Utilisateur";
 import {isExpired} from "react-jwt";
 import './ConnexionPage.css'
 import {Link, Navigate} from "react-router-dom";
@@ -69,7 +69,6 @@ const ConnexionPage = () => {
     return (
         <div className='bg-light vh-100'>
             {<ConnexionForm onAdd={connexion}/>}
-            <Link to='/' className='centrerPage pt-2'>Retour</Link>
             {
                 utilisateurs.length > 0 ?
                     <Navigate to="/"/>

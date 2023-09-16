@@ -6,7 +6,7 @@ import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMai
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./components/PageNotFound";
-import ConnexionPage from "./components/utilisateurs/login/ConnexionPage";
+import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 
 function App() {
   return (

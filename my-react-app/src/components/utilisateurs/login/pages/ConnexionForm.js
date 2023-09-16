@@ -87,7 +87,7 @@ const ConnexionForm = ({onAdd}) => {
                             </div>
                         </div>
                         <input type='submit' value='Connexion' className='btn btn-block bg-black text-light m-0 mb-2'/>
-                        <Link to='/' className='btn btn-block bg-danger m-0 mt-0 text-light'>
+                        <Link to='/connexionMain' className='btn btn-block bg-danger m-0 mt-0 text-light'>
                             <span style={{fontSize : '20px'}}> Retour</span>
                         </Link>
                     </form>

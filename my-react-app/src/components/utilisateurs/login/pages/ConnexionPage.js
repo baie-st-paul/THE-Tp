@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {CurrentUtilisateur} from "../Utilisateur";
 import {isExpired} from "react-jwt";
 import './ConnexionPage.css'
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import ConnexionForm from "./ConnexionForm";
 
 const ConnexionPage = () => {

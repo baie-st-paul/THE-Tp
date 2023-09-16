@@ -4,6 +4,7 @@ import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import {Link} from "react-router-dom";
+import '../../../stylesGenerales.css'
 
 const InscriptionForm = ({onAdd}) => {
 
@@ -161,11 +162,11 @@ const InscriptionForm = ({onAdd}) => {
         <div className="root vh-100">
             <div className='fondIU'>
                 <div className="divForm">
-                    <form autoComplete="off" className='form font add-form' onSubmit={onSubmit}>
-                        <h2 className=" h3 text-center">INSCRIPTION ÉTUDIANT</h2>
-                        <div className="px-1">
+                    <form autoComplete="off" name='abc'  id="formm"  className='form font add-form' onSubmit={onSubmit}>
+                        <h2 className="h3 text-center">INSCRIPTION ÉTUDIANT</h2>
+                        <div className="w-100">
                             <div  className='form-group'>
-                                <input ref={firstNameRef} className='form-control saisie saisie-user px-3 mb-0 ' type='text' placeholder='Prénom'
+                                <input ref={firstNameRef} className='form-control saisie saisie-user px-3 mb-0' type='text' placeholder='Prénom'
                                        value={firstName}
                                        onChange={(e) => setFirstName(e.target.value)}/>
                                 <p ref={firstNameRef} className="font px-1 textAvertissement text-danger"></p>
@@ -182,7 +183,6 @@ const InscriptionForm = ({onAdd}) => {
                                        onChange={(e) => setMatricule(e.target.value)}/>
                                 <p ref={matriculeRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-
                             <div className='form-group'>
                                 <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Email'
                                        value={email}
@@ -198,7 +198,6 @@ const InscriptionForm = ({onAdd}) => {
                                 </select>
                                 <p ref={programRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-
                             <div>
                                 <PhoneInput
                                     className="form-group"

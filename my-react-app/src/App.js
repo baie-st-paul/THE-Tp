@@ -7,7 +7,7 @@ import InscriptionPage from "./components/utilisateurs/inscription/etudiant/Insc
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./components/PageNotFound";
-import ConnexionPage from "./components/utilisateurs/login/etudiant/ConnexionPage";
+import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 
 function App() {
   return (

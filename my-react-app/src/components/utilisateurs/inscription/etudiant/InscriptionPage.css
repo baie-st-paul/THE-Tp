@@ -28,7 +28,6 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: auto;
-
 }
 
 .divForm{
@@ -57,14 +56,13 @@ body, html {
 
 }
 
-.saisie-psw {
+.saisie-psw  {
     padding-left:35px;
     background-size: 20px;
 
 }
 
 input{
-
     font-size: 20px !important;
 }
 

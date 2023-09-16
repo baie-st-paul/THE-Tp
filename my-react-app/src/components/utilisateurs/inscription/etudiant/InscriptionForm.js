@@ -182,12 +182,23 @@ const InscriptionForm = ({onAdd}) => {
                                        onChange={(e) => setMatricule(e.target.value)}/>
                                 <p ref={matriculeRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
+
                             <div className='form-group'>
                                 <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Email'
                                        value={email}
                                        onChange={(e) => setEmail(e.target.value)}/>
                                 <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
+                                <select
+                                    className='form-control saisie saisie-user px-3 m-0'
+                                    value={program}
+                                    onChange={(e) => setProgram(e.target.value)}>
+                                    <option disabled={true} value="">Programme d'étude</option>
+                                    <option value="Informatique">Informatique</option>
+                                    <option value="Architecture">Architecture</option>
+                                </select>
+                                <p ref={programRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
+
                             <div>
                                 <PhoneInput
                                     className="form-group"

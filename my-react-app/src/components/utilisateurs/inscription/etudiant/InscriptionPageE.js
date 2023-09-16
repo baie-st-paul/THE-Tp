@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import InscriptionForm from "./InscriptionForm";
-import "./InscriptionPage.css"
+import "../InscriptionPage.css"
 import al from "../../../../images/al.png";
+import InscriptionFormE from "./InscriptionFormE";
 import {Navigate} from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import {Button} from "react-bootstrap";
 
-const InscriptionPage = () => {
+const InscriptionPageE = () => {
     const [etudiants, setEtudiants] = useState([]);
     const [erreur, setErreur] = useState(false);
 
@@ -46,7 +46,7 @@ const InscriptionPage = () => {
             <div className='centrerPage pt-5'>
                 <img  className='border logoAndre' src={al} alt="logoAndreLaurendeau"></img>
             </div>
-            {<InscriptionForm onAdd={inscription}/>}
+            {<InscriptionFormE onAdd={inscription}/>}
             {
                 etudiants.length > 0 ?
                     <Navigate to="/utilisateurConnexion"/>
@@ -72,11 +72,8 @@ const InscriptionPage = () => {
                     </div>
                 </div>
             }
-            <div >
-                {<InscriptionForm />}
-            </div>
         </div>
     );
 }
 
-export default InscriptionPage;
+export default InscriptionPageE

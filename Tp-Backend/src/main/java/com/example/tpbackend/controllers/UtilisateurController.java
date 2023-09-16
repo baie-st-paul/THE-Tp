@@ -1,8 +1,8 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.LoginDTO;
-import com.example.tpbackend.DTO.UtilisateurDTO;
-import com.example.tpbackend.DTO.StudentPostDTO;
+import com.example.tpbackend.DTO.utilisateur.LoginDTO;
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.service.LoginService;
 import com.example.tpbackend.service.StudentServices;
 import com.example.tpbackend.service.UserService;

@@ -1,12 +1,12 @@
 import {useRef, useState} from "react";
-import "./InscriptionPage.css"
+import "../InscriptionPage.css"
 import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import {Link} from "react-router-dom";
 import '../../../stylesGenerales.css'
 
-const InscriptionForm = ({onAdd}) => {
+const InscriptionFormE = ({onAdd}) => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -241,4 +241,4 @@ const InscriptionForm = ({onAdd}) => {
     )
 }
 
-export default InscriptionForm
+export default InscriptionFormE

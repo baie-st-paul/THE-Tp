@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO;
+package com.example.tpbackend.DTO.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.LoginUser;
 import lombok.AllArgsConstructor;

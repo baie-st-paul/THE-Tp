@@ -1,6 +1,6 @@
 package com.example.tpbackend.models.utilisateur;
 
-import com.example.tpbackend.DTO.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

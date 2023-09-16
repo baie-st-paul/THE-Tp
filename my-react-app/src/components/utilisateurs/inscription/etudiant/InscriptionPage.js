@@ -49,7 +49,7 @@ const InscriptionPage = () => {
             {<InscriptionForm onAdd={inscription}/>}
             {
                 etudiants.length > 0 ?
-                    <Navigate to="/"/>
+                    <Navigate to="/utilisateurConnexion"/>
                     : console.log('nothing yet')
             }
             { erreur === true &&

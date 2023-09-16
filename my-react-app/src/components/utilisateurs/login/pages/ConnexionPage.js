@@ -52,7 +52,7 @@ const ConnexionPage = () => {
             {<ConnexionForm onAdd={connexion}/>}
             {
                 utilisateurs.length > 0 ?
-                    <Navigate to="/"/>
+                    <Navigate to="/landingPage"/>
                     : console.log('nothing yet')
             }
             { erreur === true &&

@@ -10,6 +10,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
+    "react-dropdown-select": "^4.10.0",
     "react-icons": "^4.11.0",
     "react-jwt": "^1.2.0",
     "react-phone-number-input": "^3.3.6",
@@ -45,6 +46,5 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "author": "",
-  "license": "ISC",
-  "devDependencies": {}
+  "license": "ISC"
 }

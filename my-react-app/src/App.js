@@ -18,9 +18,9 @@ function App() {
             <Route
                 path="/"
                 element={
-                isConnected() ?
-                    <Navigate to="/landingPage"/> :
-                    <Navigate to="/connexionMain"/>
+                !isConnected() ?
+                    <Navigate to="/connexionMain"/> :
+                    <Navigate to="/landingPage"/>
                     }
             />
             <Route path="*" element={<PageNotFound/>} />

@@ -35,7 +35,7 @@ function FileUploader(){
                         <span style={{fontWeight: "bold"}}>or</span>
                         <form onSubmit={handleUpload}>
                             <input type="file" name="file" onChange={handleFile} />
-                            <button type="submit" class="btn" style={{color: "white",backgroundColor: "cadetblue", fontWeight: "bold"}}>Envoyer CV</button>
+                            <button type="submit" className="btn" style={{color: "white",backgroundColor: "cadetblue", fontWeight: "bold"}}>Envoyer CV</button>
                         </form>
                     </div>
             </div>

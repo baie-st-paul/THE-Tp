@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import InscriptionForm from "./InscriptionForm";
-import "./InscriptionPage.css"
+import InscriptionFormE from "./InscriptionFormE";
+import "../InscriptionPage.css"
 import {Navigate} from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import {Button} from "react-bootstrap";
 
-const InscriptionPage = () => {
+const InscriptionPageE = () => {
     const [etudiants, setEtudiants] = useState([]);
     const [erreur, setErreur] = useState(false);
 
@@ -42,7 +42,7 @@ const InscriptionPage = () => {
 
     return (
         <div className='bg-light vh-100'>
-            {<InscriptionForm onAdd={inscription}/>}
+            {<InscriptionFormE onAdd={inscription}/>}
             {
                 etudiants.length > 0 ?
                     <Navigate to="/utilisateurConnexion"/>
@@ -72,4 +72,4 @@ const InscriptionPage = () => {
     )
 }
 
-export default InscriptionPage
+export default InscriptionPageE

@@ -18,7 +18,7 @@ public class Employer {
     private String companyName;
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
@@ -27,13 +27,15 @@ public class Employer {
             String firstName,
             String lastName,
             String companyName,
-            String phoneNumber,
-            Utilisateur utilisateur) {
+            String phoneNumber) {
         this.companyId = companyId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur){
         this.utilisateur = utilisateur;
     }
 }

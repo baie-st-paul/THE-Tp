@@ -23,7 +23,6 @@ public class Student  {
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
-
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;
                 this.lastName = lastName;

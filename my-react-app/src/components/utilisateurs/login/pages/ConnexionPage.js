@@ -1,64 +1,74 @@
-import React, {useState} from "react";
-import {CurrentUtilisateur} from "../Utilisateur";
-import {isExpired} from "react-jwt";
-import './ConnexionPage.css'
-import {Navigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import ConnexionForm from "./ConnexionForm";
 import Modal from 'react-bootstrap/Modal';
-import {Button} from "react-bootstrap";
-import StudentHomePage from "../../../landingPage/StudentHomePage";
-import GestionnaireHomePage from "../../../landingPage/GestionnaireHomePage";
-import EmployeurHomePage from "../../../landingPage/EmployeurHomePage";
+import { Button } from "react-bootstrap";
+import { useUser } from "../../../../Providers/UserProvider";
 
 const ConnexionPage = () => {
-    const [utilisateurs, setUtilisateurs] = useState([]);
+    const { loggedInUser, setLoggedInUser } = useUser();
+
     const [erreur, setErreur] = useState(false);
+    const [redirectTo, setRedirectTo] = useState(null);
+
+    useEffect(() => {
+        if (loggedInUser) {
+            console.log(loggedInUser);
+        }
+    }, [loggedInUser]);
 
     async function connexion(utilisateur) {
-        const res = await fetch(
-            'http://localhost:8081/api/v1/stages/loginUtilisateur',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(utilisateur)
-            }
-        )
-
         try {
-            console.log(res.status)
+            const res = await fetch(
+                'http://localhost:8081/api/v1/utilisateur/loginUtilisateur',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(utilisateur)
+                }
+            );
+
             if (res.status === 400) {
-                console.log(res.status)
-                setErreur(true)
+                setErreur(true);
                 throw new Error('Cet Email n\'est pas associé à un compte');
             } else {
-                setErreur(false)
+                setErreur(false);
+            }
+
+            const data = await res.json();
+            setLoggedInUser(data);
+
+            if (data.user_type) {
+                switch (data.user_type) {
+                    case 'Student':
+                        setRedirectTo("/StudentHomePage");
+                        break;
+                    case 'Gestionnaire':
+                        setRedirectTo("/GestionnaireHomePage");
+                        break;
+                    case 'Employeur':
+                        setRedirectTo("/EmployeurHomePage");
+                        break;
+                    default:
+                        // Handle unknown user_type
+                        break;
+                }
             }
         } catch (e) {
-            console.log(e)
+            console.error(e);
         }
+    }
 
-        const data = await res.json()
-        setUtilisateurs([...utilisateurs, data])
-        console.log("data", data)
-        const currentUtilisateur = new CurrentUtilisateur(data)
-        localStorage.setItem('currentUtilisateur', JSON.stringify(currentUtilisateur))
-        let jsonCurrentUtilisateur = localStorage.getItem('currentUtilisateur')
-        console.log('is connected ', isConnected(jsonCurrentUtilisateur))
-        console.log('studentGetDTO', getConnectedUtilisateur(jsonCurrentUtilisateur))
-        console.log('token ', tokenUtilisateur(jsonCurrentUtilisateur))
+    if (redirectTo) {
+        return <Navigate to={redirectTo} />;
     }
 
     return (
         <div className='bg-light vh-100'>
-            {<ConnexionForm onAdd={connexion}/>}
-            {
-                utilisateurs.length > 0 ?
-                    <Navigate to="/landingPage"/>
-                    : console.log('nothing yet')
-            }
-            { erreur === true &&
+            <ConnexionForm onAdd={connexion} />
+            {erreur && (
                 <div className='w-100 vh-100'>
                     <div className="modal show bg-dark bg-opacity-75"
                          style={{ display: 'flex', position: 'fixed', justifyContent: 'center', alignItems: 'center' }}>
@@ -70,75 +80,15 @@ const ConnexionPage = () => {
                                 <h4 className='font h5'>CET EMAIL</h4>
                                 <h4 className='font h5'>N'EST PAS ASSOCIÉ À UN COMPTE</h4>
                             </Modal.Body>
-
                             <Modal.Footer className='border-0'>
-                                <Button className='w-100 btn button' onClick={()=> setErreur(!erreur)} variant='success'>Okay</Button>
+                                <Button className='w-100 btn button' onClick={() => setErreur(false)} variant='success'>Okay</Button>
                             </Modal.Footer>
                         </Modal.Dialog>
                     </div>
                 </div>
-            }
+            )}
         </div>
-    )
-}
+    );
+};
 
-export function isConnected(jsonCurrentUtilisateur) {
-    console.log("jsonCurrentUtilisateur", jsonCurrentUtilisateur)
-    if (jsonCurrentUtilisateur != null) {
-        let currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
-
-        if (isExpired(currentUtilisateur.props.token)) {
-            localStorage.removeItem('currentUtilisateur')
-        } else {
-            return true
-        }
-    }
-    return false
-}
-
-export function chooseUserType(jsonCurrentUtilisateur) {
-    try {
-        let currentUtilisateur = JSON.parse(jsonCurrentUtilisateur);
-
-        switch (currentUtilisateur) {
-            case 'Student':
-                return <StudentHomePage />;
-                break;
-            case 'Gestionnaire':
-                return <GestionnaireHomePage />;
-                break;
-            case 'Employeur':
-                return <EmployeurHomePage />;
-                break;
-            default:
-                return null; // Handle other cases as needed
-        }
-    } catch (error) {
-        console.error("Error parsing JSON or determining user type:", error);
-    }
-}
-
-
-function getConnectedUtilisateur(jsonCurrentUtilisateur) {
-    if (jsonCurrentUtilisateur != null) {
-        const currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
-        return currentUtilisateur.props.email
-    } else {
-        return ""
-    }
-}
-
-function tokenUtilisateur(jsonCurrentUtilisateur) {
-    if (jsonCurrentUtilisateur != null) {
-        const currentUtilisateur = JSON.parse(jsonCurrentUtilisateur)
-        if (isExpired(currentUtilisateur.props.token)) {
-            localStorage.removeItem('currentUtilisateur')
-            return "";
-        } else {
-            return currentUtilisateur.props.token
-        }
-    }
-    return ""
-}
-
-export default ConnexionPage
+export default ConnexionPage;

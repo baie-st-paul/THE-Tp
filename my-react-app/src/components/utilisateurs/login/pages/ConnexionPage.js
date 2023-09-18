@@ -39,7 +39,8 @@ const ConnexionPage = () => {
 
             const data = await res.json();
             setLoggedInUser(data);
-
+            localStorage.setItem('token', JSON.stringify(data.data.token));
+            localStorage.setItem('userType', JSON.stringify(data.user_type))
             if (data.user_type) {
                 switch (data.user_type) {
                     case 'Student':

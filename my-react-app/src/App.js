@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Navigate } from "react-router-dom";
+import {Routes, Route, Navigate, Outlet} from "react-router-dom";
 import React from "react";
 import InscriptionPageE from "./components/utilisateurs/inscription/etudiant/InscriptionPageE";
 import InscriptionPageEmp from "./components/utilisateurs/inscription/employeur/InscriptionPageEmp";
@@ -13,17 +13,16 @@ import { useUser } from "./Providers/UserProvider";
 import StudentHomePage from "./components/landingPage/StudentHomePage";
 import EmployeurHomePage from "./components/landingPage/EmployeurHomePage";
 import GestionnaireHomePage from "./components/landingPage/GestionnaireHomePage";
-import PrivateRoutes from "./utils/PrivateRoutes";
+import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
+import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 
 function App() {
+    let loggedInUser = useUser();
     return (
             <div>
                 <Routes>
-                    <Route element={<PrivateRoutes/>}>
-                        <Route path="/StudentHomePage" element={<StudentHomePage/>}/>
-                        <Route path="/EmployeurHomePage" element={<EmployeurHomePage/>}/>
-                        <Route path="/GestionnaireHomePage" element={<GestionnaireHomePage/>}/>
-                    </Route>
+                    <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
+                    <Route path={"/Gestionnaire"} element={<GestionnairePrivateRoutes/>}/>
                     <Route path="/connexionMain" element={<ConnexionPage/>} />
                     <Route path="*" element={<PageNotFound/>} />
                     <Route path="/etudiantInscription" element={<InscriptionPageE/>} />

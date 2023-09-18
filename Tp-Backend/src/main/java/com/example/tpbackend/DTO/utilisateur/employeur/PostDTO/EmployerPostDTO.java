@@ -48,7 +48,7 @@ public class EmployerPostDTO {
     public Employer toEmployer(){
         Employer employer = new Employer();
         BeanUtils.copyProperties(this, employer);
-        employer.setUtilisateur(new Utilisateur(this.email, this.password, ""));
+        employer.setUtilisateur(new Utilisateur(this.email, this.password, "Employeur"));
         return employer;
     }
 

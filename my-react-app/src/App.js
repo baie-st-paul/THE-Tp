@@ -26,7 +26,6 @@ function App() {
                         <Route path="/GestionnaireHomePage" element={<GestionnaireHomePage/>}/>
                     </Route>
 
-                    <Route path="*" element={<PageNotFound/>} />
                     <Route path="/" element={<UtilisateursMain/>}/>
                     <Route path="/connexionMain" element={<UtilisateursMain/>} />
 
@@ -36,6 +35,7 @@ function App() {
                     <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
 
                     <Route path="/saveCv" element={<FileUploader/>} />
+                    <Route path="*" element={<PageNotFound/>} />
                 </Routes>
             </div>
     )

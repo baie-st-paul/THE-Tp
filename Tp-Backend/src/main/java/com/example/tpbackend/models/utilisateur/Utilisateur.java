@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-
 public class Utilisateur {
 
     @Id

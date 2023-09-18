@@ -1,4 +1,4 @@
-package com.example.tpbackend.service;
+package com.example.tpbackend.service.utilisateur;
 
 import io.jsonwebtoken.*;
 import javax.xml.bind.DatatypeConverter;
@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.Key;
 import java.util.Base64;

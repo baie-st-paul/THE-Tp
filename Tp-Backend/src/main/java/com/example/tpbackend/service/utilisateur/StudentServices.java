@@ -1,4 +1,4 @@
-package com.example.tpbackend.service;
+package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
@@ -7,9 +7,8 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.StudentRepository;
-import com.example.tpbackend.repository.UtilisateurRepository;
-import org.springframework.beans.BeanUtils;
+import com.example.tpbackend.repository.utilisateur.StudentRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

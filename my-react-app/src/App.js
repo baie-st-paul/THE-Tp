@@ -14,21 +14,19 @@ import { useUser } from "./Providers/UserProvider";
 import StudentHomePage from "./components/landingPage/StudentHomePage";
 import EmployeurHomePage from "./components/landingPage/EmployeurHomePage";
 import GestionnaireHomePage from "./components/landingPage/GestionnaireHomePage";
-import PrivateRoutes from "./utils/PrivateRoutes";
+import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
+import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 
 function App() {
+    let loggedInUser = useUser();
     return (
             <div>
                 <Routes>
-                    <Route element={<PrivateRoutes/>}>
-                        <Route path="/StudentHomePage" element={<StudentHomePage/>}/>
-                        <Route path="/EmployeurHomePage" element={<EmployeurHomePage/>}/>
-                        <Route path="/GestionnaireHomePage" element={<GestionnaireHomePage/>}/>
-                    </Route>
-
                     <Route path="/" element={<UtilisateursMain/>}/>
                     <Route path="/connexionMain" element={<UtilisateursMain/>} />
-
+                    <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
+                    <Route path={"/Gestionnaire"} element={<GestionnairePrivateRoutes/>}/>
+                    <Route path="/connexionMain" element={<ConnexionPage/>} />
                     <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                     <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
                     <Route path="/gestionnaireInscription" element={<InscriptionPageG/>} />

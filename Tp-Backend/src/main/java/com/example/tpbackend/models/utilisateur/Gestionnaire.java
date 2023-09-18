@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Gestionnaire {
+
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
     @Id
     private String matricule;
 
@@ -15,9 +19,11 @@ public class Gestionnaire {
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
-    public Gestionnaire(String matricule, Utilisateur utilisateur) {
+    public Gestionnaire(String firstName, String lastName, String matricule, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.matricule = matricule;
-        this.utilisateur = utilisateur;
+        this.phoneNumber = phoneNumber;
     }
 
     public void setUtilisateur(Utilisateur utilisateur){

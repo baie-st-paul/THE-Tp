@@ -1,14 +1,12 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentLoginDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.service.utilisateur.EmployerService;
-import com.example.tpbackend.service.utilisateur.LoginService;
-import com.example.tpbackend.service.utilisateur.StudentServices;
-import com.example.tpbackend.service.utilisateur.UserService;
+import com.example.tpbackend.service.utilisateur.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -28,6 +26,7 @@ public class UtilisateurController {
 
     private StudentServices studentServices;
     private EmployerService employerService;
+    private GestionnaireService gestionnaireService;
     private UserService userService;
 
     @PostMapping(value = "/newStudent")
@@ -63,7 +62,7 @@ public class UtilisateurController {
         }
     }
 
-    @PostMapping("/newEmployer")
+    @PostMapping(value = "/newEmployer")
     public ResponseEntity<?> createEmployer(@Valid @RequestBody EmployerPostDTO dto){
         if(employerService.existByCompagnyId(dto.getCompagnyId()))
             return ResponseEntity.badRequest().body("CompagnyId already exist");
@@ -95,6 +94,38 @@ public class UtilisateurController {
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/newAdmin")
+    public ResponseEntity<?> createGestionnaire(@Valid @RequestBody GestionnaireDTO adminDTO) {
+        if (gestionnaireService.existsByMatriculeOrEmail(adminDTO.getMatricule(), adminDTO.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Matricule ou email existe déjà");
+        }
+
+        try{
+            adminDTO = gestionnaireService.saveGestionnaire(
+                    adminDTO.getFirstName(),
+                    adminDTO.getLastName(),
+                    adminDTO.getPhoneNumber(),
+                    adminDTO.getMatricule(),
+                    adminDTO.getEmail(),
+                    adminDTO.getPassword(),
+                    "Gestionnaire"
+            );
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String jsonCreatedStudent = ow.writeValueAsString(adminDTO);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(jsonCreatedStudent);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
         }
     }
 

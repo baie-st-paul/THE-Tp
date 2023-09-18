@@ -27,17 +27,28 @@ public class Utilisateur {
     @JsonIgnore // ne pas afficher le mot de passe
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    public Utilisateur(String email, String password) {
+
+    public Utilisateur(String email, String password,String role) {
         this.email = email;
         this.password = password;
+        this.role = Utilisateur.Role.valueOf(role);
     }
 
     public UtilisateurDTO toLoginDTO() {
         return new UtilisateurDTO(
                 email,
-                password
+                password,
+                role.toString()
         );
+    }
+
+    public enum Role{
+        Student,
+        Gestionnaire,
+        Employeur
     }
 
 }

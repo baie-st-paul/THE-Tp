@@ -1,7 +1,8 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.utilisateur.LoginDTO;
+import com.example.tpbackend.DTO.utilisateur.StudentLoginDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.service.LoginService;
 import com.example.tpbackend.service.StudentServices;
@@ -39,11 +40,12 @@ public class UtilisateurController {
                     dto.getMatricule(),
                     dto.getProgram(),
                     dto.getEmail(),
-                    dto.getPassword()
+                    dto.getPassword(),
+                    "Student"
                     );
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String jsonCreatedStudent = ow.writeValueAsString(dto.toStudent());
+            String jsonCreatedStudent = ow.writeValueAsString(dto);
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
@@ -55,9 +57,9 @@ public class UtilisateurController {
         }
     }
 
-    @PostMapping("/loginUtilisateur")
-    public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody UtilisateurDTO dto) {
-        if (!userService.existsByEmail(dto.getEmail()))  {
+    @PostMapping(value = "/loginUtilisateur")
+    public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody UtilisateurDTO user) {
+        if (!userService.existsByEmail(user.getEmail()))  {
             return ResponseEntity
                     .badRequest()
                     .body("Cet utilisateur n'existe pas");
@@ -65,19 +67,21 @@ public class UtilisateurController {
 
         try {
             boolean valide = userService.validAuthentification(
-                    dto.getEmail(),
-                    dto.getPassword());
+                    user.getEmail(),
+                    user.getPassword());
 
             if (valide) {
-                dto = userService.findByEmail(dto.getEmail()).toLoginDTO();
-                System.out.println("dtoFindByEmail " + dto);
+                user = userService.findByEmail(user.getEmail()).toLoginDTO();
+                StudentGetDTO studentGetDTO =  studentServices.getStudentByUser(user);
+
+                System.out.println("dtoFindByEmail " + user);
                 String token = LoginService.genereJWT(
-                        dto.getEmail()
+                        user.getEmail()
                 );
-                LoginDTO loginDto = new LoginDTO(token, dto.getEmail());
+                StudentLoginDTO loginDto = new StudentLoginDTO(token,studentGetDTO);
                 ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
                 String jsonConnectedStudent = ow.writeValueAsString(loginDto.toLoginUser());
-
+                System.out.println(jsonConnectedStudent);
                 return ResponseEntity
                         .accepted()
                         .body(jsonConnectedStudent);

@@ -17,10 +17,7 @@ import java.util.stream.Stream;
 @SpringBootApplication
 public class TpBackendApplication implements CommandLineRunner {
     @Autowired
-    StudentServices studentServices = new StudentServices();
-
-    @Autowired
-    OffreStageService offreStageService = new OffreStageService( );
+    StudentServices studentServices;
 
     public static void main(String[] args) {
         SpringApplication.run(TpBackendApplication.class, args);
@@ -29,7 +26,7 @@ public class TpBackendApplication implements CommandLineRunner {
     public void run(String... args) throws IOException {
         System.out.println("hello");
         System.out.println();
-        StudentPostDTO studentPostDTO = studentServices.saveStudent("phil", "vall", "444-444-4444", "email", "informatique", "email@gmail.com", "password");
+        StudentPostDTO studentPostDTO = studentServices.saveStudent("phil", "vall", "444-444-4444", "email", "informatique", "email@gmail.com", "password", "Student");
 
         /*StudentPostDTO studentPostDTO = studentServices.saveStudent(
                 "phil",
@@ -59,7 +56,8 @@ public class TpBackendApplication implements CommandLineRunner {
                             studentPostDTO1.getMatricule(),
                             studentPostDTO1.getProgram(),
                             studentPostDTO1.getEmail(),
-                            studentPostDTO1.getPassword()
+                            studentPostDTO1.getPassword(),
+                            "Student"
                             );
         });
     }

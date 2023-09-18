@@ -1,6 +1,8 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -28,16 +30,10 @@ public class StudentServices {
                                       String matricule,
                                       String program,
                                       String email,
-                                      String password){
-        Utilisateur utilisateur = new Utilisateur(email, password);
-        Student student = new Student(email,
-                password,
-                firstName,
-                lastName,
-                phoneNumber,
-                matricule,
-                program,
-                utilisateur);
+                                      String password,String role){
+        Utilisateur utilisateur = new Utilisateur(email, password,role);
+        Student student = new Student(
+                firstName,lastName,matricule,phoneNumber,program);
         student.setUtilisateur(utilisateur);
         System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
         userRepository.save(utilisateur);
@@ -51,7 +47,7 @@ public class StudentServices {
     }
 
     public Student createStudent(StudentPostDTO studentPostDTO){
-        Student student = studentPostDTO.fromStudentDTO(studentPostDTO);
+        Student student = studentPostDTO.toStudent(studentPostDTO);
         studentRepository.save(student);
         return student;
     }
@@ -68,5 +64,14 @@ public class StudentServices {
             return password.equals(utilisateur.getPassword());
         }
         return false;
+    }
+
+    public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
+        Student student = studentRepository.findStudentByUtilisateur();
+        StudentGetDTO studentGetDTO = new StudentGetDTO(
+                student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
+                student.getPhoneNumber(),student.getMatricule(),student.getProgram()
+        );
+        return studentGetDTO;
     }
 }

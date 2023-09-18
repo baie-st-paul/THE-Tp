@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 public class UtilisateurDTO {
     private String email;
     private String password;
-
+    private String role;
     public Utilisateur toUtilisateur() {
         return new Utilisateur(
                 email,
-                password
+                password,
+                role
         );
     }
 }

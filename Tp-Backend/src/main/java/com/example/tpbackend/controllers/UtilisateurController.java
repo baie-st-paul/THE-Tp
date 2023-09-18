@@ -7,8 +7,10 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.service.LoginService;
 import com.example.tpbackend.service.StudentServices;
 import com.example.tpbackend.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,41 +62,50 @@ public class UtilisateurController {
 
     @PostMapping(value = "/loginUtilisateur")
     public ResponseEntity<?> loginUtilisateur(@Valid @RequestBody UtilisateurDTO user) {
-        if (!userService.existsByEmail(user.getEmail()))  {
-            return ResponseEntity
-                    .badRequest()
-                    .body("Cet utilisateur n'existe pas");
+        if (!userService.existsByEmail(user.getEmail())) {
+            return ResponseEntity.badRequest().body("Cet utilisateur n'existe pas");
         }
 
         try {
-            boolean valide = userService.validAuthentification(
+            boolean isValidAuthentication = userService.validAuthentification(
                     user.getEmail(),
-                    user.getPassword());
+                    user.getPassword()
+            );
 
-            if (valide) {
+            if (isValidAuthentication) {
                 user = userService.findByEmail(user.getEmail()).toLoginDTO();
-                StudentGetDTO studentGetDTO =  studentServices.getStudentByUser(user);
 
-                System.out.println("dtoFindByEmail " + user);
-                String token = LoginService.genereJWT(
-                        user.getEmail()
-                );
-                StudentLoginDTO loginDto = new StudentLoginDTO(token,studentGetDTO);
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String jsonConnectedStudent = ow.writeValueAsString(loginDto.toLoginUser());
-                System.out.println(jsonConnectedStudent);
-                return ResponseEntity
-                        .accepted()
-                        .body(jsonConnectedStudent);
+                String token = LoginService.genereJWT(user.getEmail());
+                String jsonResponse= "";
+                switch (user.getRole()){
+
+                    case "Student":
+                        StudentGetDTO studentGetDTO = studentServices.getStudentByUser(user);
+                        StudentLoginDTO loginDto = new StudentLoginDTO(token, studentGetDTO);
+                        jsonResponse = convertObjectToJson(loginDto.toLoginUser(),user.getRole());
+                        System.out.println(jsonResponse);
+                        break;
+                    case "Gestionnaire":
+                        break;
+                    case "Employeur":
+                        break;
+                }
+                return ResponseEntity.accepted().body(jsonResponse);
             } else {
-                return ResponseEntity
-                        .status(HttpStatus.UNAUTHORIZED)
-                        .body("Mot de passe incorrect");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mot de passe incorrect");
             }
-        } catch(Exception e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    private String convertObjectToJson(Object object, String userType) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+        ObjectNode rootNode = objectMapper.createObjectNode();
+        rootNode.put("user_type", userType);
+        rootNode.set("data", objectMapper.valueToTree(object));
+        return objectWriter.writeValueAsString(rootNode);
+    }
+
 }

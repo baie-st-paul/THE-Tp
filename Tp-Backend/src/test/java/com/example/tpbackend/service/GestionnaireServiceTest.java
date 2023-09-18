@@ -4,7 +4,7 @@ import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireDTO;
 import com.example.tpbackend.models.utilisateur.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
-import com.example.tpbackend.repository.utilisateur.ManagerRepository;
+import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,22 +30,27 @@ public class GestionnaireServiceTest {
     private GestionnaireService gestionnaireService;
 
     @Mock
-    private ManagerRepository gestionnaireRepository;
+    private GestionnaireRepository gestionnaireRepository;
 
     @Mock
     private UtilisateurRepository userRepository;
 
     @Test
     public void testCreateGestionnaire() {
-        GestionnaireDTO dto = new GestionnaireDTO();
-        dto.setEmail("gestionnaire@gmail.com");
-        dto.setMatricule("2222222");
-        dto.setPassword("mdp22838");
+        GestionnaireDTO dto = new GestionnaireDTO(
+                "Bob",
+                "Lamber",
+                "2222222",
+                "15143452945",
+                "gestionnaire@gmail.com",
+                "Mdp22838!"
+        );
 
 
-        GestionnaireDTO result = gestionnaireService.saveGestionnaire(dto.getEmail(), dto.getPassword(), dto.getMatricule());
+        GestionnaireDTO result = gestionnaireService.saveGestionnaire(dto);
 
         assertEquals(dto.getMatricule(), result.getMatricule());
+        assertThat(result).isEqualTo(dto);
         verify(gestionnaireRepository, Mockito.times(1)).save(any(Gestionnaire.class));
         verify(userRepository, Mockito.times(1)).save(any(Utilisateur.class));
     }

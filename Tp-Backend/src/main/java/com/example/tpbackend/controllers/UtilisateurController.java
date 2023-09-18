@@ -64,10 +64,11 @@ public class UtilisateurController {
 
     @PostMapping(value = "/newEmployer")
     public ResponseEntity<?> createEmployer(@Valid @RequestBody EmployerPostDTO dto){
-        if(employerService.existByCompagnyId(dto.getCompagnyId()))
-            return ResponseEntity.badRequest().body("CompagnyId already exist");
-        if(employerService.existByEmail(dto.getEmail()))
-            return ResponseEntity.badRequest().body("Email already exist");
+        if (employerService.existsByCompanyIdOrEmail(dto.getCompagnyId(), dto.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Company id ou email existe déjà");
+        }
 
         try {
             dto = employerService.saveEmployer(dto);

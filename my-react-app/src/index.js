@@ -9,11 +9,11 @@ import {UserProvider} from "./Providers/UserProvider";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <UserProvider>
         <Router>
+            <UserProvider>
             <App/>
+            </UserProvider>,
         </Router>
-    </UserProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

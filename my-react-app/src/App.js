@@ -24,14 +24,17 @@ function App() {
                         <Route path="/EmployeurHomePage" element={<EmployeurHomePage/>}/>
                         <Route path="/GestionnaireHomePage" element={<GestionnaireHomePage/>}/>
                     </Route>
-                    <Route path="/connexionMain" element={<ConnexionPage/>} />
+
                     <Route path="*" element={<PageNotFound/>} />
+                    <Route path="/" element={<UtilisateursMain/>}/>
+                    <Route path="/connexionMain" element={<UtilisateursMain/>} />
+
                     <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                     <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
                     <Route path="/gestionnaireInscription" element={<InscriptionPageG/>} />
                     <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
+
                     <Route path="/saveCv" element={<FileUploader/>} />
-                    <Route path="/" element={<UtilisateursMain/>}/>>
                 </Routes>
             </div>
     )

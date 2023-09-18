@@ -11,9 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @Entity
 @NoArgsConstructor
-
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-
 public class Utilisateur {
 
     @Id

@@ -3,7 +3,7 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
-import com.example.tpbackend.service.StudentServices;
+import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

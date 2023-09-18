@@ -1,11 +1,7 @@
 package com.example.tpbackend;
 
-import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
-import com.example.tpbackend.service.OffreStageService;
-import com.example.tpbackend.service.StudentServices;
+import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

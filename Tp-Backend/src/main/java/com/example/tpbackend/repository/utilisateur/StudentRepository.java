@@ -1,4 +1,4 @@
-package com.example.tpbackend.repository;
+package com.example.tpbackend.repository.utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.utilisateur.Student;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,11 +2,13 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.utilisateur.StudentLoginDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.service.LoginService;
-import com.example.tpbackend.service.StudentServices;
-import com.example.tpbackend.service.UserService;
+import com.example.tpbackend.service.utilisateur.EmployerService;
+import com.example.tpbackend.service.utilisateur.LoginService;
+import com.example.tpbackend.service.utilisateur.StudentServices;
+import com.example.tpbackend.service.utilisateur.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -24,6 +26,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UtilisateurController {
     private StudentServices studentServices;
+    private EmployerService employerService;
     private UserService userService;
 
     @PostMapping(value = "/newStudent")
@@ -56,6 +59,41 @@ public class UtilisateurController {
             return ResponseEntity
                     .badRequest()
                     .body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/newEmployer")
+    public ResponseEntity<?> createEmployer(@Valid @RequestBody EmployerPostDTO dto){
+        if(employerService.existByCompagnyId(dto.getCompagnyId()))
+            return ResponseEntity.badRequest().body("CompagnyId already exist");
+        if(employerService.existByEmail(dto.getEmail()))
+            return ResponseEntity.badRequest().body("Email already exist");
+
+        try {
+            dto = employerService.saveEmployer(dto);
+
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String jsonCreatedUser = ow.writeValueAsString(dto.toEmployer());
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(jsonCreatedUser);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/{companyId}")
+    public ResponseEntity<?> getEmployer(@PathVariable String companyId){
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(employerService.getEmployer(companyId));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

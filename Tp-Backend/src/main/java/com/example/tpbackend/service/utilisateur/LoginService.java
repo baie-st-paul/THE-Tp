@@ -1,4 +1,4 @@
-package com.example.tpbackend.service;
+package com.example.tpbackend.service.utilisateur;
 
 import io.jsonwebtoken.*;
 import javax.xml.bind.DatatypeConverter;

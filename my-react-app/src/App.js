@@ -9,13 +9,12 @@ import InscriptionPageG from "./components/utilisateurs/inscription/gestionnaire
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./components/PageNotFound";
-import ConnexionPage, {isConnected, renderHomePage} from "./components/utilisateurs/login/pages/ConnexionPage";
+import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import { useUser } from "./Providers/UserProvider";
-import StudentHomePage from "./components/landingPage/StudentHomePage";
-import EmployeurHomePage from "./components/landingPage/EmployeurHomePage";
-import GestionnaireHomePage from "./components/landingPage/GestionnaireHomePage";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
+
+//<Route path="/connexionMain" element={<ConnexionPage/>} /> fait des erreur de redirection pour le retour dans les forms
 
 function App() {
     let loggedInUser = useUser();
@@ -26,7 +25,8 @@ function App() {
                     <Route path="/connexionMain" element={<UtilisateursMain/>} />
                     <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                     <Route path={"/Gestionnaire"} element={<GestionnairePrivateRoutes/>}/>
-                    <Route path="/connexionMain" element={<ConnexionPage/>} />
+                    <Route path="*" element={<PageNotFound/>}/>
+                    <Route path="/" element={<UtilisateursMain/>}/>
                     <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                     <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
                     <Route path="/gestionnaireInscription" element={<InscriptionPageG/>} />

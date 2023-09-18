@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO.utilisateur;
+package com.example.tpbackend.DTO.utilisateur.student;
 
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.utilisateur.LoginUser;

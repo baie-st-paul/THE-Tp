@@ -5,7 +5,7 @@ import StudentHomePage from "../components/landingPage/StudentHomePage";
 const StudentPrivateRoutes = ({children,...rest}) => {
     let auth;
     console.log(localStorage.getItem("userType"))
-    if(localStorage.getItem('token') != null && localStorage.getItem("userType") == "Student"){
+    if(localStorage.getItem('token') != null && localStorage.getItem("userType") === "Student"){
         console.log("true")
          auth = true;
     }

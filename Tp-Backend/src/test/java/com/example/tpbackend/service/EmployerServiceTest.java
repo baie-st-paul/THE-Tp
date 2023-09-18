@@ -64,7 +64,7 @@ class EmployerServiceTest {
         // Arrange
         Employer employer = new Employer();
         employer.setCompanyId("42");
-        employer.setUtilisateur(new Utilisateur("philip@gmail.com", "iloveyou", ""));
+        employer.setUtilisateur(new Utilisateur("philip@gmail.com", "iloveyou", "Employeur"));
         when(employerRepository.getByCompanyId(anyString())).thenReturn(employer);
 
         // Act
@@ -80,7 +80,7 @@ class EmployerServiceTest {
     @Test
     void testGetEmployer2() {
         Employer employer = new Employer();
-        employer.setUtilisateur(new Utilisateur("jane.doe@example.org", "iloveyou", ""));
+        employer.setUtilisateur(new Utilisateur("jane.doe@example.org", "iloveyou", "Employeur"));
         when(employerRepository.getByCompanyId((String) any())).thenReturn(employer);
         EmployerGetDTO actualEmployer = employerService.getEmployer("42");
         assertNull(actualEmployer.getCompanyId());

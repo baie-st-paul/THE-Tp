@@ -1,6 +1,6 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.utilisateur.StudentLoginDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentLoginDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;

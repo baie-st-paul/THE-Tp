@@ -8,8 +8,8 @@ import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMai
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./components/PageNotFound";
-import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
-import LandingPage from "./components/landingPage/LandingPage";
+import ConnexionPage, {chooseUserType} from "./components/utilisateurs/login/pages/ConnexionPage";
+import StudentHomePage from "./components/landingPage/StudentHomePage";
 import {isConnected} from "./components/utilisateurs/login/pages/ConnexionPage"
 
 function App() {
@@ -20,9 +20,8 @@ function App() {
                 path="/"
                 element={
                 !isConnected() ?
-                    <Navigate to="/connexionMain"/> :
-                    <Navigate to="/landingPage"/>
-                    }
+                    <Navigate to="/connexionMain"/> : chooseUserType()
+                        }
             />
             <Route path="*" element={<PageNotFound/>} />
             <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
@@ -31,7 +30,6 @@ function App() {
             <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
             <Route path="/saveCv" element={<FileUploader/>} />
             <Route path="/connexionMain" element={<UtilisateursMain/>}/>
-            <Route path="/landingPage" element={<LandingPage/>}/>
         </Routes>
       </div>
   )

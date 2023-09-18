@@ -6,6 +6,9 @@ import {Navigate} from "react-router-dom";
 import ConnexionForm from "./ConnexionForm";
 import Modal from 'react-bootstrap/Modal';
 import {Button} from "react-bootstrap";
+import StudentHomePage from "../../../landingPage/StudentHomePage";
+import GestionnaireHomePage from "../../../landingPage/GestionnaireHomePage";
+import EmployeurHomePage from "../../../landingPage/EmployeurHomePage";
 
 const ConnexionPage = () => {
     const [utilisateurs, setUtilisateurs] = useState([]);
@@ -43,7 +46,7 @@ const ConnexionPage = () => {
         localStorage.setItem('currentUtilisateur', JSON.stringify(currentUtilisateur))
         let jsonCurrentUtilisateur = localStorage.getItem('currentUtilisateur')
         console.log('is connected ', isConnected(jsonCurrentUtilisateur))
-        console.log('email ', getConnectedUtilisateur(jsonCurrentUtilisateur))
+        console.log('studentGetDTO', getConnectedUtilisateur(jsonCurrentUtilisateur))
         console.log('token ', tokenUtilisateur(jsonCurrentUtilisateur))
     }
 
@@ -92,6 +95,29 @@ export function isConnected(jsonCurrentUtilisateur) {
     }
     return false
 }
+
+export function chooseUserType(jsonCurrentUtilisateur) {
+    try {
+        let currentUtilisateur = JSON.parse(jsonCurrentUtilisateur);
+
+        switch (currentUtilisateur) {
+            case 'Student':
+                return <StudentHomePage />;
+                break;
+            case 'Gestionnaire':
+                return <GestionnaireHomePage />;
+                break;
+            case 'Employeur':
+                return <EmployeurHomePage />;
+                break;
+            default:
+                return null; // Handle other cases as needed
+        }
+    } catch (error) {
+        console.error("Error parsing JSON or determining user type:", error);
+    }
+}
+
 
 function getConnectedUtilisateur(jsonCurrentUtilisateur) {
     if (jsonCurrentUtilisateur != null) {

@@ -1,5 +1,6 @@
 package com.example.tpbackend.service;
 
+import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.UtilisateurRepository;
 import org.springframework.stereotype.Service;

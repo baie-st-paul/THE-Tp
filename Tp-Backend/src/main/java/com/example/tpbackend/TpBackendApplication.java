@@ -8,11 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TpBackendApplication implements CommandLineRunner {
-    @Autowired
-    StudentServices studentServices = new StudentServices();
-
-    @Autowired
-    OffreStageService offreStageService = new OffreStageService( );
 
     public static void main(String[] args) {
         SpringApplication.run(TpBackendApplication.class, args);

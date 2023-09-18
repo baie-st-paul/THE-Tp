@@ -39,22 +39,9 @@ public class StudentPostDTO {
         return studentPostDTO;
     }
 
-    public Student fromStudentDTO (StudentPostDTO studentPostDTO) {
+    public Student toStudent (StudentPostDTO studentPostDTO) {
         Student student = new Student();
         BeanUtils.copyProperties(studentPostDTO, student);
         return student;
-    }
-
-    public Student toStudent() {
-        return new Student(
-                firstName,
-                lastName,
-                email,
-                password,
-                phoneNumber,
-                matricule,
-                program,
-                new Utilisateur(email, password)
-        );
     }
 }

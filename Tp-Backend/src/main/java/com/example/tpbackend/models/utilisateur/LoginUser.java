@@ -1,4 +1,6 @@
 package com.example.tpbackend.models.utilisateur;
 
-public record LoginUser(String token, String email) {
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+
+public record LoginUser(String token, StudentGetDTO studentGetDTO) {
 }

@@ -1,5 +1,6 @@
 package com.example.tpbackend.models;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,20 +41,20 @@ public class Cv {
         this.status = StatusCV.valueOf(status);
     }
 
-    /*public CvDTO toCvDTO() {
+    public CvDTO toCvDTO() {
+        byte[] yourByteArray = file_cv;
+        String originalFilename = fileName;
+        String contentType = "application/pdf";
+
+        MultipartFile multipartFile = new ByteArrayMultipartFile(fileName, originalFilename, contentType, yourByteArray);
         return new CvDTO(
                 matricule,
                 fileName,
-                (MultipartFile) new ByteArrayInputStream(file_cv),//a revoir!!!
+                multipartFile,
                 String.valueOf(status)
         );
-    }*/
-
-    public CvDTO toCvDTO(Cv cv){
-        CvDTO cvPostDTO = new CvDTO();
-        BeanUtils.copyProperties(cvPostDTO,cv);
-        return cvPostDTO;
     }
+
 
     public enum StatusCV{
         Accepted,

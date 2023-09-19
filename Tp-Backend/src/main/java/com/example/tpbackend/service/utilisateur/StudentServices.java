@@ -45,7 +45,7 @@ public class StudentServices {
     }
 
     public CvDTO saveCv(CvDTO cvDTO) throws IOException {
-        cvRepository.save(cvDTO.toCv(cvDTO));
+        cvRepository.save(cvDTO.toCv());
         return cvDTO;
     }
 

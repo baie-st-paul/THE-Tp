@@ -1,5 +1,5 @@
 import {Outlet,Route,Navigate} from "react-router-dom";
-import StudentHomePage from "../components/landingPage/StudentHomePage";
+import StudentHomePage from "../components/landingPage/StudentHomePage/StudentHomePage";
 
 
 const StudentPrivateRoutes = ({children,...rest}) => {

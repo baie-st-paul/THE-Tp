@@ -1,46 +1,120 @@
-import React, { useState }  from "react";
-import {BiSolidCloudUpload} from "react-icons/bi";
-function FileUploader(){
-    const [file,setFile] = useState()
+import React, { useState } from "react";
+import { BiSolidCloudUpload } from "react-icons/bi";
+import "./FileUploader.css";
+import {useUser} from "../../Providers/UserProvider";
+
+function FileUploader() {
+    const { loggedInUser, setLoggedInUser } = useUser();
+    const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
+    const [error, setError] = useState(null);
 
-    function handleFile(event){
-        setFile(event.target.files[0])
-        setFileName(event.target.files[0].name)
-        console.log(fileName)
-    }
+    const handleDrop = (event) => {
+        event.preventDefault();
+        const selectedFile = event.dataTransfer.files[0];
+        if (selectedFile && selectedFile.type === "application/pdf") {
+            setFile(selectedFile);
+            setFileName(selectedFile.name);
+            setError(null);
+        } else {
+            setFile(null);
+            setFileName("");
+            setError("Please drop a valid PDF file.");
+        }
+    };
 
-    function handleUpload() {
-        const formdata = new FormData();
-        formdata.append("file_cv", file);
+    const handleUpload = (event) => {
+        event.preventDefault();
 
-        const requestOptions = {
-            method: 'POST',
-            body: formdata,
-            redirect: 'follow'
-        };
+        if (file) {
+            const formdata = new FormData();
+            formdata.append("file_cv", file);
 
-        fetch("http://localhost:8081/api/v1/student/saveCV?matricule=1966156&fileName="+fileName+"&status=In_review", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-    }
+            const requestOptions = {
+                method: "POST",
+                body: formdata,
+                redirect: "follow",
+                mode : 'no-cors'
+            };
+            fetch(
+                `http://localhost:8081/api/v1/student/saveCV?matricule=${loggedInUser.matricule}&fileName=${fileName}&status=In_review`,
+                requestOptions
+            )
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.log("error", error));
 
-    return(
-        <div className="d-flex justify-content-center align-items-center vh-50">
-            <div className="border  border-1 border-black w-50 m-5">
-                    <div className="m-1 text-center">
-                        <BiSolidCloudUpload style={{ fontSize: '200px',color: "cadetblue" }}></BiSolidCloudUpload>
-                        <h3>Drag and drop files here</h3>
-                        <span style={{fontWeight: "bold"}}>or</span>
-                        <form onSubmit={handleUpload}>
-                            <input type="file" name="file" onChange={handleFile} />
-                            <button type="submit" className="btn" style={{color: "white",backgroundColor: "cadetblue", fontWeight: "bold"}}>Envoyer CV</button>
-                        </form>
-                    </div>
+            setFile(null);
+            setFileName("");
+        } else {
+            setError("Please select a valid PDF file before uploading.");
+        }
+    };
+
+    const handleCancel = () => {
+        setFile(null);
+        setFileName("");
+        setError(null);
+    };
+
+    const handleFileSelect = (event) => {
+        const selectedFile = event.target.files[0];
+        if (selectedFile && selectedFile.type === "application/pdf") {
+            setFile(selectedFile);
+            setFileName(selectedFile.name);
+            setError(null);
+        } else {
+            setFile(null);
+            setFileName("");
+            setError("Please select a valid PDF file.");
+        }
+    };
+
+    return (
+        <div
+            className="d-flex flex-column justify-content-center align-items-center mt-5"
+            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
+        >
+            <div className="border border-1 border-dark p-5 text-center file-uploader">
+                <BiSolidCloudUpload className="upload-icon" />
+                <h3 className="mt-4">Glissez un fichier PDF ici</h3>
+                <span style={{ fontWeight: "bold" }}>Ou</span>
+                <br />
+                {file ? (
+                    <>
+                        {fileName && <div className="mt-3">Selected file: {fileName}</div>}
+                        {error && <div className="text-danger mt-3">{error}</div>}
+                        <button
+                            onClick={handleUpload}
+                            className="btn btn-primary mt-3"
+                        >
+                            Téléverser CV
+                        </button>
+                        <button
+                            onClick={handleCancel}
+                            className="btn btn-danger mt-3 ml-3"
+                        >
+                            Annuler
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <input
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileSelect}
+                            style={{ display: "none" }}
+                            id="fileInput"
+                        />
+                        <label htmlFor="fileInput" className="btn btn-primary mt-3">
+                            Sélectionner un fichier PDF
+                        </label>
+                    </>
+                )}
             </div>
         </div>
-    )
+    );
 }
 
-export default FileUploader
+export default FileUploader;

@@ -1,0 +1,16 @@
+.file-uploader {
+    border: 1px solid #000;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+.upload-icon {
+    font-size: 4rem;
+    color: cadetblue;
+}
+
+.text-danger {
+    color: red;
+    font-weight: bold;
+}

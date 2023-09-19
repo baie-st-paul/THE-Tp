@@ -1,16 +1,10 @@
 package com.example.tpbackend.models;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 
 @Entity
 @NoArgsConstructor
@@ -40,13 +34,19 @@ public class Cv {
     }
 
     public CvDTO toCvDTO() {
+        byte[] yourByteArray = file_cv;
+        String originalFilename = fileName;
+        String contentType = "application/pdf";
+
+        MultipartFile multipartFile = new ByteArrayMultipartFile(fileName, originalFilename, contentType, yourByteArray);
         return new CvDTO(
                 matricule,
                 fileName,
-                (MultipartFile) new ByteArrayInputStream(file_cv),//a revoir!!!
+                multipartFile,
                 String.valueOf(status)
         );
     }
+
 
     public enum StatusCV{
         Accepted,

@@ -1,0 +1,42 @@
+/* StudentHomePage.css */
+
+/* Styling the navigation bar */
+.navbar {
+    background-color: #343a40; /* Dark background color */
+    border: none; /* Remove border */
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff; /* White text color */
+}
+
+.nav-link {
+    color: #fff; /* White text color for links */
+}
+
+/* Styling the container */
+.container {
+    margin-top: 20px;
+    text-align: center;
+    border: none; /* Remove border */
+}
+
+h2 {
+    font-size: 28px;
+    color: #333; /* Dark text color */
+}
+
+/* Styling the "Enregistrer un CV" button */
+.btn-enregistrer {
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    font-size: 20px;
+    padding: 10px 20px;
+    border: none; /* Remove border */
+}
+
+.btn-enregistrer:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

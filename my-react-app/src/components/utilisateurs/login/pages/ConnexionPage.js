@@ -38,7 +38,7 @@ const ConnexionPage = () => {
             }
 
             const data = await res.json();
-            setLoggedInUser(data);
+            setLoggedInUser(data.data.studentGetDTO);
             localStorage.setItem('token', JSON.stringify(data.data.token));
             localStorage.setItem('user_type', JSON.stringify(data.user_type))
             if (data.user_type) {
@@ -53,7 +53,6 @@ const ConnexionPage = () => {
                         setRedirectTo("/EmployeurHomePage");
                         break;
                     default:
-                        // Handle unknown user_type
                         break;
                 }
             }

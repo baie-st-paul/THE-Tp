@@ -37,7 +37,7 @@ public class GestionnaireStageService {
         List<CvDTO> cvDTOS = new ArrayList<>();
 
         for (Cv cv: cvs) {
-            cvDTOS.add(cv.toCvDTO());
+            cvDTOS.add(cv.toCvDTO(cv));
         }
         return cvDTOS;
     }
@@ -47,7 +47,7 @@ public class GestionnaireStageService {
         List<CvDTO> cvDTOS = new ArrayList<>();
 
         for (Cv cv: cvs) {
-            cvDTOS.add(cv.toCvDTO());
+            cvDTOS.add(cv.toCvDTO(cv));
         }
         return cvDTOS;
     }

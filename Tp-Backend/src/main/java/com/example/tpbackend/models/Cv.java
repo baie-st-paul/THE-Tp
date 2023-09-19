@@ -3,6 +3,7 @@ import com.example.tpbackend.DTO.CvDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
@@ -39,13 +40,19 @@ public class Cv {
         this.status = StatusCV.valueOf(status);
     }
 
-    public CvDTO toCvDTO() {
+    /*public CvDTO toCvDTO() {
         return new CvDTO(
                 matricule,
                 fileName,
                 (MultipartFile) new ByteArrayInputStream(file_cv),//a revoir!!!
                 String.valueOf(status)
         );
+    }*/
+
+    public CvDTO toCvDTO(Cv cv){
+        CvDTO cvPostDTO = new CvDTO();
+        BeanUtils.copyProperties(cvPostDTO,cv);
+        return cvPostDTO;
     }
 
     public enum StatusCV{

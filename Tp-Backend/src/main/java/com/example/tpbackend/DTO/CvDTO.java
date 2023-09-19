@@ -3,6 +3,7 @@ package com.example.tpbackend.DTO;
 import com.example.tpbackend.models.Cv;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;

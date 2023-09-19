@@ -1,6 +1,10 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployeurLoginDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.GetDTO.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireLoginDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentLoginDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
@@ -39,11 +43,7 @@ public class UtilisateurController {
 
         try {
             dto = studentServices.saveStudent(
-                    dto.getFirstName(),
-                    dto.getLastName(),
-                    dto.getPhoneNumber(),
-                    dto.getMatricule(),
-                    dto.getProgram(),
+                    dto,
                     dto.getEmail(),
                     dto.getPassword(),
                     "Student"
@@ -64,17 +64,17 @@ public class UtilisateurController {
 
     @PostMapping(value = "/newEmployer")
     public ResponseEntity<?> createEmployer(@Valid @RequestBody EmployerPostDTO dto){
-        if (employerService.existsByCompanyIdOrEmail(dto.getCompagnyId(), dto.getEmail())) {
+        if (employerService.existByEmail(dto.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body("Company id ou email existe déjà");
         }
 
         try {
-            dto = employerService.saveEmployer(dto);
+            dto = employerService.saveEmployer(dto,dto.getEmail(),dto.getPassword(),"Employeur");
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String jsonCreatedUser = ow.writeValueAsString(dto.toEmployer());
+            String jsonCreatedUser = ow.writeValueAsString(dto.toEmployer(dto));
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
@@ -86,20 +86,8 @@ public class UtilisateurController {
 
     }
 
-    @GetMapping("/{companyId}")
-    public ResponseEntity<?> getEmployer(@PathVariable String companyId){
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(employerService.getEmployer(companyId));
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @PostMapping(value = "/newAdmin")
-    public ResponseEntity<?> createGestionnaire(@Valid @RequestBody GestionnaireDTO adminDTO) {
+    public ResponseEntity<?> createGestionnaire(@Valid @RequestBody GestionnairePostDTO adminDTO) {
         if (gestionnaireService.existsByMatriculeOrEmail(adminDTO.getMatricule(), adminDTO.getEmail())) {
             return ResponseEntity
                     .badRequest()
@@ -151,13 +139,19 @@ public class UtilisateurController {
 
                     case "Student":
                         StudentGetDTO studentGetDTO = studentServices.getStudentByUser(user);
-                        StudentLoginDTO loginDto = new StudentLoginDTO(token, studentGetDTO);
-                        jsonResponse = convertObjectToJson(loginDto.toLoginUser(),user.getRole());
+                        StudentLoginDTO loginDtoS = new StudentLoginDTO(token, studentGetDTO);
+                        jsonResponse = convertObjectToJson(loginDtoS.toStudentLogin(),user.getRole());
                         System.out.println(jsonResponse);
                         break;
                     case "Gestionnaire":
+                        GestionnaireGetDTO gestionnaireGetDTO = gestionnaireService.getGestionnaireByUser(user);
+                        GestionnaireLoginDTO loginDtoG = new GestionnaireLoginDTO(token, gestionnaireGetDTO);
+                        jsonResponse = convertObjectToJson(loginDtoG.toGestionnaireLogin(),user.getRole());
                         break;
                     case "Employeur":
+                        EmployerGetDTO employerGetDTO = employerService.getEmployeurByUser(user);
+                        EmployeurLoginDTO loginDtoE = new EmployeurLoginDTO(token, employerGetDTO);
+                        jsonResponse = convertObjectToJson(loginDtoE.toEmployeurLogin(),user.getRole());
                         break;
                 }
                 return ResponseEntity.accepted().body(jsonResponse);

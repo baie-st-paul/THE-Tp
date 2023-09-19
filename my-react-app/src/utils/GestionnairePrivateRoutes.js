@@ -1,9 +1,10 @@
 import {Outlet,Route,Navigate} from "react-router-dom";
+import GestionnaireHomePage from "../components/landingPage/GestionnaireHomePage";
 
 
 const GestionnairePrivateRoutes = ({children,...rest}) => {
     let auth;
-    if(localStorage.getItem('token') != null && localStorage.getItem("userType") === "Gestionnaire"){
+    if(localStorage.getItem('token') != null && localStorage.getItem("user_type").match("Gestionnaire")){
         console.log("true")
         auth = true;
     }
@@ -14,7 +15,7 @@ const GestionnairePrivateRoutes = ({children,...rest}) => {
 
 
     return(
-        auth ? <Outlet/> : <Navigate to={"/connexionMain"}/>
+        auth ? <GestionnaireHomePage/> : <Navigate to={"*"}/>
     )
 }
 

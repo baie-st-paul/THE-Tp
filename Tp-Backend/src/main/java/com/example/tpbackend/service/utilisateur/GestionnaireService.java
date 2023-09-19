@@ -1,6 +1,10 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireDTO;
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.GetDTO.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.models.utilisateur.Employer;
 import com.example.tpbackend.models.utilisateur.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
@@ -16,13 +20,13 @@ public class GestionnaireService {
     @Autowired
     private UtilisateurRepository userRepository;
 
-    public GestionnaireDTO saveGestionnaire(String firstName,
-                                            String lastName,
-                                            String phoneNumber,
-                                            String matricule,
-                                            String email,
-                                            String password,
-                                            String role){
+    public GestionnairePostDTO saveGestionnaire(String firstName,
+                                                String lastName,
+                                                String phoneNumber,
+                                                String matricule,
+                                                String email,
+                                                String password,
+                                                String role){
         if(existsByEmail(email) || existsByMatricule(matricule)){
             return null;
         }
@@ -38,10 +42,10 @@ public class GestionnaireService {
         userRepository.save(utilisateur);
         gestionnaireRepository.save(gestionnaire);
 
-        return GestionnaireDTO.fromGestionnaire(gestionnaire);
+        return GestionnairePostDTO.fromGestionnaire(gestionnaire);
     }
 
-    public GestionnaireDTO saveGestionnaire(GestionnaireDTO gestionnaireDTO) {
+    public GestionnairePostDTO saveGestionnaire(GestionnairePostDTO gestionnaireDTO) {
         gestionnaireRepository.save(gestionnaireDTO.toGestionnaire(gestionnaireDTO));
         userRepository.save(gestionnaireDTO.toGestionnaire(gestionnaireDTO).getUtilisateur());
         return gestionnaireDTO;
@@ -57,5 +61,13 @@ public class GestionnaireService {
 
     public boolean existsByMatriculeOrEmail(String matricule, String email){
         return gestionnaireRepository.existsByMatriculeOrEmail(matricule, email);
+    }
+
+    public GestionnaireGetDTO getGestionnaireByUser(UtilisateurDTO user) {
+        Gestionnaire gestionnaire = gestionnaireRepository.findGestionnaireByUser();
+        GestionnaireGetDTO gestionnaireGetDTO = new GestionnaireGetDTO(
+                gestionnaire.getFirstName(),gestionnaire.getLastName(),gestionnaire.getMatricule(),
+                gestionnaire.getPhoneNumber(),user.getEmail());
+        return gestionnaireGetDTO;
     }
 }

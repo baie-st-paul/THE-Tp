@@ -1,7 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.models.utilisateur.LoginUser;
+import com.example.tpbackend.models.utilisateur.StudentLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,8 @@ public class StudentLoginDTO {
     private String token;
     private StudentGetDTO studentGetDTO;
 
-    public LoginUser toLoginUser() {
-        return new LoginUser(
+    public StudentLogin toStudentLogin() {
+        return new StudentLogin(
                 token,
                 studentGetDTO
         );

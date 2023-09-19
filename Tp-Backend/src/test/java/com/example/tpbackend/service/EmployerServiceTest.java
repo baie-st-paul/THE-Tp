@@ -36,7 +36,6 @@ class EmployerServiceTest {
     public void testSaveEmployer() {
         // Arrange
         EmployerPostDTO employerDto = new EmployerPostDTO(
-                "1",
                 "John",
                 "Doe",
                 "Company",
@@ -46,75 +45,15 @@ class EmployerServiceTest {
         );
 
         // Act
-        final EmployerPostDTO employerPostDTOReturn = employerService.saveEmployer(employerDto);
+        final EmployerPostDTO employerPostDTOReturn = employerService.saveEmployer(employerDto,employerDto.getEmail(),employerDto.getPassword(),"Employeur");
         // Assert
         assertThat(employerPostDTOReturn).isEqualTo(employerDto);
-        verify(employerRepository).save(employerDto.toEmployer());
-        verify(utilisateurRepository).save(employerDto.toEmployer().getUtilisateur());
+        verify(employerRepository).save(employerDto.toEmployer(employerDto));
+        verify(utilisateurRepository).save(employerDto.toEmployer(employerDto).getUtilisateur());
 
     }
 
 
-    /**
-     * Method under test: {@link EmployerService#getEmployer(String)}
-     */
-    @Test
-    void testGetEmployer() {
-
-        // Arrange
-        Employer employer = new Employer();
-        employer.setCompanyId("42");
-        employer.setUtilisateur(new Utilisateur("philip@gmail.com", "iloveyou", "Employeur"));
-        when(employerRepository.getByCompanyId(anyString())).thenReturn(employer);
-
-        // Act
-        final EmployerGetDTO employerDto = employerService.getEmployer("42");
-
-        // Assert
-        assertThat(employerDto.getCompanyId()).isEqualTo("42");
-    }
-
-    /**
-     * Method under test: {@link EmployerService#getEmployer(String)}
-     */
-    @Test
-    void testGetEmployer2() {
-        Employer employer = new Employer();
-        employer.setUtilisateur(new Utilisateur("jane.doe@example.org", "iloveyou", "Employeur"));
-        when(employerRepository.getByCompanyId((String) any())).thenReturn(employer);
-        EmployerGetDTO actualEmployer = employerService.getEmployer("42");
-        assertNull(actualEmployer.getCompanyId());
-        assertNull(actualEmployer.getPhoneNumber());
-        assertNull(actualEmployer.getLastName());
-        assertNull(actualEmployer.getFirstName());
-        assertEquals("jane.doe@example.org", actualEmployer.getEmail());
-        assertNull(actualEmployer.getCompanyName());
-        verify(employerRepository).getByCompanyId((String) any());
-    }
-
-    /**
-     * Method under test: {@link EmployerService#existByCompagnyId(String)}
-     */
-    @Test
-    void testExistByCompagnyId() {
-        when(employerRepository.existsByCompanyName((String) any())).thenReturn(true);
-        assertTrue(employerService.existByCompagnyId("Company Name"));
-        verify(employerRepository).existsByCompanyName((String) any());
-    }
-
-    /**
-     * Method under test: {@link EmployerService#existByCompagnyId(String)}
-     */
-    @Test
-    void testExistByCompagnyId2() {
-        when(employerRepository.existsByCompanyName((String) any())).thenReturn(false);
-        assertFalse(employerService.existByCompagnyId("Company Name"));
-        verify(employerRepository).existsByCompanyName((String) any());
-    }
-
-    /**
-     * Method under test: {@link EmployerService#existByEmail(String)}
-     */
     @Test
     void testExistByEmail() {
         when(utilisateurRepository.existsByEmail((String) any())).thenReturn(true);

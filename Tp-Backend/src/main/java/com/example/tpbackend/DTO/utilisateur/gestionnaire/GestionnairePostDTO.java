@@ -7,7 +7,7 @@ import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
-public class GestionnaireDTO {
+public class GestionnairePostDTO {
 
     private String firstName;
     private String lastName;
@@ -16,7 +16,7 @@ public class GestionnaireDTO {
     private String phoneNumber;
     private String matricule;
 
-    public GestionnaireDTO(
+    public GestionnairePostDTO(
             String firstName,
             String lastName,
             String matricule,
@@ -31,13 +31,13 @@ public class GestionnaireDTO {
         this.password = password;
     }
 
-    public static GestionnaireDTO fromGestionnaire(Gestionnaire gestionnaire){
-        GestionnaireDTO gestionnaireDTO = new GestionnaireDTO();
+    public static GestionnairePostDTO fromGestionnaire(Gestionnaire gestionnaire){
+        GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO();
         BeanUtils.copyProperties(gestionnaire, gestionnaireDTO);
         return gestionnaireDTO;
     }
 
-    public Gestionnaire toGestionnaire(GestionnaireDTO gestionnaireDTO) {
+    public Gestionnaire toGestionnaire(GestionnairePostDTO gestionnaireDTO) {
         Gestionnaire gestionnaire = new Gestionnaire();
         BeanUtils.copyProperties(gestionnaireDTO, gestionnaire);
         return gestionnaire;

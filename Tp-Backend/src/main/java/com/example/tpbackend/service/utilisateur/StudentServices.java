@@ -24,22 +24,12 @@ public class StudentServices {
     @Autowired
     private CvRepository cvRepository;
 
-    public StudentPostDTO saveStudent(String firstName,
-                                      String lastName,
-                                      String phoneNumber,
-                                      String matricule,
-                                      String program,
-                                      String email,
-                                      String password,
-                                      String role){
+    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
-        Student student = new Student(
-                firstName,lastName,matricule,phoneNumber,program);
+        Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
-        System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
-
         return StudentPostDTO.fromStudent(student);
     }
 
@@ -47,11 +37,6 @@ public class StudentServices {
         return studentRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
-    public Student createStudent(StudentPostDTO studentPostDTO){
-        Student student = studentPostDTO.toStudent(studentPostDTO);
-        studentRepository.save(student);
-        return student;
-    }
     public CvDTO saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv(cvDTO));
         return cvDTO;

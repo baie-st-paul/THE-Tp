@@ -1,6 +1,6 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.utilisateur.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
@@ -37,7 +37,7 @@ public class GestionnaireServiceTest {
 
     @Test
     public void testCreateGestionnaire() {
-        GestionnaireDTO dto = new GestionnaireDTO(
+        GestionnairePostDTO dto = new GestionnairePostDTO(
                 "Bob",
                 "Lamber",
                 "2222222",
@@ -47,7 +47,7 @@ public class GestionnaireServiceTest {
         );
 
 
-        GestionnaireDTO result = gestionnaireService.saveGestionnaire(dto);
+        GestionnairePostDTO result = gestionnaireService.saveGestionnaire(dto);
 
         assertEquals(dto.getMatricule(), result.getMatricule());
         assertThat(result).isEqualTo(dto);
@@ -73,7 +73,7 @@ public class GestionnaireServiceTest {
         when(gestionnaireRepository.findById(anyInt())).thenReturn(Optional.of(gestionnaire));
 
 
-        final GestionnaireDTO gestionnaireDto = GestionnaireDTO.fromGestionnaire(gestionnaireRepository.findById(222111).get());
+        final GestionnairePostDTO gestionnaireDto = GestionnairePostDTO.fromGestionnaire(gestionnaireRepository.findById(222111).get());
 
         assertThat(gestionnaireDto.getMatricule()).isEqualTo("222111");
     }

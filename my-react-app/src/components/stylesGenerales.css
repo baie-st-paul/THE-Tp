@@ -2,3 +2,13 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.connexion{
+    text-decoration: none;
+    color: black;
+}
+
+.connexion:hover{
+    background-color: transparent !important;
+}
+
+

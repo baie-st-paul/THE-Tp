@@ -24,22 +24,13 @@ public class StudentServices {
     @Autowired
     private UserRepository userRepository;
 
-    public StudentPostDTO saveStudent(String firstName,
-                                      String lastName,
-                                      String phoneNumber,
-                                      String matricule,
-                                      String program,
-                                      String email,
-                                      String password,
-                                      String role){
+    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
-        Student student = new Student(
-                firstName,lastName,matricule,phoneNumber,program);
+        Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
         System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
         userRepository.save(utilisateur);
         studentRepository.save(student);
-
         return StudentPostDTO.fromStudent(student);
     }
 
@@ -69,10 +60,9 @@ public class StudentServices {
 
     public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
         Student student = studentRepository.findStudentByUtilisateur();
-        StudentGetDTO studentGetDTO = new StudentGetDTO(
+        return new StudentGetDTO(
                 student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
                 student.getPhoneNumber(),student.getMatricule(),student.getProgram()
         );
-        return studentGetDTO;
     }
 }

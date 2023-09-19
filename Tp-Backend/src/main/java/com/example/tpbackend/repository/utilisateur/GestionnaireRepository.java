@@ -14,5 +14,5 @@ public interface GestionnaireRepository extends JpaRepository<Gestionnaire, Inte
     boolean existsByMatriculeOrEmail(String matricule, String email);
 
     @Query("SELECT NEW com.example.tpbackend.models.utilisateur.Gestionnaire(g.firstName, g.lastName, g.matricule, g.phoneNumber) FROM Gestionnaire g INNER JOIN g.utilisateur u")
-    Gestionnaire findStudentByUtilisateur();
+    Gestionnaire findGestionnaireByUser();
 }

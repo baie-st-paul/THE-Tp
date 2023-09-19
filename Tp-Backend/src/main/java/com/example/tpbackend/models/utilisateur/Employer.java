@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Employer {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private String companyId;
+    private long id;
     private String firstName;
     private String lastName;
     private String companyName;
@@ -22,13 +23,7 @@ public class Employer {
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
-    public Employer(
-            String companyId,
-            String firstName,
-            String lastName,
-            String companyName,
-            String phoneNumber) {
-        this.companyId = companyId;
+    public Employer(String firstName, String lastName, String companyName, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;

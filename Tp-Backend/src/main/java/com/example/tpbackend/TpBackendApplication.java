@@ -22,7 +22,6 @@ public class TpBackendApplication implements CommandLineRunner {
     public void run(String... args) throws IOException {
         System.out.println("hello");
         System.out.println();
-        StudentPostDTO studentPostDTO = studentServices.saveStudent("phil", "vall", "444-444-4444", "email", "informatique", "email@gmail.com", "password", "Student");
 
         /*StudentPostDTO studentPostDTO = studentServices.saveStudent(
                 "phil",
@@ -46,11 +45,7 @@ public class TpBackendApplication implements CommandLineRunner {
                     studentPostDTO1.setEmail(name + "@gmail.com");
                     studentPostDTO1.setPassword("password");
                     studentServices.saveStudent(
-                            studentPostDTO1.getFirstName(),
-                            studentPostDTO1.getLastName(),
-                            studentPostDTO1.getPhoneNumber(),
-                            studentPostDTO1.getMatricule(),
-                            studentPostDTO1.getProgram(),
+                            studentPostDTO1,
                             studentPostDTO1.getEmail(),
                             studentPostDTO1.getPassword(),
                             "Student"

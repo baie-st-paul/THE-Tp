@@ -4,19 +4,12 @@ import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 
 @Entity
 @NoArgsConstructor
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "matricule_student"))
 public class Cv {
 
     @Id
@@ -24,7 +17,7 @@ public class Cv {
     @Column(name = "id_cv")
     private long id;
 
-    @Column(name = "matricule_student")
+    @Column(name = "matricule_student", unique = true)
     private String matricule;
     private String fileName;
 

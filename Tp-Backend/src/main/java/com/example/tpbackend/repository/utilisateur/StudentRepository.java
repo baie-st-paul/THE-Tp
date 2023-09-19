@@ -12,4 +12,8 @@ public interface StudentRepository extends JpaRepository<Student, Integer>{
 
     @Query("SELECT NEW com.example.tpbackend.models.utilisateur.Student(s.firstName, s.lastName, s.matricule, s.phoneNumber, s.program) FROM Student s INNER JOIN s.utilisateur u")
     Student findStudentByUtilisateur();
+
+
+    @Query("SELECT NEW com.example.tpbackend.models.utilisateur.Student(s.firstName, s.lastName, s.matricule, s.phoneNumber, s.program) FROM Student s WHERE s.matricule = ?1")
+    Student findByMaticule(String matricule);
 }

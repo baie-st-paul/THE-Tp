@@ -1,10 +1,8 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.GetDTO.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.models.utilisateur.Employer;
 import com.example.tpbackend.models.utilisateur.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
@@ -65,9 +63,8 @@ public class GestionnaireService {
 
     public GestionnaireGetDTO getGestionnaireByUser(UtilisateurDTO user) {
         Gestionnaire gestionnaire = gestionnaireRepository.findGestionnaireByUser();
-        GestionnaireGetDTO gestionnaireGetDTO = new GestionnaireGetDTO(
+        return new GestionnaireGetDTO(
                 gestionnaire.getFirstName(),gestionnaire.getLastName(),gestionnaire.getMatricule(),
                 gestionnaire.getPhoneNumber(),user.getEmail());
-        return gestionnaireGetDTO;
     }
 }

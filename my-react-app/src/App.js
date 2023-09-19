@@ -8,8 +8,8 @@ import InscriptionPageEmp from "./components/utilisateurs/inscription/employeur/
 import InscriptionPageG from "./components/utilisateurs/inscription/gestionnaire/InscriptionPageG";
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
-import PageNotFound from "./components/PageNotFound";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
+import PageNotFound from "./page_not_found/PageNotFound";
 import { useUser } from "./Providers/UserProvider";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";

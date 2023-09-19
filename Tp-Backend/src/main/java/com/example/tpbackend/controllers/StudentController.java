@@ -3,8 +3,10 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Student;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/stages/student-signup")
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/v1/student")
 public class StudentController {
 
-    StudentServices studentServices;
     @Autowired
-    StudentController(StudentServices studentServices){
-        this.studentServices = studentServices;
-    }
+    StudentServices studentServices;
 
     @PostMapping("/signup")
     ResponseEntity<?> signup(@RequestBody StudentPostDTO studentPostDTO) {
@@ -48,12 +47,25 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/saveCV",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/saveCV", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> saveCv(@ModelAttribute CvDTO cvDTO) throws IOException {
-        studentServices.saveCv(cvDTO);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(cvDTO);
+        try {
+            studentServices.saveCv(cvDTO);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(cvDTO);
+        } catch (DataIntegrityViolationException e) {
+            studentServices.updateCv(cvDTO);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(cvDTO);
+        }
+    }
+
+
+    @GetMapping("/getStudentByMatricule/{matricule}")
+    public ResponseEntity<StudentGetDTO> getStudentByMatricule(@PathVariable("matricule") String matricule) {
+        return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
 
 }

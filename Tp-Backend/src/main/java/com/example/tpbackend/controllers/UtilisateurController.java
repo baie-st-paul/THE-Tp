@@ -162,6 +162,8 @@ public class UtilisateurController {
         }
     }
 
+
+
     private String convertObjectToJson(Object object, String userType) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
@@ -170,5 +172,7 @@ public class UtilisateurController {
         rootNode.set("data", objectMapper.valueToTree(object));
         return objectWriter.writeValueAsString(rootNode);
     }
+
+
 
 }

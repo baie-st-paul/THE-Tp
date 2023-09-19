@@ -10,6 +10,7 @@ import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.UserRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -58,11 +59,22 @@ public class StudentServices {
         return false;
     }
 
+    public CvDTO updateCv(CvDTO cvDTO) throws IOException{
+        cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
+        return cvDTO;
+    }
+
     public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
         Student student = studentRepository.findStudentByUtilisateur();
         return new StudentGetDTO(
                 student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
                 student.getPhoneNumber(),student.getMatricule(),student.getProgram()
         );
+    }
+
+    public StudentGetDTO getStudentByMatricule(String matricule) {
+        Student student = studentRepository.findByMaticule(matricule);
+        System.out.println(student);
+        return student.fromStudent(student);
     }
 }

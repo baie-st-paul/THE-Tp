@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Entity
 @NoArgsConstructor
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "matricule_student"))
 public class Cv {
 
     @Id
@@ -16,7 +17,7 @@ public class Cv {
     @Column(name = "id_cv")
     private long id;
 
-    @Column(name = "matricule_student")
+    @Column(name = "matricule_student", unique = true)
     private String matricule;
     private String fileName;
 

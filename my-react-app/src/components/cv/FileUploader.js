@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { BiSolidCloudUpload } from "react-icons/bi";
 import "./FileUploader.css";
-import {useUser} from "../../Providers/UserProvider";
 
-function FileUploader() {
-    const { loggedInUser, setLoggedInUser } = useUser();
+function FileUploader({matricule}) {
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [error, setError] = useState(null);
@@ -25,7 +23,7 @@ function FileUploader() {
 
     const handleUpload = (event) => {
         event.preventDefault();
-
+        console.log(matricule)
         if (file) {
             const formdata = new FormData();
             formdata.append("file_cv", file);
@@ -34,18 +32,19 @@ function FileUploader() {
                 method: "POST",
                 body: formdata,
                 redirect: "follow",
-                mode : 'no-cors'
+                mode: "no-cors"
             };
+
             fetch(
-                `http://localhost:8081/api/v1/student/saveCV?matricule=${loggedInUser.matricule}&fileName=${fileName}&status=In_review`,
+                `http://localhost:8081/api/v1/student/saveCV?matricule=${matricule}&fileName=${fileName}&status=In_review`,
                 requestOptions
             )
-                .then((response) => response.text())
-                .then((result) => console.log(result))
+                .then((response) => {
+                        setFile(null);
+                        setFileName("");
+                        setError(null);
+                    })
                 .catch((error) => console.log("error", error));
-
-            setFile(null);
-            setFileName("");
         } else {
             setError("Please select a valid PDF file before uploading.");
         }
@@ -120,6 +119,7 @@ function FileUploader() {
                 )}
             </div>
         </div>
+
     );
 }
 

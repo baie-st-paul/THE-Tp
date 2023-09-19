@@ -67,7 +67,7 @@ const ConnexionPage = () => {
     }
 
     return (
-        <div className='bg-light vh-100'>
+        <div className='bg-light '>
             <ConnexionForm onAdd={connexion} />
             {erreur && (
                 <div className='w-100 vh-100'>

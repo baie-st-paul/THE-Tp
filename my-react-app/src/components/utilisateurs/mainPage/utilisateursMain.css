@@ -19,9 +19,7 @@
     width:250px;
 }
 
-.button:hover, button:active{
-    background-color: grey;
-}
+
 
 @media screen and (max-width:600px){
     .logoAndre{

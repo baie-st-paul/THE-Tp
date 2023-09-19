@@ -11,7 +11,7 @@ export default function MenuUtilisateursMain() {
             <div className='menuButtons font d-flex justify-content-center'>
                 <DropdownUsersInscription titre="S'inscrire"></DropdownUsersInscription>
                 <button className='button'>
-                    <Link to='/utilisateurConnexion'>Se connecter</Link>
+                    <Link to='/utilisateurConnexion' style={{ textDecoration: 'none' }}className='connexion'>Se connecter</Link>
                 </button>
             </div>
         </div>

@@ -64,14 +64,14 @@ const ConnexionForm = ({onAdd}) => {
     }
 
     return (
-        <div className="root vh-100">
-            <div className='fondIU'>
-                <div className="divForm">
-                    <form autoComplete="off" name='abc'  id="formm"  className='form font add-form' onSubmit={onSubmit}>
+        <div className="rootConnection vh-100  ">
+            <div className='fondIUConnection'>
+                <div className="divFormConnection">
+                    <form autoComplete="off" name='abc'  id="formm"  className='formConnection font add-form' onSubmit={onSubmit}>
                         <h2 className="h3 text-center">CONNEXION UTILISATEUR</h2>
 
                         <div className='form-group'>
-                            <input className='form-control saisieConnection saisie-user-connection px-3 m-0' type='text' placeholder='Email'
+                            <input className='form-control saisieConnection saisie-user px-3 m-0' type='text' placeholder='Email'
                                    value={email}
                                    onChange={(e) => setEmail(e.target.value)}/>
                             <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>

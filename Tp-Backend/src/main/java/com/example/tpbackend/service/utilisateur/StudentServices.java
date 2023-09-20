@@ -37,18 +37,25 @@ public class StudentServices {
         return studentRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
-    public CvDTO saveCv(CvDTO cvDTO) throws IOException {
+    public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
-        return cvDTO;
+    }
+
+    public void updateCv(CvDTO cvDTO) throws IOException{
+        cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
     }
 
     public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
         Student student = studentRepository.findStudentByUtilisateur();
-        StudentGetDTO studentGetDTO = new StudentGetDTO(
+        return new StudentGetDTO(
                 student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
                 student.getPhoneNumber(),student.getMatricule(),student.getProgram()
         );
-        return studentGetDTO;
     }
 
+    public StudentGetDTO getStudentByMatricule(String matricule) {
+        Student student = studentRepository.findByMaticule(matricule);
+        System.out.println(student);
+        return Student.fromStudent(student);
+    }
 }

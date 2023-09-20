@@ -1,10 +1,11 @@
 package com.example.tpbackend.models.utilisateur.etudiant;
 
-
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Entity
 @Data
@@ -32,5 +33,11 @@ public class Student  {
 
         public void setUtilisateur(Utilisateur utilisateur){
                 this.utilisateur = utilisateur;
+        }
+
+        public static StudentGetDTO fromStudent(Student student) {
+                StudentGetDTO studentGetDTO = new StudentGetDTO();
+                BeanUtils.copyProperties(student,studentGetDTO);
+                return studentGetDTO;
         }
 }

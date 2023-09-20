@@ -1,5 +1,6 @@
-import {Outlet,Route,Navigate} from "react-router-dom";
-import GestionnaireHomePage from "../components/landingPage/GestionnaireHomePage";
+
+import GestionnaireHomePage from "../components/landingPage/GestionnaireHomePage/GestionnaireHomePage";
+import {Navigate} from "react-router-dom";
 
 
 const GestionnairePrivateRoutes = ({children,...rest}) => {

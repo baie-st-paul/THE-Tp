@@ -8,14 +8,15 @@ const OffreCard = ({ offre }) => {
         <Card style={{ width: '70rem', marginBottom: '20px' }}>
             <Card.Body>
                 <Card.Title>
-                    <Link to={`/offre/${offre.id}`}>{offre.titre}</Link>
+                    <Link to={`/offresGestionnaire/${offre.id}`}>{offre.titre}</Link>
                 </Card.Title>
                 <Card.Text>
                     Titre: {offre.titre} <br/>
                     Salaire: {offre.salaire} <br/>
-                    Salaire: {offre.salaire} <br/>
+                    Programme: {offre.studentProgram} <br/>
                     Date de début: {offre.dateDebut}<br/>
                     Date de fin: {offre.dateFin}<br/>
+                    Status: {offre.status} <br/>
                     description: {offre.description} <br/><br/>
                 </Card.Text>
                 <Button variant="primary">

@@ -4,26 +4,28 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.OffreStageService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/stages/offres")
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class OffreStageController {
     private final OffreStageService offreStageService;
 
-    OffreStageController(OffreStageService offreStageService) {
-        this.offreStageService = offreStageService;
-    }
-
     @PostMapping
-    public ResponseEntity<OffreStage> createOffre(@RequestBody OffreStage offre) {
-        OffreStage newOffre = offreStageService.createOffre(offre);
-        return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
+    public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
+        try {
+            OffreStageDTO newOffre = offreStageService.createOffre(offre);
+            return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/")
@@ -33,8 +35,8 @@ public class OffreStageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OffreStage> getOffreById(@PathVariable("id") Long id) {
-        OffreStage offre = offreStageService.getOffreById(id);
+    public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") Long id) {
+        OffreStageDTO offre = offreStageService.getOffreById(id);
         return new ResponseEntity<>(offre, HttpStatus.OK);
     }
 

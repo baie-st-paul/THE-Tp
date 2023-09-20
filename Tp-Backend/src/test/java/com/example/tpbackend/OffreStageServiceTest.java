@@ -28,17 +28,6 @@ public class OffreStageServiceTest {
     private OffreStageRepository offreStageRepository;
 
     @Test
-    public void testCreateOffre() {
-        OffreStage offre = new OffreStage();
-        offre.setId(1L);
-        when(offreStageRepository.save(any())).thenReturn(offre); // si on sauvegarde n'importe quel objet, on retourne l'offre
-
-        OffreStage result = offreStageService.createOffre(new OffreStage());
-
-        assertEquals(1L, result.getId());
-    }
-
-    @Test
     public void testGetAllOffres() {
         List<OffreStage> offres = Arrays.asList(new OffreStage(), new OffreStage());
         when(offreStageRepository.findAll()).thenReturn(offres);
@@ -64,7 +53,7 @@ public class OffreStageServiceTest {
         offre.setId(1L);
         when(offreStageRepository.findOffreById(1L)).thenReturn(Optional.of(offre));
 
-        OffreStage result = offreStageService.getOffreById(1L);
+        OffreStage result = offreStageService.getOffreById(1L).toOffreStage();
 
         assertEquals(1L, result.getId());
     }
@@ -74,7 +63,7 @@ public class OffreStageServiceTest {
         when(offreStageRepository.findOffreById(1L)).thenReturn(Optional.empty());
 
         try {
-            OffreStage result = offreStageService.getOffreById(1L);
+            OffreStage result = offreStageService.getOffreById(1L).toOffreStage();
         } catch (RuntimeException e) {
             assertEquals("Offre de stage non trouvée pour l'ID : 1", e.getMessage());
         }

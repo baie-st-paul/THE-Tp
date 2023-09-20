@@ -1,6 +1,5 @@
 package com.example.tpbackend.repository;
 
-import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.models.Cv;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

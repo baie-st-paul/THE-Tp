@@ -1,12 +1,9 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.GetDTO.EmployerGetDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.utilisateur.Employer;
-import com.example.tpbackend.models.utilisateur.Student;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -15,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployerService {
-
     @Autowired
     private EmployerRepository employerRepository;
-
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
@@ -42,9 +37,8 @@ public class EmployerService {
 
     public EmployerGetDTO getEmployeurByUser(UtilisateurDTO utilisateurDTO){
         Employer employer = employerRepository.findStudentByUtilisateur();
-        EmployerGetDTO employerGetDTO = new EmployerGetDTO(
-                employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
+        return new EmployerGetDTO(
+                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
                 employer.getPhoneNumber(),utilisateurDTO.getEmail());
-        return employerGetDTO;
     }
 }

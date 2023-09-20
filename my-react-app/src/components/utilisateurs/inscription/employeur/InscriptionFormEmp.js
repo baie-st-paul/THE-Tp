@@ -25,7 +25,8 @@ const InscriptionFormEmp = ({onAdd}) => {
     const confirmPasswordRef = useRef(null);
     const showPasswRef = useRef(null);
     const showPassConfwRef = useRef(null);
-
+    const validName = firstName.match(/^[a-z ,.'-]+$/i);
+    const validLastName = lastName.match(/^[a-z ,.'-]+$/i);
     const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
     const validPassword = password.match('^(?=.*[A-Z])(?=.*[@#$%^&+=!])(.{6,20})$');
 
@@ -59,7 +60,14 @@ const InscriptionFormEmp = ({onAdd}) => {
         } else {
             lastNameRef.current.innerHTML = ''
         }
-
+        if (firstName.trim() !== '' && !validName){
+            firstNameRef.current.innerHTML  = '* Prenom invalide *';
+            annuler = true;
+        }
+        if (lastName.trim() !== '' && !validLastName){
+            lastNameRef.current.innerHTML = '* Nom invalide *';
+            annuler = true;
+        }
         if(companyName.trim() === '') {
             companyNameRef.current.innerHTML = '* Veuillez entrer votre nom de compagnie *';
         } else {

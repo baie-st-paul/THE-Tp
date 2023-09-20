@@ -13,6 +13,7 @@ import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployeurPrivateRoutes";
+import OffresPage from "./components/landingPage/offresStages/OffrePage";
 
 //<Route path="/connexionMain" element={<ConnexionPage/>} /> fait des erreur de redirection pour le retour dans les forms
 
@@ -24,6 +25,7 @@ function App() {
                     <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                     <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
                     <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
+                    <Route path="/offres" element={<OffresPage/>} />
                     <Route path="*" element={<PageNotFound/>}/>
                     <Route path="/" element={<UtilisateursMain/>}/>
                     <Route path="/etudiantInscription" element={<InscriptionPageE/>} />

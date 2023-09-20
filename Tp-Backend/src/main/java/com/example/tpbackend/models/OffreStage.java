@@ -27,6 +27,8 @@ public class OffreStage {
 
     private LocalDate dateDebut;
     private LocalDate dateFin;
+    
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne

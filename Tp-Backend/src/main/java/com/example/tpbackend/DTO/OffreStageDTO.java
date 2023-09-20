@@ -1,11 +1,9 @@
 package com.example.tpbackend.DTO;
 
-
 import com.example.tpbackend.models.OffreStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 

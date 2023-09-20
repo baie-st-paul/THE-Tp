@@ -4,6 +4,7 @@ import com.example.tpbackend.models.OffreStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 
@@ -29,5 +30,11 @@ public class OffreStageDTO {
                 dateFin,
                 status
         );
+    }
+
+    public static OffreStageDTO fromOffreStage(OffreStage offreStage) {
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        BeanUtils.copyProperties(offreStage, offreStageDTO);
+        return offreStageDTO;
     }
 }

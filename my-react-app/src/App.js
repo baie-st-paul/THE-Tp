@@ -13,6 +13,7 @@ import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployeurPrivateRoutes";
+import AjoutOffreForm from './components/landingPage/ajoutOffreForm';
 
 //<Route path="/connexionMain" element={<ConnexionPage/>} /> fait des erreur de redirection pour le retour dans les forms
 
@@ -21,6 +22,7 @@ function App() {
     return (
             <div>
                 <Routes>
+                    <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                     <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                     <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
                     <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>

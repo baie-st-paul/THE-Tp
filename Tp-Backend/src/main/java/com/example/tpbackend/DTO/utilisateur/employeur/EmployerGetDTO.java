@@ -1,22 +1,20 @@
-package com.example.tpbackend.DTO.utilisateur.employeur.GetDTO;
+package com.example.tpbackend.DTO.utilisateur.employeur;
 
-import com.example.tpbackend.models.utilisateur.Employer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
 public class EmployerGetDTO {
-
+    private long id;
     private String firstName;
     private String lastName;
     private String companyName;
     private String phoneNumber;
     private String email;
 
-
-    public EmployerGetDTO(String firstName, String lastName, String companyName, String phoneNumber, String email) {
+    public EmployerGetDTO(long id, String firstName, String lastName, String companyName, String phoneNumber, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;

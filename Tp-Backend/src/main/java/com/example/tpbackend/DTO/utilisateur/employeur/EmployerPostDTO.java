@@ -1,9 +1,6 @@
-package com.example.tpbackend.DTO.utilisateur.employeur.PostDTO;
+package com.example.tpbackend.DTO.utilisateur.employeur;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.utilisateur.Employer;
-import com.example.tpbackend.models.utilisateur.Student;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +29,12 @@ public class EmployerPostDTO {
         EmployerPostDTO employerPostDTO = new EmployerPostDTO();
         BeanUtils.copyProperties(employer, employerPostDTO);
         return employerPostDTO;
+    }
+
+    public Employer fromEmployerDTO(EmployerPostDTO employerPostDTO){
+        Employer employer = new Employer();
+        BeanUtils.copyProperties(employerPostDTO, employer);
+        return employer;
     }
 
     public  Employer toEmployer(EmployerPostDTO employerPostDTO) {

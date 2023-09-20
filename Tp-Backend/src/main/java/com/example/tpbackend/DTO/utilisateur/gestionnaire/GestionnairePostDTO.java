@@ -1,6 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.gestionnaire;
 
-import com.example.tpbackend.models.utilisateur.Gestionnaire;
+import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;

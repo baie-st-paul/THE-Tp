@@ -1,9 +1,6 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.utilisateur.employeur.GetDTO.EmployerGetDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.PostDTO.EmployerPostDTO;
-import com.example.tpbackend.models.utilisateur.Employer;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -16,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {EmployerService.class})

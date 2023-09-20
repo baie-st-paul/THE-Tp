@@ -1,7 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
-import com.example.tpbackend.models.utilisateur.Student;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;

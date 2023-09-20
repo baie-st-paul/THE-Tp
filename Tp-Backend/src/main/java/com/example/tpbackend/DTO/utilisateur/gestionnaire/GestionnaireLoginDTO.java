@@ -1,6 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.gestionnaire;
 
-import com.example.tpbackend.models.utilisateur.GestionnaireLogin;
+import com.example.tpbackend.models.utilisateur.gestionnaire.GestionnaireLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

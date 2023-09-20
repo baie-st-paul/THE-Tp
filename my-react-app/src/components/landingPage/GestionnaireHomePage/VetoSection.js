@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./VetoSection.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons"; // Import the clock icon
+import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 
 const VetoSection = () => {
     const [cvList, setCvList] = useState([]);
-    const [filterOption, setFilterOption] = useState("all"); // Default filter option
-    const [shouldRefetch, setShouldRefetch] = useState(false); // State variable to trigger a refetch
+    const [filterOption, setFilterOption] = useState("all");
+    const [shouldRefetch, setShouldRefetch] = useState(false);
 
     useEffect(() => {
         const fetchCvList = async () => {
@@ -24,7 +24,7 @@ const VetoSection = () => {
         };
 
         fetchCvList();
-    }, [shouldRefetch]); // Include shouldRefetch in the dependency array
+    }, [shouldRefetch]);
 
     const handleFilterChange = (event) => {
         setFilterOption(event.target.value);
@@ -37,7 +37,6 @@ const VetoSection = () => {
             });
 
             if (response.ok) {
-                // Trigger a refetch of the data when the response is successful
                 setShouldRefetch(!shouldRefetch);
             } else {
                 console.error("Failed to accept CV");
@@ -47,7 +46,6 @@ const VetoSection = () => {
         }
     };
 
-    // Filter and group the data based on the selected option
     const filteredCvList =
         filterOption === "all"
             ? cvList

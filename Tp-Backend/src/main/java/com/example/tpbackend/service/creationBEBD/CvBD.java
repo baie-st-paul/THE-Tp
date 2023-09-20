@@ -31,19 +31,19 @@ public class CvBD implements CommandLineRunner {
         CvDTO cvDTO1 = new CvDTO();
         cvDTO1.setMatricule("1234567");
         cvDTO1.setFileName("example1.pdf");
-        cvDTO1.setStatus("In_review"); // or any other status
+        cvDTO1.setStatus("In_review");
         cvDTO1.setFile_cv(file1);
 
         CvDTO cvDTO2 = new CvDTO();
         cvDTO2.setMatricule("7654321");
         cvDTO2.setFileName("example2.pdf");
-        cvDTO2.setStatus("In_review"); // or any other status
+        cvDTO2.setStatus("In_review");
         cvDTO2.setFile_cv(file2);
 
         CvDTO cvDTO3 = new CvDTO();
         cvDTO3.setMatricule("1111111");
         cvDTO3.setFileName("example3.pdf");
-        cvDTO3.setStatus("In_review"); // or any other status
+        cvDTO3.setStatus("In_review");
         cvDTO3.setFile_cv(file3);
         // Save CvDTO objects with custom MultipartFile
         studentServices.saveCv(cvDTO1);

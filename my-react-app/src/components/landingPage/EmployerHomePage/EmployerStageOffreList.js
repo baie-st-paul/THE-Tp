@@ -8,8 +8,8 @@ const EmployerStageOffreList = ({employerId}) => {
 
     useEffect(() => {
         fetch(
-        'http://localhost:8081/api/v1/stages/offres/employer/' + employerId,
-        {
+            'http://localhost:8081/api/v1/stages/offres/employer/' + employerId,
+            {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',

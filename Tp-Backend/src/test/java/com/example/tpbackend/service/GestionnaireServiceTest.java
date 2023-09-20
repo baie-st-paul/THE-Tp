@@ -1,7 +1,7 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.models.utilisateur.Gestionnaire;
+import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;

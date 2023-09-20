@@ -2,9 +2,10 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.utilisateur.Student;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.service.utilisateur.StudentServices;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -13,13 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
+@AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/student")
+@CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
-
-    @Autowired
-    StudentServices studentServices;
+    private StudentServices studentServices;
 
     @PostMapping("/signup")
     ResponseEntity<?> signup(@RequestBody StudentPostDTO studentPostDTO) {
@@ -67,6 +67,4 @@ public class StudentController {
     public ResponseEntity<StudentGetDTO> getStudentByMatricule(@PathVariable("matricule") String matricule) {
         return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
-
 }
-

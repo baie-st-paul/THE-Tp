@@ -1,6 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
-import com.example.tpbackend.models.utilisateur.StudentLogin;
+import com.example.tpbackend.models.utilisateur.etudiant.StudentLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

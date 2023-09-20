@@ -18,6 +18,7 @@ public class TpBackendApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(TpBackendApplication.class, args);
     }
+
     @Override
     public void run(String... args) throws IOException {
         System.out.println("hello");
@@ -52,5 +53,4 @@ public class TpBackendApplication implements CommandLineRunner {
                             );
         });
     }
-
 }

@@ -36,20 +36,21 @@ const ConnexionPage = () => {
             } else {
                 setErreur(false);
             }
-
             const data = await res.json();
-            setLoggedInUser(data.data.studentGetDTO);
             localStorage.setItem('token', JSON.stringify(data.data.token));
             localStorage.setItem('user_type', JSON.stringify(data.user_type))
             if (data.user_type) {
                 switch (data.user_type) {
                     case 'Student':
+                        setLoggedInUser(data.data.studentGetDTO);
                         setRedirectTo("/StudentHomePage");
                         break;
                     case 'Gestionnaire':
+                        setLoggedInUser(data.data.gestionnaireGetDTO);
                         setRedirectTo("/GestionnaireHomePage");
                         break;
                     case 'Employeur':
+                        setLoggedInUser(data.data.employeurGetDTO);
                         setRedirectTo("/EmployeurHomePage");
                         break;
                     default:

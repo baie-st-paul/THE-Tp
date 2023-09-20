@@ -102,4 +102,8 @@ public class GestionnaireService {
         }
         return cvDTOS;
     }
+
+    public void updateCvStatus(String matricule,String status) {
+        cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
+    }
 }

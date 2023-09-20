@@ -6,6 +6,7 @@ import { useUser } from "../../../Providers/UserProvider";
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
+    const [activeContent, setActiveContent] = useState("none");
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -19,6 +20,17 @@ const StudentHomePage = () => {
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
     }, [loggedInUser, setLoggedInUser]);
+
+    let contentToRender = null;
+
+    switch (activeContent) {
+        case "file-uploader":
+            contentToRender = <FileUploader matricule={matricule} />;
+            break;
+        default:
+            contentToRender = <div>Select an action.</div>;
+            break;
+    }
 
     return (
         <div>
@@ -35,13 +47,19 @@ const StudentHomePage = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ml-auto"></ul>
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <button className="nav-link" onClick={() => setActiveContent("file-uploader")}>
+                                Upload File
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
             <div className="container mt-4">
                 <h2>Student</h2>
-                <FileUploader matricule={matricule}></FileUploader>
+                {contentToRender}
             </div>
         </div>
     );

@@ -5,10 +5,7 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class GestionnaireController {
     @GetMapping("/cvs")
     public ResponseEntity<List<CvDTO>> getAllCvs() {
         return ResponseEntity.ok(gestionnaireService.getAllCvs());
+    }
+
+    @PostMapping("/cvs/accept/{matricule}/{status}")
+    public ResponseEntity<Void> acceptCv(@PathVariable String matricule,@PathVariable String status) {
+        gestionnaireService.updateCvStatus(matricule,status);
+        return ResponseEntity.ok().build();
     }
 }

@@ -17,4 +17,9 @@ public interface CvRepository extends JpaRepository<Cv, String> {
     @Transactional
     @Query("UPDATE Cv  SET file_cv = ?3, fileName = ?2, status = ?4 WHERE matricule = ?1")
     void updateCvWhenStudentHaveCv(String matricule, String fileName, byte[] cv, Cv.StatusCV status);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Cv  SET status = ?2 WHERE matricule = ?1")
+    void updateCvStatusByMatricule(String matricule,Cv.StatusCV statusCV);
 }

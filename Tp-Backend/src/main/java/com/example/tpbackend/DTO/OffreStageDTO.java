@@ -32,4 +32,10 @@ public class OffreStageDTO {
                 status
         );
     }
+
+    public static OffreStageDTO fromOffreStage(OffreStage offreStage) {
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        BeanUtils.copyProperties(offreStage, offreStageDTO);
+        return offreStageDTO;
+    }
 }

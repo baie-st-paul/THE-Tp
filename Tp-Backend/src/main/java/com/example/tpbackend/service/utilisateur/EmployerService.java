@@ -1,5 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
@@ -9,6 +10,8 @@ import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmployerService {
@@ -23,6 +26,10 @@ public class EmployerService {
 
     public boolean existByEmail(String email) {
         return utilisateurRepository.existsByEmail(email);
+    }
+
+    public List<OffreStageDTO> getOffreStageByEmployer(Long id){
+        return employerRepository.getOffreStageById(id);
     }
 
 

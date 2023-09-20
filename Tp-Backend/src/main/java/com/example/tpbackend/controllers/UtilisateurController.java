@@ -33,6 +33,12 @@ public class UtilisateurController {
     private GestionnaireService gestionnaireService;
     private UserService userService;
 
+    @GetMapping(value = "employer/offreStage/{id}")
+    public ResponseEntity<?> getOffreStageByEmployer(@PathVariable("id") Long id){
+        return ResponseEntity.ok(employerService.getOffreStageByEmployer(id));
+    }
+
+
     @PostMapping(value = "/newStudent")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
         if (studentServices.existsByMatriculeOrEmail(dto.getMatricule(), dto.getEmail())) {

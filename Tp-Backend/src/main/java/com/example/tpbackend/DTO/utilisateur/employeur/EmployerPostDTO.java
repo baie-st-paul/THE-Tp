@@ -28,6 +28,8 @@ public class EmployerPostDTO {
     public static EmployerPostDTO fromEmployeur(Employer employer) {
         EmployerPostDTO employerPostDTO = new EmployerPostDTO();
         BeanUtils.copyProperties(employer, employerPostDTO);
+        employerPostDTO.email = employer.getUtilisateur().getEmail();
+        employerPostDTO.password = employer.getUtilisateur().getPassword();
         return employerPostDTO;
     }
 

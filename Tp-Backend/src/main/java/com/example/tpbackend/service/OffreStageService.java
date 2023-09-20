@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageService {
+
+    @Autowired
     private OffreStageRepository offreStageRepository;
 
     public OffreStageDTO createOffre(OffreStageDTO offre) {

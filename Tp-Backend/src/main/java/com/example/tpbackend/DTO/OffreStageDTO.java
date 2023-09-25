@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OffreStageDTO {
     private long id;
+    private Long employerId;
     private String titre;
     private double salaire;
     private String studentProgram;

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Data
@@ -51,6 +50,7 @@ public class OffreStage {
     public OffreStageDTO toOffreStageDTO() {
         return new OffreStageDTO(
                 id,
+                employer.getId(),
                 titre,
                 salaire,
                 studentProgram,

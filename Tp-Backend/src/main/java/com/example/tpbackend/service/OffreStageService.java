@@ -1,11 +1,15 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,8 +25,13 @@ public class OffreStageService {
     @Autowired
     private OffreStageRepository offreStageRepository;
 
+
+    private EmployerService employerService;
+
     public OffreStageDTO createOffre(OffreStageDTO offre) {
-        return offreStageRepository.save(offre.toOffreStage()).toOffreStageDTO();
+        OffreStage offreStage = offre.toOffreStage();
+        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
+        return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
     public List<OffreStage> getAllOffres() {//utilisé que dans test

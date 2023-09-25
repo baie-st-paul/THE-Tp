@@ -8,7 +8,6 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ public class OffreStageService {
 
     @Autowired
     private OffreStageRepository offreStageRepository;
-
     @Autowired
     private EmployerService employerService;
 

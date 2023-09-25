@@ -14,7 +14,7 @@ import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
 import AjoutOffreForm from './components/landingPage/EmployerHomePage/ajoutOffreForm';
-import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
+import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
 

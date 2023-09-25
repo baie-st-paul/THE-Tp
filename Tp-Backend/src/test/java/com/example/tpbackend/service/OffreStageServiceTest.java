@@ -702,6 +702,35 @@ class OffreStageServiceTest {
         when(offreStageDTO.getEmployerId()).thenReturn(1L);
         when(offreStageDTO.toOffreStage()).thenReturn(offreStage);
         offreStageService.updateOffreStage(1L, offreStageDTO);
+        when(offreStageRepository.save(Mockito.<OffreStage>any())).thenReturn(offreStage);
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(1L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Employer employer2 = new Employer();
+        employer2.setCompanyName("Company Name");
+        employer2.setFirstName("Jane");
+        employer2.setId(1L);
+        employer2.setLastName("Doe");
+        employer2.setOffresStages(new ArrayList<>());
+        employer2.setPhoneNumber("6625550144");
+        employer2.setUtilisateur(utilisateur2);
+
+        OffreStage offreStage2 = new OffreStage();
+        offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage2.setDescription("The characteristics of someone or something");
+        offreStage2.setEmployer(employer2);
+        offreStage2.setId(1L);
+        offreStage2.setSalaire(10.0d);
+        offreStage2.setStatus(OffreStage.Status.Accepted);
+        offreStage2.setStudentProgram("Student Program");
+        offreStage2.setTitre("Titre");
+        OffreStageDTO offreStageDTO2 = mock(OffreStageDTO.class);
+        when(offreStageDTO2.toOffreStage()).thenReturn(offreStage2);
     }
 
     /**

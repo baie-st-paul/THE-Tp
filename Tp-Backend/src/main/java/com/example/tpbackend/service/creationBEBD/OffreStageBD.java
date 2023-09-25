@@ -27,6 +27,14 @@ public class OffreStageBD implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Random random = new Random();
+    /*
+        employerService.saveEmployer(new EmployerPostDTO(
+                "firstName",
+                "lastName",
+                "companyName",
+                "phoneNumber",
+                "email",
+                "password"), "email","password" , "Employeur");
 
         /*employerService.saveEmployer(new EmployerPostDTO(
                 "firstName",
@@ -38,7 +46,10 @@ public class OffreStageBD implements CommandLineRunner {
 
         IntStream.range(0, 20).forEach(i -> {
             OffreStageDTO offreStageDTO = new OffreStageDTO(
+<<<<<<< HEAD
                     i,
+=======
+>>>>>>> 752ea3d (EQ2-69-Changer la creation de offre pour avoir l'id de l'emplolyer et aussi afficher une liste de offre de stage)
                     0L,
                     "Titre" + RandomStringUtils.randomAlphabetic(5),
                     500.0 + random.nextDouble() * 2000,
@@ -55,6 +66,7 @@ public class OffreStageBD implements CommandLineRunner {
         List<OffreStage> allOffres = offreStageService.getAllOffres();
         allOffres.forEach(offre -> {
             System.out.println(offre.toString());
+<<<<<<< HEAD
         });*/
     }
 }

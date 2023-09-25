@@ -32,6 +32,12 @@ public class EmployerService {
         return employerRepository.getOffreStageById(id);
     }
 
+    public EmployerGetDTO getEmployerById(Long id){
+        Employer employer = employerRepository.findEmployerById(id);
+        return new EmployerGetDTO(
+                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
+                employer.getPhoneNumber(),employer.getUtilisateur().getEmail());
+    }
 
     public EmployerPostDTO saveEmployer(EmployerPostDTO employerPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);

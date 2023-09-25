@@ -33,7 +33,7 @@ public class EmployerPostDTO {
         return employerPostDTO;
     }
 
-    public Employer fromEmployerDTO(EmployerPostDTO employerPostDTO){
+    public static Employer fromEmployerDTO(EmployerPostDTO employerPostDTO){
         Employer employer = new Employer();
         BeanUtils.copyProperties(employerPostDTO, employer);
         return employer;

@@ -1,5 +1,5 @@
 import {Outlet,Route,Navigate} from "react-router-dom";
-import EmployeurHomePage from "../components/landingPage/EmployeurHomePage";
+import EmployeurHomePage from "../components/landingPage/EmployerHomePage/EmployeurHomePage";
 
 
 const EmployeurPrivateRoutes = ({children,...rest}) => {

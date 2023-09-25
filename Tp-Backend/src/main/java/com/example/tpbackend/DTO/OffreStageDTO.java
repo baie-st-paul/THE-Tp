@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageDTO {
+
+    private Long employerId;
     private String titre;
     private double salaire;
     private String studentProgram;

@@ -16,4 +16,6 @@ public interface EmployerRepository extends JpaRepository<Employer, Integer> {
     Employer findStudentByUtilisateur();
 
     List<OffreStageDTO> getOffreStageById(Long id);
+
+    Employer findEmployerById(Long id);
 }

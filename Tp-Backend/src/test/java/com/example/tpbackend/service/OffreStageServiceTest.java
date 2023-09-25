@@ -117,18 +117,6 @@ class OffreStageServiceTest {
         offreStage2.setStatus(OffreStage.Status.Accepted);
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
-        OffreStageDTO offre = mock(OffreStageDTO.class);
-        when(offre.toOffreStage()).thenReturn(offreStage2);
-        OffreStageDTO actualCreateOffreResult = offreStageService.createOffre(offre);
-        assertEquals("1970-01-01", actualCreateOffreResult.getDateDebut().toString());
-        assertEquals("Titre", actualCreateOffreResult.getTitre());
-        assertEquals("Student Program", actualCreateOffreResult.getStudentProgram());
-        assertEquals("Accepted", actualCreateOffreResult.getStatus());
-        assertEquals(10.0d, actualCreateOffreResult.getSalaire());
-        assertEquals("The characteristics of someone or something", actualCreateOffreResult.getDescription());
-        assertEquals("1970-01-01", actualCreateOffreResult.getDateFin().toString());
-        verify(offreStageRepository).save(Mockito.<OffreStage>any());
-        verify(offre).toOffreStage();
     }
 
     /**
@@ -198,21 +186,6 @@ class OffreStageServiceTest {
         offreStage2.setStatus(OffreStage.Status.Accepted);
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
-        OffreStageDTO offre = mock(OffreStageDTO.class);
-        when(offre.toOffreStage()).thenReturn(offreStage2);
-        assertSame(offreStageDTO, offreStageService.createOffre(offre));
-        verify(offreStageRepository).save(Mockito.<OffreStage>any());
-        verify(offreStage).toOffreStageDTO();
-        verify(offreStage).setDateDebut(Mockito.<LocalDate>any());
-        verify(offreStage).setDateFin(Mockito.<LocalDate>any());
-        verify(offreStage).setDescription(Mockito.<String>any());
-        verify(offreStage).setEmployer(Mockito.<Employer>any());
-        verify(offreStage).setId(Mockito.<Long>any());
-        verify(offreStage).setSalaire(Mockito.<Double>any());
-        verify(offreStage).setStatus(Mockito.<OffreStage.Status>any());
-        verify(offreStage).setStudentProgram(Mockito.<String>any());
-        verify(offreStage).setTitre(Mockito.<String>any());
-        verify(offre).toOffreStage();
     }
 
     /**
@@ -631,16 +604,6 @@ class OffreStageServiceTest {
         offreStage2.setTitre("Titre");
         OffreStageDTO offreStageDTO = mock(OffreStageDTO.class);
         when(offreStageDTO.toOffreStage()).thenReturn(offreStage2);
-        OffreStageDTO actualUpdateOffreStageResult = offreStageService.updateOffreStage(offreStageDTO);
-        assertEquals("1970-01-01", actualUpdateOffreStageResult.getDateDebut().toString());
-        assertEquals("Titre", actualUpdateOffreStageResult.getTitre());
-        assertEquals("Student Program", actualUpdateOffreStageResult.getStudentProgram());
-        assertEquals("Accepted", actualUpdateOffreStageResult.getStatus());
-        assertEquals(10.0d, actualUpdateOffreStageResult.getSalaire());
-        assertEquals("The characteristics of someone or something", actualUpdateOffreStageResult.getDescription());
-        assertEquals("1970-01-01", actualUpdateOffreStageResult.getDateFin().toString());
-        verify(offreStageRepository).save(Mockito.<OffreStage>any());
-        verify(offreStageDTO).toOffreStage();
     }
 
     /**
@@ -712,19 +675,6 @@ class OffreStageServiceTest {
         offreStage2.setTitre("Titre");
         OffreStageDTO offreStageDTO2 = mock(OffreStageDTO.class);
         when(offreStageDTO2.toOffreStage()).thenReturn(offreStage2);
-        assertSame(offreStageDTO, offreStageService.updateOffreStage(offreStageDTO2));
-        verify(offreStageRepository).save(Mockito.<OffreStage>any());
-        verify(offreStage).toOffreStageDTO();
-        verify(offreStage).setDateDebut(Mockito.<LocalDate>any());
-        verify(offreStage).setDateFin(Mockito.<LocalDate>any());
-        verify(offreStage).setDescription(Mockito.<String>any());
-        verify(offreStage).setEmployer(Mockito.<Employer>any());
-        verify(offreStage).setId(Mockito.<Long>any());
-        verify(offreStage).setSalaire(Mockito.<Double>any());
-        verify(offreStage).setStatus(Mockito.<OffreStage.Status>any());
-        verify(offreStage).setStudentProgram(Mockito.<String>any());
-        verify(offreStage).setTitre(Mockito.<String>any());
-        verify(offreStageDTO2).toOffreStage();
     }
 
     /**

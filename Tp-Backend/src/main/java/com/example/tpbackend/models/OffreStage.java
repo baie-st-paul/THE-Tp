@@ -49,6 +49,7 @@ public class OffreStage {
 
     public OffreStageDTO toOffreStageDTO() {
         return new OffreStageDTO(
+                employer.getId(),
                 titre,
                 salaire,
                 studentProgram,

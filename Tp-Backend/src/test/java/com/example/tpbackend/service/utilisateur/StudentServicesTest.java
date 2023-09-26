@@ -415,7 +415,7 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur()).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
         StudentGetDTO actualStudentByUser = studentServices
                 .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
         assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
@@ -424,7 +424,7 @@ class StudentServicesTest {
         assertEquals("Matricule", actualStudentByUser.getMatricule());
         assertEquals("Doe", actualStudentByUser.getLastName());
         assertEquals("Jane", actualStudentByUser.getFirstName());
-        verify(studentRepository).findStudentByUtilisateur();
+        verify(studentRepository).findStudentByUtilisateur(utilisateur.getEmail());
     }
 
     /**
@@ -455,7 +455,7 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur()).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
         StudentGetDTO actualStudentByUser = studentServices
                 .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
         assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
@@ -464,7 +464,7 @@ class StudentServicesTest {
         assertEquals("Matricule", actualStudentByUser.getMatricule());
         assertEquals("Doe", actualStudentByUser.getLastName());
         assertEquals("Jane", actualStudentByUser.getFirstName());
-        verify(studentRepository).findStudentByUtilisateur();
+        verify(studentRepository).findStudentByUtilisateur(utilisateur.getEmail());
         verify(student).getFirstName();
         verify(student).getLastName();
         verify(student).getMatricule();
@@ -515,7 +515,7 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur()).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
         studentServices.getStudentByUser(null);
     }
 

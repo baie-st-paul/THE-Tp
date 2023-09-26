@@ -66,7 +66,7 @@ public class StudentServices {
     }
 
     public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
-        Student student = studentRepository.findStudentByUtilisateur();
+        Student student = studentRepository.findStudentByUtilisateur(utilisateurDTO.getEmail());
         return new StudentGetDTO(
                 student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
                 student.getPhoneNumber(),student.getMatricule(),student.getProgram()

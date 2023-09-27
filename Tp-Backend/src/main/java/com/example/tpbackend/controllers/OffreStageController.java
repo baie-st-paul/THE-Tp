@@ -29,9 +29,8 @@ public class OffreStageController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<OffreStageDTO>> getAllOffres() {
-        List<OffreStageDTO> offres = offreStageService.getOffres();
-        return new ResponseEntity<>(offres, HttpStatus.OK);
+    public List<OffreStageDTO> getAllOffres() {
+        return offreStageService.getOffres();
     }
 
     @GetMapping("/{id}")

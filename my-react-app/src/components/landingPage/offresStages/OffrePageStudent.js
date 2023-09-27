@@ -10,7 +10,7 @@ const OffresPageStudent = () => {
     useEffect(() => {
         const fetchOffreList = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/v1/gestionnaire/offres');
+                const response = await fetch('http://localhost:8081/api/v1/stages/offres/');
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);

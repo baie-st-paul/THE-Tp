@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import VetoSection from "./VetoSection";
 import OffrePage from "../offresStages/OffrePage";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -25,29 +27,21 @@ const GestionnaireHomePage = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>Veto Section</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>Offre Page</button>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <Navbar bg="dark" className="navbar-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>Veto Section</button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>Offre Page</button>
+                            </li>
+                        </ul>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
 
             <div id="Render" className="container mt-4">
                 <h2>Gestionnaire</h2>

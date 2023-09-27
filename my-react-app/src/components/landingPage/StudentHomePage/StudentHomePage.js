@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
+import {Nav, Navbar} from "react-bootstrap";
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
@@ -34,28 +35,20 @@ const StudentHomePage = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <button className="nav-link" onClick={() => setActiveContent("file-uploader")}>
-                                Upload File
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            <Navbar bg="dark" className="navbar-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => setActiveContent("file-uploader")}>
+                                    Upload File
+                                </button>
+                            </li>
+                        </ul>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
 
             <div className="container mt-4">
                 <h2>Student</h2>

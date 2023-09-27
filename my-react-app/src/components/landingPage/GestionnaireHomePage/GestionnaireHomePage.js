@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import VetoSection from "./VetoSection";
-import OffrePage from "../offresStages/OffrePage";
-import {Nav, Navbar, NavItem} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Nav, Navbar} from "react-bootstrap";
+import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -17,8 +16,8 @@ const GestionnaireHomePage = () => {
         case "veto-section":
             contentToRender = <VetoSection/>;
             break;
-        case "offre-page":
-            contentToRender = <OffrePage/>;
+        case "offre-page-ges":
+            contentToRender = <OffresPageGestionnaire/>;
             break;
         default:
             contentToRender = <div>Please select a section.</div>;
@@ -36,7 +35,7 @@ const GestionnaireHomePage = () => {
                                 <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>Veto Section</button>
                             </li>
                             <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>Offre Page</button>
+                                <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>Offre Page</button>
                             </li>
                         </ul>
                     </Nav>

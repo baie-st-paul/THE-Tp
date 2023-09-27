@@ -108,7 +108,7 @@ const OffresPage = () => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                 {filteredOffreList.map((offre, index) => (
-                    <Card key={index} style={{ width: '30rem', marginBottom: '20px' }}>
+                    <Card key={index} onClick={() => setSelectedOffre(offre)} style={{ width: '30rem', marginBottom: '20px' }}>
                         <Card.Body>
                             <Card.Title>
                                 {offre.titre}
@@ -160,6 +160,7 @@ const OffresPage = () => {
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}
                 style={customStyles}
+                ariaHideApp={false}
                 contentLabel="Confirmation Modal"
             >
                 <h2>Confirmation</h2>

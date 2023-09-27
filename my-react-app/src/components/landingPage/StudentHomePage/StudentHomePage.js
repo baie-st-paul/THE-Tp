@@ -3,6 +3,7 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
+import OffresPageStudent from "../offresStages/OffrePageStudent";
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
@@ -24,9 +25,16 @@ const StudentHomePage = () => {
 
     let contentToRender = null;
 
+    const handleButtonClick = (content) => {
+        setActiveContent(content);
+    };
+
     switch (activeContent) {
         case "file-uploader":
             contentToRender = <FileUploader matricule={matricule} />;
+            break;
+        case "offre-page-student":
+            contentToRender = <OffresPageStudent/>;
             break;
         default:
             contentToRender = <div>Select an action.</div>;
@@ -46,9 +54,7 @@ const StudentHomePage = () => {
                                 </button>
                             </li>
                             <li className="nav-item">
-                                <button className="nav-link">
-                                    Offre stage
-                                </button>
+                                <button className="nav-link" onClick={() => handleButtonClick("offre-page-student")}>Offre Page</button>
                             </li>
                         </ul>
                     </Nav>

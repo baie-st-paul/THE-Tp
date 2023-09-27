@@ -16,7 +16,7 @@ const customStyles = {
     },
 };
 
-const OffresPage = () => {
+const OffresPageGestionnaire = () => {
     const [offres, setOffres] = useState([]);
     const [filterOption, setFilterOption] = useState("all");
     const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -187,4 +187,4 @@ const OffresPage = () => {
     );
 };
 
-export default OffresPage;
+export default OffresPageGestionnaire;

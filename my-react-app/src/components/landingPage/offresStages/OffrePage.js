@@ -1,43 +1,187 @@
 import React, { useState, useEffect } from 'react';
-import OffreCard from './OffreCard';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
+import Card from "react-bootstrap/Card";
+import {ListGroup} from "react-bootstrap";
+import ReactModal from 'react-modal';
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+    },
+};
 
 const OffresPage = () => {
     const [offres, setOffres] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [filterOption, setFilterOption] = useState("all");
+    const [shouldRefetch, setShouldRefetch] = useState(false);
+    const [selectedOffre, setSelectedOffre] = useState(null);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [confirmationType, setConfirmationType] = useState("");
 
     useEffect(() => {
-        fetch('http://localhost:8081/api/v1/gestionnaire/offres')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur réseau lors de la récupération des offres.');
+        const fetchOffreList = async () => {
+            try {
+                const response = await fetch('http://localhost:8081/api/v1/gestionnaire/offres');
+                if (response.ok) {
+                    const data = await response.json();
+                    setOffres(data);
+                } else {
+                    console.error("Failed to fetch data");
                 }
-                return response.json();
-            })
-            .then(data => {
-                setOffres(data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                setError(error.message);
-                console.error('Erreur lors de la récupération des offres:', error);
-                setIsLoading(false);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchOffreList();
+    }, [shouldRefetch]);
+
+    const handleFilterChange = (event) => {
+        setFilterOption(event.target.value);
+    };
+
+    const openConfirmationModal = (type) => {
+        setConfirmationType(type);
+        setIsConfirmationModalOpen(true);
+    };
+
+    const closeConfirmationModal = () => {
+        setIsConfirmationModalOpen(false);
+    };
+
+    const handleAcceptConfirmation = () => {
+        updateStatus(selectedOffre.titre, "Accepted");
+        setIsConfirmationModalOpen(false);
+    };
+
+    const handleRefuseConfirmation = () => {
+        updateStatus(selectedOffre.titre, "Refused");
+        setIsConfirmationModalOpen(false);
+    };
+
+    const updateStatus = async (titre, status) => {
+        try {
+            const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/offres/accept/${titre}/${status}`, {
+                method: 'POST',
             });
-    }, []);
 
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
+            if (response.ok) {
+                setShouldRefetch(!shouldRefetch);
+            } else {
+                console.error("Failed to accept/refuse offre");
+            }
+        } catch (error) {
+            console.error("Error accepting/refusing offre:", error);
+        }
+    };
 
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+    const filteredOffreList =
+        filterOption === "all"
+            ? offres
+            : offres.filter((offreDto) => offreDto.status === filterOption);
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            {offres.map((offre) => (
-                <OffreCard key={offre.id} offre={offre} />
-            ))}
+        <div>
+            <h1 className="display-4 text-center">Liste des offres de stage</h1>
+            <div className="row align-items-center">
+                <div className="col-md-6">
+                    <h3 className="mb-0">Filtrer par</h3>
+                </div>
+                <div className="col-md-4">
+                    <select
+                        className="form-control w-100 d-inline"
+                        value={filterOption}
+                        onChange={handleFilterChange}
+                    >
+                        <option value="all">All</option>
+                        <option value="In_review">Pending</option>
+                        <option value="Accepted">Accepted</option>
+                        <option value="Refused">Refused</option>
+                    </select>
+                </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                {filteredOffreList.map((offre, index) => (
+                    <Card key={index} style={{ width: '30rem', marginBottom: '20px' }}>
+                        <Card.Body>
+                            <Card.Title>
+                                {offre.titre}
+                            </Card.Title>
+                            <Card.Text>
+                                description: {offre.description}
+                            </Card.Text>
+                        </Card.Body>
+                        <ListGroup className="list-group-flush">
+                            <ListGroup.Item>Salaire: {offre.salaire}$</ListGroup.Item>
+                            <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
+                            <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
+                            <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
+                            <ListGroup.Item>
+                                Status:<br/>
+                                {offre.status === "In_review" && (
+                                    <>
+                                        <FontAwesomeIcon icon={faClock} /> Pending
+                                    </>
+                                )}
+                                {offre.status === "Accepted" && (
+                                    <>
+                                        <FontAwesomeIcon icon={faCheck} /> Accepted
+                                    </>
+                                )}
+                                {offre.status === "Refused" && (
+                                    <>
+                                        <FontAwesomeIcon icon={faTimes} /> Refused
+                                    </>
+                                )}
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {offre.status === "In_review" && (
+                                    <>
+                                        <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                            <FontAwesomeIcon icon={faCheck} /> Accepter
+                                        </button>
+                                        <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                            <FontAwesomeIcon icon={faTimes} /> Refuser
+                                        </button>
+                                    </>
+                                )}
+                            </ListGroup.Item>
+                        </ListGroup>
+                    </Card>
+                ))}
+            </div>
+            <ReactModal
+                isOpen={isConfirmationModalOpen}
+                onRequestClose={closeConfirmationModal}
+                style={customStyles}
+                contentLabel="Confirmation Modal"
+            >
+                <h2>Confirmation</h2>
+                {confirmationType === "accept" ? (
+                    <>
+                        <p>Etes-vous sûr de vouloir accepter cette offre ?</p>
+                        <button className="btn btn-success" onClick={handleAcceptConfirmation}>
+                            Oui
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <p>Etes-vous sûr de vouloir refuser cette offre ?</p>
+                        <button className="btn btn-danger" onClick={handleRefuseConfirmation}>
+                            Oui
+                        </button>
+                    </>
+                )}
+                <button className="btn btn-secondary" onClick={closeConfirmationModal}>
+                    Non
+                </button>
+            </ReactModal>
         </div>
     );
 };

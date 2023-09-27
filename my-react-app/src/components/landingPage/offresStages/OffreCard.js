@@ -19,9 +19,6 @@ const OffreCard = ({ offre }) => {
                     Status: {offre.status} <br/>
                     description: {offre.description} <br/><br/>
                 </Card.Text>
-                <Button variant="primary">
-                    <Link to={`/postuler/${offre.id}`} style={{ color: 'white' }}>Details...</Link>
-                </Button>
             </Card.Body>
         </Card>
     );

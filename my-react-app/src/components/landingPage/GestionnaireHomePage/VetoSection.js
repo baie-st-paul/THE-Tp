@@ -172,6 +172,7 @@ const VetoSection = () => {
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}
                 style={customStyles}
+                ariaHideApp={false}
                 contentLabel="Confirmation Modal"
             >
                 <h2>Confirmation</h2>

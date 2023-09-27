@@ -45,6 +45,11 @@ const StudentHomePage = () => {
                                     Upload File
                                 </button>
                             </li>
+                            <li className="nav-item">
+                                <button className="nav-link">
+                                    Offre stage
+                                </button>
+                            </li>
                         </ul>
                     </Nav>
                 </Navbar.Collapse>

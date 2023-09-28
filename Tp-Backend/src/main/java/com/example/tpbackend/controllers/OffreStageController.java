@@ -28,9 +28,17 @@ public class OffreStageController {
         }
     }
 
-    @GetMapping("/")
-    public List<OffreStageDTO> getAllOffres() {
-        return offreStageService.getOffres();
+    @GetMapping("/allOffres")
+    public ResponseEntity<?> getAllOffres() {
+        try {
+            List<OffreStage> offres = offreStageService.getAllOffres();
+            if (offres.isEmpty()) {
+                return new ResponseEntity<>("Aucune offre trouvée", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(offres, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Une erreur est survenue", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")

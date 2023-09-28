@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
 import OffreCardStudent from "./OffreCardStudent";
+import { Jumbotron, Container } from 'react-bootstrap';
+import "./OffrePageStudent.css";
+
 
 /*const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
@@ -84,12 +87,17 @@ const OffresPageStudent = () => {
 
     const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
 
+
     return (
         <div>
-            <h1 className="display-4 text-center">Liste des offres de stage</h1>
+            <div className="custom-jumbotron">
+                <Container className="text-center">
+                    <h1 className="display-4">Liste des offres de stage</h1>
+                </Container>
+            </div>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                 {filteredOffreList.map((offre, index) => (
-                    <OffreCardStudent key={index} offre={offre} />  // Modifié ici
+                    <OffreCardStudent key={index} offre={offre} />  
                 ))}
             </div>
         </div>

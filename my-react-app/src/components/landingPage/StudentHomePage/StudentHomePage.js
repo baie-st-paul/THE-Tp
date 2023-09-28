@@ -49,11 +49,11 @@ const StudentHomePage = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
-                <button className="nav-item nav-button" onClick={() => setActiveContent('file-uploader')}>
-                  <FontAwesomeIcon icon={faFileUpload} /> Téléverser un CV
+                <button className="nav-item nav-button " style={{ marginRight: '20px' }} onClick={() => setActiveContent('file-uploader')}>
+                  <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
                 </button>
-                <button className="nav-item nav-button" onClick={() => handleButtonClick('offre-page-student')}>
-                  <FontAwesomeIcon icon={faBriefcase} /> Offres
+                <button className="nav-item nav-button mr-3" onClick={() => handleButtonClick('offre-page-student')}>
+                  <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
                 </button>
               </Nav>
             </Navbar.Collapse>

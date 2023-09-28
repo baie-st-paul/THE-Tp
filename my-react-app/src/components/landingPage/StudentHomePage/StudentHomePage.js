@@ -4,6 +4,8 @@ import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/OffrePageStudent";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileUpload, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
@@ -42,31 +44,26 @@ const StudentHomePage = () => {
     }
 
     return (
-        <div>
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => setActiveContent("file-uploader")}>
-                                    Upload File
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("offre-page-student")}>Offre Page</button>
-                            </li>
-                        </ul>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-
-            <div className="container mt-4">
-                <h2>Student</h2>
-                {contentToRender}
-            </div>
+        <div className="student-homepage">
+          <Navbar bg="primary" variant="dark" expand="lg" className="navbar-custom">
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ml-auto">
+                <button className="nav-item nav-button" onClick={() => setActiveContent('file-uploader')}>
+                  <FontAwesomeIcon icon={faFileUpload} /> Téléverser un CV
+                </button>
+                <button className="nav-item nav-button" onClick={() => handleButtonClick('offre-page-student')}>
+                  <FontAwesomeIcon icon={faBriefcase} /> Offres
+                </button>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+          <div className="container content-container mt-4">
+            <h2>Bienvenue, Étudiant</h2>
+            {contentToRender}
+          </div>
         </div>
-    );
+      );
 };
 
 export default StudentHomePage;

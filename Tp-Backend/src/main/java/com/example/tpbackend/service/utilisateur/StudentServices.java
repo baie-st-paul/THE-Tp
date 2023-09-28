@@ -1,12 +1,15 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
+import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class StudentServices {
@@ -24,6 +28,7 @@ public class StudentServices {
     private UtilisateurRepository utilisateurRepository;
     @Autowired
     private CvRepository cvRepository;
+    private OffreStageRepository offreStageRepository;
 
     public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
@@ -59,4 +64,6 @@ public class StudentServices {
         System.out.println(student);
         return Student.fromStudent(student);
     }
+
+
 }

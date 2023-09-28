@@ -92,7 +92,7 @@ const OffresPageStudent = () => {
         <div>
             <div className="custom-jumbotron">
                 <Container className="text-center">
-                    <h1 className="display-4">Liste des offres de stage</h1>
+                    <h1 className="display-3">Liste des offres de stage</h1>
                 </Container>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>

@@ -6,7 +6,7 @@ const OffreCardStudent = ({ offre }) => {
     const textToShow = readMore ? offre.description : `${offre.description.substring(0, 100)}...`;
 
     return (
-        <Card style={{ width: '18rem', margin: '20px auto' }}>
+        <Card style={{ width: '40rem', margin: '20px auto' }}>
             <Card.Body>
                 <Card.Title>{offre.titre}</Card.Title>
                 <Card.Text>

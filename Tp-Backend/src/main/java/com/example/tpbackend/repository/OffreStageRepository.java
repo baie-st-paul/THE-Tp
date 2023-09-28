@@ -19,4 +19,5 @@ public interface OffreStageRepository extends JpaRepository<OffreStage, Integer>
     @Transactional
     @Query("UPDATE OffreStage SET status = ?2 WHERE titre = ?1")
     void updateOffreStatusByTitre(String titre, OffreStage.Status statusOffre);
+
 }

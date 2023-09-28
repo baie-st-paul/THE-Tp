@@ -66,4 +66,7 @@ public class StudentController {
     public ResponseEntity<StudentGetDTO> getStudentByMatricule(@PathVariable("matricule") String matricule) {
         return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
+
+
 }
+

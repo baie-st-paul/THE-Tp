@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
+import OffreCardStudent from "./OffreCardStudent";
 
-const OffresPageStudent = () => {
+/*const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
     const [filterOption, setFilterOption] = useState("In_review");
     const [shouldRefetch] = useState(false);
@@ -10,7 +11,7 @@ const OffresPageStudent = () => {
     useEffect(() => {
         const fetchOffreList = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/v1/stages/offres/');
+                const response = await fetch('http://localhost:8081/api/v1/stages/offres/allOffres');
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);
@@ -48,6 +49,47 @@ const OffresPageStudent = () => {
                             <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
                         </ListGroup>
                     </Card>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default OffresPageStudent;
+ */
+
+
+const OffresPageStudent = () => {
+    const [offres, setOffres] = useState([]);
+    const [filterOption, setFilterOption] = useState("In_review");
+    const [shouldRefetch] = useState(false);
+
+    useEffect(() => {
+        const fetchOffreList = async () => {
+            try {
+                const response = await fetch('http://localhost:8081/api/v1/stages/offres/allOffres');
+                if (response.ok) {
+                    const data = await response.json();
+                    setOffres(data);
+                } else {
+                    console.error("Failed to fetch data");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchOffreList();
+    }, [shouldRefetch]);
+
+    const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
+
+    return (
+        <div>
+            <h1 className="display-4 text-center">Liste des offres de stage</h1>
+            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                {filteredOffreList.map((offre, index) => (
+                    <OffreCardStudent key={index} offre={offre} />  // Modifié ici
                 ))}
             </div>
         </div>

@@ -8,23 +8,23 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.UserRepository;
+import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 @Service
 public class StudentServices {
-
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
     private CvRepository cvRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OffreStageRepository offreStageRepository;
 
     public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
@@ -76,6 +76,6 @@ public class StudentServices {
     public StudentGetDTO getStudentByMatricule(String matricule) {
         Student student = studentRepository.findByMaticule(matricule);
         System.out.println(student);
-        return student.fromStudent(student);
+        return Student.fromStudent(student);
     }
 }

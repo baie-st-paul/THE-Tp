@@ -37,4 +37,10 @@ public class OffreStageDTO {
         BeanUtils.copyProperties(offreStage, offreStageDTO);
         return offreStageDTO;
     }
+
+    public static OffreStage fromOffreStageDTO(OffreStageDTO offreStageDTO) {
+        OffreStage offreStage = new OffreStage();
+        BeanUtils.copyProperties(offreStageDTO, offreStage);
+        return offreStage;
+    }
 }

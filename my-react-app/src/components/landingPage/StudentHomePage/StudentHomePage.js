@@ -59,7 +59,7 @@ const StudentHomePage = () => {
             </Navbar.Collapse>
           </Navbar>
           <div className="container content-container mt-4">
-            <h2>Bienvenue, Étudiant</h2>
+            <h2>Bienvenue, découvrez vos opportunités</h2>
             {contentToRender}
           </div>
         </div>

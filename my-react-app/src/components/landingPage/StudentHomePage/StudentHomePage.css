@@ -6,6 +6,11 @@
     border: none; /* Remove border */
 }
 
+/*couleur background de la page*/
+body {
+    background-color: #f7f7f7;
+}
+
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;
@@ -45,3 +50,24 @@ h2 {
 .btn-enregistrer:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
+.light-bg {
+    background-color: #87bfcb; 
+    padding: 15px;  
+    border-radius: 5px;  
+  }
+
+  .sidebar {
+  height: 150vh;
+  overflow-y: auto;
+  border: #0e141b;
+  width: 50%;
+}
+
+.light-bg {
+  background-color: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+  

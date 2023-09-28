@@ -34,18 +34,18 @@ const StudentHomePage = () => {
     };
 
     const articles = [
-      "Les avantages des stages",
-      "Comment réussir votre entretien",
-      "Les meilleures entreprises pour les stages à Montréal",
-      "Développer vos compétences en programmation",
-      "Comprendre les bases de l'IA",
-      "La cybersécurité : Ce que chaque étudiant devrait savoir",
-      "Travailler dans un environnement Agile",
-      "Comment préparer un portfolio de développeur",
-      "Éviter le burnout pendant un stage",
-      "Networking : Pourquoi et comment"
-  ];
-  
+    "Les avantages des stages",
+    "Comment réussir votre entretien",
+    "Les meilleures entreprises pour les stages à Montréal",
+    "Développer vos compétences en programmation",
+    "Comprendre les bases de l'IA",
+    "La cybersécurité : Ce que chaque étudiant devrait savoir",
+    "Travailler dans un environnement Agile",
+    "Comment préparer un portfolio de développeur",
+    "Éviter le burnout pendant un stage",
+    "Networking : Pourquoi et comment"
+];
+
 
     switch (activeContent) {
         case "file-uploader":

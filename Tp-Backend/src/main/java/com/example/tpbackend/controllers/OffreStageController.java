@@ -2,7 +2,6 @@ package com.example.tpbackend.controllers;
 
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.OffreStageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/stages/offres")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class OffreStageController {
     private final OffreStageService offreStageService;
 
@@ -31,7 +30,7 @@ public class OffreStageController {
     @GetMapping("/allOffres")
     public ResponseEntity<?> getAllOffres() {
         try {
-            List<OffreStage> offres = offreStageService.getAllOffres();
+            List<OffreStageDTO> offres = offreStageService.getOffres();
             if (offres.isEmpty()) {
                 return new ResponseEntity<>("Aucune offre trouvée", HttpStatus.NOT_FOUND);
             }

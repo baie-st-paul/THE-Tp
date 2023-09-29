@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 import Card from "react-bootstrap/Card";
-import {ListGroup} from "react-bootstrap";
+import {Container, ListGroup} from "react-bootstrap";
 import ReactModal from 'react-modal';
+import Grid from "@mui/material/Grid";
+import OffreDescription from "./OffreDescription";
+import Box from "@mui/material/Box";
 
 const customStyles = {
     content: {
@@ -88,7 +91,11 @@ const OffresPageGestionnaire = () => {
 
     return (
         <div>
-            <h1 className="display-4 text-center">Liste des offres de stage</h1>
+            <div className="custom-jumbotron">
+                <Container>
+                    <h1 className="display-4 text-center" style={{ color: 'darkgrey' }}>Liste des offres de stage</h1>
+                </Container>
+            </div>
             <div className="row align-items-center">
                 <div className="col-md-6">
                     <h3 className="mb-0">Filtrer par</h3>
@@ -106,56 +113,62 @@ const OffresPageGestionnaire = () => {
                     </select>
                 </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                {filteredOffreList.map((offre, index) => (
-                    <Card key={index} onClick={() => setSelectedOffre(offre)} style={{ width: '30rem', marginBottom: '20px' }}>
-                        <Card.Body>
-                            <Card.Title>
-                                {offre.titre}
-                            </Card.Title>
-                            <Card.Text>
-                                description: {offre.description}
-                            </Card.Text>
-                        </Card.Body>
-                        <ListGroup className="list-group-flush">
-                            <ListGroup.Item>Salaire: {offre.salaire}$</ListGroup.Item>
-                            <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
-                            <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
-                            <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
-                            <ListGroup.Item>
-                                Status:<br/>
-                                {offre.status === "In_review" && (
-                                    <>
-                                        <FontAwesomeIcon icon={faClock} /> Pending
-                                    </>
-                                )}
-                                {offre.status === "Accepted" && (
-                                    <>
-                                        <FontAwesomeIcon icon={faCheck} /> Accepted
-                                    </>
-                                )}
-                                {offre.status === "Refused" && (
-                                    <>
-                                        <FontAwesomeIcon icon={faTimes} /> Refused
-                                    </>
-                                )}
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                {offre.status === "In_review" && (
-                                    <>
-                                        <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
-                                            <FontAwesomeIcon icon={faCheck} /> Accepter
-                                        </button>
-                                        <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
-                                            <FontAwesomeIcon icon={faTimes} /> Refuser
-                                        </button>
-                                    </>
-                                )}
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Card>
-                ))}
-            </div>
+
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container>
+                    {filteredOffreList.map((offre, index) => (
+                        <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                            <Grid item xs={12} sm={12} md={4} lg={4}>
+                                <Card onClick={() => setSelectedOffre(offre)} style={{ width: '30rem', margin: '5px' }}>
+                                    <Card.Body>
+                                        <Card.Title>
+                                            {offre.titre}
+                                        </Card.Title>
+                                        <OffreDescription offre={offre}/>
+                                    </Card.Body>
+                                    <ListGroup className="list-group-flush">
+                                        <ListGroup.Item>Salaire: {offre.salaire}$</ListGroup.Item>
+                                        <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
+                                        <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
+                                        <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
+                                        <ListGroup.Item>
+                                            Status:<br/>
+                                            {offre.status === "In_review" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faClock} /> Pending
+                                                </>
+                                            )}
+                                            {offre.status === "Accepted" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faCheck} /> Accepted
+                                                </>
+                                            )}
+                                            {offre.status === "Refused" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faTimes} /> Refused
+                                                </>
+                                            )}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item>
+                                            {offre.status === "In_review" && (
+                                                <>
+                                                    <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                                        <FontAwesomeIcon icon={faCheck} /> Accepter
+                                                    </button>
+                                                    <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                                        <FontAwesomeIcon icon={faTimes} /> Refuser
+                                                    </button>
+                                                </>
+                                            )}
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card>
+                            </Grid>
+                        </div>
+                    ))}
+                </Grid>
+            </Box>
+
             <ReactModal
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}

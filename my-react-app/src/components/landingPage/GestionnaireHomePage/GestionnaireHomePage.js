@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import VetoSection from "./VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
+import {faBriefcase, faFileUpload} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -32,10 +34,14 @@ const GestionnaireHomePage = () => {
                     <Nav className="mr-auto">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>Veto Section</button>
+                                <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV Veto
+                                </button>
                             </li>
                             <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>Offre Page</button>
+                                <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
+                                </button>
                             </li>
                         </ul>
                     </Nav>

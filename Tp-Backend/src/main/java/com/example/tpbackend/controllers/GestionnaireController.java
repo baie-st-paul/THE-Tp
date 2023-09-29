@@ -2,7 +2,6 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

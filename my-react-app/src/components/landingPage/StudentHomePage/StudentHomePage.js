@@ -3,7 +3,7 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/OffrePageStudent";
+import OffresPageStudent from "../offresStages/student/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileUpload, faBriefcase } from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VetoSection from "./VetoSection";
+import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
 import {faBriefcase, faFileUpload} from "@fortawesome/free-solid-svg-icons";

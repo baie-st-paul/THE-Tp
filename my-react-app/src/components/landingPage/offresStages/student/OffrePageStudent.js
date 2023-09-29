@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
 import { Container } from 'react-bootstrap';
-import "./OffrePage.css";
+import "../OffrePage.css";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import OffreDescription from "./OffreDescription";
+import OffreDescription from "../OffreDescription";
+import CandidatureModal from "./CandidatureModal";
 
 const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
@@ -57,6 +58,9 @@ const OffresPageStudent = () => {
                                         <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
                                         <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
                                         <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
+                                        <ListGroup.Item>
+                                            <CandidatureModal/>
+                                        </ListGroup.Item>
                                     </ListGroup>
                                 </Card>
                             </Grid>

@@ -29,7 +29,7 @@ public class OffreStageBD implements CommandLineRunner {
                     "Titre" + RandomStringUtils.randomAlphabetic(5),
                     500.0 + random.nextDouble() * 2000,
                     "Informatique",
-                    "Description de l'offre de stage " + RandomStringUtils.randomAlphabetic(300),
+                    "Description de l'offre de stage " + RandomStringUtils.randomAlphabetic(400),
                     LocalDate.now().plusDays(random.nextInt(365)),
                     LocalDate.now().plusDays(30 + random.nextInt(365)),
                     "In_review"

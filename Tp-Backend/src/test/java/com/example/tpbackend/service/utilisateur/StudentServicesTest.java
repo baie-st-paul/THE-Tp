@@ -789,7 +789,126 @@ class StudentServicesTest {
         student2.setProgram("Program");
         student2.setUtilisateur(utilisateur4);
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
-        studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L,
+        studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L, "Test name",
+                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8"))));
+        verify(candidatureRepository).save(Mockito.<Candidature>any());
+        verify(cvRepository).findCvByMatricule(Mockito.<String>any());
+        verify(offreStageRepository).findOffreById(Mockito.<Long>any());
+        verify(studentRepository).findByMaticule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#postulerOffre(CandidaturePostDTO)}
+     */
+    @Test
+    void testPostulerOffre3() throws IOException {
+        Cv cvStudent = new Cv();
+        cvStudent.setFileName("foo.txt");
+        cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cvStudent.setId(1L);
+        cvStudent.setMatricule("Matricule");
+        cvStudent.setStatus(Cv.StatusCV.Accepted);
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(1L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Student student = new Student();
+        student.setFirstName("Jane");
+        student.setLastName("Doe");
+        student.setMatricule("Matricule");
+        student.setPhoneNumber("6625550144");
+        student.setProgram("Program");
+        student.setUtilisateur(utilisateur2);
+
+        Candidature candidature = new Candidature();
+        candidature.setCvStudent(cvStudent);
+        candidature.setFileName("foo.txt");
+        candidature.setId(1L);
+        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setOffreStage(offreStage);
+        candidature.setStudent(student);
+        when(candidatureRepository.save(Mockito.<Candidature>any())).thenReturn(candidature);
+
+        Cv cv = new Cv();
+        cv.setFileName("foo.txt");
+        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setId(1L);
+        cv.setMatricule("Matricule");
+        cv.setStatus(Cv.StatusCV.Accepted);
+        when(cvRepository.findCvByMatricule(Mockito.<String>any())).thenReturn(cv);
+
+        Utilisateur utilisateur3 = new Utilisateur();
+        utilisateur3.setEmail("jane.doe@example.org");
+        utilisateur3.setId(1L);
+        utilisateur3.setPassword("iloveyou");
+        utilisateur3.setRole(Utilisateur.Role.Student);
+
+        Employer employer2 = new Employer();
+        employer2.setCompanyName("Company Name");
+        employer2.setFirstName("Jane");
+        employer2.setId(1L);
+        employer2.setLastName("Doe");
+        employer2.setOffresStages(new ArrayList<>());
+        employer2.setPhoneNumber("6625550144");
+        employer2.setUtilisateur(utilisateur3);
+
+        OffreStage offreStage2 = new OffreStage();
+        offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage2.setDescription("The characteristics of someone or something");
+        offreStage2.setEmployer(employer2);
+        offreStage2.setId(1L);
+        offreStage2.setSalaire(10.0d);
+        offreStage2.setStatus(OffreStage.Status.Accepted);
+        offreStage2.setStudentProgram("Student Program");
+        offreStage2.setTitre("Titre");
+        Optional<OffreStage> ofResult = Optional.of(offreStage2);
+        when(offreStageRepository.findOffreById(Mockito.<Long>any())).thenReturn(ofResult);
+
+        Utilisateur utilisateur4 = new Utilisateur();
+        utilisateur4.setEmail("jane.doe@example.org");
+        utilisateur4.setId(1L);
+        utilisateur4.setPassword("iloveyou");
+        utilisateur4.setRole(Utilisateur.Role.Student);
+
+        Student student2 = new Student();
+        student2.setFirstName("Jane");
+        student2.setLastName("Doe");
+        student2.setMatricule("Matricule");
+        student2.setPhoneNumber("6625550144");
+        student2.setProgram("Program");
+        student2.setUtilisateur(utilisateur4);
+        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
+        studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L, "foo.txt",
                 new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8"))));
         verify(candidatureRepository).save(Mockito.<Candidature>any());
         verify(cvRepository).findCvByMatricule(Mockito.<String>any());

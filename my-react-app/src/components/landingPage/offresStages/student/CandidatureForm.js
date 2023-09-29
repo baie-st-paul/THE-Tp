@@ -35,7 +35,7 @@ const CandidatureForm = ({matricule}) => {
             };
 
             fetch(
-                `http://localhost:8081/api/v1/student/postuler?matricule=${matricule}&fileName=${fileName}`,
+                `http://localhost:8081/api/v1/student/postuler?matricule=${matricule}&idOffre=${1}&lettre_motivation=${lettreMotiv}`,
                 requestOptions
             )
                 .then((response) => {

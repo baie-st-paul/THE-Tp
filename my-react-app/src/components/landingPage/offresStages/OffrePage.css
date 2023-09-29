@@ -1,0 +1,8 @@
+.custom-jumbotron {
+    margin-bottom: 0.1rem;
+    background-image: url('../../../images/img-stage.jpeg');
+    background-position: center; 
+    border-radius: 0.3rem;
+    background-color: #f8f9fa;  
+    padding: 2rem 1rem;
+}

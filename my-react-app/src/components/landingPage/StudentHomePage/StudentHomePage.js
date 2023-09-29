@@ -90,18 +90,24 @@ const StudentHomePage = () => {
 
     return (
         <div className="student-homepage">
-          <Navbar bg="primary" variant="dark" expand="lg" className="navbar-custom">
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                <button className="nav-item " style={{ marginRight: '20px' }} onClick={() => setActiveContent('file-uploader')}>
-                  <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
-                </button>
-                <button className="nav-item nav-button mr-3" onClick={() => handleButtonClick('offre-page-student')}>
-                  <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
-                </button>
-              </Nav>
-            </Navbar.Collapse>
+            <Navbar bg="dark" className="navbar-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
+                                </button>
+                            </li>
+                        </ul>
+                    </Nav>
+                </Navbar.Collapse>
           </Navbar>
           <div className="container content-container mt-4">
             <h2>Bienvenue, découvrez vos opportunités</h2>

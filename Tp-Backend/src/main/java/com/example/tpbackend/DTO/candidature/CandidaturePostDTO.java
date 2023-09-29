@@ -12,5 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CandidaturePostDTO {
     private String matricule;
     private Long idOffre;
+    private String fileName;
+    @JsonIgnore
     private MultipartFile lettre_motivation;
 }

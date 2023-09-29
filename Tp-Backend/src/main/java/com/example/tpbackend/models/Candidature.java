@@ -17,6 +17,8 @@ public class Candidature {
     @Column(name = "lettre_motivation")
     private byte[] lettre_motivation;
 
+    private String fileName;
+
     @ManyToOne
     @JoinColumn(name = "student_candidat",nullable = false)
     private Student student;
@@ -29,10 +31,11 @@ public class Candidature {
     @JoinColumn(name = "cv_student",nullable = false)
     private Cv cvStudent;
 
-    public Candidature(byte[] lettre_motivation, Student student, OffreStage offreStage, Cv cvStudent) {
+    public Candidature(byte[] lettre_motivation, Student student, OffreStage offreStage, Cv cvStudent,String fileName) {
         this.lettre_motivation = lettre_motivation;
         this.student = student;
         this.offreStage = offreStage;
         this.cvStudent = cvStudent;
+        this.fileName = fileName;
     }
 }

@@ -92,6 +92,6 @@ public class StudentServices {
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
 
-        candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),student,offreStage.get(),cv));
+        candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),student,offreStage.get(),cv,candidaturePostDTO.getFileName()));
     }
 }

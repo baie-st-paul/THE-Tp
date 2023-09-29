@@ -30,9 +30,9 @@ public class CvDTO {
         );
     }
 
-    public byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {
+    public static byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {
         if (multipartFile.isEmpty()) {
-            return null; // or handle the empty file case as needed
+            return null;
         }
         return multipartFile.getBytes();
     }

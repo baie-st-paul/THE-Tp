@@ -2,12 +2,14 @@ package com.example.tpbackend.repository;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.OffreStage;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CvRepository extends JpaRepository<Cv, String> {
     List<Cv> getAllByFileName(String fileName);
@@ -23,4 +25,6 @@ public interface CvRepository extends JpaRepository<Cv, String> {
     @Transactional
     @Query("UPDATE Cv  SET status = ?2 WHERE matricule = ?1")
     void updateCvStatusByMatricule(String matricule,Cv.StatusCV statusCV);
+
+    Cv findCvByMatricule(String matricule);
 }

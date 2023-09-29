@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 @Entity
 @Data
 @NoArgsConstructor
+
 public class Student  {
 
         private String firstName;

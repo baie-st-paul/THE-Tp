@@ -1,8 +1,10 @@
 package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +41,15 @@ public class StudentController {
         return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
 
-
+    @PostMapping(value = "/postuler", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> postuler(@ModelAttribute CandidaturePostDTO candidaturePostDTO){
+        try {
+            studentServices.postulerOffre(candidaturePostDTO);
+            return ResponseEntity.accepted().body(candidaturePostDTO);
+        } catch (DataAccessException | IOException ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
 }
 

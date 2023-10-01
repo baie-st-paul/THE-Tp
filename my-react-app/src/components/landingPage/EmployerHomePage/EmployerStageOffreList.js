@@ -8,10 +8,14 @@ const EmployerStageOffreList = ({employerId}) => {
     
 
     useEffect(() => {
-        fetch('http://localhost:8081/api/v1/utilisateur/employer/offreStage/' + employerId )
+        fetch('http://localhost:8081/api/v1/utilisateur/employer/offres/employer/' + employerId )
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Erreur réseau lors de la récupération des offres.');
+                    if (response.status === 404) {
+                        throw new Error('Aucune offre trouvée.');
+                    } else {
+                        throw new Error('Erreur réseau.');
+                    }
                 }
                 return response.json();
             })

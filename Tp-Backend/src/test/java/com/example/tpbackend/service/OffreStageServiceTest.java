@@ -1,6 +1,7 @@
 package com.example.tpbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -524,7 +525,7 @@ class OffreStageServiceTest {
     }
 
     /**
-     * Method under test: {@link OffreStageService#updateOffreStage(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#updateOffreStage(Long, OffreStageDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -535,21 +536,52 @@ class OffreStageServiceTest {
         //   test threw
         //   java.lang.NullPointerException: Name is null
         //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.OffreStage$Status.valueOf(OffreStage.java:62)
+        //       at com.example.tpbackend.models.OffreStage$Status.valueOf(OffreStage.java:63)
         //       at com.example.tpbackend.models.OffreStage.<init>(OffreStage.java:47)
-        //       at com.example.tpbackend.DTO.OffreStageDTO.toOffreStage(OffreStageDTO.java:26)
-        //       at com.example.tpbackend.service.OffreStageService.createOffre(OffreStageService.java:25)
-        //       at com.example.tpbackend.service.OffreStageService.updateOffreStage(OffreStageService.java:55)
+        //       at com.example.tpbackend.DTO.OffreStageDTO.toOffreStage(OffreStageDTO.java:28)
+        //       at com.example.tpbackend.service.OffreStageService.updateOffreStage(OffreStageService.java:64)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        offreStageService.updateOffreStage(new OffreStageDTO());
+        offreStageService.updateOffreStage(1L, new OffreStageDTO());
     }
 
     /**
-     * Method under test: {@link OffreStageService#updateOffreStage(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#updateOffreStage(Long, OffreStageDTO)}
      */
     @Test
+    @Disabled("TODO: Complete this test")
     void testUpdateOffreStage2() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.IllegalArgumentException: No enum constant com.example.tpbackend.models.OffreStage.Status.Status
+        //       at java.lang.Enum.valueOf(Enum.java:273)
+        //       at com.example.tpbackend.models.OffreStage$Status.valueOf(OffreStage.java:63)
+        //       at com.example.tpbackend.models.OffreStage.<init>(OffreStage.java:47)
+        //       at com.example.tpbackend.DTO.OffreStageDTO.toOffreStage(OffreStageDTO.java:28)
+        //       at com.example.tpbackend.service.OffreStageService.updateOffreStage(OffreStageService.java:64)
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        offreStageDTO.setStatus("Status");
+        offreStageService.updateOffreStage(1L, offreStageDTO);
+    }
+
+    /**
+     * Method under test: {@link OffreStageService#updateOffreStage(Long, OffreStageDTO)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testUpdateOffreStage3() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.service.utilisateur.EmployerService.getEmployerById(java.lang.Long)" because "this.employerService" is null
+        //       at com.example.tpbackend.service.OffreStageService.updateOffreStage(OffreStageService.java:66)
+        //   See https://diff.blue/R013 to resolve this issue.
+
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
@@ -575,42 +607,64 @@ class OffreStageServiceTest {
         offreStage.setStatus(OffreStage.Status.Accepted);
         offreStage.setStudentProgram("Student Program");
         offreStage.setTitre("Titre");
-        when(offreStageRepository.save(Mockito.<OffreStage>any())).thenReturn(offreStage);
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(1L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-
-        Employer employer2 = new Employer();
-        employer2.setCompanyName("Company Name");
-        employer2.setFirstName("Jane");
-        employer2.setId(1L);
-        employer2.setLastName("Doe");
-        employer2.setOffresStages(new ArrayList<>());
-        employer2.setPhoneNumber("6625550144");
-        employer2.setUtilisateur(utilisateur2);
-
-        OffreStage offreStage2 = new OffreStage();
-        offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage2.setDescription("The characteristics of someone or something");
-        offreStage2.setEmployer(employer2);
-        offreStage2.setId(1L);
-        offreStage2.setSalaire(10.0d);
-        offreStage2.setStatus(OffreStage.Status.Accepted);
-        offreStage2.setStudentProgram("Student Program");
-        offreStage2.setTitre("Titre");
         OffreStageDTO offreStageDTO = mock(OffreStageDTO.class);
-        when(offreStageDTO.toOffreStage()).thenReturn(offreStage2);
+        when(offreStageDTO.getEmployerId()).thenReturn(1L);
+        when(offreStageDTO.toOffreStage()).thenReturn(offreStage);
+        offreStageService.updateOffreStage(1L, offreStageDTO);
     }
 
     /**
-     * Method under test: {@link OffreStageService#updateOffreStage(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#updateOffreStage(Long, OffreStageDTO)}
      */
     @Test
-    void testUpdateOffreStage3() {
+    void testUpdateOffreStage4() {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+        OffreStageDTO offreStageDTO = mock(OffreStageDTO.class);
+        when(offreStageDTO.getEmployerId()).thenThrow(new RuntimeException("foo"));
+        when(offreStageDTO.toOffreStage()).thenReturn(offreStage);
+        assertThrows(RuntimeException.class, () -> offreStageService.updateOffreStage(1L, offreStageDTO));
+        verify(offreStageDTO).toOffreStage();
+        verify(offreStageDTO).getEmployerId();
+    }
+
+    /**
+     * Method under test: {@link OffreStageService#updateOffreStage(Long, OffreStageDTO)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testUpdateOffreStage5() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.service.utilisateur.EmployerService.getEmployerById(java.lang.Long)" because "this.employerService" is null
+        //       at com.example.tpbackend.service.OffreStageService.updateOffreStage(OffreStageService.java:66)
+        //   See https://diff.blue/R013 to resolve this issue.
+
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
@@ -626,8 +680,6 @@ class OffreStageServiceTest {
         employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
         OffreStage offreStage = mock(OffreStage.class);
-        OffreStageDTO offreStageDTO = new OffreStageDTO();
-        when(offreStage.toOffreStageDTO()).thenReturn(offreStageDTO);
         doNothing().when(offreStage).setDateDebut(Mockito.<LocalDate>any());
         doNothing().when(offreStage).setDateFin(Mockito.<LocalDate>any());
         doNothing().when(offreStage).setDescription(Mockito.<String>any());
@@ -646,96 +698,42 @@ class OffreStageServiceTest {
         offreStage.setStatus(OffreStage.Status.Accepted);
         offreStage.setStudentProgram("Student Program");
         offreStage.setTitre("Titre");
-        when(offreStageRepository.save(Mockito.<OffreStage>any())).thenReturn(offreStage);
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(1L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-
-        Employer employer2 = new Employer();
-        employer2.setCompanyName("Company Name");
-        employer2.setFirstName("Jane");
-        employer2.setId(1L);
-        employer2.setLastName("Doe");
-        employer2.setOffresStages(new ArrayList<>());
-        employer2.setPhoneNumber("6625550144");
-        employer2.setUtilisateur(utilisateur2);
-
-        OffreStage offreStage2 = new OffreStage();
-        offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage2.setDescription("The characteristics of someone or something");
-        offreStage2.setEmployer(employer2);
-        offreStage2.setId(1L);
-        offreStage2.setSalaire(10.0d);
-        offreStage2.setStatus(OffreStage.Status.Accepted);
-        offreStage2.setStudentProgram("Student Program");
-        offreStage2.setTitre("Titre");
-        OffreStageDTO offreStageDTO2 = mock(OffreStageDTO.class);
-        when(offreStageDTO2.toOffreStage()).thenReturn(offreStage2);
+        OffreStageDTO offreStageDTO = mock(OffreStageDTO.class);
+        when(offreStageDTO.getEmployerId()).thenReturn(1L);
+        when(offreStageDTO.toOffreStage()).thenReturn(offreStage);
+        offreStageService.updateOffreStage(1L, offreStageDTO);
     }
 
     /**
-     * Method under test: {@link OffreStageService#deleteOffreStage(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#deleteOffreStage(Long)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testDeleteOffreStage() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.OffreStage$Status.valueOf(OffreStage.java:62)
-        //       at com.example.tpbackend.models.OffreStage.<init>(OffreStage.java:47)
-        //       at com.example.tpbackend.DTO.OffreStageDTO.toOffreStage(OffreStageDTO.java:26)
-        //       at com.example.tpbackend.service.OffreStageService.deleteOffreStage(OffreStageService.java:59)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        offreStageService.deleteOffreStage(new OffreStageDTO());
+        when(offreStageRepository.deleteOffreStageById(Mockito.<Long>any())).thenReturn(true);
+        assertTrue(offreStageService.deleteOffreStage(1L));
+        verify(offreStageRepository).deleteOffreStageById(Mockito.<Long>any());
     }
 
     /**
-     * Method under test: {@link OffreStageService#deleteOffreStage(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#deleteOffreStage(Long)}
      */
     @Test
     void testDeleteOffreStage2() {
-        doNothing().when(offreStageRepository).delete(Mockito.<OffreStage>any());
-
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Employer employer = new Employer();
-        employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
-        employer.setId(1L);
-        employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(utilisateur);
-
-        OffreStage offreStage = new OffreStage();
-        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage.setDescription("The characteristics of someone or something");
-        offreStage.setEmployer(employer);
-        offreStage.setId(1L);
-        offreStage.setSalaire(10.0d);
-        offreStage.setStatus(OffreStage.Status.Accepted);
-        offreStage.setStudentProgram("Student Program");
-        offreStage.setTitre("Titre");
-        OffreStageDTO offreStageDTO = mock(OffreStageDTO.class);
-        when(offreStageDTO.toOffreStage()).thenReturn(offreStage);
-        offreStageService.deleteOffreStage(offreStageDTO);
-        verify(offreStageRepository).delete(Mockito.<OffreStage>any());
-        verify(offreStageDTO).toOffreStage();
-        assertTrue(offreStageService.getAllOffres().isEmpty());
+        when(offreStageRepository.deleteOffreStageById(Mockito.<Long>any())).thenReturn(false);
+        assertFalse(offreStageService.deleteOffreStage(1L));
+        verify(offreStageRepository).deleteOffreStageById(Mockito.<Long>any());
     }
+
+    /**
+     * Method under test: {@link OffreStageService#deleteOffreStage(Long)}
+     */
+    @Test
+    void testDeleteOffreStage3() {
+        when(offreStageRepository.deleteOffreStageById(Mockito.<Long>any())).thenThrow(new RuntimeException("foo"));
+        assertThrows(RuntimeException.class, () -> offreStageService.deleteOffreStage(1L));
+        verify(offreStageRepository).deleteOffreStageById(Mockito.<Long>any());
+    }
+
+
 }
 

@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface OffreStageRepository extends JpaRepository<OffreStage, Integer> {
     Optional<OffreStage> findOffreById(Long id);
     List<OffreStage> findAllByTitre(String titre);
+
+    boolean deleteOffreStageById(Long id);
 }

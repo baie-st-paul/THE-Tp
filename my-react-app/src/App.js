@@ -17,7 +17,6 @@ import OffresPageGestionnaire from "./components/landingPage/offresStages/OffreP
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
 
-
 function App() {
     let loggedInUser = useUser();
     return (

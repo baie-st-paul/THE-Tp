@@ -27,14 +27,30 @@ public class OffreStageController {
         }
     }
 
-    @GetMapping("/allOffres")
-    public ResponseEntity<?> getAllOffres() {
-        try {
-            List<OffreStageDTO> offres = offreStageService.getOffres();
-            return new ResponseEntity<>(offres, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Une erreur est survenue", HttpStatus.INTERNAL_SERVER_ERROR);
+    @PutMapping("/{id}")
+    public ResponseEntity<OffreStageDTO> updateOffre(@PathVariable("id") Long id, @RequestBody OffreStageDTO offre) {
+        OffreStageDTO offreData = offreStageService.updateOffreStage(id, offre);
+        if (offreData != null) {
+            return new ResponseEntity<>(offreData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteOffre(@PathVariable("id") Long id) {
+        try {
+            offreStageService.deleteOffreStage(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<OffreStageDTO>> getAllOffres() {
+        List<OffreStageDTO> offres = offreStageService.getOffres();
+        return new ResponseEntity<>(offres, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -42,7 +58,4 @@ public class OffreStageController {
         OffreStageDTO offre = offreStageService.getOffreById(id);
         return new ResponseEntity<>(offre, HttpStatus.OK);
     }
-
-
 }
-

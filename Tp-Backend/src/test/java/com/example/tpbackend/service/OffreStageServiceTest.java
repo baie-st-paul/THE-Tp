@@ -734,6 +734,121 @@ class OffreStageServiceTest {
         verify(offreStageRepository).deleteOffreStageById(Mockito.<Long>any());
     }
 
+    /**
+     * Method under test: {@link OffreStageService#getOffresByEmployerId(Long)}
+     */
+    @Test
+    void testGetOffresByEmployerId() {
+        when(offreStageRepository.findAllByEmployer(Mockito.<Long>any())).thenReturn(new ArrayList<>());
+        assertTrue(offreStageService.getOffresByEmployerId(1L).isEmpty());
+        verify(offreStageRepository).findAllByEmployer(Mockito.<Long>any());
+    }
+
+    /**
+     * Method under test: {@link OffreStageService#getOffresByEmployerId(Long)}
+     */
+    @Test
+    void testGetOffresByEmployerId2() {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        ArrayList<OffreStage> offreStageList = new ArrayList<>();
+        offreStageList.add(offreStage);
+        when(offreStageRepository.findAllByEmployer(Mockito.<Long>any())).thenReturn(offreStageList);
+        assertEquals(1, offreStageService.getOffresByEmployerId(1L).size());
+        verify(offreStageRepository).findAllByEmployer(Mockito.<Long>any());
+    }
+
+    /**
+     * Method under test: {@link OffreStageService#getOffresByEmployerId(Long)}
+     */
+    @Test
+    void testGetOffresByEmployerId3() {
+        when(offreStageRepository.findAllByEmployer(Mockito.<Long>any())).thenThrow(new RuntimeException("foo"));
+        assertThrows(RuntimeException.class, () -> offreStageService.getOffresByEmployerId(1L));
+        verify(offreStageRepository).findAllByEmployer(Mockito.<Long>any());
+    }
+
+    /**
+     * Method under test: {@link OffreStageService#getOffresByEmployerId(Long)}
+     */
+    @Test
+    void testGetOffresByEmployerId4() {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+        OffreStage offreStage = mock(OffreStage.class);
+        when(offreStage.toOffreStageDTO()).thenReturn(new OffreStageDTO());
+        doNothing().when(offreStage).setDateDebut(Mockito.<LocalDate>any());
+        doNothing().when(offreStage).setDateFin(Mockito.<LocalDate>any());
+        doNothing().when(offreStage).setDescription(Mockito.<String>any());
+        doNothing().when(offreStage).setEmployer(Mockito.<Employer>any());
+        doNothing().when(offreStage).setId(Mockito.<Long>any());
+        doNothing().when(offreStage).setSalaire(Mockito.<Double>any());
+        doNothing().when(offreStage).setStatus(Mockito.<OffreStage.Status>any());
+        doNothing().when(offreStage).setStudentProgram(Mockito.<String>any());
+        doNothing().when(offreStage).setTitre(Mockito.<String>any());
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        ArrayList<OffreStage> offreStageList = new ArrayList<>();
+        offreStageList.add(offreStage);
+        when(offreStageRepository.findAllByEmployer(Mockito.<Long>any())).thenReturn(offreStageList);
+        assertEquals(1, offreStageService.getOffresByEmployerId(1L).size());
+        verify(offreStageRepository).findAllByEmployer(Mockito.<Long>any());
+        verify(offreStage).toOffreStageDTO();
+        verify(offreStage).setDateDebut(Mockito.<LocalDate>any());
+        verify(offreStage).setDateFin(Mockito.<LocalDate>any());
+        verify(offreStage).setDescription(Mockito.<String>any());
+        verify(offreStage).setEmployer(Mockito.<Employer>any());
+        verify(offreStage).setId(Mockito.<Long>any());
+        verify(offreStage).setSalaire(Mockito.<Double>any());
+        verify(offreStage).setStatus(Mockito.<OffreStage.Status>any());
+        verify(offreStage).setStudentProgram(Mockito.<String>any());
+        verify(offreStage).setTitre(Mockito.<String>any());
+    }
+
 
 }
 

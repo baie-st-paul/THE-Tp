@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageDTO {
-
+    private Long id;
     private Long employerId;
     private String titre;
     private double salaire;

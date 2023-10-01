@@ -53,6 +53,12 @@ public class OffreStageController {
         return new ResponseEntity<>(offres, HttpStatus.OK);
     }
 
+    @GetMapping("/employer/{id}")
+    public ResponseEntity<List<OffreStageDTO>> getOffresByEmployerId(@PathVariable("id") Long id) {
+        List<OffreStageDTO> offres = offreStageService.getOffresByEmployerId(id);
+        return new ResponseEntity<>(offres, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") Long id) {
         OffreStageDTO offre = offreStageService.getOffreById(id);

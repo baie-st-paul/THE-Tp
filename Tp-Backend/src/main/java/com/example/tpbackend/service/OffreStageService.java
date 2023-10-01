@@ -67,4 +67,15 @@ public class OffreStageService {
     public boolean deleteOffreStage(Long id){
         return offreStageRepository.deleteOffreStageById(id);
     }
+
+    public List<OffreStageDTO> getOffresByEmployerId(Long id) {
+        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
+        List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
+
+        for (OffreStage offreStage: offreStages) {
+            offreStageDTOS.add(offreStage.toOffreStageDTO());
+        }
+
+        return offreStageDTOS;
+    }
 }

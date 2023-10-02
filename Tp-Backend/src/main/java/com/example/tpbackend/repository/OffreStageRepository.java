@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OffreStageRepository extends JpaRepository<OffreStage, Integer> {
+public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     Optional<OffreStage> findOffreById(Long id);
     List<OffreStage> findAllByTitre(String titre);
 }

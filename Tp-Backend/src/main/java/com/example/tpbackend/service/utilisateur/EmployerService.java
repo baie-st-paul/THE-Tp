@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployerService {
+public class
+EmployerService {
     @Autowired
     private EmployerRepository employerRepository;
     @Autowired

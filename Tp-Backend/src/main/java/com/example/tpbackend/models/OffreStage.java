@@ -59,6 +59,10 @@ public class OffreStage {
         );
     }
 
+    public Long getEmployerId() {
+        return employer.getId();
+    }
+
     public enum Status{
         Accepted,
         In_review,

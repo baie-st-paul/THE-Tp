@@ -87,7 +87,7 @@ const CandidatureForm = ({matricule, id}) => {
                             onClick={handleUpload}
                             className="btn btn-primary mt-3"
                         >
-                            Téléverser la lettre de motivation
+                            Soumettre
                         </button>
                         <button
                             onClick={handleCancel}

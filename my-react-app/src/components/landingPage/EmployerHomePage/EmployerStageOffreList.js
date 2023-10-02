@@ -8,26 +8,29 @@ const EmployerStageOffreList = ({employerId}) => {
 
     useEffect(() => {
         fetch(
-        'http://localhost:8081/api/v1/stages/offres/employer' + employerId,
+        'http://localhost:8081/api/v1/stages/offres/employer/' + employerId,
         {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                 }
             }
         ).catch(error => {
             console.log(error)
-        }).then(response => {
-            if (!response.ok) {
-                if (response.status === 404) {
-                    throw new Error('Aucune offre trouvée.');
-                } else {
-                    throw new Error('Erreur réseau.');
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
                 }
-            }
-            setOffres(response.json());
-            setIsLoading(false);
-        })
+                setOffres(data);
+                setIsLoading(false);
+            })
     }, []);
 
     if (isLoading) {

@@ -5,25 +5,22 @@ import { Link } from 'react-router-dom';
 
 const EmployerOffreCard = ({ offre }) => {
     return (
-        <Card style={{ width: '70rem', marginBottom: '20px' }}>
+        <Card className="container-fluid" style={{ margin:"20px" }}>
             <Card.Body>
                 <Card.Title>
                     <Card.Title>{offre.titre}</Card.Title>
                 </Card.Title>
                 <Card.Text>
-                    Titre: {offre.titre} <br/>
-                    Salaire: {offre.salaire} <br/>
-                    Programme: {offre.studentProgram} <br/>
-                    Date de début: {offre.dateDebut}<br/>
+                    Salaire: {offre.salaire}$/h <br/>
+                    description: {offre.description}<br/>
+                    Date de début: {offre.dateDebut}  <></>
                     Date de fin: {offre.dateFin}<br/>
-                    Status: {offre.status} <br/>
-                    description: {offre.description} <br/><br/>
                 </Card.Text>
-                <Button variant="primary">
-                    <Link >Modifier</Link>
+                <Button className="btn btn-primary">
+                    Modifier
                 </Button>
-                <Button variant="danger">
-                    <Link >Supprimer</Link>
+                <Button className={"btn btn-danger"}>
+                    Supprimer
                 </Button>
             </Card.Body>
         </Card>

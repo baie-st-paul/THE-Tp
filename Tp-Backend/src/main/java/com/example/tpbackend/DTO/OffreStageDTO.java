@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageDTO {
+    private long id;
     private String titre;
     private double salaire;
     private String studentProgram;
@@ -22,6 +23,7 @@ public class OffreStageDTO {
 
     public OffreStage toOffreStage() {
         return new OffreStage(
+                id,
                 titre,
                 salaire,
                 studentProgram,

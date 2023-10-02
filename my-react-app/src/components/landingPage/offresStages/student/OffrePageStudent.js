@@ -59,7 +59,7 @@ const OffresPageStudent = () => {
                                         <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
                                         <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
                                         <ListGroup.Item>
-                                            <CandidatureModal/>
+                                            <CandidatureModal id={offre.id}/>
                                         </ListGroup.Item>
                                     </ListGroup>
                                 </Card>

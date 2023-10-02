@@ -21,7 +21,6 @@ const EmployerOffreCard = ({ offre }) => {
                 </Card.Text>
                 <Button variant="primary">
                     <Link >Modifier</Link>
-
                 </Button>
                 <Button variant="danger">
                     <Link >Supprimer</Link>

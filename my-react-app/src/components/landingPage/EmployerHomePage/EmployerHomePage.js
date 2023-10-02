@@ -3,10 +3,8 @@ import EmployerStageOffreList from "./EmployerStageOffreList";
 import { useState } from "react";
 import AjoutOffreForm from "./ajoutOffreForm";
 
-const EmployeurHomePage = () => {
+const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
-
-
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -20,7 +18,7 @@ const EmployeurHomePage = () => {
         offre["employerId"] = employerId
         console.log(JSON.stringify(offre))
 
-        const res = await fetch(
+        await fetch(
             'http://localhost:8081/api/v1/stages/offres/create',
             {
                 method: 'POST',
@@ -33,20 +31,21 @@ const EmployeurHomePage = () => {
             console.log(err)
         }).then(
             (res) => {
-                console.log(res)
+                const data= res.json()
+                try{
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+
+                setActiveContent("offre-page")
+                console.log(data)
             }
         )
 
-        try{
-            console.log(res.status)
-            if (res.status === 400) {
-                console.log(res.status)
-            }
-        } catch (e) {
-            console.log(e)
-        }
-        const data = await res.json()
-        console.log(data)
     }
 
 
@@ -96,4 +95,4 @@ const EmployeurHomePage = () => {
     )
 }
 
-export default EmployeurHomePage
+export default EmployerHomePage

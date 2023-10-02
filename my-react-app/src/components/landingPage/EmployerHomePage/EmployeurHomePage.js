@@ -3,21 +3,59 @@ import EmployerStageOffreList from "./EmployerStageOffreList";
 import { useState } from "react";
 import AjoutOffreForm from "./ajoutOffreForm";
 
-const EmployeurHomePage = ({employerId}) => {
+const EmployeurHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
+
+
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
 
     let contentToRender = null;
+    let employerId = localStorage.getItem('employer_id')
+    const ajoutOffre = async (offre) => {
+
+        offre["status"] = "In_review"
+        offre["employerId"] = employerId
+        console.log(JSON.stringify(offre))
+
+        const res = await fetch(
+            'http://localhost:8081/api/v1/stages/offres/create',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(offre)
+            }
+        ).catch((err) => {
+            console.log(err)
+        }).then(
+            (res) => {
+                console.log(res)
+            }
+        )
+
+        try{
+            console.log(res.status)
+            if (res.status === 400) {
+                console.log(res.status)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+        const data = await res.json()
+        console.log(data)
+    }
+
 
     switch (activeContent){
         case "offre-page":
             contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>;
             break;
         case "Ajout-offre":
-            contentToRender = <AjoutOffreForm></AjoutOffreForm>
+            contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>
             break;
         default:
             contentToRender = <div>Select an action.</div>;

@@ -49,7 +49,8 @@ public class EmployerService {
     }
 
     public EmployerGetDTO getEmployeurByUser(UtilisateurDTO utilisateurDTO){
-        Employer employer = employerRepository.findStudentByUtilisateur();
+        Employer employer = employerRepository.findEmployerByUtilisateur();
+        System.out.println(employer);
         return new EmployerGetDTO(
                 employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
                 employer.getPhoneNumber(),utilisateurDTO.getEmail());

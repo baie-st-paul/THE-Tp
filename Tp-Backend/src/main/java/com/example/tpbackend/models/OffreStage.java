@@ -35,9 +35,10 @@ public class OffreStage {
     @JoinColumn(name = "employer_id")
     private Employer employer;
 
-    public OffreStage(String titre, Double salaire, String studentProgram,
+    public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
                       LocalDate dateFin, String status) {
+        this.id = id;
         this.titre = titre;
         this.salaire = salaire;
         this.studentProgram = studentProgram;
@@ -49,6 +50,7 @@ public class OffreStage {
 
     public OffreStageDTO toOffreStageDTO() {
         return new OffreStageDTO(
+                id,
                 titre,
                 salaire,
                 studentProgram,

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {BiSolidCloudUpload} from "react-icons/bi";
 
-const CandidatureForm = ({matricule}) => {
+const CandidatureForm = ({matricule, id}) => {
     const [lettreMotiv, setLettreMotiv] = useState(null);
     const [fileName, setFileName] = useState("");
     const [error, setError] = useState(null);
@@ -35,7 +35,7 @@ const CandidatureForm = ({matricule}) => {
             };
 
             fetch(
-                `http://localhost:8081/api/v1/student/postuler?matricule=${matricule}&idOffre=${1}&fileName=${fileName}`,
+                `http://localhost:8081/api/v1/student/postuler?matricule=${matricule}&idOffre=${id}&fileName=${fileName}`,
                 requestOptions
             )
                 .then((response) => {

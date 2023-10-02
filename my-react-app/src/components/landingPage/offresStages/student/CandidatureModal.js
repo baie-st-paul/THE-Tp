@@ -6,7 +6,7 @@ import {faHandshake} from "@fortawesome/free-solid-svg-icons";
 import CandidatureForm from "./CandidatureForm";
 import {useUser} from "../../../../Providers/UserProvider";
 
-function Example() {
+const CandidatureModal = ({id}) => {
     const [show, setShow] = useState(false);
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
@@ -38,7 +38,7 @@ function Example() {
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CandidatureForm matricule={matricule}/>
+                    <CandidatureForm matricule={matricule} id={id}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -50,4 +50,4 @@ function Example() {
     );
 }
 
-export default Example;
+export default CandidatureModal;

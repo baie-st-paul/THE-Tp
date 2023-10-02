@@ -25,6 +25,7 @@ public class OffreStageBD implements CommandLineRunner {
 
         IntStream.range(0, 20).forEach(i -> {
             OffreStageDTO offreStageDTO = new OffreStageDTO(
+                    i,
                     "Titre" + RandomStringUtils.randomAlphabetic(5),
                     500.0 + random.nextDouble() * 2000,
                     "Informatique",

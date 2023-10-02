@@ -11,7 +11,7 @@ import PageNotFound from "./page_not_found/PageNotFound";
 import { useUser } from "./Providers/UserProvider";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
-import EmployeurPrivateRoutes from "./utils/EmployeurPrivateRoutes";
+import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
 import OffresPage from "./components/landingPage/offresStages/OffrePage";
 import AjoutOffreForm from './components/landingPage/EmployerHomePage/ajoutOffreForm';
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";

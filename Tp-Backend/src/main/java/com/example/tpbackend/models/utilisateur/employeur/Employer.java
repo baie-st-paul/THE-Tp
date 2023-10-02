@@ -29,7 +29,8 @@ public class Employer {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
 
-    public Employer(String firstName, String lastName, String companyName, String phoneNumber) {
+    public Employer(Long id, String firstName, String lastName, String companyName, String phoneNumber) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;

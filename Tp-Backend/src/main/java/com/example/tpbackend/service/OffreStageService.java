@@ -20,6 +20,7 @@ public class OffreStageService {
 
     @Autowired
     private OffreStageRepository offreStageRepository;
+
     @Autowired
     private EmployerService employerService;
 

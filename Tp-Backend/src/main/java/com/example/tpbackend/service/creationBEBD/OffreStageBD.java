@@ -38,9 +38,9 @@ public class OffreStageBD implements CommandLineRunner {
         });
 
         // Afficher toutes les offres en console
-        List<OffreStage> allOffres = offreStageService.getAllOffres();
+        /*List<OffreStage> allOffres = offreStageService.getAllOffres();
         allOffres.forEach(offre -> {
             System.out.println(offre.toString());
-        });
+        });*/
     }
 }

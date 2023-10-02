@@ -2,9 +2,6 @@ import React from "react";
 import EmployerStageOffreList from "./EmployerStageOffreList";
 import { useState } from "react";
 import AjoutOffreForm from "./ajoutOffreForm";
-import {Nav, Navbar} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -66,28 +63,31 @@ const EmployerHomePage = () => {
 
     return (
         <div>
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
-                                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
-                                </button>
-                            </li>
-                        </ul>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse" id="navbarNav">
+                    <ul className="navbar-nav ml-auto">
+                        <li className="nav-item">
+                            <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>Offres</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>Ajout Offre</button>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-            <div id="Render" className="container mt-4">
-                <h2>Employeur</h2>
+            <div id="Render">
                 {contentToRender}
             </div>
            

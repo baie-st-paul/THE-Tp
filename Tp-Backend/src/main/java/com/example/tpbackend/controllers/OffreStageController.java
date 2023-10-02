@@ -17,12 +17,14 @@ import java.util.List;
 public class OffreStageController {
     private final OffreStageService offreStageService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
         try {
             OffreStageDTO newOffre = offreStageService.createOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(offre);
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

@@ -31,9 +31,6 @@ public class OffreStageController {
     public ResponseEntity<?> getAllOffres() {
         try {
             List<OffreStageDTO> offres = offreStageService.getOffres();
-            if (offres.isEmpty()) {
-                return new ResponseEntity<>("Aucune offre trouvée", HttpStatus.NOT_FOUND);
-            }
             return new ResponseEntity<>(offres, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Une erreur est survenue", HttpStatus.INTERNAL_SERVER_ERROR);

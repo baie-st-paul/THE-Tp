@@ -2,8 +2,9 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import {FaTimes} from "react-icons/fa";
 
-const EmployerOffreCard = ({ offre, deleteOffre }) => {
+const EmployerOffreCard = ({ offre, onDelete, onUpdate }) => {
     return (
         <Card className="container-fluid" style={{ margin:"20px" }}>
             <Card.Body>
@@ -20,7 +21,9 @@ const EmployerOffreCard = ({ offre, deleteOffre }) => {
                     Modifier
                 </Button>
                 <Button className={"btn btn-danger"}>
-                    Supprimer
+                    Supprimer <FaTimes
+                    style={{color: 'red', cursor: 'pointer'}}
+                    onClick={() => onDelete(offre.id)}/>
                 </Button>
             </Card.Body>
         </Card>

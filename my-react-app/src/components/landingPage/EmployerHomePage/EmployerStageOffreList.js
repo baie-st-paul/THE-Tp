@@ -33,6 +33,35 @@ const EmployerStageOffreList = ({employerId}) => {
             })
     }, []);
 
+    const deleteOffre = async (offreId) => {
+        fetch(
+            'http://localhost:8081/api/v1/stages/offres/' + offreId,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                }
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+
+
+                setOffres(data);
+                setIsLoading(false);
+            })
+    }
+
     if (isLoading) {
         return <div>Chargement...</div>;
     }

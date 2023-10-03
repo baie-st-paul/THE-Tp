@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
-const EmployerOffreCard = ({ offre }) => {
+const EmployerOffreCard = ({ offre, deleteOffre }) => {
     return (
         <Card className="container-fluid" style={{ margin:"20px" }}>
             <Card.Body>

@@ -48,7 +48,6 @@ const EmployerHomePage = () => {
 
     }
 
-
     switch (activeContent){
         case "offre-page":
             contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>;

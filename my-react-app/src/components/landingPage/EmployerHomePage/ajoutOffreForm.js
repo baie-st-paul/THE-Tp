@@ -114,7 +114,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                     className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}
                                     value={studentProgram}
                                     onChange={(e) => setStudentProgram(e.target.value)}>
-                                    <option  disabled={true} value=""><span style={{color: 'grey'}}>Type etudiant</span></option>
+                                    <option  disabled={true} value="" style={{color: 'grey'}}>Type etudiant</option>
                                     <option value="Informatique">Informatique</option>
                                     <option value="Architecture">Architecture</option>
                                 </select>

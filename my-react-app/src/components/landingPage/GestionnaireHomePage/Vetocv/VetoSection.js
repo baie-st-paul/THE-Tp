@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./VetoSection.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
-import Popup from "reactjs-popup";
 import Modal from "./Modal";
 import ReactModal from 'react-modal';
 
@@ -173,6 +172,7 @@ const VetoSection = () => {
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}
                 style={customStyles}
+                ariaHideApp={false}
                 contentLabel="Confirmation Modal"
             >
                 <h2>Confirmation</h2>

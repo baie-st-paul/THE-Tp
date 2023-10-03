@@ -16,7 +16,9 @@ import java.util.List;
 @Service
 public class
 EmployerService {
+    @Autowired
     private final EmployerRepository employerRepository;
+    @Autowired
     private final UtilisateurRepository utilisateurRepository;
 
     @Autowired
@@ -24,6 +26,9 @@ EmployerService {
         this.employerRepository = employerRepository;
         this.utilisateurRepository = utilisateurRepository;
     }
+
+
+
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);
@@ -37,6 +42,12 @@ EmployerService {
         return employerRepository.getOffreStageById(id);
     }
 
+    public EmployerGetDTO getEmployerById(Long id){
+        Employer employer = employerRepository.findEmployerById(id);
+        return new EmployerGetDTO(
+                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
+                employer.getPhoneNumber(),employer.getUtilisateur().getEmail());
+    }
 
     public EmployerPostDTO saveEmployer(EmployerPostDTO employerPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
@@ -48,7 +59,8 @@ EmployerService {
     }
 
     public EmployerGetDTO getEmployeurByUser(UtilisateurDTO utilisateurDTO){
-        Employer employer = employerRepository.findStudentByUtilisateur();
+        Employer employer = employerRepository.findEmployerByUtilisateur();
+        System.out.println(employer);
         return new EmployerGetDTO(
                 employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
                 employer.getPhoneNumber(),utilisateurDTO.getEmail());

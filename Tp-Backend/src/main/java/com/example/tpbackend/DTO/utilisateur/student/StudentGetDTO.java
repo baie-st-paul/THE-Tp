@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,14 @@ public class StudentGetDTO {
     private String phoneNumber;
     private String matricule;
     private String program;
+
+    public Student toStudent(){
+        return new Student(
+                firstName,
+                lastName,
+                phoneNumber,
+                matricule,
+                program
+        );
+    }
 }

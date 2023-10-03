@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageDTO {
+    private long id;
+    private Long employerId;
     private String titre;
     private double salaire;
     private String studentProgram;
@@ -22,6 +24,7 @@ public class OffreStageDTO {
 
     public OffreStage toOffreStage() {
         return new OffreStage(
+                id,
                 titre,
                 salaire,
                 studentProgram,
@@ -36,5 +39,11 @@ public class OffreStageDTO {
         OffreStageDTO offreStageDTO = new OffreStageDTO();
         BeanUtils.copyProperties(offreStage, offreStageDTO);
         return offreStageDTO;
+    }
+
+    public static OffreStage fromOffreStageDTO(OffreStageDTO offreStageDTO) {
+        OffreStage offreStage = new OffreStage();
+        BeanUtils.copyProperties(offreStageDTO, offreStage);
+        return offreStage;
     }
 }

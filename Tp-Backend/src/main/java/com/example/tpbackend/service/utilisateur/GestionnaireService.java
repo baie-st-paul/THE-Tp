@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -79,8 +80,33 @@ public class GestionnaireService {
                 gestionnaire.getPhoneNumber(),user.getEmail());
     }
 
-    public List<OffreStage> getToutesLesOffres() {
+    public List<OffreStage> getOffres() {//utilisé que dans test
         return offreStageRepository.findAll();
+    }
+
+    public List<OffreStageDTO> getToutesLesOffres() {
+        List<OffreStage> offreStages = offreStageRepository.findAll();
+        List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
+
+        for (OffreStage offreStage: offreStages) {
+            offreStageDTOS.add(offreStage.toOffreStageDTO());
+        }
+
+        return offreStageDTOS;
+    }
+
+    public List<OffreStageDTO> getAllOffresByProgram(String titre) {
+        List<OffreStage> offres = offreStageRepository.findAllByStudentProgram(titre);
+        List<OffreStageDTO> offreDTOS = new ArrayList<>();
+
+        for (OffreStage offre: offres) {
+            offreDTOS.add(offre.toOffreStageDTO());
+        }
+        return offreDTOS;
+    }
+
+    public void updateOffreStatus(String titre,String status) {
+        offreStageRepository.updateOffreStatusByTitre(titre, OffreStage.Status.valueOf(status));
     }
 
     public List<CvDTO> getAllCvs() {

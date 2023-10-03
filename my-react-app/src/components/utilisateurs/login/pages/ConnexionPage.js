@@ -37,6 +37,8 @@ const ConnexionPage = () => {
                 setErreur(false);
             }
             const data = await res.json();
+            console.log(data)
+            localStorage.clear()
             localStorage.setItem('token', JSON.stringify(data.data.token));
             localStorage.setItem('user_type', JSON.stringify(data.user_type))
             if (data.user_type) {
@@ -50,7 +52,8 @@ const ConnexionPage = () => {
                         setRedirectTo("/GestionnaireHomePage");
                         break;
                     case 'Employeur':
-                        setLoggedInUser(data.data.employeurGetDTO);
+                        setLoggedInUser(data.data.employerGetDTO);
+                        localStorage.setItem("employer_id", JSON.stringify(data.data.employerGetDTO.id));
                         setRedirectTo("/EmployeurHomePage");
                         break;
                     default:

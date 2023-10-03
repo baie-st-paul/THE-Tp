@@ -1,8 +1,8 @@
 import {Outlet,Route,Navigate} from "react-router-dom";
-import EmployeurHomePage from "../components/landingPage/EmployeurHomePage";
+import EmployerHomePage from "../components/landingPage/EmployerHomePage/EmployerHomePage";
 
 
-const EmployeurPrivateRoutes = ({children,...rest}) => {
+const EmployerPrivateRoutes = ({children,...rest}) => {
     let auth;
     console.log(localStorage.getItem("user_type"))
     if(localStorage.getItem('token') != null && localStorage.getItem("user_type").match("Employeur")){
@@ -16,8 +16,8 @@ const EmployeurPrivateRoutes = ({children,...rest}) => {
 
 
     return(
-        auth ? <EmployeurHomePage/> : <Navigate to={"*"}/>
+        auth ? <EmployerHomePage/> : <Navigate to={"*"}/>
     )
 }
 
-export default EmployeurPrivateRoutes
+export default EmployerPrivateRoutes

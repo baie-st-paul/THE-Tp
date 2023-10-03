@@ -40,17 +40,10 @@ function FileUploader({matricule}) {
                 requestOptions
             )
                 .then((response) => {
-<<<<<<< HEAD
                     setFile(null);
                     setFileName("");
                     setError(null);
                 })
-=======
-                        setFile(null);
-                        setFileName("");
-                        setError(null);
-                    })
->>>>>>> 2ee48616083f24e647e01a19eaf0e63c81a43f1e
                 .catch((error) => console.log("error", error));
         } else {
             setError("Please select a valid PDF file before uploading.");
@@ -124,8 +117,4 @@ function FileUploader({matricule}) {
     );
 }
 
-<<<<<<< HEAD
 export default FileUploader;
-=======
-export default FileUploader;
->>>>>>> 2ee48616083f24e647e01a19eaf0e63c81a43f1e

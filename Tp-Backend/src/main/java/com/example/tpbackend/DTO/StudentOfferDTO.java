@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 public class StudentOfferDTO {
     private Long id;
     private Student student;
-    private OffreStage offrestage;
+    private OffreStage offreStage;
 
     public static StudentOfferDTO fromStudentOffer(StudentOffer studentOffer) {
         StudentOfferDTO studentOfferDTO = new StudentOfferDTO();
-        studentOfferDTO.setId(studentOffer.getId()); // Correction ici
+        studentOfferDTO.setId(studentOffer.getId());
         studentOfferDTO.setStudent(studentOffer.getStudent());
-        studentOfferDTO.setOffrestage(studentOffer.getOffre());
+        studentOfferDTO.setOffreStage(studentOffer.getOffre());
         return studentOfferDTO;
     }
 
@@ -27,7 +27,7 @@ public class StudentOfferDTO {
         StudentOffer studentOffer = new StudentOffer();
         studentOffer.setId(studentOfferDTO.getId());
         studentOffer.setStudent(studentOfferDTO.getStudent());
-        studentOffer.setOffre(studentOfferDTO.getOffrestage());
+        studentOffer.setOffre(studentOfferDTO.getOffreStage());
         return studentOffer;
     }
 }

@@ -3,23 +3,25 @@ package com.example.tpbackend.service;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 @NoArgsConstructor
-@AllArgsConstructor
 public class OffreStageService {
 
-    @Autowired
     private OffreStageRepository offreStageRepository;
+
+
+    @Autowired
+    public OffreStageService(OffreStageRepository offreStageRepository) {
+        this.offreStageRepository = offreStageRepository;
+    }
 
     public OffreStageDTO createOffre(OffreStageDTO offre) {
         return offreStageRepository.save(offre.toOffreStage()).toOffreStageDTO();

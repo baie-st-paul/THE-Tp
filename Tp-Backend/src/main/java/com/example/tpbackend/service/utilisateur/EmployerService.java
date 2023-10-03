@@ -4,8 +4,8 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,14 @@ import java.util.List;
 @Service
 public class
 EmployerService {
+    private final EmployerRepository employerRepository;
+    private final UtilisateurRepository utilisateurRepository;
+
     @Autowired
-    private EmployerRepository employerRepository;
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    public EmployerService(EmployerRepository employerRepository, UtilisateurRepository utilisateurRepository) {
+        this.employerRepository = employerRepository;
+        this.utilisateurRepository = utilisateurRepository;
+    }
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);

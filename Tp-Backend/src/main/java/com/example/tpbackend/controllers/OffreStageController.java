@@ -2,7 +2,6 @@ package com.example.tpbackend.controllers;
 
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.OffreStageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

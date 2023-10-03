@@ -2,32 +2,21 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     UtilisateurRepository utilisateurRepository;
 
+    @Autowired
     public UserService(UtilisateurRepository utilisateurRepository){
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    /* pas utilisé
-    public Utilisateur createUser(UtilisateurDTO utilisateurDTO) {
 
-        if (userRepository.existsByEmail(utilisateurDTO.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        Utilisateur newUser = new Utilisateur();
-
-        newUser.setEmail(utilisateurDTO.getEmail());
-        newUser.setPassword(utilisateurDTO.getPassword());
-
-        userRepository.save(newUser);
-
-        return newUser;
-    }*/
 
     public Utilisateur findByEmail(String email) {
         return utilisateurRepository.findByEmail(email);
@@ -45,4 +34,11 @@ public class UserService {
         }
         return false;
     }
+    public Utilisateur getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+        return utilisateurRepository.findByEmail(currentEmail);
+    }
+
+
 }

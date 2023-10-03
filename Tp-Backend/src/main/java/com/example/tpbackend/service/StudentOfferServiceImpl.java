@@ -42,7 +42,7 @@ public class StudentOfferServiceImpl implements StudentOfferService {
         }
 
         // Logique pour récupérer la liste des étudiants ayant postulé
-        List<StudentOffer> studentOffers = studentOfferRepository.findByOfferId(offerId);
+        List<StudentOffer> studentOffers = studentOfferRepository.findOfferById(offerId);
 
         return studentOffers.stream()
                 .map(StudentOfferDTO::fromStudentOffer)

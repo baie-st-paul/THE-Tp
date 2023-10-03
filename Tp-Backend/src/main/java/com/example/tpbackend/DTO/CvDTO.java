@@ -1,7 +1,9 @@
 package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.utils.CvDTOSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import lombok.Data;
@@ -14,10 +16,10 @@ import java.io.IOException;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonSerialize(using = CvDTOSerializer.class)
 public class CvDTO {
     private String matricule;
     private String fileName;
-    @JsonIgnore
     private MultipartFile file_cv;
     private String status;
 
@@ -30,9 +32,9 @@ public class CvDTO {
         );
     }
 
-    public byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {
+    public static byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {
         if (multipartFile.isEmpty()) {
-            return null; // or handle the empty file case as needed
+            return null;
         }
         return multipartFile.getBytes();
     }

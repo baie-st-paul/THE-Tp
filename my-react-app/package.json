@@ -4,21 +4,27 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
-    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.19",
+    "@mui/material": "^5.14.11",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.5.1",
     "bootstrap": "^5.3.1",
+    "focus-trap-react": "^10.2.2",
+    "font-awesome": "^4.7.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-dropdown-select": "^4.10.0",
     "react-icons": "^4.11.0",
     "react-jwt": "^1.2.0",
+    "react-modal": "^3.16.1",
     "react-phone-number-input": "^3.3.6",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "reactjs-popup": "^2.0.6",
     "web-vitals": "^2.1.4",
     "webpack": "^5.88.2",
     "@react-buddy/ide-toolbox": "^2.4.0"
@@ -50,5 +56,6 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }

@@ -36,13 +36,22 @@ public class OffreStageBD implements CommandLineRunner {
                 "email",
                 "password"), "email","password" , "Employeur");
 
+        /*employerService.saveEmployer(new EmployerPostDTO(
+                "firstName",
+                "lastName",
+                "companyName",
+                "phoneNumber",
+                "email",
+                "password"), "email","password" , "Employeur");
+
         IntStream.range(0, 20).forEach(i -> {
             OffreStageDTO offreStageDTO = new OffreStageDTO(
+                    i,
                     0L,
                     "Titre" + RandomStringUtils.randomAlphabetic(5),
                     500.0 + random.nextDouble() * 2000,
-                    "Programme" + RandomStringUtils.randomAlphabetic(5),
-                    "Description de l'offre de stage " + RandomStringUtils.randomAlphabetic(40),
+                    "Informatique",
+                    "Description de l'offre de stage " + RandomStringUtils.randomAlphabetic(400),
                     LocalDate.now().plusDays(random.nextInt(365)),
                     LocalDate.now().plusDays(30 + random.nextInt(365)),
                     "In_review"
@@ -54,8 +63,6 @@ public class OffreStageBD implements CommandLineRunner {
         List<OffreStage> allOffres = offreStageService.getAllOffres();
         allOffres.forEach(offre -> {
             System.out.println(offre.toString());
-        });
-        */
-
+        });*/
     }
 }

@@ -67,7 +67,4 @@ public class OffreStageController {
         OffreStageDTO offre = offreStageService.getOffreById(id);
         return new ResponseEntity<>(offre, HttpStatus.OK);
     }
-
-
 }
-

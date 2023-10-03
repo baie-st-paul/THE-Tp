@@ -1,5 +1,5 @@
 import React from 'react'
-import al from  '../../images/al.png' 
+import al from '../../../images/al.png'
 import './utilisateursMain.css'
 import MenuUtilisateursMain from './menuUtilisateursMain'
 

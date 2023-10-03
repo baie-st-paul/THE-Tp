@@ -1,15 +1,15 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
-import com.example.tpbackend.repository.UserRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    UserRepository userRepository;
+    UtilisateurRepository utilisateurRepository;
 
-    public UserService(UserRepository userRepository){
-        this.userRepository = userRepository;
+    public UserService(UtilisateurRepository utilisateurRepository){
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     /* pas utilisé
@@ -30,15 +30,15 @@ public class UserService {
     }*/
 
     public Utilisateur findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return utilisateurRepository.findByEmail(email);
     }
 
     public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+        return utilisateurRepository.existsByEmail(email);
     }
 
     public boolean validAuthentification(String email, String password) {
-        Utilisateur utilisateur = userRepository.findByEmail(email);
+        Utilisateur utilisateur = utilisateurRepository.findByEmail(email);
 
         if (utilisateur != null) {
             return password.equals(utilisateur.getPassword());

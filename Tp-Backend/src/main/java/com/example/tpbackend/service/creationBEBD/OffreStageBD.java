@@ -47,9 +47,13 @@ public class OffreStageBD implements CommandLineRunner {
         IntStream.range(0, 20).forEach(i -> {
             OffreStageDTO offreStageDTO = new OffreStageDTO(
 <<<<<<< HEAD
+<<<<<<< HEAD
                     i,
 =======
 >>>>>>> 752ea3d (EQ2-69-Changer la creation de offre pour avoir l'id de l'emplolyer et aussi afficher une liste de offre de stage)
+=======
+                    i,
+>>>>>>> 2ee48616083f24e647e01a19eaf0e63c81a43f1e
                     0L,
                     "Titre" + RandomStringUtils.randomAlphabetic(5),
                     500.0 + random.nextDouble() * 2000,
@@ -67,6 +71,9 @@ public class OffreStageBD implements CommandLineRunner {
         allOffres.forEach(offre -> {
             System.out.println(offre.toString());
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 2ee48616083f24e647e01a19eaf0e63c81a43f1e
         });*/
     }
 }

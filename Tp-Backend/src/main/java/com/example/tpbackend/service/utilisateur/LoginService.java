@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.Key;
 import java.util.Base64;
@@ -22,8 +20,7 @@ public class LoginService {
     private static String getPropertie() {
         if (prop.isEmpty()) {
             try {
-                File initialFile = new File("Tp-Backend/src/main/resources/application.properties");
-                InputStream inputStream = new FileInputStream(initialFile);
+                InputStream inputStream = LoginService.class.getResourceAsStream("/application.properties");
                 prop.load(inputStream);
                 inputStream.close();
             } catch (Exception e) {

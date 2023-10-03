@@ -108,6 +108,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                        onChange={(e) => setSalaire(e.target.value)} />
                                 <p ref={salaireRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
+
                             <div className='form-group'>
                                 <select
                                     className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}

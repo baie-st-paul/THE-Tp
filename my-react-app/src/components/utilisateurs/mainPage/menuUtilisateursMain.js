@@ -1,11 +1,6 @@
-/* changement pour pouvoir avoir le choix des users
-<button className='px-5 button mx-2'>S'inscrire</button>
-<button className='px-5 button mx-2'>Se Connecter</button>
-*/
-
 import React from 'react'
-import DropdownUsersInscription from "./DropdownUsersInscription";
-import '../stylesGenerales.css'
+import DropdownUsersInscription from "../dropdownUsers/DropdownUsersInscription";
+import '../../stylesGenerales.css'
 import {Link} from "react-router-dom";
 
 

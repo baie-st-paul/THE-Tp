@@ -39,7 +39,6 @@ const OffresPageStudent = () => {
                 <Container>
                     <h1 className="display-4 text-center" style={{ color: 'darkgrey' }}>Liste des offres de stage</h1>
                 </Container>
-                <h1 className="display-4 text-center">Liste des offres de stage</h1>
             </div>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container>

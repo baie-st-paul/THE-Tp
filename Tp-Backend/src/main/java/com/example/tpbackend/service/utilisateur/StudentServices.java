@@ -12,9 +12,9 @@ import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.UserRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,13 @@ import java.util.Optional;
 
 @Service
 public class StudentServices {
+
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
-    private CvRepository cvRepository;
+    private UtilisateurRepository utilisateurRepository;
     @Autowired
-    private UserRepository userRepository;
+    private CvRepository cvRepository;
     @Autowired
     private OffreStageRepository offreStageRepository;
     @Autowired
@@ -38,8 +39,7 @@ public class StudentServices {
         Utilisateur utilisateur = new Utilisateur(email, password,role);
         Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
-        System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
-        userRepository.save(utilisateur);
+        utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);
     }
@@ -48,29 +48,12 @@ public class StudentServices {
         return studentRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
-    public Student createStudent(StudentPostDTO studentPostDTO){
-        Student student = studentPostDTO.toStudent(studentPostDTO);
-        studentRepository.save(student);
-        return student;
-    }
-
-    public CvDTO saveCv(CvDTO cvDTO) throws IOException {
+    public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
-        return cvDTO;
     }
 
-    public boolean validAuthentification(String email, String password) {
-        Utilisateur utilisateur = userRepository.findByEmail(email);
-
-        if (utilisateur != null) {
-            return password.equals(utilisateur.getPassword());
-        }
-        return false;
-    }
-
-    public CvDTO updateCv(CvDTO cvDTO) throws IOException{
+    public void updateCv(CvDTO cvDTO) throws IOException{
         cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
-        return cvDTO;
     }
 
     public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){

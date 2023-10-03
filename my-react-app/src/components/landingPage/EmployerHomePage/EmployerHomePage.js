@@ -4,7 +4,7 @@ import { useState } from "react";
 import AjoutOffreForm from "./ajoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBriefcase} from "@fortawesome/free-solid-svg-icons";
+import {faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -78,7 +78,7 @@ const EmployerHomePage = () => {
                             </li>
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Ajout Offre
+                                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
                                 </button>
                             </li>
                         </ul>

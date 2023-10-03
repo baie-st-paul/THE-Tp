@@ -1,7 +1,8 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
-import com.example.tpbackend.models.utilisateur.Entrevue;
+
+import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;
@@ -26,7 +27,7 @@ public class EntrevueService {
     public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
         Optional<Employer> employer = employerRepository.findById(Integer.parseInt(entrevueDTO.getIdEmployeur()));
         Optional<Student> student = studentRepository.findById(Integer.parseInt(entrevueDTO.getIdEtudiant()));
-        if(employer.isEmpty() || student.isEmpty()) throw new Exception("Interview not valid");
+        //if(!employer.isPresent() || !student.isPresent()) throw new Exception("Interview not valid");
         Entrevue entrevue = new Entrevue(entrevueDTO.getDate(), employer.get(), student.get(), entrevueDTO.getDescription());
         return new EntrevueDTO(entrevueRepository.save(entrevue));
     }

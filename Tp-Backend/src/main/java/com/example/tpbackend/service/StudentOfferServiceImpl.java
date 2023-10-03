@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentOfferServiceImpl implements StudentOfferService {
-
     private final StudentOfferRepository studentOfferRepository;
     private final OffreStageRepository offreRepository;
 

@@ -25,6 +25,21 @@ public class EmployerController {
         this.userService = userService;
     }
 
+    @GetMapping("/{employerId}/offers/{offerId}/applicantsSize")
+        public ResponseEntity<Integer> getApplicantsSize (@PathVariable Long employerId, @PathVariable Long offerId) {
+        Utilisateur currentUser = userService.getCurrentUser();
+        // Vérifie si l'utilisateur actuel est bien un employeur
+        if (currentUser == null || currentUser.getRole() != Utilisateur.Role.Employeur) {
+            return ResponseEntity.status(403).build();
+        }
+        // Vérifie que l'ID de l'employeur correspond à l'utilisateur actuel
+        if (!employerId.equals(currentUser.getId())) {
+            return ResponseEntity.status(403).build();
+        }
+        List<StudentOfferDTO> applicants = studentOfferService.getStudentsByOfferId(offerId, currentUser);
+        return ResponseEntity.ok(applicants.size());
+    }
+
     @GetMapping("/{employerId}/offers/{offerId}/applicants")
     public ResponseEntity<List<StudentOfferDTO>> getApplicants(@PathVariable Long employerId,
                                                                @PathVariable Long offerId) {

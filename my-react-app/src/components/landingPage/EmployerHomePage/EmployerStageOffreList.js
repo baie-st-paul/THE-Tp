@@ -44,7 +44,7 @@ const EmployerStageOffreList = ({employerId}) => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
             {offres.map((offre) => (
-                <EmployerOffreCard key={offre.id} offre={offre} />
+                <EmployerOffreCard key={offre.id} offre={offre} empId ={employerId} />
             ))}
         </div>
     );

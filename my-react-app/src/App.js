@@ -11,11 +11,11 @@ import PageNotFound from "./page_not_found/PageNotFound";
 import { useUser } from "./Providers/UserProvider";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
-import EmployeurPrivateRoutes from "./utils/EmployeurPrivateRoutes";
-import OffresPage from "./components/landingPage/offresStages/OffrePage";
-import AjoutOffreForm from './components/landingPage/ajoutOffreForm';
+import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
+import AjoutOffreForm from './components/landingPage/EmployerHomePage/ajoutOffreForm';
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
-
+import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
+import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
 
 function App() {
     let loggedInUser = useUser();
@@ -26,7 +26,8 @@ function App() {
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
                 <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
-                <Route path="/offresGestionnaire" element={<OffresPage/>} />
+                <Route path="/offresGestionnaire" element={<OffresPageGestionnaire/>} />
+                <Route path="/offresStudent" element={<OffresPageStudent/>} />
                 <Route path="/veto-section" component={<GestionnairePrivateRoutes/>}/>
                 <Route path="/offre-page" component={<GestionnairePrivateRoutes/>}/>
                 <Route path="*" element={<PageNotFound/>}/>

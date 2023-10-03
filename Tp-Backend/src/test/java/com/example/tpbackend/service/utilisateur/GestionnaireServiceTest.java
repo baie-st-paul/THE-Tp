@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -363,7 +364,7 @@ public class GestionnaireServiceTest {
     void testGetToutesLesOffres() {
         ArrayList<OffreStage> offreStageList = new ArrayList<>();
         when(offreStageRepository.findAll()).thenReturn(offreStageList);
-        List<OffreStage> actualToutesLesOffres = gestionnaireService.getToutesLesOffres();
+        List<OffreStage> actualToutesLesOffres = gestionnaireService.getOffres();
         assertSame(offreStageList, actualToutesLesOffres);
         assertTrue(actualToutesLesOffres.isEmpty());
         verify(offreStageRepository).findAll();

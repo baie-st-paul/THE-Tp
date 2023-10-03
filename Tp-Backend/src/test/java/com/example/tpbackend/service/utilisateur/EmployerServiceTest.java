@@ -162,7 +162,7 @@ class EmployerServiceTest {
         employer.setOffresStages(new ArrayList<>());
         employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
-        when(employerRepository.findStudentByUtilisateur()).thenReturn(employer);
+        when(employerRepository.findEmployerByUtilisateur()).thenReturn(employer);
         EmployerGetDTO actualEmployeurByUser = employerService
                 .getEmployeurByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
         assertEquals("Company Name", actualEmployeurByUser.getCompanyName());
@@ -171,7 +171,7 @@ class EmployerServiceTest {
         assertEquals(1L, actualEmployeurByUser.getId());
         assertEquals("Jane", actualEmployeurByUser.getFirstName());
         assertEquals("jane.doe@example.org", actualEmployeurByUser.getEmail());
-        verify(employerRepository).findStudentByUtilisateur();
+        verify(employerRepository).findEmployerByUtilisateur();
     }
 
 

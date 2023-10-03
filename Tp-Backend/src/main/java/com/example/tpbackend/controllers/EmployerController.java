@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/employers")
-@CrossOrigin(origins = "*")
 public class EmployerController {
 
     private final StudentOfferService studentOfferService;
@@ -26,7 +26,8 @@ public class EmployerController {
     }
 
     @GetMapping("/{employerId}/offers/{offerId}/applicants")
-    public ResponseEntity<List<StudentOfferDTO>> getApplicants(@PathVariable Long employerId, @PathVariable Long offerId) {
+    public ResponseEntity<List<StudentOfferDTO>> getApplicants(@PathVariable Long employerId,
+                                                               @PathVariable Long offerId) {
         Utilisateur currentUser = userService.getCurrentUser();
 
         // Vérifie si l'utilisateur actuel est bien un employeur

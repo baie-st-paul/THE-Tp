@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import {FaTimes} from "react-icons/fa";
+import {FaRepeat} from "react-icons/fa6";
 
 const EmployerOffreCard = ({ offre, onDelete, onUpdate }) => {
     return (
@@ -18,11 +18,13 @@ const EmployerOffreCard = ({ offre, onDelete, onUpdate }) => {
                     Date de fin: {offre.dateFin}<br/>
                 </Card.Text>
                 <Button className="btn btn-primary">
-                    Modifier
+                    Modifier <FaRepeat
+                    style={{color: 'black', cursor: 'pointer'}}
+                    onClick={() => onUpdate(offre)}/>
                 </Button>
                 <Button className={"btn btn-danger"}>
                     Supprimer <FaTimes
-                    style={{color: 'red', cursor: 'pointer'}}
+                    style={{color: 'black', cursor: 'pointer'}}
                     onClick={() => onDelete(offre.id)}/>
                 </Button>
             </Card.Body>

@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface StudentOfferRepository extends JpaRepository<StudentOffer, Long> {
-
     List<StudentOffer> findOfferById(Long offerId);
 }

@@ -67,7 +67,9 @@ public class OffreStageService {
 
     public boolean deleteOffreStage(Long id){
         try {
-            return offreStageRepository.deleteOffreStageById(id);
+            OffreStageDTO offreStageDTO = getOffreById(id);
+            offreStageRepository.delete(offreStageDTO.toOffreStage());
+            return true;
         }
         catch (Exception e){
             System.out.println(e.getMessage());

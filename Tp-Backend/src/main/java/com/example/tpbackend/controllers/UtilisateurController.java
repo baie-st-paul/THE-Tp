@@ -38,6 +38,7 @@ public class UtilisateurController {
         return ResponseEntity.ok(employerService.getOffreStageByEmployer(id));
     }
 
+
     @PostMapping(value = "/newStudent")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
         if (studentServices.existsByMatriculeOrEmail(dto.getMatricule(), dto.getEmail())) {
@@ -168,6 +169,8 @@ public class UtilisateurController {
         }
     }
 
+
+
     private String convertObjectToJson(Object object, String userType) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
@@ -176,4 +179,7 @@ public class UtilisateurController {
         rootNode.set("data", objectMapper.valueToTree(object));
         return objectWriter.writeValueAsString(rootNode);
     }
+
+
+
 }

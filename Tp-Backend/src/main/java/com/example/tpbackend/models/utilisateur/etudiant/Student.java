@@ -1,7 +1,5 @@
 package com.example.tpbackend.models.utilisateur.etudiant;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;

@@ -19,4 +19,5 @@ const EmployerPrivateRoutes = ({children,...rest}) => {
     )
 }
 
+
 export default EmployerPrivateRoutes

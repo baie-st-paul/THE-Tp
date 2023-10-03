@@ -1,6 +1,5 @@
 package com.example.tpbackend.repository;
 
-import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
 import jakarta.transaction.Transactional;

@@ -24,7 +24,7 @@ public class Candidature {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "offre_stage",nullable=false)
+    @JoinColumn(name = "ofrre_stage",nullable=false)
     private OffreStage offreStage;
 
     @ManyToOne

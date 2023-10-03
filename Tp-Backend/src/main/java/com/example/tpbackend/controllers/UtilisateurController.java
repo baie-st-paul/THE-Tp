@@ -24,9 +24,10 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/v1/stages") // v1 = version 1
+@RequestMapping("/api/v1/utilisateur") // v1 = version 1
 @CrossOrigin(origins = "http://localhost:3000")
 public class UtilisateurController {
+
     private StudentServices studentServices;
     private EmployerService employerService;
     private GestionnaireService gestionnaireService;
@@ -36,7 +37,6 @@ public class UtilisateurController {
     public ResponseEntity<?> getOffreStageByEmployer(@PathVariable("id") Long id){
         return ResponseEntity.ok(employerService.getOffreStageByEmployer(id));
     }
-
 
     @PostMapping(value = "/newStudent")
     public ResponseEntity<?> createStudent(@Valid @RequestBody StudentPostDTO dto) {
@@ -52,7 +52,7 @@ public class UtilisateurController {
                     dto.getEmail(),
                     dto.getPassword(),
                     "Student"
-                    );
+            );
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonCreatedStudent = ow.writeValueAsString(dto);
@@ -168,8 +168,6 @@ public class UtilisateurController {
         }
     }
 
-
-
     private String convertObjectToJson(Object object, String userType) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
@@ -178,7 +176,4 @@ public class UtilisateurController {
         rootNode.set("data", objectMapper.valueToTree(object));
         return objectWriter.writeValueAsString(rootNode);
     }
-
-
-
 }

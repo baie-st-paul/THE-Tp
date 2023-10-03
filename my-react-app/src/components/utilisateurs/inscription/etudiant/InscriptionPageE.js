@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import "../InscriptionPage.css"
-import al from "../../../../images/al.png";
 import InscriptionFormE from "./InscriptionFormE";
+import "../InscriptionPage.css"
 import {Navigate} from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import {Button} from "react-bootstrap";
@@ -13,7 +12,7 @@ const InscriptionPageE = () => {
     const inscription = async (etudiant) => {
         console.log(erreur)
         const res = await fetch(
-            'http://localhost:8081/api/v1/stages/newStudent',
+            'http://localhost:8081/api/v1/utilisateur/newStudent',
             {
                 method: 'POST',
                 headers: {
@@ -43,9 +42,6 @@ const InscriptionPageE = () => {
 
     return (
         <div className='bg-light vh-100'>
-            <div className='centrerPage pt-5'>
-                <img  className='border logoAndre' src={al} alt="logoAndreLaurendeau"></img>
-            </div>
             {<InscriptionFormE onAdd={inscription}/>}
             {
                 etudiants.length > 0 ?
@@ -73,7 +69,7 @@ const InscriptionPageE = () => {
                 </div>
             }
         </div>
-    );
+    )
 }
 
 export default InscriptionPageE

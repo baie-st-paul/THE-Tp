@@ -193,10 +193,6 @@ const InscriptionFormE = ({onAdd}) => {
                                 <p ref={matriculeRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Email'
-                                       value={email}
-                                       onChange={(e) => setEmail(e.target.value)}/>
-                                <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
                                 <select
                                     className='form-control saisie saisie-user px-3 m-0'
                                     value={program}
@@ -217,10 +213,10 @@ const InscriptionFormE = ({onAdd}) => {
                                 <p ref={phoneNumberRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user m-0' type='text' placeholder='Programme étude'
-                                       value={program}
-                                       onChange={(e) => setProgram(e.target.value)}/>
-                                <p ref={programRef} className="font px-1 textAvertissement text-danger"></p>
+                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Email'
+                                       value={email}
+                                       onChange={(e) => setEmail(e.target.value)}/>
+                                <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
                                 <input ref={showPasswRef} id="pass" className='form-control saisie saisie-psw m-0' type='password' placeholder='Mot de passe'

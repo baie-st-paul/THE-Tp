@@ -17,7 +17,7 @@ const AjoutOffreForm = ({onAdd}) => {
     const studentProgramRef = useRef(null);
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
-    
+
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -73,12 +73,12 @@ const AjoutOffreForm = ({onAdd}) => {
         if (annuler === true) {
         } else {
             onAdd({
-             titre,
-             description,
-             salaire,
-             studentProgram,
-             dateDebut,
-             dateFin
+                titre,
+                description,
+                salaire,
+                studentProgram,
+                dateDebut,
+                dateFin
             })
         }
     }
@@ -108,7 +108,6 @@ const AjoutOffreForm = ({onAdd}) => {
                                        onChange={(e) => setSalaire(e.target.value)} />
                                 <p ref={salaireRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-                          
                             <div className='form-group'>
                                 <select
                                     className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}

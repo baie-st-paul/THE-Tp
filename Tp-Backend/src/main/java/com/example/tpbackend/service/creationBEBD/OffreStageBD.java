@@ -27,6 +27,14 @@ public class OffreStageBD implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Random random = new Random();
+    /*
+        employerService.saveEmployer(new EmployerPostDTO(
+                "firstName",
+                "lastName",
+                "companyName",
+                "phoneNumber",
+                "email",
+                "password"), "email","password" , "Employeur");
 
         /*employerService.saveEmployer(new EmployerPostDTO(
                 "firstName",

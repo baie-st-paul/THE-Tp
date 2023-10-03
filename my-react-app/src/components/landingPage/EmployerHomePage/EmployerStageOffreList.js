@@ -72,9 +72,11 @@ const EmployerStageOffreList = ({employerId}) => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            {offres.map((offre) => (
-                <EmployerOffreCard key={offre.id} offre={offre} />
-            ))}
+            {offres.length === 0 ?
+                <div>Aucune offre</div>
+                : offres.map((offre) => (<EmployerOffreCard key={offre.id} offre={offre} />))
+            }
+
         </div>
     );
 };

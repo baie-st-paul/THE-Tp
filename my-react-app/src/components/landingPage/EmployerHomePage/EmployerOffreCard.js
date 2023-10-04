@@ -24,7 +24,7 @@ const EmployerOffreCard = ({ offre, onDelete, onUpdate }) => {
                 />
                 </Button>
                 <Button className="btn btn-primary"
-                        onClick={() => onUpdate(offre.id, offre)}>
+                        onClick={() => onUpdate(offre)}>
                     Modifier <FaRepeat
                     style={{color: 'black'}}
                 />

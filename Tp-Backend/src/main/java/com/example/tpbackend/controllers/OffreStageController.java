@@ -20,7 +20,7 @@ public class OffreStageController {
     @PostMapping("/create")
     public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
         try {
-            OffreStageDTO newOffre = offreStageService.createOffre(offre);
+            OffreStageDTO newOffre = offreStageService.saveOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(offre);
@@ -30,13 +30,17 @@ public class OffreStageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OffreStageDTO> updateOffre(@PathVariable("id") long id, @RequestBody OffreStageDTO offre) {
-        OffreStageDTO offreData = offreStageService.updateOffreStage(id, offre);
-        if (offreData != null) {
-            return new ResponseEntity<>(offreData, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public OffreStageDTO updateOffre(@PathVariable("id") long id, @RequestBody OffreStageDTO offre) {
+        OffreStageDTO offreStageDTO = offreStageService.getOffreById(id);
+
+        offreStageDTO.setTitre(offre.getTitre());
+        offreStageDTO.setSalaire(offre.getSalaire());
+        offreStageDTO.setStudentProgram(offre.getStudentProgram());
+        offreStageDTO.setDescription(offre.getDescription());
+        offreStageDTO.setDateDebut(offre.getDateDebut());
+        offreStageDTO.setDateFin(offre.getDateFin());
+
+        return offreStageService.saveOffre(offreStageDTO);
     }
 
     @DeleteMapping("/{id}")

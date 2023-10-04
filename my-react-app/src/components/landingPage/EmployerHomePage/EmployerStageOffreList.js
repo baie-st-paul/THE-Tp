@@ -49,10 +49,10 @@ const EmployerStageOffreList = ({employerId}) => {
         setIsLoading(false);
     }
 
-    const updateOffre = async (offreId, offre) => {
+    const updateOffre = async (offre) => {
         console.log(offre)
         const res = await fetch(
-            `http://localhost:8081/api/v1/stages/offres/${offreId}`, {
+            `http://localhost:8081/api/v1/stages/offres/${offre.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -95,6 +95,7 @@ const EmployerStageOffreList = ({employerId}) => {
                     onUpdate={(offre) => {
                         setShowUpdateOffre(!showUpdateOffre)
                         setOffre(offre)
+                        console.log("offre",offre)
                     }}
                     showUpdate={showUpdateOffre}
                 />

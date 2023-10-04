@@ -47,7 +47,7 @@ class OffreStageServiceTest {
     private OffreStageService offreStageService;
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -64,11 +64,11 @@ class OffreStageServiceTest {
         //       at com.example.tpbackend.service.OffreStageService.createOffre(OffreStageService.java:30)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        offreStageService.createOffre(new OffreStageDTO());
+        offreStageService.saveOffre(new OffreStageDTO());
     }
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     void testCreateOffre2() {
@@ -130,7 +130,7 @@ class OffreStageServiceTest {
         OffreStageDTO offre = mock(OffreStageDTO.class);
         when(offre.toOffreStage()).thenReturn(offreStage2);
         when(offre.getEmployerId()).thenReturn(1L);
-        OffreStageDTO actualCreateOffreResult = offreStageService.createOffre(offre);
+        OffreStageDTO actualCreateOffreResult = offreStageService.saveOffre(offre);
         assertEquals("1970-01-01", actualCreateOffreResult.getDateDebut().toString());
         assertEquals("Titre", actualCreateOffreResult.getTitre());
         assertEquals("Student Program", actualCreateOffreResult.getStudentProgram());
@@ -147,7 +147,7 @@ class OffreStageServiceTest {
     }
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     void testCreateOffre3() {
@@ -183,7 +183,7 @@ class OffreStageServiceTest {
         OffreStageDTO offre = mock(OffreStageDTO.class);
         when(offre.toOffreStage()).thenReturn(offreStage);
         when(offre.getEmployerId()).thenReturn(1L);
-        assertThrows(RuntimeException.class, () -> offreStageService.createOffre(offre));
+        assertThrows(RuntimeException.class, () -> offreStageService.saveOffre(offre));
         verify(employerService).getEmployerById(Mockito.<Long>any());
         verify(offreStageRepository).save(Mockito.<OffreStage>any());
         verify(offre).toOffreStage();
@@ -191,7 +191,7 @@ class OffreStageServiceTest {
     }
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     @Disabled("TODO: Complete this test")
@@ -262,11 +262,11 @@ class OffreStageServiceTest {
         OffreStageDTO offre = mock(OffreStageDTO.class);
         when(offre.toOffreStage()).thenReturn(offreStage2);
         when(offre.getEmployerId()).thenReturn(1L);
-        offreStageService.createOffre(offre);
+        offreStageService.saveOffre(offre);
     }
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     void testCreateOffre5() {
@@ -333,7 +333,7 @@ class OffreStageServiceTest {
         OffreStageDTO offre = mock(OffreStageDTO.class);
         when(offre.toOffreStage()).thenReturn(offreStage2);
         when(offre.getEmployerId()).thenReturn(1L);
-        OffreStageDTO actualCreateOffreResult = offreStageService.createOffre(offre);
+        OffreStageDTO actualCreateOffreResult = offreStageService.saveOffre(offre);
         assertEquals("1970-01-01", actualCreateOffreResult.getDateDebut().toString());
         assertEquals("Titre", actualCreateOffreResult.getTitre());
         assertEquals("Student Program", actualCreateOffreResult.getStudentProgram());
@@ -355,7 +355,7 @@ class OffreStageServiceTest {
     }
 
     /**
-     * Method under test: {@link OffreStageService#createOffre(OffreStageDTO)}
+     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     void testCreateOffre6() {
@@ -432,7 +432,7 @@ class OffreStageServiceTest {
         OffreStageDTO offre = mock(OffreStageDTO.class);
         when(offre.toOffreStage()).thenReturn(offreStage2);
         when(offre.getEmployerId()).thenReturn(1L);
-        assertSame(offreStageDTO, offreStageService.createOffre(offre));
+        assertSame(offreStageDTO, offreStageService.saveOffre(offre));
         verify(employerService).getEmployerById(Mockito.<Long>any());
         verify(employerGetDTO).getCompanyName();
         verify(employerGetDTO).getFirstName();

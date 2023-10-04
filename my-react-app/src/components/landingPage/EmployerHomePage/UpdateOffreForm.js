@@ -1,13 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 
 const UpdateOffreForm = ({offreStage, onUpdate}) => {
-    const [id, setId] = useState(0)
-    const [titre, setTitre] = useState('');
-    const [description, setDescription] = useState('');
-    const [salaire, setSalaire] = useState('');
-    const [studentProgram, setStudentProgram] = useState('');
-    const [dateDebut, setDateDebut] = useState('');
-    const [dateFin, setDateFin] = useState('');
+    const [id, setId] = useState(offreStage.id)
+    const [titre, setTitre] = useState(offreStage.titre);
+    const [description, setDescription] = useState(offreStage.description);
+    const [salaire, setSalaire] = useState(offreStage.salaire);
+    const [studentProgram, setStudentProgram] = useState(offreStage.studentProgram);
+    const [dateDebut, setDateDebut] = useState(offreStage.dateDebut);
+    const [dateFin, setDateFin] = useState(offreStage.dateFin);
 
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);

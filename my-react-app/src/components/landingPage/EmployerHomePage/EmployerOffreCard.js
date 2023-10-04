@@ -17,15 +17,17 @@ const EmployerOffreCard = ({ offre, onDelete, onUpdate }) => {
                     Date de début: {offre.dateDebut}  <></>
                     Date de fin: {offre.dateFin}<br/>
                 </Card.Text>
-                <Button className="btn btn-primary">
-                    Modifier <FaRepeat
-                    style={{color: 'black', cursor: 'pointer'}}
-                    onClick={() => onUpdate(offre)}/>
-                </Button>
-                <Button className={"btn btn-danger"}>
+                <Button className="btn btn-danger"
+                        onClick={() => onDelete(offre.id)}>
                     Supprimer <FaTimes
-                    style={{color: 'black', cursor: 'pointer'}}
-                    onClick={() => onDelete(offre.id)}/>
+                    style={{color: 'black'}}
+                />
+                </Button>
+                <Button className="btn btn-primary"
+                        onClick={() => onUpdate(offre.id, offre)}>
+                    Modifier <FaRepeat
+                    style={{color: 'black'}}
+                />
                 </Button>
             </Card.Body>
         </Card>

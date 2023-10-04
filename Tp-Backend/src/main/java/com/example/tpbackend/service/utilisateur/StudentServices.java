@@ -83,6 +83,7 @@ public class StudentServices {
 
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
         List<Candidature> candidatureList = candidatureRepository.getAllCandidaturesByMatricule(matricule);
+        System.out.println(candidatureList);
         List<CandidatureGetDTO> candidatureGetDTOList = new ArrayList<>();
 
         for (Candidature candidature : candidatureList) {

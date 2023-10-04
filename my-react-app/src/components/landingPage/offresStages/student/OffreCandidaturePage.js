@@ -15,7 +15,7 @@ const OffreCandidaturePage = () => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         const fetchOffreList = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/v1/stages/offres/?matricule=${savedMatricule}`);
+                const response = await fetch(`http://localhost:8081/api/v1/stages/getMesCandidatures?matricule=${savedMatricule}`);
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);

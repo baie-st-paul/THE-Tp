@@ -16,17 +16,8 @@ public class CandidatureGetDTOSerializer extends JsonSerializer<CandidatureGetDT
         jsonGenerator.writeStartObject();
         jsonGenerator.writeStringField("matricule", candidatureGetDTO.getMatricule());
         jsonGenerator.writeStringField("fileName", candidatureGetDTO.getFileName());
-        if (candidatureGetDTO.getLettre_motivation() != null) {
-            jsonGenerator.writeStringField("lettre_motivation", candidatureGetDTO.getLettre_motivation().getOriginalFilename());
-        } else {
-            jsonGenerator.writeNullField("lettre_motivation");
-        }
-        if (candidatureGetDTO.getOffreStageDTO() != null) {
-            jsonGenerator.writeObjectField("offreStageDTO", candidatureGetDTO.getOffreStageDTO());
-        } else {
-            jsonGenerator.writeNullField("offreStageDTO");
-        }
-
+        jsonGenerator.writeStringField("lettre_motivation", candidatureGetDTO.getLettre_motivation().getOriginalFilename());
+        jsonGenerator.writeObjectField("offreStageDTO", candidatureGetDTO.getOffreStageDTO());
         jsonGenerator.writeEndObject();
     }
 }

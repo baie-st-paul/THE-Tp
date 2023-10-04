@@ -11,6 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -29,8 +31,10 @@ import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
@@ -914,6 +918,103 @@ class StudentServicesTest {
         verify(cvRepository).findCvByMatricule(Mockito.<String>any());
         verify(offreStageRepository).findOffreById(Mockito.<Long>any());
         verify(studentRepository).findByMaticule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#getMesCandidaturesByMatricule(String)}
+     */
+    @Test
+    void testGetMesCandidaturesByMatricule() {
+        when(candidatureRepository.getAllCandidaturesByMatricule(Mockito.<String>any())).thenReturn(new ArrayList<>());
+        assertTrue(studentServices.getMesCandidaturesByMatricule("Matricule").isEmpty());
+        verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#getMesCandidaturesByMatricule(String)}
+     */
+    @Test
+    void testGetMesCandidaturesByMatricule2() throws UnsupportedEncodingException {
+        Cv cvStudent = new Cv();
+        cvStudent.setFileName("foo.txt");
+        cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cvStudent.setId(1L);
+        cvStudent.setMatricule("Matricule");
+        cvStudent.setStatus(Cv.StatusCV.Accepted);
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(1L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Student student = new Student();
+        student.setFirstName("Jane");
+        student.setLastName("Doe");
+        student.setMatricule("Matricule");
+        student.setPhoneNumber("6625550144");
+        student.setProgram("Program");
+        student.setUtilisateur(utilisateur2);
+
+        Candidature candidature = new Candidature();
+        candidature.setCvStudent(cvStudent);
+        candidature.setFileName("foo.txt");
+        candidature.setId(1L);
+        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setOffreStage(offreStage);
+        candidature.setStudent(student);
+
+        ArrayList<Candidature> candidatureList = new ArrayList<>();
+        candidatureList.add(candidature);
+        when(candidatureRepository.getAllCandidaturesByMatricule(Mockito.<String>any())).thenReturn(candidatureList);
+        List<CandidatureGetDTO> actualMesCandidaturesByMatricule = studentServices
+                .getMesCandidaturesByMatricule("Matricule");
+        assertEquals(1, actualMesCandidaturesByMatricule.size());
+        CandidatureGetDTO getResult = actualMesCandidaturesByMatricule.get(0);
+        assertEquals("foo.txt", getResult.getFileName());
+        MultipartFile lettre_motivation = getResult.getLettre_motivation();
+        assertTrue(lettre_motivation instanceof ByteArrayMultipartFile);
+        OffreStageDTO offreStageDTO = getResult.getOffreStageDTO();
+        assertEquals(1L, offreStageDTO.getEmployerId().longValue());
+        assertFalse(lettre_motivation.isEmpty());
+        assertEquals("foo.txt", lettre_motivation.getOriginalFilename());
+        assertEquals("Titre", offreStageDTO.getTitre());
+        assertEquals("The characteristics of someone or something", offreStageDTO.getDescription());
+        assertEquals("Accepted", offreStageDTO.getStatus());
+        assertEquals("foo.txt", lettre_motivation.getName());
+        assertEquals("application/pdf", lettre_motivation.getContentType());
+        assertEquals("Student Program", offreStageDTO.getStudentProgram());
+        assertEquals("1970-01-01", offreStageDTO.getDateDebut().toString());
+        assertEquals("1970-01-01", offreStageDTO.getDateFin().toString());
+        assertEquals(1L, offreStageDTO.getId());
+        assertEquals(10.0d, offreStageDTO.getSalaire());
+        verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
     }
 }
 

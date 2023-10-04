@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
-import {ListGroup} from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 import { Container } from 'react-bootstrap';
 import "../OffrePage.css";
 import Grid from '@mui/material/Grid';
@@ -9,13 +9,13 @@ import OffreDescription from "../OffreDescription";
 
 const OffreCandidaturePage = () => {
     const [offres, setOffres] = useState([]);
-    const [filterOption] = useState("In_review");
     const [shouldRefetch] = useState(false);
 
     useEffect(() => {
+        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         const fetchOffreList = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/v1/stages/offres/');
+                const response = await fetch(`http://localhost:8081/api/v1/stages/offres/?matricule=${savedMatricule}`);
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);
@@ -30,8 +30,6 @@ const OffreCandidaturePage = () => {
         fetchOffreList();
     }, [shouldRefetch]);
 
-    const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
-
     return (
         <div>
             <div className="custom-jumbotron">
@@ -41,7 +39,7 @@ const OffreCandidaturePage = () => {
             </div>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container>
-                    {filteredOffreList.map((offre, index) => (
+                    {offres.map((offre, index) => (
                         <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Grid item xs={12} sm={12} md={4} lg={4}>
                                 <Card style={{ width: '30rem', margin: '5px' }}>

@@ -1,9 +1,13 @@
 package com.example.tpbackend.models;
 
+import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @NoArgsConstructor
@@ -37,5 +41,14 @@ public class Candidature {
         this.offreStage = offreStage;
         this.cvStudent = cvStudent;
         this.fileName = fileName;
+    }
+
+    public CandidatureGetDTO toCandidatureGetDTO(){
+        byte[] yourByteArray = this.lettre_motivation;
+        String originalFilename = fileName;
+        String contentType = "application/pdf";
+
+        MultipartFile multipartFile = new ByteArrayMultipartFile(fileName, originalFilename, contentType, yourByteArray);
+        return new CandidatureGetDTO(this.student.getMatricule(),this.offreStage.toOffreStageDTO(),this.fileName, multipartFile);
     }
 }

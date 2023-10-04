@@ -1,5 +1,6 @@
 package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -47,6 +49,17 @@ public class StudentController {
             studentServices.postulerOffre(candidaturePostDTO);
             return ResponseEntity.accepted().body(candidaturePostDTO);
         } catch (DataAccessException | IOException ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @GetMapping(value = "/getMesCandidatures{matricule}")
+    public ResponseEntity<?> getCandidatures(@PathVariable("matricule") String matricule){
+        try {
+            List<CandidatureGetDTO> candidatureGetDTOList =  studentServices.getMesCandidaturesByMatricule(matricule);
+            return ResponseEntity.accepted().body(candidatureGetDTOList);
+        } catch (DataAccessException ex) {
             String errorMessage = "An error occurred while processing your request";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }

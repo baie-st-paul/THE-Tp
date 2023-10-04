@@ -1,0 +1,41 @@
+.root{
+    height: 100%;
+    align-items: center;
+}
+
+.divFormInfo{
+    border-style: solid;
+    border-width: 1px;
+    width: 50%;
+    height: 50%;
+    background-color:#c5c6d0 ;
+}
+
+@media screen and (min-width: 601px) {
+    .divFormInfo{
+        width: max-content;
+        height: max-content;
+    }
+}
+
+
+@media screen and (max-width:600px) {
+    .divFormInfo{
+        margin: 10px;
+        width: auto;
+        height: max-content;
+        padding-top: 30%;
+        border:none;
+    }
+    .root{
+        background-color:#c5c6d0  ;
+    }
+    .smCenter{
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+    
+}
+
+

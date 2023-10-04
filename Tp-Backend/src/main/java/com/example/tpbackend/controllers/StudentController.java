@@ -54,7 +54,7 @@ public class StudentController {
         }
     }
 
-    @GetMapping(value = "/getMesCandidatures{matricule}")
+    @GetMapping(value = "/getMesCandidatures/{matricule}")
     public ResponseEntity<?> getCandidatures(@PathVariable("matricule") String matricule){
         try {
             List<CandidatureGetDTO> candidatureGetDTOList =  studentServices.getMesCandidaturesByMatricule(matricule);

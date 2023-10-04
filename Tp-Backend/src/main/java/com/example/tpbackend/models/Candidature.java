@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @NoArgsConstructor
-@Data
 public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,5 +49,29 @@ public class Candidature {
 
         MultipartFile multipartFile = new ByteArrayMultipartFile(fileName, originalFilename, contentType, yourByteArray);
         return new CandidatureGetDTO(this.student.getMatricule(),this.offreStage.toOffreStageDTO(),this.fileName, multipartFile);
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLettre_motivation(byte[] lettre_motivation) {
+        this.lettre_motivation = lettre_motivation;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public void setOffreStage(OffreStage offreStage) {
+        this.offreStage = offreStage;
+    }
+
+    public void setCvStudent(Cv cvStudent) {
+        this.cvStudent = cvStudent;
     }
 }

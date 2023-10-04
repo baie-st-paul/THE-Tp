@@ -8,7 +8,6 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class OffreStageService {
     @Autowired
     private EmployerService employerService;
 
-    public OffreStageDTO createOffre(OffreStageDTO offre) {
+    public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
@@ -53,23 +52,23 @@ public class OffreStageService {
         return dto;
     }
 
-    public OffreStageDTO getOffreById(Long id) {
+    public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
 
-    public OffreStageDTO updateOffreStage(Long id ,OffreStageDTO offreStageDTO){
+    public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offreStageDTO.getEmployerId())));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
-    public boolean deleteOffreStage(Long id){
-        return offreStageRepository.deleteOffreStageById(id);
+    public void deleteOffreStage(long id){
+        offreStageRepository.deleteOffreStageById(id);
     }
 
-    public List<OffreStageDTO> getOffresByEmployerId(Long id) {
+    public List<OffreStageDTO> getOffresByEmployerId(long id) {
         List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 

@@ -66,8 +66,7 @@ public class OffreStageService {
     }
 
     public void deleteOffreStage(long id){
-        OffreStageDTO offreStageDTO = offreStageRepository.findOffreById(id).get().toOffreStageDTO();
-        offreStageRepository.delete(offreStageDTO.toOffreStage());
+        offreStageRepository.deleteOffreStageById(id);
     }
 
     public List<OffreStageDTO> getOffresByEmployerId(long id) {

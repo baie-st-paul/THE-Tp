@@ -53,7 +53,7 @@ public class UtilisateurController {
                     dto.getEmail(),
                     dto.getPassword(),
                     "Student"
-                    );
+            );
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonCreatedStudent = ow.writeValueAsString(dto);

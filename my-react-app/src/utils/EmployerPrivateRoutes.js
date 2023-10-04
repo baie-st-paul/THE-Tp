@@ -1,7 +1,6 @@
 import {Outlet,Route,Navigate} from "react-router-dom";
 import EmployerHomePage from "../components/landingPage/EmployerHomePage/EmployerHomePage";
 
-
 const EmployerPrivateRoutes = ({children,...rest}) => {
     let auth;
     console.log(localStorage.getItem("user_type"))
@@ -19,5 +18,6 @@ const EmployerPrivateRoutes = ({children,...rest}) => {
         auth ? <EmployerHomePage/> : <Navigate to={"*"}/>
     )
 }
+
 
 export default EmployerPrivateRoutes

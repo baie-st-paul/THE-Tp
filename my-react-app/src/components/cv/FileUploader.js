@@ -40,10 +40,10 @@ function FileUploader({matricule}) {
                 requestOptions
             )
                 .then((response) => {
-                        setFile(null);
-                        setFileName("");
-                        setError(null);
-                    })
+                    setFile(null);
+                    setFileName("");
+                    setError(null);
+                })
                 .catch((error) => console.log("error", error));
         } else {
             setError("Please select a valid PDF file before uploading.");

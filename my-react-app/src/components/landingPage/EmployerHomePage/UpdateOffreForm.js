@@ -1,22 +1,30 @@
-import {useRef, useState} from "react";
-import "../../utilisateurs/inscription/InscriptionPage.css"
-import "../../stylesGenerales.css"
-import {Link, Navigate, redirect} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 
-const AjoutOffreForm = ({onAdd}) => {
+const UpdateOffreForm = ({offreStage, onUpdate}) => {
+    const [id, setId] = useState(offreStage.id)
+    const [titre, setTitre] = useState(offreStage.titre);
+    const [description, setDescription] = useState(offreStage.description);
+    const [salaire, setSalaire] = useState(offreStage.salaire);
+    const [studentProgram, setStudentProgram] = useState(offreStage.studentProgram);
+    const [dateDebut, setDateDebut] = useState(offreStage.dateDebut);
+    const [dateFin, setDateFin] = useState(offreStage.dateFin);
 
-    const [titre, setTitre] = useState('');
-    const [description, setDescription] = useState('');
-    const [salaire, setSalaire] = useState('');
-    const [studentProgram, setStudentProgram] = useState('');
-    const [dateDebut, setDateDebut] = useState('');
-    const [dateFin, setDateFin] = useState('');
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);
     const salaireRef = useRef(null)
     const studentProgramRef = useRef(null);
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
+
+    useEffect(() => {
+        setId(offreStage.id)
+        setTitre(offreStage.titre)
+        setDescription(offreStage.description)
+        setSalaire(offreStage.salaire)
+        setStudentProgram(offreStage.studentProgram)
+        setDateDebut(offreStage.dateDebut)
+        setDateFin(offreStage.dateFin)
+    }, []);
 
 
     const onSubmit = (e) => {
@@ -45,7 +53,7 @@ const AjoutOffreForm = ({onAdd}) => {
         }else {
             descriptionRef.current.innerHTML = ""
         }
-        if (salaire.trim() === ''){
+        if (salaire === ''){
             salaireRef.current.innerHTML = " * Veuillez entrer le salaire d'emploi *"
         }else{
             salaireRef.current.innerHTML = ""
@@ -72,7 +80,8 @@ const AjoutOffreForm = ({onAdd}) => {
 
         if (annuler === true) {
         } else {
-            onAdd({
+            onUpdate({
+                id,
                 titre,
                 description,
                 salaire,
@@ -88,7 +97,7 @@ const AjoutOffreForm = ({onAdd}) => {
             <div className='fondIU'>
                 <div className="divForm">
                     <form autoComplete="off" name='abc'  id="formm"  className='form font add-form' onSubmit={onSubmit}>
-                        <h2 className="h3 font text-center">AJOUTER UN OFFRE D'EMPLOI</h2>
+                        <h2 className="h3 font text-center">METTRE A JOUR UNE OFFRE D'EMPLOI</h2>
                         <div className="w-100">
                             <div  className='form-group'>
                                 <input ref={titreRef} className='form-control saisie saisie-user px-3 mb-0' type='text' placeholder="Titre"
@@ -134,7 +143,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                        onChange={(e) => setDateFin(e.target.value)}/>
                                 <p ref={dateFinRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-                            <input type='submit' value="Ajouter l'offre" className='btn btn-block bg-black text-light m-0 mb-2'/>
+                            <input type='submit' value="Mettre à jour l'offre" className='btn btn-block bg-black text-light m-0 mb-2'/>
                         </div>
                     </form>
                 </div>
@@ -143,4 +152,4 @@ const AjoutOffreForm = ({onAdd}) => {
     )
 }
 
-export default AjoutOffreForm;
+export default UpdateOffreForm;

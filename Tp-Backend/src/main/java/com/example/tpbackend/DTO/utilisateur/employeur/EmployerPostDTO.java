@@ -25,6 +25,8 @@ public class EmployerPostDTO {
     }
 
 
+
+
     public static EmployerPostDTO fromEmployeur(Employer employer) {
         EmployerPostDTO employerPostDTO = new EmployerPostDTO();
         BeanUtils.copyProperties(employer, employerPostDTO);

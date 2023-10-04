@@ -53,31 +53,24 @@ public class OffreStageService {
         return dto;
     }
 
-    public OffreStageDTO getOffreById(Long id) {
+    public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
 
-    public OffreStageDTO updateOffreStage(Long id ,OffreStageDTO offreStageDTO){
+    public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offreStageDTO.getEmployerId())));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
-    public boolean deleteOffreStage(Long id){
-        try {
-            OffreStageDTO offreStageDTO = getOffreById(id);
-            offreStageRepository.delete(offreStageDTO.toOffreStage());
-            return true;
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return false;
-        }
+    public void deleteOffreStage(long id){
+        OffreStageDTO offreStageDTO = offreStageRepository.findOffreById(id).get().toOffreStageDTO();
+        offreStageRepository.delete(offreStageDTO.toOffreStage());
     }
 
-    public List<OffreStageDTO> getOffresByEmployerId(Long id) {
+    public List<OffreStageDTO> getOffresByEmployerId(long id) {
         List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 

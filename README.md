@@ -9,7 +9,5 @@
 ##point d'action
 - faire les code review des que possible😂😂😂
 - merge les taches done dans le main
-- faire des bon testes unitaires😭
-- OK👌
 
 🍆

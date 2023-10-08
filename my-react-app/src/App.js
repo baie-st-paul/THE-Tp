@@ -16,12 +16,14 @@ import AjoutOffreForm from './components/landingPage/EmployerHomePage/ajoutOffre
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
 import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
+import InformationEtudiantPostule from './components/landingPage/offresStages/informationEtudiantPostule';
 
 function App() {
     let loggedInUser = useUser();
     return (
         <div>
             <Routes>
+                <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
                 <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>

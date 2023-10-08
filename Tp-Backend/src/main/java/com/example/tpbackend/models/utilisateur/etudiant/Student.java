@@ -29,6 +29,7 @@ public class Student  {
 
         @ManyToMany(mappedBy = "etudiants")
         private List<OffreStage> offresStages;
+
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;
                 this.lastName = lastName;

@@ -1,5 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.CandidatureDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
@@ -19,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServices {
@@ -77,4 +80,12 @@ public class StudentServices {
 
         candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),student,offreStage.get(),cv,candidaturePostDTO.getFileName()));
     }
+
+    public List<CandidatureDTO> getListCandidatureByOfffreId(Long id){
+        return candidatureRepository.findByOffreStageId(id)
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,10 +1,13 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.DTO.CandidatureDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.LoginService;
+import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,28 +28,41 @@ public class EmployerController {
     private UtilisateurRepository utilisateurRepository;
     private OffreStageRepository offreStageRepository;
 
+    private CandidatureRepository candidatureRepository;
+    private OffreStageService offfreStageService;
+    private StudentServices studentService;
+
     @Autowired
-    public EmployerController(UserService userService, LoginService loginService, UtilisateurRepository utilisateurRepository, OffreStageRepository offreStageRepository) {
+    public EmployerController(UserService userService, LoginService loginService, UtilisateurRepository utilisateurRepository, OffreStageRepository offreStageRepository, CandidatureRepository candidatureRepository, OffreStageService offfreStageService, StudentServices studentService) {
         this.userService = userService;
         this.loginService = loginService;
         this.utilisateurRepository = utilisateurRepository;
         this.offreStageRepository = offreStageRepository;
+        this.candidatureRepository = candidatureRepository;
+        this.offfreStageService = offfreStageService;
+        this.studentService = studentService;
     }
+
 
 
     @GetMapping("/{offerId}/applicants")
-    public ResponseEntity<List<StudentGetDTO>> getApplicantsForOffer(@PathVariable Long offerId) {
-        Optional<OffreStage> offreOpt = offreStageRepository.findById(offerId);
+    public ResponseEntity<?> getApplicantsForOffer(@PathVariable Long offerId) {
+        Optional<OffreStageDTO> offreOpt = offfreStageService.getOffreStageById(offerId);
 
         if(offreOpt.isEmpty()){
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(404).body("Aucune offre trouvée avec cet ID.");
         }
 
-        OffreStage offre = offreOpt.get();
-        List<StudentGetDTO> studentDTOs = offre.getStudentDTOs();
+        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOfffreId(offerId);
 
-        return ResponseEntity.ok(studentDTOs);
+        if(candidatures.isEmpty()){
+            return ResponseEntity.status(404).body("Aucune candidature trouvée pour cette offre.");
+        }
+
+        return ResponseEntity.ok(candidatures);
     }
+
+
 
 
 

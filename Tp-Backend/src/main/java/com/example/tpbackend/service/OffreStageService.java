@@ -5,14 +5,13 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -61,6 +60,10 @@ public class OffreStageService {
     public OffreStageDTO getOffreById(Long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
+    }
+
+    public Optional<OffreStageDTO> getOffreStageById(Long id) {
+        return offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
     }
 
     public OffreStageDTO updateOffreStage(Long id ,OffreStageDTO offreStageDTO){

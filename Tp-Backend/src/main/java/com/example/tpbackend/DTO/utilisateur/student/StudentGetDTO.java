@@ -23,6 +23,21 @@ public class StudentGetDTO {
     private String matricule;
     private String program;
 
+    public static StudentGetDTO fromStudent(Student student) {
+        if (student == null) {
+            return null;
+        }
+
+        return new StudentGetDTO(
+                student.getFirstName(),
+                student.getLastName(),
+                student.getUtilisateur().getEmail(),
+                student.getPhoneNumber(),
+                student.getMatricule(),
+                student.getProgram()
+        );
+    }
+
     public Student toStudent(){
         return new Student(
                 firstName,

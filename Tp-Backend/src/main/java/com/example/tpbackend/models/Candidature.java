@@ -38,4 +38,8 @@ public class Candidature {
         this.cvStudent = cvStudent;
         this.fileName = fileName;
     }
+
+    public byte[] getLettreMotivation() {
+        return lettre_motivation;
+    }
 }

@@ -2,13 +2,10 @@ package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.utils.CvDTOSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
-import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,6 +20,7 @@ public class CvDTO {
     private MultipartFile file_cv;
     private String status;
 
+
     public Cv toCv() throws IOException {
         return new Cv(
                 matricule,
@@ -30,6 +28,14 @@ public class CvDTO {
                 convertMultipartFileToByteArray(file_cv),
                 status
         );
+    }
+
+    public static CvDTO fromCv(Cv cv) {
+        CvDTO cvDTO = new CvDTO();
+        cvDTO.setMatricule(cv.getMatricule());
+        cvDTO.setFileName(cv.getFileName());
+        cvDTO.setStatus(cv.getStatus().name());
+        return cvDTO;
     }
 
     public static byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {

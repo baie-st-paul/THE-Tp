@@ -18,7 +18,7 @@ const EmployeurHomePage = () => {
 
     fetchOffers();
   }, []);
-  
+
   // Charger les candidats pour une offre donnée
   const fetchApplicants = async (employerId, offerId) => {
     try {
@@ -47,6 +47,7 @@ const EmployeurHomePage = () => {
               <div>
                 <h3>Candidats pour {offer.title}</h3>
                 {/* Affichez les détails des candidats ici. Par exemple : */}
+                 
                 <table>
                   <thead>
                     <tr>

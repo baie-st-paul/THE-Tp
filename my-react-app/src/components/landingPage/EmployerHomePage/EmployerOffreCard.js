@@ -2,10 +2,11 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import  { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-const EmployerOffreCard = ({ offre , empId }) => {
-    const [nbRequest, setNumberRequests] = useState(0);
+const EmployerOffreCard = ({offre}) => {
+    const [etudiants, setEtudiants] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         handleListePostule();
@@ -24,12 +25,10 @@ const EmployerOffreCard = ({ offre , empId }) => {
                     }
                 }
             );
-            
-            
             if (res.ok) {  
                 const data = await res.json();
-                setNumberRequests(data);
-                console.log(nbRequest);
+                setEtudiants(data);
+                console.log(etudiants);
             } else {
                 const data = await res.json(); 
                 console.log('Erreur', res.status, data);
@@ -39,11 +38,10 @@ const EmployerOffreCard = ({ offre , empId }) => {
         }
     }
     
-    useEffect(() => {
-        console.log(nbRequest);
-    }, [nbRequest]);
-    
-    
+function handleCheckListe(){
+    navigate('/infoStudent', {state: {listeEtudiants:etudiants}})
+    }
+
 
     return (
         <Card className="container-fluid" style={{ margin:"20px" }}>
@@ -63,9 +61,11 @@ const EmployerOffreCard = ({ offre , empId }) => {
                 <Button className={"btn btn-danger"}>
                     Supprimer
                 </Button>
-                <Button className={"btn btn-success"} onClick={handleListePostule}>
-                    Voir la liste des personnes postule
+                { etudiants!== null && 
+                <Button className={"btn btn-success"} onClick={handleCheckListe}>
+                    Voir la liste des personnes postule ({etudiants.length})
                 </Button>
+                  }
             </Card.Body>
         </Card>
     );

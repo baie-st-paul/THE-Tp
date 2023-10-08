@@ -1,11 +1,14 @@
 package com.example.tpbackend.service.utilisateur;
 
-import io.jsonwebtoken.*;
-import javax.xml.bind.DatatypeConverter;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.io.InputStream;
 import java.security.Key;
 import java.util.Base64;
@@ -17,6 +20,7 @@ public class LoginService {
 
     private static final Properties prop = new Properties();
 
+    // Cette methode est utilisée pour récupérer la phrase secrete dans le fichier application.properties
     private static String getPropertie() {
         if (prop.isEmpty()) {
             try {
@@ -34,20 +38,24 @@ public class LoginService {
             return prop.getProperty("PhraseSecrete", "");
         }
     }
+
+    // Cette methode est utilisée pour générer la clé secrete en fonction de la phrase secrete
     private static String getSecretKey() {
         String phraseSecrete = getPropertie();
+        // la methode getBytes() retourne un tableau de bytes de la phrase secrete
         SecretKey secretKey = new SecretKeySpec(phraseSecrete.getBytes(), "AES");
+        // on encode la clé secrete en base64 pour pouvoir l'utiliser dans le token
         return Base64.getUrlEncoder().encodeToString(secretKey.getEncoded());
     }
 
     public static String genereJWT(String email) {
-
+        // on utilise l'algorithme HS256 pour générer le token
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
+        // on récupère la date actuelle et on la convertit en millisecondes
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
-        // expiration dans 2 heures
+        // expiration dans 2 heures c'est a dire 2*60*60*1000 qui veut dire 2 heures en millisecondes
         long expMillis = nowMillis + (2L * 60L * 60L * 1000L);
         Date exp = new Date(expMillis);
 
@@ -71,4 +79,10 @@ public class LoginService {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(getSecretKey()))
                 .parseClaimsJws(jwt).getBody();
     }
+
+    public String extractEmailFromToken(String jwt) {
+        Claims claims = decodeJWT(jwt);
+        return claims.get("email", String.class);
+    }
+
 }

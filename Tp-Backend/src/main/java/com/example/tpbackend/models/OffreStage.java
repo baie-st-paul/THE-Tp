@@ -1,13 +1,17 @@
 package com.example.tpbackend.models;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -33,6 +37,14 @@ public class OffreStage {
     @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
+
+    @ManyToMany
+    @JoinTable(
+            name = "offre_etudiant",
+            joinColumns = @JoinColumn(name = "offre_id"),
+            inverseJoinColumns = @JoinColumn(name = "etudiant_id")
+    )
+    private List<Student> etudiants;
 
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
@@ -64,6 +76,23 @@ public class OffreStage {
     public Long getEmployerId() {
         return employer.getId();
     }
+
+    public List<StudentGetDTO> getStudentDTOs() {
+        return this.etudiants.stream()
+                .map(student -> {
+                    String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
+                    // convertir `Student` en `StudentGetDTO`
+                    return new StudentGetDTO(
+                            student.getFirstName(),
+                            student.getLastName(),
+                            email,
+                            student.getPhoneNumber(),
+                            student.getMatricule(),
+                            student.getProgram());
+                })
+                .collect(Collectors.toList());
+    }
+
 
     public enum Status{
         Accepted,

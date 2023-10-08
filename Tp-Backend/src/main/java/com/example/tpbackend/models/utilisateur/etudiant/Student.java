@@ -1,11 +1,14 @@
 package com.example.tpbackend.models.utilisateur.etudiant;
 
-import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -24,6 +27,8 @@ public class Student  {
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
+        @ManyToMany(mappedBy = "etudiants")
+        private List<OffreStage> offresStages;
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;
                 this.lastName = lastName;

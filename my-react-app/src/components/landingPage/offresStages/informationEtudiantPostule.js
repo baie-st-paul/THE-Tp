@@ -73,7 +73,7 @@ function handleRetour(){
       <td data-label="NUMERO DE TELEPHONE"className='headerElement'>{etudiant.numTel}</td>
       <td data-label="LETTRE DE MOTIVATION"className='headerElement'>{etudiant.lettre_de_motivation}</td>
       <td data-label="RESUME"className='headerElement'>{etudiant.resume}</td>
-      <button className='btn btn-warning me-3'>CONVOQUER</button>
+      <td><button className='btn btn-warning me-3'>CONVOQUER</button></td>
       </tr>
     ))}
     </tbody>

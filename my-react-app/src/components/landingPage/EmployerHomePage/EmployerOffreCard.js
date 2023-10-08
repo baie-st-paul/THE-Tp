@@ -32,9 +32,11 @@ const EmployerOffreCard = ({offre}) => {
             } else {
                 const data = await res.json(); 
                 console.log('Erreur', res.status, data);
+                
             }
         } catch (error) {
             console.log('Une erreur est survenue:', error);
+            setEtudiants([])
         }
     }
     
@@ -61,11 +63,12 @@ function handleCheckListe(){
                 <Button className={"btn btn-danger"}>
                     Supprimer
                 </Button>
-                { etudiants!== null && 
-                <Button className={"btn btn-success"} onClick={handleCheckListe}>
+                { etudiants!== null && etudiants.length > 0 ?
+                  <Button className={"btn btn-success"} onClick={handleCheckListe}>
                     Voir la liste des personnes postule ({etudiants.length})
-                </Button>
-                  }
+                    </Button> :
+                    <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button> 
+                }
             </Card.Body>
         </Card>
     );

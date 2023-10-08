@@ -13,7 +13,7 @@ const EmployerOffreCard = ({ offre , empId }) => {
 
     async function handleListePostule() {
         try {
-            const token = localStorage.getItem('token'); // Ou l'endroit où vous stockez le token après la connexion
+            const token = localStorage.getItem('token'); 
             const res = await fetch(
                 `http://localhost:8081/api/employers/${empId}/offers/${offre.id}/applicants`,
                 {
@@ -24,7 +24,8 @@ const EmployerOffreCard = ({ offre , empId }) => {
                     }
                 }
             );
-    
+            
+            
             if (res.ok) {  
                 const data = await res.json();
                 setNumberRequests(data);

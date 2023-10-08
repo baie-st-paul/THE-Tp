@@ -15,7 +15,7 @@ const EmployerOffreCard = ({ offre , empId }) => {
         try {
             const token = localStorage.getItem('token'); 
             const res = await fetch(
-                `http://localhost:8081/api/employers/${empId}/offers/${offre.id}/applicants`,
+                `http://localhost:8081/api/employers/${offre.id}/applicants`,
                 {
                     method: 'GET',
                     headers: {

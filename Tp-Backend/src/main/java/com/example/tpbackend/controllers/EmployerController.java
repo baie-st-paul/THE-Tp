@@ -38,7 +38,7 @@ public class EmployerController {
     public ResponseEntity<List<StudentGetDTO>> getApplicantsForOffer(@PathVariable Long offerId) {
         Optional<OffreStage> offreOpt = offreStageRepository.findById(offerId);
 
-        if(!offreOpt.isPresent()){
+        if(offreOpt.isEmpty()){
             return ResponseEntity.status(404).build();
         }
 

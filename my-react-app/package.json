@@ -8,8 +8,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.19",
     "@mui/material": "^5.14.11",
+    "@react-buddy/ide-toolbox": "^2.4.0",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.1",
@@ -27,8 +27,7 @@
     "react-scripts": "5.0.1",
     "reactjs-popup": "^2.0.6",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.88.2",
-    "@react-buddy/ide-toolbox": "^2.4.0"
+    "webpack": "^5.88.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -58,5 +57,7 @@
   "main": "index.js",
   "author": "",
   "license": "ISC",
-  "devDependencies": {}
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0"
+  }
 }

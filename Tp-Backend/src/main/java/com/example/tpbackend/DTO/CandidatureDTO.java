@@ -2,6 +2,7 @@ package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +25,7 @@ public class CandidatureDTO {
 
         StudentGetDTO studentDto = StudentGetDTO.fromStudent(candidature.getStudent());
         OffreStageDTO offreStageDto = OffreStageDTO.fromOffreStage(candidature.getOffreStage());
-        CvDTO cvStudentDto = CvDTO.fromCv(candidature.getCvStudent());
-
+        CvDTO cvStudentDto = candidature.getCvStudent().toCvDTO();
         return new CandidatureDTO(
                 candidature.getId(),
                 candidature.getLettreMotivation(),

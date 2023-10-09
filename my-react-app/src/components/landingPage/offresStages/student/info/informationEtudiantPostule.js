@@ -13,6 +13,7 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
   const [openModal, setOpenModal] = useState(false);
   const [openModalLettre, setOpenModalLetttre] = useState(false)
   const [student, setStudent] = useState(null);
+
   function handleMontrerCv(student){
     setOpenModal(!openModal)
     setStudent(student)
@@ -20,6 +21,11 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
   function handleRetour(){
     navigate('/EmployeurHomePage')
   }
+
+  function handleConvoquerEntrevue() {
+    navigate('/createEntrevue')
+  }
+
   function handleMontrerLettre(student){
     setOpenModalLetttre(!openModalLettre)
     setStudent(student)
@@ -50,7 +56,7 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
                       <td data-label="NUMERO DE TELEPHONE"className=' headerElement'>{etudiant.student.phoneNumber}</td>
                       <td data-label="RESUME"className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>RESUME</button>  </td>
                       <td data-label="LETTRE DE MOTIVATION"className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>
-                      <td><button className='btn btn-warning  p-3'>CONVOQUER</button></td>
+                      <td><button className='btn btn-warning p-3' onClick={handleConvoquerEntrevue}>CONVOQUER</button></td>
                     </tr>
                 ))}
                 </tbody>

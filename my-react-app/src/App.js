@@ -17,6 +17,7 @@ import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
 import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
+import ConvoquerEtudiantEntrevuePage from "./components/landingPage/Entrevue/ConvoquerEtudiantEntrevuePage";
 
 function App() {
     let loggedInUser = useUser();
@@ -24,6 +25,7 @@ function App() {
         <div>
             <Routes>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
+                <Route path={"/createEntrevue"} element={<ConvoquerEtudiantEntrevuePage/>}></Route>
                 <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>

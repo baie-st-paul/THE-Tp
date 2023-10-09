@@ -1,8 +1,9 @@
-package com.example.tpbackend.DTO;
+package com.example.tpbackend.DTO.candidature;
 
+import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -39,11 +39,9 @@ const EmployerOffreCard = ({offre}) => {
             setEtudiants([])
         }
     }
-    
-function handleCheckListe(){
-    navigate('/infoStudent', {state: {listeEtudiants:etudiants}})
+    function handleCheckListe(){
+        navigate('/infoStudent', {state: {listeEtudiants:etudiants}})
     }
-
 
     return (
         <Card className="container-fluid" style={{ margin:"20px" }}>
@@ -64,10 +62,10 @@ function handleCheckListe(){
                     Supprimer
                 </Button>
                 { etudiants!== null && etudiants.length > 0 ?
-                  <Button className={"btn btn-success"} onClick={handleCheckListe}>
-                    Voir la liste des personnes postule ({etudiants.length})
+                    <Button className={"btn btn-success"} onClick={handleCheckListe}>
+                        Voir la liste des personnes postule ({etudiants.length})
                     </Button> :
-                    <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button> 
+                    <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button>
                 }
             </Card.Body>
         </Card>

@@ -16,7 +16,7 @@ import AjoutOffreForm from './components/landingPage/EmployerHomePage/ajoutOffre
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRotes";
 import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
-import InformationEtudiantPostule from './components/landingPage/offresStages/informationEtudiantPostule';
+import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
 
 function App() {
     let loggedInUser = useUser();

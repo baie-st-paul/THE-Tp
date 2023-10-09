@@ -1,6 +1,6 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.CandidatureDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.OffreStageRepository;

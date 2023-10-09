@@ -1,6 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.CandidatureDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;

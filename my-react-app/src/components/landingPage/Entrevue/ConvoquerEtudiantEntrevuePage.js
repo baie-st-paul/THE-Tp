@@ -1,19 +1,35 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CreateEntrevueForm from "./CreateEntrevueForm";
+import {useUser} from "../../../Providers/UserProvider";
 
 const ConvoquerEtudiantEntrevuePage = () => {
     const [entrevues, setEntrevues] = useState([]);
     const [erreur, setErreur] = useState(false);
+    const { loggedInUser, setLoggedInUser } = useUser();
+    const [matricule, setMatricule] = useState(null);
+
+    useEffect(() => {
+        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
+
+        if (savedMatricule) {
+            setMatricule(savedMatricule);
+        }
+
+        if (loggedInUser && loggedInUser.matricule) {
+            setMatricule(loggedInUser.matricule);
+            localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
+        }
+    }, [loggedInUser, setLoggedInUser]);
 
     let employerId = localStorage.getItem('employer_id')
-    let etudiantId = localStorage.getItem('student_id')
 
     const createEntrevue = async (entrevue) => {
         console.log(erreur)
+        console.log(matricule)
 
         entrevue["status"] = "EnAttente"
         entrevue["idEmployeur"] = employerId
-        entrevue["idEtudiant"] = etudiantId
+        entrevue["idEtudiant"] = matricule
         console.log(JSON.stringify(entrevue))
 
         await fetch(

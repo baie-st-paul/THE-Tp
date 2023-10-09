@@ -1,4 +1,4 @@
-package com.example.tpbackend.models.utilisateur;
+package com.example.tpbackend.models;
 
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
@@ -48,5 +48,3 @@ public class Entrevue {
     }
 
 }
-
-

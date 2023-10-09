@@ -1,11 +1,13 @@
 package com.example.tpbackend.DTO;
 
-import com.example.tpbackend.models.utilisateur.Entrevue;
+import com.example.tpbackend.models.Entrevue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EntrevueDTO {
     private String date;
     private String description;

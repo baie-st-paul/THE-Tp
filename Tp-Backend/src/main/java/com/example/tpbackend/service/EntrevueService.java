@@ -1,7 +1,7 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
-import com.example.tpbackend.models.utilisateur.Entrevue;
+import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;

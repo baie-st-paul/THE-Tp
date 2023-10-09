@@ -1,41 +1,104 @@
-.root{
+.rootInfo{
+    display: flex;
+    justify-content: center;
     height: 100%;
-    align-items: center;
+    overflow-x: auto;
+}
+
+ th{
+    border-bottom: solid;
+    text-align: left;
+}
+
+table caption {
+    border-bottom: solid;
+    border-color: black;
+    caption-side: top;
+    padding-bottom: 2em;
+  }
+
+table {
+    width: min-content;
+}
+
+.breakWord{
+width: 200px;
+word-wrap: break-word;
+}
+
+.headerElement{
+padding-left: 1em;
 }
 
 .divFormInfo{
     border-style: solid;
-    border-width: 1px;
+    border-width: 2px;
     width: 50%;
-    height: 50%;
     background-color:#c5c6d0 ;
+    overflow-x: auto;
 }
 
 @media screen and (min-width: 601px) {
     .divFormInfo{
-        width: max-content;
-        height: max-content;
+        width: fit-content;
+        height: min-content;
+        overflow-x: auto;
     }
 }
 
-
-@media screen and (max-width:600px) {
+@media screen and (max-width: 1100px) {
     .divFormInfo{
-        margin: 10px;
-        width: auto;
-        height: max-content;
-        padding-top: 30%;
-        border:none;
+        border-style: none;
+        width: 100%;
+        overflow-x: unset;
+        background-color:#c5c6d0 ;
     }
-    .root{
-        background-color:#c5c6d0  ;
-    }
-    .smCenter{
-        justify-content: center;
-        display: flex;
-        align-items: center;
-    }
+    table {
+        width: 100%;
+        border: 0;
+      }
     
-}
+      table caption {
+        font-size: 1em;
+      }
+      
+      table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+      
+      table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+      }
+      .breakWord{
+        width: 100%;
+        word-wrap: unset;
+      }
+      
+      table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: end;
+        padding-right: 10px;
+      }
+      table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      table td:last-child {
+        border-bottom: 0;
+      }
+  }
 
 

@@ -16,6 +16,8 @@ import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 public class StudentServices {
@@ -37,6 +40,7 @@ public class StudentServices {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    private static final Logger logger = LoggerFactory.getLogger(StudentServices.class);
 
     public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
         Utilisateur utilisateur = new Utilisateur(email, password,role);
@@ -82,10 +86,15 @@ public class StudentServices {
     }
 
     public List<CandidatureDTO> getListCandidatureByOfffreId(Long id){
-        return candidatureRepository.findByOffreStageId(id)
+        logger.info("Récupération de la liste des candidatures pour l'offre ID: {}", id);
+        List<CandidatureDTO> candidatures = candidatureRepository.findByOffreStageId(id)
                 .stream()
                 .map(CandidatureDTO::fromCandidature)
                 .collect(Collectors.toList());
+
+        logger.info("Nombre de candidatures trouvées pour l'offre ID {}: {}", id, candidatures.size());
+        return candidatures;
     }
+
 
 }

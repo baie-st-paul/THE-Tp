@@ -23,7 +23,6 @@ public class CandidatureDTO {
         if (candidature == null) {
             return null;
         }
-
         StudentGetDTO studentDto = StudentGetDTO.fromStudent(candidature.getStudent());
         OffreStageDTO offreStageDto = OffreStageDTO.fromOffreStage(candidature.getOffreStage());
         CvDTO cvStudentDto = candidature.getCvStudent().toCvDTO();

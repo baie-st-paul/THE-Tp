@@ -81,7 +81,7 @@ public class OffreStage {
         return this.etudiants.stream()
                 .map(student -> {
                     String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
-                    // convertir `Student` en `StudentGetDTO`
+
                     return new StudentGetDTO(
                             student.getFirstName(),
                             student.getLastName(),

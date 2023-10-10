@@ -65,17 +65,10 @@ public class OffreStageService {
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
 
-    /*public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        logger.info("Recherché d'une offre par ID: {}", id);
-        return offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
-    }*/
+
 
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        logger.info("Recherche d'une offre par ID: {}", id);
         Optional<OffreStageDTO> offre = offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
-        if (offre.isEmpty()) {
-            logger.warn("Aucune offre trouvée pour l'ID: {}", id);
-        }
         return offre;
     }
 

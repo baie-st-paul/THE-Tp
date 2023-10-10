@@ -1,5 +1,5 @@
 import './App.css';
-import {Routes, Route, Navigate, Outlet} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import React from "react";
 import InscriptionPageE from "./components/utilisateurs/inscription/etudiant/InscriptionPageE";
 import InscriptionPageEmp from "./components/utilisateurs/inscription/employeur/InscriptionPageEmp";
@@ -8,7 +8,6 @@ import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMai
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./page_not_found/PageNotFound";
-import { useUser } from "./Providers/UserProvider";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
@@ -18,14 +17,15 @@ import OffresPageGestionnaire from "./components/landingPage/offresStages/OffreP
 import OffresPageStudent from "./components/landingPage/offresStages/student/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
 import ConvoquerEtudiantEntrevuePage from "./components/landingPage/Entrevue/ConvoquerEtudiantEntrevuePage";
+import LandingCreatedEntrevue from "./components/landingPage/Entrevue/LandingCreatedEntrevue";
 
 function App() {
-    let loggedInUser = useUser();
     return (
         <div>
             <Routes>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
                 <Route path={"/createEntrevue"} element={<ConvoquerEtudiantEntrevuePage/>}></Route>
+                <Route path={"/entrevueOk"} element={<LandingCreatedEntrevue/>}></Route>
                 <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>

@@ -60,21 +60,25 @@ const CreateEntrevueForm = ({onAdd}) => {
                         <h2 className="h3 font text-center">CRÉATION DE L'ENTREVUE</h2>
                         <div className="w-100">
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder='Date'
+                                <label style={{display: "block", textAlign: "left"}}>Date</label>
+                                <input className='form-control saisie saisie-user px-3 m-0' type='date'
                                        style={{color: 'grey', fontSize : '20px'}}
                                        value={date}
                                        onChange={(e) => setDate(e.target.value)}/>
                                 <p ref={dateRef} className="font px-1 textAvertissement text-danger"></p>
 
-                                <input className='form-control saisie saisie-user px-3 m-0' type='time' placeholder='Heure'
+                                <label style={{display: "block", textAlign: "left"}}>Heure</label>
+                                <input className='form-control saisie saisie-user px-3 m-0' type='time'
                                        style={{color: 'grey', fontSize : '20px'}}
                                        value={heure}
                                        onChange={(e) => setHeure(e.target.value)}/>
                                 <p ref={heureRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
 
+                            <label style={{display: "block", textAlign: "left"}}>Description</label>
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Description sommaire'
+                                <input className='form-control saisie saisie-user px-3 m-0' type='text'
+                                       placeholder="ex.: réunion par teams, lien de la réunion"
                                        value={description}
                                        onChange={(e) => setDescription(e.target.value)}/>
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>

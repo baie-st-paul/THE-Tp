@@ -1,31 +1,18 @@
 import React, {useEffect, useState} from "react";
 import CreateEntrevueForm from "./CreateEntrevueForm";
-import {useUser} from "../../../Providers/UserProvider";
+import {useLocation} from "react-router-dom";
 
-const ConvoquerEtudiantEntrevuePage = () => {
-    const [entrevues, setEntrevues] = useState([]);
+const ConvoquerEtudiantEntrevuePage = (props) => {
     const [erreur, setErreur] = useState(false);
-    const { loggedInUser, setLoggedInUser } = useUser();
-    const [matricule, setMatricule] = useState(null);
-
-    useEffect(() => {
-        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-
-        if (savedMatricule) {
-            setMatricule(savedMatricule);
-        }
-
-        if (loggedInUser && loggedInUser.matricule) {
-            setMatricule(loggedInUser.matricule);
-            localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
-        }
-    }, [loggedInUser, setLoggedInUser]);
 
     let employerId = localStorage.getItem('employer_id')
 
+    const location = useLocation();
+    let matricule = location.state;
+    console.log(matricule)
+
     const createEntrevue = async (entrevue) => {
         console.log(erreur)
-        console.log(matricule)
 
         entrevue["status"] = "EnAttente"
         entrevue["idEmployeur"] = employerId

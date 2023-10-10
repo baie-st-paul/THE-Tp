@@ -9,14 +9,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntrevueDTO {
-    private String date;
+    private long id;
+    private String dateHeure;
     private String description;
+    private String status;
     private String idEmployeur;
     private String idEtudiant;
-    private String status;
+
+    public Entrevue toEntrevue() {
+        return new Entrevue(
+                id,
+                dateHeure,
+                description,
+                status
+        );
+    }
 
     public EntrevueDTO(Entrevue entrevue){
-        this.date = entrevue.getDate();
+        this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();
         this.idEmployeur = entrevue.getEmployer().getId() + "";
         this.idEtudiant = entrevue.getStudent().getMatricule();

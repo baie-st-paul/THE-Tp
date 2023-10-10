@@ -20,8 +20,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -59,14 +57,14 @@ class EntrevueTest {
         EntrevueDTO entrevueDTO = new EntrevueDTO();
         entrevueDTO.setIdEmployeur("1");
         entrevueDTO.setIdEtudiant("1");
-        entrevueDTO.setDate(String.valueOf(LocalDate.now()));
+        entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
         entrevueDTO.setDescription("Interview description");
 
-        Entrevue entrevue = new Entrevue(entrevueDTO.getDate(), employer, student, entrevueDTO.getDescription());
+        Entrevue entrevue = new Entrevue(entrevueDTO.getId(), entrevueDTO.getDateHeure(), entrevueDTO.getDescription(), entrevueDTO.getStatus());
         when(entrevueRepository.save(entrevue)).thenReturn(entrevue);
 
         EntrevueDTO result = entrevueService.createEntrevue(entrevueDTO);
-        assertEquals(entrevueDTO.getDate(), result.getDate());
+        assertEquals(entrevueDTO.getDateHeure(), result.getDateHeure());
         assertEquals(entrevueDTO.getDescription(), result.getDescription());
     }
 
@@ -75,7 +73,7 @@ class EntrevueTest {
         EntrevueDTO entrevueDTO = new EntrevueDTO();
         entrevueDTO.setIdEmployeur("1");
         entrevueDTO.setIdEtudiant("1");
-        entrevueDTO.setDate(String.valueOf(LocalDate.now()));
+        entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
         entrevueDTO.setDescription("Interview description");
 
         Optional<Employer> employerOptional = Optional.empty();
@@ -92,7 +90,7 @@ class EntrevueTest {
         EntrevueDTO entrevueDTO = new EntrevueDTO();
         entrevueDTO.setIdEmployeur("1");
         entrevueDTO.setIdEtudiant("1");
-        entrevueDTO.setDate(String.valueOf(LocalDate.now()));
+        entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
 
         Employer employer = new Employer();
         employer.setId(44);
@@ -100,8 +98,8 @@ class EntrevueTest {
         Student student = new Student();
         student.setMatricule("2221111");
 
-        Entrevue entrevue = new Entrevue(entrevueDTO.getDate(), employer, student, "Interview description");
-        when(entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDate("1", 1L, entrevueDTO.getDate())).thenReturn(entrevue);
+        Entrevue entrevue = new Entrevue(entrevueDTO.getId(), entrevueDTO.getDateHeure(), "Interview description", entrevueDTO.getStatus());
+        when(entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure("1", 1L, entrevueDTO.getDateHeure())).thenReturn(entrevue);
 
         String newStatus = "Vue";
         entrevueDTO.setStatus(newStatus);

@@ -1,5 +1,6 @@
 package com.example.tpbackend.models;
 
+import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
@@ -7,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table
@@ -17,27 +17,38 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 public class Entrevue {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String date;
+    private String dateHeure;
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
-    private String description;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
 
-    public Entrevue(String date, Employer employer, Student student, String description) {
-        this.date = date;
-        this.employer = employer;
-        this.student = student;
-        this.status = Status.EnAttente;
+    public Entrevue(long id, String dateHeure, String description, String status) {
+        this.id = id;
+        this.dateHeure = dateHeure;
         this.description = description;
+        this.status = Status.valueOf(status);
+    }
+
+    public EntrevueDTO toEntrevueDTO() {
+        return new EntrevueDTO(
+                id,
+                dateHeure,
+                description,
+                String.valueOf(status),
+                employer.getId() + "",
+                student.getMatricule()
+        );
     }
 
     public enum Status{

@@ -22,6 +22,8 @@ public class EntrevueController {
             EntrevueDTO entrevue = entrevueService.createEntrevue(dto);
             return new ResponseEntity<>(entrevue, HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println(dto);
+            System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }

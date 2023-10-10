@@ -43,7 +43,8 @@ const CreateEntrevueForm = ({onAdd}) => {
 
         if (annuler === true) {
         } else {
-            const dateHeure = date + heure;
+            const dateHeure = date + ", " + heure;
+            console.log(dateHeure)
             onAdd({
                 dateHeure,
                 description

@@ -1,39 +1,49 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Entrevue;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
+import com.example.tpbackend.service.utilisateur.EmployerService;
+import com.example.tpbackend.service.utilisateur.StudentServices;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@NoArgsConstructor
 public class EntrevueService {
-    private final EntrevueRepository entrevueRepository;
-    private final EmployerRepository employerRepository;
-    private final StudentRepository studentRepository;
 
-    @Transactional
+    @Autowired
+    private EntrevueRepository entrevueRepository;
+
+    @Autowired
+    private EmployerRepository employerRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private EmployerService employerService;
+
+    @Autowired
+    private StudentServices studentServices;
+
     public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
-        Optional<Employer> employer = employerRepository.findById(Integer.parseInt(entrevueDTO.getIdEmployeur()));
-        Optional<Student> student = studentRepository.findById(Integer.parseInt(entrevueDTO.getIdEtudiant()));
-        if(employer.isEmpty() || student.isEmpty()) throw new Exception("Interview not valid");
-        Entrevue entrevue = new Entrevue(entrevueDTO.getDate(), employer.get(), student.get(), entrevueDTO.getDescription());
-        return new EntrevueDTO(entrevueRepository.save(entrevue));
+        Entrevue entrevue = entrevueDTO.toEntrevue();
+        entrevue.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(Long.valueOf(entrevueDTO.getIdEmployeur()))));
+        entrevue.setStudent(StudentGetDTO.fromStudentDTO(studentServices.getStudentByMatricule(entrevueDTO.getIdEtudiant())));
+        return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
-    @Transactional
     public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
-        Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDate(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployeur()), entrevueDTO.getDate());
+        Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployeur()), entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
         return new EntrevueDTO(entrevueRepository.save(entrevue));
     }

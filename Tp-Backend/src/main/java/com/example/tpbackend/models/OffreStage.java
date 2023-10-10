@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +32,9 @@ public class OffreStage {
 
     private LocalDate dateDebut;
     private LocalDate dateFin;
+    @NotNull(message = "Le nombre maximal d'étudiants ne doit pas être null.")
+    @PositiveOrZero(message = "Le nombre maximal d'étudiants doit être positif ou zéro.")
+    private int nbMaxEtudiants;
     
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -48,7 +53,7 @@ public class OffreStage {
 
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
-                      LocalDate dateFin, String status) {
+                      LocalDate dateFin, int nbMaxEtudiant, String status) {
         this.id = id;
         this.titre = titre;
         this.salaire = salaire;
@@ -56,6 +61,7 @@ public class OffreStage {
         this.description = description;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.nbMaxEtudiants = nbMaxEtudiant;
         this.status = Status.valueOf(status);
     }
 
@@ -69,7 +75,8 @@ public class OffreStage {
                 description,
                 dateDebut,
                 dateFin,
-                String.valueOf(status)
+                String.valueOf(status),
+                nbMaxEtudiants
         );
     }
 
@@ -81,7 +88,6 @@ public class OffreStage {
         return this.etudiants.stream()
                 .map(student -> {
                     String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
-
                     return new StudentGetDTO(
                             student.getFirstName(),
                             student.getLastName(),

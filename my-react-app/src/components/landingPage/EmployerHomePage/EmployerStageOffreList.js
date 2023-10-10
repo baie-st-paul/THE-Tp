@@ -69,6 +69,7 @@ const EmployerStageOffreList = ({employerId}) => {
                         studentProgram: data.studentProgram,
                         dateDebut: data.dateDebut,
                         dateFin: data.dateFin,
+                        nbMaxStudiants: data.nbMaxStudiants,
                     } : o
             )
         )

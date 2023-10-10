@@ -9,6 +9,7 @@ const AjoutOffreForm = ({onAdd}) => {
     const [description, setDescription] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
+    const [nbMaxEtudiants, setNbMaxEtudiants] = useState('');
 
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -16,6 +17,7 @@ const AjoutOffreForm = ({onAdd}) => {
     const studentProgramRef = useRef(null);
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
+    const nbMaxEtudiantsRef = useRef(null);
 
 
     const onSubmit = (e) => {
@@ -69,6 +71,12 @@ const AjoutOffreForm = ({onAdd}) => {
             dateFinRef.current.innerHTML = ""
         }
 
+        if (nbMaxEtudiants.trim() === ''){
+            nbMaxEtudiantsRef.current.innerHTML = " * Veuillez entrer le nombre max. d’étudiants *"
+        }else {
+            nbMaxEtudiantsRef.current.innerHTML = ""
+        }
+
         if (annuler === true) {
         } else {
             onAdd({
@@ -77,7 +85,8 @@ const AjoutOffreForm = ({onAdd}) => {
                 salaire,
                 studentProgram,
                 dateDebut,
-                dateFin
+                dateFin,
+                nbMaxEtudiants
             })
         }
     }
@@ -133,6 +142,18 @@ const AjoutOffreForm = ({onAdd}) => {
                                        onChange={(e) => setDateFin(e.target.value)}/>
                                 <p ref={dateFinRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
+                            <div className='form-group'>
+                            <input 
+                                className='form-control saisie saisie-user px-3 m-0' 
+                                type='number' 
+                                placeholder='Nombre max. d’étudiants' 
+                                style={{color: 'grey', fontSize : '20px'}}
+                                value={nbMaxEtudiants}
+                                onChange={(e) => setNbMaxEtudiants(e.target.value)} 
+                            />
+                            <p ref={nbMaxEtudiantsRef} className="font px-1 textAvertissement text-danger"></p>
+                        </div>
+
                             <input type='submit' value="Ajouter l'offre" className='btn btn-block bg-black text-light m-0 mb-2'/>
                         </div>
                     </form>

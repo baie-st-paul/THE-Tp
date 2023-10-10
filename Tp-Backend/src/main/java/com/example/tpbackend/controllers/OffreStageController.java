@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class OffreStageController {
     private final OffreStageService offreStageService;
 
     @PostMapping("/create")
-    public ResponseEntity<OffreStageDTO> saveOffre(@RequestBody OffreStageDTO offre) {
+    public ResponseEntity<OffreStageDTO> saveOffre(@Valid @RequestBody OffreStageDTO offre) {
         try {
             OffreStageDTO newOffre = offreStageService.saveOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
@@ -39,6 +40,7 @@ public class OffreStageController {
         offreStageDTO.setDescription(offre.getDescription());
         offreStageDTO.setDateDebut(offre.getDateDebut());
         offreStageDTO.setDateFin(offre.getDateFin());
+        offreStageDTO.setNbMaxEtudiants(offre.getNbMaxEtudiants());
 
         return offreStageService.saveOffre(offreStageDTO);
     }

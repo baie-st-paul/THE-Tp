@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
-    Optional<OffreStage> findOffreById(Long id);
+    Optional<OffreStage> findOffreById(long id);
     List<OffreStage> findAllByStudentProgram(String program);
 
     @Modifying

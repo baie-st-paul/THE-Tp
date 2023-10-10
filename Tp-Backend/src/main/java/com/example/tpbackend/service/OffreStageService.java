@@ -60,7 +60,7 @@ public class OffreStageService {
     }
 
 
-    public OffreStageDTO updateOffreStage(Long id ,OffreStageDTO offreStageDTO){
+    public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offreStageDTO.getEmployerId())));

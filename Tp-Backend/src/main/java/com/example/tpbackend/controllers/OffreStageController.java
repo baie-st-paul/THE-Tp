@@ -18,7 +18,7 @@ public class OffreStageController {
     private final OffreStageService offreStageService;
 
     @PostMapping("/create")
-    public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
+    public ResponseEntity<OffreStageDTO> saveOffre(@RequestBody OffreStageDTO offre) {
         try {
             OffreStageDTO newOffre = offreStageService.saveOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);

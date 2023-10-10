@@ -6,6 +6,7 @@ import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,10 @@ public class Student  {
                 StudentGetDTO studentGetDTO = new StudentGetDTO();
                 BeanUtils.copyProperties(student,studentGetDTO);
                 return studentGetDTO;
+        }
+
+        public Utilisateur getUtilisateur() {
+                return utilisateur;
         }
 
         public String getMatricule() {

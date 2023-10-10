@@ -1,6 +1,4 @@
 package com.example.tpbackend.models;
-
-import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
@@ -10,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class Candidature {
     @Id

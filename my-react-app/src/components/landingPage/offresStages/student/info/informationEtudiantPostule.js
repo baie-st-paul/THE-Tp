@@ -7,9 +7,22 @@ import {useLocation} from 'react-router-dom';
 import Modal from "../../../GestionnaireHomePage/Vetocv/Modal";
 
 export default function InformationEtudiantPostule({listeEtudiants}) {
+  { /*
+
+  GARDER CA EN COMMENTAIRES POUR LES TESTS
+
   const navigate = useNavigate();
   const location = useLocation();
   listeEtudiants = location.state.listeEtudiants
+
+ */
+
+  }   
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  listeEtudiants = location.state.listeEtudiants
+
   const [openModal, setOpenModal] = useState(false);
   const [openModalLettre, setOpenModalLetttre] = useState(false)
   const [student, setStudent] = useState(null);
@@ -28,7 +41,6 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
       state: matricule
     })
   }
-
   function handleMontrerLettre(student){
     setOpenModalLetttre(!openModalLettre)
     setStudent(student)
@@ -57,8 +69,10 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
                       <td  data-label="PRENOM" className='headerElement breakWord'>{etudiant.student.lastName}</td>
                       <td data-label="ADRESSE COURRIEL" className=' headerElement'>{etudiant.student.email}</td>
                       <td data-label="NUMERO DE TELEPHONE" className=' headerElement'>{etudiant.student.phoneNumber}</td>
-                      <td data-label="RESUME" className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>RESUME</button>  </td>
+                      <td data-label="RESUME" className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>CV</button>  </td>
+                      { etudiant.student.fileName !== '' ?
                       <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>
+                  :   <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3 disabled'>LETTRE MOTIVATION</button></td>}
                       <td><button className='btn btn-warning p-3' onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>CONVOQUER</button></td>
                     </tr>
                 ))}

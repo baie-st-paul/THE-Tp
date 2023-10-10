@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
-    Optional<OffreStage> findOffreById(Long id);
+    Optional<OffreStage> findOffreById(long id);
     List<OffreStage> findAllByStudentProgram(String program);
 
     @Modifying
@@ -20,10 +20,11 @@ public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     @Query("UPDATE OffreStage SET status = ?2 WHERE titre = ?1")
     void updateOffreStatusByTitre(String titre, OffreStage.Status statusOffre);
 
-    List<OffreStage> findAllByTitre(String titre);
-
     @Query("SELECT o FROM OffreStage o WHERE o.employer.id = ?1")
-    List<OffreStage> findAllByEmployer(Long id);
+    List<OffreStage> findAllByEmployer(long id);
 
-    boolean deleteOffreStageById(Long id);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM OffreStage WHERE id = ?1")
+    void deleteOffreStageById(long id);
 }

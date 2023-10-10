@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.utils.CandidatureGetDTOSerializer;
 import com.example.tpbackend.utils.CvDTOSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
@@ -30,15 +31,7 @@ public class CvDTO {
         );
     }
 
-    public static CvDTO fromCv(Cv cv) {
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setMatricule(cv.getMatricule());
-        cvDTO.setFileName(cv.getFileName());
-        cvDTO.setStatus(cv.getStatus().name());
-        return cvDTO;
-    }
-
-    public static byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException, IOException {
+    public static byte[] convertMultipartFileToByteArray(MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }

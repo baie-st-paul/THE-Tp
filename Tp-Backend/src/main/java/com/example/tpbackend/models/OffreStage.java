@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class OffreStage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private String titre;
     private Double salaire;
     private String studentProgram;

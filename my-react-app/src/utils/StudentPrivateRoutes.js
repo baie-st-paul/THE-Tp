@@ -1,8 +1,8 @@
-import {Outlet,Route,Navigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import StudentHomePage from "../components/landingPage/StudentHomePage/StudentHomePage";
 
 
-const StudentPrivateRoutes = ({children,...rest}) => {
+const StudentPrivateRoutes = () => {
     let auth;
     if(localStorage.getItem('token') != null && localStorage.getItem("user_type").match("Student")){
         console.log("true")

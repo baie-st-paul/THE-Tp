@@ -1,9 +1,8 @@
-
 import GestionnaireHomePage from "../components/landingPage/GestionnaireHomePage/GestionnaireHomePage";
 import {Navigate} from "react-router-dom";
 
 
-const GestionnairePrivateRoutes = ({children,...rest}) => {
+const GestionnairePrivateRoutes = () => {
     let auth;
     if(localStorage.getItem('token') != null && localStorage.getItem("user_type").match("Gestionnaire")){
         console.log("true")

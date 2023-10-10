@@ -1,21 +1,15 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudentGetDTO {
-    public StudentGetDTO(String firstName, String lastName, String email, String phoneNumber, String matricule, String program) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.matricule = matricule;
-        this.program = program;
-    }
-
     private String firstName;
     private String lastName;
     private String email;
@@ -38,13 +32,9 @@ public class StudentGetDTO {
         );
     }
 
-    public Student toStudent(){
-        return new Student(
-                firstName,
-                lastName,
-                phoneNumber,
-                matricule,
-                program
-        );
+    public static Student fromStudentDTO(StudentGetDTO studentGetDTO){
+        Student student = new Student();
+        BeanUtils.copyProperties(studentGetDTO, student);
+        return student;
     }
 }

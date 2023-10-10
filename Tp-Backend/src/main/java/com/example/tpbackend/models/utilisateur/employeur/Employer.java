@@ -36,6 +36,28 @@ public class Employer {
         this.companyName = companyName;
         this.phoneNumber = phoneNumber;
     }
+    @Override
+    public String toString() {
+        return "Employer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", utilisateur=" + utilisateur +
+                '}';
+    }
+    public String toStringFull() {
+        return "Employer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", utilisateur=" + utilisateur +
+                ", offresStages=" + offresStages +
+                '}';
+    }
 
     public void setUtilisateur(Utilisateur utilisateur){
         this.utilisateur = utilisateur;

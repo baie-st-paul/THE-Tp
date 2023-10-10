@@ -25,7 +25,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/utilisateur") // v1 = version 1
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UtilisateurController {
 
     private StudentServices studentServices;
@@ -53,7 +53,7 @@ public class UtilisateurController {
                     dto.getEmail(),
                     dto.getPassword(),
                     "Student"
-                    );
+            );
 
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String jsonCreatedStudent = ow.writeValueAsString(dto);
@@ -141,24 +141,23 @@ public class UtilisateurController {
 
                 String token = LoginService.genereJWT(user.getEmail());
                 String jsonResponse= "";
-                switch (user.getRole()){
-
-                    case "Student":
+                switch (user.getRole()) {
+                    case "Student" -> {
                         StudentGetDTO studentGetDTO = studentServices.getStudentByUser(user);
                         StudentLoginDTO loginDtoS = new StudentLoginDTO(token, studentGetDTO);
-                        jsonResponse = convertObjectToJson(loginDtoS.toStudentLogin(),user.getRole());
+                        jsonResponse = convertObjectToJson(loginDtoS.toStudentLogin(), user.getRole());
                         System.out.println(jsonResponse);
-                        break;
-                    case "Gestionnaire":
+                    }
+                    case "Gestionnaire" -> {
                         GestionnaireGetDTO gestionnaireGetDTO = gestionnaireService.getGestionnaireByUser(user);
                         GestionnaireLoginDTO loginDtoG = new GestionnaireLoginDTO(token, gestionnaireGetDTO);
-                        jsonResponse = convertObjectToJson(loginDtoG.toGestionnaireLogin(),user.getRole());
-                        break;
-                    case "Employeur":
+                        jsonResponse = convertObjectToJson(loginDtoG.toGestionnaireLogin(), user.getRole());
+                    }
+                    case "Employeur" -> {
                         EmployerGetDTO employerGetDTO = employerService.getEmployeurByUser(user);
                         EmployeurLoginDTO loginDtoE = new EmployeurLoginDTO(token, employerGetDTO);
-                        jsonResponse = convertObjectToJson(loginDtoE.toEmployeurLogin(),user.getRole());
-                        break;
+                        jsonResponse = convertObjectToJson(loginDtoE.toEmployeurLogin(), user.getRole());
+                    }
                 }
                 return ResponseEntity.accepted().body(jsonResponse);
             } else {

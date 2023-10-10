@@ -1,4 +1,5 @@
 package com.example.tpbackend.models;
+
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;

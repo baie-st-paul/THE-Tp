@@ -13,6 +13,7 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
   const [openModal, setOpenModal] = useState(false);
   const [openModalLettre, setOpenModalLetttre] = useState(false)
   const [student, setStudent] = useState(null);
+
   function handleMontrerCv(student){
     setOpenModal(!openModal)
     setStudent(student)
@@ -20,6 +21,14 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
   function handleRetour(){
     navigate('/EmployeurHomePage')
   }
+
+  function handleConvoquerEntrevue(matricule) {
+    console.log(matricule)
+    navigate(`/createEntrevue`, {
+      state: matricule
+    })
+  }
+
   function handleMontrerLettre(student){
     setOpenModalLetttre(!openModalLettre)
     setStudent(student)
@@ -35,10 +44,10 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
                   <th scope="col" className='headerElement'>NOM</th>
                   <th scope='col' className='headerElement'>PRENOM</th>
                   <th scope='col' className='headerElement'>ADRESSE COURRIEL</th>
-                  <th scope='col'className='headerElement'>NUMERO DE TELEPHONE</th>
-                  <th scope='col'className='headerElement text-center'>RESUME</th>
-                  <th scope='col'className='headerElement'>LETTRE DE MOTIVATION</th>
-                  <th scope='col'className='headerElement text-center'>ACTION</th>
+                  <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
+                  <th scope='col' className='headerElement text-center'>RESUME</th>
+                  <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
+                  <th scope='col' className='headerElement text-center'>ACTION</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,11 +55,11 @@ export default function InformationEtudiantPostule({listeEtudiants}) {
                     <tr key={i} >
                       <td data-label="NOM" scope="row" className='headerElement breakWord'>{etudiant.student.firstName}</td>
                       <td  data-label="PRENOM" className='headerElement breakWord'>{etudiant.student.lastName}</td>
-                      <td data-label="ADRESSE COURRIEL"className=' headerElement'>{etudiant.student.email}</td>
-                      <td data-label="NUMERO DE TELEPHONE"className=' headerElement'>{etudiant.student.phoneNumber}</td>
-                      <td data-label="RESUME"className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>RESUME</button>  </td>
-                      <td data-label="LETTRE DE MOTIVATION"className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>
-                      <td><button className='btn btn-warning  p-3'>CONVOQUER</button></td>
+                      <td data-label="ADRESSE COURRIEL" className=' headerElement'>{etudiant.student.email}</td>
+                      <td data-label="NUMERO DE TELEPHONE" className=' headerElement'>{etudiant.student.phoneNumber}</td>
+                      <td data-label="RESUME" className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>RESUME</button>  </td>
+                      <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>
+                      <td><button className='btn btn-warning p-3' onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>CONVOQUER</button></td>
                     </tr>
                 ))}
                 </tbody>

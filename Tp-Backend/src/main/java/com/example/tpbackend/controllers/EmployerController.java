@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/employers")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmployerController {
 
 
@@ -28,8 +27,6 @@ public class EmployerController {
         this.offreStageService = offfreStageService;
         this.studentService = studentService;
     }
-
-
 
     @GetMapping("/{offerId}/applicants")
     public ResponseEntity<?> getApplicantsForOffer(@PathVariable Long offerId) {
@@ -44,7 +41,6 @@ public class EmployerController {
         if(candidatures.isEmpty()){
             return ResponseEntity.status(404).body(Map.of("error", "Aucune candidature trouvée pour cette offre."));
         }
-
         return ResponseEntity.ok(candidatures);
     }
 

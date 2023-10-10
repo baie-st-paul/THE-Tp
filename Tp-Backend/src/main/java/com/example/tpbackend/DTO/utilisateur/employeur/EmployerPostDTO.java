@@ -1,12 +1,14 @@
 package com.example.tpbackend.DTO.utilisateur.employeur;
 
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class EmployerPostDTO {
     private String firstName;
     private String lastName;
@@ -15,14 +17,7 @@ public class EmployerPostDTO {
     private String email;
     private String password;
 
-    public EmployerPostDTO(String firstName, String lastName, String companyName, String phoneNumber, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.companyName = companyName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-    }
+
 
 
     public static EmployerPostDTO fromEmployeur(Employer employer) {
@@ -33,16 +28,9 @@ public class EmployerPostDTO {
         return employerPostDTO;
     }
 
-    public static Employer fromEmployerDTO(EmployerPostDTO employerPostDTO){
-        Employer employer = new Employer();
-        BeanUtils.copyProperties(employerPostDTO, employer);
-        return employer;
-    }
-
     public  Employer toEmployer(EmployerPostDTO employerPostDTO) {
         Employer employer = new Employer();
         BeanUtils.copyProperties(employerPostDTO, employer);
         return employer;
     }
-
 }

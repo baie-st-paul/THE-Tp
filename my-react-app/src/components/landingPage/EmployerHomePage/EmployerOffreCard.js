@@ -3,8 +3,10 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import  { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import {FaTimes} from "react-icons/fa";
+import {FaRepeat} from "react-icons/fa6";
 
-const EmployerOffreCard = ({offre}) => {
+const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     const [etudiants, setEtudiants] = useState(null);
     const navigate = useNavigate();
 
@@ -55,11 +57,17 @@ const EmployerOffreCard = ({offre}) => {
                     Date de début: {offre.dateDebut}<br/>
                     Date de fin: {offre.dateFin}<br/>
                 </Card.Text>
-                <Button className="btn btn-primary">
-                    Modifier
+                <Button className="btn btn-danger"
+                        onClick={() => onDelete(offre.id)}>
+                    Supprimer <FaTimes
+                    style={{color: 'black'}}
+                />
                 </Button>
-                <Button className={"btn btn-danger"}>
-                    Supprimer
+                <Button className="btn btn-primary"
+                        onClick={() => onUpdate(offre)}>
+                    Modifier <FaRepeat
+                    style={{color: 'black'}}
+                />
                 </Button>
                 { etudiants!== null && etudiants.length > 0 ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>

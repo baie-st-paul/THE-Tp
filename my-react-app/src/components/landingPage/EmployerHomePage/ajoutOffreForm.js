@@ -1,23 +1,22 @@
 import {useRef, useState} from "react";
 import "../../utilisateurs/inscription/InscriptionPage.css"
 import "../../stylesGenerales.css"
-import {Link, Navigate, redirect} from "react-router-dom";
 
 const AjoutOffreForm = ({onAdd}) => {
-
     const [titre, setTitre] = useState('');
-    const [description, setDescription] = useState('');
     const [salaire, setSalaire] = useState('');
     const [studentProgram, setStudentProgram] = useState('');
+    const [description, setDescription] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
+
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);
     const salaireRef = useRef(null)
     const studentProgramRef = useRef(null);
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
-    
+
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -73,12 +72,12 @@ const AjoutOffreForm = ({onAdd}) => {
         if (annuler === true) {
         } else {
             onAdd({
-             titre,
-             description,
-             salaire,
-             studentProgram,
-             dateDebut,
-             dateFin
+                titre,
+                description,
+                salaire,
+                studentProgram,
+                dateDebut,
+                dateFin
             })
         }
     }
@@ -108,7 +107,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                        onChange={(e) => setSalaire(e.target.value)} />
                                 <p ref={salaireRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-                          
+
                             <div className='form-group'>
                                 <select
                                     className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}
@@ -135,9 +134,6 @@ const AjoutOffreForm = ({onAdd}) => {
                                 <p ref={dateFinRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <input type='submit' value="Ajouter l'offre" className='btn btn-block bg-black text-light m-0 mb-2'/>
-                            <Link to='/' className='btn btn-block bg-danger m-0 mt-0 text-light'>
-                                <span style={{fontSize : '20px'}}>Retour</span>
-                            </Link>
                         </div>
                     </form>
                 </div>

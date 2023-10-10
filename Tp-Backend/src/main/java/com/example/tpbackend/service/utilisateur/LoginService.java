@@ -79,10 +79,4 @@ public class LoginService {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(getSecretKey()))
                 .parseClaimsJws(jwt).getBody();
     }
-
-    public String extractEmailFromToken(String jwt) {
-        Claims claims = decodeJWT(jwt);
-        return claims.get("email", String.class);
-    }
-
 }

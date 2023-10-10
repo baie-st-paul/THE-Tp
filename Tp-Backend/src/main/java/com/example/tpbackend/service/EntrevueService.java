@@ -37,22 +37,4 @@ public class EntrevueService {
         entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
         return new EntrevueDTO(entrevueRepository.save(entrevue));
     }
-
-
-    public List<EntrevueDTO> getEntrevueByStudent(String matricule){
-        List<EntrevueDTO> entrevues = new ArrayList<>();
-        for(Entrevue e : entrevueRepository.findAllByStudent_Matricule(matricule)){
-            entrevues.add(new EntrevueDTO(e));
-        }
-        return entrevues;
-    }
-
-    public List<EntrevueDTO> getEntrevueByEmployer(Long id){
-        List<EntrevueDTO> entrevues = new ArrayList<>();
-        for(Entrevue e : entrevueRepository.findAllByEmployer_Id(id)){
-            entrevues.add(new EntrevueDTO(e));
-        }
-        return entrevues;
-    }
-
 }

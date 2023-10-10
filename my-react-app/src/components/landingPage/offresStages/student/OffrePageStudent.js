@@ -57,7 +57,7 @@ const OffresPageStudent = () => {
                                         <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
                                         <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
                                         <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
-                                        <ListGroup.Item>Nombre: {offre.nbMaxStudiants}</ListGroup.Item>
+                                        <ListGroup.Item><strong>Nombre:</strong> {offre.nbMaxEtudiants}</ListGroup.Item>
                                         
                                         <ListGroup.Item>
                                             <CandidatureModal id={offre.id}/>

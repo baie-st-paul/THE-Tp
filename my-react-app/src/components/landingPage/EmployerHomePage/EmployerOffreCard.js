@@ -3,8 +3,10 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import  { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import {FaTimes} from "react-icons/fa";
+import {FaRepeat} from "react-icons/fa6";
 
-const EmployerOffreCard = ({offre}) => {
+const EmployerOffreCard = ({offre, onDelete, onUpdate, showUpdate}) => {
     const [etudiants, setEtudiants] = useState(null);
     const navigate = useNavigate();
 

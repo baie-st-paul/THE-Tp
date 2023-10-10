@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @NoArgsConstructor
 public class EntrevueService {
@@ -30,11 +27,5 @@ public class EntrevueService {
         entrevue.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(Long.valueOf(entrevueDTO.getIdEmployeur()))));
         entrevue.setStudent(StudentGetDTO.fromStudentDTO(studentServices.getStudentByMatricule(entrevueDTO.getIdEtudiant())));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
-    }
-
-    public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
-        Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployeur()), entrevueDTO.getDateHeure());
-        entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
-        return new EntrevueDTO(entrevueRepository.save(entrevue));
     }
 }

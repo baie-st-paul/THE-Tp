@@ -1,7 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -11,14 +10,13 @@ import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Disabled;
@@ -30,24 +28,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -91,20 +81,20 @@ public class GestionnaireServiceTest {
         gestionnaire.setMatricule("Matricule");
         gestionnaire.setPhoneNumber("6625550144");
         gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
+        when(gestionnaireRepository.save(Mockito.any())).thenReturn(gestionnaire);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.org");
         utilisateur2.setId(1L);
         utilisateur2.setPassword("iloveyou");
         utilisateur2.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
+        when(utilisateurRepository.save(Mockito.any())).thenReturn(utilisateur2);
         GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO("Jane", "Doe", "Matricule", "6625550144",
                 "jane.doe@example.org", "iloveyou");
 
         assertSame(gestionnaireDTO, gestionnaireService.saveGestionnaire(gestionnaireDTO));
-        verify(gestionnaireRepository).save(Mockito.<Gestionnaire>any());
-        verify(utilisateurRepository).save(Mockito.<Utilisateur>any());
+        verify(gestionnaireRepository).save(Mockito.any());
+        verify(utilisateurRepository).save(Mockito.any());
     }
 
     /**
@@ -133,14 +123,14 @@ public class GestionnaireServiceTest {
         gestionnaire.setMatricule("Matricule");
         gestionnaire.setPhoneNumber("6625550144");
         gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
+        when(gestionnaireRepository.save(Mockito.any())).thenReturn(gestionnaire);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.org");
         utilisateur2.setId(1L);
         utilisateur2.setPassword("iloveyou");
         utilisateur2.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
+        when(utilisateurRepository.save(Mockito.any())).thenReturn(utilisateur2);
         gestionnaireService.saveGestionnaire(null);
     }
 
@@ -161,14 +151,14 @@ public class GestionnaireServiceTest {
         gestionnaire.setMatricule("Matricule");
         gestionnaire.setPhoneNumber("6625550144");
         gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
+        when(gestionnaireRepository.save(Mockito.any())).thenReturn(gestionnaire);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.org");
         utilisateur2.setId(1L);
         utilisateur2.setPassword("iloveyou");
         utilisateur2.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
+        when(utilisateurRepository.save(Mockito.any())).thenReturn(utilisateur2);
 
         Utilisateur utilisateur3 = new Utilisateur();
         utilisateur3.setEmail("jane.doe@example.org");
@@ -183,11 +173,11 @@ public class GestionnaireServiceTest {
         gestionnaire2.setPhoneNumber("6625550144");
         gestionnaire2.setUtilisateur(utilisateur3);
         GestionnairePostDTO gestionnaireDTO = mock(GestionnairePostDTO.class);
-        when(gestionnaireDTO.toGestionnaire(Mockito.<GestionnairePostDTO>any())).thenReturn(gestionnaire2);
+        when(gestionnaireDTO.toGestionnaire(Mockito.any())).thenReturn(gestionnaire2);
         assertSame(gestionnaireDTO, gestionnaireService.saveGestionnaire(gestionnaireDTO));
-        verify(gestionnaireRepository).save(Mockito.<Gestionnaire>any());
-        verify(utilisateurRepository).save(Mockito.<Utilisateur>any());
-        verify(gestionnaireDTO, atLeast(1)).toGestionnaire(Mockito.<GestionnairePostDTO>any());
+        verify(gestionnaireRepository).save(Mockito.any());
+        verify(utilisateurRepository).save(Mockito.any());
+        verify(gestionnaireDTO, atLeast(1)).toGestionnaire(Mockito.any());
     }
 
     /**
@@ -195,10 +185,10 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testSaveGestionnaire4() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(true);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(true);
         assertNull(gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org",
                 "iloveyou", "Role"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**
@@ -206,12 +196,12 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testSaveGestionnaire5() {
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(true);
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
+        when(gestionnaireRepository.existsByMatricule(Mockito.any())).thenReturn(true);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(false);
         assertNull(gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org",
                 "iloveyou", "Role"));
-        verify(gestionnaireRepository).existsByMatricule(Mockito.<String>any());
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(gestionnaireRepository).existsByMatricule(Mockito.any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**
@@ -231,8 +221,8 @@ public class GestionnaireServiceTest {
         //       at com.example.tpbackend.service.utilisateur.GestionnaireService.saveGestionnaire(GestionnaireService.java:43)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(false);
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
+        when(gestionnaireRepository.existsByMatricule(Mockito.any())).thenReturn(false);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(false);
         gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org", "iloveyou",
                 "Role");
     }
@@ -242,9 +232,9 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByMatricule() {
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(true);
+        when(gestionnaireRepository.existsByMatricule(Mockito.any())).thenReturn(true);
         assertTrue(gestionnaireService.existsByMatricule("Matricule"));
-        verify(gestionnaireRepository).existsByMatricule(Mockito.<String>any());
+        verify(gestionnaireRepository).existsByMatricule(Mockito.any());
     }
 
     /**
@@ -252,9 +242,9 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByMatricule2() {
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(false);
+        when(gestionnaireRepository.existsByMatricule(Mockito.any())).thenReturn(false);
         assertFalse(gestionnaireService.existsByMatricule("Matricule"));
-        verify(gestionnaireRepository).existsByMatricule(Mockito.<String>any());
+        verify(gestionnaireRepository).existsByMatricule(Mockito.any());
     }
 
     /**
@@ -262,9 +252,9 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByEmail() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(true);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(true);
         assertTrue(gestionnaireService.existsByEmail("jane.doe@example.org"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**
@@ -272,9 +262,9 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByEmail2() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(false);
         assertFalse(gestionnaireService.existsByEmail("jane.doe@example.org"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**
@@ -282,10 +272,10 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByMatriculeOrEmail() {
-        when(gestionnaireRepository.existsByMatriculeOrEmail(Mockito.<String>any(), Mockito.<String>any()))
+        when(gestionnaireRepository.existsByMatriculeOrEmail(Mockito.any(), Mockito.any()))
                 .thenReturn(true);
         assertTrue(gestionnaireService.existsByMatriculeOrEmail("Matricule", "jane.doe@example.org"));
-        verify(gestionnaireRepository).existsByMatriculeOrEmail(Mockito.<String>any(), Mockito.<String>any());
+        verify(gestionnaireRepository).existsByMatriculeOrEmail(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -293,10 +283,10 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testExistsByMatriculeOrEmail2() {
-        when(gestionnaireRepository.existsByMatriculeOrEmail(Mockito.<String>any(), Mockito.<String>any()))
+        when(gestionnaireRepository.existsByMatriculeOrEmail(Mockito.any(), Mockito.any()))
                 .thenReturn(false);
         assertFalse(gestionnaireService.existsByMatriculeOrEmail("Matricule", "jane.doe@example.org"));
-        verify(gestionnaireRepository).existsByMatriculeOrEmail(Mockito.<String>any(), Mockito.<String>any());
+        verify(gestionnaireRepository).existsByMatriculeOrEmail(Mockito.any(), Mockito.any());
     }
 
     /**
@@ -387,7 +377,7 @@ public class GestionnaireServiceTest {
     void testGetAllCvs2() throws IOException {
         Cv cv = new Cv();
         cv.setFileName("foo.txt");
-        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setFile_cv("AXAXAXAX".getBytes(StandardCharsets.UTF_8));
         cv.setId(1L);
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.StatusCV.Accepted);
@@ -414,16 +404,16 @@ public class GestionnaireServiceTest {
      * Method under test: {@link GestionnaireService#getAllCvs()}
      */
     @Test
-    void testGetAllCvs3() throws UnsupportedEncodingException {
+    void testGetAllCvs3() {
         Cv cv = mock(Cv.class);
         when(cv.toCvDTO()).thenReturn(new CvDTO());
-        doNothing().when(cv).setFileName(Mockito.<String>any());
-        doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
+        doNothing().when(cv).setFileName(Mockito.any());
+        doNothing().when(cv).setFile_cv(Mockito.any());
         doNothing().when(cv).setId(anyLong());
-        doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setMatricule(Mockito.any());
+        doNothing().when(cv).setStatus(Mockito.any());
         cv.setFileName("foo.txt");
-        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setFile_cv("AXAXAXAX".getBytes(StandardCharsets.UTF_8));
         cv.setId(1L);
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.StatusCV.Accepted);
@@ -434,11 +424,11 @@ public class GestionnaireServiceTest {
         assertEquals(1, gestionnaireService.getAllCvs().size());
         verify(cvRepository).findAll();
         verify(cv).toCvDTO();
-        verify(cv).setFileName(Mockito.<String>any());
-        verify(cv).setFile_cv(Mockito.<byte[]>any());
+        verify(cv).setFileName(Mockito.any());
+        verify(cv).setFile_cv(Mockito.any());
         verify(cv).setId(anyLong());
-        verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setMatricule(Mockito.any());
+        verify(cv).setStatus(Mockito.any());
     }
 
     /**
@@ -446,9 +436,9 @@ public class GestionnaireServiceTest {
      */
     @Test
     void testGetAllCvsByFileName() {
-        when(cvRepository.getAllByFileName(Mockito.<String>any())).thenReturn(new ArrayList<>());
+        when(cvRepository.getAllByFileName(Mockito.any())).thenReturn(new ArrayList<>());
         assertTrue(gestionnaireService.getAllCvsByFileName("foo.txt").isEmpty());
-        verify(cvRepository).getAllByFileName(Mockito.<String>any());
+        verify(cvRepository).getAllByFileName(Mockito.any());
     }
 
     /**
@@ -458,14 +448,14 @@ public class GestionnaireServiceTest {
     void testGetAllCvsByFileName2() throws IOException {
         Cv cv = new Cv();
         cv.setFileName("foo.txt");
-        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setFile_cv("AXAXAXAX".getBytes(StandardCharsets.UTF_8));
         cv.setId(1L);
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.StatusCV.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
-        when(cvRepository.getAllByFileName(Mockito.<String>any())).thenReturn(cvList);
+        when(cvRepository.getAllByFileName(Mockito.any())).thenReturn(cvList);
         List<CvDTO> actualAllCvsByFileName = gestionnaireService.getAllCvsByFileName("foo.txt");
         assertEquals(1, actualAllCvsByFileName.size());
         CvDTO getResult = actualAllCvsByFileName.get(0);
@@ -478,38 +468,38 @@ public class GestionnaireServiceTest {
         assertEquals("application/pdf", file_cv.getContentType());
         assertEquals("foo.txt", file_cv.getName());
         assertEquals("foo.txt", file_cv.getOriginalFilename());
-        verify(cvRepository).getAllByFileName(Mockito.<String>any());
+        verify(cvRepository).getAllByFileName(Mockito.any());
     }
 
     /**
      * Method under test: {@link GestionnaireService#getAllCvsByFileName(String)}
      */
     @Test
-    void testGetAllCvsByFileName3() throws UnsupportedEncodingException {
+    void testGetAllCvsByFileName3() {
         Cv cv = mock(Cv.class);
         when(cv.toCvDTO()).thenReturn(new CvDTO());
-        doNothing().when(cv).setFileName(Mockito.<String>any());
-        doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
+        doNothing().when(cv).setFileName(Mockito.any());
+        doNothing().when(cv).setFile_cv(Mockito.any());
         doNothing().when(cv).setId(anyLong());
-        doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setMatricule(Mockito.any());
+        doNothing().when(cv).setStatus(Mockito.any());
         cv.setFileName("foo.txt");
-        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setFile_cv("AXAXAXAX".getBytes(StandardCharsets.UTF_8));
         cv.setId(1L);
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.StatusCV.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
-        when(cvRepository.getAllByFileName(Mockito.<String>any())).thenReturn(cvList);
+        when(cvRepository.getAllByFileName(Mockito.any())).thenReturn(cvList);
         assertEquals(1, gestionnaireService.getAllCvsByFileName("foo.txt").size());
-        verify(cvRepository).getAllByFileName(Mockito.<String>any());
+        verify(cvRepository).getAllByFileName(Mockito.any());
         verify(cv).toCvDTO();
-        verify(cv).setFileName(Mockito.<String>any());
-        verify(cv).setFile_cv(Mockito.<byte[]>any());
+        verify(cv).setFileName(Mockito.any());
+        verify(cv).setFile_cv(Mockito.any());
         verify(cv).setId(anyLong());
-        verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setMatricule(Mockito.any());
+        verify(cv).setStatus(Mockito.any());
     }
 
 

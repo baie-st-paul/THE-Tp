@@ -8,7 +8,6 @@ import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import com.example.tpbackend.service.utilisateur.EmployerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +19,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -53,9 +45,9 @@ class EmployerServiceTest {
      */
     @Test
     void testExistByName() {
-        when(employerRepository.existsByCompanyName(Mockito.<String>any())).thenReturn(true);
+        when(employerRepository.existsByCompanyName(Mockito.any())).thenReturn(true);
         assertTrue(employerService.existByName("Company Name"));
-        verify(employerRepository).existsByCompanyName(Mockito.<String>any());
+        verify(employerRepository).existsByCompanyName(Mockito.any());
     }
 
     /**
@@ -63,9 +55,9 @@ class EmployerServiceTest {
      */
     @Test
     void testExistByName2() {
-        when(employerRepository.existsByCompanyName(Mockito.<String>any())).thenReturn(false);
+        when(employerRepository.existsByCompanyName(Mockito.any())).thenReturn(false);
         assertFalse(employerService.existByName("Company Name"));
-        verify(employerRepository).existsByCompanyName(Mockito.<String>any());
+        verify(employerRepository).existsByCompanyName(Mockito.any());
     }
 
     /**
@@ -73,9 +65,9 @@ class EmployerServiceTest {
      */
     @Test
     void testExistByEmail() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(true);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(true);
         assertTrue(employerService.existByEmail("jane.doe@example.org"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**
@@ -83,9 +75,9 @@ class EmployerServiceTest {
      */
     @Test
     void testExistByEmail2() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
+        when(utilisateurRepository.existsByEmail(Mockito.any())).thenReturn(false);
         assertFalse(employerService.existByEmail("jane.doe@example.org"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
+        verify(utilisateurRepository).existsByEmail(Mockito.any());
     }
 
     /**

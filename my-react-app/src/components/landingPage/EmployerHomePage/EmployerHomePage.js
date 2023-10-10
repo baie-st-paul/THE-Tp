@@ -13,7 +13,7 @@ const EmployerHomePage = () => {
         setActiveContent(content);
     };
 
-    let contentToRender = null;
+    let contentToRender;
     let employerId = localStorage.getItem('employer_id')
     const ajoutOffre = async (offre) => {
 

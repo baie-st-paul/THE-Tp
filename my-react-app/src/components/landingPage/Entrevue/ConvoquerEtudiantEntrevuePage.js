@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import CreateEntrevueForm from "./CreateEntrevueForm";
 import {useLocation} from "react-router-dom";
 
-const ConvoquerEtudiantEntrevuePage = (props) => {
-    const [erreur, setErreur] = useState(false);
+const ConvoquerEtudiantEntrevuePage = () => {
+    const [erreur] = useState(false);
 
     let employerId = localStorage.getItem('employer_id')
 

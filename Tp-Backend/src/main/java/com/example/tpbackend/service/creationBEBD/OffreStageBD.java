@@ -3,7 +3,6 @@ package com.example.tpbackend.service.creationBEBD;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -25,16 +24,8 @@ public class OffreStageBD implements CommandLineRunner {
     @Autowired
     private EmployerService employerService;
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Random random = new Random();
-    /*
-        employerService.saveEmployer(new EmployerPostDTO(
-                "firstName",
-                "lastName",
-                "companyName",
-                "phoneNumber",
-                "email",
-                "password"), "email","password" , "Employeur");
 
         /*employerService.saveEmployer(new EmployerPostDTO(
                 "firstName",
@@ -42,14 +33,14 @@ public class OffreStageBD implements CommandLineRunner {
                 "companyName",
                 "phoneNumber",
                 "email",
-                "password"), "email","password" , "Employeur");
+                "password"), "email","password" , "Employeur");*/
 
-        IntStream.range(0, 20).forEach(i -> {
+        /*IntStream.range(0, 20).forEach(i -> {
             OffreStageDTO offreStageDTO = new OffreStageDTO(
                     i,
                     0L,
-                    "Titre" + RandomStringUtils.randomAlphabetic(5),
-                    500.0 + random.nextDouble() * 2000,
+                    "Dev" + i,
+                    20,
                     "Informatique",
                     "Description de l'offre de stage " + RandomStringUtils.randomAlphabetic(400),
                     LocalDate.now().plusDays(random.nextInt(365)),
@@ -57,10 +48,10 @@ public class OffreStageBD implements CommandLineRunner {
                     "In_review"
             );
             offreStageService.createOffre(offreStageDTO);
-        });
+        });*/
 
         // Afficher toutes les offres en console
-        List<OffreStage> allOffres = offreStageService.getAllOffres();
+        /*List<OffreStage> allOffres = offreStageService.getAllOffres();
         allOffres.forEach(offre -> {
             System.out.println(offre.toString());
         });*/

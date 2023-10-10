@@ -5,8 +5,6 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.repository.EntrevueRepository;
-import com.example.tpbackend.repository.utilisateur.EmployerRepository;
-import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.NoArgsConstructor;
@@ -22,20 +20,12 @@ public class EntrevueService {
 
     @Autowired
     private EntrevueRepository entrevueRepository;
-
-    @Autowired
-    private EmployerRepository employerRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
-
     @Autowired
     private EmployerService employerService;
-
     @Autowired
     private StudentServices studentServices;
 
-    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
+    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
         Entrevue entrevue = entrevueDTO.toEntrevue();
         entrevue.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(Long.valueOf(entrevueDTO.getIdEmployeur()))));
         entrevue.setStudent(StudentGetDTO.fromStudentDTO(studentServices.getStudentByMatricule(entrevueDTO.getIdEtudiant())));

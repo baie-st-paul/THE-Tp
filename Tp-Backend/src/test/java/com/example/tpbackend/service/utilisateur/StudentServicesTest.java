@@ -61,9 +61,6 @@ class StudentServicesTest {
     @Autowired
     private StudentServices studentServices;
 
-    @MockBean
-    private UtilisateurRepository utilisateurRepository;
-
     /**
      * Method under test: {@link StudentServices#saveStudent(StudentPostDTO, String, String, String)}
      */

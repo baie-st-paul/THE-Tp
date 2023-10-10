@@ -20,8 +20,6 @@ public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     @Query("UPDATE OffreStage SET status = ?2 WHERE titre = ?1")
     void updateOffreStatusByTitre(String titre, OffreStage.Status statusOffre);
 
-    List<OffreStage> findAllByTitre(String titre);
-
     @Query("SELECT o FROM OffreStage o WHERE o.employer.id = ?1")
     List<OffreStage> findAllByEmployer(Long id);
 

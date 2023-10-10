@@ -11,8 +11,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/gestionnaire")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GestionnaireController {
     private GestionnaireService gestionnaireService;
 

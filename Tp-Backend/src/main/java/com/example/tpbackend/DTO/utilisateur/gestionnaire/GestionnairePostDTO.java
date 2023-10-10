@@ -1,12 +1,14 @@
 package com.example.tpbackend.DTO.utilisateur.gestionnaire;
 
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class GestionnairePostDTO {
 
     private String firstName;
@@ -15,21 +17,6 @@ public class GestionnairePostDTO {
     private String password;
     private String phoneNumber;
     private String matricule;
-
-    public GestionnairePostDTO(
-            String firstName,
-            String lastName,
-            String matricule,
-            String phoneNumber,
-            String email,
-            String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.matricule = matricule;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-    }
 
     public static GestionnairePostDTO fromGestionnaire(Gestionnaire gestionnaire){
         GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO();

@@ -12,7 +12,7 @@ const GestionnaireHomePage = () => {
         setActiveContent(content);
     };
 
-    let contentToRender = null;
+    let contentToRender;
 
     switch (activeContent) {
         case "veto-section":

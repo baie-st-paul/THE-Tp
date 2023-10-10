@@ -4,7 +4,7 @@ import EmployerOffreCard from './EmployerOffreCard';
 const EmployerStageOffreList = ({employerId}) => {
     const [offres, setOffres] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
 
     useEffect(() => {
         fetch(

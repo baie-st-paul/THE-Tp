@@ -17,18 +17,9 @@ import java.util.List;
 public class
 EmployerService {
     @Autowired
-    private final EmployerRepository employerRepository;
+    private EmployerRepository employerRepository;
     @Autowired
-    private final UtilisateurRepository utilisateurRepository;
-
-    @Autowired
-    public EmployerService(EmployerRepository employerRepository, UtilisateurRepository utilisateurRepository) {
-        this.employerRepository = employerRepository;
-        this.utilisateurRepository = utilisateurRepository;
-    }
-
-
-
+    private UtilisateurRepository utilisateurRepository;
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);

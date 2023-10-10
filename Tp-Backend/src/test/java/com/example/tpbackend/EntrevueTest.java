@@ -12,7 +12,6 @@ import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 
-import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.EntrevueService;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,14 +33,11 @@ class EntrevueTest {
     @Mock
     private StudentRepository studentRepository;
 
-    @Mock
-    private UtilisateurRepository utilisateurRepository;
-
     @InjectMocks
     private EntrevueService entrevueService;
 
     @Test
-    void testCreateEntrevue() throws Exception {
+    void testCreateEntrevue() {
         Employer employer = new Employer();
         employerRepository.save(employer);
         Optional<Employer> employerOptional = Optional.of(employer);

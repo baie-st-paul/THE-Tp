@@ -1,16 +1,16 @@
 import {useRef, useState} from "react";
 import "../../utilisateurs/inscription/InscriptionPage.css"
 import "../../stylesGenerales.css"
-import {Link, Navigate, redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const AjoutOffreForm = ({onAdd}) => {
-
     const [titre, setTitre] = useState('');
-    const [description, setDescription] = useState('');
     const [salaire, setSalaire] = useState('');
     const [studentProgram, setStudentProgram] = useState('');
+    const [description, setDescription] = useState('');
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
+
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);
     const salaireRef = useRef(null)

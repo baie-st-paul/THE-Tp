@@ -6,8 +6,6 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +18,10 @@ import java.util.Optional;
 @NoArgsConstructor
 public class OffreStageService {
 
-    private OffreStageRepository offreStageRepository;
-    private static final Logger logger = LoggerFactory.getLogger(OffreStageService.class);
-
-
     @Autowired
-    public OffreStageService(OffreStageRepository offreStageRepository) {
-        this.offreStageRepository = offreStageRepository;
-    }
-
+    private OffreStageRepository offreStageRepository;
     @Autowired
     private EmployerService employerService;
-
 
     public OffreStageDTO createOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
@@ -65,18 +55,8 @@ public class OffreStageService {
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
 
-    /*public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        logger.info("Recherché d'une offre par ID: {}", id);
-        return offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
-    }*/
-
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        logger.info("Recherche d'une offre par ID: {}", id);
-        Optional<OffreStageDTO> offre = offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
-        if (offre.isEmpty()) {
-            logger.warn("Aucune offre trouvée pour l'ID: {}", id);
-        }
-        return offre;
+        return offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
     }
 
 

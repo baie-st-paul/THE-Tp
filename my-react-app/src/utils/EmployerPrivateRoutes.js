@@ -1,8 +1,8 @@
-import {Outlet,Route,Navigate} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import EmployerHomePage from "../components/landingPage/EmployerHomePage/EmployerHomePage";
 
 
-const EmployerPrivateRoutes = ({children,...rest}) => {
+const EmployerPrivateRoutes = () => {
     let auth;
     console.log(localStorage.getItem("user_type"))
     if(localStorage.getItem('token') != null && localStorage.getItem("user_type").match("Employeur")){

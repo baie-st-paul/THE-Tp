@@ -39,7 +39,7 @@ function FileUploader({matricule}) {
                 `http://localhost:8081/api/v1/student/saveCV?matricule=${matricule}&fileName=${fileName}&status=In_review`,
                 requestOptions
             )
-                .then((response) => {
+                .then(() => {
                         setFile(null);
                         setFileName("");
                         setError(null);

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 
-const EmployerOffreCard = ({offre, onDelete, onUpdate, showUpdate}) => {
+const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     const [etudiants, setEtudiants] = useState(null);
     const navigate = useNavigate();
 

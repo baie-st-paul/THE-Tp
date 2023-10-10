@@ -1,7 +1,6 @@
 import {useRef, useState} from "react";
 import "../../utilisateurs/inscription/InscriptionPage.css"
 import "../../stylesGenerales.css"
-import {Link} from "react-router-dom";
 
 const AjoutOffreForm = ({onAdd}) => {
     const [titre, setTitre] = useState('');

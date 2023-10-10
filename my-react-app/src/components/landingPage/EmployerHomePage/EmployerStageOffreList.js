@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import EmployerOffreCard from './EmployerOffreCard';
 import EmployerOffreStages from "./EmployerOffreStages";
 import UpdateOffreForm from "./UpdateOffreForm";
 

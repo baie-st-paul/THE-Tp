@@ -801,7 +801,7 @@ class StudentServicesTest {
         assertEquals("Accepted", offreStageDTO.getStatus());
         assertEquals("Titre", offreStageDTO.getTitre());
         assertEquals("1970-01-01", offreStageDTO.getDateDebut().toString());
-        assertEquals(1L, offreStageDTO.getEmployerId().longValue());
+        assertEquals(1L, offreStageDTO.getEmployerId());
         assertEquals(1L, offreStageDTO.getId());
         verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
     }

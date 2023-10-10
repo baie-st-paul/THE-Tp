@@ -21,7 +21,10 @@ public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     void updateOffreStatusByTitre(String titre, OffreStage.Status statusOffre);
 
     @Query("SELECT o FROM OffreStage o WHERE o.employer.id = ?1")
-    List<OffreStage> findAllByEmployer(Long id);
+    List<OffreStage> findAllByEmployer(long id);
 
-    boolean deleteOffreStageById(Long id);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM OffreStage WHERE id = ?1")
+    void deleteOffreStageById(long id);
 }

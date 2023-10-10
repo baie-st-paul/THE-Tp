@@ -5,8 +5,9 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileUpload, faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faPortrait} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
+import OffreCandidaturePage from "../offresStages/student/OffreCandidaturePage";
 
 
 const StudentHomePage = () => {
@@ -53,6 +54,9 @@ const StudentHomePage = () => {
             break;
         case "offre-page-student":
             contentToRender = <OffresPageStudent/>;
+            break;
+        case "offre-page-candidature":
+            contentToRender = <OffreCandidaturePage/>
             break;
         default:
           contentToRender = (
@@ -103,6 +107,11 @@ const StudentHomePage = () => {
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
                                 </button>
                             </li>
                         </ul>

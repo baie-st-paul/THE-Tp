@@ -55,11 +55,17 @@ const EmployerOffreCard = ({offre}) => {
                     Date de début: {offre.dateDebut}<br/>
                     Date de fin: {offre.dateFin}<br/>
                 </Card.Text>
-                <Button className="btn btn-primary">
-                    Modifier
+                <Button className="btn btn-danger"
+                        onClick={() => onDelete(offre.id)}>
+                    Supprimer <FaTimes
+                    style={{color: 'black'}}
+                />
                 </Button>
-                <Button className={"btn btn-danger"}>
-                    Supprimer
+                <Button className="btn btn-primary"
+                        onClick={() => onUpdate(offre)}>
+                    Modifier <FaRepeat
+                    style={{color: 'black'}}
+                />
                 </Button>
                 { etudiants!== null && etudiants.length > 0 ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>

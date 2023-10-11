@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFileUpload, faBriefcase, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
+import Dashboard from "./DashBoard/Dashboard";
 
 
 const StudentHomePage = () => {
@@ -60,7 +61,8 @@ const StudentHomePage = () => {
             break;
         default:
           contentToRender = (
-            <Container fluid>
+              <Dashboard/>);
+            /*<Container fluid>
               <Row>
                 <Col xs={4}>
                   <div className="sidebar">
@@ -88,7 +90,7 @@ const StudentHomePage = () => {
                 </Col>
               </Row>
             </Container>
-          );
+          );*/
           break;
     }
 

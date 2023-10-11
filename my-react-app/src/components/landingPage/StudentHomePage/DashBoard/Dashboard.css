@@ -1,0 +1,16 @@
+.beat {
+    animation: beat 1s infinite alternate;
+}
+
+@keyframes beat {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+.entrevue{
+    margin-bottom: 5px;
+}

@@ -7,7 +7,7 @@ import {FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 
 const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
-    const [etudiants, setEtudiants] = useState(null);
+    const [etudiantsNb, setEtudiantsNb] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
         try {
             const token = localStorage.getItem('token'); 
             const res = await fetch(
-                `http://localhost:8081/api/employers/${offre.id}/applicants`,
+                `http://localhost:8081/api/employers/${offre.id}/applicants/nb`,
                 {
                     method: 'GET',
                     headers: {
@@ -29,8 +29,8 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
             );
             if (res.ok) {  
                 const data = await res.json();
-                setEtudiants(data);
-                console.log(etudiants);
+                setEtudiantsNb(data);
+                console.log(data)
             } else {
                 const data = await res.json(); 
                 console.log('Erreur', res.status, data);
@@ -38,11 +38,11 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
             }
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            setEtudiants([])
+            setEtudiantsNb(0)
         }
     }
     function handleCheckListe(){
-        navigate('/infoStudent', {state: {listeEtudiants:etudiants}})
+        navigate('/infoStudent', {state: {offreId : offre.id}})
     }
 
     return (
@@ -69,9 +69,9 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                     style={{color: 'black'}}
                 />
                 </Button>
-                { etudiants!== null && etudiants.length > 0 ?
+                { etudiantsNb!== 0  ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>
-                        Voir la liste des personnes postule ({etudiants.length})
+                        Voir la liste des personnes postule ({etudiantsNb})
                     </Button> :
                     <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button>
                 }

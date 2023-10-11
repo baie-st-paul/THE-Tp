@@ -25,6 +25,8 @@ public class EntrevueDTO {
         );
     }
 
+
+
     public EntrevueDTO(Entrevue entrevue){
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();

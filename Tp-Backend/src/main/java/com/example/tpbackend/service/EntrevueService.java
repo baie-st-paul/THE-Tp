@@ -28,4 +28,7 @@ public class EntrevueService {
         entrevue.setStudent(StudentGetDTO.fromStudentDTO(studentServices.getStudentByMatricule(entrevueDTO.getIdEtudiant())));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
+
+
 }
+

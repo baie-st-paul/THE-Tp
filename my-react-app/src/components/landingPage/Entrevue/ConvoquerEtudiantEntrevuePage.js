@@ -55,7 +55,7 @@ const ConvoquerEtudiantEntrevuePage = () => {
 
     return (
         <div className="container mt-4">
-            <h2>Entrevue</h2>
+            <h2 title="Entrevue">Entrevue</h2>
             {<CreateEntrevueForm onAdd={createEntrevue}/>}
             {
                 entrevues.length > 0 ?

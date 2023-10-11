@@ -6,19 +6,21 @@ import { useNavigate  } from "react-router-dom";
 import {useLocation} from 'react-router-dom';
 import Modal from "../../../GestionnaireHomePage/Vetocv/Modal";
 
-export default function InformationEtudiantPostule(offreId) {
+export default function InformationEtudiantPostule({listeEtudiant}) {
   { /*
   GARDER CA EN COMMENTAIRES POUR LES TESTS
   const navigate = useNavigate();
   const location = useLocation();
+   const navigate = useNavigate();
  */
-  } 
- 
+  }
+    
+  const location = useLocation();
+  const navigate = useNavigate();
   const [listeEtudiants, setListeEtudiants] = useState([])
   const [openModal, setOpenModal] = useState(false);
   const [openModalLettre, setOpenModalLetttre] = useState(false);
   const [student, setStudent] = useState(null);
-
   useEffect(() => {
     handleListePostule();
 }, [])
@@ -41,23 +43,22 @@ async function handleListePostule() {
             setListeEtudiants(data);
         } else {
             const data = await res.json(); 
-            console.log('Erreur', res.status, data);
-            
+            console.log('Erreur', res.status, data);  
         }
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        if (listeEtudiant !== undefined){
+          setListeEtudiants(listeEtudiant)
+        }
     }
 }
- 
-
   function handleMontrerCv(student){
     setOpenModal(!openModal)
     setStudent(student)
   }
   function handleRetour(){
-    navigate('/EmployeurHomePage')
+    navigate('/EmployeurHomePage');
   }
-
   function handleConvoquerEntrevue(matricule) {
     console.log(matricule)
     navigate(`/createEntrevue`, {
@@ -96,7 +97,7 @@ async function handleListePostule() {
                       <td data-label="RESUME" className='headerElement '><button className='btn btn-info p-3' onClick={()=>handleMontrerCv(etudiant)}>CV</button>  </td>
                       { etudiant.student.fileName !== '' ?
                       <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>
-                  :   <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3 disabled'>LETTRE MOTIVATION</button></td>}
+                  :   <td data-label="LETTRE DE MOTIVATION" className='headerElement'><button className='btn btn-info p-lg-1 p-md-1 p-sm-3 disabled' onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION</button></td>}
                       <td><button className='btn btn-warning p-3' onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>CONVOQUER</button></td>
                     </tr>
                 ))

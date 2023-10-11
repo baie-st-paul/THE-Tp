@@ -94,26 +94,27 @@ const StudentHomePage = () => {
 
     return (
         <div className="student-homepage">
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
+            <Navbar  className="navbar-dark navbarClass" expand="lg">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
+                        <ul className="navbar-nav ml-auto px-2">
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link text-dark shadow  " onClick={() => setActiveContent('file-uploader')}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+                            <li className="nav-item shadow  navbarbutton">
+                                <button className="nav-link text-dark" onClick={() => handleButtonClick('offre-page-student')}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                            <li className="nav-item shadow navbarbutton">
+                                <button className="nav-link text-dark" onClick={() => handleButtonClick('offre-page-candidature')}>
                                     <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
                                 </button>
                             </li>
+                            <li className="nav-item shadow navbarbutton"><button className="nav-link text-dark shadow navbarbutton">Se déconnecter</button> </li>
                         </ul>
                     </Nav>
                 </Navbar.Collapse>

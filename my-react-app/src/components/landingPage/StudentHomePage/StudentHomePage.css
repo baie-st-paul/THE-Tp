@@ -1,9 +1,22 @@
 /* StudentHomePage.css */
-
 /* Styling the navigation bar */
 .navbar {
-    background-color: #343a40; /* Dark background color */
+    background-color: #b1b2bb ; /* Dark background color */
     border: none; /* Remove border */
+}
+
+.deconnecter{
+   position: absolute;
+   right: 0;
+   margin-right: 10px;
+   height: 75%;
+}
+
+.navbarbutton{
+   border-style: solid;
+   border-width: 0.1px;
+   border-color: #636368;
+   margin-left: 2px;
 }
 
 /*couleur background de la page*/

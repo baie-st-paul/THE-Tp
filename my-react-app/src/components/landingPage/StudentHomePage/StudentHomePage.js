@@ -5,8 +5,9 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileUpload, faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
+import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 
 
 const StudentHomePage = () => {
@@ -54,6 +55,9 @@ const StudentHomePage = () => {
         case "offre-page-student":
             contentToRender = <OffresPageStudent/>;
             break;
+        case "section-entrevue":
+            contentToRender = <SectionEntrevue/>
+            break;
         default:
           contentToRender = (
             <Container fluid>
@@ -97,12 +101,17 @@ const StudentHomePage = () => {
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/>CV
                                 </button>
                             </li>
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
+                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
                                 </button>
                             </li>
                         </ul>
@@ -110,7 +119,6 @@ const StudentHomePage = () => {
                 </Navbar.Collapse>
           </Navbar>
           <div className="container content-container mt-4">
-            <h2>Bienvenue, découvrez vos opportunités</h2>
             {contentToRender}
           </div>
         </div>

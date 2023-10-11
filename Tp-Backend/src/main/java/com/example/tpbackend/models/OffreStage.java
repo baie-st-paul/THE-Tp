@@ -1,7 +1,6 @@
 package com.example.tpbackend.models;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
@@ -13,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -78,25 +76,6 @@ public class OffreStage {
                 String.valueOf(status),
                 nbMaxEtudiants
         );
-    }
-
-    public Long getEmployerId() {
-        return employer.getId();
-    }
-
-    public List<StudentGetDTO> getStudentDTOs() {
-        return this.etudiants.stream()
-                .map(student -> {
-                    String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
-                    return new StudentGetDTO(
-                            student.getFirstName(),
-                            student.getLastName(),
-                            email,
-                            student.getPhoneNumber(),
-                            student.getMatricule(),
-                            student.getProgram());
-                })
-                .collect(Collectors.toList());
     }
 
 

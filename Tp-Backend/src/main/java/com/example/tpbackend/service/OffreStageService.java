@@ -2,6 +2,7 @@ package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -29,7 +30,7 @@ public class OffreStageService {
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
-    public List<OffreStage> getAllOffres() {//utilisé que dans test
+    public List<OffreStage> getAllOffres() {
         return offreStageRepository.findAll();
     }
 
@@ -45,10 +46,18 @@ public class OffreStageService {
     }
 
     public OffreStageDTO convertToDto(OffreStage offreStage) {
-        OffreStageDTO dto = new OffreStageDTO();
-        dto.setDescription(offreStage.getDescription());
-        return dto;
+        if(offreStage == null) {
+            throw new IllegalArgumentException("L'objet OffreStage fourni est null");
+        }
+        try {
+            OffreStageDTO dto = new OffreStageDTO();
+            dto.setDescription(offreStage.getDescription());
+            return dto;
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la conversion de OffreStage en OffreStageDTO", e);
+        }
     }
+
 
     public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
@@ -58,8 +67,14 @@ public class OffreStageService {
 
 
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        Optional<OffreStageDTO> offre = offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
+        try {
+            Optional<OffreStageDTO> offre = offreStageRepository.findById(id)
+                    .map(OffreStageDTO::fromOffreStage);
         return offre;
+        } catch (OffreNotFoundException e) {
+            throw new OffreNotFoundException(id);
+        }
+
     }
 
 
@@ -84,4 +99,5 @@ public class OffreStageService {
 
         return offreStageDTOS;
     }
+
 }

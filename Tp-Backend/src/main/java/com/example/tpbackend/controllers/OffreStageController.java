@@ -2,6 +2,7 @@ package com.example.tpbackend.controllers;
 
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.service.OffreStageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,7 +65,13 @@ public class OffreStageController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") long id) {
-        OffreStageDTO offre = offreStageService.getOffreById(id);
-        return new ResponseEntity<>(offre, HttpStatus.OK);
+        try {
+            OffreStageDTO offre = offreStageService.getOffreById(id);
+            return new ResponseEntity<>(offre, HttpStatus.OK);
+        } catch (OffreNotFoundException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
+
+

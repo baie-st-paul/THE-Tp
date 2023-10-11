@@ -15,7 +15,7 @@ public class UtilisateurDTO {
     private String role;
     public Utilisateur toUtilisateur() {
         return new Utilisateur(
-                email,
+                firstName, lastName, email,
                 password,
                 role
         );

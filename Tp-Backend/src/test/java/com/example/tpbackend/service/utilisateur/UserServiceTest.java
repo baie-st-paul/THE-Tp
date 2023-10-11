@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -30,7 +29,7 @@ class UserServiceTest {
     private UtilisateurRepository utilisateurRepository;
 
     /**
-     * Method under test: {@link UserService#findByEmail(String)}
+     * Method under test: {@link UserService#loadUserByEmail(String)}
      */
     @Test
     void testFindByEmail() {
@@ -40,7 +39,7 @@ class UserServiceTest {
         utilisateur.setPassword("iloveyou");
         utilisateur.setRole(Utilisateur.Role.Student);
         when(utilisateurRepository.findByEmail(Mockito.<String>any())).thenReturn(utilisateur);
-        assertSame(utilisateur, userService.findByEmail("jane.doe@example.org"));
+        assertSame(utilisateur, userService.loadUserByEmail("jane.doe@example.org"));
         verify(utilisateurRepository).findByEmail(Mockito.<String>any());
     }
 

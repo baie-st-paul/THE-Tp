@@ -2,6 +2,7 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +30,7 @@ public class UserService {
         return newUser;
     }*/
 
-    public Utilisateur findByEmail(String email) {
+    public Utilisateur loadUserByEmail(String email) {
         return utilisateurRepository.findByEmail(email);
     }
 

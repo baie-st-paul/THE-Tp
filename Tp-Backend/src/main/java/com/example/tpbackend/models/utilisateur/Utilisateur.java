@@ -3,20 +3,30 @@ package com.example.tpbackend.models.utilisateur;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Utilisateur {
+public class Utilisateur implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private long id;
-
+    private String firstName;
+    private String lastName;
     @Column(unique = true) // un utilisateur ne peut avoir qu'un seul email
     private String email;
 
@@ -26,11 +36,8 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    public Utilisateur(String email, String password,String role) {
-        this.email = email;
-        this.password = password;
-        this.role = Utilisateur.Role.valueOf(role);
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     public UtilisateurDTO toLoginDTO() {
@@ -49,6 +56,31 @@ public class Utilisateur {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -63,6 +95,22 @@ public class Utilisateur {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public enum Role{

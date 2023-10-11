@@ -41,7 +41,7 @@ public class GestionnaireService {
             return null;
         }
 
-        Utilisateur utilisateur = new Utilisateur(email, password, role);
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password, role);
         Gestionnaire gestionnaire = new Gestionnaire(
                 firstName,
                 lastName,

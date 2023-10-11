@@ -137,7 +137,7 @@ public class UtilisateurController {
             );
 
             if (isValidAuthentication) {
-                user = userService.findByEmail(user.getEmail()).toLoginDTO();
+                user = userService.loadUserByEmail(user.getEmail()).toLoginDTO();
 
                 String token = LoginService.genereJWT(user.getEmail());
                 String jsonResponse= "";

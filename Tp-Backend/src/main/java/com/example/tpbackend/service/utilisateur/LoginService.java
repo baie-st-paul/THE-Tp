@@ -14,7 +14,7 @@ import java.util.Properties;
 
 @Service
 public class LoginService {
-
+/*
     private static final Properties prop = new Properties();
 
     private static String getPropertie() {
@@ -71,4 +71,8 @@ public class LoginService {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(getSecretKey()))
                 .parseClaimsJws(jwt).getBody();
     }
+    */
+
+
+
 }

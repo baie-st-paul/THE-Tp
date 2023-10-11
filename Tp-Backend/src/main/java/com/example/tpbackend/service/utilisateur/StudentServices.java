@@ -39,7 +39,7 @@ public class StudentServices {
     private CandidatureRepository candidatureRepository;
 
     public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(email, password,role);
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password,role);
         Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
         utilisateurRepository.save(utilisateur);

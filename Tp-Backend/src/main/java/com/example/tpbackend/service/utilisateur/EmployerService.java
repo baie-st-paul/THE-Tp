@@ -39,8 +39,8 @@ public class EmployerService {
                 employer.getPhoneNumber(),employer.getUtilisateur().getEmail());
     }
 
-    public EmployerPostDTO saveEmployer(EmployerPostDTO employerPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(email, password,role);
+    public EmployerPostDTO saveEmployer(String firstName, String lastName, String email, String password, String role, EmployerPostDTO employerPostDTO){
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password,role);
         Employer employer = employerPostDTO.toEmployer(employerPostDTO);
         employer.setUtilisateur(utilisateur);
         utilisateurRepository.save(utilisateur);

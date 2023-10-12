@@ -1,10 +1,25 @@
 /* StudentHomePage.css */
-
 /* Styling the navigation bar */
 .navbar {
-    background-color: #343a40; /* Dark background color */
+    background-color: #b1b2bb ; /* Dark background color */
     border: none; /* Remove border */
 }
+
+.deconnecter{
+   position: absolute;
+   right: 0;
+   margin-right: 10px;
+   height: 75%;
+}
+
+.navbarbutton{
+   border-style: solid;
+   border-width: 0.1px;
+   border-color: #636368;
+   margin-left: 2px;
+}
+
+
 
 /*couleur background de la page*/
 body {
@@ -69,5 +84,37 @@ h2 {
   padding: 15px;
   border-radius: 10px;
 }
+
+.navbar-toggler{
+  border:0;
+ margin-left: 10px !important;
+ 
+}
+
+.navbar-toggler-icon{
+  color : black !important;
+ }
+
+
+ .bdark:active{
+  outline: none !important;
+  border:none;
+ }
+
+
+
+@media only screen and (max-width: 992px) {
+  .deconnecter{
+    position: unset;
+    right: unset;
+    margin-right: unset;
+    height: unset;
+  }
+  .navbarbutton{
+    border-style:none none solid none;
+    font-size: 20px;
+  }
+  }
+
 
   

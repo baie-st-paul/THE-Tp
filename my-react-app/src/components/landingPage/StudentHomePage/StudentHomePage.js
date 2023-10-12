@@ -5,16 +5,15 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faPortrait} from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faPortrait, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import OffreCandidaturePage from "../offresStages/student/OffreCandidaturePage";
-
-
+import { useNavigate } from "react-router-dom";
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
-
+    const navigate = useNavigate()
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
 
@@ -58,6 +57,9 @@ const StudentHomePage = () => {
         case "offre-page-candidature":
             contentToRender = <OffreCandidaturePage/>
             break;
+        case "disconnect":
+          localStorage.clear()
+          navigate('/');
         default:
           contentToRender = (
             <Container fluid>
@@ -94,27 +96,28 @@ const StudentHomePage = () => {
 
     return (
         <div className="student-homepage">
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
+            <Navbar  className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid " />
+                <Navbar.Collapse id="basic-navbar-nav">               
+                    <Nav>
+                        <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link text-dark " onClick={() => setActiveContent('file-uploader')}>
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link text-dark" onClick={() => handleButtonClick('offre-page-student')}>
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link text-dark" onClick={() => handleButtonClick('offre-page-candidature')}>
                                     <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
                                 </button>
                             </li>
-                        </ul>
+                            <li className="nav-item  navbarbutton deconnecter"><button className="nav-link text-dark" onClick={() => handleButtonClick('disconnect')}> <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/> Se déconnecter</button> </li>
+                        </ul>   
                     </Nav>
                 </Navbar.Collapse>
           </Navbar>

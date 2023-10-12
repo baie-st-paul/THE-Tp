@@ -19,6 +19,8 @@
    margin-left: 2px;
 }
 
+
+
 /*couleur background de la page*/
 body {
     background-color: #f7f7f7;
@@ -82,5 +84,37 @@ h2 {
   padding: 15px;
   border-radius: 10px;
 }
+
+.navbar-toggler{
+  border:0;
+ margin-left: 10px !important;
+ 
+}
+
+.navbar-toggler-icon{
+  color : black !important;
+ }
+
+
+ .bdark:active{
+  outline: none !important;
+  border:none;
+ }
+
+
+
+@media only screen and (max-width: 992px) {
+  .deconnecter{
+    position: unset;
+    right: unset;
+    margin-right: unset;
+    height: unset;
+  }
+  .navbarbutton{
+    border-style:none none solid none;
+    font-size: 20px;
+  }
+  }
+
 
   

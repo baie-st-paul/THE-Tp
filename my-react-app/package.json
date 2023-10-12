@@ -4,9 +4,10 @@
   "private": true,
   "proxy": "http://localhost:8081",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/react-fontawesome": "^0.1.19",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.14.11",
     "@react-buddy/ide-toolbox": "^2.4.0",
     "@testing-library/dom": "^9.3.3",

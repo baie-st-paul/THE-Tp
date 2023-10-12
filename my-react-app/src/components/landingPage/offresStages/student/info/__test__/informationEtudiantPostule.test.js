@@ -1,4 +1,4 @@
-import {render, screen, fireEvent, getByTitle, getByRole} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import InformationEtudiantPostule from '../informationEtudiantPostule';
 import {BrowserRouter, MemoryRouter} from 'react-router-dom';
 import { testList, testList1, testList2 } from "./TestList"

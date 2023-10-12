@@ -1,7 +1,6 @@
 package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.utils.CandidatureGetDTOSerializer;
 import com.example.tpbackend.utils.CvDTOSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;

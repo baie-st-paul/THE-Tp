@@ -58,8 +58,7 @@ public class OffreStageService {
 
 
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
-        Optional<OffreStageDTO> offre = offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
-        return offre;
+        return offreStageRepository.findById(id).map(OffreStageDTO::fromOffreStage);
     }
 
 

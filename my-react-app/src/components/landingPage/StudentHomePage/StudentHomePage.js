@@ -3,11 +3,11 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/OffrePageStudent";
+import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faFileUpload, faBriefcase, faPortrait, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
-import OffreCandidaturePage from "../offresStages/student/OffreCandidaturePage";
+import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
@@ -27,7 +27,7 @@ const StudentHomePage = () => {
         }
     }, [loggedInUser, setLoggedInUser]);
 
-    let contentToRender = null;
+    let contentToRender;
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -47,51 +47,76 @@ const StudentHomePage = () => {
 ];
 
 
-    switch (activeContent) {
-        case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule} />;
-            break;
-        case "offre-page-student":
-            contentToRender = <OffresPageStudent/>;
-            break;
-        case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>
-            break;
-        case "disconnect":
-          localStorage.clear()
-          navigate('/');
-        default:
-          contentToRender = (
+    if (activeContent === "file-uploader") {
+        contentToRender = <FileUploader matricule={matricule}/>;
+    } else if (activeContent === "offre-page-student") {
+        contentToRender = <OffresPageStudent/>;
+    } else if (activeContent === "offre-page-candidature") {
+        contentToRender = <OffreCandidaturePage/>
+    } else if (activeContent === "disconnect") {
+        localStorage.clear()
+        navigate('/');
+        contentToRender = (
             <Container fluid>
-              <Row>
-                <Col xs={4}>
-                  <div className="sidebar">
-                    <ListGroup>
-                      {articles.map((article, index) => (
-                        <ListGroup.Item action href={`#article-${index + 1}`} key={index}>
-                          {article}
-                        </ListGroup.Item>
-                      ))}
-                    </ListGroup>
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  {articles.map((article, index) => (
-                    <Card className="mb-4" key={index} id={`article-${index + 1}`}>
-                      <Card.Header as="h1">{article}</Card.Header>
-                      <Card.Body>
-                        <Card.Title as="h3">Introduction</Card.Title>
-                        <Card.Text className="light-bg">
-                          Contenu de {article}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  ))}
-                </Col>
-              </Row>
+                <Row>
+                    <Col xs={4}>
+                        <div className="sidebar">
+                            <ListGroup>
+                                {articles.map((article, index) => (
+                                    <ListGroup.Item action href={`#article-${index + 1}`} key={index}>
+                                        {article}
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </div>
+                    </Col>
+                    <Col xs={8}>
+                        {articles.map((article, index) => (
+                            <Card className="mb-4" key={index} id={`article-${index + 1}`}>
+                                <Card.Header as="h1">{article}</Card.Header>
+                                <Card.Body>
+                                    <Card.Title as="h3">Introduction</Card.Title>
+                                    <Card.Text className="light-bg">
+                                        Contenu de {article}
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </Col>
+                </Row>
             </Container>
-          );
-          break;
+        );
+    } else {
+        contentToRender = (
+            <Container fluid>
+                <Row>
+                    <Col xs={4}>
+                        <div className="sidebar">
+                            <ListGroup>
+                                {articles.map((article, index) => (
+                                    <ListGroup.Item action href={`#article-${index + 1}`} key={index}>
+                                        {article}
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </div>
+                    </Col>
+                    <Col xs={8}>
+                        {articles.map((article, index) => (
+                            <Card className="mb-4" key={index} id={`article-${index + 1}`}>
+                                <Card.Header as="h1">{article}</Card.Header>
+                                <Card.Body>
+                                    <Card.Title as="h3">Introduction</Card.Title>
+                                    <Card.Text className="light-bg">
+                                        Contenu de {article}
+                                    </Card.Text>
+                                </Card.Body>
+                            </Card>
+                        ))}
+                    </Col>
+                </Row>
+            </Container>
+        );
     }
 
     return (

@@ -33,9 +33,7 @@ public class EmployerControllerTest {
         mockMvc.perform(get("/api/employers/{offerId}/applicants", 1L))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                // Vérifiez que la réponse est une liste en vérifiant que le premier élément existe
                 .andExpect(jsonPath("$[0]").exists())
-                // Vérifiez l'id et le nom du premier candidat (ajustez selon la structure réelle de CandidatureDTO)
                 .andExpect(jsonPath("$[0].id").value(42L))
                 .andExpect(jsonPath("$[0].name").value("Test"));
     }

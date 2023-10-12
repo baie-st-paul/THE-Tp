@@ -117,8 +117,7 @@ const StudentHomePage = () => {
                                 </button>
                             </li>
                             <li className="nav-item  navbarbutton deconnecter"><button className="nav-link text-dark" onClick={() => handleButtonClick('disconnect')}> <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/> Se déconnecter</button> </li>
-                        </ul>
-                       
+                        </ul>   
                     </Nav>
                 </Navbar.Collapse>
           </Navbar>

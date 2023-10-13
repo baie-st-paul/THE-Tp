@@ -5,7 +5,7 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faEnvelope, faHome} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
@@ -100,6 +100,11 @@ const StudentHomePage = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
+                        <li className="nav-item ml-1">
+                            <button className="nav-link" onClick={() => handleButtonClick('default')}>
+                                <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
+                            </button>
+                        </li>
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>

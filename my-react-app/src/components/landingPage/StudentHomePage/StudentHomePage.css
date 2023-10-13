@@ -1,7 +1,7 @@
 /* StudentHomePage.css */
 /* Styling the navigation bar */
 .navbar {
-    background-color: #b1b2bb ; /* Dark background color */
+    background-color: #232222; /* Dark background color */
     border: none; /* Remove border */
 }
 
@@ -15,7 +15,7 @@
 .navbarbutton{
    border-style: solid;
    border-width: 0.1px;
-   border-color: #636368;
+   border-color: #363535;
    margin-left: 2px;
 }
 

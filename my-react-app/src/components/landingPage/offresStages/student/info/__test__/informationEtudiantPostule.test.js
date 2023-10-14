@@ -3,7 +3,7 @@ import InformationEtudiantPostule from '../informationEtudiantPostule';
 import {BrowserRouter, MemoryRouter} from 'react-router-dom';
 import { testList, testList1, testList2 } from "./TestList"
 
-const MockCreateEntrevueForm = ({listeEtudiant}) => {
+const MockInformationEtudiantPostule = ({listeEtudiant}) => {
     return (
         <BrowserRouter>
             <InformationEtudiantPostule
@@ -15,13 +15,13 @@ const MockCreateEntrevueForm = ({listeEtudiant}) => {
 
 describe("Test the InformationEtudiantPostule Component", () => {
     it('should render Button Retour', () => {
-        render(<MockCreateEntrevueForm listeEtudiant={[]}/>)
+        render(<MockInformationEtudiantPostule listeEtudiant={[]}/>)
         const buttonElement = screen.getByText("RETOUR")
         expect(buttonElement).toBeInTheDocument()
     });
 
     it("should render Button voir Lettre Motivation disabled si lettre n'est pas la" , ()=> {
-        render(<MockCreateEntrevueForm listeEtudiant={testList1}/>)
+        render(<MockInformationEtudiantPostule listeEtudiant={testList1}/>)
         expect(screen.getByText('danil')).toBeInTheDocument();
         const bouttonElement = screen.getByText('LETTRE MOTIVATION')
         expect(bouttonElement).toBeInTheDocument()
@@ -29,7 +29,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
     });
 
     it('should render nombre de rows affiche', ()=> {
-        render(<MockCreateEntrevueForm listeEtudiant={testList} />)
+        render(<MockInformationEtudiantPostule listeEtudiant={testList} />)
         const row = document.querySelectorAll('tr');
         expect(row.length).toBe(4)
     });
@@ -50,7 +50,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
             },
         }]
         const onClickMock = jest.fn();
-        render(<MockCreateEntrevueForm listeEtudiant={testList2} />)
+        render(<MockInformationEtudiantPostule listeEtudiant={testList2} />)
         const bouttonElement = screen.getByText('CV')
         try{
             fireEvent.click(bouttonElement);
@@ -63,7 +63,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
     });
 
     it('should render module afficher Lettre Motivation', ()=> {
-        render(<MockCreateEntrevueForm listeEtudiant={testList2} />)
+        render(<MockInformationEtudiantPostule listeEtudiant={testList2} />)
         const bouttonElement = screen.getByText('LETTRE MOTIVATION')
         fireEvent.click(bouttonElement);
         // check if modal opens

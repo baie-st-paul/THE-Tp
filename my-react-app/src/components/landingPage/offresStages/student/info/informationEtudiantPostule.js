@@ -104,6 +104,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const handleAcceptConfirmation = () => {
         updateStatus(student.matricule, "Accepted");
         setIsConfirmationModalOpen(false);
+        console.log("Accepted")
     };
 
     const handleRefuseConfirmation = () => {
@@ -172,7 +173,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                         </td>
                                     }
                                     <td>
-                                        <button className='btn btn-warning p-3'
+                                        <button title="CONVOQUER" className='btn btn-warning p-3'
                                                 onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
                                             CONVOQUER
                                         </button>
@@ -180,27 +181,27 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     <td data-label="Statut" scope="row" className='headerElement breakWord'>
                                         {etudiant.status === "In_review" && (
                                             <>
-                                                <FontAwesomeIcon icon={faClock} /> Pending
+                                                <FontAwesomeIcon icon={faClock} /> En attente
                                             </>
                                         )}
                                         {etudiant.status === "Accepted" && (
                                             <>
-                                                <FontAwesomeIcon icon={faCheck} /> Accepted
+                                                <FontAwesomeIcon icon={faCheck} /> Accepté
                                             </>
                                         )}
                                         {etudiant.status === "Refused" && (
                                             <>
-                                                <FontAwesomeIcon icon={faTimes} /> Refused
+                                                <FontAwesomeIcon icon={faTimes} /> Refusé
                                             </>
                                         )}
                                     </td>
-                                    <td>
+                                    <td aria-label='veto'>
                                         {etudiant.status === "In_review" && (
                                             <>
-                                                <button className="btn btn-success" onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                <button title="Accepter" className="btn btn-success" onClick={() => openConfirmationModal("accept", etudiant.student)}>
                                                     <FontAwesomeIcon icon={faCheck} /> Accepter
                                                 </button>
-                                                <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                <button title="Refuser" className="btn btn-danger" onClick={() => openConfirmationModal("refuse", etudiant.student)}>
                                                     <FontAwesomeIcon icon={faTimes} /> Refuser
                                                 </button>
                                             </>
@@ -224,23 +225,23 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         ariaHideApp={false}
                         contentLabel="Confirmation Modal"
                     >
-                        <h2>Confirmation</h2>
+                        <h2 title="Confirmation modal">Confirmation</h2>
                         {confirmationType === "accept" ? (
                             <>
                                 <p>Êtes-vous sûr de vouloir accepter cet étudiant ?</p>
-                                <button className="btn btn-success" onClick={handleAcceptConfirmation}>
+                                <button title="ConfirmAccept" className="btn btn-success" onClick={handleAcceptConfirmation}>
                                     Oui
                                 </button>
                             </>
                         ) : (
                             <>
                                 <p>Êtes-vous sûr de vouloir refuser cet étudiant ?</p>
-                                <button className="btn btn-danger" onClick={handleRefuseConfirmation}>
+                                <button title="ConfirmRefuse" className="btn btn-danger" onClick={handleRefuseConfirmation}>
                                     Oui
                                 </button>
                             </>
                         )}
-                        <button className="btn btn-secondary" onClick={closeConfirmationModal}>
+                        <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
                             Non
                         </button>
                     </ReactModal>

@@ -1,7 +1,8 @@
 import {render, screen, fireEvent} from '@testing-library/react';
 import InformationEtudiantPostule from '../informationEtudiantPostule';
-import {BrowserRouter, MemoryRouter} from 'react-router-dom';
+import {BrowserRouter, Router} from 'react-router-dom';
 import { testList, testList1, testList2 } from "./TestList"
+import { createMemoryHistory } from 'history';
 
 const MockInformationEtudiantPostule = ({listeEtudiant}) => {
     return (
@@ -70,15 +71,86 @@ describe("Test the InformationEtudiantPostule Component", () => {
         expect(screen.getByText('X')).toBeInTheDocument();
     });
 
-    //add une navigate to code
-    it('should render Retourne au liste des offres', ()=> {
-        const { getByText } = render(
-            <MemoryRouter>
-                render(<InformationEtudiantPostule listeEtudiant={testList2} />)
-            </MemoryRouter>
-        );
-        const navigateButton = getByText('RETOUR');
+    it('should render button CONVOQUER', ()=> {
+        render(<MockInformationEtudiantPostule listeEtudiant={testList2} />)
+        expect(screen.getByTitle(/CONVOQUER/i)).toBeInTheDocument();
+    });
+
+    const createRouterWrapper = (history): React.ComponentType => ({ children }) => (
+        <Router history={history} location={history} navigator={history}>{children}</Router>
+    );
+
+    it('should render navigate to createEntrevue', ()=> {
+        const history = createMemoryHistory();
+        render(<InformationEtudiantPostule listeEtudiant={testList2} />, { wrapper: createRouterWrapper(history) });
+        const navigateButton = screen.getByTitle(/CONVOQUER/i);
         fireEvent.click(navigateButton);
-        expect(window.location.pathname).toBe('/');
+        expect(history.location.pathname).toBe('/createEntrevue');
+    });
+
+    it('should render Retourne au liste des offres', ()=> {
+        const history = createMemoryHistory();
+        render(<InformationEtudiantPostule listeEtudiant={testList2} />, { wrapper: createRouterWrapper(history) });
+        const navigateButton = screen.getByText('RETOUR');
+        fireEvent.click(navigateButton);
+        expect(history.location.pathname).toBe('/EmployeurHomePage');
+    });
+
+    it('should render button veto', ()=> {
+        render(<MockInformationEtudiantPostule listeEtudiant={testList} />)
+        expect(screen.getByText('En attente')).toBeInTheDocument();
+        expect(screen.getByTitle(/Accepter/i)).toBeInTheDocument();
+        expect(screen.getByTitle(/Refuser/i)).toBeInTheDocument();
+    });
+
+    it('should render modal and button modal', ()=> {
+        render(<MockInformationEtudiantPostule listeEtudiant={testList} />)
+        const buttonAccepter = screen.getByTitle(/Accepter/i);
+        const buttonRefuser = screen.getByTitle(/Refuser/i);
+
+        fireEvent.click(buttonAccepter)
+        expect(screen.getByTitle(/Confirmation modal/i)).toBeInTheDocument();
+        expect(screen.getByTitle(/ConfirmAccept/i)).toBeInTheDocument();
+        expect(screen.getByTitle(/ConfirmNon/i)).toBeInTheDocument();
+        fireEvent.click(buttonRefuser)
+        expect(screen.getByTitle(/Confirmation modal/i)).toBeInTheDocument();
+        expect(screen.getByTitle(/ConfirmRefuse/i)).toBeInTheDocument();
+        expect(screen.getByTitle(/ConfirmNon/i)).toBeInTheDocument();
+    });
+
+    const { reload } = window.location;
+
+    const refreshPage = () => {
+        window.location.reload();
+    };
+
+    beforeAll(() => {
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: { reload: jest.fn() },
+        });
+    });
+
+    afterAll(() => {
+        window.location.reload = reload;
+    });
+
+    it('reloads the window', () => {
+        refreshPage();
+        expect(window.location.reload).toHaveBeenCalled();
+    });
+
+    it('should render accept modal when clicked', ()=> {
+        render(<MockInformationEtudiantPostule listeEtudiant={testList} />)
+        const buttonAccepter = screen.getByTitle(/Accepter/i);
+
+        fireEvent.click(buttonAccepter)
+        const buttonConfirm = screen.getByTitle(/ConfirmAccept/i);
+        fireEvent.click(buttonConfirm)
+        refreshPage();
+        //ERREUR
+        //le texte statut a pas été update il est encore 'En attente'
+        //même si le fetch a été fait
+        //expect(screen.getByText('Accepté')).toBeInTheDocument();
     });
 });

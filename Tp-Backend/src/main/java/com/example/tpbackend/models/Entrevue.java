@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Entrevue {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dateHeure;
     private String description;
@@ -32,13 +32,6 @@ public class Entrevue {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-
-    public Entrevue(long id, String dateHeure, String description, String status) {
-        this.id = id;
-        this.dateHeure = dateHeure;
-        this.description = description;
-        this.status = Status.valueOf(status);
-    }
 
     public EntrevueDTO toEntrevueDTO() {
         return new EntrevueDTO(

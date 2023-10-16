@@ -1,7 +1,6 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -27,7 +26,7 @@ public class OffreStageService {
 
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
-        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
+        offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
@@ -60,7 +59,7 @@ public class OffreStageService {
     public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
-        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offreStageDTO.getEmployerId())));
+        offreStage.setEmployer(employerService.getEmployerById(offreStageDTO.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 

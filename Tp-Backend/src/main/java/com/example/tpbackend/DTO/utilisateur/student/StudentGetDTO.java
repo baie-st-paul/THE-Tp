@@ -23,13 +23,4 @@ public class StudentGetDTO {
     private String matricule;
     private String program;
 
-    public Student toStudent(){
-        return new Student(
-                firstName,
-                lastName,
-                phoneNumber,
-                matricule,
-                program
-        );
-    }
 }

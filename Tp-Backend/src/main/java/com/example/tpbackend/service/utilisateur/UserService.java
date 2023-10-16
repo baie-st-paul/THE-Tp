@@ -2,36 +2,26 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    UtilisateurRepository utilisateurRepository;
+    private final UtilisateurRepository utilisateurRepository;
 
     public UserService(UtilisateurRepository utilisateurRepository){
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    /* pas utilisé
-    public Utilisateur createUser(UtilisateurDTO utilisateurDTO) {
-
-        if (userRepository.existsByEmail(utilisateurDTO.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        Utilisateur newUser = new Utilisateur();
-
-        newUser.setEmail(utilisateurDTO.getEmail());
-        newUser.setPassword(utilisateurDTO.getPassword());
-
-        userRepository.save(newUser);
-
-        return newUser;
-    }*/
-
-    public Utilisateur loadUserByEmail(String email) {
-        return utilisateurRepository.findByEmail(email);
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) {
+                return utilisateurRepository.findByEmail(username);
+            }
+        };
     }
 
     public boolean existsByEmail(String email) {

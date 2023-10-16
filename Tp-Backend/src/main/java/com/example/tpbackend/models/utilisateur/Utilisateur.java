@@ -1,6 +1,5 @@
 package com.example.tpbackend.models.utilisateur;
 
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +26,7 @@ public class Utilisateur implements UserDetails {
     private long id;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
     @Column(unique = true) // un utilisateur ne peut avoir qu'un seul email
     private String email;
 
@@ -36,17 +36,19 @@ public class Utilisateur implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public Utilisateur(String firstName, String lastName, String email,String phoneNumber, String password, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.role = Role.valueOf(role);
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    public UtilisateurDTO toLoginDTO() {
-        return new UtilisateurDTO(
-                email,
-                password,
-                role.toString()
-        );
-    }
 
     public String getEmail() {
         return email;
@@ -111,6 +113,11 @@ public class Utilisateur implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getPhoneNumber() {
+
+            return phoneNumber;
     }
 
     public enum Role{

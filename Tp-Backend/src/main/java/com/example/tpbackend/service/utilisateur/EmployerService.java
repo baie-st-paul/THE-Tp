@@ -1,8 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -32,15 +30,12 @@ public class EmployerService {
         return employerRepository.getOffreStageById(id);
     }
 
-    public EmployerGetDTO getEmployerById(Long id){
-        Employer employer = employerRepository.findEmployerById(id);
-        return new EmployerGetDTO(
-                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
-                employer.getPhoneNumber(),employer.getUtilisateur().getEmail());
+    public Employer getEmployerById(Long id){
+        return employerRepository.findEmployerById(id);
     }
 
-    public EmployerPostDTO saveEmployer(String firstName, String lastName, String email, String password, String role, EmployerPostDTO employerPostDTO){
-        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password,role);
+    public EmployerPostDTO saveEmployer(String firstName, String lastName, String email,String phoneNumber, String password, String role, EmployerPostDTO employerPostDTO){
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password,role);
         Employer employer = employerPostDTO.toEmployer(employerPostDTO);
         employer.setUtilisateur(utilisateur);
         utilisateurRepository.save(utilisateur);
@@ -48,11 +43,4 @@ public class EmployerService {
         return EmployerPostDTO.fromEmployeur(employer);
     }
 
-    public EmployerGetDTO getEmployeurByUser(UtilisateurDTO utilisateurDTO){
-        Employer employer = employerRepository.findEmployerByUtilisateur();
-        System.out.println(employer);
-        return new EmployerGetDTO(
-                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
-                employer.getPhoneNumber(),utilisateurDTO.getEmail());
-    }
 }

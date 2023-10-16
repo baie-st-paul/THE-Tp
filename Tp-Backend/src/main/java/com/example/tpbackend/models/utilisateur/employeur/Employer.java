@@ -17,10 +17,7 @@ public class Employer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
-    private String firstName;
-    private String lastName;
     private String companyName;
-    private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -29,12 +26,9 @@ public class Employer {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
 
-    public Employer(Long id, String firstName, String lastName, String companyName, String phoneNumber) {
+    public Employer(Long id, String companyName) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.companyName = companyName;
-        this.phoneNumber = phoneNumber;
     }
 
     public void setUtilisateur(Utilisateur utilisateur){

@@ -1,16 +1,17 @@
 package com.example.tpbackend.service.security;
 
 import com.example.tpbackend.DTO.Authentication.JwtAuthenticationResponse;
-import com.example.tpbackend.DTO.Authentication.SignInRequest;
-import com.example.tpbackend.DTO.Authentication.SignUpRequest;
+import com.example.tpbackend.DTO.Authentication.LoginRequest;
+import com.example.tpbackend.DTO.Authentication.RegisterRequest;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,9 +29,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-
-
-    public JwtAuthenticationResponse signup(SignUpRequest request){
+    public JwtAuthenticationResponse register(RegisterRequest request){
         var user = Utilisateur.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
                 .role(Utilisateur.Role.valueOf(request.getRole())).build();
@@ -41,16 +40,33 @@ public class AuthenticationService {
                         request.getFirstName(),
                         request.getLastName(),
                         request.getEmail(),
+                        request.getPhoneNumber(),
                         request.getPassword(),
                         request.getRole(),
                         (EmployerPostDTO) request.getUserType()
                 );
                 break;
             case "GESTIONNAIRE":
-                gestionnaireService.saveGestionnaire(request);
+                gestionnaireService.saveGestionnaire(
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getEmail(),
+                        request.getPhoneNumber(),
+                        request.getPassword(),
+                        request.getRole(),
+                        (GestionnairePostDTO) request.getUserType()
+                );
                 break;
             case "STUDENT":
-                studentServices.saveStudent(request);
+                studentServices.saveStudent(
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getEmail(),
+                        request.getPhoneNumber(),
+                        request.getPassword(),
+                        request.getRole(),
+                        (StudentPostDTO) request.getUserType()
+                );
                 break;
         }
 
@@ -58,12 +74,15 @@ public class AuthenticationService {
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 
-    public JwtAuthenticationResponse signin(SignInRequest request) {
+    public JwtAuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        var user = userService.loadUserByEmail(request.getEmail());
+        var user = userService.userDetailsService().loadUserByUsername(request.getEmail());
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+        return JwtAuthenticationResponse.builder()
+                .token(jwt)
+                .role(user.getAuthorities().iterator().next().getAuthority())
+                .build();
     }
 
 }

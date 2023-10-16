@@ -9,26 +9,10 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 public class GestionnairePostDTO {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String phoneNumber;
     private String matricule;
 
-    public GestionnairePostDTO(
-            String firstName,
-            String lastName,
-            String matricule,
-            String phoneNumber,
-            String email,
-            String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public GestionnairePostDTO(String matricule) {
         this.matricule = matricule;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
     }
 
     public static GestionnairePostDTO fromGestionnaire(Gestionnaire gestionnaire){

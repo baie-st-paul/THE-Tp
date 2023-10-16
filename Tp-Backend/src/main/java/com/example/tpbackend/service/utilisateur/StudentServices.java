@@ -3,7 +3,6 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
@@ -38,8 +37,8 @@ public class StudentServices {
     @Autowired
     private CandidatureRepository candidatureRepository;
 
-    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password,role);
+    public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
         Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
         utilisateurRepository.save(utilisateur);
@@ -59,13 +58,6 @@ public class StudentServices {
         cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
     }
 
-    public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
-        Student student = studentRepository.findStudentByUtilisateur(utilisateurDTO.getEmail());
-        return new StudentGetDTO(
-                student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
-                student.getPhoneNumber(),student.getMatricule(),student.getProgram()
-        );
-    }
 
     public StudentGetDTO getStudentByMatricule(String matricule) {
         Student student = studentRepository.findByMaticule(matricule);

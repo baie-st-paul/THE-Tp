@@ -2,8 +2,6 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
@@ -30,23 +28,13 @@ public class GestionnaireService {
     @Autowired
     private CvRepository cvRepository;
 
-    public GestionnairePostDTO saveGestionnaire(String firstName,
-                                                String lastName,
-                                                String phoneNumber,
-                                                String matricule,
-                                                String email,
-                                                String password,
-                                                String role){
-        if(existsByEmail(email) || existsByMatricule(matricule)){
+    public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
+        if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
             return null;
         }
 
-        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, password, role);
-        Gestionnaire gestionnaire = new Gestionnaire(
-                firstName,
-                lastName,
-                phoneNumber,
-                matricule);
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email,phoneNumber, password, role);
+        Gestionnaire gestionnaire = new Gestionnaire(gestionnairePostDTO.getMatricule());
         gestionnaire.setUtilisateur(utilisateur);
         System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
         userRepository.save(utilisateur);
@@ -71,17 +59,6 @@ public class GestionnaireService {
 
     public boolean existsByMatriculeOrEmail(String matricule, String email){
         return gestionnaireRepository.existsByMatriculeOrEmail(matricule, email);
-    }
-
-    public GestionnaireGetDTO getGestionnaireByUser(UtilisateurDTO user) {
-        Gestionnaire gestionnaire = gestionnaireRepository.findGestionnaireByUser();
-        return new GestionnaireGetDTO(
-                gestionnaire.getFirstName(),gestionnaire.getLastName(),gestionnaire.getMatricule(),
-                gestionnaire.getPhoneNumber(),user.getEmail());
-    }
-
-    public List<OffreStage> getOffres() {//utilisé que dans test
-        return offreStageRepository.findAll();
     }
 
     public List<OffreStageDTO> getToutesLesOffres() {

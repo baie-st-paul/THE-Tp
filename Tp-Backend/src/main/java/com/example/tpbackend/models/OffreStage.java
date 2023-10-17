@@ -1,6 +1,7 @@
 package com.example.tpbackend.models;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -18,7 +20,7 @@ import java.util.List;
 public class OffreStage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     private String titre;
     private Double salaire;
     private String studentProgram;
@@ -69,6 +71,26 @@ public class OffreStage {
                 dateFin,
                 String.valueOf(status)
         );
+    }
+
+    public Long getEmployerId() {
+        return employer.getId();
+    }
+
+    public List<StudentGetDTO> getStudentDTOs() {
+        return this.etudiants.stream()
+                .map(student -> {
+                    String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
+
+                    return new StudentGetDTO(
+                            student.getFirstName(),
+                            student.getLastName(),
+                            email,
+                            student.getPhoneNumber(),
+                            student.getMatricule(),
+                            student.getProgram());
+                })
+                .collect(Collectors.toList());
     }
 
 

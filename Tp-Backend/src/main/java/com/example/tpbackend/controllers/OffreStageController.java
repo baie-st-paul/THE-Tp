@@ -18,9 +18,9 @@ public class OffreStageController {
     private final OffreStageService offreStageService;
 
     @PostMapping("/create")
-    public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
+    public ResponseEntity<OffreStageDTO> saveOffre(@RequestBody OffreStageDTO offre) {
         try {
-            OffreStageDTO newOffre = offreStageService.createOffre(offre);
+            OffreStageDTO newOffre = offreStageService.saveOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(offre);
@@ -30,23 +30,22 @@ public class OffreStageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OffreStageDTO> updateOffre(@PathVariable("id") Long id, @RequestBody OffreStageDTO offre) {
-        OffreStageDTO offreData = offreStageService.updateOffreStage(id, offre);
-        if (offreData != null) {
-            return new ResponseEntity<>(offreData, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public OffreStageDTO updateOffre(@PathVariable("id") long id, @RequestBody OffreStageDTO offre) {
+        OffreStageDTO offreStageDTO = offreStageService.getOffreById(id);
+
+        offreStageDTO.setTitre(offre.getTitre());
+        offreStageDTO.setSalaire(offre.getSalaire());
+        offreStageDTO.setStudentProgram(offre.getStudentProgram());
+        offreStageDTO.setDescription(offre.getDescription());
+        offreStageDTO.setDateDebut(offre.getDateDebut());
+        offreStageDTO.setDateFin(offre.getDateFin());
+
+        return offreStageService.saveOffre(offreStageDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteOffre(@PathVariable("id") Long id) {
-        try {
-            offreStageService.deleteOffreStage(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public void deleteOffre(@PathVariable long id) {
+        offreStageService.deleteOffreStage(id);
     }
 
     @GetMapping("/")
@@ -56,13 +55,13 @@ public class OffreStageController {
     }
 
     @GetMapping("/employer/{id}")
-    public ResponseEntity<List<OffreStageDTO>> getOffresByEmployerId(@PathVariable("id") Long id) {
+    public ResponseEntity<List<OffreStageDTO>> getOffresByEmployerId(@PathVariable("id") long id) {
         List<OffreStageDTO> offres = offreStageService.getOffresByEmployerId(id);
         return new ResponseEntity<>(offres, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") Long id) {
+    public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") long id) {
         OffreStageDTO offre = offreStageService.getOffreById(id);
         return new ResponseEntity<>(offre, HttpStatus.OK);
     }

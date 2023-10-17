@@ -16,7 +16,6 @@ public class   EntrevueDTO {
     private String idEmployeur;
     private String idEtudiant;
 
-
     public EntrevueDTO(Entrevue entrevue){
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();

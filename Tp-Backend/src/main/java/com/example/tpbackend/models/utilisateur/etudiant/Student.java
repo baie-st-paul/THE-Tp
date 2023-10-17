@@ -1,8 +1,9 @@
 package com.example.tpbackend.models.utilisateur.etudiant;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-
 public class Student  {
 
         private String firstName;
@@ -29,6 +29,9 @@ public class Student  {
 
         @ManyToMany(mappedBy = "etudiants")
         private List<OffreStage> offresStages;
+
+        @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+        private List<Candidature> candidatures;
 
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;

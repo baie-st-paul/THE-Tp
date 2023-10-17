@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @NoArgsConstructor
 public class EntrevueService {
@@ -25,7 +22,8 @@ public class EntrevueService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
+
+    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
         Entrevue entrevue = new Entrevue();
         entrevue.setId(1L);
         entrevue.setDescription(entrevueDTO.getDescription());
@@ -36,12 +34,9 @@ public class EntrevueService {
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
-
     public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
         Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployeur()), entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
         return new EntrevueDTO(entrevueRepository.save(entrevue));
     }
-
-
 }

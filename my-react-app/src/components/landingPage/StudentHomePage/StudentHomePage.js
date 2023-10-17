@@ -3,18 +3,25 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/OffrePageStudent";
+import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+<<<<<<< HEAD
 import {faFileUpload, faBriefcase, faEnvelope, faHome} from '@fortawesome/free-solid-svg-icons';
 import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
 
+=======
+import {faFileUpload, faBriefcase, faPortrait, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
+import { useNavigate } from "react-router-dom";
+>>>>>>> origin/EQ2-17-employeur_convoquer_etudiant_entrevue
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
+    const navigate = useNavigate()
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -29,33 +36,25 @@ const StudentHomePage = () => {
         }
     }, [loggedInUser, setLoggedInUser]);
 
-    let contentToRender = null;
+    let contentToRender;
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
 
-    const articles = [
-    "Les avantages des stages",
-    "Comment réussir votre entretien",
-    "Les meilleures entreprises pour les stages à Montréal",
-    "Développer vos compétences en programmation",
-    "Comprendre les bases de l'IA",
-    "La cybersécurité : Ce que chaque étudiant devrait savoir",
-    "Travailler dans un environnement Agile",
-    "Comment préparer un portfolio de développeur",
-    "Éviter le burnout pendant un stage",
-    "Networking : Pourquoi et comment"
-];
-
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
+    }
 
     switch (activeContent) {
         case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule} />;
+            contentToRender = <FileUploader matricule={matricule}/>;
             break;
         case "offre-page-student":
             contentToRender = <OffresPageStudent/>;
             break;
+<<<<<<< HEAD
         case "section-entrevue":
             contentToRender = <SectionEntrevue/>
             break;
@@ -92,10 +91,19 @@ const StudentHomePage = () => {
             </Container>
           );*/
           break;
+=======
+        case "offre-page-candidature":
+            contentToRender = <OffreCandidaturePage/>;
+            break;
+        default:
+            contentToRender = <div>Please select a section.</div>;
+            break;
+>>>>>>> origin/EQ2-17-employeur_convoquer_etudiant_entrevue
     }
 
     return (
         <div className="student-homepage">
+<<<<<<< HEAD
             <Navbar bg="dark" className="navbar-dark" expand="lg">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -109,23 +117,52 @@ const StudentHomePage = () => {
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/>CV
+=======
+            <Navbar  className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid " />
+                <Navbar.Collapse id="basic-navbar-nav">               
+                    <Nav>
+                        <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
+>>>>>>> origin/EQ2-17-employeur_convoquer_etudiant_entrevue
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+<<<<<<< HEAD
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
                                 </button>
                             </li>
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
                                     <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
+=======
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
                                 </button>
                             </li>
-                        </ul>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton deconnecter">
+                                <button className="nav-link" onClick={() => handleDisconnect()}>
+                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
+                                    Se déconnecter
+>>>>>>> origin/EQ2-17-employeur_convoquer_etudiant_entrevue
+                                </button>
+                            </li>
+                        </ul>   
                     </Nav>
                 </Navbar.Collapse>
           </Navbar>
           <div className="container content-container mt-4">
+<<<<<<< HEAD
+=======
+            <h2>Étudiant</h2>
+>>>>>>> origin/EQ2-17-employeur_convoquer_etudiant_entrevue
             {contentToRender}
           </div>
         </div>

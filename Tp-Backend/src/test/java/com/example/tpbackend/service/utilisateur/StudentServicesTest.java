@@ -11,6 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -29,11 +31,16 @@ import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
+
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -50,10 +57,10 @@ class StudentServicesTest {
     private CandidatureRepository candidatureRepository;
 
     @MockBean
-    private OffreStageRepository offreStageRepository;
+    private CvRepository cvRepository;
 
     @MockBean
-    private CvRepository cvRepository;
+    private OffreStageRepository offreStageRepository;
 
     @MockBean
     private StudentRepository studentRepository;
@@ -75,12 +82,12 @@ class StudentServicesTest {
         //       at java.lang.Enum.valueOf(Enum.java:273)
         //       at com.example.tpbackend.models.utilisateur.Utilisateur$Role.valueOf(Utilisateur.java:44)
         //       at com.example.tpbackend.models.utilisateur.Utilisateur.<init>(Utilisateur.java:33)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveStudent(StudentServices.java:29)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveStudent(StudentServices.java:42)
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.saveStudent(
                 new StudentPostDTO("jane.doe@example.org", "iloveyou", "Jane", "Doe", "6625550144", "Matricule", "Program"),
-                "jane.doe@example.org", "iloveyou", "Student");
+                "jane.doe@example.org", "iloveyou", "Role");
     }
 
     /**
@@ -97,7 +104,7 @@ class StudentServicesTest {
         //       at java.lang.Enum.valueOf(Enum.java:273)
         //       at com.example.tpbackend.models.utilisateur.Utilisateur$Role.valueOf(Utilisateur.java:44)
         //       at com.example.tpbackend.models.utilisateur.Utilisateur.<init>(Utilisateur.java:33)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveStudent(StudentServices.java:29)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveStudent(StudentServices.java:42)
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.saveStudent(mock(StudentPostDTO.class), "jane.doe@example.org", "iloveyou", "Role");
@@ -134,9 +141,9 @@ class StudentServicesTest {
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
         //   java.lang.NullPointerException: Cannot invoke "org.springframework.web.multipart.MultipartFile.isEmpty()" because "multipartFile" is null
-        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:42)
+        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:37)
+        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:31)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:55)
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.saveCv(new CvDTO());
@@ -152,74 +159,23 @@ class StudentServicesTest {
         //   Reason: R013 No inputs found that don't throw a trivial exception.
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
+        //   java.lang.IllegalArgumentException: No enum constant com.example.tpbackend.models.Cv.StatusCV.Status
+        //       at java.lang.Enum.valueOf(Enum.java:273)
         //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
         //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:42)
+        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:31)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:55)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")));
-        studentServices.saveCv(cvDTO);
+        studentServices.saveCv(new CvDTO("Matricule", "foo.txt",
+                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")), "Status"));
     }
 
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testSaveCv3() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
-        //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:42)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", new byte[]{}));
-        studentServices.saveCv(cvDTO);
-    }
-
-    /**
-     * Method under test: {@link StudentServices#saveCv(CvDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testSaveCv4() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
-        //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveCv(StudentServices.java:42)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        MultipartFile file_cv = mock(MultipartFile.class);
-        when(file_cv.isEmpty()).thenReturn(true);
-        when(file_cv.getBytes()).thenReturn("AXAXAXAX".getBytes("UTF-8"));
-
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(file_cv);
-        studentServices.saveCv(cvDTO);
-    }
-
-    /**
-     * Method under test: {@link StudentServices#saveCv(CvDTO)}
-     */
-    @Test
-    void testSaveCv5() throws IOException {
         Cv cv = new Cv();
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
@@ -236,12 +192,9 @@ class StudentServicesTest {
         cv2.setStatus(Cv.StatusCV.Accepted);
         CvDTO cvDTO = mock(CvDTO.class);
         when(cvDTO.toCv()).thenReturn(cv2);
-        doNothing().when(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
-        cvDTO.setFile_cv(mock(MultipartFile.class));
         studentServices.saveCv(cvDTO);
         verify(cvRepository).save(Mockito.<Cv>any());
         verify(cvDTO).toCv();
-        verify(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
     }
 
     /**
@@ -255,9 +208,9 @@ class StudentServicesTest {
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
         //   java.lang.NullPointerException: Cannot invoke "org.springframework.web.multipart.MultipartFile.isEmpty()" because "multipartFile" is null
-        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:46)
+        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:37)
+        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:31)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:59)
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.updateCv(new CvDTO());
@@ -273,17 +226,16 @@ class StudentServicesTest {
         //   Reason: R013 No inputs found that don't throw a trivial exception.
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
+        //   java.lang.IllegalArgumentException: No enum constant com.example.tpbackend.models.Cv.StatusCV.Status
+        //       at java.lang.Enum.valueOf(Enum.java:273)
         //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
         //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:46)
+        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:31)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:59)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")));
-        studentServices.updateCv(cvDTO);
+        studentServices.updateCv(new CvDTO("Matricule", "foo.txt",
+                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")), "Status"));
     }
 
     /**
@@ -296,51 +248,18 @@ class StudentServicesTest {
         //   Reason: R013 No inputs found that don't throw a trivial exception.
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
-        //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:46)
+        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.DTO.CvDTO.getMatricule()" because "cvDTO" is null
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:59)
         //   See https://diff.blue/R013 to resolve this issue.
 
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", new byte[]{}));
-        studentServices.updateCv(cvDTO);
+        studentServices.updateCv(null);
     }
 
     /**
      * Method under test: {@link StudentServices#updateCv(CvDTO)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testUpdateCv4() throws IOException {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.Cv$StatusCV.valueOf(Cv.java:52)
-        //       at com.example.tpbackend.models.Cv.<init>(Cv.java:34)
-        //       at com.example.tpbackend.DTO.CvDTO.toCv(CvDTO.java:28)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.updateCv(StudentServices.java:46)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        ByteArrayMultipartFile file_cv = mock(ByteArrayMultipartFile.class);
-        when(file_cv.isEmpty()).thenReturn(true);
-        when(file_cv.getBytes()).thenReturn("AXAXAXAX".getBytes("UTF-8"));
-
-        CvDTO cvDTO = new CvDTO();
-        cvDTO.setFile_cv(file_cv);
-        studentServices.updateCv(cvDTO);
-    }
-
-    /**
-     * Method under test: {@link StudentServices#updateCv(CvDTO)}
-     */
-    @Test
-    void testUpdateCv5() throws IOException {
         doNothing().when(cvRepository)
                 .updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(), Mockito.<byte[]>any(),
                         Mockito.<Cv.StatusCV>any());
@@ -355,22 +274,19 @@ class StudentServicesTest {
         when(cvDTO.toCv()).thenReturn(cv);
         when(cvDTO.getFileName()).thenReturn("foo.txt");
         when(cvDTO.getMatricule()).thenReturn("Matricule");
-        doNothing().when(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
-        cvDTO.setFile_cv(mock(ByteArrayMultipartFile.class));
         studentServices.updateCv(cvDTO);
         verify(cvRepository).updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(),
                 Mockito.<byte[]>any(), Mockito.<Cv.StatusCV>any());
         verify(cvDTO, atLeast(1)).toCv();
         verify(cvDTO).getFileName();
         verify(cvDTO).getMatricule();
-        verify(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
     }
 
     /**
      * Method under test: {@link StudentServices#updateCv(CvDTO)}
      */
     @Test
-    void testUpdateCv6() throws IOException {
+    void testUpdateCv5() throws IOException {
         doNothing().when(cvRepository)
                 .updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(), Mockito.<byte[]>any(),
                         Mockito.<Cv.StatusCV>any());
@@ -391,15 +307,12 @@ class StudentServicesTest {
         when(cvDTO.toCv()).thenReturn(cv);
         when(cvDTO.getFileName()).thenReturn("foo.txt");
         when(cvDTO.getMatricule()).thenReturn("Matricule");
-        doNothing().when(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
-        cvDTO.setFile_cv(mock(ByteArrayMultipartFile.class));
         studentServices.updateCv(cvDTO);
         verify(cvRepository).updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(),
                 Mockito.<byte[]>any(), Mockito.<Cv.StatusCV>any());
         verify(cvDTO, atLeast(1)).toCv();
         verify(cvDTO).getFileName();
         verify(cvDTO).getMatricule();
-        verify(cvDTO).setFile_cv(Mockito.<MultipartFile>any());
         verify(cv).getFile_cv();
         verify(cv).getStatus();
         verify(cv).setFileName(Mockito.<String>any());
@@ -427,16 +340,16 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByUser = studentServices
                 .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
         assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
         assertEquals("Program", actualStudentByUser.getProgram());
-        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
-        assertEquals("Matricule", actualStudentByUser.getMatricule());
-        assertEquals("Doe", actualStudentByUser.getLastName());
         assertEquals("Jane", actualStudentByUser.getFirstName());
-        verify(studentRepository).findStudentByUtilisateur(utilisateur.getEmail());
+        assertEquals("Matricule", actualStudentByUser.getMatricule());
+        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
+        assertEquals("Doe", actualStudentByUser.getLastName());
+        verify(studentRepository).findStudentByUtilisateur(Mockito.<String>any());
     }
 
     /**
@@ -467,16 +380,16 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByUser = studentServices
                 .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
         assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
         assertEquals("Program", actualStudentByUser.getProgram());
-        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
-        assertEquals("Matricule", actualStudentByUser.getMatricule());
-        assertEquals("Doe", actualStudentByUser.getLastName());
         assertEquals("Jane", actualStudentByUser.getFirstName());
-        verify(studentRepository).findStudentByUtilisateur(utilisateur.getEmail());
+        assertEquals("Matricule", actualStudentByUser.getMatricule());
+        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
+        assertEquals("Doe", actualStudentByUser.getLastName());
+        verify(studentRepository).findStudentByUtilisateur(Mockito.<String>any());
         verify(student).getFirstName();
         verify(student).getLastName();
         verify(student).getMatricule();
@@ -501,7 +414,7 @@ class StudentServicesTest {
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
         //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.DTO.utilisateur.UtilisateurDTO.getEmail()" because "utilisateurDTO" is null
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.getStudentByUser(StudentServices.java:52)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.getStudentByUser(StudentServices.java:63)
         //   See https://diff.blue/R013 to resolve this issue.
 
         Utilisateur utilisateur = new Utilisateur();
@@ -527,7 +440,7 @@ class StudentServicesTest {
         student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(utilisateur.getEmail())).thenReturn(student);
+        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
         studentServices.getStudentByUser(null);
     }
 
@@ -552,10 +465,10 @@ class StudentServicesTest {
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
         assertEquals("Program", actualStudentByMatricule.getProgram());
-        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
-        assertEquals("Matricule", actualStudentByMatricule.getMatricule());
-        assertEquals("Doe", actualStudentByMatricule.getLastName());
         assertEquals("Jane", actualStudentByMatricule.getFirstName());
+        assertEquals("Matricule", actualStudentByMatricule.getMatricule());
+        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
+        assertEquals("Doe", actualStudentByMatricule.getLastName());
         verify(studentRepository).findByMaticule(Mockito.<String>any());
     }
 
@@ -590,10 +503,10 @@ class StudentServicesTest {
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
         assertEquals("Program", actualStudentByMatricule.getProgram());
-        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
-        assertEquals("Matricule", actualStudentByMatricule.getMatricule());
-        assertEquals("Doe", actualStudentByMatricule.getLastName());
         assertEquals("Jane", actualStudentByMatricule.getFirstName());
+        assertEquals("Matricule", actualStudentByMatricule.getMatricule());
+        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
+        assertEquals("Doe", actualStudentByMatricule.getLastName());
         verify(studentRepository).findByMaticule(Mockito.<String>any());
         verify(student).getFirstName();
         verify(student).getLastName();
@@ -619,8 +532,8 @@ class StudentServicesTest {
         //   Diffblue Cover tried to run the arrange/act section, but the method under
         //   test threw
         //   java.lang.NullPointerException: Cannot invoke "org.springframework.web.multipart.MultipartFile.isEmpty()" because "multipartFile" is null
-        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:36)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.postulerOffre(StudentServices.java:79)
+        //       at com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray(CvDTO.java:37)
+        //       at com.example.tpbackend.service.utilisateur.StudentServices.postulerOffre(StudentServices.java:81)
         //   See https://diff.blue/R013 to resolve this issue.
 
         Cv cv = new Cv();
@@ -681,124 +594,6 @@ class StudentServicesTest {
      */
     @Test
     void testPostulerOffre2() throws IOException {
-        Cv cvStudent = new Cv();
-        cvStudent.setFileName("foo.txt");
-        cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
-        cvStudent.setId(1L);
-        cvStudent.setMatricule("Matricule");
-        cvStudent.setStatus(Cv.StatusCV.Accepted);
-
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Employer employer = new Employer();
-        employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
-        employer.setId(1L);
-        employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(utilisateur);
-
-        OffreStage offreStage = new OffreStage();
-        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage.setDescription("The characteristics of someone or something");
-        offreStage.setEmployer(employer);
-        offreStage.setId(1L);
-        offreStage.setSalaire(10.0d);
-        offreStage.setStatus(OffreStage.Status.Accepted);
-        offreStage.setStudentProgram("Student Program");
-        offreStage.setTitre("Titre");
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(1L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-
-        Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
-        student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
-        student.setProgram("Program");
-        student.setUtilisateur(utilisateur2);
-
-        Candidature candidature = new Candidature();
-        candidature.setCvStudent(cvStudent);
-        candidature.setId(1L);
-        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
-        candidature.setOffreStage(offreStage);
-        candidature.setStudent(student);
-        when(candidatureRepository.save(Mockito.<Candidature>any())).thenReturn(candidature);
-
-        Cv cv = new Cv();
-        cv.setFileName("foo.txt");
-        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
-        cv.setId(1L);
-        cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
-        when(cvRepository.findCvByMatricule(Mockito.<String>any())).thenReturn(cv);
-
-        Utilisateur utilisateur3 = new Utilisateur();
-        utilisateur3.setEmail("jane.doe@example.org");
-        utilisateur3.setId(1L);
-        utilisateur3.setPassword("iloveyou");
-        utilisateur3.setRole(Utilisateur.Role.Student);
-
-        Employer employer2 = new Employer();
-        employer2.setCompanyName("Company Name");
-        employer2.setFirstName("Jane");
-        employer2.setId(1L);
-        employer2.setLastName("Doe");
-        employer2.setOffresStages(new ArrayList<>());
-        employer2.setPhoneNumber("6625550144");
-        employer2.setUtilisateur(utilisateur3);
-
-        OffreStage offreStage2 = new OffreStage();
-        offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage2.setDescription("The characteristics of someone or something");
-        offreStage2.setEmployer(employer2);
-        offreStage2.setId(1L);
-        offreStage2.setSalaire(10.0d);
-        offreStage2.setStatus(OffreStage.Status.Accepted);
-        offreStage2.setStudentProgram("Student Program");
-        offreStage2.setTitre("Titre");
-        Optional<OffreStage> ofResult = Optional.of(offreStage2);
-        when(offreStageRepository.findOffreById(Mockito.<Long>any())).thenReturn(ofResult);
-
-        Utilisateur utilisateur4 = new Utilisateur();
-        utilisateur4.setEmail("jane.doe@example.org");
-        utilisateur4.setId(1L);
-        utilisateur4.setPassword("iloveyou");
-        utilisateur4.setRole(Utilisateur.Role.Student);
-
-        Student student2 = new Student();
-        student2.setFirstName("Jane");
-        student2.setLastName("Doe");
-        student2.setMatricule("Matricule");
-        student2.setPhoneNumber("6625550144");
-        student2.setProgram("Program");
-        student2.setUtilisateur(utilisateur4);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
-        studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L, "Test name",
-                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8"))));
-        verify(candidatureRepository).save(Mockito.<Candidature>any());
-        verify(cvRepository).findCvByMatricule(Mockito.<String>any());
-        verify(offreStageRepository).findOffreById(Mockito.<Long>any());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
-    }
-
-    /**
-     * Method under test: {@link StudentServices#postulerOffre(CandidaturePostDTO)}
-     */
-    @Test
-    void testPostulerOffre3() throws IOException {
         Cv cvStudent = new Cv();
         cvStudent.setFileName("foo.txt");
         cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
@@ -911,6 +706,184 @@ class StudentServicesTest {
         verify(cvRepository).findCvByMatricule(Mockito.<String>any());
         verify(offreStageRepository).findOffreById(Mockito.<Long>any());
         verify(studentRepository).findByMaticule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#getMesCandidaturesByMatricule(String)}
+     */
+    @Test
+    void testGetMesCandidaturesByMatricule() {
+        when(candidatureRepository.getAllCandidaturesByMatricule(Mockito.<String>any())).thenReturn(new ArrayList<>());
+        assertTrue(studentServices.getMesCandidaturesByMatricule("Matricule").isEmpty());
+        verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#getMesCandidaturesByMatricule(String)}
+     */
+    @Test
+    void testGetMesCandidaturesByMatricule2() throws UnsupportedEncodingException {
+        Cv cvStudent = new Cv();
+        cvStudent.setFileName("foo.txt");
+        cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cvStudent.setId(1L);
+        cvStudent.setMatricule("Matricule");
+        cvStudent.setStatus(Cv.StatusCV.Accepted);
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(1L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Student student = new Student();
+        student.setFirstName("Jane");
+        student.setLastName("Doe");
+        student.setMatricule("Matricule");
+        student.setPhoneNumber("6625550144");
+        student.setProgram("Program");
+        student.setUtilisateur(utilisateur2);
+
+        Candidature candidature = new Candidature();
+        candidature.setCvStudent(cvStudent);
+        candidature.setFileName("foo.txt");
+        candidature.setId(1L);
+        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setOffreStage(offreStage);
+        candidature.setStudent(student);
+
+        ArrayList<Candidature> candidatureList = new ArrayList<>();
+        candidatureList.add(candidature);
+        when(candidatureRepository.getAllCandidaturesByMatricule(Mockito.<String>any())).thenReturn(candidatureList);
+        List<CandidatureGetDTO> actualMesCandidaturesByMatricule = studentServices
+                .getMesCandidaturesByMatricule("Matricule");
+        assertEquals(1, actualMesCandidaturesByMatricule.size());
+        CandidatureGetDTO getResult = actualMesCandidaturesByMatricule.get(0);
+        assertEquals("foo.txt", getResult.getFileName());
+        assertEquals("Matricule", getResult.getMatricule());
+        MultipartFile lettre_motivation = getResult.getLettre_motivation();
+        assertTrue(lettre_motivation instanceof ByteArrayMultipartFile);
+        OffreStageDTO offreStageDTO = getResult.getOffreStageDTO();
+        assertEquals("The characteristics of someone or something", offreStageDTO.getDescription());
+        assertFalse(lettre_motivation.isEmpty());
+        assertEquals("foo.txt", lettre_motivation.getOriginalFilename());
+        assertEquals("Student Program", offreStageDTO.getStudentProgram());
+        assertEquals("1970-01-01", offreStageDTO.getDateFin().toString());
+        assertEquals(10.0d, offreStageDTO.getSalaire());
+        assertEquals("foo.txt", lettre_motivation.getName());
+        assertEquals("application/pdf", lettre_motivation.getContentType());
+        assertEquals("Accepted", offreStageDTO.getStatus());
+        assertEquals("Titre", offreStageDTO.getTitre());
+        assertEquals("1970-01-01", offreStageDTO.getDateDebut().toString());
+        assertEquals(1L, offreStageDTO.getEmployerId());
+        assertEquals(1L, offreStageDTO.getId());
+        verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#getMesCandidaturesByMatricule(String)}
+     */
+    @Test
+    void testGetMesCandidaturesByMatricule3() throws UnsupportedEncodingException {
+        Cv cvStudent = new Cv();
+        cvStudent.setFileName("foo.txt");
+        cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cvStudent.setId(1L);
+        cvStudent.setMatricule("Matricule");
+        cvStudent.setStatus(Cv.StatusCV.Accepted);
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(1L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Student student = new Student();
+        student.setFirstName("Jane");
+        student.setLastName("Doe");
+        student.setMatricule("Matricule");
+        student.setPhoneNumber("6625550144");
+        student.setProgram("Program");
+        student.setUtilisateur(utilisateur2);
+        Candidature candidature = mock(Candidature.class);
+        when(candidature.toCandidatureGetDTO()).thenReturn(new CandidatureGetDTO());
+        doNothing().when(candidature).setCvStudent(Mockito.<Cv>any());
+        doNothing().when(candidature).setFileName(Mockito.<String>any());
+        doNothing().when(candidature).setId(Mockito.<Long>any());
+        doNothing().when(candidature).setLettre_motivation(Mockito.<byte[]>any());
+        doNothing().when(candidature).setOffreStage(Mockito.<OffreStage>any());
+        doNothing().when(candidature).setStudent(Mockito.<Student>any());
+        candidature.setCvStudent(cvStudent);
+        candidature.setFileName("foo.txt");
+        candidature.setId(1L);
+        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setOffreStage(offreStage);
+        candidature.setStudent(student);
+
+        ArrayList<Candidature> candidatureList = new ArrayList<>();
+        candidatureList.add(candidature);
+        when(candidatureRepository.getAllCandidaturesByMatricule(Mockito.<String>any())).thenReturn(candidatureList);
+        assertEquals(1, studentServices.getMesCandidaturesByMatricule("Matricule").size());
+        verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
+        verify(candidature).toCandidatureGetDTO();
+        verify(candidature).setCvStudent(Mockito.<Cv>any());
+        verify(candidature).setFileName(Mockito.<String>any());
+        verify(candidature).setId(Mockito.<Long>any());
+        verify(candidature).setLettre_motivation(Mockito.<byte[]>any());
+        verify(candidature).setOffreStage(Mockito.<OffreStage>any());
+        verify(candidature).setStudent(Mockito.<Student>any());
     }
 }
 

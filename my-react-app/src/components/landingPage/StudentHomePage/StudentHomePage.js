@@ -28,8 +28,6 @@ const StudentHomePage = () => {
         }
     }, [loggedInUser, setLoggedInUser]);
 
-    let contentToRender;
-
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
@@ -38,6 +36,8 @@ const StudentHomePage = () => {
         localStorage.clear()
         navigate('/');
     }
+
+    let contentToRender;
 
     switch (activeContent) {
         case "file-uploader":
@@ -56,8 +56,8 @@ const StudentHomePage = () => {
 
     return (
         <div className="student-homepage">
-            <Navbar  className="navbar-dark navbarClass border border-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid " />
+            <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
                 <Navbar.Collapse id="basic-navbar-nav">               
                     <Nav>
                         <ul className="navbar-nav px-2">
@@ -85,13 +85,14 @@ const StudentHomePage = () => {
                         </ul>   
                     </Nav>
                 </Navbar.Collapse>
-          </Navbar>
-          <div className="container content-container mt-4">
-            <h2>Étudiant</h2>
-            {contentToRender}
-          </div>
+            </Navbar>
+
+            <div className="container content-container mt-4">
+                <h2>Étudiant</h2>
+                {contentToRender}
+            </div>
         </div>
-      );
+    );
 };
 
 export default StudentHomePage;

@@ -33,12 +33,17 @@ public class Candidature {
     @JoinColumn(name = "cv_student",nullable = false)
     private Cv cvStudent;
 
-    public Candidature(byte[] lettre_motivation, Student student, OffreStage offreStage, Cv cvStudent,String fileName) {
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public Candidature(byte[] lettre_motivation, Student student,
+                       OffreStage offreStage, Cv cvStudent,String fileName, Status status) {
         this.lettre_motivation = lettre_motivation;
         this.student = student;
         this.offreStage = offreStage;
         this.cvStudent = cvStudent;
         this.fileName = fileName;
+        this.status = status;
     }
 
     public byte[] getLettreMotivation() {
@@ -54,27 +59,9 @@ public class Candidature {
         return new CandidatureGetDTO(this.student.getMatricule(),this.offreStage.toOffreStageDTO(),this.fileName, multipartFile);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setLettre_motivation(byte[] lettre_motivation) {
-        this.lettre_motivation = lettre_motivation;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public void setOffreStage(OffreStage offreStage) {
-        this.offreStage = offreStage;
-    }
-
-    public void setCvStudent(Cv cvStudent) {
-        this.cvStudent = cvStudent;
+    public enum Status {
+        Accepted,
+        In_review,
+        Refused,
     }
 }

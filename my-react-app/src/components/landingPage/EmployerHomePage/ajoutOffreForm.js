@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import "../../utilisateurs/inscription/InscriptionPage.css"
 import "../../stylesGenerales.css"
 
@@ -106,9 +106,12 @@ const AjoutOffreForm = ({onAdd}) => {
                                 <p ref={titreRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Description sommaire'
-                                       value={description}
-                                       onChange={(e) => setDescription(e.target.value)}/>
+                                <textarea
+                                    className="form-control saisie saisie-user px-3 m-0"
+                                    placeholder='Description sommaire'
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>

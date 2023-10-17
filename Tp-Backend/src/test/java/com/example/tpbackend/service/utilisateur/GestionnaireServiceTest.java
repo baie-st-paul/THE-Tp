@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
@@ -72,13 +73,14 @@ public class GestionnaireServiceTest {
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
         utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
+        utilisateur.setRole(Utilisateur.Role.Gestionnaire);
+        utilisateur.setFirstName("Jane");
+        utilisateur.setLastName("Doe");
+        utilisateur.setPhoneNumber("6625550144");
+
 
         Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
         gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
         gestionnaire.setUtilisateur(utilisateur);
         when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
 
@@ -88,143 +90,13 @@ public class GestionnaireServiceTest {
         utilisateur2.setPassword("iloveyou");
         utilisateur2.setRole(Utilisateur.Role.Student);
         when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
-        GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO("Jane", "Doe", "Matricule", "6625550144",
-                "jane.doe@example.org", "iloveyou");
+        GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO("Matricule");
 
         assertSame(gestionnaireDTO, gestionnaireService.saveGestionnaire(gestionnaireDTO));
         verify(gestionnaireRepository).save(Mockito.<Gestionnaire>any());
         verify(utilisateurRepository).save(Mockito.<Utilisateur>any());
     }
 
-    /**
-     * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testSaveGestionnaire2() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO.toGestionnaire(com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO)" because "gestionnaireDTO" is null
-        //       at com.example.tpbackend.service.utilisateur.GestionnaireService.saveGestionnaire(GestionnaireService.java:58)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
-        gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
-        gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(1L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
-        gestionnaireService.saveGestionnaire(null);
-    }
-
-    /**
-     * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
-     */
-    @Test
-    void testSaveGestionnaire3() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
-        gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
-        gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(1L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.save(Mockito.<Utilisateur>any())).thenReturn(utilisateur2);
-
-        Utilisateur utilisateur3 = new Utilisateur();
-        utilisateur3.setEmail("jane.doe@example.org");
-        utilisateur3.setId(1L);
-        utilisateur3.setPassword("iloveyou");
-        utilisateur3.setRole(Utilisateur.Role.Student);
-
-        Gestionnaire gestionnaire2 = new Gestionnaire();
-        gestionnaire2.setFirstName("Jane");
-        gestionnaire2.setLastName("Doe");
-        gestionnaire2.setMatricule("Matricule");
-        gestionnaire2.setPhoneNumber("6625550144");
-        gestionnaire2.setUtilisateur(utilisateur3);
-        GestionnairePostDTO gestionnaireDTO = mock(GestionnairePostDTO.class);
-        when(gestionnaireDTO.toGestionnaire(Mockito.<GestionnairePostDTO>any())).thenReturn(gestionnaire2);
-        assertSame(gestionnaireDTO, gestionnaireService.saveGestionnaire(gestionnaireDTO));
-        verify(gestionnaireRepository).save(Mockito.<Gestionnaire>any());
-        verify(utilisateurRepository).save(Mockito.<Utilisateur>any());
-        verify(gestionnaireDTO, atLeast(1)).toGestionnaire(Mockito.<GestionnairePostDTO>any());
-    }
-
-    /**
-     * Method under test: {@link GestionnaireService#saveGestionnaire(String, String, String, String, String, String, String)}
-     */
-    @Test
-    void testSaveGestionnaire4() {
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(true);
-        assertNull(gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org",
-                "iloveyou", "Role"));
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
-    }
-
-    /**
-     * Method under test: {@link GestionnaireService#saveGestionnaire(String, String, String, String, String, String, String)}
-     */
-    @Test
-    void testSaveGestionnaire5() {
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(true);
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
-        assertNull(gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org",
-                "iloveyou", "Role"));
-        verify(gestionnaireRepository).existsByMatricule(Mockito.<String>any());
-        verify(utilisateurRepository).existsByEmail(Mockito.<String>any());
-    }
-
-    /**
-     * Method under test: {@link GestionnaireService#saveGestionnaire(String, String, String, String, String, String, String)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testSaveGestionnaire6() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.IllegalArgumentException: No enum constant com.example.tpbackend.models.utilisateur.Utilisateur.Role.Role
-        //       at java.lang.Enum.valueOf(Enum.java:273)
-        //       at com.example.tpbackend.models.utilisateur.Utilisateur$Role.valueOf(Utilisateur.java:44)
-        //       at com.example.tpbackend.models.utilisateur.Utilisateur.<init>(Utilisateur.java:33)
-        //       at com.example.tpbackend.service.utilisateur.GestionnaireService.saveGestionnaire(GestionnaireService.java:43)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        when(gestionnaireRepository.existsByMatricule(Mockito.<String>any())).thenReturn(false);
-        when(utilisateurRepository.existsByEmail(Mockito.<String>any())).thenReturn(false);
-        gestionnaireService.saveGestionnaire("Jane", "Doe", "6625550144", "Matricule", "jane.doe@example.org", "iloveyou",
-                "Role");
-    }
 
     /**
      * Method under test: {@link GestionnaireService#existsByMatricule(String)}
@@ -289,72 +161,19 @@ public class GestionnaireServiceTest {
     }
 
     /**
-     * Method under test: {@link GestionnaireService#getGestionnaireByUser(UtilisateurDTO)}
-     */
-    @Test
-    void testGetGestionnaireByUser() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
-        gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
-        gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.findGestionnaireByUser()).thenReturn(gestionnaire);
-        GestionnaireGetDTO actualGestionnaireByUser = gestionnaireService
-                .getGestionnaireByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
-        assertEquals("jane.doe@example.org", actualGestionnaireByUser.getEmail());
-        assertEquals("6625550144", actualGestionnaireByUser.getPhoneNumber());
-        assertEquals("Matricule", actualGestionnaireByUser.getMatricule());
-        assertEquals("Doe", actualGestionnaireByUser.getLastName());
-        assertEquals("Jane", actualGestionnaireByUser.getFirstName());
-        verify(gestionnaireRepository).findGestionnaireByUser();
-    }
-
-    /**
-     * Method under test: {@link GestionnaireService#getGestionnaireByUser(UtilisateurDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testGetGestionnaireByUser2() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.DTO.utilisateur.UtilisateurDTO.getEmail()" because "user" is null
-        //       at com.example.tpbackend.service.utilisateur.GestionnaireService.getGestionnaireByUser(GestionnaireService.java:79)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
-        gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
-        gestionnaire.setUtilisateur(utilisateur);
-        when(gestionnaireRepository.findGestionnaireByUser()).thenReturn(gestionnaire);
-        gestionnaireService.getGestionnaireByUser(null);
-    }
-
-    /**
      * Method under test: {@link GestionnaireService#getToutesLesOffres()}
      */
     @Test
     void testGetToutesLesOffres() {
-        ArrayList<OffreStage> offreStageList = new ArrayList<>();
-        when(offreStageRepository.findAll()).thenReturn(offreStageList);
-        List<OffreStage> actualToutesLesOffres = gestionnaireService.getOffres();
-        assertSame(offreStageList, actualToutesLesOffres);
+        ArrayList<OffreStageDTO> offreStageDTOList = new ArrayList<>();
+        ArrayList<OffreStage> offreStageArrayList = new ArrayList<>();
+        when(offreStageRepository.findAll()).thenReturn(offreStageArrayList);
+        for(OffreStage offreStage: offreStageArrayList){
+            offreStageDTOList.add(offreStage.toOffreStageDTO());
+        }
+
+        List<OffreStageDTO> actualToutesLesOffres = gestionnaireService.getToutesLesOffres();
+        assertSame(offreStageDTOList, actualToutesLesOffres);
         assertTrue(actualToutesLesOffres.isEmpty());
         verify(offreStageRepository).findAll();
     }

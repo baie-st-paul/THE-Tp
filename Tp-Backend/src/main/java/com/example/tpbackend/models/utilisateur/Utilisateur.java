@@ -26,9 +26,9 @@ public class Utilisateur implements UserDetails {
     private long id;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
     @Column(unique = true) // un utilisateur ne peut avoir qu'un seul email
     private String email;
+    private String phoneNumber;
 
     @JsonIgnore // ne pas afficher le mot de passe
     private String password;
@@ -118,6 +118,10 @@ public class Utilisateur implements UserDetails {
     public String getPhoneNumber() {
 
             return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public enum Role{

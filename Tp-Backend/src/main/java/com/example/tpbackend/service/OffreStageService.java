@@ -30,10 +30,6 @@ public class OffreStageService {
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
-    public List<OffreStage> getAllOffres() {//utilisé que dans test
-        return offreStageRepository.findAll();
-    }
-
     public List<OffreStageDTO> getOffres() {
         List<OffreStage> offreStages = offreStageRepository.findAll();
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
@@ -43,12 +39,6 @@ public class OffreStageService {
         }
 
         return offreStageDTOS;
-    }
-
-    public OffreStageDTO convertToDto(OffreStage offreStage) {
-        OffreStageDTO dto = new OffreStageDTO();
-        dto.setDescription(offreStage.getDescription());
-        return dto;
     }
 
     public OffreStageDTO getOffreById(long id) {

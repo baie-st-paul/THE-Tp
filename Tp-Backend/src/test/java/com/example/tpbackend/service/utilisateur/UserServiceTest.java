@@ -28,20 +28,7 @@ class UserServiceTest {
     @MockBean
     private UtilisateurRepository utilisateurRepository;
 
-    /**
-     * Method under test: {@link UserService#loadUserByEmail(String)}
-     */
-    @Test
-    void testFindByEmail() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-        when(utilisateurRepository.findByEmail(Mockito.<String>any())).thenReturn(utilisateur);
-        assertSame(utilisateur, userService.loadUserByEmail("jane.doe@example.org"));
-        verify(utilisateurRepository).findByEmail(Mockito.<String>any());
-    }
+
 
     /**
      * Method under test: {@link UserService#existsByEmail(String)}

@@ -18,6 +18,7 @@ public class   EntrevueDTO {
 
 
     public EntrevueDTO(Entrevue entrevue){
+        this.id = entrevue.getId();
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();
         this.idEmployeur = entrevue.getEmployer().getId() + "";

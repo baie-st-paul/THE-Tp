@@ -43,5 +43,16 @@ public class EntrevueService {
         return new EntrevueDTO(entrevueRepository.save(entrevue));
     }
 
+    public List<EntrevueDTO> getStudentEntrevues(String matricule){
+        List<EntrevueDTO> dtos = new ArrayList<>();
+        List<Entrevue> entrevues = entrevueRepository.findAllByStudent_Matricule(matricule);
+
+        for(Entrevue e : entrevues){
+            dtos.add(new EntrevueDTO(e));
+        }
+
+        return dtos;
+    }
+
 
 }

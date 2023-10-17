@@ -29,9 +29,15 @@ public class EntrevueController {
     }
 
 
-    @PutMapping()
+    @PutMapping
     public ResponseEntity<EntrevueDTO> updateStatus(@RequestBody EntrevueDTO entrevueDTO, @RequestParam String newStatus) {
         EntrevueDTO updatedEntrevue = entrevueService.updateStatus(entrevueDTO, newStatus);
         return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
+    }
+
+    @GetMapping("students/{matricule}")
+    public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable String matricule) {
+        List<EntrevueDTO> entrevues = entrevueService.getStudentEntrevues(matricule);
+        return new ResponseEntity<>(entrevues, HttpStatus.OK);
     }
 }

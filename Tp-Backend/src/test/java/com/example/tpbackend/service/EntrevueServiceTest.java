@@ -1,4 +1,4 @@
-package com.example.tpbackend;
+package com.example.tpbackend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -25,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -174,6 +175,74 @@ class EntrevueServiceTest {
         assertEquals(newStatus, result.getStatus());
     }
 
+    @Test
+    void testGetStudentEntrevues(){
+        List<Entrevue> entrevues = new ArrayList<>();
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Employeur);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(utilisateur);
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.com");
+        utilisateur2.setId(2L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+
+        Student student = new Student();
+        student.setFirstName("Jane");
+        student.setMatricule("2222222");
+        student.setLastName("Student");
+        student.setProgram("Informatique");
+        student.setPhoneNumber("6625550141");
+        student.setOffresStages(new ArrayList<>());
+        student.setUtilisateur(utilisateur2);
+
+        EntrevueDTO entrevueDTO = new EntrevueDTO();
+        entrevueDTO.setIdEmployeur("1");
+        entrevueDTO.setIdEtudiant("2222222");
+        entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
+        entrevueDTO.setDescription("Interview description");
+        entrevueDTO.setStatus("EnAttente");
+
+        Entrevue entrevue = new Entrevue();
+        entrevue.setId(1L);
+        entrevue.setDateHeure(entrevueDTO.getDateHeure());
+        entrevue.setDescription(entrevueDTO.getDescription());
+        entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        entrevue.setEmployer(employer);
+        entrevue.setStudent(student);
+
+        Entrevue entrevue2 = new Entrevue();
+        entrevue2.setId(2L);
+        entrevue2.setDateHeure(entrevueDTO.getDateHeure());
+        entrevue2.setDescription(entrevueDTO.getDescription());
+        entrevue2.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        entrevue2.setEmployer(employer);
+        entrevue2.setStudent(student);
+
+        entrevues.add(entrevue);
+        entrevues.add(entrevue2);
+
+
+        when(entrevueRepository.findAllByStudent_Matricule("2222222")).thenReturn(entrevues);
+
+        List<EntrevueDTO> result = entrevueService.getStudentEntrevues("2222222");
+        assertEquals(2, result.size());
+        assertEquals(entrevue.getId(), result.get(0).getId());
+        assertEquals(entrevue2.getId(), result.get(1).getId());
+    }
 
 
 

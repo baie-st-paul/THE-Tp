@@ -12,9 +12,6 @@ import java.util.List;
 public interface EmployerRepository extends JpaRepository<Employer, Integer> {
     boolean existsByCompanyName(String companyName);
 
-    @Query("SELECT NEW com.example.tpbackend.models.utilisateur.employeur.Employer(e.id,e.firstName, e.lastName, e.companyName, e.phoneNumber) FROM Employer e INNER JOIN e.utilisateur u")
-    Employer findEmployerByUtilisateur();
-
     List<OffreStageDTO> getOffreStageById(Long id);
 
     Employer findEmployerById(Long id);

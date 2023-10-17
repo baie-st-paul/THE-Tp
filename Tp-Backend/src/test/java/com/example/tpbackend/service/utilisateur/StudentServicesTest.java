@@ -275,14 +275,14 @@ class StudentServicesTest {
         student.setMatricule("Matricule");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
         assertEquals("Program", actualStudentByMatricule.getProgram());
         assertEquals("Jane", actualStudentByMatricule.getFirstName());
         assertEquals("Matricule", actualStudentByMatricule.getMatricule());
         assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
         assertEquals("Doe", actualStudentByMatricule.getLastName());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
+        verify(studentRepository).findByMatricule(Mockito.<String>any());
     }
 
     /**
@@ -308,14 +308,14 @@ class StudentServicesTest {
         student.setMatricule("Matricule");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
         assertEquals("Program", actualStudentByMatricule.getProgram());
         assertEquals("Jane", actualStudentByMatricule.getFirstName());
         assertEquals("Matricule", actualStudentByMatricule.getMatricule());
         assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
         assertEquals("Doe", actualStudentByMatricule.getLastName());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
+        verify(studentRepository).findByMatricule(Mockito.<String>any());
         verify(student).getMatricule();
         verify(student).getProgram();
         verify(student).setMatricule(Mockito.<String>any());
@@ -387,7 +387,7 @@ class StudentServicesTest {
         student.setMatricule("Matricule");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student);
         studentServices.postulerOffre(new CandidaturePostDTO());
     }
 
@@ -502,13 +502,13 @@ class StudentServicesTest {
         student2.setMatricule("Matricule");
         student2.setProgram("Program");
         student2.setUtilisateur(utilisateur4);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student2);
         studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L, "foo.txt",
                 new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8"))));
         verify(candidatureRepository).save(Mockito.<Candidature>any());
         verify(cvRepository).findCvByMatricule(Mockito.<String>any());
         verify(offreStageRepository).findOffreById(Mockito.<Long>any());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
+        verify(studentRepository).findByMatricule(Mockito.<String>any());
     }
 
     /**

@@ -57,13 +57,13 @@ public class StudentServices {
 
 
     public StudentGetDTO getStudentByMatricule(String matricule) {
-        Student student = studentRepository.findByMaticule(matricule);
+        Student student = studentRepository.findByMatricule(matricule);
         System.out.println(student);
         return Student.fromStudent(student);
     }
 
     public void postulerOffre(CandidaturePostDTO candidaturePostDTO) throws IOException {
-        Student student = studentRepository.findByMaticule(candidaturePostDTO.getMatricule());
+        Student student = studentRepository.findByMatricule(candidaturePostDTO.getMatricule());
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
 

@@ -45,6 +45,7 @@ public class StudentServices {
         Utilisateur utilisateur = new Utilisateur(email, password,role);
         Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
+        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);

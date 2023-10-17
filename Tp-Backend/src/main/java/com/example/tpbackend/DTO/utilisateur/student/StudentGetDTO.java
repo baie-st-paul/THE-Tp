@@ -4,7 +4,6 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
@@ -30,11 +29,5 @@ public class StudentGetDTO {
                 student.getMatricule(),
                 student.getProgram()
         );
-    }
-
-    public static Student fromStudentDTO(StudentGetDTO studentGetDTO){
-        Student student = new Student();
-        BeanUtils.copyProperties(studentGetDTO, student);
-        return student;
     }
 }

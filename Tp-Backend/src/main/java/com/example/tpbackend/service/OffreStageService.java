@@ -74,7 +74,6 @@ public class OffreStageService {
         } catch (OffreNotFoundException e) {
             throw new OffreNotFoundException(id);
         }
-
     }
 
 

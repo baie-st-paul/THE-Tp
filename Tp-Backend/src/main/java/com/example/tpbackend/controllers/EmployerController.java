@@ -17,8 +17,24 @@ import java.util.Optional;
 @RequestMapping("/api/employers")
 @CrossOrigin(origins = "http://localhost:3000")
 public class EmployerController {
-    private OffreStageService offreStageService;
-    private StudentServices studentService;
+    private final OffreStageService offreStageService;
+    private final StudentServices studentService;
+
+    @PostMapping("/candidature/accept/{matricule}/{status}")
+    public ResponseEntity<Void> acceptCandidature(@PathVariable String matricule, @PathVariable String status) {
+        studentService.updateCandidatureStatus(matricule, status);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{offerId}/applicants/nb")
+    public ResponseEntity<?> getApplicantsNumberForOffer(@PathVariable Long offerId) {
+        Optional<OffreStageDTO> offreOpt = offreStageService.getOffreStageById(offerId);
+        if(offreOpt.isEmpty()){
+            return ResponseEntity.status(404).body(Map.of("error", "Aucune offre trouvée avec cet ID."));
+        }
+        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOfffreId(offerId);
+        return ResponseEntity.ok(candidatures.size());
+    }
 
     @GetMapping("/{offerId}/applicants")
     public ResponseEntity<?> getApplicantsForOffer(@PathVariable Long offerId) {
@@ -35,5 +51,4 @@ public class EmployerController {
         }
         return ResponseEntity.ok(candidatures);
     }
-
 }

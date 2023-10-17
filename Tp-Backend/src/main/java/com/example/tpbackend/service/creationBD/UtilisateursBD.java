@@ -33,9 +33,8 @@ public class UtilisateursBD implements CommandLineRunner {
         System.out.println("1 employer created");
         createGestionnaire();
         System.out.println("1 gestionnaire created");
-        //erreur null pointer exception avec employer
-        //createOffreStage();
-        //System.out.println("1 offre stage created");
+        createOffreStage();
+        System.out.println("1 offre stage created");
     }
 
     public void createStudent() {
@@ -97,7 +96,7 @@ public class UtilisateursBD implements CommandLineRunner {
     public void createOffreStage() {
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
-                2,
+                1,
                 "Dev web",
                 20,
                 "Informatique",

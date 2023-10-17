@@ -29,11 +29,11 @@ public class UtilisateursBD implements CommandLineRunner {
     public void run(String... args) {
         createStudent();
         System.out.println("1 student created");
-        //Erreur avec creation employeur: detached entity passed to persist: com.example.tpbackend.models.utilisateur.Utilisateur
         createEmployer();
         System.out.println("1 employer created");
         createGestionnaire();
         System.out.println("1 gestionnaire created");
+        //erreur null pointer exception avec employer
         //createOffreStage();
         //System.out.println("1 offre stage created");
     }

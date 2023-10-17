@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntrevueDTO {
+public class   EntrevueDTO {
     private long id;
     private String dateHeure;
     private String description;

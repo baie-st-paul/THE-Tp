@@ -118,10 +118,10 @@ const SectionEntrevue = () => {
                                 )}
                             </td>
                             <td className="align-middle text-center">
-                                <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
                                     <FontAwesomeIcon icon={faCheck} /> Accepter
                                 </button>
-                                <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                <button data-testid="refuser-button-1" className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
                                     <FontAwesomeIcon icon={faTimes} /> Refuser
                                 </button>
                             </td>
@@ -141,14 +141,14 @@ const SectionEntrevue = () => {
                 {confirmationType === "accept" ? (
                     <>
                         <p>Etes-vous sûr de vouloir accepter cette entrevue ?</p>
-                        <button className="btn btn-success" onClick={handleAcceptConfirmation}>
+                        <button data-testid="accept-button-2" className="btn btn-success" onClick={handleAcceptConfirmation}>
                             Oui
                         </button>
                     </>
                 ) : (
                     <>
                         <p>Etes-vous sûr de vouloir refuser cette entrevue ?</p>
-                        <button className="btn btn-danger" onClick={handleRefuseConfirmation}>
+                        <button data-testid="refuser-button-2" className="btn btn-danger" onClick={handleRefuseConfirmation}>
                             Oui
                         </button>
                     </>

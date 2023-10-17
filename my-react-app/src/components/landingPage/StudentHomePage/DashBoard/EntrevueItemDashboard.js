@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCheck, faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
 import {format} from "date-fns";
-
 const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -51,46 +50,47 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
                     Voir entrevue
                 </button>
             </div>
-            <ReactModal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Example Modal"
-                style={{
-                    overlay: {
-                        zIndex: 1000,
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    },
-                    content: {
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "70%",
-                    },
-                }}
-            >
-                <button className="btn" onClick={closeModal} style={{ position: "absolute", top: "10px", right: "10px" }}>
-                    x
-                </button>
-                <div className="Entrevue text-center">
-                    <h1>Entrevue</h1>
-                </div>
-                <div>
-                    <p><strong>Nom de l'entreprise: </strong>{entrevue.entreprise}</p>
-                    <p><strong>Date et Heure de l'entrevue: </strong>{format(new Date(entrevue.dateHeure), "dd-MM-yyyy HH:mm")}</p>
-                    <p><strong>Descripton: </strong>{entrevue.description}</p>
-                </div>
-                <div className="row">
-                    <div className="col-lg-8"></div>
-                    <div className="col-lg-4">
-                        <button className="btn btn-success" onClick={() => handleAcceptConfirmation()}>
-                            <FontAwesomeIcon icon={faCheck} /> Accepter
-                        </button>
-                        <button className="btn btn-danger" onClick={() => handleRefuseConfirmation()}>
-                            <FontAwesomeIcon icon={faTimes} /> Refuser
-                        </button>
+                <ReactModal
+                    data-testid="modal"
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    contentLabel="Example Modal"
+                    style={{
+                        overlay: {
+                            zIndex: 1000,
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        },
+                        content: {
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            width: "70%",
+                        },
+                    }}
+                >
+                    <button className="btn" onClick={closeModal} style={{ position: "absolute", top: "10px", right: "10px" }}>
+                        x
+                    </button>
+                    <div className="Entrevue text-center">
+                        <h1>Entrevue</h1>
                     </div>
-                </div>
-            </ReactModal>
+                    <div>
+                        <p><strong>Nom de l'entreprise: </strong>{entrevue.entreprise}</p>
+                        <p><strong>Date et Heure de l'entrevue: </strong>{format(new Date(entrevue.dateHeure), "dd-MM-yyyy HH:mm")}</p>
+                        <p><strong>Descripton: </strong>{entrevue.description}</p>
+                    </div>
+                    <div className="row">
+                        <div className="col-lg-8"></div>
+                        <div className="col-lg-4">
+                            <button className="btn btn-success" onClick={() => handleAcceptConfirmation()}>
+                                <FontAwesomeIcon icon={faCheck} /> Accepter
+                            </button>
+                            <button className="btn btn-danger" onClick={() => handleRefuseConfirmation()}>
+                                <FontAwesomeIcon icon={faTimes} /> Refuser
+                            </button>
+                        </div>
+                    </div>
+                </ReactModal>
         </div>
     );
 };

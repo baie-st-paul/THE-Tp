@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
-import {faBriefcase, faFileUpload} from "@fortawesome/free-solid-svg-icons";
+import {faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import EtudiantsConvoquesEntrevue from "./EtudiantsConvoquesEntrevue";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -21,11 +22,13 @@ const GestionnaireHomePage = () => {
         case "offre-page-ges":
             contentToRender = <OffresPageGestionnaire/>;
             break;
+        case "entrevues":   
+            contentToRender = <EtudiantsConvoquesEntrevue />
+            break;
         default:
             contentToRender = <div>Please select a section.</div>;
             break;
     }
-
     return (
         <div>
             <Navbar bg="dark" className="navbar-dark" expand="lg">
@@ -41,6 +44,11 @@ const GestionnaireHomePage = () => {
                             <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick("entrevues")}>
+                                    <FontAwesomeIcon icon={faCalendarDay} style={{ marginRight: '10px' }}/>Entrevues
                                 </button>
                             </li>
                         </ul>

@@ -148,9 +148,5 @@ describe("Test the InformationEtudiantPostule Component", () => {
         const buttonConfirm = screen.getByTitle(/ConfirmAccept/i);
         fireEvent.click(buttonConfirm)
         refreshPage();
-        //ERREUR
-        //le texte statut a pas été update il est encore 'En attente'
-        //même si le fetch a été fait
-        //expect(screen.getByText('Accepté')).toBeInTheDocument();
     });
 });

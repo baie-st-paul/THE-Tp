@@ -16,14 +16,6 @@ public class EntrevueDTO {
     private String idEmployeur;
     private String idEtudiant;
 
-    public Entrevue toEntrevue() {
-        return new Entrevue(
-                id,
-                dateHeure,
-                description,
-                status
-        );
-    }
 
     public EntrevueDTO(Entrevue entrevue){
         this.dateHeure = entrevue.getDateHeure();

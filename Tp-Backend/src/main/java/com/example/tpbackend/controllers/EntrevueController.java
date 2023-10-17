@@ -28,17 +28,6 @@ public class EntrevueController {
         }
     }
 
-    @GetMapping("/employer/{id}")
-    public ResponseEntity<List<EntrevueDTO>> getEmployersEntrevues(@PathVariable("id") Long id) {
-        List<EntrevueDTO> entrevues = entrevueService.getEntrevueByEmployer(id);
-        return new ResponseEntity<>(entrevues, HttpStatus.OK);
-    }
-
-    @GetMapping("/student/{id}")
-    public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable("id") String matricule) {
-        List<EntrevueDTO> entrevues = entrevueService.getEntrevueByStudent(matricule);
-        return new ResponseEntity<>(entrevues, HttpStatus.OK);
-    }
 
     @PutMapping()
     public ResponseEntity<EntrevueDTO> updateStatus(@RequestBody EntrevueDTO entrevueDTO, @RequestParam String newStatus) {

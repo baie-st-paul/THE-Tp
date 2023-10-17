@@ -10,7 +10,8 @@ export const testList = [
             cvStudent: {
                 cv: 'cv',
             }
-        }
+        },
+        status: 'In_review'
     },
     {
         student : {
@@ -61,6 +62,7 @@ export const testList2 = [
         student :{
             firstName : 'danil',
             lastName : 'Moskalenko',
+            matricule: '2304032',
             email : 'email@test.com',
             phoneNumber : '514-451-1451',
             lettreMotivation : 'lettreMotiv',

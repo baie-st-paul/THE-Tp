@@ -13,8 +13,6 @@ import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 
 import com.example.tpbackend.service.EntrevueService;
-import com.example.tpbackend.service.utilisateur.EmployerService;
-import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -40,19 +38,13 @@ class EntrevueServiceTest {
     private StudentRepository studentRepository;
 
     @Mock
-    private StudentServices studentService;
-
-    @Mock
     private EmployerRepository employerRepository;
-
-    @Mock
-    private EmployerService employerService;
 
     @InjectMocks
     private EntrevueService entrevueService;
 
     @Test
-    void testCreateEntrevue() throws Exception {
+    void testCreateEntrevue() {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);

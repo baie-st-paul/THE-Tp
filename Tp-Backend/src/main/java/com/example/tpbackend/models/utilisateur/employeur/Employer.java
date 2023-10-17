@@ -47,17 +47,6 @@ public class Employer {
                 ", utilisateur=" + utilisateur +
                 '}';
     }
-    public String toStringFull() {
-        return "Employer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", utilisateur=" + utilisateur +
-                ", offresStages=" + offresStages +
-                '}';
-    }
 
     public void setUtilisateur(Utilisateur utilisateur){
         this.utilisateur = utilisateur;

@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import AjoutOffreForm from './ajoutOffreForm';
+import AjoutOffreForm from '../ajoutOffreForm';
+
 describe('AjoutOffreForm', () => {
   it('should show error message when "nbMaxEtudiants" is empty', () => {
-    /*// onAdd est nécessaire mais ne sera pas utilisé pour ce test */
+    // onAdd est necessaire mais ne sera pas utilisé pour ce test
     render(<AjoutOffreForm onAdd={() => {}} />); 
 
     const nbMaxEtudiantsInput = screen.getByPlaceholderText(/Nombre max. d’étudiants/i);

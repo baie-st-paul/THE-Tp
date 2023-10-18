@@ -1,14 +1,18 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
+import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -28,7 +32,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +57,9 @@ public class GestionnaireServiceTest {
 
     @Mock
     private CvRepository cvRepository;
+
+    @Mock
+    private EntrevueRepository entrevueRepository;
 
     @Mock
     private GestionnaireRepository gestionnaireRepository;
@@ -503,4 +512,40 @@ public class GestionnaireServiceTest {
     }
 
 
+    // Méthode utilitaire pour comparer deux CandidatureDTO sans prendre en compte le fichier
+    public boolean compareCandidatureDTOWithoutFile(CandidatureDTO dto1, CandidatureDTO dto2) {
+        if (dto1 == null && dto2 == null) {
+            return true;
+        } else if (dto1 == null || dto2 == null) {
+            return false;
+        }
+
+        return Objects.equals(dto1.getId(), dto2.getId()) &&
+                Objects.equals(dto1.getLettreMotivation(), dto2.getLettreMotivation()) &&
+                Objects.equals(dto1.getFileName(), dto2.getFileName());
+    }
+
+    @Test
+    public void testGetStudentWithEntrevueDTO() {
+        Cv cvStudent1 = new Cv();
+        Cv cvStudent2 = new Cv();
+        Candidature candidature1 = new Candidature();
+        candidature1.setCvStudent(cvStudent1);
+        Candidature candidature2 = new Candidature();
+        candidature2.setCvStudent(cvStudent2);
+
+        List<Candidature> candidatures = Arrays.asList(candidature1, candidature2);
+        when(entrevueRepository.findStudentWithEntrevue(Entrevue.Status.EnAttente)).thenReturn(candidatures);
+
+        List<CandidatureDTO> result = gestionnaireService.getStudentWithEntrevueDTO();
+
+        assertEquals(candidatures.size(), result.size());
+
+        for (int i = 0; i < candidatures.size(); i++) {
+            assertTrue(compareCandidatureDTOWithoutFile(
+                    CandidatureDTO.fromCandidature(candidatures.get(i)),
+                    result.get(i)
+            ));
+        }
+    }
 }

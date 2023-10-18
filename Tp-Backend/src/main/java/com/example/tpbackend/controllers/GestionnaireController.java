@@ -2,8 +2,10 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +38,11 @@ public class GestionnaireController {
     public ResponseEntity<Void> acceptCv(@PathVariable String matricule,@PathVariable String status) {
         gestionnaireService.updateCvStatus(matricule,status);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/entrevues")
+    public ResponseEntity<List<CandidatureDTO>> getCandidaturesWithInterviews() {
+        List<CandidatureDTO> candidatureDTOS = gestionnaireService.getStudentWithEntrevueDTO();
+        return new ResponseEntity<>(candidatureDTOS, HttpStatus.OK);
     }
 }

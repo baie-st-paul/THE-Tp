@@ -35,9 +35,8 @@ public class EmployerService {
     }
 
     public EmployerPostDTO saveEmployer(String firstName, String lastName, String email,String phoneNumber, String password, String role, EmployerPostDTO employerPostDTO){
-        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password,role);
-        Employer employer = employerPostDTO.toEmployer(employerPostDTO);
-        employer.setUtilisateur(utilisateur);
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
+        Employer employer = new Employer(employerPostDTO.getCompanyName(), utilisateur);
         utilisateurRepository.save(utilisateur);
         employerRepository.save(employer);
         return EmployerPostDTO.fromEmployeur(employer);

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.LinkedHashMap;
+
 @Data
 @NoArgsConstructor
 public class EmployerPostDTO {
@@ -27,10 +29,10 @@ public class EmployerPostDTO {
         return employer;
     }
 
-    public  Employer toEmployer(EmployerPostDTO employerPostDTO) {
-        Employer employer = new Employer();
-        BeanUtils.copyProperties(employerPostDTO, employer);
-        return employer;
-    }
 
+    public static EmployerPostDTO fromHashMap(LinkedHashMap linkedHashMap) {
+        EmployerPostDTO employerPostDTO = new EmployerPostDTO();
+        employerPostDTO.setCompanyName(linkedHashMap.get("companyName").toString());
+        return employerPostDTO;
+    }
 }

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.LinkedHashMap;
+
 @Data
 @NoArgsConstructor
 public class GestionnairePostDTO {
@@ -19,6 +21,12 @@ public class GestionnairePostDTO {
         GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO();
         BeanUtils.copyProperties(gestionnaire, gestionnaireDTO);
         return gestionnaireDTO;
+    }
+
+    public static GestionnairePostDTO fromHashMap(LinkedHashMap linkedHashMap) {
+        GestionnairePostDTO gestionnairePostDTO = new GestionnairePostDTO();
+        gestionnairePostDTO.setMatricule(linkedHashMap.get("matricule").toString());
+        return gestionnairePostDTO;
     }
 
     public Gestionnaire toGestionnaire(GestionnairePostDTO gestionnaireDTO) {

@@ -32,6 +32,11 @@ public class Employer {
         this.utilisateur = utilisateur;
     }
 
+    public Employer(String companyName, Utilisateur utilisateur) {
+        this.companyName = companyName;
+        this.utilisateur = utilisateur;
+    }
+
 
     public void setUtilisateur(Utilisateur utilisateur){
         this.utilisateur = utilisateur;

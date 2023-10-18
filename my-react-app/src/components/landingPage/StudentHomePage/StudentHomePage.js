@@ -5,7 +5,9 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faPortrait, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faEnvelope, faHome} from '@fortawesome/free-solid-svg-icons';
+import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
+import Dashboard from "./DashBoard/Dashboard";
 import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 
@@ -46,40 +48,44 @@ const StudentHomePage = () => {
         case "offre-page-student":
             contentToRender = <OffresPageStudent/>;
             break;
+        case "section-entrevue":
+            contentToRender = <SectionEntrevue/>
+            break;
         case "offre-page-candidature":
             contentToRender = <OffreCandidaturePage/>;
             break;
         default:
-            contentToRender = <div>Please select a section.</div>;
+            contentToRender = (
+                <Dashboard/>);
+
             break;
     }
 
     return (
         <div className="student-homepage">
-            <Navbar  className="navbar-dark navbarClass border border-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid " />
-                <Navbar.Collapse id="basic-navbar-nav">               
-                    <Nav>
-                        <ul className="navbar-nav px-2">
-                            <li className="nav-item navbarbutton">
+            <Navbar bg="dark" className="navbar-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <li className="nav-item ml-1">
+                            <button className="nav-link" onClick={() => handleButtonClick('default')}>
+                                <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
+                            </button>
+                        </li>
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/>CV
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
                                 </button>
                             </li>
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
-                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton deconnecter">
-                                <button className="nav-link" onClick={() => handleDisconnect()}>
-                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
-                                    Se déconnecter
+                            <li className="nav-item">
+                                <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
+                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
                                 </button>
                             </li>
                         </ul>   

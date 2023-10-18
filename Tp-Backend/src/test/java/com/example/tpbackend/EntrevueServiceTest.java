@@ -44,7 +44,7 @@ class EntrevueServiceTest {
     private EntrevueService entrevueService;
 
     @Test
-    void testCreateEntrevue() {
+    void testCreateEntrevue() throws Exception {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);

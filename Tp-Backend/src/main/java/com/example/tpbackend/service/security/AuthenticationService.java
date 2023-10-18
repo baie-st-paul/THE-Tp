@@ -52,7 +52,7 @@ public class AuthenticationService {
                         user.getPhoneNumber(),
                         user.getPassword(),
                         user.getAuthorities().iterator().next().getAuthority(),
-                        EmployerPostDTO.fromHashMap((LinkedHashMap) request.getUserType())
+                        EmployerPostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
                 );
                 break;
             case "Gestionnaire":
@@ -63,7 +63,7 @@ public class AuthenticationService {
                         user.getPhoneNumber(),
                         user.getPassword(),
                         user.getAuthorities().iterator().next().getAuthority(),
-                        GestionnairePostDTO.fromHashMap((LinkedHashMap) request.getUserType())
+                        GestionnairePostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
                 );
                 break;
             case "Student":
@@ -74,7 +74,7 @@ public class AuthenticationService {
                         user.getPhoneNumber(),
                         user.getPassword(),
                         user.getAuthorities().iterator().next().getAuthority(),
-                        StudentPostDTO.fromHashMap((LinkedHashMap) request.getUserType())
+                        StudentPostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
                 );
                 break;
         }

@@ -1,6 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import EmployerOffreStages from "./EmployerOffreStages";
-import UpdateOffreForm from "./UpdateOffreForm";
+import UpdateOffreForm from "./update/UpdateOffreForm";
+import "./update/ModalUpdate.css"
+
+const MODAL_STYLES = {
+    position: "absolute",
+    backgroundColor: "#FFF",
+    padding: "15px",
+    zIndex: "1000",
+    width: "70%",
+    borderRadius: ".5em"
+};
+
+const OVERLAY_STYLE = {
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, .8)",
+    zIndex: "1000",
+    overflowY: "auto"
+};
 
 const EmployerStageOffreList = ({employerId}) => {
     const [offres, setOffres] = useState([]);
@@ -73,6 +96,28 @@ const EmployerStageOffreList = ({employerId}) => {
                     } : o
             )
         )
+        setShowUpdateOffre(false)
+    }
+
+    function ModalUpdate() {
+        return (
+            <div style={OVERLAY_STYLE}>
+                <div style={MODAL_STYLES}>
+                    <div className="titleCloseBtn">
+                        <button onClick={() => setShowUpdateOffre(false)}>X</button>
+                    </div>
+                    <div className="title">
+                        <h1>Modifier l'offre</h1>
+                    </div>
+                    <div className="body">
+                        <UpdateOffreForm offreStage={offre} onUpdate={updateOffre}/>
+                    </div>
+                    <div className="footer">
+                        <button id="cancelBtn" onClick={() => setShowUpdateOffre(false)}>Fermer</button>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     if (isLoading) {
@@ -85,7 +130,7 @@ const EmployerStageOffreList = ({employerId}) => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            {showUpdateOffre && <UpdateOffreForm offreStage={offre} onUpdate={updateOffre}/>}
+            {showUpdateOffre && <ModalUpdate />}
             {offres.length === 0 ?
                 <div>Aucune offre</div>
                 :

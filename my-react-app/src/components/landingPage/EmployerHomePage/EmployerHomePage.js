@@ -1,17 +1,24 @@
 import React from "react";
-import EmployerStageOffreList from "./EmployerStageOffreList";
+import EmployerStageOffreList from "./offres/EmployerStageOffreList";
 import { useState } from "react";
-import AjoutOffreForm from "./ajoutOffreForm";
+import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("offre-page");
+    const navigate = useNavigate()
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
+
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
+    }
 
     let contentToRender;
     let employerId = localStorage.getItem('employer_id')
@@ -65,19 +72,25 @@ const EmployerHomePage = () => {
 
     return (
         <div>
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
+                    <Nav>
+                        <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
                                     <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton deconnecter">
+                                <button className="nav-link" onClick={() => handleDisconnect()}>
+                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
+                                    Se déconnecter
                                 </button>
                             </li>
                         </ul>
@@ -85,11 +98,10 @@ const EmployerHomePage = () => {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div id="Render" className="container mt-4">
+            <div id="Render" className="container content-container mt-4">
                 <h2>Employeur</h2>
                 {contentToRender}
             </div>
-           
         </div>
     )
 }

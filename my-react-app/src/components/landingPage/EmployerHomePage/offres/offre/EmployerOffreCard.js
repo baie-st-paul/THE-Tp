@@ -54,6 +54,7 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 <Card.Text>
                     Salaire: {offre.salaire}$/h <br/>
                     description: {offre.description}<br/>
+                    Nombre postes disponible: {offre.nbMaxEtudiants}<br/>
                     Date de début: {offre.dateDebut}<br/>
                     Date de fin: {offre.dateFin}<br/>
                 </Card.Text>

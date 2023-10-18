@@ -35,10 +35,10 @@ const CandidatureModal = ({id}) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Formulaire candidature</Modal.Title>
+                    <Modal.Title>Postuler la candidature</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CandidatureForm matricule={matricule} id={id}/>
+                    <CandidatureForm matricule={matricule} id={id} close={setShow}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

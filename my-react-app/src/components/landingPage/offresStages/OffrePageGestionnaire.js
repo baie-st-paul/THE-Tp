@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 import Card from "react-bootstrap/Card";
-import {Container, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import ReactModal from 'react-modal';
 import Grid from "@mui/material/Grid";
 import OffreDescription from "./OffreDescription";
@@ -91,11 +91,7 @@ const OffresPageGestionnaire = () => {
 
     return (
         <div>
-            <div className="custom-jumbotron">
-                <Container>
-                    <h1 className="display-4 text-center" style={{ color: 'darkgrey' }}>Liste des offres de stage</h1>
-                </Container>
-            </div>
+            <h1 className="display-4 text-center">Liste des offres de stage</h1>
             <div className="row align-items-center">
                 <div className="col-md-6">
                     <h3 className="mb-0">Filtrer par</h3>

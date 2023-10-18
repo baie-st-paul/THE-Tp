@@ -7,6 +7,7 @@ import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
@@ -131,10 +132,10 @@ public class GestionnaireService {
         cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
     }
 
-    public List<CandidatureDTO> getStudentWithEntrevueDTO() {
-        List<Candidature> candidatures = entrevueRepository.findStudentWithEntrevue(Entrevue.Status.EnAttente);
-        return candidatures.stream()
-                .map(CandidatureDTO::fromCandidature)
+    public List<StudentGetDTO> getStudentsWithEntrevue() {
+        List<Entrevue> entrevues = entrevueRepository.findByStudentNotNull();
+        return entrevues.stream()
+                .map(entrevue -> StudentGetDTO.fromStudent(entrevue.getStudent()))
                 .collect(Collectors.toList());
     }
 }

@@ -2,13 +2,16 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
@@ -512,40 +515,30 @@ public class GestionnaireServiceTest {
     }
 
 
-    // Méthode utilitaire pour comparer deux CandidatureDTO sans prendre en compte le fichier
-    public boolean compareCandidatureDTOWithoutFile(CandidatureDTO dto1, CandidatureDTO dto2) {
-        if (dto1 == null && dto2 == null) {
-            return true;
-        } else if (dto1 == null || dto2 == null) {
-            return false;
-        }
-
-        return Objects.equals(dto1.getId(), dto2.getId()) &&
-                Objects.equals(dto1.getLettreMotivation(), dto2.getLettreMotivation()) &&
-                Objects.equals(dto1.getFileName(), dto2.getFileName());
-    }
-
     @Test
-    public void testGetStudentWithEntrevueDTO() {
-        Cv cvStudent1 = new Cv();
-        Cv cvStudent2 = new Cv();
-        Candidature candidature1 = new Candidature();
-        candidature1.setCvStudent(cvStudent1);
-        Candidature candidature2 = new Candidature();
-        candidature2.setCvStudent(cvStudent2);
+    public void testGetStudentsWithEntrevue() {
+        // Créer des étudiants
+        Student student1 = new Student("Jean", "Dupont", "MAT123", "0101010101", "Programme1");
+        Student student2 = new Student("Marie", "Doe", "MAT456", "0202020202", "Programme2");
 
-        List<Candidature> candidatures = Arrays.asList(candidature1, candidature2);
-        when(entrevueRepository.findStudentWithEntrevue(Entrevue.Status.EnAttente)).thenReturn(candidatures);
+        // Créer des entrevues pour ces étudiants
+        Entrevue entrevue1 = new Entrevue();
+        entrevue1.setStudent(student1);
 
-        List<CandidatureDTO> result = gestionnaireService.getStudentWithEntrevueDTO();
+        Entrevue entrevue2 = new Entrevue();
+        entrevue2.setStudent(student2);
 
-        assertEquals(candidatures.size(), result.size());
+        // Mock le comportement du repository pour renvoyer les entrevues avec étudiants non nuls
+        when(entrevueRepository.findByStudentNotNull()).thenReturn(Arrays.asList(entrevue1, entrevue2));
 
-        for (int i = 0; i < candidatures.size(); i++) {
-            assertTrue(compareCandidatureDTOWithoutFile(
-                    CandidatureDTO.fromCandidature(candidatures.get(i)),
-                    result.get(i)
-            ));
-        }
+        // Appeler le service
+        List<StudentGetDTO> result = gestionnaireService.getStudentsWithEntrevue();
+
+        // Vérifications
+        assertEquals(2, result.size());
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT123")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT456")));
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,9 +41,9 @@ public class GestionnaireController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/entrevues")
-    public ResponseEntity<List<CandidatureDTO>> getCandidaturesWithInterviews() {
-        List<CandidatureDTO> candidatureDTOS = gestionnaireService.getStudentWithEntrevueDTO();
-        return new ResponseEntity<>(candidatureDTOS, HttpStatus.OK);
+    @GetMapping("/studentsWithEntrevue")
+    public ResponseEntity<List<StudentGetDTO>> getStudentsWithEntrevue() {
+        List<StudentGetDTO> studentDTOS = gestionnaireService.getStudentsWithEntrevue();
+        return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
     }
 }

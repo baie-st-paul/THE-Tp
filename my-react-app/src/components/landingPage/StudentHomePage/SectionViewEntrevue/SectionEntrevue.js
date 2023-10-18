@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import "./SectionEntrevue.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -17,36 +17,45 @@ const customStyles = {
 };
 
 const SectionEntrevue = () => {
-    const [entrevues, setEntrevues] = useState([
-        {
-            entreprise: "Entreprise A",
-            dateHeure: "2023-10-15T14:00:00", // Use a proper date format
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown " +
-                "printer took a galley of type and scrambled it to make a type specimen book. It has survived not only " +
-                "five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                "It was popularised in the 1960s with the release of Letraset sheets containing " +
-                "Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker " +
-                "including versions of Lorem Ipsum."
-        },
-        {
-            entreprise: "Entreprise B",
-            dateHeure: "2023-10-20T10:30:00", // Use a proper date format
-            description: "Entrevue pour un poste de designer",
-            statut: "Accepté",
-        },
-        {
-            entreprise: "Entreprise C",
-            dateHeure: "2023-10-25T15:45:00", // Use a proper date format
-            description: "Entrevue pour un poste de marketing",
-            statut: "Refusé",
-        },
-    ]);
-
+    const [entrevues, setEntrevues] = useState([]);
+    const [shouldRefetch] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [expandedDescriptions, setExpandedDescriptions] = useState({});
-
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+    useEffect(() => {
+        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
+        fetch(
+            `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        ).catch((error) => {
+            console.error("Error:", error);
+        }).then(
+            async (response) => {
+                const data = await response.json();
+                setEntrevues(data)
+                console.log(response.status)
+                try{
+                    console.log(response.status)
+                }
+                catch (e) {
+                    console.log(e)
+                }
+                setIsLoading(false);
+            }
+        );
+
+    }, [shouldRefetch]);
+
+    if (isLoading) {
+        return <div>Chargement...</div>;
+    }
 
     const openConfirmationModal = (type) => {
         setConfirmationType(type);
@@ -88,7 +97,7 @@ const SectionEntrevue = () => {
                     <tbody>
                     {entrevues.map((entrevue, index) => (
                         <tr key={index}>
-                            <td className="align-middle text-center w-5">{entrevue.entreprise}</td>
+                            <td className="align-middle text-center w-5">{entrevue.comanyName}</td>
                             <td className="fw-bolder align-middle text-center">
                                 {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}
                             </td>
@@ -100,7 +109,7 @@ const SectionEntrevue = () => {
                                             className="btn btn-primary btn-sm m-1"
                                             onClick={() => toggleDescriptionExpansion(index)}
                                         >
-                                            More
+                                            Plus
                                         </button>
                                     </>
                                 ) : (
@@ -111,7 +120,7 @@ const SectionEntrevue = () => {
                                                 className="btn btn-primary btn-sm m-1"
                                                 onClick={() => toggleDescriptionExpansion(index)}
                                             >
-                                                Less
+                                                Moins
                                             </button>
                                         )}
                                     </>

@@ -26,4 +26,8 @@ public class   EntrevueDTO {
         this.idEtudiant = entrevue.getStudent().getMatricule();
         this.status = entrevue.getStatus().toString();
     }
+
+    public void setIdEmployeur(String number) {
+        this.idEmployer = number;
+    }
 }

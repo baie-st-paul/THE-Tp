@@ -44,7 +44,7 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
                     >
                         {nomEntreprise}
                     </span>
-                    <span className="fw-semibold"> vient de vous convoquer à une entrevue</span>
+                    <span className="fw-semibold"> vous a convoqué à une entrevue</span>
                 </div>
                 <button type="button" className="btn btn-primary btn-sm" onClick={openModal}>
                     Voir entrevue
@@ -75,7 +75,7 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
                         <h1>Entrevue</h1>
                     </div>
                     <div>
-                        <p><strong>Nom de l'entreprise: </strong>{entrevue.entreprise}</p>
+                        <p><strong>Nom de l'entreprise: </strong>{entrevue.comanyName}</p>
                         <p><strong>Date et Heure de l'entrevue: </strong>{format(new Date(entrevue.dateHeure), "dd-MM-yyyy HH:mm")}</p>
                         <p><strong>Descripton: </strong>{entrevue.description}</p>
                     </div>

@@ -1,62 +1,44 @@
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./Dashboard.css";
 import EntrevueItemDashboard from "./EntrevueItemDashboard";
 const Dashboard = () =>{
-    const [entrevues, setEntrevues] = useState([
-        {
-            entreprise: "Entreprise A",
-            dateHeure: "2023-10-15T14:00:00",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown " +
-                "printer took a galley of type and scrambled it to make a type specimen book. It has survived not only " +
-                "five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                "It was popularised in the 1960s with the release of Letraset sheets containing " +
-                "Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker " +
-                "including versions of Lorem Ipsum.",
-            status: "En_attente"
-        },
-        {
-            entreprise: "Entreprise A",
-            dateHeure: "2023-10-15T14:00:00",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown " +
-                "printer took a galley of type and scrambled it to make a type specimen book. It has survived not only " +
-                "five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " +
-                "It was popularised in the 1960s with the release of Letraset sheets containing " +
-                "Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker " +
-                "including versions of Lorem Ipsum.",
-            status: "En_attente"
-        },
-        {
-            entreprise: "Entreprise B",
-            dateHeure: "2023-10-20T10:30:00",
-            description: "Entrevue pour un poste de designer",
-            statut: "Accepté",
-            status: "En_attente"
-        },
-        {
-            entreprise: "Entreprise C",
-            dateHeure: "2023-10-25T15:45:00",
-            description: "Entrevue pour un poste de marketing",
-            statut: "Refusé",
-            status: "En_attente"
-        },
-        {
-            entreprise: "Entreprise B",
-            dateHeure: "2023-10-20T10:30:00",
-            description: "Entrevue pour un poste de designer",
-            statut: "Accepté",
-            status: "En_attente"
-        },
-        {
-            entreprise: "Entreprise C",
-            dateHeure: "2023-10-25T15:45:00",
-            description: "Entrevue pour un poste de marketing",
-            statut: "Refusé",
-            status: "En_attente"
-        },
-    ]);
+    const [entrevues, setEntrevues] = useState([]);
+    const [shouldRefetch] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
+        fetch(
+            `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        ).catch((error) => {
+            console.error("Error:", error);
+        }).then(
+            async (response) => {
+                const data = await response.json();
+                setEntrevues(data)
+                console.log(response.status)
+                try{
+                    console.log(response.status)
+                }
+                catch (e) {
+                    console.log(e)
+                }
+                setIsLoading(false);
+            }
+        );
+
+    }, [shouldRefetch]);
+
+    if (isLoading) {
+        return <div>Chargement...</div>;
+    }
+
     return(
         <div className="container">
             <h1>Dashboard</h1>
@@ -75,7 +57,7 @@ const Dashboard = () =>{
                         entrevues.map((item, index) => (
                             <EntrevueItemDashboard
                                 key={index}
-                                nomEntreprise={item.entreprise}
+                                nomEntreprise={item.comanyName}
                                 entrevue={item}
                             />
                         ))

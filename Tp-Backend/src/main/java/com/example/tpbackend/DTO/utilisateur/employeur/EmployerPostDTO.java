@@ -5,12 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import java.util.LinkedHashMap;
-
 @Data
 @NoArgsConstructor
 public class EmployerPostDTO {
+    private String firstName;
+    private String lastName;
     private String companyName;
+    private String phoneNumber;
+    private String email;
+    private String password;
 
     public EmployerPostDTO(String companyName) {
         this.companyName = companyName;
@@ -20,6 +23,8 @@ public class EmployerPostDTO {
     public static EmployerPostDTO fromEmployeur(Employer employer) {
         EmployerPostDTO employerPostDTO = new EmployerPostDTO();
         BeanUtils.copyProperties(employer, employerPostDTO);
+        employerPostDTO.email = employer.getUtilisateur().getEmail();
+        employerPostDTO.password = employer.getUtilisateur().getPassword();
         return employerPostDTO;
     }
 

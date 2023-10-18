@@ -3,17 +3,17 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/OffrePageStudent";
+import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faPortrait} from '@fortawesome/free-solid-svg-icons';
-import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap';
-import OffreCandidaturePage from "../offresStages/student/OffreCandidaturePage";
-
+import {faFileUpload, faBriefcase, faPortrait, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
+import { useNavigate } from "react-router-dom";
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
+    const navigate = useNavigate()
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -28,98 +28,66 @@ const StudentHomePage = () => {
         }
     }, [loggedInUser, setLoggedInUser]);
 
-    let contentToRender = null;
+    let contentToRender;
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
 
-    const articles = [
-    "Les avantages des stages",
-    "Comment réussir votre entretien",
-    "Les meilleures entreprises pour les stages à Montréal",
-    "Développer vos compétences en programmation",
-    "Comprendre les bases de l'IA",
-    "La cybersécurité : Ce que chaque étudiant devrait savoir",
-    "Travailler dans un environnement Agile",
-    "Comment préparer un portfolio de développeur",
-    "Éviter le burnout pendant un stage",
-    "Networking : Pourquoi et comment"
-];
-
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
+    }
 
     switch (activeContent) {
         case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule} />;
+            contentToRender = <FileUploader matricule={matricule}/>;
             break;
         case "offre-page-student":
             contentToRender = <OffresPageStudent/>;
             break;
         case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>
+            contentToRender = <OffreCandidaturePage/>;
             break;
         default:
-          contentToRender = (
-            <Container fluid>
-              <Row>
-                <Col xs={4}>
-                  <div className="sidebar">
-                    <ListGroup>
-                      {articles.map((article, index) => (
-                        <ListGroup.Item action href={`#article-${index + 1}`} key={index}>
-                          {article}
-                        </ListGroup.Item>
-                      ))}
-                    </ListGroup>
-                  </div>
-                </Col>
-                <Col xs={8}>
-                  {articles.map((article, index) => (
-                    <Card className="mb-4" key={index} id={`article-${index + 1}`}>
-                      <Card.Header as="h1">{article}</Card.Header>
-                      <Card.Body>
-                        <Card.Title as="h3">Introduction</Card.Title>
-                        <Card.Text className="light-bg">
-                          Contenu de {article}
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  ))}
-                </Col>
-              </Row>
-            </Container>
-          );
-          break;
+            contentToRender = <div>Please select a section.</div>;
+            break;
     }
 
     return (
         <div className="student-homepage">
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
+            <Navbar  className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid " />
+                <Navbar.Collapse id="basic-navbar-nav">               
+                    <Nav>
+                        <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/> Offres
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
                                     <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
                                 </button>
                             </li>
-                        </ul>
+                            <li className="nav-item navbarbutton deconnecter">
+                                <button className="nav-link" onClick={() => handleDisconnect()}>
+                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
+                                    Se déconnecter
+                                </button>
+                            </li>
+                        </ul>   
                     </Nav>
                 </Navbar.Collapse>
           </Navbar>
           <div className="container content-container mt-4">
-            <h2>Bienvenue, découvrez vos opportunités</h2>
+            <h2>Étudiant</h2>
             {contentToRender}
           </div>
         </div>

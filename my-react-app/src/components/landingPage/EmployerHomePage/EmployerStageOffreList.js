@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import EmployerOffreCard from './EmployerOffreCard';
 import EmployerOffreStages from "./EmployerOffreStages";
 import UpdateOffreForm from "./UpdateOffreForm";
 
@@ -8,7 +7,7 @@ const EmployerStageOffreList = ({employerId}) => {
     const [offre, setOffre] = useState({});
     const [showUpdateOffre, setShowUpdateOffre] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error] = useState(null);
 
     useEffect(() => {
         fetch(
@@ -70,6 +69,7 @@ const EmployerStageOffreList = ({employerId}) => {
                         studentProgram: data.studentProgram,
                         dateDebut: data.dateDebut,
                         dateFin: data.dateFin,
+                        nbMaxStudiants: data.nbMaxStudiants
                     } : o
             )
         )

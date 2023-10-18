@@ -1,9 +1,11 @@
 package com.example.tpbackend.models.utilisateur.etudiant;
 
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
@@ -20,11 +22,15 @@ public class Student  {
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
+        @ManyToMany(mappedBy = "etudiants")
+        private List<OffreStage> offresStages;
+
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 
         public Student( String matricule, String program) {
                 this.matricule = matricule;
+                this.phoneNumber = phoneNumber;
                 this.program = program;
         }
 

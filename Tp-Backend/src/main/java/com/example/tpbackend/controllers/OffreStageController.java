@@ -4,10 +4,8 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.service.OffreStageService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class OffreStageController {
 
     @PostMapping("/create")
     @PreAuthorize("authenticated")
-    public ResponseEntity<OffreStageDTO> createOffre(@RequestBody OffreStageDTO offre) {
+    public ResponseEntity<OffreStageDTO> saveOffre(@Valid @RequestBody OffreStageDTO offre) {
         try {
             OffreStageDTO newOffre = offreStageService.saveOffre(offre);
             return new ResponseEntity<>(newOffre, HttpStatus.CREATED);
@@ -43,6 +41,7 @@ public class OffreStageController {
         offreStageDTO.setDescription(offre.getDescription());
         offreStageDTO.setDateDebut(offre.getDateDebut());
         offreStageDTO.setDateFin(offre.getDateFin());
+        offreStageDTO.setNbMaxEtudiants(offre.getNbMaxEtudiants());
 
         return offreStageService.saveOffre(offreStageDTO);
     }
@@ -70,7 +69,11 @@ public class OffreStageController {
     @GetMapping("/{id}")
     @PreAuthorize("authenticated")
     public ResponseEntity<OffreStageDTO> getOffreById(@PathVariable("id") long id) {
-        OffreStageDTO offre = offreStageService.getOffreById(id);
-        return new ResponseEntity<>(offre, HttpStatus.OK);
+        try {
+            OffreStageDTO offre = offreStageService.getOffreById(id);
+            return new ResponseEntity<>(offre, HttpStatus.OK);
+        } catch (OffreNotFoundException ex) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }

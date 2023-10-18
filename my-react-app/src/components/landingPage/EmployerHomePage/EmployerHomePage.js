@@ -7,13 +7,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const EmployerHomePage = () => {
-    const [activeContent, setActiveContent] = useState("none");
+    const [activeContent, setActiveContent] = useState("offre-page");
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
 
-    let contentToRender = null;
+    let contentToRender;
     let employerId = localStorage.getItem('employer_id')
     const ajoutOffre = async (offre) => {
 

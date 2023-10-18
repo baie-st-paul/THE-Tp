@@ -2,8 +2,8 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EmployerService {
+public class
+EmployerService {
     @Autowired
     private EmployerRepository employerRepository;
     @Autowired

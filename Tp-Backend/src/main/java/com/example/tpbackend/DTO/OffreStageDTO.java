@@ -21,6 +21,7 @@ public class OffreStageDTO {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private String status;
+    private int nbMaxEtudiants;
 
     public OffreStage toOffreStage() {
         return new OffreStage(
@@ -31,6 +32,7 @@ public class OffreStageDTO {
                 description,
                 dateDebut,
                 dateFin,
+                nbMaxEtudiants,
                 status
         );
     }
@@ -39,11 +41,5 @@ public class OffreStageDTO {
         OffreStageDTO offreStageDTO = new OffreStageDTO();
         BeanUtils.copyProperties(offreStage, offreStageDTO);
         return offreStageDTO;
-    }
-
-    public static OffreStage fromOffreStageDTO(OffreStageDTO offreStageDTO) {
-        OffreStage offreStage = new OffreStage();
-        BeanUtils.copyProperties(offreStageDTO, offreStage);
-        return offreStage;
     }
 }

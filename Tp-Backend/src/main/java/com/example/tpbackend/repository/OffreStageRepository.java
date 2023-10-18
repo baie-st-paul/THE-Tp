@@ -11,16 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OffreStageRepository extends JpaRepository<OffreStage, Integer> {
+public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     Optional<OffreStage> findOffreById(long id);
-    List<OffreStage> findAllByStudentProgram(String program);
 
     @Modifying
     @Transactional
     @Query("UPDATE OffreStage SET status = ?2 WHERE titre = ?1")
     void updateOffreStatusByTitre(String titre, OffreStage.Status statusOffre);
-
-    List<OffreStage> findAllByTitre(String titre);
 
     @Query("SELECT o FROM OffreStage o WHERE o.employer.id = ?1")
     List<OffreStage> findAllByEmployer(long id);

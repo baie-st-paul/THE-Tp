@@ -1,6 +1,8 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -26,8 +28,12 @@ public class OffreStageService {
 
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
-        offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
+        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
+    }
+
+    public List<OffreStage> getAllOffres() {
+        return offreStageRepository.findAll();
     }
 
     public List<OffreStageDTO> getOffres() {
@@ -41,10 +47,37 @@ public class OffreStageService {
         return offreStageDTOS;
     }
 
+    public OffreStageDTO convertToDto(OffreStage offreStage) {
+        if(offreStage == null) {
+            throw new IllegalArgumentException("L'objet OffreStage fourni est null");
+        }
+        try {
+            OffreStageDTO dto = new OffreStageDTO();
+            dto.setDescription(offreStage.getDescription());
+            return dto;
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la conversion de OffreStage en OffreStageDTO", e);
+        }
+    }
+
+
     public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
+
+
+
+    public Optional<OffreStageDTO> getOffreStageById(Long id) {
+        try {
+            Optional<OffreStageDTO> offre = offreStageRepository.findById(id)
+                    .map(OffreStageDTO::fromOffreStage);
+        return offre;
+        } catch (OffreNotFoundException e) {
+            throw new OffreNotFoundException(id);
+        }
+    }
+
 
     public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();

@@ -38,7 +38,7 @@ const CandidatureForm = ({matricule, id}) => {
                 `http://localhost:8081/api/v1/student/postuler?matricule=${matricule}&idOffre=${id}&fileName=${fileName}`,
                 requestOptions
             )
-                .then((response) => {
+                .then(() => {
                     setLettreMotiv(null);
                     setFileName("");
                     setError(null);

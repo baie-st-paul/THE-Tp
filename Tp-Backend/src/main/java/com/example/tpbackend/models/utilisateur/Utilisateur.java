@@ -1,9 +1,9 @@
 package com.example.tpbackend.models.utilisateur;
 
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,6 +1,4 @@
 package com.example.tpbackend.models;
-
-import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
@@ -10,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class Candidature {
     @Id
@@ -27,19 +26,28 @@ public class Candidature {
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "ofrre_stage",nullable=false)
+    @JoinColumn(name = "offre_stage",nullable=false)
     private OffreStage offreStage;
 
     @ManyToOne
     @JoinColumn(name = "cv_student",nullable = false)
     private Cv cvStudent;
 
-    public Candidature(byte[] lettre_motivation, Student student, OffreStage offreStage, Cv cvStudent,String fileName) {
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public Candidature(byte[] lettre_motivation, Student student,
+                       OffreStage offreStage, Cv cvStudent,String fileName, Status status) {
         this.lettre_motivation = lettre_motivation;
         this.student = student;
         this.offreStage = offreStage;
         this.cvStudent = cvStudent;
         this.fileName = fileName;
+        this.status = status;
+    }
+
+    public byte[] getLettreMotivation() {
+        return lettre_motivation;
     }
 
     public CandidatureGetDTO toCandidatureGetDTO(){
@@ -51,27 +59,9 @@ public class Candidature {
         return new CandidatureGetDTO(this.student.getMatricule(),this.offreStage.toOffreStageDTO(),this.fileName, multipartFile);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setLettre_motivation(byte[] lettre_motivation) {
-        this.lettre_motivation = lettre_motivation;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public void setOffreStage(OffreStage offreStage) {
-        this.offreStage = offreStage;
-    }
-
-    public void setCvStudent(Cv cvStudent) {
-        this.cvStudent = cvStudent;
+    public enum Status {
+        Accepted,
+        In_review,
+        Refused,
     }
 }

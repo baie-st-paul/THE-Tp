@@ -12,7 +12,7 @@ root.render(
     <Router>
         <UserProvider>
             <App/>
-        </UserProvider>,
+        </UserProvider>
     </Router>
 );
 

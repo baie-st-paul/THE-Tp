@@ -72,16 +72,6 @@ public class GestionnaireService {
         return offreStageDTOS;
     }
 
-    public List<OffreStageDTO> getAllOffresByProgram(String titre) {
-        List<OffreStage> offres = offreStageRepository.findAllByStudentProgram(titre);
-        List<OffreStageDTO> offreDTOS = new ArrayList<>();
-
-        for (OffreStage offre: offres) {
-            offreDTOS.add(offre.toOffreStageDTO());
-        }
-        return offreDTOS;
-    }
-
     public void updateOffreStatus(String titre,String status) {
         offreStageRepository.updateOffreStatusByTitre(titre, OffreStage.Status.valueOf(status));
     }

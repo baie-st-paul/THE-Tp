@@ -39,11 +39,11 @@ function FileUploader({matricule}) {
                 `http://localhost:8081/api/v1/student/saveCV?matricule=${matricule}&fileName=${fileName}&status=In_review`,
                 requestOptions
             )
-                .then((response) => {
-                    setFile(null);
-                    setFileName("");
-                    setError(null);
-                })
+                .then(() => {
+                        setFile(null);
+                        setFileName("");
+                        setError(null);
+                    })
                 .catch((error) => console.log("error", error));
         } else {
             setError("Please select a valid PDF file before uploading.");
@@ -118,3 +118,4 @@ function FileUploader({matricule}) {
 }
 
 export default FileUploader;
+

@@ -22,7 +22,7 @@ public class Employer {
     private String companyName;
     private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
@@ -36,6 +36,7 @@ public class Employer {
         this.companyName = companyName;
         this.phoneNumber = phoneNumber;
     }
+
     @Override
     public String toString() {
         return "Employer{" +

@@ -4,6 +4,10 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
+import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
@@ -13,6 +17,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UtilisateursBD implements CommandLineRunner {
@@ -20,6 +26,8 @@ public class UtilisateursBD implements CommandLineRunner {
     private StudentServices studentServices;
     @Autowired
     private EmployerService employerService;
+    @Autowired
+    private EmployerRepository employerRepository;
     @Autowired
     private GestionnaireService gestionnaireService;
     @Autowired
@@ -33,8 +41,8 @@ public class UtilisateursBD implements CommandLineRunner {
         System.out.println("1 employer created");
         createGestionnaire();
         System.out.println("1 gestionnaire created");
-        createOffreStage();
-        System.out.println("1 offre stage created");
+        //createOffreStage();
+        //System.out.println("1 offre stage created");
     }
 
     public void createStudent() {
@@ -57,19 +65,24 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createEmployer() {
-        EmployerPostDTO employerPostDTO = new EmployerPostDTO(
+        Utilisateur utilisateur = new Utilisateur(
+                "emp@gmail.com",
+                "Root!123",
+                "Employeur"
+        );
+        Employer employer = new Employer(
+                2L,
                 "emp",
                 "lala",
                 "ALaurendeau",
-                "+15147899765",
-                "emp@gmail.com",
-                "Root!123"
+                "+15147899765"
         );
-        EmployerPostDTO postDTO = employerService.saveEmployer(employerPostDTO,
-                employerPostDTO.getEmail(),
-                employerPostDTO.getPassword(),
-                "Employeur");
-        System.out.println(postDTO);
+
+        employer.setUtilisateur(utilisateur);
+
+        employerRepository.save(employer);
+
+        System.out.println(employer);
     }
 
     public void createGestionnaire() {

@@ -55,4 +55,8 @@ public class EntrevueService {
 
         return dtos;
     }
+
+    public void manageStatusByMatricule(String matricule, String newStatus) {
+        entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
+    }
 }

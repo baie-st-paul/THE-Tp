@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
 import { format } from 'date-fns';
+import axios from "axios";
 
 const customStyles = {
     content: {
@@ -18,11 +19,12 @@ const customStyles = {
 
 const SectionEntrevue = () => {
     const [entrevues, setEntrevues] = useState([]);
-    const [shouldRefetch] = useState(false);
+    const [shouldRefetch, setShouldRefetch] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [expandedDescriptions, setExpandedDescriptions] = useState({});
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [selectedEntrevue, setSelectedEntrevue] = useState(null);
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -67,10 +69,26 @@ const SectionEntrevue = () => {
     };
 
     const handleAcceptConfirmation = () => {
+        axios
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`, {
+            })
+            .then((response) => {
+                setShouldRefetch(true);
+            })
+            .catch((error) => {
+            });
         setIsConfirmationModalOpen(false);
     };
 
     const handleRefuseConfirmation = () => {
+        axios
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`, {
+            })
+            .then((response) => {
+                setShouldRefetch(true);
+            })
+            .catch((error) => {
+            });
         setIsConfirmationModalOpen(false);
     };
 
@@ -80,6 +98,8 @@ const SectionEntrevue = () => {
             [index]: !expandedDescriptions[index],
         });
     };
+
+    const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
 
     return (
         <div>
@@ -95,8 +115,8 @@ const SectionEntrevue = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {entrevues.map((entrevue, index) => (
-                        <tr key={index}>
+                    {entrevuesEnAttente.map((entrevue, index) => (
+                        <tr key={index} onClick={() => setSelectedEntrevue(entrevue)}>
                             <td className="align-middle text-center w-5">{entrevue.comanyName}</td>
                             <td className="fw-bolder align-middle text-center">
                                 {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}

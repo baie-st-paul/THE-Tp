@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCheck, faExclamationTriangle, faTimes} from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
-import {format} from "date-fns";
-const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
+import {format} from "date-fns"
+import axios from "axios";
+const EntrevueItemDashboard = ({ nomEntreprise, entrevue , setShouldRefetch}) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
@@ -15,10 +16,28 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue }) => {
     };
 
     const handleAcceptConfirmation = () => {
+        axios
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Acceptee`, {
+            })
+            .then((response) => {
+                closeModal()
+                setShouldRefetch(true);
+            })
+            .catch((error) => {
+            });
         closeModal()
     };
 
     const handleRefuseConfirmation = () => {
+        axios
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Refusee`, {
+            })
+            .then((response) => {
+                closeModal()
+                setShouldRefetch(true);
+            })
+            .catch((error) => {
+            });
         closeModal()
     };
 

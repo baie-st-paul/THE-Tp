@@ -78,9 +78,9 @@ const StudentHomePage = () => {
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/>CV
                                 </button>
                             </li>
-                            <li className="nav-item navbarbutton">
+                            <li className="nav-item">
                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/>Offres
                                 </button>
                             </li>
                             <li className="nav-item">

@@ -4,7 +4,7 @@ import "./Dashboard.css";
 import EntrevueItemDashboard from "./EntrevueItemDashboard";
 const Dashboard = () =>{
     const [entrevues, setEntrevues] = useState([]);
-    const [shouldRefetch] = useState(false);
+    const [shouldRefetch, setShouldRefetch] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -39,6 +39,8 @@ const Dashboard = () =>{
         return <div>Chargement...</div>;
     }
 
+    const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
+
     return(
         <div className="container">
             <h1>Dashboard</h1>
@@ -47,18 +49,19 @@ const Dashboard = () =>{
                     <div className="list-group-item bg-body-secondary mb-1">
                         <h1>Nouvelles Entrevues</h1>
                     </div>
-                    {entrevues.length === 0 ? (
+                    {entrevuesEnAttente.length === 0 ? (
                         <div className="list-group-item no-entrevues-message">
                             <div className="centered">
                                 <p>Aucune entrevue disponible pour le moment</p>
                             </div>
                         </div>
                     ) : (
-                        entrevues.map((item, index) => (
+                        entrevuesEnAttente.map((item, index) => (
                             <EntrevueItemDashboard
                                 key={index}
                                 nomEntreprise={item.comanyName}
                                 entrevue={item}
+                                setShouldRefetch={setShouldRefetch}
                             />
                         ))
                     )}

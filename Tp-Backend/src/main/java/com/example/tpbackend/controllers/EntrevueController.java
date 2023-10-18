@@ -1,5 +1,6 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.service.EntrevueService;
 import lombok.AllArgsConstructor;
@@ -39,5 +40,11 @@ public class EntrevueController {
     public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable String matricule) {
         List<EntrevueDTO> entrevues = entrevueService.getStudentEntrevues(matricule);
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
+    }
+
+    @PutMapping("manageStatusByMatricule/{matricule}/{newStatus}")
+    public ResponseEntity<String> manageStatusByMatricule(@PathVariable String matricule, @PathVariable String newStatus) {
+       entrevueService.manageStatusByMatricule(matricule, newStatus);
+        return new ResponseEntity<>("Status changed", HttpStatus.OK);
     }
 }

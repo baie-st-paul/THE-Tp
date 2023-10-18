@@ -1,8 +1,12 @@
 package com.example.tpbackend.controller;
 
-
+import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.controllers.EmployerController;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +15,24 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-
-
 
 @WebMvcTest(EmployerController.class)
 public class EmployerControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private OffreStageService offfreStageService;
+    private OffreStageService offreStageService;
     @MockBean
     private StudentServices studentService;
+    @MockBean
+    private EmployerService employerService;
 
     @Test
     public void testGetApplicantsForOffer() throws Exception {
@@ -47,6 +53,52 @@ public class EmployerControllerTest {
                 .andExpect(jsonPath("$.error").value("Aucune offre trouvée avec cet ID."));
     }
 
+    @Test
+    public void testAcceptCandidature() throws Exception {
+        StudentPostDTO studentPostDTO = new StudentPostDTO(
+                "lina",
+                "lac",
+                "lina@gmail.com",
+                "Root!123",
+                "+15143738384",
+                "3939494",
+                "informatique"
+        );
+        studentService.saveStudent(studentPostDTO, studentPostDTO.getEmail(), studentPostDTO.getPassword(), "Student");
+        EmployerPostDTO employerPostDTO = new EmployerPostDTO(
+                "emp",
+                "lala",
+                "ALaurendeau",
+                "+15146878898",
+                "emp@gmail.com",
+                "Root!123"
+        );
+        employerService.saveEmployer(employerPostDTO, employerPostDTO.getEmail(), employerPostDTO.getPassword(), "Employeur");
+        OffreStageDTO offreStageDTO = new OffreStageDTO(
+                1,
+                1,
+                "dev web",
+                20,
+                "informatique",
+                "fdgd f dfg gfdsfs gdd",
+                LocalDate.of(2023, 10, 20),
+                LocalDate.of(2023, 10, 27),
+                "In_review",
+                10
+        );
+        offreStageService.saveOffre(offreStageDTO);
+        CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(
+                studentPostDTO.getMatricule(),
+                offreStageDTO.getEmployerId(),
+                "abc.pdf",
+                null
+        );
+        studentService.postulerOffre(candidaturePostDTO);
+        mockMvc.perform(post("http://localhost:8081/api/employers/candidature/accept/{matricule}/{status}",
+                        candidaturePostDTO.getMatricule(), "Accepted"))
+                .andExpect(status().isOk());
+    }
+
 
     @Test
     public void testGetApplicantsForOfferNoApplicants() throws Exception {
@@ -62,6 +114,4 @@ public class EmployerControllerTest {
         mockMvc.perform(get("/api/employers/{offerId}/applicants", "invalid")) // je Suppose que "invalid" est un ID invalide
                 .andExpect(status().isBadRequest());
     }
-
-
 }

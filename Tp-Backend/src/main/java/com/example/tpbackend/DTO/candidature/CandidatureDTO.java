@@ -18,6 +18,7 @@ public class CandidatureDTO {
     private StudentGetDTO student;
     private OffreStageDTO offreStage;
     private CvDTO cvStudent;
+    private String status;
 
     public static CandidatureDTO fromCandidature(Candidature candidature) {
         if (candidature == null) {
@@ -32,7 +33,8 @@ public class CandidatureDTO {
                 candidature.getFileName(),
                 studentDto,
                 offreStageDto,
-                cvStudentDto
+                cvStudentDto,
+                String.valueOf(candidature.getStatus())
         );
     }
 }

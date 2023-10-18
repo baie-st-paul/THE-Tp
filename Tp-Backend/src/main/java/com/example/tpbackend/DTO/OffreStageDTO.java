@@ -21,6 +21,7 @@ public class OffreStageDTO {
     private LocalDate dateDebut;
     private LocalDate dateFin;
     private String status;
+    private int nbMaxEtudiants;
 
     public OffreStage toOffreStage() {
         return new OffreStage(
@@ -31,6 +32,7 @@ public class OffreStageDTO {
                 description,
                 dateDebut,
                 dateFin,
+                nbMaxEtudiants,
                 status
         );
     }

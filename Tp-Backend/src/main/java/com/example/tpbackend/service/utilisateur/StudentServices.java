@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,7 +81,8 @@ public class StudentServices {
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
 
-        candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),student,offreStage.get(),cv,candidaturePostDTO.getFileName()));
+        candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),
+                student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review")));
     }
 
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
@@ -103,5 +103,9 @@ public class StudentServices {
                 .stream()
                 .map(CandidatureDTO::fromCandidature)
                 .collect(Collectors.toList());
+    }
+
+    public void updateCandidatureStatus(String matricule, String status) {
+        candidatureRepository.updateCandidatureStatusByMatricule(matricule, Candidature.Status.valueOf(status));
     }
 }

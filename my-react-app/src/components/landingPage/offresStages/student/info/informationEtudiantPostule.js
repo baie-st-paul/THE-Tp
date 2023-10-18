@@ -5,6 +5,20 @@ import './informationEtudiantPostule.css'
 import { useNavigate  } from "react-router-dom";
 import {useLocation} from 'react-router-dom';
 import Modal from "../../../GestionnaireHomePage/Vetocv/Modal";
+import ReactModal from "react-modal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+    },
+};
 
 export default function InformationEtudiantPostule({listeEtudiant}) {
 
@@ -14,10 +28,13 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
     const [student, setStudent] = useState(null);
+    const [confirmationType, setConfirmationType] = useState("");
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [shouldRefetch, setShouldRefetch] = useState(false);
 
     useEffect(() => {
         handleListePostule();
-    }, [])
+    }, [shouldRefetch])
 
     async function handleListePostule() {
         try {
@@ -67,6 +84,43 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         setOpenModalLettre(!openModalLettre)
         setStudent(student)
     }
+
+    const updateStatus = async (matricule, status) => {
+        try {
+            const response = await fetch(`http://localhost:8081/api/employers/candidature/accept/${matricule}/${status}`, {
+                method: 'POST',
+            });
+
+            if (response.ok) {
+                setShouldRefetch(!shouldRefetch);
+            } else {
+                console.error("Failed to accept/refuse etudiant");
+            }
+        } catch (error) {
+            console.error("Error accepting/refusing etudiant:", error);
+        }
+    };
+
+    const handleAcceptConfirmation = () => {
+        updateStatus(student.matricule, "Accepted");
+        setIsConfirmationModalOpen(false);
+        console.log("Accepted")
+    };
+
+    const handleRefuseConfirmation = () => {
+        updateStatus(student.matricule, "Refused");
+        setIsConfirmationModalOpen(false);
+    };
+
+    const openConfirmationModal = (type, student) => {
+        setConfirmationType(type);
+        setIsConfirmationModalOpen(true);
+        setStudent(student)
+    };
+
+    const closeConfirmationModal = () => {
+        setIsConfirmationModalOpen(false);
+    };
 
     return (
         <div className='mt-5'>
@@ -119,10 +173,39 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                         </td>
                                     }
                                     <td>
-                                        <button className='btn btn-warning p-3'
+                                        <button title="CONVOQUER" className='btn btn-warning p-3'
                                                 onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
                                             CONVOQUER
                                         </button>
+                                    </td>
+                                    <td data-label="Statut" scope="row" className='headerElement breakWord'>
+                                        {etudiant.status === "In_review" && (
+                                            <>
+                                                <FontAwesomeIcon icon={faClock} /> En attente
+                                            </>
+                                        )}
+                                        {etudiant.status === "Accepted" && (
+                                            <>
+                                                <FontAwesomeIcon icon={faCheck} /> Accepté
+                                            </>
+                                        )}
+                                        {etudiant.status === "Refused" && (
+                                            <>
+                                                <FontAwesomeIcon icon={faTimes} /> Refusé
+                                            </>
+                                        )}
+                                    </td>
+                                    <td aria-label='veto'>
+                                        {etudiant.status === "In_review" && (
+                                            <div>
+                                                <button title="Accepter" className="btn btn-success p-1" onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
+                                                </button>
+                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faTimes} /> REFUSER
+                                                </button>
+                                                </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))
@@ -135,6 +218,33 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     {openModalLettre && listeEtudiants.length > 0 &&
                         <Modal cv={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
                     }
+                    <ReactModal
+                        isOpen={isConfirmationModalOpen}
+                        onRequestClose={closeConfirmationModal}
+                        style={customStyles}
+                        ariaHideApp={false}
+                        contentLabel="Confirmation Modal"
+                    >
+                        <h2 title="Confirmation modal">Confirmation</h2>
+                        {confirmationType === "accept" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir accepter cet étudiant ?</p>
+                                <button title="ConfirmAccept" className="btn btn-success" onClick={handleAcceptConfirmation}>
+                                    Oui
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <p>Êtes-vous sûr de vouloir refuser cet étudiant ?</p>
+                                <button title="ConfirmRefuse" className="btn btn-danger" onClick={handleRefuseConfirmation}>
+                                    Oui
+                                </button>
+                            </>
+                        )}
+                        <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
+                            Non
+                        </button>
+                    </ReactModal>
                     <div className='d-flex justify-content-end mt-5 p-3'>
                         <button className='btn btn-danger p-2 ' onClick={handleRetour}>RETOUR</button>
                     </div>

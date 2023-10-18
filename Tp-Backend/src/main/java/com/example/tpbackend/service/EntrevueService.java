@@ -38,7 +38,7 @@ public class EntrevueService {
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
-
+    
     public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
         Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployer()), entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
@@ -60,3 +60,4 @@ public class EntrevueService {
         entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
     }
 }
+

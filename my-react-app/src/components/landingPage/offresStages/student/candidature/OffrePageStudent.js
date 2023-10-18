@@ -13,7 +13,7 @@ const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
     const [candidatures, setCandidatures] = useState([]);
     const [filterOption] = useState("Accepted");
-    const [shouldRefetch] = useState(false);
+    const [shouldRefetch, setShouldRefetch] = useState(false);
 
     useEffect(() => {
         const fetchOffreList = async () => {
@@ -30,7 +30,7 @@ const OffresPageStudent = () => {
             }
         };
 
-        const fetchCandidatures = async () => {
+        /*const fetchCandidatures = async () => {
             try {
                 const savedMatricule = localStorage.getItem("loggedInUserMatricule");
                 fetch(
@@ -54,15 +54,16 @@ const OffresPageStudent = () => {
                             console.log(e)
                         }
                         setCandidatures(data)
+                        //setShouldRefetch(!shouldRefetch);
                     }
                 );
             } catch (error) {
                 console.log("Error fetching data:", error)
             }
-        }
+        }*/
 
         fetchOffreList();
-        fetchCandidatures();
+        //fetchCandidatures();
     }, [shouldRefetch]);
 
     const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
@@ -91,10 +92,7 @@ const OffresPageStudent = () => {
                                             <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
 
                                             <ListGroup.Item>
-                                                {candidatures.length > 0 ?
-                                                    <CandidatureModal id={offre.id}/> :
-                                                    <p>Vous avez postulé</p>
-                                                }
+                                                <CandidatureModal id={offre.id}/>
                                             </ListGroup.Item>
                                         </ListGroup>
                                     </Card>

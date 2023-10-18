@@ -3,7 +3,6 @@ import {Routes, Route} from "react-router-dom";
 import React from "react";
 import InscriptionPageE from "./components/utilisateurs/inscription/etudiant/InscriptionPageE";
 import InscriptionPageEmp from "./components/utilisateurs/inscription/employeur/InscriptionPageEmp";
-import InscriptionPageG from "./components/utilisateurs/inscription/gestionnaire/InscriptionPageG";
 import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMain';
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
@@ -38,7 +37,6 @@ function App() {
                 <Route path="/" element={<UtilisateursMain/>}/>
                 <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                 <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
-                <Route path="/gestionnaireInscription" element={<InscriptionPageG/>} />
                 <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
                 <Route path="/saveCv" element={<FileUploader/>}/>
             </Routes>

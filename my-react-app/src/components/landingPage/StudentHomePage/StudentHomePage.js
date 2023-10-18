@@ -13,7 +13,7 @@ const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
-    const [cv, setCv] = useState({});
+    const [cvs, setCvs] = useState([]);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -27,23 +27,22 @@ const StudentHomePage = () => {
             setMatricule(loggedInUser.matricule);
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
+        const fetchCv = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setCvs(data);
+                } else {
+                    console.error("Failed to fetch data");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
         fetchCv()
     }, [loggedInUser, setLoggedInUser]);
-
-
-    const fetchCv = async () => {
-        try {
-            const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs/${localStorage.getItem("loggedInUserMatricule")}`);
-            if (response.ok) {
-                const data = await response.json();
-                setCv(data);
-            } else {
-                console.error("Failed to fetch data");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -78,27 +77,38 @@ const StudentHomePage = () => {
                 <Navbar.Collapse id="basic-navbar-nav">               
                     <Nav>
                         <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton deconnecter">
+                                <button className="nav-link" onClick={() => handleDisconnect()}>
+                                    <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
+                                    Se déconnecter
+                                </button>
+                            </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
                                 </button>
                             </li>
-                            { cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
-                            <><li className="nav-item navbarbutton">
-                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                        <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }} />Offres
-                                    </button>
-                                </li><li className="nav-item navbarbutton">
-                                        <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
-                                            <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }} /> Mes candidatures
-                                        </button>
-                                    </li><li className="nav-item navbarbutton deconnecter">
-                                        <button className="nav-link" onClick={() => handleDisconnect()}>
-                                            <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
-                                            Se déconnecter
-                                        </button>
-                                    </li></>
-}
+                            {
+                                cvs.map((cv, index) => (
+                                    <div key={index}>
+                                        {
+                                            cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
+                                            <>
+                                                <li className="nav-item navbarbutton">
+                                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+                                                        <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }} />Offres
+                                                    </button>
+                                                </li>
+                                                <li className="nav-item navbarbutton">
+                                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                                        <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }} /> Mes candidatures
+                                                    </button>
+                                                </li>
+                                            </>
+                                        }
+                                    </div>
+                                ))
+                            }
                         </ul>   
                     </Nav>
                 </Navbar.Collapse>

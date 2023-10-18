@@ -1,15 +1,12 @@
 package com.example.tpbackend.service.creationBD;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.service.OffreStageService;
-import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +14,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private StudentServices studentServices;
-    @Autowired
-    private EmployerService employerService;
     @Autowired
     private EmployerRepository employerRepository;
     @Autowired

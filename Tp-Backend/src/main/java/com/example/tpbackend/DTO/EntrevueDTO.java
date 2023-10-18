@@ -13,14 +13,16 @@ public class   EntrevueDTO {
     private String dateHeure;
     private String description;
     private String status;
-    private String idEmployeur;
+    private String comanyName;
+    private String idEmployer;
     private String idEtudiant;
 
     public EntrevueDTO(Entrevue entrevue){
         this.id = entrevue.getId();
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();
-        this.idEmployeur = entrevue.getEmployer().getId() + "";
+        this.idEmployer = entrevue.getEmployer().getId() + "";
+        this.comanyName = entrevue.getEmployer().getCompanyName();
         this.idEtudiant = entrevue.getStudent().getMatricule();
         this.status = entrevue.getStatus().toString();
     }

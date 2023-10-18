@@ -8,7 +8,7 @@ const MODAL_STYLES = {
     backgroundColor: "#FFF",
     padding: "15px",
     zIndex: "1000",
-    width: "35%",
+    width: "70%",
     borderRadius: ".5em"
 };
 

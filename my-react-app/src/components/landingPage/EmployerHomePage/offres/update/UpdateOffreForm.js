@@ -82,7 +82,7 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
             dateFinRef.current.innerHTML = ""
         }
 
-        if (nbMaxEtudiants.trim() === ''){
+        if (nbMaxEtudiants === ''){
             nbMaxEtudiantsRef.current.innerHTML = " * Veuillez entrer le nombre max. d’étudiants *"
         }else {
             nbMaxEtudiantsRef.current.innerHTML = ""

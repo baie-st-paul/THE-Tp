@@ -96,6 +96,7 @@ const EmployerStageOffreList = ({employerId}) => {
                     } : o
             )
         )
+        setShowUpdateOffre(false)
     }
 
     function ModalUpdate() {

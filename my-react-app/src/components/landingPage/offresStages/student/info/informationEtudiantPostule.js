@@ -197,14 +197,14 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     </td>
                                     <td aria-label='veto'>
                                         {etudiant.status === "In_review" && (
-                                            <>
-                                                <button title="Accepter" className="btn btn-success" onClick={() => openConfirmationModal("accept", etudiant.student)}>
-                                                    <FontAwesomeIcon icon={faCheck} /> Accepter
+                                            <div>
+                                                <button title="Accepter" className="btn btn-success p-1" onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
                                                 </button>
-                                                <button title="Refuser" className="btn btn-danger" onClick={() => openConfirmationModal("refuse", etudiant.student)}>
-                                                    <FontAwesomeIcon icon={faTimes} /> Refuser
+                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
-                                            </>
+                                                </div>
                                         )}
                                     </td>
                                 </tr>

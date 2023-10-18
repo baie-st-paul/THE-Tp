@@ -1,5 +1,6 @@
 import {useRef, useState} from "react";
 import {Link} from "react-router-dom";
+import './Entrevue.css'
 
 const CreateEntrevueForm = ({onAdd}) => {
     const [date, setDate] = useState('');
@@ -55,8 +56,8 @@ const CreateEntrevueForm = ({onAdd}) => {
     return (
         <div className="root vh-100">
             <div className='fondIU'>
-                <div className="divForm">
-                    <form autoComplete="off" name='abc'  id="formm"  className='form font add-form' onSubmit={onSubmit}>
+                <div className="divForm ">
+                    <form autoComplete="off" name='abc'  id="formm"  className='form font add-form ' onSubmit={onSubmit}>
                         <h2 className="h3 font text-center">CRÉATION DE L'ENTREVUE</h2>
                         <div className="w-100">
                             <div className='form-group'>
@@ -87,9 +88,8 @@ const CreateEntrevueForm = ({onAdd}) => {
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
 
-                            <input type='submit' value="créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2'/>
-
-                            <Link to='/EmployeurHomePage' className='btn btn-block bg-danger m-0 mt-0 text-light'>
+                            <input type='submit' value="Créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2 '/>
+                            <Link to='/EmployeurHomePage' className='btn  btn-block bg-danger m-0 mt-0 text-light'>
                                 <span style={{fontSize : '20px'}}>Retour</span>
                             </Link>
                         </div>

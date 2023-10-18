@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {BiSolidCloudUpload} from "react-icons/bi";
 
-const CandidatureForm = ({matricule, id}) => {
+const CandidatureForm = ({matricule, id, close}) => {
     const [lettreMotiv, setLettreMotiv] = useState(null);
     const [fileName, setFileName] = useState("");
     const [error, setError] = useState(null);
@@ -13,6 +13,7 @@ const CandidatureForm = ({matricule, id}) => {
             setLettreMotiv(selectedFile);
             setFileName(selectedFile.name);
             setError(null);
+            close(false)
         } else {
             setLettreMotiv(null);
             setFileName("");
@@ -42,6 +43,7 @@ const CandidatureForm = ({matricule, id}) => {
                     setLettreMotiv(null);
                     setFileName("");
                     setError(null);
+                    close(false)
                 })
                 .catch((error) => console.log("error", error));
         } else {
@@ -76,7 +78,7 @@ const CandidatureForm = ({matricule, id}) => {
         >
             <div className="border border-1 border-dark p-5 text-center file-uploader">
                 <BiSolidCloudUpload className="upload-icon" />
-                <h3 className="mt-4">Glissez un fichier PDF ici</h3>
+                <h3 className="mt-4">Glissez la lettre de motivation en fichier PDF ici</h3>
                 <span style={{ fontWeight: "bold" }}>Ou</span>
                 <br />
                 {lettreMotiv ? (
@@ -106,7 +108,7 @@ const CandidatureForm = ({matricule, id}) => {
                             id="fileInput"
                         />
                         <label htmlFor="fileInput" className="btn btn-primary mt-3">
-                            Sélectionner un fichier PDF
+                            Sélectionner la lettre de motivation en fichier PDF
                         </label>
                     </>
                 )}

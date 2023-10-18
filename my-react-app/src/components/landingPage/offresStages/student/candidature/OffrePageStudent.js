@@ -6,9 +6,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import OffreDescription from "../../OffreDescription";
 import CandidatureModal from "./CandidatureModal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
 const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
+    const [candidatures, setCandidatures] = useState([]);
     const [filterOption] = useState("Accepted");
     const [shouldRefetch] = useState(false);
 
@@ -27,7 +30,39 @@ const OffresPageStudent = () => {
             }
         };
 
+        const fetchCandidatures = async () => {
+            try {
+                const savedMatricule = localStorage.getItem("loggedInUserMatricule");
+                fetch(
+                    `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                ).catch((error) => {
+                    console.error("Error:", error);
+                }).then(
+                    async (response) => {
+                        const data = await response.json();
+                        console.log(response.status)
+                        try{
+                            console.log(response.status)
+                        }
+                        catch (e) {
+                            console.log(e)
+                        }
+                        setCandidatures(data)
+                    }
+                );
+            } catch (error) {
+                console.log("Error fetching data:", error)
+            }
+        }
+
         fetchOffreList();
+        fetchCandidatures();
     }, [shouldRefetch]);
 
     const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
@@ -56,7 +91,10 @@ const OffresPageStudent = () => {
                                             <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
 
                                             <ListGroup.Item>
-                                                <CandidatureModal id={offre.id}/>
+                                                {candidatures.length > 0 ?
+                                                    <CandidatureModal id={offre.id}/> :
+                                                    <p>Vous avez postulé</p>
+                                                }
                                             </ListGroup.Item>
                                         </ListGroup>
                                     </Card>

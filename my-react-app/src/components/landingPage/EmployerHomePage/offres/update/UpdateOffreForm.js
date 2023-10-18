@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 const UpdateOffreForm = ({offreStage, onUpdate}) => {
     const [id, setId] = useState(offreStage.id)
@@ -8,6 +8,7 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
     const [studentProgram, setStudentProgram] = useState(offreStage.studentProgram);
     const [dateDebut, setDateDebut] = useState(offreStage.dateDebut);
     const [dateFin, setDateFin] = useState(offreStage.dateFin);
+    const [nbMaxEtudiants, setNbMaxEtudiants] = useState('');
 
     const titreRef = useRef(null);
     const descriptionRef = useRef(null);
@@ -15,6 +16,7 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
     const studentProgramRef = useRef(null);
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
+    const nbMaxEtudiantsRef = useRef(null);
 
     useEffect(() => {
         setId(offreStage.id)
@@ -24,6 +26,7 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
         setStudentProgram(offreStage.studentProgram)
         setDateDebut(offreStage.dateDebut)
         setDateFin(offreStage.dateFin)
+        setNbMaxEtudiants(offreStage.nbMaxEtudiants)
     }, []);
 
 
@@ -38,7 +41,8 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
             !salaire ||
             !studentProgram ||
             !dateDebut ||
-            !dateFin
+            !dateFin ||
+            !nbMaxEtudiants
         ) {
             annuler = true;
         }
@@ -78,6 +82,12 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
             dateFinRef.current.innerHTML = ""
         }
 
+        if (nbMaxEtudiants.trim() === ''){
+            nbMaxEtudiantsRef.current.innerHTML = " * Veuillez entrer le nombre max. d’étudiants *"
+        }else {
+            nbMaxEtudiantsRef.current.innerHTML = ""
+        }
+
         if (annuler === true) {
         } else {
             onUpdate({
@@ -87,7 +97,8 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
                 salaire,
                 studentProgram,
                 dateDebut,
-                dateFin
+                dateFin,
+                nbMaxEtudiants
             })
         }
     }
@@ -106,9 +117,12 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
                                 <p ref={titreRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Description sommaire'
-                                       value={description}
-                                       onChange={(e) => setDescription(e.target.value)}/>
+                                <textarea
+                                    className="form-control saisie saisie-user px-3 m-0"
+                                    placeholder='Description sommaire'
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className='form-group'>
@@ -131,6 +145,18 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
                             </div>
 
                             <div className='form-group'>
+                                <input
+                                    className='form-control saisie saisie-user px-3 m-0'
+                                    type='number'
+                                    placeholder='Nombre max. d’étudiants'
+                                    style={{color: 'grey', fontSize : '20px'}}
+                                    value={nbMaxEtudiants}
+                                    onChange={(e) => setNbMaxEtudiants(e.target.value)}
+                                />
+                                <p ref={nbMaxEtudiantsRef} className="font px-1 textAvertissement text-danger"></p>
+                            </div>
+
+                            <div className='form-group'>
                                 <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder='Date de debut'
                                        style={{color: 'grey', fontSize : '20px'}}
                                        value={dateDebut}
@@ -143,6 +169,7 @@ const UpdateOffreForm = ({offreStage, onUpdate}) => {
                                        onChange={(e) => setDateFin(e.target.value)}/>
                                 <p ref={dateFinRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
+
                             <input type='submit' value="Mettre à jour l'offre" className='btn btn-block bg-black text-light m-0 mb-2'/>
                         </div>
                     </form>

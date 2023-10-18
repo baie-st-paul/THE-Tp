@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
-import "../../utilisateurs/inscription/InscriptionPage.css"
-import "../../stylesGenerales.css"
+import "../../../../utilisateurs/inscription/InscriptionPage.css"
+import "../../../../stylesGenerales.css"
 
 const AjoutOffreForm = ({onAdd}) => {
     const [titre, setTitre] = useState('');
@@ -18,7 +18,6 @@ const AjoutOffreForm = ({onAdd}) => {
     const dateDebutRef = useRef(null);
     const dateFinRef = useRef(null);
     const nbMaxEtudiantsRef = useRef(null);
-
 
     const onSubmit = (e) => {
         e.preventDefault()

@@ -13,6 +13,7 @@ const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
+    const [cv, setCv] = useState({});
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -26,7 +27,23 @@ const StudentHomePage = () => {
             setMatricule(loggedInUser.matricule);
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
+        fetchCv()
     }, [loggedInUser, setLoggedInUser]);
+
+
+    const fetchCv = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs/${localStorage.getItem("loggedInUserMatricule")}`);
+            if (response.ok) {
+                const data = await response.json();
+                setCv(data);
+            } else {
+                console.error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -66,22 +83,22 @@ const StudentHomePage = () => {
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
                                 </button>
                             </li>
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
-                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }}/> Mes candidatures
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton deconnecter">
-                                <button className="nav-link" onClick={() => handleDisconnect()}>
-                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
-                                    Se déconnecter
-                                </button>
-                            </li>
+                            { cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
+                            <><li className="nav-item navbarbutton">
+                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+                                        <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }} />Offres
+                                    </button>
+                                </li><li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                            <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '10px' }} /> Mes candidatures
+                                        </button>
+                                    </li><li className="nav-item navbarbutton deconnecter">
+                                        <button className="nav-link" onClick={() => handleDisconnect()}>
+                                            <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
+                                            Se déconnecter
+                                        </button>
+                                    </li></>
+}
                         </ul>   
                     </Nav>
                 </Navbar.Collapse>

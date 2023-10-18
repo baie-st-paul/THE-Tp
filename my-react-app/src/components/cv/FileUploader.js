@@ -48,6 +48,7 @@ function FileUploader({matricule}) {
         } else {
             setError("Please select a valid PDF file before uploading.");
         }
+        window.location.reload()
     };
 
     const handleCancel = () => {

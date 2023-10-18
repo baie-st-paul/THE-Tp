@@ -1,10 +1,10 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -26,9 +27,12 @@ public class OffreStageService {
     @Autowired
     private EmployerService employerService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
-        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
+        offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
@@ -90,8 +94,19 @@ public class OffreStageService {
         offreStageRepository.deleteOffreStageById(id);
     }
 
-    public List<OffreStageDTO> getOffresByEmployerId(long id) {
+    public List<OffreStageDTO> getOffresByEmployerId(Long id) {
         List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
+        List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
+
+        for (OffreStage offreStage: offreStages) {
+            offreStageDTOS.add(offreStage.toOffreStageDTO());
+        }
+
+        return offreStageDTOS;
+    }
+
+    public List<OffreStageDTO> getOffresByEmployerId() {
+        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(authenticationService.getUserId());
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {

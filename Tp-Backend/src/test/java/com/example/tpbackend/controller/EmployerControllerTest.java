@@ -5,6 +5,7 @@ import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.controllers.EmployerController;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -56,24 +57,33 @@ public class EmployerControllerTest {
     @Test
     public void testAcceptCandidature() throws Exception {
         StudentPostDTO studentPostDTO = new StudentPostDTO(
-                "lina",
-                "lac",
-                "lina@gmail.com",
-                "Root!123",
-                "+15143738384",
-                "3939494",
+                "1234567",
                 "informatique"
         );
-        studentService.saveStudent(studentPostDTO, studentPostDTO.getEmail(), studentPostDTO.getPassword(), "Student");
+
+
+
+        studentService.saveStudent(
+                "first",
+                "last",
+                "student@gmail.com",
+                "+15146878898",
+                "1234567",
+                "Student",
+                studentPostDTO
+        );
         EmployerPostDTO employerPostDTO = new EmployerPostDTO(
+                "ALaurendeau"
+        );
+        employerService.saveEmployer(
                 "emp",
                 "lala",
-                "ALaurendeau",
-                "+15146878898",
                 "emp@gmail.com",
-                "Root!123"
+                "+15146878898",
+                "ALaurendeau",
+                "Employeur",
+                employerPostDTO
         );
-        employerService.saveEmployer(employerPostDTO, employerPostDTO.getEmail(), employerPostDTO.getPassword(), "Employeur");
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
                 1,

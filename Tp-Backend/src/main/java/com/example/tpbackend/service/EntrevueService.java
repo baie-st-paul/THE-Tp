@@ -30,7 +30,7 @@ public class EntrevueService {
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployeur())));
-        entrevue.setStudent(studentRepository.findByMaticule(entrevueDTO.getIdEtudiant()));
+        entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 

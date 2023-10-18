@@ -14,9 +14,7 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
@@ -260,127 +258,7 @@ class StudentServicesTest {
         verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
     }
 
-    /**
-     * Method under test: {@link StudentServices#getStudentByUser(UtilisateurDTO)}
-     */
-    @Test
-    void testGetStudentByUser() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
 
-        Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
-        student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
-        student.setProgram("Program");
-        student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
-        StudentGetDTO actualStudentByUser = studentServices
-                .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
-        assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
-        assertEquals("Program", actualStudentByUser.getProgram());
-        assertEquals("Jane", actualStudentByUser.getFirstName());
-        assertEquals("Matricule", actualStudentByUser.getMatricule());
-        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
-        assertEquals("Doe", actualStudentByUser.getLastName());
-        verify(studentRepository).findStudentByUtilisateur(Mockito.<String>any());
-    }
-
-    /**
-     * Method under test: {@link StudentServices#getStudentByUser(UtilisateurDTO)}
-     */
-    @Test
-    void testGetStudentByUser2() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-        Student student = mock(Student.class);
-        when(student.getFirstName()).thenReturn("Jane");
-        when(student.getLastName()).thenReturn("Doe");
-        when(student.getMatricule()).thenReturn("Matricule");
-        when(student.getPhoneNumber()).thenReturn("6625550144");
-        when(student.getProgram()).thenReturn("Program");
-        doNothing().when(student).setFirstName(Mockito.<String>any());
-        doNothing().when(student).setLastName(Mockito.<String>any());
-        doNothing().when(student).setMatricule(Mockito.<String>any());
-        doNothing().when(student).setPhoneNumber(Mockito.<String>any());
-        doNothing().when(student).setProgram(Mockito.<String>any());
-        doNothing().when(student).setUtilisateur(Mockito.<Utilisateur>any());
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
-        student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
-        student.setProgram("Program");
-        student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
-        StudentGetDTO actualStudentByUser = studentServices
-                .getStudentByUser(new UtilisateurDTO("jane.doe@example.org", "iloveyou", "Role"));
-        assertEquals("jane.doe@example.org", actualStudentByUser.getEmail());
-        assertEquals("Program", actualStudentByUser.getProgram());
-        assertEquals("Jane", actualStudentByUser.getFirstName());
-        assertEquals("Matricule", actualStudentByUser.getMatricule());
-        assertEquals("6625550144", actualStudentByUser.getPhoneNumber());
-        assertEquals("Doe", actualStudentByUser.getLastName());
-        verify(studentRepository).findStudentByUtilisateur(Mockito.<String>any());
-        verify(student).getFirstName();
-        verify(student).getLastName();
-        verify(student).getMatricule();
-        verify(student).getPhoneNumber();
-        verify(student).getProgram();
-        verify(student).setFirstName(Mockito.<String>any());
-        verify(student).setLastName(Mockito.<String>any());
-        verify(student).setMatricule(Mockito.<String>any());
-        verify(student).setPhoneNumber(Mockito.<String>any());
-        verify(student).setProgram(Mockito.<String>any());
-        verify(student).setUtilisateur(Mockito.<Utilisateur>any());
-    }
-
-    /**
-     * Method under test: {@link StudentServices#getStudentByUser(UtilisateurDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testGetStudentByUser3() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Cannot invoke "com.example.tpbackend.DTO.utilisateur.UtilisateurDTO.getEmail()" because "utilisateurDTO" is null
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.getStudentByUser(StudentServices.java:63)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-        Student student = mock(Student.class);
-        when(student.getFirstName()).thenReturn("Jane");
-        when(student.getLastName()).thenReturn("Doe");
-        when(student.getMatricule()).thenReturn("Matricule");
-        when(student.getPhoneNumber()).thenReturn("6625550144");
-        when(student.getProgram()).thenReturn("Program");
-        doNothing().when(student).setFirstName(Mockito.<String>any());
-        doNothing().when(student).setLastName(Mockito.<String>any());
-        doNothing().when(student).setMatricule(Mockito.<String>any());
-        doNothing().when(student).setPhoneNumber(Mockito.<String>any());
-        doNothing().when(student).setProgram(Mockito.<String>any());
-        doNothing().when(student).setUtilisateur(Mockito.<Utilisateur>any());
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
-        student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
-        student.setProgram("Program");
-        student.setUtilisateur(utilisateur);
-        when(studentRepository.findStudentByUtilisateur(Mockito.<String>any())).thenReturn(student);
-        studentServices.getStudentByUser(null);
-    }
 
     /**
      * Method under test: {@link StudentServices#getStudentByMatricule(String)}
@@ -394,10 +272,7 @@ class StudentServicesTest {
         utilisateur.setRole(Utilisateur.Role.Student);
 
         Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
@@ -421,21 +296,12 @@ class StudentServicesTest {
         utilisateur.setPassword("iloveyou");
         utilisateur.setRole(Utilisateur.Role.Student);
         Student student = mock(Student.class);
-        when(student.getFirstName()).thenReturn("Jane");
-        when(student.getLastName()).thenReturn("Doe");
         when(student.getMatricule()).thenReturn("Matricule");
-        when(student.getPhoneNumber()).thenReturn("6625550144");
         when(student.getProgram()).thenReturn("Program");
-        doNothing().when(student).setFirstName(Mockito.<String>any());
-        doNothing().when(student).setLastName(Mockito.<String>any());
         doNothing().when(student).setMatricule(Mockito.<String>any());
-        doNothing().when(student).setPhoneNumber(Mockito.<String>any());
         doNothing().when(student).setProgram(Mockito.<String>any());
         doNothing().when(student).setUtilisateur(Mockito.<Utilisateur>any());
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
@@ -446,15 +312,9 @@ class StudentServicesTest {
         assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
         assertEquals("Doe", actualStudentByMatricule.getLastName());
         verify(studentRepository).findByMaticule(Mockito.<String>any());
-        verify(student).getFirstName();
-        verify(student).getLastName();
         verify(student).getMatricule();
-        verify(student).getPhoneNumber();
         verify(student).getProgram();
-        verify(student).setFirstName(Mockito.<String>any());
-        verify(student).setLastName(Mockito.<String>any());
         verify(student).setMatricule(Mockito.<String>any());
-        verify(student).setPhoneNumber(Mockito.<String>any());
         verify(student).setProgram(Mockito.<String>any());
         verify(student).setUtilisateur(Mockito.<Utilisateur>any());
     }
@@ -490,11 +350,8 @@ class StudentServicesTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         OffreStage offreStage = new OffreStage();
@@ -517,10 +374,7 @@ class StudentServicesTest {
         utilisateur2.setRole(Utilisateur.Role.Student);
 
         Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
@@ -547,11 +401,8 @@ class StudentServicesTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         OffreStage offreStage = new OffreStage();
@@ -572,10 +423,7 @@ class StudentServicesTest {
         utilisateur2.setRole(Utilisateur.Role.Student);
 
         Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
 
@@ -604,11 +452,8 @@ class StudentServicesTest {
 
         Employer employer2 = new Employer();
         employer2.setCompanyName("Company Name");
-        employer2.setFirstName("Jane");
         employer2.setId(1L);
-        employer2.setLastName("Doe");
         employer2.setOffresStages(new ArrayList<>());
-        employer2.setPhoneNumber("6625550144");
         employer2.setUtilisateur(utilisateur3);
 
         OffreStage offreStage2 = new OffreStage();
@@ -631,10 +476,7 @@ class StudentServicesTest {
         utilisateur4.setRole(Utilisateur.Role.Student);
 
         Student student2 = new Student();
-        student2.setFirstName("Jane");
-        student2.setLastName("Doe");
         student2.setMatricule("Matricule");
-        student2.setPhoneNumber("6625550144");
         student2.setProgram("Program");
         student2.setUtilisateur(utilisateur4);
         when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
@@ -676,11 +518,8 @@ class StudentServicesTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         OffreStage offreStage = new OffreStage();
@@ -701,10 +540,7 @@ class StudentServicesTest {
         utilisateur2.setRole(Utilisateur.Role.Student);
 
         Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
 
@@ -739,7 +575,7 @@ class StudentServicesTest {
         assertEquals("Accepted", offreStageDTO.getStatus());
         assertEquals("Titre", offreStageDTO.getTitre());
         assertEquals("1970-01-01", offreStageDTO.getDateDebut().toString());
-        assertEquals(1L, offreStageDTO.getEmployerId().longValue());
+        assertEquals(1L, offreStageDTO.getEmployerId());
         assertEquals(1L, offreStageDTO.getId());
         verify(candidatureRepository).getAllCandidaturesByMatricule(Mockito.<String>any());
     }
@@ -764,11 +600,8 @@ class StudentServicesTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         OffreStage offreStage = new OffreStage();
@@ -789,10 +622,7 @@ class StudentServicesTest {
         utilisateur2.setRole(Utilisateur.Role.Student);
 
         Student student = new Student();
-        student.setFirstName("Jane");
-        student.setLastName("Doe");
         student.setMatricule("Matricule");
-        student.setPhoneNumber("6625550144");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
         Candidature candidature = mock(Candidature.class);

@@ -30,7 +30,6 @@ public class Student  {
 
         public Student( String matricule, String program) {
                 this.matricule = matricule;
-                this.phoneNumber = phoneNumber;
                 this.program = program;
         }
 
@@ -58,5 +57,9 @@ public class Student  {
 
         public void setProgram(String program) {
                 this.program = program;
+        }
+
+        public Utilisateur getUtilisateur() {
+                return utilisateur;
         }
 }

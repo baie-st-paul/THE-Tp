@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.LinkedHashMap;
+
 @Data
 @NoArgsConstructor
 public class EmployerPostDTO {

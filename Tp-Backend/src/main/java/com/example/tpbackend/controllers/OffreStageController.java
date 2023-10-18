@@ -2,12 +2,17 @@ package com.example.tpbackend.controllers;
 
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.security.AuthenticationService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,7 +39,6 @@ public class OffreStageController {
     @PreAuthorize("authenticated")
     public OffreStageDTO updateOffre(@PathVariable("id") long id, @RequestBody OffreStageDTO offre) {
         OffreStageDTO offreStageDTO = offreStageService.getOffreById(id);
-
         offreStageDTO.setTitre(offre.getTitre());
         offreStageDTO.setSalaire(offre.getSalaire());
         offreStageDTO.setStudentProgram(offre.getStudentProgram());
@@ -59,10 +63,10 @@ public class OffreStageController {
         return new ResponseEntity<>(offres, HttpStatus.OK);
     }
 
-    @GetMapping("/employer/{id}")
+    @GetMapping("/employer")
     @PreAuthorize("authenticated")
-    public ResponseEntity<List<OffreStageDTO>> getOffresByEmployerId(@PathVariable("id") long id) {
-        List<OffreStageDTO> offres = offreStageService.getOffresByEmployerId(id);
+    public ResponseEntity<List<OffreStageDTO>> getOffresByEmployerId() {
+        List<OffreStageDTO> offres = offreStageService.getOffresByEmployerId();
         return new ResponseEntity<>(offres, HttpStatus.OK);
     }
 

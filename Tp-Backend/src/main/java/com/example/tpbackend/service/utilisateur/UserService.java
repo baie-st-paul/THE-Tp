@@ -2,6 +2,10 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +24,10 @@ public class UserService {
                 return utilisateurRepository.findByEmail(username);
             }
         };
+    }
+
+    public Utilisateur loadUserByEmail(String email) throws UsernameNotFoundException {
+        return utilisateurRepository.findByEmail(email);
     }
 
     public boolean existsByEmail(String email) {

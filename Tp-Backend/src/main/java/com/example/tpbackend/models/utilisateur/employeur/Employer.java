@@ -36,17 +36,6 @@ public class Employer {
         this.companyName = companyName;
         this.utilisateur = utilisateur;
     }
-    @Override
-    public String toString() {
-        return "Employer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", utilisateur=" + utilisateur +
-                '}';
-    }
 
 
     public void setUtilisateur(Utilisateur utilisateur){

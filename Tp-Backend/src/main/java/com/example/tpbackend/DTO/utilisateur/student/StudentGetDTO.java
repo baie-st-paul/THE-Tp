@@ -14,16 +14,25 @@ public class StudentGetDTO {
     private String matricule;
     private String program;
 
+    public StudentGetDTO(String firstName, String lastName, String email, String phoneNumber, String matricule, String program) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.matricule = matricule;
+        this.program = program;
+    }
+
     public static StudentGetDTO fromStudent(Student student) {
         if (student == null) {
             return null;
         }
 
         return new StudentGetDTO(
-                student.getFirstName(),
-                student.getLastName(),
+                student.getUtilisateur().getFirstName(),
+                student.getUtilisateur().getLastName(),
                 student.getUtilisateur().getEmail(),
-                student.getPhoneNumber(),
+                student.getUtilisateur().getPhoneNumber(),
                 student.getMatricule(),
                 student.getProgram()
         );

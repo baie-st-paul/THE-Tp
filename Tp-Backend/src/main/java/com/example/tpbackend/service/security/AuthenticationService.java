@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +95,12 @@ public class AuthenticationService {
                 .token(jwt)
                 .role(user.getAuthorities().iterator().next().getAuthority())
                 .build();
+    }
+
+    public Long getUserId() {
+        Utilisateur password = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(password.getEmail());
+        return userService.loadUserByEmail(password.getEmail()).getId();
     }
 
 }

@@ -41,8 +41,8 @@ public class UtilisateursBD implements CommandLineRunner {
         System.out.println("1 employer created");
         createGestionnaire();
         System.out.println("1 gestionnaire created");
-        //createOffreStage();
-        //System.out.println("1 offre stage created");
+        createOffreStage();
+        System.out.println("1 offre stage created");
     }
 
     public void createStudent() {
@@ -71,7 +71,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Employeur"
         );
         Employer employer = new Employer(
-                2L,
+                1L,
                 "emp",
                 "lala",
                 "ALaurendeau",

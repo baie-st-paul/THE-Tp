@@ -12,7 +12,7 @@ getEtudiants();
     async function getEtudiants() {
         try {
          const res = await fetch(
-                `http://localhost:8081/api/v1/gestionnaire/entrevues`,
+                `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
                 {
                     method: 'GET',
                     headers: {
@@ -53,7 +53,9 @@ getEtudiants();
                     </tr>
                     </thead>
                     <tbody>
-                     {etudiants.length > 0 && etudiants.filter(etudiantNf => etudiantNf.student.matricule.includes(filtre)).map((etudiant, index) => (
+
+                     {etudiants.length > 0 && etudiants.filter(etudiantNf => etudiantNf.student?.matricule?.includes(filtre))
+                        .map((etudiant, index) => (
                         <tr key={index} className="table-row align-middle">
                             <td className="fw-semibold">{etudiant.student.firstName}</td>
                             <td className="fw-semibold">{etudiant.student.lastName}</td>

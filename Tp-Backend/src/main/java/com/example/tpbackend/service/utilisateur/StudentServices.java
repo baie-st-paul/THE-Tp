@@ -50,6 +50,8 @@ public class StudentServices {
         return StudentPostDTO.fromStudent(student);
     }
 
+
+
     public boolean existsByMatriculeOrEmail(String matricule, String email){
         return studentRepository.existsByMatriculeOrEmail(matricule, email);
     }

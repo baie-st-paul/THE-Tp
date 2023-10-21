@@ -76,7 +76,7 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 </Button>
                 { etudiantsNb!== 0  ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>
-                        Voir la liste des personnes postule ({etudiantsNb})
+                        Candidatures ({etudiantsNb})
                     </Button> :
                     <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button>
                 }

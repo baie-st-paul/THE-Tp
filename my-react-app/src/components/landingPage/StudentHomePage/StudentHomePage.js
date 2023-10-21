@@ -144,6 +144,7 @@ const StudentHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
+                <h2>Étudiant</h2>
                 {contentToRender}
             </div>
         </div>

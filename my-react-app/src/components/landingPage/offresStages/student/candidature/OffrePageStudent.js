@@ -61,12 +61,11 @@ const OffresPageStudent = () => {
                 console.log("Error fetching data:", error)
             }
         }*/
-
         fetchOffreList();
         //fetchCandidatures();
     }, [shouldRefetch]);
 
-    const filteredOffreList = offres.filter((offreDto) => offreDto.status === filterOption);
+    const filteredOffreList = offres;
 
     return (
         <div>

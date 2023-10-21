@@ -68,9 +68,8 @@ public class OffreStageService {
 
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
         try {
-            Optional<OffreStageDTO> offre = offreStageRepository.findById(id)
+            return offreStageRepository.findById(id)
                     .map(OffreStageDTO::fromOffreStage);
-        return offre;
         } catch (OffreNotFoundException e) {
             throw new OffreNotFoundException(id);
         }

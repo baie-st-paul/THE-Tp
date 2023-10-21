@@ -25,7 +25,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const [listeEtudiants, setListeEtudiants] = useState([])
+    const [listeEtudiants, setListeEtudiants] = useState([]);
+    const [entrevues, setEntrevues] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
     const [student, setStudent] = useState(null);
@@ -35,6 +36,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     useEffect(() => {
         handleListePostule();
+        allEntrevuesStudentMatricule();
     }, [shouldRefetch])
 
     async function handleListePostule() {
@@ -52,6 +54,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             );
             if (res.ok) {
                 const data = await res.json();
+                console.log(data)
                 setListeEtudiants(data);
             } else {
                 const data = await res.json();
@@ -62,6 +65,41 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             if (listeEtudiant !== undefined){
               setListeEtudiants(listeEtudiant)
             }
+        }
+    }
+
+    const allEntrevuesStudentMatricule = async () => {
+        try {
+            listeEtudiants.map((candidature) => {
+                const matricule = candidature.student.matricule
+                console.log(matricule)
+                fetch(
+                    `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
+                    {
+                        method: "GET",
+                        headers: {
+                            'Content-type': 'application/json'
+                        },
+                    }
+                ).catch((error) => {
+                    console.error("Error:", error);
+                }).then(
+                    async (response) => {
+                        const data = await response.json();
+                        console.log(data)
+                        try{
+                            console.log(response.status)
+                        }
+                        catch (e) {
+                            console.log(e)
+                        }
+                        setEntrevues(data)
+                    }
+                );
+            })
+            console.log(entrevues)
+        } catch (error) {
+            console.log("Error fetching data:", error)
         }
     }
 
@@ -176,13 +214,20 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                             </button>
                                         </td>
                                     }
-                                    <td className='headerElement h4 '>
-                                        <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
-                                                onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
-                                            Convoquer
-                                        </button>
-                                    </td>
-                                    <td data-label="Statut" scope="row" className='headerElement breakWord h4 pe-3'>
+                                    {entrevues.length > 0 ?
+                                        entrevues.map((entrevue, i) => (
+                                            <td key={i} data-label="ENTREVUE PRÉVUE" scope="row" className='headerElement breakWord h4 pe-3'>
+                                                {entrevue.dateHeure}
+                                            </td>
+                                        )) :
+                                        <td className='headerElement h4'>
+                                            <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
+                                                    onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
+                                                Convoquer
+                                            </button>
+                                        </td>
+                                    }
+                                    <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h4 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>
                                                 <FontAwesomeIcon icon={faClock} /> En attente

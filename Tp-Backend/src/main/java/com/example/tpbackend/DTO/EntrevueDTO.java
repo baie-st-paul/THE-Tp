@@ -13,7 +13,7 @@ public class   EntrevueDTO {
     private String dateHeure;
     private String description;
     private String status;
-    private String comanyName;
+    private String companyName;
     private String idEmployer;
     private String idEtudiant;
 
@@ -22,7 +22,7 @@ public class   EntrevueDTO {
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();
         this.idEmployer = entrevue.getEmployer().getId() + "";
-        this.comanyName = entrevue.getEmployer().getCompanyName();
+        this.companyName = entrevue.getEmployer().getCompanyName();
         this.idEtudiant = entrevue.getStudent().getMatricule();
         this.status = entrevue.getStatus().toString();
     }

@@ -8,6 +8,7 @@ import Modal from "../../../GestionnaireHomePage/Vetocv/Modal";
 import ReactModal from "react-modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
+import "../../../../stylesGenerales.css"
 
 const customStyles = {
     content: {
@@ -124,61 +125,64 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     return (
         <div className='mt-5'>
-            <div className='rootInfo'>
+            <div className='rootInfo font'>
                 <div className='divFormInfo'>
                     <table>
-                        <caption> <h1 className='text-center'>LISTE D'ÉTUDIANTS POSTULÉS</h1> </caption>
+                        <caption> <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1> </caption>
                         <thead>
                         <tr>
                             <th scope="col" className='headerElement'>NOM</th>
                             <th scope='col' className='headerElement'>PRENOM</th>
                             <th scope='col' className='headerElement'>ADRESSE COURRIEL</th>
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
-                            <th scope='col' className='headerElement text-center'>RESUME</th>
+                            <th scope='col' className='headerElement'>RESUME</th>
                             <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
-                            <th scope='col' className='headerElement text-center'>ACTION</th>
+                            <th scope='col' className='headerElement '>ACTION</th>
+                            <th scope='col' className='headerElement text-center'>STATUT</th>
+                            <th scope='col' className='headerElement text-center'></th>
+                        
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody className='bg-light border'>
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
-                                <tr key={i} >
-                                    <td data-label="NOM" scope="row" className='headerElement breakWord'>
+                                <tr key={i} className='' >
+                                    <td data-label="NOM" scope="row" className='headerElement breakWord h4'>
                                         {etudiant.student.firstName}
                                     </td>
-                                    <td  data-label="PRENOM" className='headerElement breakWord'>
+                                    <td  data-label="PRENOM" className='headerElement breakWord h4'>
                                         {etudiant.student.lastName}
                                     </td>
-                                    <td data-label="ADRESSE COURRIEL" className=' headerElement'>
+                                    <td data-label="ADRESSE COURRIEL" className=' headerElement h4'>
                                         {etudiant.student.email}
                                     </td>
-                                    <td data-label="NUMERO DE TELEPHONE" className=' headerElement'>
+                                    <td data-label="NUMERO DE TELEPHONE" className=' headerElement h4'>
                                         {etudiant.student.phoneNumber}
                                     </td>
-                                    <td data-label="RESUME" className='headerElement '>
-                                        <button className='btn btn-info p-3'
-                                                onClick={()=>handleMontrerCv(etudiant)}>CV
+                                    <td data-label="RESUME" className='headerElement h4 '>
+                                        <button style={{height : "60px", width: '120px' }} className='btn btn-primary '
+                                                onClick={()=>handleMontrerCv(etudiant)}>Cv
                                         </button>
                                     </td>
                                     { etudiant.student.fileName !== '' ?
-                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement'>
-                                            <button className='btn btn-info p-lg-1 p-md-1 p-sm-3'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION
+                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                            <button style={{height : "60px", width: '120px' }} className='btn btn-primary'
+                                                    onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
-                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement'>
-                                            <button className='btn btn-info p-lg-1 p-md-1 p-sm-3 disabled'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}>LETTRE MOTIVATION
+                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                            <button style={{height : "60px", width: '120px' }} className='btn btn-primary disabled'
+                                                    onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
                                     }
-                                    <td>
-                                        <button title="CONVOQUER" className='btn btn-warning p-3'
+                                    <td className='headerElement h4 '>
+                                        <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
                                                 onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
-                                            CONVOQUER
+                                            Convoquer
                                         </button>
                                     </td>
-                                    <td data-label="Statut" scope="row" className='headerElement breakWord'>
+                                    <td data-label="Statut" scope="row" className='headerElement breakWord h4 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>
                                                 <FontAwesomeIcon icon={faClock} /> En attente
@@ -197,14 +201,14 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     </td>
                                     <td aria-label='veto'>
                                         {etudiant.status === "In_review" && (
-                                            <>
-                                                <button title="Accepter" className="btn btn-success" onClick={() => openConfirmationModal("accept", etudiant.student)}>
-                                                    <FontAwesomeIcon icon={faCheck} /> Accepter
+                                            <div className='d-flex justify-content-end me-0 pe-0'>
+                                                <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
                                                 </button>
-                                                <button title="Refuser" className="btn btn-danger" onClick={() => openConfirmationModal("refuse", etudiant.student)}>
-                                                    <FontAwesomeIcon icon={faTimes} /> Refuser
+                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                    <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
-                                            </>
+                                                </div>
                                         )}
                                     </td>
                                 </tr>
@@ -245,8 +249,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                             Non
                         </button>
                     </ReactModal>
-                    <div className='d-flex justify-content-end mt-5 p-3'>
-                        <button className='btn btn-danger p-2 ' onClick={handleRetour}>RETOUR</button>
+                    <div className='d-flex justify-content-end mt-5 '>
+                        <button className='btn btn-dark p-2 ' onClick={handleRetour}>RETOUR</button>
                     </div>
                 </div>
             </div>

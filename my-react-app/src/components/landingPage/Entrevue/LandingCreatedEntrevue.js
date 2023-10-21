@@ -32,7 +32,7 @@ const LandingCreatedEntrevue = () => {
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
                                         <ListGroup.Item>Date et heure: {entrevue.dateHeure}</ListGroup.Item>
-                                        <ListGroup.Item>Statut:
+                                        <ListGroup.Item>Statut: &nbsp;
                                             {entrevue.status === "EnAttente" && (
                                                 <>
                                                     <FontAwesomeIcon icon={faClock} /> En attente

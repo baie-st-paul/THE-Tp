@@ -36,6 +36,7 @@ public class Employer {
         this.companyName = companyName;
         this.phoneNumber = phoneNumber;
     }
+
     @Override
     public String toString() {
         return "Employer{" +

@@ -2,16 +2,23 @@ import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
-import {faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
 import EtudiantsConvoquesEntrevue from "./EtudiantsConvoquesEntrevue";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
+    const navigate = useNavigate()
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
+
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
+    }
 
     let contentToRender;
 
@@ -31,24 +38,25 @@ const GestionnaireHomePage = () => {
     }
     return (
         <div>
-            <Navbar bg="dark" className="navbar-dark" expand="lg">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
+                <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
+                    <Nav>
+                        <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV Veto
                                 </button>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button className="nav-link" onClick={() => handleButtonClick("entrevues")}>
-                                    <FontAwesomeIcon icon={faCalendarDay} style={{ marginRight: '10px' }}/>Entrevues
+                            <li className="nav-item navbarbutton deconnecter">
+                                <button className="nav-link" onClick={() => handleDisconnect()}>
+                                    <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
+                                    Se déconnecter
                                 </button>
                             </li>
                         </ul>
@@ -56,7 +64,7 @@ const GestionnaireHomePage = () => {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div id="Render" className="container mt-4">
+            <div id="Render" className="container content-container mt-4">
                 <h2>Gestionnaire</h2>
                 {contentToRender}
             </div>

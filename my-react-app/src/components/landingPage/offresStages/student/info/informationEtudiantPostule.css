@@ -31,10 +31,6 @@ padding-left: 1em;
 }
 
 .divFormInfo{
-    border-style: solid;
-    border-width: 2px;
-    width: 50%;
-    background-color:#c5c6d0 ;
     overflow-x: auto;
 }
 
@@ -46,7 +42,10 @@ padding-left: 1em;
     }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1250px) {
+
+    
+
     .divFormInfo{
         border-style: none;
         width: 100%;
@@ -74,9 +73,9 @@ padding-left: 1em;
       }
       
       table tr {
-        border-bottom: 3px solid #ddd;
+        border-bottom: 3px solid black;
         display: block;
-        margin-bottom: .625em;
+        margin-bottom: 1em;
       }
       .breakWord{
         width: 100%;

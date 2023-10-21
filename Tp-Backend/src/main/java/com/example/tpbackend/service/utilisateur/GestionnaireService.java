@@ -54,7 +54,7 @@ public class GestionnaireService {
                 phoneNumber,
                 matricule);
         gestionnaire.setUtilisateur(utilisateur);
-        System.out.print(utilisateur.getEmail() + utilisateur.getPassword());
+        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
         userRepository.save(utilisateur);
         gestionnaireRepository.save(gestionnaire);
 

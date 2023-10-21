@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import OffreDescription from "../../OffreDescription";
 
 const OffreCandidaturePage = () => {
-    const [candidature, setCandidature] = useState([]);
+    const [candidatures, setCandidatures] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [shouldRefetch] = useState(false);
 
@@ -34,7 +34,7 @@ const OffreCandidaturePage = () => {
                 catch (e) {
                     console.log(e)
                 }
-                setCandidature(data)
+                setCandidatures(data)
                 setIsLoading(false);
             }
         );
@@ -48,35 +48,34 @@ const OffreCandidaturePage = () => {
 
     return (
         <div>
-            <div className="custom-jumbotron">
-                <Container>
-                    <h1 className="display-4 text-center" style={{ color: 'darkgrey' }}>Mes candidatures</h1>
-                </Container>
-            </div>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container>
-                    {candidature.map((candidature, index) => (
-                        <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-                            <Grid item xs={12} sm={12} md={4} lg={4}>
-                                <Card style={{ width: '30rem', margin: '5px' }}>
-                                    <Card.Body>
-                                        <Card.Title>
-                                            {candidature.offreStageDTO.titre}
-                                        </Card.Title>
-                                        <OffreDescription offre={candidature.offreStageDTO}/>
-                                    </Card.Body>
-                                    <ListGroup className="list-group-flush">
-                                        <ListGroup.Item>Salaire: {candidature.offreStageDTO.salaire}$</ListGroup.Item>
-                                        <ListGroup.Item>Programme: {candidature.offreStageDTO.studentProgram}</ListGroup.Item>
-                                        <ListGroup.Item>Date de début: {candidature.offreStageDTO.dateDebut}</ListGroup.Item>
-                                        <ListGroup.Item>Date de fin: {candidature.offreStageDTO.dateFin}</ListGroup.Item>
-                                    </ListGroup>
-                                </Card>
-                            </Grid>
-                        </div>
-                    ))}
-                </Grid>
-            </Box>
+            <h1 className="display-4 text-center">Mes candidatures</h1>
+            {candidatures.length > 0 ?
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container>
+                        {candidatures.map((candidature, index) => (
+                            <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                                <Grid item xs={12} sm={12} md={4} lg={4}>
+                                    <Card style={{ width: '30rem', margin: '5px' }}>
+                                        <Card.Body>
+                                            <Card.Title>
+                                                {candidature.offreStageDTO.titre}
+                                            </Card.Title>
+                                            <OffreDescription offre={candidature.offreStageDTO}/>
+                                        </Card.Body>
+                                        <ListGroup className="list-group-flush">
+                                            <ListGroup.Item>Salaire: {candidature.offreStageDTO.salaire}$</ListGroup.Item>
+                                            <ListGroup.Item>Programme: {candidature.offreStageDTO.studentProgram}</ListGroup.Item>
+                                            <ListGroup.Item>Date de début: {candidature.offreStageDTO.dateDebut}</ListGroup.Item>
+                                            <ListGroup.Item>Date de fin: {candidature.offreStageDTO.dateFin}</ListGroup.Item>
+                                        </ListGroup>
+                                    </Card>
+                                </Grid>
+                            </div>
+                        ))}
+                    </Grid>
+                </Box> :
+                <p>Il n'y a pas encore d'offres de stage...</p>
+            }
         </div>
     );
 };

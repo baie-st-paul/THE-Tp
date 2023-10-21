@@ -70,7 +70,7 @@ public class EmployerControllerTest {
                 "lala",
                 "ALaurendeau",
                 "+15146878898",
-                "emp@gmail.com",
+                "lolo@gmail.com",
                 "Root!123"
         );
         employerService.saveEmployer(employerPostDTO, employerPostDTO.getEmail(), employerPostDTO.getPassword(), "Employeur");

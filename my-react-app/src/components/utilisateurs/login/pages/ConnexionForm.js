@@ -42,7 +42,7 @@ const ConnexionForm = ({onAdd}) => {
         }
 
         if (password.trim()!=='' && !validPassword) {
-            passwordRef.current.innerHTML = '* Le mot de passe doit etre de 6-20 caractères, 1 caractère special et 1 caractère en majuscule *'
+            passwordRef.current.innerHTML = '* Le mot de passe est invalide *'
             annuler = true;
         }
 

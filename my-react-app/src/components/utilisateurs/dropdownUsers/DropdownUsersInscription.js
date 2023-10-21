@@ -11,7 +11,6 @@ function DropdownUsersInscription({titre}) {
             <Dropdown.Menu  style={{backgroundColor : '#c5c6d0'}} className='border w-100'>
                 <Dropdown.Item href="/etudiantInscription">Étudiant</Dropdown.Item>
                 <Dropdown.Item href="/employeurInscription">Employeur</Dropdown.Item>
-                <Dropdown.Item href="/gestionnaireInscription">Gestionnaire</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

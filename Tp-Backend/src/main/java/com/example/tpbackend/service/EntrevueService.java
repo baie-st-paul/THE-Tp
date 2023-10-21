@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @NoArgsConstructor
 public class EntrevueService {
@@ -22,18 +25,39 @@ public class EntrevueService {
     @Autowired
     private StudentRepository studentRepository;
 
+    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
 
-    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
+
         Entrevue entrevue = new Entrevue();
         entrevue.setId(1L);
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
-        entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployeur())));
+        entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
         entrevue.setStudent(studentRepository.findByMaticule(entrevueDTO.getIdEtudiant()));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
+    
+    public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
+        Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployer()), entrevueDTO.getDateHeure());
+        entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
+        return new EntrevueDTO(entrevueRepository.save(entrevue));
+    }
 
+    public List<EntrevueDTO> getStudentEntrevues(String matricule){
+        List<EntrevueDTO> dtos = new ArrayList<>();
+        List<Entrevue> entrevues = entrevueRepository.findAllByStudent_Matricule(matricule);
+
+        for(Entrevue e : entrevues){
+            dtos.add(new EntrevueDTO(e));
+        }
+
+        return dtos;
+    }
+
+    public void manageStatusByMatricule(String matricule, String newStatus) {
+        entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
+    }
 }
 

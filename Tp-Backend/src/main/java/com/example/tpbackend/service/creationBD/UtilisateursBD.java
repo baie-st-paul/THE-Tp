@@ -113,7 +113,7 @@ public class UtilisateursBD implements CommandLineRunner {
                         " claire pour une convivialité optimale.",
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 20),
-                "In_review",
+                "Accepted",
                 10
         );
         offreStageService.saveOffre(offreStageDTO);

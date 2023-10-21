@@ -30,7 +30,7 @@ const OffresPageStudent = () => {
             }
         };
 
-        /*const fetchCandidatures = async () => {
+        const fetchCandidatures = async () => {
             try {
                 const savedMatricule = localStorage.getItem("loggedInUserMatricule");
                 fetch(
@@ -54,18 +54,17 @@ const OffresPageStudent = () => {
                             console.log(e)
                         }
                         setCandidatures(data)
-                        //setShouldRefetch(!shouldRefetch);
                     }
                 );
             } catch (error) {
                 console.log("Error fetching data:", error)
             }
-        }*/
+        }
         fetchOffreList();
-        //fetchCandidatures();
+        fetchCandidatures();
     }, [shouldRefetch]);
 
-    const filteredOffreList = offres;
+    const filteredOffreList= offres.filter((offreDto) => offreDto.status === filterOption);
 
     return (
         <div>
@@ -91,7 +90,14 @@ const OffresPageStudent = () => {
                                             <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
 
                                             <ListGroup.Item>
-                                                <CandidatureModal id={offre.id}/>
+                                                {candidatures.length > 0 ?
+                                                    (
+                                                        <>
+                                                            <FontAwesomeIcon icon={faCheck} /> Vous avez postulé
+                                                        </>
+                                                    ) :
+                                                    <CandidatureModal id={offre.id}/>
+                                                }
                                             </ListGroup.Item>
                                         </ListGroup>
                                     </Card>

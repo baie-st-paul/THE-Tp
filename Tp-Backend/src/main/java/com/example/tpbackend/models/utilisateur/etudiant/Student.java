@@ -5,31 +5,44 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
+@Getter
 @Entity
-@Data
 @NoArgsConstructor
 public class Student  {
 
+        @Setter
         private String firstName;
+
+        @Setter
         private String lastName;
+
+        @Setter
         private String phoneNumber;
+
+        @Setter
         @Id
         private String matricule;
+
+        @Setter
         private String program;
 
+        @Setter
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
+        @Setter
         @ManyToMany(mappedBy = "etudiants")
         private List<OffreStage> offresStages;
 
+        @Setter
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 
@@ -39,10 +52,6 @@ public class Student  {
                 this.matricule = matricule;
                 this.phoneNumber = phoneNumber;
                 this.program = program;
-        }
-
-        public void setUtilisateur(Utilisateur utilisateur){
-                this.utilisateur = utilisateur;
         }
 
         public static StudentGetDTO fromStudent(Student student) {

@@ -94,14 +94,13 @@ public class StudentServices {
         List<CandidatureGetDTO> candidatureGetDTOList = new ArrayList<>();
 
         for (Candidature candidature : candidatureList) {
-            CandidatureGetDTO candidatureGetDTO = candidature.toCandidatureGetDTO();
-            candidatureGetDTOList.add(candidatureGetDTO);
+            candidatureGetDTOList.add(candidature.toCandidatureGetDTO());
         }
 
         return candidatureGetDTOList;
     }
 
-    public List<CandidatureDTO> getListCandidatureByOfffreId(Long id){
+    public List<CandidatureDTO> getListCandidatureByOffreId(Long id){
         return candidatureRepository.findByOffreStageId(id)
                 .stream()
                 .map(CandidatureDTO::fromCandidature)

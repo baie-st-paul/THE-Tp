@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CandidatureRepository extends JpaRepository<Candidature, Integer> {
-    @Query(value = "SELECT * FROM Candidature WHERE student_candidat = ?1",nativeQuery = true)
+    @Query("SELECT c FROM Candidature c WHERE c.student.matricule = ?1")
     List<Candidature> getAllCandidaturesByMatricule(String matricule);
     
     List<Candidature> findByOffreStageId(Long offerId);

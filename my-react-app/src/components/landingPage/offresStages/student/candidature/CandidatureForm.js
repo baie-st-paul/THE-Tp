@@ -14,6 +14,7 @@ const CandidatureForm = ({matricule, id, close}) => {
             setFileName(selectedFile.name);
             setError(null);
             close(false)
+            window.location.reload()
         } else {
             setLettreMotiv(null);
             setFileName("");
@@ -44,6 +45,7 @@ const CandidatureForm = ({matricule, id, close}) => {
                     setFileName("");
                     setError(null);
                     close(false)
+                    window.location.reload()
                 })
                 .catch((error) => console.log("error", error));
         } else {

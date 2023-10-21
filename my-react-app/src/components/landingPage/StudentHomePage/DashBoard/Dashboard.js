@@ -6,6 +6,7 @@ const Dashboard = () =>{
     const [entrevues, setEntrevues] = useState([]);
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
@@ -42,8 +43,8 @@ const Dashboard = () =>{
     const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
 
     return(
-        <div className="container">
-            <h1>Dashboard</h1>
+        <div>
+            <h1 className="display-4 text-center">Dashboard</h1>
             <div className="row">
                 <div className="list-group col-lg-7 p-1" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     <div className="list-group-item bg-body-secondary mb-1">

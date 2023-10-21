@@ -5,7 +5,14 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faEnvelope, faHome, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {
+    faFileUpload,
+    faBriefcase,
+    faEnvelope,
+    faHome,
+    faArrowRight,
+    faPortrait
+} from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
 import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
@@ -70,10 +77,11 @@ const StudentHomePage = () => {
         case "offre-page-candidature":
             contentToRender = <OffreCandidaturePage/>;
             break;
+        case "dashboard":
+            contentToRender = <Dashboard/>;
+            break;
         default:
-            contentToRender = (
-                <Dashboard/>);
-
+            contentToRender = <div>Choisir une section.</div>;
             break;
     }
 
@@ -84,17 +92,19 @@ const StudentHomePage = () => {
                 <Navbar.Collapse id="basic-navbar-nav">               
                     <Nav>
                         <ul className="navbar-nav px-2">
-                            <li className="nav-item navbarbutton deconnecter">
-                                <button className="nav-link" onClick={() => handleDisconnect()}>
-                                    <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
-                                    Se déconnecter
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/> CV
-                                </button>
-                            </li>
+                            <ul className="navbar-nav ml-auto px-1">
+                                <li className="nav-item navbarbutton deconnecter">
+                                    <button className="nav-link" onClick={() => handleDisconnect()}>
+                                        <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
+                                        Se déconnecter
+                                    </button>
+                                </li>
+                                <li className="nav-item navbarbutton px-1">
+                                    <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
+                                        <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> CV
+                                    </button>
+                                </li>
+                            </ul>
                             {
                                 cvs.map((cv, index) => (
                                     <div key={index}>
@@ -102,14 +112,19 @@ const StudentHomePage = () => {
                                             cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
                                             <>
                                                 <ul className="navbar-nav ml-auto px-1">
-                                                    <li className="nav-item ml-1 navbarbutton">
-                                                        <button className="nav-link" onClick={() => handleButtonClick('default')}>
+                                                    <li className="nav-item navbarbutton px-1">
+                                                        <button className="nav-link" onClick={() => handleButtonClick('dashboard')}>
                                                             <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
                                                         </button>
                                                     </li>
                                                     <li className="nav-item navbarbutton px-1">
                                                         <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
                                                             <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
+                                                        </button>
+                                                    </li>
+                                                    <li className="nav-item navbarbutton px-1">
+                                                        <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                                            <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '2px' }}/> Mes candidatures
                                                         </button>
                                                     </li>
                                                     <li className="nav-item navbarbutton px-1">

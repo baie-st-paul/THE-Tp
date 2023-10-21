@@ -103,62 +103,65 @@ const SectionEntrevue = () => {
 
     return (
         <div>
-            <h1>Liste des Entrevues</h1>
-            <div className="table-container mt-3">
-                <table className="table table-hover">
-                    <thead>
-                    <tr className="h3">
-                        <th className="text-center">Entreprise</th>
-                        <th className="text-center">Date et Heure</th>
-                        <th className="text-center">Description</th>
-                        <th className="text-center">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {entrevuesEnAttente.map((entrevue, index) => (
-                        <tr key={index} onClick={() => setSelectedEntrevue(entrevue)}>
-                            <td className="align-middle text-center w-5">{entrevue.comanyName}</td>
-                            <td className="fw-bolder align-middle text-center">
-                                {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}
-                            </td>
-                            <td className="align-middle text-center w-50">
-                                {entrevue.description.length > 200  && !expandedDescriptions[index] ? (
-                                    <>
-                                        {entrevue.description.slice(0, 200)}...
-                                        <button
-                                            className="btn btn-primary btn-sm m-1"
-                                            onClick={() => toggleDescriptionExpansion(index)}
-                                        >
-                                            Plus
-                                        </button>
-                                    </>
-                                ) : (
-                                    <>
-                                        {entrevue.description}
-                                        {entrevue.description.length > 200 && (
+            <h1 className="display-4 text-center">Liste des Entrevues</h1>
+            {entrevuesEnAttente.length > 0 ?
+                <div className="table-container mt-3">
+                    <table className="table table-hover">
+                        <thead>
+                        <tr className="h3">
+                            <th className="text-center">Entreprise</th>
+                            <th className="text-center">Date et Heure</th>
+                            <th className="text-center">Description</th>
+                            <th className="text-center">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {entrevuesEnAttente.map((entrevue, index) => (
+                            <tr key={index} onClick={() => setSelectedEntrevue(entrevue)}>
+                                <td className="align-middle text-center w-5">{entrevue.companyName}</td>
+                                <td className="fw-bolder align-middle text-center">
+                                    {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}
+                                </td>
+                                <td className="align-middle text-center w-50">
+                                    {entrevue.description.length > 200  && !expandedDescriptions[index] ? (
+                                        <>
+                                            {entrevue.description.slice(0, 200)}...
                                             <button
                                                 className="btn btn-primary btn-sm m-1"
                                                 onClick={() => toggleDescriptionExpansion(index)}
                                             >
-                                                Moins
+                                                Plus
                                             </button>
-                                        )}
-                                    </>
-                                )}
-                            </td>
-                            <td className="align-middle text-center">
-                                <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
-                                    <FontAwesomeIcon icon={faCheck} /> Accepter
-                                </button>
-                                <button data-testid="refuser-button-1" className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
-                                    <FontAwesomeIcon icon={faTimes} /> Refuser
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {entrevue.description}
+                                            {entrevue.description.length > 200 && (
+                                                <button
+                                                    className="btn btn-primary btn-sm m-1"
+                                                    onClick={() => toggleDescriptionExpansion(index)}
+                                                >
+                                                    Moins
+                                                </button>
+                                            )}
+                                        </>
+                                    )}
+                                </td>
+                                <td className="align-middle text-center">
+                                    <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                        <FontAwesomeIcon icon={faCheck} /> Accepter
+                                    </button>
+                                    <button data-testid="refuser-button-1" className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                        <FontAwesomeIcon icon={faTimes} /> Refuser
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div> :
+                <p>Il n'y a pas encore d'entrevues...</p>
+            }
             <ReactModal
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}

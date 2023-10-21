@@ -130,6 +130,7 @@ const EmployerStageOffreList = ({employerId}) => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+            <h1 className="display-4 text-center">Liste des offres de stage</h1>
             {showUpdateOffre && <ModalUpdate />}
             {offres.length === 0 ?
                 <div>Aucune offre</div>

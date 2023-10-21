@@ -125,7 +125,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                     className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}
                                     value={studentProgram}
                                     onChange={(e) => setStudentProgram(e.target.value)}>
-                                    <option  disabled={true} value="" style={{color: 'grey'}}>Type etudiant</option>
+                                    <option  disabled={true} value="" style={{color: 'grey'}}>Type d'étudiant</option>
                                     <option value="Informatique">Informatique</option>
                                     <option value="Architecture">Architecture</option>
                                 </select>
@@ -145,12 +145,14 @@ const AjoutOffreForm = ({onAdd}) => {
                             </div>
 
                             <div className='form-group'>
+                                <label style={{display: "block", textAlign: "left"}}>Date de début</label>
                                 <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder='Date de debut'
                                        style={{color: 'grey', fontSize : '20px'}}
                                        value={dateDebut}
                                        onChange={(e) => setDateDebut(e.target.value)}/>
                                 <p ref={dateDebutRef} className="font px-1 textAvertissement text-danger"></p>
 
+                                <label style={{display: "block", textAlign: "left"}}>Date de fin</label>
                                 <input className="form-control saisie saisie-user px-3 m-0" type="date" placeholder="Date de fin"
                                        style={{color: 'grey', fontSize : '20px'}}
                                        value={dateFin}

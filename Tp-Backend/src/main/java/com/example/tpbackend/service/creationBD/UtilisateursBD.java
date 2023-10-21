@@ -42,7 +42,7 @@ public class UtilisateursBD implements CommandLineRunner {
         StudentPostDTO studentPostDTO = new StudentPostDTO(
                 "lina",
                 "lac",
-                "lina@gmail.com",
+                "etudiant@gmail.com",
                 "Root!123",
                 "+15147237392",
                 "0938473",

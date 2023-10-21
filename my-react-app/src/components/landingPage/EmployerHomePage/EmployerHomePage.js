@@ -8,7 +8,7 @@ import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-ico
 import { useNavigate } from "react-router-dom";
 
 const EmployerHomePage = () => {
-    const [activeContent, setActiveContent] = useState("offre-page");
+    const [activeContent, setActiveContent] = useState("none");
     const navigate = useNavigate()
 
     const handleButtonClick = (content) => {
@@ -61,13 +61,13 @@ const EmployerHomePage = () => {
     switch (activeContent){
         case "offre-page":
             contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>;
-            break;
+        break;
         case "Ajout-offre":
-            contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>
-            break;
+            contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>;
+        break;
         default:
-            contentToRender = <div>Select an action.</div>;
-            break;
+            contentToRender = <div>Choisir une section.</div>;
+        break;
     }
 
     return (
@@ -98,8 +98,7 @@ const EmployerHomePage = () => {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div id="Render" className="container content-container mt-4">
-                <h2>Employeur</h2>
+            <div className="container content-container mt-4">
                 {contentToRender}
             </div>
         </div>

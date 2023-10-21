@@ -106,10 +106,10 @@ const VetoSection = () => {
                                     value={filterOption}
                                     onChange={handleFilterChange}
                                 >
-                                    <option value="all">All</option>
-                                    <option value="In_review">Pending</option>
-                                    <option value="Accepted">Accepted</option>
-                                    <option value="Refused">Refused</option>
+                                    <option value="all">Tout</option>
+                                    <option value="In_review">En attente</option>
+                                    <option value="Accepted">Accepté</option>
+                                    <option value="Refused">Refusé</option>
                                 </select>
                             </div>
                         </div>
@@ -121,8 +121,8 @@ const VetoSection = () => {
                     <thead>
                     <tr>
                         <th className="header-cell display-4">Matricule</th>
-                        <th className="header-cell display-4">File Name</th>
-                        <th className="header-cell display-4">Status</th>
+                        <th className="header-cell display-4">Nom de fichier</th>
+                        <th className="header-cell display-4">Statut</th>
                         <th className="header-cell display-4">Actions</th>
                     </tr>
                     </thead>
@@ -134,17 +134,17 @@ const VetoSection = () => {
                             <td className="fw-semibold" onClick={() => setOpenModal(true)}>
                                 {cvDto.status === "In_review" && (
                                     <>
-                                        <FontAwesomeIcon icon={faClock} /> Pending
+                                        <FontAwesomeIcon icon={faClock} /> En attente
                                     </>
                                 )}
                                 {cvDto.status === "Accepted" && (
                                     <>
-                                        <FontAwesomeIcon icon={faCheck} /> Accepted
+                                        <FontAwesomeIcon icon={faCheck} /> Accepté
                                     </>
                                 )}
                                 {cvDto.status === "Refused" && (
                                     <>
-                                        <FontAwesomeIcon icon={faTimes} /> Refused
+                                        <FontAwesomeIcon icon={faTimes} /> Refusé
                                     </>
                                 )}
                             </td>

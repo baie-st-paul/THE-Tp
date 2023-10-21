@@ -75,19 +75,19 @@ const OffresPageStudent = () => {
                         {filteredOffreList.map((offre, index) => (
                             <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                                 <Grid item xs={12} sm={12} md={4} lg={4}>
-                                    <Card style={{ width: '30rem', margin: '5px' }}>
+                                    <Card style={{ width: '30rem', margin: '5px', textAlign: "left"}}>
                                         <Card.Body>
-                                            <Card.Title>
+                                            <Card.Title style={{textDecorationLine: 'underline'}}>
                                                 {offre.titre}
                                             </Card.Title>
-                                            <OffreDescription offre={offre}/>
+                                            {offre.description}
                                         </Card.Body>
                                         <ListGroup className="list-group-flush">
-                                            <ListGroup.Item>Salaire: {offre.salaire}$</ListGroup.Item>
-                                            <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
-                                            <ListGroup.Item>Nombre postes disponible: {offre.nbMaxEtudiants}</ListGroup.Item>
-                                            <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
-                                            <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
+                                            <ListGroup.Item><b>Salaire:</b> {offre.salaire}$/h</ListGroup.Item>
+                                            <ListGroup.Item><b>Programme:</b> {offre.studentProgram}</ListGroup.Item>
+                                            <ListGroup.Item><b>Nombre postes disponible:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
+                                            <ListGroup.Item><b>Date de début:</b> {offre.dateDebut}</ListGroup.Item>
+                                            <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
 
                                             <ListGroup.Item>
                                                 {candidatures.length > 0 ?

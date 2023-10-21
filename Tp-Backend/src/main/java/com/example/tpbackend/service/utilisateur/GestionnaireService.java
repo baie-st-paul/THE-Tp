@@ -5,11 +5,14 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
+import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GestionnaireService {
@@ -29,6 +33,8 @@ public class GestionnaireService {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private CvRepository cvRepository;
+    @Autowired
+    private EntrevueRepository entrevueRepository;
 
     public GestionnairePostDTO saveGestionnaire(String firstName,
                                                 String lastName,
@@ -121,5 +127,12 @@ public class GestionnaireService {
 
     public void updateCvStatus(String matricule,String status) {
         cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
+    }
+
+    public List<StudentGetDTO> getStudentsWithEntrevue() {
+        List<Entrevue> entrevues = entrevueRepository.findByStudentNotNull();
+        return entrevues.stream()
+                .map(entrevue -> StudentGetDTO.fromStudent(entrevue.getStudent()))
+                .collect(Collectors.toList());
     }
 }

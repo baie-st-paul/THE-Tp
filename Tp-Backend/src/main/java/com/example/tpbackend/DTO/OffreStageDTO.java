@@ -38,6 +38,9 @@ public class OffreStageDTO {
     }
 
     public static OffreStageDTO fromOffreStage(OffreStage offreStage) {
+        if (offreStage == null) {
+            return null;
+        }
         OffreStageDTO offreStageDTO = new OffreStageDTO();
         BeanUtils.copyProperties(offreStage, offreStageDTO);
         return offreStageDTO;

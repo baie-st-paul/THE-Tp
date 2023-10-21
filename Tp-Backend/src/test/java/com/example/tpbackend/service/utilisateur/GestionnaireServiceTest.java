@@ -4,11 +4,15 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
+import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -28,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -51,6 +56,9 @@ public class GestionnaireServiceTest {
 
     @Mock
     private CvRepository cvRepository;
+
+    @Mock
+    private EntrevueRepository entrevueRepository;
 
     @Mock
     private GestionnaireRepository gestionnaireRepository;
@@ -500,6 +508,32 @@ public class GestionnaireServiceTest {
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.any());
         verify(cv).setStatus(Mockito.any());
+    }
+
+
+    @Test
+    public void testGetStudentsWithEntrevue() {
+        // Créer des étudiants
+        Student student1 = new Student("Jean", "Dupont", "MAT123", "0101010101", "Programme1");
+        Student student2 = new Student("Marie", "Doe", "MAT456", "0202020202", "Programme2");
+
+        // Créer des entrevues pour ces étudiants
+        Entrevue entrevue1 = new Entrevue();
+        entrevue1.setStudent(student1);
+
+        Entrevue entrevue2 = new Entrevue();
+        entrevue2.setStudent(student2);
+
+        // Mock le comportement du repository pour renvoyer les entrevues avec étudiants non nuls
+        when(entrevueRepository.findByStudentNotNull()).thenReturn(Arrays.asList(entrevue1, entrevue2));
+
+        // Appeler le service
+        List<StudentGetDTO> result = gestionnaireService.getStudentsWithEntrevue();
+
+        // Vérifications
+        assertEquals(2, result.size());
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT123")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT456")));
     }
 
 

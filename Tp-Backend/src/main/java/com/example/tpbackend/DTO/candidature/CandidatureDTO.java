@@ -22,7 +22,7 @@ public class CandidatureDTO {
 
     public static CandidatureDTO fromCandidature(Candidature candidature) {
         if (candidature == null) {
-            return null;
+            throw new RuntimeException("Candidature is null");
         }
         StudentGetDTO studentDto = StudentGetDTO.fromStudent(candidature.getStudent());
         OffreStageDTO offreStageDto = OffreStageDTO.fromOffreStage(candidature.getOffreStage());

@@ -101,23 +101,18 @@ const StudentHomePage = () => {
                                         {
                                             cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
                                             <>
-                                                <li className="nav-item ml-1">
-                                                    <button className="nav-link" onClick={() => handleButtonClick('default')}>
-                                                        <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
-                                                    </button>
-                                                </li>
-                                                <ul className="navbar-nav ml-auto">
-                                                    <li className="nav-item">
-                                                        <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                                            <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/>CV
+                                                <ul className="navbar-nav ml-auto px-1">
+                                                    <li className="nav-item ml-1 navbarbutton">
+                                                        <button className="nav-link" onClick={() => handleButtonClick('default')}>
+                                                            <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
                                                         </button>
                                                     </li>
-                                                    <li className="nav-item">
+                                                    <li className="nav-item navbarbutton px-1">
                                                         <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                                            <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/>Offres
+                                                            <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
                                                         </button>
                                                     </li>
-                                                    <li className="nav-item">
+                                                    <li className="nav-item navbarbutton px-1">
                                                         <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
                                                             <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
                                                         </button>
@@ -134,7 +129,6 @@ const StudentHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
-                <h2>Étudiant</h2>
                 {contentToRender}
             </div>
         </div>

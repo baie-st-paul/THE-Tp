@@ -20,11 +20,11 @@ public class StudentGetDTO {
         if (student == null) {
             return null;
         }
-
+        String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
         return new StudentGetDTO(
                 student.getFirstName(),
                 student.getLastName(),
-                student.getUtilisateur().getEmail(),
+                email,
                 student.getPhoneNumber(),
                 student.getMatricule(),
                 student.getProgram()

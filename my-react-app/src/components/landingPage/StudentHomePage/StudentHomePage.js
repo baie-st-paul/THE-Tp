@@ -5,7 +5,7 @@ import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faFileUpload, faBriefcase, faEnvelope, faHome} from '@fortawesome/free-solid-svg-icons';
+import {faFileUpload, faBriefcase, faEnvelope, faHome, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
 import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
@@ -101,10 +101,10 @@ const StudentHomePage = () => {
                                         {
                                             cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
                                             <>
-                                            <li className="nav-item ml-1">
-                                                <button className="nav-link" onClick={() => handleButtonClick('default')}>
-                                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
-                                                </button>
+                                                <li className="nav-item ml-1">
+                                                    <button className="nav-link" onClick={() => handleButtonClick('default')}>
+                                                        <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
+                                                    </button>
                                                 </li>
                                                 <ul className="navbar-nav ml-auto">
                                                     <li className="nav-item">

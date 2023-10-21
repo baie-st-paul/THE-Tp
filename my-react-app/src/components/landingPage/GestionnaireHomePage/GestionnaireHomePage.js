@@ -29,13 +29,14 @@ const GestionnaireHomePage = () => {
         case "offre-page-ges":
             contentToRender = <OffresPageGestionnaire/>;
             break;
-        case "entrevues":   
-            contentToRender = <EtudiantsConvoquesEntrevue />
+        case "entrevues":
+            contentToRender = <EtudiantsConvoquesEntrevue/>
             break;
         default:
             contentToRender = <div>Please select a section.</div>;
             break;
     }
+
     return (
         <div>
             <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
@@ -51,6 +52,11 @@ const GestionnaireHomePage = () => {
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("entrevues")}>
+                                    <FontAwesomeIcon icon={faCalendarDay} style={{ marginRight: '10px' }}/>Entrevues
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton deconnecter">

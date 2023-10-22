@@ -7,6 +7,7 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -29,6 +30,8 @@ public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private OffreStageService offreStageService;
 
+
+
     @Override
     public void run(String... args) {
         createStudent();
@@ -42,9 +45,6 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createStudent() {
-
-
-
         StudentPostDTO studentPostDTO = new StudentPostDTO(
                 "Matricule",
                 "Informatique"
@@ -55,7 +55,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "etudiant@gmail.com",
                 "Root!123",
                 "+15147237392",
-                "0938473",
+                "Student",
                 studentPostDTO
         );
         System.out.println(postDTO);
@@ -66,7 +66,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "ALaurendeau"
         );
 
-       employerService.saveEmployer(
+       EmployerPostDTO employer = employerService.saveEmployer(
               "emp",
               "lala",
               "emp@gmail.com",
@@ -75,6 +75,8 @@ public class UtilisateursBD implements CommandLineRunner {
               "Employeur",
               employerPostDTO
        );
+
+        System.out.println(employer);
     }
 
     public void createGestionnaire() {

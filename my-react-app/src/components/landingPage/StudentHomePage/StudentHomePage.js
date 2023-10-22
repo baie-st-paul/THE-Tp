@@ -38,7 +38,14 @@ const StudentHomePage = () => {
         }
         const fetchCv = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs`);
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setCvs(data);

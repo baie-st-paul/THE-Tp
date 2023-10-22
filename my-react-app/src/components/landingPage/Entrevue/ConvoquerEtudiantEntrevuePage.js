@@ -8,6 +8,7 @@ const ConvoquerEtudiantEntrevuePage = () => {
     const navigate = useNavigate();
 
     let employerId = localStorage.getItem('employer_id')
+    const token = localStorage.getItem('token');
 
     const location = useLocation();
     let matricule = location.state;
@@ -27,6 +28,7 @@ const ConvoquerEtudiantEntrevuePage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(entrevue)
             }
@@ -55,6 +57,7 @@ const ConvoquerEtudiantEntrevuePage = () => {
 
     return (
        <>
+           <h1 className="display-4 text-center" title="Entrevue">Entrevue</h1>
             {<CreateEntrevueForm onAdd={createEntrevue}/>}
             {
                 entrevues.length > 0 ?

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Card from "react-bootstrap/Card";
 import { ListGroup } from "react-bootstrap";
-import { Container } from 'react-bootstrap';
 import "../../OffrePage.css";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,6 +12,7 @@ const OffreCandidaturePage = () => {
     const [shouldRefetch] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
             `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
@@ -20,6 +20,7 @@ const OffreCandidaturePage = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
                 },
             }
         ).catch((error) => {

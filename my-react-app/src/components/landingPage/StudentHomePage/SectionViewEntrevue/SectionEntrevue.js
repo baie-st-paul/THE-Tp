@@ -27,6 +27,7 @@ const SectionEntrevue = () => {
     const [selectedEntrevue, setSelectedEntrevue] = useState(null);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
             `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
@@ -34,6 +35,7 @@ const SectionEntrevue = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
                 },
             }
         ).catch((error) => {
@@ -55,10 +57,6 @@ const SectionEntrevue = () => {
 
     }, [shouldRefetch]);
 
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
-
     const openConfirmationModal = (type) => {
         setConfirmationType(type);
         setIsConfirmationModalOpen(true);
@@ -69,25 +67,37 @@ const SectionEntrevue = () => {
     };
 
     const handleAcceptConfirmation = () => {
+        const token = localStorage.getItem('token');
         axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`, {
-            })
-            .then((response) => {
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+            .then(() => {
                 setShouldRefetch(true);
             })
-            .catch((error) => {
+            .catch(() => {
             });
         setIsConfirmationModalOpen(false);
     };
 
     const handleRefuseConfirmation = () => {
+        const token = localStorage.getItem('token');
         axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`, {
-            })
-            .then((response) => {
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+            .then(() => {
                 setShouldRefetch(true);
             })
-            .catch((error) => {
+            .catch(() => {
             });
         setIsConfirmationModalOpen(false);
     };
@@ -172,14 +182,14 @@ const SectionEntrevue = () => {
                 <h2>Confirmation</h2>
                 {confirmationType === "accept" ? (
                     <>
-                        <p>Etes-vous sûr de vouloir accepter cette entrevue ?</p>
+                        <p>Êtes-vous sûr de vouloir accepter cette entrevue ?</p>
                         <button data-testid="accept-button-2" className="btn btn-success" onClick={handleAcceptConfirmation}>
                             Oui
                         </button>
                     </>
                 ) : (
                     <>
-                        <p>Etes-vous sûr de vouloir refuser cette entrevue ?</p>
+                        <p>Êtes-vous sûr de vouloir refuser cette entrevue ?</p>
                         <button data-testid="refuser-button-2" className="btn btn-danger" onClick={handleRefuseConfirmation}>
                             Oui
                         </button>

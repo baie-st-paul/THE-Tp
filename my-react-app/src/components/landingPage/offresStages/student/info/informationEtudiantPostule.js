@@ -41,7 +41,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             const token = localStorage.getItem('token');
             const res = await fetch(
-                `http://localhost:8081/api/employers/${location.state.offreId}/applicants`,
+                `http://localhost:8081/api/v1/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
                     headers: {
@@ -88,8 +88,13 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     const updateStatus = async (matricule, status) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/employers/candidature/accept/${matricule}/${status}`, {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
             });
 
             if (response.ok) {

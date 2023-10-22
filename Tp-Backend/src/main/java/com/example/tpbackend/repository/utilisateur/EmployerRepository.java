@@ -14,4 +14,6 @@ public interface EmployerRepository extends JpaRepository<Employer, Long> {
     List<OffreStageDTO> getOffreStageById(Long id);
 
     Employer findEmployerById(Long id);
+
+    Employer findByUtilisateurId(Long id);
 }

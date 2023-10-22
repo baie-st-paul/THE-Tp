@@ -13,4 +13,6 @@ public interface GestionnaireRepository extends JpaRepository<Gestionnaire, Long
     @Query("SELECT COUNT(g) > 0 FROM Gestionnaire g WHERE g.matricule = ?1 OR g.utilisateur.email = ?2")
     boolean existsByMatriculeOrEmail(String matricule, String email);
 
+    Gestionnaire findByUtilisateurId(Long id);
+
 }

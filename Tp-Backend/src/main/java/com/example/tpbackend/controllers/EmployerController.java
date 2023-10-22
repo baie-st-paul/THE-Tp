@@ -2,9 +2,12 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +23,19 @@ import java.util.Optional;
 public class EmployerController {
     private final OffreStageService offreStageService;
     private final StudentServices studentService;
+    private final EmployerService employerService;
 
     @PostMapping("/candidature/accept/{matricule}/{status}")
     @PreAuthorize("authenticated")
     public ResponseEntity<Void> acceptCandidature(@PathVariable String matricule, @PathVariable String status) {
         studentService.updateCandidatureStatus(matricule, status);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("getEmployer")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<EmployerGetDTO> getEmployer() {
+        return new ResponseEntity<>(employerService.getEmployerByAuthentication(), HttpStatus.OK);
     }
 
     @GetMapping("/{offerId}/applicants/nb")

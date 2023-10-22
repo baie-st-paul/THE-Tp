@@ -2,6 +2,8 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.RequiredArgsConstructor;
@@ -49,5 +51,11 @@ public class GestionnaireController {
     public ResponseEntity<List<StudentGetDTO>> getStudentsWithEntrevue() {
         List<StudentGetDTO> studentDTOS = gestionnaireService.getStudentsWithEntrevue();
         return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping("getGestionnaire")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<GestionnaireGetDTO> getGestionnaire() {
+        return new ResponseEntity<>(gestionnaireService.getGestionnaireByAuthentication(), HttpStatus.OK);
     }
 }

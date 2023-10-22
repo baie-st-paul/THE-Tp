@@ -6,6 +6,7 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
+import com.example.tpbackend.service.utilisateur.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class OffreStageService {
     private EmployerService employerService;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private UserService userService;
 
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
@@ -88,7 +89,7 @@ public class OffreStageService {
     }
 
     public List<OffreStageDTO> getOffresByEmployerId() {
-        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(authenticationService.getUserId());
+        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(userService.getUserId());
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {

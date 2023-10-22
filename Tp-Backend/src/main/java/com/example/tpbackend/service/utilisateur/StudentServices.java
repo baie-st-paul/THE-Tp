@@ -43,12 +43,6 @@ public class StudentServices {
     @Autowired
     private UserService userService;
 
-    private Long getUserId() {
-        Utilisateur password = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(userService.loadUserByEmail(password.getEmail()).getId());
-        return userService.loadUserByEmail(password.getEmail()).getId();
-    }
-
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
@@ -63,7 +57,7 @@ public class StudentServices {
     }
 
     public StudentGetDTO getStudentByAuthentication(){
-        Student student = studentRepository.findByUtilisateurId(getUserId());
+        Student student = studentRepository.findByUtilisateurId(userService.getUserId());
         System.out.println(student);
         return Student.fromStudent(student);
     }

@@ -3,6 +3,7 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,10 @@ public class UserService {
             return password.equals(utilisateur.getPassword());
         }
         return false;
+    }
+
+    public Long getUserId() {
+        Utilisateur password = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return loadUserByEmail(password.getEmail()).getId();
     }
 }

@@ -2,6 +2,7 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
@@ -33,6 +34,8 @@ public class GestionnaireService {
     private CvRepository cvRepository;
     @Autowired
     private EntrevueRepository entrevueRepository;
+    @Autowired
+    private UserService userService;
 
     public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
         if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
@@ -111,5 +114,10 @@ public class GestionnaireService {
         return entrevues.stream()
                 .map(entrevue -> StudentGetDTO.fromStudent(entrevue.getStudent()))
                 .collect(Collectors.toList());
+    }
+
+    public GestionnaireGetDTO getGestionnaireByAuthentication(){
+        Gestionnaire gestionnaire = gestionnaireRepository.findByUtilisateurId(userService.getUserId());
+        return GestionnaireGetDTO.fromGestionnaire(gestionnaire);
     }
 }

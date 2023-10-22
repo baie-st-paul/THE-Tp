@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
@@ -17,6 +18,8 @@ public class EmployerService {
     private EmployerRepository employerRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private UserService userService;
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);
@@ -41,4 +44,10 @@ public class EmployerService {
         employerRepository.save(employer);
         return EmployerPostDTO.fromEmployeur(employer);
     }
+
+    public EmployerGetDTO getEmployerByAuthentication(){
+        Employer employer = employerRepository.findByUtilisateurId(userService.getUserId());
+        return EmployerGetDTO.fromEmployer(employer);
+    }
+
 }

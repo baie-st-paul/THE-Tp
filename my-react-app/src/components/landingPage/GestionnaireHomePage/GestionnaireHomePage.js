@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
+import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestionnaire";
 import {faArrowRight, faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";

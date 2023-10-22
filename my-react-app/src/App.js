@@ -12,7 +12,7 @@ import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
 import AjoutOffreForm from './components/landingPage/EmployerHomePage/offres/offre/ajoutOffreForm';
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
-import OffresPageGestionnaire from "./components/landingPage/offresStages/OffrePageGestionnaire";
+import OffresPageGestionnaire from "./components/landingPage/offresStages/gestionnaire/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/candidature/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
 import ConvoquerEtudiantEntrevuePage from "./components/landingPage/Entrevue/ConvoquerEtudiantEntrevuePage";

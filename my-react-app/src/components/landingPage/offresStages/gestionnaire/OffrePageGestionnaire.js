@@ -5,7 +5,6 @@ import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
 import ReactModal from 'react-modal';
 import Grid from "@mui/material/Grid";
-import OffreDescription from "./OffreDescription";
 import Box from "@mui/material/Box";
 
 const customStyles = {
@@ -19,7 +18,7 @@ const customStyles = {
     },
 };
 
-const OffresPageGestionnaire = () => {
+export default function OffresPageGestionnaire({listeOffres}) {
     const [offres, setOffres] = useState([]);
     const [filterOption, setFilterOption] = useState("all");
     const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -196,5 +195,3 @@ const OffresPageGestionnaire = () => {
         </div>
     );
 };
-
-export default OffresPageGestionnaire;

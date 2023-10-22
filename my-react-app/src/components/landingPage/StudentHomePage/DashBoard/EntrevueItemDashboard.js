@@ -4,6 +4,7 @@ import {faCheck, faExclamationTriangle, faTimes} from "@fortawesome/free-solid-s
 import ReactModal from "react-modal";
 import {format} from "date-fns"
 import axios from "axios";
+
 const EntrevueItemDashboard = ({ nomEntreprise, entrevue , setShouldRefetch}) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -16,27 +17,39 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue , setShouldRefetch}) =>
     };
 
     const handleAcceptConfirmation = () => {
+        const token = localStorage.getItem('token');
         axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Acceptee`, {
-            })
-            .then((response) => {
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Acceptee`,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+            .then(() => {
                 closeModal()
                 setShouldRefetch(true);
             })
-            .catch((error) => {
+            .catch(() => {
             });
         closeModal()
     };
 
     const handleRefuseConfirmation = () => {
+        const token = localStorage.getItem('token');
         axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Refusee`, {
-            })
-            .then((response) => {
+            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${entrevue.idEtudiant}/Refusee`,
+                {
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+            .then(() => {
                 closeModal()
                 setShouldRefetch(true);
             })
-            .catch((error) => {
+            .catch(() => {
             });
         closeModal()
     };
@@ -94,9 +107,9 @@ const EntrevueItemDashboard = ({ nomEntreprise, entrevue , setShouldRefetch}) =>
                         <h1>Entrevue</h1>
                     </div>
                     <div>
-                        <p><strong>Nom de l'entreprise: </strong>{entrevue.comanyName}</p>
+                        <p><strong>Nom de l'entreprise: </strong>{entrevue.companyName}</p>
                         <p><strong>Date et Heure de l'entrevue: </strong>{format(new Date(entrevue.dateHeure), "dd-MM-yyyy HH:mm")}</p>
-                        <p><strong>Descripton: </strong>{entrevue.description}</p>
+                        <p><strong>Description: </strong>{entrevue.description}</p>
                     </div>
                     <div className="row">
                         <div className="col-lg-8"></div>

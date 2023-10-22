@@ -40,9 +40,9 @@ const ConnexionPage = () => {
             console.log(data)
             localStorage.clear()
             localStorage.setItem('token', JSON.stringify(data.data.token));
-            localStorage.setItem('user_type', JSON.stringify(data.user_type))
-            if (data.user_type) {
-                switch (data.user_type) {
+            localStorage.setItem('user_type', JSON.stringify(data.role))
+            if (data.role) {
+                switch (data.role) {
                     case 'Student':
                         setLoggedInUser(data.data.studentGetDTO);
                         setRedirectTo("/StudentHomePage");

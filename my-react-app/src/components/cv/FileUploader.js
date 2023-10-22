@@ -24,12 +24,16 @@ function FileUploader({matricule}) {
     const handleUpload = (event) => {
         event.preventDefault();
         console.log(matricule)
+        const token = localStorage.getItem('token');
         if (file) {
             const formdata = new FormData();
             formdata.append("file_cv", file);
 
             const requestOptions = {
                 method: "POST",
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
                 body: formdata,
                 redirect: "follow",
                 mode: "no-cors"

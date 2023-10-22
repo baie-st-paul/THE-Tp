@@ -29,7 +29,17 @@ const VetoSection = () => {
     useEffect(() => {
         const fetchCvList = async () => {
             try {
-                const response = await fetch("http://localhost:8081/api/v1/gestionnaire/cvs");
+                const token = localStorage.getItem('token');
+                const response = await fetch(
+                    "http://localhost:8081/api/v1/gestionnaire/cvs",
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                );
                 if (response.ok) {
                     const data = await response.json();
                     setCvList(data);
@@ -69,8 +79,15 @@ const VetoSection = () => {
 
     const updateStatus = async (matricule, status) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs/accept/${matricule}/${status}`, {
-                method: 'POST',
+            const token = localStorage.getItem('token');
+            const response = await fetch(
+                `http://localhost:8081/api/v1/gestionnaire/cvs/accept/${matricule}/${status}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
             });
 
             if (response.ok) {
@@ -178,14 +195,14 @@ const VetoSection = () => {
                 <h2>Confirmation</h2>
                 {confirmationType === "accept" ? (
                     <>
-                        <p>Etes-vous sûr de vouloir accepter ce CV ?</p>
+                        <p>Êtes-vous sûr de vouloir accepter ce CV ?</p>
                         <button className="btn btn-success" onClick={handleAcceptConfirmation}>
                             Oui
                         </button>
                     </>
                 ) : (
                     <>
-                        <p>Etes-vous sûr de vouloir refuser ce CV ?</p>
+                        <p>Êtes-vous sûr de vouloir refuser ce CV ?</p>
                         <button className="btn btn-danger" onClick={handleRefuseConfirmation}>
                             Oui
                         </button>

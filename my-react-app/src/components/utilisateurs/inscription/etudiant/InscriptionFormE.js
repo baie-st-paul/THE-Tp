@@ -33,6 +33,12 @@ const InscriptionFormE = ({onAdd}) => {
     const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
     const validPassword = password.match('^(?=.*[A-Z])(?=.*[@#$%^&+=!])(.{6,20})$');
 
+    const role = "Student"
+    const userType = {
+        matricule: matricule,
+        program: program
+    }
+
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -145,11 +151,11 @@ const InscriptionFormE = ({onAdd}) => {
             onAdd({
                 firstName,
                 lastName,
-                matricule,
                 email,
                 phoneNumber,
-                program,
-                password
+                password,
+                role,
+                userType
             })
         }
     }

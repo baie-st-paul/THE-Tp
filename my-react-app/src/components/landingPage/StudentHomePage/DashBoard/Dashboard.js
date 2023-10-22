@@ -1,13 +1,14 @@
-
 import React, {useEffect, useState} from "react";
 import "./Dashboard.css";
 import EntrevueItemDashboard from "./EntrevueItemDashboard";
+
 const Dashboard = () =>{
     const [entrevues, setEntrevues] = useState([]);
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
             `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
@@ -15,6 +16,7 @@ const Dashboard = () =>{
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
                 },
             }
         ).catch((error) => {
@@ -36,10 +38,6 @@ const Dashboard = () =>{
 
     }, [shouldRefetch]);
 
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
-
     const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
 
     return(
@@ -60,7 +58,7 @@ const Dashboard = () =>{
                         entrevuesEnAttente.map((item, index) => (
                             <EntrevueItemDashboard
                                 key={index}
-                                nomEntreprise={item.comanyName}
+                                nomEntreprise={item.companyName}
                                 entrevue={item}
                                 setShouldRefetch={setShouldRefetch}
                             />

@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -9,15 +10,10 @@ import java.util.LinkedHashMap;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class StudentPostDTO {
     private String matricule;
     private String program;
-
-    public StudentPostDTO(String matricule, String program) {
-        this.matricule = matricule;
-        this.program = program;
-    }
-
 
     public static StudentPostDTO fromStudent(Student student) {
         StudentPostDTO studentPostDTO = new StudentPostDTO();

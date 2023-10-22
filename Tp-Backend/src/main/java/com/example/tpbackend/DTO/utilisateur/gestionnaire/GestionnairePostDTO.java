@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO.utilisateur.gestionnaire;
 
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -9,18 +10,9 @@ import java.util.LinkedHashMap;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class GestionnairePostDTO {
-
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String phoneNumber;
     private String matricule;
-
-    public GestionnairePostDTO(String matricule) {
-        this.matricule = matricule;
-    }
 
     public static GestionnairePostDTO fromGestionnaire(Gestionnaire gestionnaire){
         GestionnairePostDTO gestionnaireDTO = new GestionnairePostDTO();

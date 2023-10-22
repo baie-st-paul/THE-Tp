@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonSerialize(using = CandidatureGetDTOSerializer.class)
-
 public class CandidatureGetDTO {
     private String matricule;
     private OffreStageDTO offreStageDTO;

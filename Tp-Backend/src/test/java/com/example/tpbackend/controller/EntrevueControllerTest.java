@@ -10,6 +10,7 @@ import com.example.tpbackend.service.EntrevueService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +24,12 @@ import java.util.ArrayList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import java.util.List;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(EntrevueController.class)
@@ -102,7 +109,7 @@ public class EntrevueControllerTest {
     }
 
     @Test
-    public void testCreateEntrevueInvalide() throws Exception {
+    public void testUpdateEntrevueStatus() throws Exception {
         EntrevueDTO mockEntrevueDTO = new EntrevueDTO();
         mockEntrevueDTO.setId(1L);
         mockEntrevueDTO.setDescription("description");
@@ -121,8 +128,56 @@ public class EntrevueControllerTest {
                         .content(jsonContent))
                 .andExpect(status().isBadRequest());
     }
+    @Test
+    public void testCreateEntrevueInvalide() throws Exception {
+        EntrevueDTO mockEntrevueDTO = new EntrevueDTO();
+        mockEntrevueDTO.setIdEmployeur("1");
+        mockEntrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
+
+        when(entrevueService.updateStatus(Mockito.any(), Mockito.anyString()))
+                .thenReturn(mockEntrevueDTO);
+
+        String jsonContent = objectMapper.writeValueAsString(mockEntrevueDTO);
+
+        String newStatus = "Refusee";
+
+        mockMvc.perform(put("/api/v1/stages/entrevues")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent)
+                        .param("newStatus", newStatus))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void testGetStudentEntrevues_Success() throws Exception {
+        List<EntrevueDTO> mockEntrevueList = new ArrayList<>();
+        EntrevueDTO mockEntrevueDTO = new EntrevueDTO();
+        mockEntrevueDTO.setId(1L);
+        mockEntrevueDTO.setDescription("description");
+        mockEntrevueDTO.setStatus("EnAttente");
+        mockEntrevueDTO.setIdEtudiant("2222222");
+        mockEntrevueDTO.setIdEmployeur("1");
+        mockEntrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
+
+        EntrevueDTO mockEntrevueDTO2 = new EntrevueDTO();
+        mockEntrevueDTO2.setId(2L);
+        mockEntrevueDTO2.setDescription("description2");
+        mockEntrevueDTO2.setStatus("EnAttente");
+        mockEntrevueDTO2.setIdEtudiant("2222222");
+        mockEntrevueDTO2.setIdEmployeur("1");
+        mockEntrevueDTO2.setDateHeure(String.valueOf(LocalDate.now().plusDays(2)));
+
+        mockEntrevueList.add(mockEntrevueDTO);
+        mockEntrevueList.add(mockEntrevueDTO2);
 
 
+        when(entrevueService.getStudentEntrevues("2222222")).thenReturn(mockEntrevueList);
 
-
+        mockMvc.perform(get("/api/v1/stages/entrevues/students/2222222")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(mockEntrevueList.size())));
+    }
 }

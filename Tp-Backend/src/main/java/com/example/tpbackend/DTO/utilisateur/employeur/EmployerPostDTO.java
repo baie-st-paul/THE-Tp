@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO.utilisateur.employeur;
 
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import java.util.LinkedHashMap;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class EmployerPostDTO {
     private String firstName;
     private String lastName;

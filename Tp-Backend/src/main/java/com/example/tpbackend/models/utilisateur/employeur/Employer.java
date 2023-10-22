@@ -26,7 +26,7 @@ public class Employer {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
 
-    public Employer(long id, String companyName, Utilisateur utilisateur) {
+    public Employer(Long id, String companyName, Utilisateur utilisateur) {
         this.id = id;
         this.companyName = companyName;
         this.utilisateur = utilisateur;
@@ -36,7 +36,6 @@ public class Employer {
         this.companyName = companyName;
         this.utilisateur = utilisateur;
     }
-
 
     public void setUtilisateur(Utilisateur utilisateur){
         this.utilisateur = utilisateur;

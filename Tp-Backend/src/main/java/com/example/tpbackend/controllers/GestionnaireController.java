@@ -2,6 +2,8 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +44,11 @@ public class GestionnaireController {
     public ResponseEntity<Void> acceptCv(@PathVariable String matricule,@PathVariable String status) {
         gestionnaireService.updateCvStatus(matricule,status);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/studentsWithEntrevue")
+    public ResponseEntity<List<StudentGetDTO>> getStudentsWithEntrevue() {
+        List<StudentGetDTO> studentDTOS = gestionnaireService.getStudentsWithEntrevue();
+        return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
     }
 }

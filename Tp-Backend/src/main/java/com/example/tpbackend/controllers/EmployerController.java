@@ -36,7 +36,7 @@ public class EmployerController {
         if(offreOpt.isEmpty()){
             return ResponseEntity.status(404).body(Map.of("error", "Aucune offre trouvée avec cet ID."));
         }
-        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOfffreId(offerId);
+        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOffreId(offerId);
         return ResponseEntity.ok(candidatures.size());
     }
 
@@ -49,7 +49,7 @@ public class EmployerController {
             return ResponseEntity.status(404).body(Map.of("error", "Aucune offre trouvée avec cet ID."));
         }
 
-        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOfffreId(offerId);
+        List<CandidatureDTO> candidatures = studentService.getListCandidatureByOffreId(offerId);
 
         if(candidatures.isEmpty()){
             return ResponseEntity.status(404).body(Map.of("error", "Aucune candidature trouvée pour cette offre."));

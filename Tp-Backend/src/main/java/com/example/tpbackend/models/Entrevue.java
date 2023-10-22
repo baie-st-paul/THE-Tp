@@ -39,6 +39,7 @@ public class Entrevue {
                 dateHeure,
                 description,
                 String.valueOf(status),
+                employer.getCompanyName(),
                 employer.getId() + "",
                 student.getMatricule()
         );

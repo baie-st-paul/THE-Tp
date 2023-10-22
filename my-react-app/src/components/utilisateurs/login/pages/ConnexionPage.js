@@ -36,15 +36,40 @@ const ConnexionPage = () => {
             } else {
                 setErreur(false);
             }
+
             const data = await res.json();
             console.log(data)
+
             localStorage.clear()
             localStorage.setItem('token', JSON.stringify(data.data.token));
             localStorage.setItem('user_type', JSON.stringify(data.role))
+
+            const token = localStorage.getItem('token');
             if (data.role) {
                 switch (data.role) {
                     case 'Student':
-                        setLoggedInUser(data.data.studentGetDTO);
+                        const resStudentGetDTO = await fetch(
+                            'http://localhost:8081/api/v1/student/getStudent',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Content-type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                }
+                            }
+                        );
+
+                        if (resStudentGetDTO.status === 400) {
+                            setErreur(true);
+                            throw new Error("Can't get student DTO");
+                        } else {
+                            setErreur(false);
+                        }
+
+                        const dataStudentGetDTO = await resStudentGetDTO.json();
+                        console.log(dataStudentGetDTO)
+
+                        setLoggedInUser(dataStudentGetDTO);
                         setRedirectTo("/StudentHomePage");
                         break;
                     case 'Gestionnaire':

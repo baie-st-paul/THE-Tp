@@ -16,7 +16,6 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 
 import java.time.LocalDate;
@@ -42,9 +41,6 @@ class OffreStageServiceTest {
 
     @MockBean
     private OffreStageRepository offreStageRepository;
-
-    @MockBean
-    private AuthenticationService authenticationService;
 
     @Autowired
     private OffreStageService offreStageService;

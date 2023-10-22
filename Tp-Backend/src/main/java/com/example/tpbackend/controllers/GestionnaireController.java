@@ -2,10 +2,8 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

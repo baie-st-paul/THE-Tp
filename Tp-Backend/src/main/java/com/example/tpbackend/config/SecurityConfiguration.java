@@ -1,6 +1,5 @@
 package com.example.tpbackend.config;
 
-import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.utilisateur.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

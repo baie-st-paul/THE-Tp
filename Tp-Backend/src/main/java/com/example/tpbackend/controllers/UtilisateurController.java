@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/utilisateur") // v1 = version 1
+@RequestMapping("/api/v1/utilisateur")
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class UtilisateurController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<JwtAuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<JwtAuthenticationResponse> register(@Valid @RequestBody RegisterRequest<?> request) {
         try {
             return ResponseEntity.ok(authenticationService.register(request));
         }
@@ -29,7 +29,7 @@ public class UtilisateurController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<JwtAuthenticationResponse> login(@Valid @RequestBody LoginRequest request) {
         try {
             return ResponseEntity.ok(authenticationService.login(request));
         }

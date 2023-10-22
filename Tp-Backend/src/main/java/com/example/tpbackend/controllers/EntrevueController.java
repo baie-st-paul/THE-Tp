@@ -2,7 +2,6 @@ package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.service.EntrevueService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,8 +4,6 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.service.OffreStageService;
-import com.example.tpbackend.service.security.AuthenticationService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

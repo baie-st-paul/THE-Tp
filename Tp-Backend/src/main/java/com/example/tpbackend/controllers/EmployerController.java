@@ -4,7 +4,6 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/employers")
+@RequestMapping("/api/v1/employers")
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class EmployerController {

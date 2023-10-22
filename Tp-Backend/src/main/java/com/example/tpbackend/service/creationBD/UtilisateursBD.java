@@ -50,8 +50,8 @@ public class UtilisateursBD implements CommandLineRunner {
                 "lina",
                 "lac",
                 "etudiant@gmail.com",
-                "Root!123",
                 "+15147237392",
+                "Root!123",
                 "Student",
                 studentPostDTO
         );

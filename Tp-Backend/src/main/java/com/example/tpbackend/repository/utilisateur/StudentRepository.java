@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, Long>{
     Student findByMatricule(String matricule);
 
+    Student findByUtilisateurId(Long id);
+
 }

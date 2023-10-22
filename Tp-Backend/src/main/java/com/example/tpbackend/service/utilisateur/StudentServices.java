@@ -17,7 +17,9 @@ import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
+import com.example.tpbackend.service.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -38,6 +40,15 @@ public class StudentServices {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private UserService userService;
+
+    private Long getUserId() {
+        Utilisateur password = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(userService.loadUserByEmail(password.getEmail()).getId());
+        return userService.loadUserByEmail(password.getEmail()).getId();
+    }
+
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
@@ -49,6 +60,12 @@ public class StudentServices {
 
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
+    }
+
+    public StudentGetDTO getStudentByAuthentication(){
+        Student student = studentRepository.findByUtilisateurId(getUserId());
+        System.out.println(student);
+        return Student.fromStudent(student);
     }
 
     public void updateCv(CvDTO cvDTO) throws IOException{

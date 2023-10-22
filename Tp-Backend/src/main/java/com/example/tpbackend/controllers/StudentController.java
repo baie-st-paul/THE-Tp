@@ -47,6 +47,12 @@ public class StudentController {
         return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
 
+    @GetMapping("/getStudent")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<StudentGetDTO> getStudentByMatricule() {
+        return  new ResponseEntity<>(studentServices.getStudentByAuthentication(), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/postuler", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("authenticated")
     public ResponseEntity<?> postuler(@ModelAttribute CandidaturePostDTO candidaturePostDTO){

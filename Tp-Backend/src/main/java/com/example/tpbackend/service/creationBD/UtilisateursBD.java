@@ -24,7 +24,7 @@ public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private StudentServices studentServices;
     @Autowired
-    private EmployerService employerService;
+    private EmployerRepository employerRepository;
     @Autowired
     private GestionnaireService gestionnaireService;
     @Autowired
@@ -66,17 +66,22 @@ public class UtilisateursBD implements CommandLineRunner {
                 "ALaurendeau"
         );
 
-       EmployerPostDTO employer = employerService.saveEmployer(
+       Utilisateur utilisateur = new Utilisateur(
               "emp",
               "lala",
               "emp@gmail.com",
               "+15147899765",
               "Root!123",
-              "Employeur",
-              employerPostDTO
+              "Employeur"
        );
 
-        System.out.println(employer);
+        Employer employer1 = new Employer(
+                "ALaurendeau",
+                utilisateur
+        );
+
+        employerRepository.save(employer1);
+
     }
 
     public void createGestionnaire() {

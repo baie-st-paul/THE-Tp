@@ -18,15 +18,17 @@ import java.util.List;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Utilisateur implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private long id;
+
     private String firstName;
     private String lastName;
+
     @Column(unique = true) // un utilisateur ne peut avoir qu'un seul email
     private String email;
+
     private String phoneNumber;
 
     @JsonIgnore // ne pas afficher le mot de passe

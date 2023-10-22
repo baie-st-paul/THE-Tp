@@ -13,26 +13,21 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Student  {
         @Id
-        @Setter
         private String matricule;
-
-        @Setter
         private String program;
 
-        @Setter
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
-        @Setter
         @ManyToMany(mappedBy = "etudiants")
         private List<OffreStage> offresStages;
 
-        @Setter
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 

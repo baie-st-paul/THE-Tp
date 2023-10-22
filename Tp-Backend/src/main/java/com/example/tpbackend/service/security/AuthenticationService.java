@@ -11,9 +11,6 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,39 +42,33 @@ public class AuthenticationService {
                 .role(Utilisateur.Role.valueOf(request.getRole())).build();
 
         switch (request.getRole()) {
-            case "Employeur":
-                employerService.saveEmployer(
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getPhoneNumber(),
-                        user.getPassword(),
-                        user.getAuthorities().iterator().next().getAuthority(),
-                        EmployerPostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
-                );
-                break;
-            case "Gestionnaire":
-                gestionnaireService.saveGestionnaire(
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getPhoneNumber(),
-                        user.getPassword(),
-                        user.getAuthorities().iterator().next().getAuthority(),
-                        GestionnairePostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
-                );
-                break;
-            case "Student":
-                studentServices.saveStudent(
-                        user.getFirstName(),
-                        user.getLastName(),
-                        user.getEmail(),
-                        user.getPhoneNumber(),
-                        user.getPassword(),
-                        user.getAuthorities().iterator().next().getAuthority(),
-                        StudentPostDTO.fromHashMap((LinkedHashMap<?,?>) request.getUserType())
-                );
-                break;
+            case "Employeur" -> employerService.saveEmployer(
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getPhoneNumber(),
+                    user.getPassword(),
+                    user.getAuthorities().iterator().next().getAuthority(),
+                    EmployerPostDTO.fromHashMap((LinkedHashMap<?, ?>) request.getUserType())
+            );
+            case "Gestionnaire" -> gestionnaireService.saveGestionnaire(
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getPhoneNumber(),
+                    user.getPassword(),
+                    user.getAuthorities().iterator().next().getAuthority(),
+                    GestionnairePostDTO.fromHashMap((LinkedHashMap<?, ?>) request.getUserType())
+            );
+            case "Student" -> studentServices.saveStudent(
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getPhoneNumber(),
+                    user.getPassword(),
+                    user.getAuthorities().iterator().next().getAuthority(),
+                    StudentPostDTO.fromHashMap((LinkedHashMap<?, ?>) request.getUserType())
+            );
         }
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder()

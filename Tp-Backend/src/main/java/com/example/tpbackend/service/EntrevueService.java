@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 @NoArgsConstructor
 public class EntrevueService {
-
     @Autowired
     private EntrevueRepository entrevueRepository;
 
@@ -25,9 +24,7 @@ public class EntrevueService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
-
-
+    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
         Entrevue entrevue = new Entrevue();
         entrevue.setId(1L);
         entrevue.setDescription(entrevueDTO.getDescription());
@@ -37,7 +34,6 @@ public class EntrevueService {
         entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
-
 
     public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
         Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployer()), entrevueDTO.getDateHeure());
@@ -52,7 +48,6 @@ public class EntrevueService {
         for(Entrevue e : entrevues){
             dtos.add(new EntrevueDTO(e));
         }
-
         return dtos;
     }
 

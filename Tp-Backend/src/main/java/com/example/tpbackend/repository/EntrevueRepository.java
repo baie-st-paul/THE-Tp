@@ -1,7 +1,5 @@
 package com.example.tpbackend.repository;
 
-import com.example.tpbackend.DTO.EntrevueDTO;
-import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

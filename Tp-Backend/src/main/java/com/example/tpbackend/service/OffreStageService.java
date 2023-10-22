@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStageService {
-
     @Autowired
     private OffreStageRepository offreStageRepository;
 
@@ -64,13 +62,10 @@ public class OffreStageService {
         }
     }
 
-
     public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
-
-
 
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
         try {
@@ -81,7 +76,6 @@ public class OffreStageService {
             throw new OffreNotFoundException(id);
         }
     }
-
 
     public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();

@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetails;
-import javax.validation.Valid;
 import io.jsonwebtoken.Claims;
 
 import java.security.Key;

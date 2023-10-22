@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentServices {
-
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -47,7 +46,6 @@ public class StudentServices {
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);
     }
-
 
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());

@@ -49,11 +49,6 @@ public class StudentServices {
     }
 
 
-
-    public boolean existsByMatriculeOrEmail(String matricule, String email){
-        return studentRepository.existsByMatriculeOrEmail(matricule, email);
-    }
-
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
     }

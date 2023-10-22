@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Student  {
         @Id
+        @Setter
         private String matricule;
 
         @Setter

@@ -1,12 +1,15 @@
 package com.example.tpbackend.service.creationBD;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.security.AuthenticationService;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,7 @@ public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private StudentServices studentServices;
     @Autowired
-    private EmployerRepository employerRepository;
+    private EmployerService employerService;
     @Autowired
     private GestionnaireService gestionnaireService;
     @Autowired
@@ -39,62 +42,53 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createStudent() {
+
+
+
         StudentPostDTO studentPostDTO = new StudentPostDTO(
+                "Matricule",
+                "Informatique"
+        );
+        StudentPostDTO postDTO = studentServices.saveStudent(
                 "lina",
                 "lac",
                 "etudiant@gmail.com",
                 "Root!123",
                 "+15147237392",
                 "0938473",
-                "Informatique"
-        );
-        StudentPostDTO postDTO = studentServices.saveStudent(
-                studentPostDTO,
-                studentPostDTO.getEmail(),
-                studentPostDTO.getPassword(),
-                "Student"
+                studentPostDTO
         );
         System.out.println(postDTO);
     }
 
     public void createEmployer() {
-        Utilisateur utilisateur = new Utilisateur(
-                "emp@gmail.com",
-                "Root!123",
-                "Employeur"
-        );
-        Employer employer = new Employer(
-                1L,
-                "emp",
-                "lala",
-                "ALaurendeau",
-                "+15147899765"
+        EmployerPostDTO employerPostDTO = new EmployerPostDTO(
+                "ALaurendeau"
         );
 
-        employer.setUtilisateur(utilisateur);
-
-        employerRepository.save(employer);
-
-        System.out.println(employer);
+       employerService.saveEmployer(
+              "emp",
+              "lala",
+              "emp@gmail.com",
+              "+15147899765",
+              "Root!123",
+              "Employeur",
+              employerPostDTO
+       );
     }
 
     public void createGestionnaire() {
         GestionnairePostDTO gestionnairePostDTO = new GestionnairePostDTO(
-                "ges",
-                "toto",
-                "ges@gmail.com",
-                "Root!123",
-                "+15144758345",
                 "9034948"
         );
         GestionnairePostDTO postDTO = gestionnaireService.saveGestionnaire(
-                gestionnairePostDTO.getFirstName(),
-                gestionnairePostDTO.getLastName(),
-                gestionnairePostDTO.getPhoneNumber(),
-                gestionnairePostDTO.getMatricule(),
-                gestionnairePostDTO.getEmail(),
-                gestionnairePostDTO.getPassword(),
-                "Gestionnaire"
+                "ges",
+                "toto",
+                "ges@gmail.com",
+                "+15144758345",
+                "Root!123",
+                "Gestionnaire",
+                gestionnairePostDTO
         );
         System.out.println(postDTO);
     }

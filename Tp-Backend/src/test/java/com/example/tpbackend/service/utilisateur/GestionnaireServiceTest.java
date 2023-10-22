@@ -330,8 +330,31 @@ public class GestionnaireServiceTest {
     @Test
     public void testGetStudentsWithEntrevue() {
         // Créer des étudiants
-        Student student1 = new Student("Jean", "Dupont", "MAT123", "0101010101", "Programme1");
-        Student student2 = new Student("Marie", "Doe", "MAT456", "0202020202", "Programme2");
+        Student student1 = new Student(
+                "0101010101",
+                "Programme1",
+                new Utilisateur(
+                        "Jean",
+                        "Dupont",
+                        "email@example.com",
+                        "password",
+                        "MAT123",
+                        "Student"
+                )
+        );
+
+        Student student2 = new Student(
+                "0202020202",
+                "Programme2",
+                new Utilisateur(
+                        "Marie",
+                        "Doe",
+                        "email2@example.com",
+                        "password",
+                        "MAT456",
+                        "Student"
+                )
+        );
 
         // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
@@ -348,8 +371,8 @@ public class GestionnaireServiceTest {
 
         // Vérifications
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT123")));
-        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT456")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("0101010101")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("0202020202")));
     }
 
 

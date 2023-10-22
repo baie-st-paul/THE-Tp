@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CandidatureRepository extends JpaRepository<Candidature, Integer> {
+public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
     @Query(value = "SELECT * FROM Candidature WHERE student_candidat = ?1",nativeQuery = true)
     List<Candidature> getAllCandidaturesByMatricule(String matricule);
     

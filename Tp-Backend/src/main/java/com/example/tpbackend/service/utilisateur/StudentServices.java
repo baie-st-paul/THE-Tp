@@ -42,8 +42,7 @@ public class StudentServices {
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
-        Student student = studentPostDTO.toStudent(studentPostDTO);
-        student.setUtilisateur(utilisateur);
+        Student student = new Student(studentPostDTO.getMatricule(), studentPostDTO.getProgram(), utilisateur);
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);
@@ -58,10 +57,8 @@ public class StudentServices {
         cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
     }
 
-
     public StudentGetDTO getStudentByMatricule(String matricule) {
         Student student = studentRepository.findByMatricule(matricule);
-        System.out.println(student);
         return Student.fromStudent(student);
     }
 

@@ -2,8 +2,6 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
@@ -11,7 +9,6 @@ import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
@@ -21,7 +18,6 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,25 +26,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -85,14 +71,14 @@ public class GestionnaireServiceTest {
         utilisateur.setRole(Utilisateur.Role.Gestionnaire);
         utilisateur.setFirstName("Jane");
         utilisateur.setLastName("Doe");
+        utilisateur.setFirstName("Jane");
+        utilisateur.setLastName("Doe");
+        utilisateur.setPhoneNumber("6625550144");
         utilisateur.setPhoneNumber("6625550144");
 
 
         Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setFirstName("Jane");
-        gestionnaire.setLastName("Doe");
         gestionnaire.setMatricule("Matricule");
-        gestionnaire.setPhoneNumber("6625550144");
         gestionnaire.setUtilisateur(utilisateur);
         when(gestionnaireRepository.save(Mockito.<Gestionnaire>any())).thenReturn(gestionnaire);
 
@@ -184,8 +170,8 @@ public class GestionnaireServiceTest {
             offreStageDTOList.add(offreStage.toOffreStageDTO());
         }
 
-        List<OffreStageDTO> actualToutesLesOffres = gestionnaireService.getToutesLesOffres();
-        assertSame(offreStageDTOList, actualToutesLesOffres);
+        ArrayList<OffreStageDTO> actualToutesLesOffres = gestionnaireService.getToutesLesOffres();
+        assertSame(offreStageDTOList.size(), actualToutesLesOffres.size());
         assertTrue(actualToutesLesOffres.isEmpty());
         verify(offreStageRepository).findAll();
     }

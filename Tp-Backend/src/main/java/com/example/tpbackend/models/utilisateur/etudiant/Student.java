@@ -33,6 +33,12 @@ public class Student  {
                 this.program = program;
         }
 
+        public Student(String matricule, String program, Utilisateur utilisateur) {
+                this.matricule = matricule;
+                this.program = program;
+                this.utilisateur = utilisateur;
+        }
+
         public void setUtilisateur(Utilisateur utilisateur){
                 this.utilisateur = utilisateur;
         }
@@ -40,6 +46,11 @@ public class Student  {
         public static StudentGetDTO fromStudent(Student student) {
                 StudentGetDTO studentGetDTO = new StudentGetDTO();
                 BeanUtils.copyProperties(student,studentGetDTO);
+                studentGetDTO.setFirstName(student.getUtilisateur().getFirstName());
+                studentGetDTO.setLastName(student.getUtilisateur().getLastName());
+                studentGetDTO.setEmail(student.getUtilisateur().getEmail());
+                studentGetDTO.setPhoneNumber(student.getUtilisateur().getPhoneNumber());
+
                 return studentGetDTO;
         }
 
@@ -61,5 +72,13 @@ public class Student  {
 
         public Utilisateur getUtilisateur() {
                 return utilisateur;
+        }
+
+        public void setOffresStages(List<OffreStage> offresStages) {
+                this.offresStages = offresStages;
+        }
+
+        public void setCandidatures(List<Candidature> candidatures) {
+                this.candidatures = candidatures;
         }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EmployerRepository extends JpaRepository<Employer, Integer> {
+public interface EmployerRepository extends JpaRepository<Employer, Long> {
     boolean existsByCompanyName(String companyName);
 
     List<OffreStageDTO> getOffreStageById(Long id);

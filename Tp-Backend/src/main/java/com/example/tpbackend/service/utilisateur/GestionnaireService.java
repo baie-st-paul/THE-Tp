@@ -61,9 +61,9 @@ public class GestionnaireService {
         return gestionnaireRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
-    public List<OffreStageDTO> getToutesLesOffres() {
+    public ArrayList<OffreStageDTO> getToutesLesOffres() {
         List<OffreStage> offreStages = offreStageRepository.findAll();
-        List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
+        ArrayList<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {
             offreStageDTOS.add(offreStage.toOffreStageDTO());

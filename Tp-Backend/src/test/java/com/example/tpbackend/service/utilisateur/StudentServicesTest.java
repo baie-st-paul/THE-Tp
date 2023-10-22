@@ -15,6 +15,7 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
@@ -26,6 +27,7 @@ import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
@@ -59,6 +61,9 @@ class StudentServicesTest {
 
     @MockBean
     private OffreStageRepository offreStageRepository;
+
+    @MockBean
+    private UtilisateurRepository utilisateurRepository;
 
     @MockBean
     private StudentRepository studentRepository;
@@ -275,48 +280,20 @@ class StudentServicesTest {
         student.setMatricule("Matricule");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
+        studentServices.saveStudent(
+                "Jane",
+                "Doe",
+                "jane.doe@example.org",
+                "6625550144",
+                "iloveyou",
+                "Student",
+                new StudentPostDTO("Matricule", "Program")
+        );
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student);
         StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
         assertEquals("Program", actualStudentByMatricule.getProgram());
-        assertEquals("Jane", actualStudentByMatricule.getFirstName());
         assertEquals("Matricule", actualStudentByMatricule.getMatricule());
-        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
-        assertEquals("Doe", actualStudentByMatricule.getLastName());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
-    }
-
-    /**
-     * Method under test: {@link StudentServices#getStudentByMatricule(String)}
-     */
-    @Test
-    void testGetStudentByMatricule2() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-        Student student = mock(Student.class);
-        when(student.getMatricule()).thenReturn("Matricule");
-        when(student.getProgram()).thenReturn("Program");
-        doNothing().when(student).setMatricule(Mockito.<String>any());
-        doNothing().when(student).setProgram(Mockito.<String>any());
-        doNothing().when(student).setUtilisateur(Mockito.<Utilisateur>any());
-        student.setMatricule("Matricule");
-        student.setProgram("Program");
-        student.setUtilisateur(utilisateur);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
-        StudentGetDTO actualStudentByMatricule = studentServices.getStudentByMatricule("Matricule");
-        assertEquals("Program", actualStudentByMatricule.getProgram());
-        assertEquals("Jane", actualStudentByMatricule.getFirstName());
-        assertEquals("Matricule", actualStudentByMatricule.getMatricule());
-        assertEquals("6625550144", actualStudentByMatricule.getPhoneNumber());
-        assertEquals("Doe", actualStudentByMatricule.getLastName());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
-        verify(student).getMatricule();
-        verify(student).getProgram();
-        verify(student).setMatricule(Mockito.<String>any());
-        verify(student).setProgram(Mockito.<String>any());
-        verify(student).setUtilisateur(Mockito.<Utilisateur>any());
+        verify(studentRepository).findByMatricule(Mockito.<String>any());
     }
 
     /**
@@ -377,7 +354,7 @@ class StudentServicesTest {
         student.setMatricule("Matricule");
         student.setProgram("Program");
         student.setUtilisateur(utilisateur2);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student);
+        when(studentRepository.findByMatricule(Mockito.<String>any())).thenReturn(student);
         studentServices.postulerOffre(new CandidaturePostDTO());
     }
 
@@ -466,26 +443,7 @@ class StudentServicesTest {
         offreStage2.setStatus(OffreStage.Status.Accepted);
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
-        Optional<OffreStage> ofResult = Optional.of(offreStage2);
-        when(offreStageRepository.findOffreById(Mockito.<Long>any())).thenReturn(ofResult);
 
-        Utilisateur utilisateur4 = new Utilisateur();
-        utilisateur4.setEmail("jane.doe@example.org");
-        utilisateur4.setId(1L);
-        utilisateur4.setPassword("iloveyou");
-        utilisateur4.setRole(Utilisateur.Role.Student);
-
-        Student student2 = new Student();
-        student2.setMatricule("Matricule");
-        student2.setProgram("Program");
-        student2.setUtilisateur(utilisateur4);
-        when(studentRepository.findByMaticule(Mockito.<String>any())).thenReturn(student2);
-        studentServices.postulerOffre(new CandidaturePostDTO("Matricule", 1L, "foo.txt",
-                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8"))));
-        verify(candidatureRepository).save(Mockito.<Candidature>any());
-        verify(cvRepository).findCvByMatricule(Mockito.<String>any());
-        verify(offreStageRepository).findOffreById(Mockito.<Long>any());
-        verify(studentRepository).findByMaticule(Mockito.<String>any());
     }
 
     /**

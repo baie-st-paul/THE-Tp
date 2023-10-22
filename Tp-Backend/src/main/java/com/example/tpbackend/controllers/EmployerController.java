@@ -32,7 +32,7 @@ public class EmployerController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("getEmployer")
+    @GetMapping("/getEmployer")
     @PreAuthorize("authenticated")
     public ResponseEntity<EmployerGetDTO> getEmployer() {
         return new ResponseEntity<>(employerService.getEmployerByAuthentication(), HttpStatus.OK);

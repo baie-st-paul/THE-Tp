@@ -53,7 +53,7 @@ public class GestionnaireController {
         return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
     }
 
-    @GetMapping("getGestionnaire")
+    @GetMapping("/getGestionnaire")
     @PreAuthorize("authenticated")
     public ResponseEntity<GestionnaireGetDTO> getGestionnaire() {
         return new ResponseEntity<>(gestionnaireService.getGestionnaireByAuthentication(), HttpStatus.OK);

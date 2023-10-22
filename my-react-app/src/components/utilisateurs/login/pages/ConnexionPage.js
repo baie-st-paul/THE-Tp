@@ -73,11 +73,53 @@ const ConnexionPage = () => {
                         setRedirectTo("/StudentHomePage");
                         break;
                     case 'Gestionnaire':
-                        setLoggedInUser(data.data.gestionnaireGetDTO);
+                        const resGestionnaireGetDTO = await fetch(
+                            'http://localhost:8081/api/v1/gestionnaire/getGestionnaire',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Content-type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                }
+                            }
+                        );
+
+                        if (resGestionnaireGetDTO.status === 400) {
+                            setErreur(true);
+                            throw new Error("Can't get gestionnaire DTO");
+                        } else {
+                            setErreur(false);
+                        }
+
+                        const dataGestionnaireGetDTO = await resGestionnaireGetDTO.json();
+                        console.log(dataGestionnaireGetDTO)
+
+                        setLoggedInUser(dataGestionnaireGetDTO);
                         setRedirectTo("/GestionnaireHomePage");
                         break;
                     case 'Employeur':
-                        setLoggedInUser(data.data.employerGetDTO);
+                        const resEmployeurGetDTO = await fetch(
+                            'http://localhost:8081/api/v1/employers/getEmployer',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Content-type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                }
+                            }
+                        );
+
+                        if (resEmployeurGetDTO.status === 400) {
+                            setErreur(true);
+                            throw new Error("Can't get employeur DTO");
+                        } else {
+                            setErreur(false);
+                        }
+
+                        const dataEmployeurGetDTO = await resEmployeurGetDTO.json();
+                        console.log(dataEmployeurGetDTO)
+
+                        setLoggedInUser(dataEmployeurGetDTO);
                         localStorage.setItem("employer_id", JSON.stringify(data.data.employerGetDTO.id));
                         setRedirectTo("/EmployeurHomePage");
                         break;

@@ -6,6 +6,7 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -25,6 +26,8 @@ public class UtilisateursBD implements CommandLineRunner {
     private GestionnaireService gestionnaireService;
     @Autowired
     private OffreStageService offreStageService;
+
+
 
     @Override
     public void run(String... args) {
@@ -63,13 +66,12 @@ public class UtilisateursBD implements CommandLineRunner {
                 "+15147899765",
                 "Root!123",
                 "Employeur"
-        );
+       );
+
         Employer employer = new Employer(
-                1L,
                 "ALaurendeau",
                 utilisateur
         );
-        employer.setUtilisateur(utilisateur);
         employerRepository.save(employer);
         System.out.println(employer);
     }

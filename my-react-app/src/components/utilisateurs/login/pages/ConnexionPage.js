@@ -118,9 +118,10 @@ const ConnexionPage = () => {
 
                         const dataEmployeurGetDTO = await resEmployeurGetDTO.json();
                         console.log(dataEmployeurGetDTO)
+                        console.log(dataEmployeurGetDTO.id)
 
                         setLoggedInUser(dataEmployeurGetDTO);
-                        localStorage.setItem("employer_id", JSON.stringify(data.data.employerGetDTO.id));
+                        localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
                         setRedirectTo("/EmployeurHomePage");
                         break;
                     default:

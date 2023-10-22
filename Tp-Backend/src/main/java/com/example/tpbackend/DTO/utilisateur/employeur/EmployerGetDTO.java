@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployerGetDTO {
+    private long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -23,6 +24,7 @@ public class EmployerGetDTO {
         }
 
         return new EmployerGetDTO(
+                employer.getId(),
                 employer.getUtilisateur().getFirstName(),
                 employer.getUtilisateur().getLastName(),
                 employer.getUtilisateur().getEmail(),

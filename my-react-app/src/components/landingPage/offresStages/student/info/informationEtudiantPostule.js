@@ -126,57 +126,56 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     return (
         <div className='mt-5'>
             <div className='rootInfo font'>
-                <div className='divFormInfo'>
+                <div className='divFormInfo w-100'>
                     <table>
                         <caption> <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1> </caption>
                         <thead>
                         <tr>
-                            <th scope="col" className='headerElement'>NOM</th>
-                            <th scope='col' className='headerElement'>PRENOM</th>
-                            <th scope='col' className='headerElement'>ADRESSE COURRIEL</th>
+                            <th scope="col" className='headerElement w-25'>NOM</th>
+                            <th scope='col' className='headerElement w-25'>PRENOM</th>
+                            <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
                             <th scope='col' className='headerElement'>RESUME</th>
                             <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
                             <th scope='col' className='headerElement '>ACTION</th>
                             <th scope='col' className='headerElement text-center'>STATUT</th>
                             <th scope='col' className='headerElement text-center'></th>
-                        
                         </tr>
                         </thead>
                         <tbody className='bg-light border'>
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
-                                <tr key={i} className='' >
-                                    <td data-label="NOM" scope="row" className='headerElement breakWord h4'>
+                                <tr key={i} className=''>
+                                    <td data-label="NOM" scope="row" className='headerElement text-break  h4'>
                                         {etudiant.student.firstName}
                                     </td>
-                                    <td  data-label="PRENOM" className='headerElement breakWord h4'>
+                                    <td  data-label="PRENOM" className='headerElement  text-break h4'>
                                         {etudiant.student.lastName}
                                     </td>
-                                    <td data-label="ADRESSE COURRIEL" className=' headerElement h4'>
+                                    <td data-label="ADRESSE COURRIEL" className=' headerElement text-break h4'>
                                         {etudiant.student.email}
                                     </td>
                                     <td data-label="NUMERO DE TELEPHONE" className=' headerElement h4'>
                                         {etudiant.student.phoneNumber}
                                     </td>
-                                    <td data-label="RESUME" className='headerElement h4 '>
+                                    <td data-label="RESUME" className='headerElement h4 px-0 '>
                                         <button style={{height : "60px", width: '120px' }} className='btn btn-primary '
                                                 onClick={()=>handleMontrerCv(etudiant)}>Cv
                                         </button>
                                     </td>
                                     { etudiant.student.fileName !== '' ?
-                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
                                             <button style={{height : "60px", width: '120px' }} className='btn btn-primary'
                                                     onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
-                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
                                             <button style={{height : "60px", width: '120px' }} className='btn btn-primary disabled'
                                                     onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
                                     }
-                                    <td className='headerElement h4 '>
+                                    <td className=' h4 pe-0 '>
                                         <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
                                                 onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
                                             Convoquer

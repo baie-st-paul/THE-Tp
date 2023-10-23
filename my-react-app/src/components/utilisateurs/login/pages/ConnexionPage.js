@@ -41,10 +41,11 @@ const ConnexionPage = () => {
             console.log(data)
 
             localStorage.clear()
-            localStorage.setItem('token', JSON.stringify(data.data.token));
+            localStorage.setItem('token', JSON.stringify(data.token));
             localStorage.setItem('user_type', JSON.stringify(data.role))
 
             const token = localStorage.getItem('token');
+            console.log(token)
             if (data.role) {
                 switch (data.role) {
                     case 'Student':
@@ -54,7 +55,7 @@ const ConnexionPage = () => {
                                 method: 'GET',
                                 headers: {
                                     'Content-type': 'application/json',
-                                    'Authorization': 'Bearer ' + token
+                                    Authorization: `Bearer ${token}`
                                 }
                             }
                         );
@@ -79,7 +80,7 @@ const ConnexionPage = () => {
                                 method: 'GET',
                                 headers: {
                                     'Content-type': 'application/json',
-                                    'Authorization': 'Bearer ' + token
+                                    Authorization: `Bearer ${token}`
                                 }
                             }
                         );
@@ -104,7 +105,7 @@ const ConnexionPage = () => {
                                 method: 'GET',
                                 headers: {
                                     'Content-type': 'application/json',
-                                    'Authorization': 'Bearer ' + token
+                                    Authorization: `Bearer ${token}`
                                 }
                             }
                         );

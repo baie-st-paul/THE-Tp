@@ -48,20 +48,20 @@ getEtudiants();
                         <th className="header-cell display-6">Nom</th>
                         <th className="header-cell display-6">Prenom</th>
                         <th className="header-cell display-6">Matricule</th>
-                        <th className="header-cell display-6">id compagnie</th>
-                        <th className="header-cell display-6">Date</th>
+                        <th className="header-cell display-6">Nom de compagnie</th>
+                        <th className="header-cell display-6">Date de l'entrevue</th>
                     </tr>
                     </thead>
                     <tbody>
 
-                     {etudiants.length > 0 && etudiants.filter(etudiantNf => etudiantNf.student?.matricule?.includes(filtre))
+                     {etudiants.length > 0 && etudiants.filter(etudiantNf => etudiantNf.etudiant?.matricule?.includes(filtre))
                         .map((etudiant, index) => (
                         <tr key={index} className="table-row align-middle">
-                            <td className="fw-semibold">{etudiant.student.firstName}</td>
-                            <td className="fw-semibold">{etudiant.student.lastName}</td>
-                            <td className="fw-semibold">{etudiant.student.matricule} </td>
-                            <td className="fw-semibold">{etudiant.offreStage.id} </td>
-                            <td className="fw-semibold">{etudiant.offreStage.dateDebut} </td>
+                            <td className="fw-semibold">{etudiant.etudiant.firstName}</td>
+                            <td className="fw-semibold">{etudiant.etudiant.lastName}</td>
+                            <td className="fw-semibold">{etudiant.etudiant.matricule} </td>
+                            <td className="fw-semibold">{etudiant.employer.companyName} </td>
+                            <td className="fw-semibold">{etudiant.dateHeure} </td>
                             </tr>
                      ))
                      }

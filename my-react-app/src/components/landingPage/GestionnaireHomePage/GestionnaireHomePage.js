@@ -53,6 +53,11 @@ const GestionnaireHomePage = () => {
                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
                                 </button>
                             </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("entrevues")}>
+                                    <FontAwesomeIcon icon={faCalendarDay} style={{ marginRight: '10px' }}/>Entrevues
+                                </button>
+                            </li>
                             <li className="nav-item navbarbutton deconnecter">
                                 <button className="nav-link" onClick={() => handleDisconnect()}>
                                     <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>

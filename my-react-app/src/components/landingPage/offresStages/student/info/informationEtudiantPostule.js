@@ -9,6 +9,7 @@ import ReactModal from "react-modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
 import "../../../../stylesGenerales.css"
+import ButtonConvoquer from './ButtonConvoquer';
 
 const customStyles = {
     content: {
@@ -22,7 +23,6 @@ const customStyles = {
 };
 
 export default function InformationEtudiantPostule({listeEtudiant}) {
-
     const location = useLocation();
     const navigate = useNavigate();
     const [listeEtudiants, setListeEtudiants] = useState([]);
@@ -35,9 +35,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const [shouldRefetch, setShouldRefetch] = useState(false);
 
     useEffect(() => {
-        handleListePostule();
-        allEntrevuesStudentMatricule();
-    }, [shouldRefetch])
+    handleListePostule();
+    allEntrevuesStudentMatricule();
+    }, [])
 
     async function handleListePostule() {
         try {
@@ -55,7 +55,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             if (res.ok) {
                 const data = await res.json();
                 console.log(data)
-                setListeEtudiants(data);
+                setListeEtudiants(data)
             } else {
                 const data = await res.json();
                 console.log('Erreur', res.status, data);
@@ -68,12 +68,12 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         }
     }
 
-    const allEntrevuesStudentMatricule = async () => {
+    async function allEntrevuesStudentMatricule() {
         try {
-            listeEtudiants.map((candidature) => {
+            listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
                 console.log(matricule)
-                fetch(
+              const res = await fetch(
                     `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
                     {
                         method: "GET",
@@ -93,14 +93,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         catch (e) {
                             console.log(e)
                         }
+                        console.log(data)
                         setEntrevues(data)
                     }
                 );
             })
-            console.log(entrevues)
+           
         } catch (error) {
             console.log("Error fetching data:", error)
-        }
+        }   
     }
 
     function handleMontrerCv(student){
@@ -214,19 +215,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                             </button>
                                         </td>
                                     }
-                                    {entrevues.length > 0 ?
-                                        entrevues.map((entrevue, i) => (
-                                            <td key={i} data-label="ENTREVUE PRÉVUE" scope="row" className='headerElement breakWord h4 pe-3'>
-                                                {entrevue.dateHeure}
-                                            </td>
-                                        )) :
-                                        <td className='headerElement h4'>
-                                            <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
-                                                    onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
-                                                Convoquer
-                                            </button>
-                                        </td>
-                                    }
+                                    <ButtonConvoquer matricule={etudiant.student.matricule} />
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h4 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>

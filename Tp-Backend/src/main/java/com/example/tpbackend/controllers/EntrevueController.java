@@ -1,7 +1,7 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.EntrevueService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,4 +47,10 @@ public class EntrevueController {
        entrevueService.manageStatusByMatricule(matricule, newStatus);
         return new ResponseEntity<>("Status changed", HttpStatus.OK);
     }
+
+    @GetMapping("/students/interviewed-by-employer/{employerId}")
+    public ResponseEntity<List<StudentGetDTO>> getStudentsForInterviewByEmployerId(@PathVariable Long employerId){
+        return ResponseEntity.ok(entrevueService.getStudentsForInterviewByEmployerId(employerId));
+    }
+
 }

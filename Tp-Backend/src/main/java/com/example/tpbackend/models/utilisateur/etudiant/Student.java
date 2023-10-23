@@ -59,4 +59,15 @@ public class Student  {
                 BeanUtils.copyProperties(student,studentGetDTO);
                 return studentGetDTO;
         }
+
+        public StudentGetDTO toStudentDTO() {
+                return new StudentGetDTO(
+                        firstName,
+                        lastName,
+                        utilisateur.getEmail(),
+                        phoneNumber,
+                        matricule,
+                        program
+                );
+        }
 }

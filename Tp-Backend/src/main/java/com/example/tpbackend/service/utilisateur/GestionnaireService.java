@@ -1,8 +1,10 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -128,11 +130,25 @@ public class GestionnaireService {
     public void updateCvStatus(String matricule,String status) {
         cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
     }
-
-    public List<StudentGetDTO> getStudentsWithEntrevue() {
-        List<Entrevue> entrevues = entrevueRepository.findByStudentNotNull();
-        return entrevues.stream()
-                .map(entrevue -> StudentGetDTO.fromStudent(entrevue.getStudent()))
-                .collect(Collectors.toList());
+    public List<EntrevueDTODetailed> getStudentsWithEntrevue() {
+        List<Entrevue> entrevues = entrevueRepository.findAll();
+        List<EntrevueDTODetailed> dtoEntrevue = new ArrayList<>();
+        for(Entrevue e : entrevues){
+           EntrevueDTODetailed entrevue = new EntrevueDTODetailed(
+                    e.getId(),
+                    e.getDateHeure(),
+                    e.getDescription(),
+                    e.getStatus().toString(),
+                    new EmployerGetDTO(),
+                    new StudentGetDTO()
+            );
+           entrevue.getEtudiant().setFirstName(e.getStudent().getFirstName());
+           entrevue.getEtudiant().setLastName(e.getStudent().getLastName());
+           entrevue.getEtudiant().setMatricule(e.getStudent().getMatricule());
+           entrevue.getEmployer().setCompanyName(e.getEmployer().getCompanyName());
+           dtoEntrevue.add(entrevue);
+        }
+        System.out.println(entrevues.size());
+       return dtoEntrevue;
     }
 }

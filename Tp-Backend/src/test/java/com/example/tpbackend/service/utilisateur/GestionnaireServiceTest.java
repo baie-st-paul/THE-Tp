@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -8,6 +9,7 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -515,25 +517,39 @@ public class GestionnaireServiceTest {
     public void testGetStudentsWithEntrevue() {
         // Créer des étudiants
         Student student1 = new Student("Jean", "Dupont", "MAT123", "0101010101", "Programme1");
+        student1.setUtilisateur(new Utilisateur());
+        student1.getUtilisateur().setId(1L);
         Student student2 = new Student("Marie", "Doe", "MAT456", "0202020202", "Programme2");
+        student2.setUtilisateur(new Utilisateur());
+        student2.getUtilisateur().setId(2L);
 
         // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
+        entrevue1.setEmployer(new Employer());
+        entrevue1.getEmployer().setId(1L);
+        entrevue1.getEmployer().setCompanyName("ABC");
         entrevue1.setStudent(student1);
+        entrevue1.setStatus(Entrevue.Status.Acceptee);
+        entrevue1.setId(1L);
 
         Entrevue entrevue2 = new Entrevue();
         entrevue2.setStudent(student2);
+        entrevue2.setEmployer(new Employer());
+        entrevue2.getEmployer().setId(2L);
+        entrevue2.getEmployer().setCompanyName("ABCDC");
+        entrevue2.setStatus(Entrevue.Status.Acceptee);
+        entrevue2.setId(2L);
 
         // Mock le comportement du repository pour renvoyer les entrevues avec étudiants non nuls
-        when(entrevueRepository.findByStudentNotNull()).thenReturn(Arrays.asList(entrevue1, entrevue2));
+        when(entrevueRepository.findAll()).thenReturn(Arrays.asList(entrevue1, entrevue2));
 
         // Appeler le service
-        List<StudentGetDTO> result = gestionnaireService.getStudentsWithEntrevue();
+        List<EntrevueDTODetailed> result = gestionnaireService.getStudentsWithEntrevue();
 
         // Vérifications
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT123")));
-        assertTrue(result.stream().anyMatch(dto -> dto.getMatricule().equals("MAT456")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT123")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT456")));
     }
 
 

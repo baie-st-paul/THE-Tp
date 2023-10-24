@@ -15,16 +15,12 @@ import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 import OffresPageGestionnaire from "./components/landingPage/offresStages/gestionnaire/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/offresStages/student/candidature/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
-import ConvoquerEtudiantEntrevuePage from "./components/landingPage/Entrevue/ConvoquerEtudiantEntrevuePage";
-import LandingCreatedEntrevue from "./components/landingPage/Entrevue/LandingCreatedEntrevue";
 
 function App() {
     return (
         <div>
             <Routes>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
-                <Route path={"/createEntrevue"} element={<ConvoquerEtudiantEntrevuePage/>}></Route>
-                <Route path={"/entrevueOk"} element={<LandingCreatedEntrevue/>}></Route>
                 <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>

@@ -2,10 +2,12 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
@@ -13,6 +15,7 @@ import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
@@ -45,12 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {GestionnaireService.class})
 @ExtendWith(MockitoExtension.class)
@@ -73,6 +71,9 @@ public class GestionnaireServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
+    @Mock
+    private CandidatureRepository candidatureRepository;
 
     /**
      * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
@@ -553,4 +554,32 @@ public class GestionnaireServiceTest {
     }
 
 
+    @Test
+    void getCandidaturesAcceptees() {
+        // Je vais créer des mock pour les objets qui sont utilisés dans la méthode getCandidaturesAcceptees
+        byte[] mockLetter = new byte[] {1, 2, 3};
+        Student mockStudent = mock(Student.class);
+        OffreStage mockOffreStage = mock(OffreStage.class);
+        Cv mockCv = mock(Cv.class);
+
+        // Je vais créer des candidatures pour tester la méthode getCandidaturesAcceptees
+        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
+        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
+
+        List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
+
+        // Configuration du mock
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(mockedList);
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertEquals(2, result.size());
+        assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
+        assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
+
+        // ici je vérifie que la méthode findByStatus a été appelée une fois avec le bon paramètre
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
 }
+

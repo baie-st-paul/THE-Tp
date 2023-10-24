@@ -164,7 +164,6 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                 console.error("Failed to accept/refuse etudiant");
             }).then(
                 async (res) => {
-                    const data = await res.json()
                     try {
                         console.log(res.status)
                         if (res.status === 400) {
@@ -173,7 +172,6 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     } catch (e) {
                         console.log(e)
                     }
-                    console.log(data)
                     setShouldRefetch(!shouldRefetch);
                 })
         } catch (error) {

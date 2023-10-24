@@ -33,7 +33,7 @@ const GestionnaireHomePage = () => {
             contentToRender = <EtudiantsConvoquesEntrevue/>
             break;
         default:
-            contentToRender = <div>Please select a section.</div>;
+            contentToRender = <div>Choisir une section.</div>;
             break;
     }
 

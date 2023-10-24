@@ -52,5 +52,4 @@ public class GestionnaireController {
         List<CandidatureDTO> dtoList = gestionnaireService.getCandidaturesAcceptees();
         return ResponseEntity.ok(dtoList);
     }
-
 }

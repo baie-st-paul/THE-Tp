@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -580,6 +581,20 @@ public class GestionnaireServiceTest {
         // ici je vérifie que la méthode findByStatus a été appelée une fois avec le bon paramètre
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }
+
+    @Test
+    void getCandidaturesAccepteesReturnsEmptyListWhenNoAcceptedApplications() {
+        // Configuration du mock pour renvoyer une liste vide
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertTrue(result.isEmpty());  // La liste retournée devrait être vide
+
+        // Vérifier que le repository a été appelé une seule fois
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
 
 }
 

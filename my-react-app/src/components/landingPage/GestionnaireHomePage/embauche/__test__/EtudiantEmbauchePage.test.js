@@ -14,9 +14,9 @@ const MockEtudiantEmbauchePage = ({listeCandidature}) => {
 }
 
 describe("Test the EtudiantEmbauchePage Component", () => {
-    it('should render div Aucune offre', () => {
+    it('should render titre page', () => {
         render(<MockEtudiantEmbauchePage listeEtudiant={[]}/>)
-        expect(screen.getByText('Aucune offre')).toBeInTheDocument()
+        expect(screen.getByText('Liste des candidatures acceptées')).toBeInTheDocument()
     });
 
     it("should render Button voir lettre motivation disabled si lettre n'est pas la" , ()=> {

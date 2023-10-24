@@ -4,7 +4,6 @@ import {ListGroup} from "react-bootstrap";
 import "../../OffrePage.css";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import OffreDescription from "../../OffreDescription";
 import CandidatureModal from "./CandidatureModal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +12,7 @@ const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
     const [candidatures, setCandidatures] = useState([]);
     const [filterOption] = useState("Accepted");
-    const [shouldRefetch, setShouldRefetch] = useState(false);
+    const [shouldRefetch] = useState(false);
 
     useEffect(() => {
         const fetchOffreList = async () => {

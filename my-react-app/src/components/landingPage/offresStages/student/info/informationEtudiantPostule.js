@@ -73,35 +73,32 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
                 console.log(matricule)
-              const res = await fetch(
+
+                const token = localStorage.getItem('token');
+                const res = await fetch(
                     `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
                     {
-                        method: "GET",
+                        method: 'GET',
                         headers: {
                             'Content-type': 'application/json'
-                        },
-                    }
-                ).catch((error) => {
-                    console.error("Error:", error);
-                }).then(
-                    async (response) => {
-                        const data = await response.json();
-                        console.log(data)
-                        try{
-                            console.log(response.status)
                         }
-                        catch (e) {
-                            console.log(e)
-                        }
-                        console.log(data)
-                        setEntrevues(data)
                     }
                 );
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log(data)
+                    setEntrevues(data)
+                } else {
+                    const data = await res.json();
+                    console.log('Erreur', res.status, data);
+                }
             })
-           
         } catch (error) {
-            console.log("Error fetching data:", error)
-        }   
+            console.log('Une erreur est survenue:', error);
+            if (entrevues !== undefined){
+                setEntrevues(entrevues)
+            }
+        }
     }
 
     function handleMontrerCv(student){
@@ -111,13 +108,6 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     function handleRetour(){
         navigate('/EmployeurHomePage');
-    }
-
-    function handleConvoquerEntrevue(matricule) {
-        console.log(matricule)
-        navigate(`/createEntrevue`, {
-            state: matricule
-        })
     }
 
     function handleMontrerLettre(student){
@@ -161,6 +151,13 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const closeConfirmationModal = () => {
         setIsConfirmationModalOpen(false);
     };
+
+    function handleConvoquerEntrevue(matricule) {
+        console.log(matricule)
+        navigate(`/createEntrevue`, {
+            state: matricule
+        })
+    }
 
     return (
         <div className='mt-5'>
@@ -215,7 +212,23 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                             </button>
                                         </td>
                                     }
-                                    <ButtonConvoquer matricule={etudiant.student.matricule} />
+
+
+                                    {entrevues.length > 0 ?
+                                        entrevues.map((entrevue, i) => (
+                                            <td key={i} data-label="ENTREVUE PRÉVUE" scope="row" className='headerElement breakWord h4 pe-3'>
+                                                {entrevue.dateHeure}
+                                            </td>
+                                        )) :
+                                        <td className='headerElement h4'>
+                                            <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
+                                                    onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
+                                                Convoquer
+                                            </button>
+                                        </td>
+                                    }
+
+
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h4 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>

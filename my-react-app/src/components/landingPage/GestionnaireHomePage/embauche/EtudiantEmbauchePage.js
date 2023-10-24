@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
 import Modal from "../Vetocv/Modal";
 
-const EtudiantEmbauchePage = () => {
+const EtudiantEmbauchePage = ({listeCandidature}) => {
     const [candidatures, setCandidatures] = useState([])
     const [candidature, setCandidature] = useState(null);
     const [openModal, setOpenModal] = useState(false);
@@ -61,11 +61,10 @@ const EtudiantEmbauchePage = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
             <h1 className="display-4 text-center">Liste des candidatures acceptées</h1>
-            {candidatures.length === 0 ?
-                <div>Aucune offre</div>
-                : candidatures.map(
-                    (candidature) => (
-                        <Card key={candidature.id} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
+            {candidatures.length > 0 &&
+                candidatures.map(
+                    (candidature, i) => (
+                        <Card key={i} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
                             <Card.Body>
                                 <Card.Title>
                                     <b>Prénom:</b> {candidature.student.firstName}

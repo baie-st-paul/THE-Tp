@@ -4,6 +4,7 @@ import {faCheck, faExclamationTriangle, faTimes} from "@fortawesome/free-solid-s
 import ReactModal from "react-modal";
 import {format} from "date-fns"
 import axios from "axios";
+
 const EntrevueItemDashboard = ({ nomEntreprise, entrevue , setShouldRefetch}) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 

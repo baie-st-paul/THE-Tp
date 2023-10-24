@@ -99,6 +99,7 @@ const EmployerHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
+                <h2>Employeur</h2>
                 {contentToRender}
             </div>
         </div>

@@ -31,7 +31,7 @@ public class EntrevueService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) throws Exception {
+    public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
 
 
         Entrevue entrevue = new Entrevue();
@@ -56,9 +56,19 @@ public class EntrevueService {
         List<Entrevue> entrevues = entrevueRepository.findAllByStudent_Matricule(matricule);
 
         for(Entrevue e : entrevues){
-            dtos.add(new EntrevueDTO(e));
+            dtos.add(e.toEntrevueDTO());
         }
 
+        return dtos;
+    }
+
+    public List<EntrevueDTO> getAllEntrevuesStudentMatricule(String matricule){
+        List<Entrevue> entrevues = entrevueRepository.getAllByStudentMatricule(matricule);
+        List<EntrevueDTO> dtos = new ArrayList<>();
+
+        for(Entrevue e : entrevues){
+            dtos.add(e.toEntrevueDTO());
+        }
         return dtos;
     }
 

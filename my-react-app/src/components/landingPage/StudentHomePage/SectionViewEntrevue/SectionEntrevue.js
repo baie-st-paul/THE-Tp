@@ -55,10 +55,6 @@ const SectionEntrevue = () => {
 
     }, [shouldRefetch]);
 
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
-
     const openConfirmationModal = (type) => {
         setConfirmationType(type);
         setIsConfirmationModalOpen(true);

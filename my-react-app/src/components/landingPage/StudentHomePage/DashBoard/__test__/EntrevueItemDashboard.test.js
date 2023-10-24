@@ -52,7 +52,7 @@ describe('EntrevueItemDashboard Component', () => {
     it('displays interview details in the modal', async () => {
         const nomEntreprise = 'Company XYZS';
         const entrevue = {
-            entreprise: 'Company XYZ',
+            entreprise: 'Company XYZS',
             dateHeure: '2023-10-15T14:00:00',
             description: 'Description 1',
         };

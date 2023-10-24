@@ -89,9 +89,6 @@ const CreateEntrevueForm = ({onAdd}) => {
                             </div>
 
                             <input type='submit' value="Créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2 '/>
-                            <Link to='/EmployeurHomePage' className='btn  btn-block bg-danger m-0 mt-0 text-light'>
-                                <span style={{fontSize : '20px'}}>Retour</span>
-                            </Link>
                         </div>
                     </form>
                 </div>

@@ -19,6 +19,9 @@ public interface EntrevueRepository extends JpaRepository<Entrevue, Long> {
 
     List<Entrevue> findAllByStudent_Matricule(String matricule);
 
+    @Query("SELECT e FROM Entrevue e WHERE e.student.matricule = ?1")
+    List<Entrevue> getAllByStudentMatricule(String matricule);
+
     @Modifying
     @Transactional
     @Query("UPDATE Entrevue  SET status = ?2   WHERE student.matricule =  ?1")

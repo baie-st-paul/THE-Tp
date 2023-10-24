@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageGestionnaire from "../offresStages/OffrePageGestionnaire";
+import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestionnaire";
 import {faArrowRight, faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -29,13 +29,14 @@ const GestionnaireHomePage = () => {
         case "offre-page-ges":
             contentToRender = <OffresPageGestionnaire/>;
             break;
-        case "entrevues":   
-            contentToRender = <EtudiantsConvoquesEntrevue />
+        case "entrevues":
+            contentToRender = <EtudiantsConvoquesEntrevue/>
             break;
         default:
-            contentToRender = <div>Please select a section.</div>;
+            contentToRender = <div>Choisir une section.</div>;
             break;
     }
+
     return (
         <div>
             <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">

@@ -1,7 +1,7 @@
-
 import React, {useEffect, useState} from "react";
 import "./Dashboard.css";
 import EntrevueItemDashboard from "./EntrevueItemDashboard";
+
 const Dashboard = () =>{
     const [entrevues, setEntrevues] = useState([]);
     const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -35,10 +35,6 @@ const Dashboard = () =>{
         );
 
     }, [shouldRefetch]);
-
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
 
     const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
 

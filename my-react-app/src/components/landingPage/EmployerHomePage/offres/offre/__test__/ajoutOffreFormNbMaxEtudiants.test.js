@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import AjoutOffreForm from '../offres/offre/ajoutOffreForm';
+import AjoutOffreForm from '../ajoutOffreForm';
 
 describe('AjoutOffreForm', () => {
   it('should show error message when "nbMaxEtudiants" is empty', () => {

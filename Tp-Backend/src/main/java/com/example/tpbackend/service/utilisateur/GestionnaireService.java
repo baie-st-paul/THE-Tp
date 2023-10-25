@@ -174,12 +174,7 @@ public class GestionnaireService {
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
         // Récupérer l'entité Student à partir de l'ID
-        /**
-         * Il y a une petite incoherence au niveau de la class Student et du Repository Student,
-         * l'Id de student est un String et non un Integer comme dans le repository StudentRepository
-         * C'est pourquoi j'ai du faire un Integer.valueOf(contratStageDTO.getStudentId()) pour que ca fonctionne
-         * */
-        Optional<Student> studentOptional = studentRepository.findById(Integer.valueOf(contratStageDTO.getStudentId()));
+        Optional<Student> studentOptional = studentRepository.findById(contratStageDTO.getStudentId());
         if (studentOptional.isEmpty()) {
             throw new RuntimeException("L'étudiant avec l'ID " + contratStageDTO.getStudentId() + " n'a pas été trouvé.");
         }

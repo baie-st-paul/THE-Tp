@@ -1,10 +1,12 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.AllArgsConstructor;
@@ -48,4 +50,17 @@ public class GestionnaireController {
         List<EntrevueDTODetailed> studentDTOS = gestionnaireService.getStudentsWithEntrevue();
         return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
     }
+
+    @PostMapping("/create-contrat")
+    public ResponseEntity<ContratStageDTO> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
+        try {
+            ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
+            return new ResponseEntity<>(newContratStage, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(contratStageDTO);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

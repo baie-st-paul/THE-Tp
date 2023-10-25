@@ -1,5 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
@@ -8,21 +9,29 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
+import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +46,15 @@ public class GestionnaireService {
     private CvRepository cvRepository;
     @Autowired
     private EntrevueRepository entrevueRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private EmployerRepository employerRepository;
+
+    @Autowired
+    private ContratStageRepository contratStageRepository;
 
     public GestionnairePostDTO saveGestionnaire(String firstName,
                                                 String lastName,
@@ -151,4 +169,35 @@ public class GestionnaireService {
         System.out.println(entrevues.size());
        return dtoEntrevue;
     }
+
+
+    @Transactional
+    public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
+        // Récupérer l'entité Student à partir de l'ID
+        /**
+         * Il y a une petite incoherence au niveau de la class Student et du Repository Student,
+         * l'Id de student est un String et non un Integer comme dans le repository StudentRepository
+         * C'est pourquoi j'ai du faire un Integer.valueOf(contratStageDTO.getStudentId()) pour que ca fonctionne
+         * */
+        Optional<Student> studentOptional = studentRepository.findById(Integer.valueOf(contratStageDTO.getStudentId()));
+        if (studentOptional.isEmpty()) {
+            throw new RuntimeException("L'étudiant avec l'ID " + contratStageDTO.getStudentId() + " n'a pas été trouvé.");
+        }
+
+        // Récupérer l'entité Employer à partir de l'ID
+        Optional<Employer> employerOptional = employerRepository.findById(contratStageDTO.getEmployeurId());
+        if (employerOptional.isEmpty()) {
+            throw new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployeurId() + " n'a pas été trouvé.");
+        }
+
+        ContratStage contratStage = contratStageDTO.toContratStage();
+        contratStage.setStudent(studentOptional.get());
+        contratStage.setEmployeur(employerOptional.get());
+
+        ContratStage contratStageSaved = contratStageRepository.save(contratStage);
+
+
+        return ContratStageDTO.fromContratStage(contratStageSaved);
+    }
+
 }

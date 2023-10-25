@@ -19,7 +19,7 @@ const ConnexionPage = () => {
 
     async function connexion(utilisateur) {
         try {
-            const res = await fetch(
+            await fetch(
                 'http://localhost:8081/api/v1/utilisateur/login',
                 {
                     method: 'POST',
@@ -28,106 +28,94 @@ const ConnexionPage = () => {
                     },
                     body: JSON.stringify(utilisateur)
                 }
-            );
-
-            if (res.status === 400) {
+            ).catch((error) => {
+                console.error(error);
                 setErreur(true);
-                throw new Error('Cet Email n\'est pas associé à un compte');
-            } else {
-                setErreur(false);
-            }
+            }).then(async (res) => {
+                const data = await res.json();
+                console.log(data)
+                localStorage.clear()
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user_type', data.role);
+            });
 
-            const data = await res.json();
-            console.log(data)
-
-            localStorage.clear()
-            localStorage.setItem('token', JSON.stringify(data.token));
-            localStorage.setItem('user_type', JSON.stringify(data.role))
-
+            const role = localStorage.getItem('user_type').replace(/["]/g, '');
             const token = localStorage.getItem('token');
             console.log(token)
-            if (data.role) {
-                switch (data.role) {
-                    case 'Student':
-                        const resStudentGetDTO = await fetch(
+            console.log(role)
+
+            if (role) {
+
+
+                switch (role) {
+                    case "Student":
+                        console.log("GotHere2")
+                        await fetch(
                             'http://localhost:8081/api/v1/student/getstudent',
                             {
                                 method: 'GET',
                                 headers: {
-                                    'Content-type': 'application/json',
-                                    'Authorization': `Bearer ${token}`
-                                }
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                withCredentials: true
+
                             }
-                        );
+                        ).catch((error) => {
+                            console.error(error);
 
-                        if (resStudentGetDTO.status === 400) {
-                            setErreur(true);
-                            throw new Error("Can't get student DTO");
-                        } else {
-                            setErreur(false);
-                        }
-
-                        const dataStudentGetDTO = await resStudentGetDTO.json();
-                        console.log(dataStudentGetDTO)
-
-                        setLoggedInUser(dataStudentGetDTO);
-                        setRedirectTo("/StudentHomePage");
+                        }).then(async (res) => {
+                            const dataStudentGetDTO = await res.json();
+                            console.log(dataStudentGetDTO)
+                            setLoggedInUser(dataStudentGetDTO);
+                            setRedirectTo("/StudentHomePage");
+                        });
                         break;
                     case 'Gestionnaire':
-                        const resGestionnaireGetDTO = await fetch(
+                        await fetch(
                             'http://localhost:8081/api/v1/gestionnaire/getGestionnaire',
                             {
                                 method: 'GET',
                                 headers: {
-                                    'Content-type': 'application/json',
-                                    Authorization: `Bearer ${token}`
-                                }
+                                    Authorization: 'Bearer ' + token
+                                },
+                                withCredentials: true
                             }
-                        );
-
-                        if (resGestionnaireGetDTO.status === 400) {
+                        ).catch((error) => {
+                            console.error(error);
                             setErreur(true);
-                            throw new Error("Can't get gestionnaire DTO");
-                        } else {
-                            setErreur(false);
-                        }
-
-                        const dataGestionnaireGetDTO = await resGestionnaireGetDTO.json();
-                        console.log(dataGestionnaireGetDTO)
-
-                        setLoggedInUser(dataGestionnaireGetDTO);
-                        setRedirectTo("/GestionnaireHomePage");
+                        }).then(async (res) => {
+                            const dataGestionnaireGetDTO = await res.json();
+                            console.log(dataGestionnaireGetDTO)
+                            setLoggedInUser(dataGestionnaireGetDTO);
+                            setRedirectTo("/GestionnaireHomePage");
+                        });
                         break;
                     case 'Employeur':
-                        const resEmployeurGetDTO = await fetch(
+                        await fetch(
                             'http://localhost:8081/api/v1/employers/getEmployer',
                             {
                                 method: 'GET',
                                 headers: {
-                                    'Content-type': 'application/json',
-                                    Authorization: `Bearer ${token}`
-                                }
+                                    Authorization: 'Bearer ' + token
+                                },
+                                withCredentials: true
                             }
-                        );
-
-                        if (resEmployeurGetDTO.status === 400) {
+                        ).catch((error) => {
+                            console.error(error);
                             setErreur(true);
-                            throw new Error("Can't get employeur DTO");
-                        } else {
-                            setErreur(false);
-                        }
-
-                        const dataEmployeurGetDTO = await resEmployeurGetDTO.json();
-                        console.log(dataEmployeurGetDTO)
-                        console.log(dataEmployeurGetDTO.id)
-
-                        setLoggedInUser(dataEmployeurGetDTO);
-                        localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
-                        setRedirectTo("/EmployeurHomePage");
+                        }).then(async (res) => {
+                            const dataEmployeurGetDTO = await res.json();
+                            console.log(dataEmployeurGetDTO)
+                            setLoggedInUser(dataEmployeurGetDTO);
+                            localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
+                            setRedirectTo("/EmployeurHomePage");
+                        });
                         break;
                     default:
+                        console.log("GotHere13")
                         break;
                 }
+
             }
         } catch (e) {
             console.error(e);

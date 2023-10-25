@@ -10,6 +10,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
 import "../../../../stylesGenerales.css"
 import CreateEntrevueForm from "../../../Entrevue/CreateEntrevueForm";
+import ButtonConvoquer from './ButtonConvoquer';
 
 const customStyles = {
     content: {
@@ -21,16 +22,6 @@ const customStyles = {
         transform: "translate(-50%, -50%)",
     },
 };
-
-const MODAL_STYLES = {
-    position: "absolute",
-    backgroundColor: "#FFF",
-    padding: "15px",
-    zIndex: "1000",
-    width: "70%",
-    borderRadius: ".5em"
-};
-
 const OVERLAY_STYLE = {
     position: "fixed",
     display: "flex",
@@ -57,10 +48,12 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [shouldRefetch, setShouldRefetch] = useState(false);
 
+
     useEffect(() => {
-        handleListePostule();
+        handleListePostule(); 
         allEntrevuesStudentMatricule();
     }, [])
+
 
     async function handleListePostule() {
         try {
@@ -99,12 +92,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     async function allEntrevuesStudentMatricule() {
         try {
-            listeEtudiants.map(async (candidature) => {
-                const matricule = candidature.student.matricule
-                console.log(matricule)
-
                 fetch(
-                    `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
+                    `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
                     {
                         method: 'GET',
                         headers: {
@@ -125,15 +114,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                             console.log(e)
                         }
                         setEntrevues(data)
+                        console.log(entrevues)
                     })
-            })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (entrevues !== undefined){
                 setEntrevues(entrevues)
             }
-        }
-    }
+}  
+}
 
     function handleMontrerCv(student){
         setOpenModal(!openModal)
@@ -179,6 +168,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
+    }
+
+    const setModal = () => {
+        setShowConvoquer(!showConvoquer);
     }
 
     const handleAcceptConfirmation = () => {
@@ -252,25 +245,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     function ModalConvoquerCreateEntrevue() {
         return (
-            <div style={OVERLAY_STYLE}>
-                <div style={MODAL_STYLES}>
-                    <div className="titleCloseBtn">
-                        <button onClick={() => setShowConvoquer(false)}>X</button>
-                    </div>
-                    <div className="title">
-                        <h1>Convoquer un étudiant</h1>
-                    </div>
-                    <div className="body">
-                        <CreateEntrevueForm onAdd={createEntrevue}/>
-                    </div>
-                    <div className="footer">
-                        <button id="cancelBtn" onClick={() => setShowConvoquer(false)}>Fermer</button>
+            <div style={OVERLAY_STYLE} className='w-100' >
+                <div style={{backgroundColor: "white", backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
+                    <div className=" opacity-100 bg-body p-3 fullscr">
+                        <CreateEntrevueForm onAdd={createEntrevue} setShow={setModal}/>
+                        </div>
                     </div>
                 </div>
-            </div>
         )
     }
-
     return (
         <div className='mt-5'>
             <div className='rootInfo font'>
@@ -286,7 +269,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
                             <th scope='col' className='headerElement'>RESUME</th>
                             <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
-                            <th scope='col' className='headerElement '>ACTION</th>
+                            <th scope='col' className='headerElement '>ENTREVUE</th>
                             <th scope='col' className='headerElement text-center'>STATUT</th>
                             <th scope='col' className='headerElement text-center'></th>
                         </tr>
@@ -295,55 +278,40 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
                                 <tr key={i} className=''>
-                                    <td data-label="NOM" scope="row" className='headerElement text-break  h4'>
+                                    <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
                                         {etudiant.student.firstName}
                                     </td>
-                                    <td  data-label="PRENOM" className='headerElement  text-break h4'>
+                                    <td  data-label="PRENOM" className='headerElement  text-break h6'>
                                         {etudiant.student.lastName}
                                     </td>
-                                    <td data-label="ADRESSE COURRIEL" className=' headerElement text-break h4'>
+                                    <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
                                         {etudiant.student.email}
                                     </td>
-                                    <td data-label="NUMERO DE TELEPHONE" className=' headerElement h4'>
+                                    <td data-label="NUMERO DE TELEPHONE" className=' headerElement h6'>
                                         {etudiant.student.phoneNumber}
                                     </td>
-                                    <td data-label="RESUME" className='headerElement h4 px-0 '>
-                                        <button style={{height : "60px", width: '120px' }} className='btn btn-primary '
-                                                onClick={()=>handleMontrerCv(etudiant)}>Cv
+                                    <td data-label="RESUME" className='headerElement h6 px-3 pe-0 '>
+                                        <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
+                                                onClick={()=>handleMontrerCv(etudiant)}><p>Curriculum Vitae</p>
                                         </button>
                                     </td>
                                     { etudiant.student.fileName !== '' ?
-                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
-                                            <button style={{height : "60px", width: '120px' }} className='btn btn-primary'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
+                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h6 px-3 pe-0 '>
+                                            <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
+                                                    onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
                                         :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
-                                            <button style={{height : "60px", width: '120px' }} className='btn btn-primary disabled'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
+                                            <button style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
+                                                    onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
-                                    }
-
-                                    {entrevues.length > 0 ?
-                                        entrevues.map((entrevue, i) => (
-                                            <td key={i} data-label="ENTREVUE PRÉVUE" scope="row" className='headerElement breakWord h4 pe-3'>
-                                                {entrevue.dateHeure}
-                                            </td>
-                                        )) :
-                                        <td className='headerElement h4'>
-                                            <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
-                                                    onClick={()=> setShowConvoquer(!showConvoquer)}>
-                                                Convoquer
-                                            </button>
-                                        </td>
-                                    }
-
-
-                                    <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h4 pe-3'>
+                                    }      
+                                        <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
+                                    <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>
-                                                <FontAwesomeIcon icon={faClock} /> En attente
+                                                <FontAwesomeIcon icon={faClock} /> <span className='h6'><h6>En attente</h6></span>
                                             </>
                                         )}
                                         {etudiant.status === "Accepted" && (
@@ -365,7 +333,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                 </button>
                                                 <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
-                                                </button>
+                                                </button> 
                                                 </div>
                                         )}
                                     </td>

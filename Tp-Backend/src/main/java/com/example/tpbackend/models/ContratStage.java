@@ -33,7 +33,8 @@ public class ContratStage {
     private String evaluationCriteria;       // Les critères sur lesquels l'étudiant sera évalué
     private String termsAndConditions;       // Autres termes et conditions spécifiques
     private Boolean confidentialityAgreement; // Si un accord de confidentialité est signé
-
+    private Boolean signedByEmployer;
+    private Boolean signedByStudent;
     /**
      * Les champs que dois contenir un contrat de stage n'ont pas ete definis dans Jira
      */

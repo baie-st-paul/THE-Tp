@@ -1,6 +1,7 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.controllers.GestionnaireController;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

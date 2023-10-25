@@ -50,12 +50,12 @@ const ConnexionPage = () => {
                 switch (data.role) {
                     case 'Student':
                         const resStudentGetDTO = await fetch(
-                            'http://localhost:8081/api/v1/student/getStudent',
+                            'http://localhost:8081/api/v1/student/getstudent',
                             {
                                 method: 'GET',
                                 headers: {
                                     'Content-type': 'application/json',
-                                    Authorization: `Bearer ${token}`
+                                    'Authorization': `Bearer ${token}`
                                 }
                             }
                         );

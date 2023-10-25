@@ -32,6 +32,7 @@ public class OffreStageService {
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
         offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
+        System.out.println("here" + employerService.getEmployerById(offre.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 

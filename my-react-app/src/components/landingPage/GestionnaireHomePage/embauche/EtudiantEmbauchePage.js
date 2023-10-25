@@ -39,6 +39,7 @@ const EtudiantEmbauchePage = ({listeCandidature}) => {
                         console.log(e)
                     }
                     setCandidatures(data)
+                    console.log(data)
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);

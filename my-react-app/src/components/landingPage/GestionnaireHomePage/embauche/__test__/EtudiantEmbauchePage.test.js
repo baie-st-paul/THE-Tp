@@ -1,7 +1,7 @@
 import {BrowserRouter} from "react-router-dom";
 import EtudiantEmbauchePage from "../EtudiantEmbauchePage";
-import {fireEvent, render, screen} from "@testing-library/react";
-import {testList, testList1, testList1Acceptes, testList2} from "../../../offresStages/student/info/__test__/TestList";
+import {render, screen} from "@testing-library/react";
+import {testList1Acceptes} from "../../../offresStages/student/info/__test__/TestList";
 
 const MockEtudiantEmbauchePage = ({listeCandidature}) => {
     return (

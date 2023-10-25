@@ -1,56 +1,49 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
+import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
-
-import java.io.IOException;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
+import static org.mockito.ArgumentMatchers.any;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {GestionnaireService.class})
 @ExtendWith(MockitoExtension.class)
@@ -73,6 +66,15 @@ public class GestionnaireServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
+    @Mock
+    private StudentRepository studentRepository;
+
+    @Mock
+    EmployerRepository employerRepository;
+
+    @Mock
+    ContratStageRepository contratStageRepository;
 
     /**
      * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
@@ -550,6 +552,60 @@ public class GestionnaireServiceTest {
         assertEquals(2, result.size());
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT123")));
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT456")));
+    }
+
+    @Test
+    public void testCreateContrat_Success() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("0938473");
+        inputDto.setEmployeurId(1L);
+
+        Student mockStudent = new Student();
+        Employer mockEmployer = new Employer();
+        ContratStage mockContrat = new ContratStage();
+
+        Mockito.when(studentRepository.findById("0938473")).thenReturn(Optional.of(mockStudent));
+        Mockito.when(employerRepository.findById(1L)).thenReturn(Optional.of(mockEmployer));
+        Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
+
+        // Act
+        ContratStageDTO result = gestionnaireService.createContrat(inputDto);
+
+        // Assert
+        assertNotNull(result);
+
+    }
+
+    @Test
+    public void testCreateContrat_StudentNotFound() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("nonExistentStudentId");
+        inputDto.setEmployeurId(1L);
+
+        Mockito.when(studentRepository.findById("nonExistentStudentId")).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            gestionnaireService.createContrat(inputDto);
+        });
+    }
+
+    @Test
+    public void testCreateContrat_EmployerNotFound() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("someStudentId");
+        inputDto.setEmployeurId(999L);
+
+        Student mockStudent = new Student();
+
+        Mockito.when(studentRepository.findById("someStudentId")).thenReturn(Optional.of(mockStudent));
+        Mockito.when(employerRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            gestionnaireService.createContrat(inputDto);
+        });
     }
 
 

@@ -27,10 +27,21 @@ public class ContratStageDTO {
 
     // Conversion d'une entité ContratStage vers DTO
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
+        String matricule = null;
+        if (contratStage.getStudent() != null) {
+            matricule = contratStage.getStudent().getMatricule();
+        }
+
+        // Assurez-vous de vérifier les autres propriétés aussi, si nécessaire, par exemple contratStage.getEmployeur()
+        Long employeurId = null;
+        if (contratStage.getEmployeur() != null) {
+            employeurId = contratStage.getEmployeur().getId();
+        }
+
         return new ContratStageDTO(
                 contratStage.getId(),
-                contratStage.getStudent().getMatricule(),
-                contratStage.getEmployeur().getId(),
+                matricule,
+                employeurId,
                 contratStage.getStartDate(),
                 contratStage.getEndDate(),
                 contratStage.getResponsibilities(),

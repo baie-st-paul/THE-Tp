@@ -48,16 +48,15 @@ public class GestionnaireControllerTest {
         // Exécuter l'endpoint et vérifier la réponse
         mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/candidatures/acceptees"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON)) // Vérifier que le contenu est de type JSON
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()", is(2)))
-                .andExpect(jsonPath("$[0].id", is(dto1.getId().intValue()))) // Vérifier l'ID
-                .andExpect(jsonPath("$[0].fileName", is(dto1.getFileName()))) // Vérifier le fileName
-                .andExpect(jsonPath("$[0].status", is(dto1.getStatus()))) // Vérifier le status
+                .andExpect(jsonPath("$[0].id", is(dto1.getId().intValue())))
+                .andExpect(jsonPath("$[0].fileName", is(dto1.getFileName())))
+                .andExpect(jsonPath("$[0].status", is(dto1.getStatus())))
                 .andExpect(jsonPath("$[1].id", is(dto2.getId().intValue())))
                 .andExpect(jsonPath("$[1].fileName", is(dto2.getFileName())))
                 .andExpect(jsonPath("$[1].status", is(dto2.getStatus())));
 
-        // Vérifiez que le service a été appelé une seule fois
         verify(gestionnaireService, times(1)).getCandidaturesAcceptees();
     }
 

@@ -5,10 +5,13 @@ import Button from "react-bootstrap/Button";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
 import Modal from "../Vetocv/Modal";
 import {FaPencil} from "react-icons/fa6";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const EtudiantEmbauchePage = () => {
     const [candidatures, setCandidatures] = useState([])
     const [candidature, setCandidature] = useState(null);
+    const [contrats, setContrats] = useState([]);
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
 
@@ -53,13 +56,16 @@ const EtudiantEmbauchePage = () => {
     async function handleCreateContrat(candidature) {
         try {
             const studentId = candidature.student.matricule
-            const employerId = candidature.offreStage.employerId
+            //problem employerId
+            const employerId = candidature.offreStage.id
+
+            console.log(studentId)
+            console.log(employerId)
 
             const contratStage = ({
                 "studentId": studentId,
                 "employerId": employerId
             })
-            console.log(contratStage)
             fetch(
                 `http://localhost:8081/api/v1/gestionnaire/create-contrat`,
                 {
@@ -83,6 +89,7 @@ const EtudiantEmbauchePage = () => {
                         console.log(e)
                     }
                     console.log(data)
+                    setContrats([data])
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -142,11 +149,17 @@ const EtudiantEmbauchePage = () => {
                                         style={{color: 'black'}}
                                     /></Button>
                                 }
-                                <Button className="btn btn-primary"
-                                        onClick={() => handleCreateContrat(candidature)}>
-                                    Créer un contrat de stage <FaPencil
-                                    style={{color: 'black'}}
-                                /></Button>
+                                { contrats.length > 0 ?
+                                    <>
+                                        <br/>
+                                        <FontAwesomeIcon icon={faCheck} /> Contrat créé
+                                    </> :
+                                    <Button className="btn btn-primary"
+                                            onClick={() => handleCreateContrat(candidature)}>
+                                        Créer un contrat de stage <FaPencil
+                                        style={{color: 'black'}}
+                                    /></Button>
+                                }
                             </Card.Body>
                         </Card>
                     )

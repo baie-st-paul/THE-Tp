@@ -35,6 +35,7 @@ describe("Test the EtudiantEmbauchePage Component", () => {
 
         expect(screen.getByText('Résumé')).toBeInTheDocument()
         expect(screen.getByText('Lettre de motivation')).toBeInTheDocument()
+        expect(screen.getByText('Créer un contrat de stage')).toBeInTheDocument()
     });
 
     it("should render Button voir lettre motivation disabled si lettre n'est pas la" , async () => {
@@ -77,5 +78,15 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         fireEvent.click(bouttonElement);
         // check if modal opens
         expect(screen.getByText('X')).toBeInTheDocument();
+    });
+
+    it('should render click button contrat stage', async () => {
+        fetch.mockResponse(JSON.stringify(testList2Acceptes))
+        render(<EtudiantEmbauchePage/>)
+
+        expect(await screen.findByTestId('flo')).toBeInTheDocument()
+
+        const bouttonElement = screen.getByText('Créer un contrat de stage')
+        fireEvent.click(bouttonElement);
     });
 });

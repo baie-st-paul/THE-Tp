@@ -42,11 +42,11 @@ class SignatureServiceTest {
 
     @Test
     public void testCreateEmployerSignature() throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.org");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Employeur);
+        Utilisateur user = new Utilisateur();
+        user.setEmail("jane.doe@example.org");
+        user.setId(1L);
+        user.setPassword("iloveyou");
+        user.setRole(Utilisateur.Role.Employeur);
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
@@ -55,14 +55,14 @@ class SignatureServiceTest {
         employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
         employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(utilisateur);
+        employer.setUtilisateur(user);
 
         SignatureDTO signatureDTO = new SignatureDTO();
         signatureDTO.setUserId("1");
         signatureDTO.setImageLink("https://example.org/example");
 
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(utilisateur));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
         when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
         SignatureDTO result = signatureService.createEmployerSignature(signatureDTO);
 
@@ -143,6 +143,39 @@ class SignatureServiceTest {
         assertEquals("newlink.org", result.getImageLink());
         assertEquals("1", result.getUserId());
         verify(signatureRepository, times(1)).save(any());
+    }
+    @Test
+    public void testDeleteEmployerSignature() throws Exception {
+        Utilisateur user = new Utilisateur();
+        user.setEmail("jane.doe@example.org");
+        user.setId(1L);
+        user.setPassword("iloveyou");
+        user.setRole(Utilisateur.Role.Employeur);
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setFirstName("Jane");
+        employer.setId(1L);
+        employer.setLastName("Doe");
+        employer.setOffresStages(new ArrayList<>());
+        employer.setPhoneNumber("6625550144");
+        employer.setUtilisateur(user);
+
+        Signature s = new Signature();
+        s.setImageLink("https://example.org/example");
+        s.setUser(user);
+        s.setId(1L);
+        employer.setSignature(s);
+
+
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
+        when(signatureRepository.findByUserId(1)).thenReturn(s);
+        signatureService.deleteEmployerSignature("1");
+
+        assertNull(employer.getSignature());
+        verify(signatureRepository, times(1)).delete(any());
+        verify(employerRepository, times(1)).save(any());
     }
 
 }

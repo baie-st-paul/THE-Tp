@@ -50,18 +50,24 @@ const EtudiantEmbauchePage = () => {
         }
     }
 
-    //en cours marche pas encore
     async function handleCreateContrat(candidature) {
         try {
-            const student = candidature.student
+            const studentId = candidature.student.matricule
             const employerId = candidature.offreStage.employerId
+
+            const contratStage = ({
+                "studentId": studentId,
+                "employerId": employerId
+            })
+            console.log(contratStage)
             fetch(
-                `http://localhost:8081/api/v1/gestionnaire/create-contrat/${student}/${employerId}`,
+                `http://localhost:8081/api/v1/gestionnaire/create-contrat`,
                 {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
-                    }
+                    },
+                    body: JSON.stringify(contratStage)
                 }
             ).catch(error => {
                 console.log(error)
@@ -76,14 +82,10 @@ const EtudiantEmbauchePage = () => {
                     } catch (e) {
                         console.log(e)
                     }
-                    setCandidatures(data)
                     console.log(data)
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            if (candidatures !== undefined){
-                setCandidatures(candidatures)
-            }
         }
     }
 

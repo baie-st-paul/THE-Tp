@@ -57,7 +57,6 @@ public class GestionnaireController {
             ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
             return new ResponseEntity<>(newContratStage, HttpStatus.CREATED);
         } catch (Exception e) {
-            System.out.println(contratStageDTO);
             System.out.println(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -25,7 +25,6 @@ public class ContratStageDTO {
         if (contratStage.getEmployeur() != null) {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
-
         return dto;
     }
 

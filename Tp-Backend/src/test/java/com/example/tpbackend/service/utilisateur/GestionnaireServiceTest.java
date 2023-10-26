@@ -541,7 +541,6 @@ public class GestionnaireServiceTest {
         student2.setUtilisateur(new Utilisateur());
         student2.getUtilisateur().setId(2L);
 
-        // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
         entrevue1.setEmployer(new Employer());
         entrevue1.getEmployer().setId(1L);
@@ -558,13 +557,10 @@ public class GestionnaireServiceTest {
         entrevue2.setStatus(Entrevue.Status.Acceptee);
         entrevue2.setId(2L);
 
-        // Mock le comportement du repository pour renvoyer les entrevues avec étudiants non nuls
         when(entrevueRepository.findAll()).thenReturn(Arrays.asList(entrevue1, entrevue2));
 
-        // Appeler le service
         List<EntrevueDTODetailed> result = gestionnaireService.getStudentsWithEntrevue();
 
-        // Vérifications
         assertEquals(2, result.size());
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT123")));
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT456")));
@@ -624,19 +620,16 @@ public class GestionnaireServiceTest {
 
     @Test
     void getCandidaturesAcceptees() {
-        // Je vais créer des mock pour les objets qui sont utilisés dans la méthode getCandidaturesAcceptees
         byte[] mockLetter = new byte[] {1, 2, 3};
         Student mockStudent = mock(Student.class);
         OffreStage mockOffreStage = mock(OffreStage.class);
         Cv mockCv = mock(Cv.class);
 
-        // Je vais créer des candidatures pour tester la méthode getCandidaturesAcceptees
         Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
         Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
 
         List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
 
-        // Configuration du mock
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(mockedList);
 
         List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
@@ -645,20 +638,17 @@ public class GestionnaireServiceTest {
         assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
         assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
 
-        // ici je vérifie que la méthode findByStatus a été appelée une fois avec le bon paramètre
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }
 
     @Test
     void getCandidaturesAccepteesReturnsEmptyListWhenNoAcceptedApplications() {
-        // Configuration du mock pour renvoyer une liste vide
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
 
         List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
 
-        assertTrue(result.isEmpty());  // La liste retournée devrait être vide
+        assertTrue(result.isEmpty());
 
-        // Vérifier que le repository a été appelé une seule fois
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }
 

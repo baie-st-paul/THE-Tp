@@ -10,8 +10,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(GestionnaireController.class)
@@ -29,19 +31,27 @@ public class GestionnaireControllerTest {
     @Test
     public void testCreateContrat_Success() throws Exception {
         ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setId(1L);
+        inputDto.setStudentId("0938473");
+        inputDto.setEmployerId(1L);
 
         ContratStageDTO mockResponse = new ContratStageDTO();
+        mockResponse.setId(1L);
+        mockResponse.setStudentId("0938473");
+        mockResponse.setEmployerId(1L);
 
         when(gestionnaireService.createContrat(any(ContratStageDTO.class))).thenReturn(mockResponse);
 
         String jsonContent = objectMapper.writeValueAsString(inputDto);
 
-        mockMvc.perform(post("/create-contrat")
+        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8081/api/v1/gestionnaire/create-contrat")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonContent))
                 .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(mockResponse)));
-
+                .andExpect(content().json(objectMapper.writeValueAsString(mockResponse)))
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.studentId").value("0938473"))
+                .andExpect(jsonPath("$.employerId").value(1L));
     }
 
     @Test
@@ -53,7 +63,7 @@ public class GestionnaireControllerTest {
 
         String jsonContent = objectMapper.writeValueAsString(inputDto);
 
-        mockMvc.perform(post("/create-contrat")
+        mockMvc.perform(MockMvcRequestBuilders.post("http://localhost:8081/api/v1/gestionnaire/create-contrat")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonContent))
                 .andExpect(status().isBadRequest())

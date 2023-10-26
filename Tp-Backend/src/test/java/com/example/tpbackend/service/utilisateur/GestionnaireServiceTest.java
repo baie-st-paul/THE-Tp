@@ -3,10 +3,13 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
@@ -15,6 +18,8 @@ import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
@@ -39,10 +44,19 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.multipart.MultipartFile;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {GestionnaireService.class})
@@ -75,6 +89,8 @@ public class GestionnaireServiceTest {
 
     @Mock
     ContratStageRepository contratStageRepository;
+
+    private CandidatureRepository candidatureRepository;
 
     /**
      * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
@@ -606,4 +622,46 @@ public class GestionnaireServiceTest {
     }
 
 
+    @Test
+    void getCandidaturesAcceptees() {
+        // Je vais créer des mock pour les objets qui sont utilisés dans la méthode getCandidaturesAcceptees
+        byte[] mockLetter = new byte[] {1, 2, 3};
+        Student mockStudent = mock(Student.class);
+        OffreStage mockOffreStage = mock(OffreStage.class);
+        Cv mockCv = mock(Cv.class);
+
+        // Je vais créer des candidatures pour tester la méthode getCandidaturesAcceptees
+        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
+        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
+
+        List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
+
+        // Configuration du mock
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(mockedList);
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertEquals(2, result.size());
+        assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
+        assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
+
+        // ici je vérifie que la méthode findByStatus a été appelée une fois avec le bon paramètre
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
+    @Test
+    void getCandidaturesAccepteesReturnsEmptyListWhenNoAcceptedApplications() {
+        // Configuration du mock pour renvoyer une liste vide
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertTrue(result.isEmpty());  // La liste retournée devrait être vide
+
+        // Vérifier que le repository a été appelé une seule fois
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
+
 }
+

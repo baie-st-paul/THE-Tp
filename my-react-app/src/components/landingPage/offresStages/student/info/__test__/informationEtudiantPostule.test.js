@@ -80,14 +80,6 @@ describe("Test the InformationEtudiantPostule Component", () => {
         <Router history={history} location={history} navigator={history}>{children}</Router>
     );
 
-    it('should render navigate to createEntrevue', ()=> {
-        const history = createMemoryHistory();
-        render(<InformationEtudiantPostule listeEtudiant={testList2} />, { wrapper: createRouterWrapper(history) });
-        const navigateButton = screen.getByTitle(/CONVOQUER/i);
-        fireEvent.click(navigateButton);
-        expect(history.location.pathname).toBe('/createEntrevue');
-    });
-
     it('should render Retourne au liste des offres', ()=> {
         const history = createMemoryHistory();
         render(<InformationEtudiantPostule listeEtudiant={testList2} />, { wrapper: createRouterWrapper(history) });

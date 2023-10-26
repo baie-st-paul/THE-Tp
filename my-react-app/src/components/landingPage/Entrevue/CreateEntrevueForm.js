@@ -1,8 +1,8 @@
 import {useRef, useState} from "react";
-import {Link} from "react-router-dom";
 import './Entrevue.css'
+import "../../stylesGenerales.css"
 
-const CreateEntrevueForm = ({onAdd}) => {
+const CreateEntrevueForm = ({onAdd , setShow}) => {
     const [date, setDate] = useState('');
     const [heure, setHeure] = useState('');
     const [description, setDescription] = useState('');
@@ -54,9 +54,9 @@ const CreateEntrevueForm = ({onAdd}) => {
     }
 
     return (
-        <div className="root vh-100">
+        <div className="root">
             <div className='fondIU'>
-                <div className="divForm ">
+                <div className="divForm">
                     <form autoComplete="off" name='abc'  id="formm"  className='form font add-form ' onSubmit={onSubmit}>
                         <h2 className="h3 font text-center">CRÉATION DE L'ENTREVUE</h2>
                         <div className="w-100">
@@ -87,8 +87,10 @@ const CreateEntrevueForm = ({onAdd}) => {
                                        onChange={(e) => setDescription(e.target.value)}/>
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
-
+                            <div className="w-100">
                             <input type='submit' value="Créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2 '/>
+                            <input type="button" className='btn btn-danger btn-block font text-white m-0' value="Fermer" onClick={setShow}></input>
+                            </div>
                         </div>
                     </form>
                 </div>

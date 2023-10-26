@@ -4,12 +4,14 @@ import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
@@ -18,6 +20,7 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
@@ -46,6 +49,8 @@ public class GestionnaireService {
     private CvRepository cvRepository;
     @Autowired
     private EntrevueRepository entrevueRepository;
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -170,7 +175,6 @@ public class GestionnaireService {
        return dtoEntrevue;
     }
 
-
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
         Student student = studentRepository.findById(contratStageDTO.getStudentId())
@@ -189,6 +193,10 @@ public class GestionnaireService {
         return ContratStageDTO.fromContratStage(contratStageSaved);
     }
 
+    public List<CandidatureDTO> getCandidaturesAcceptees() {
+        List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
+        return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());
+    }
 }
 
 

@@ -29,7 +29,6 @@ const ConnexionPage = () => {
                     body: JSON.stringify(utilisateur)
                 }
             );
-
             if (res.status === 400) {
                 setErreur(true);
                 throw new Error('Cet Email n\'est pas associé à un compte');

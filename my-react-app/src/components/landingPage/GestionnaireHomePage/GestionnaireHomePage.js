@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
 import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestionnaire";
-import {faArrowRight, faBriefcase, faFileUpload ,faCalendarDay} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faFileUpload, faCalendarDay, faHandshake} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import EtudiantsConvoquesEntrevue from "./EtudiantsConvoquesEntrevue";
+import EtudiantEmbauchePage from "./embauche/EtudiantEmbauchePage";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -32,6 +33,9 @@ const GestionnaireHomePage = () => {
         case "entrevues":
             contentToRender = <EtudiantsConvoquesEntrevue/>
             break;
+        case "candidatures-acceptees":
+            contentToRender = <EtudiantEmbauchePage/>
+            break;
         default:
             contentToRender = <div>Choisir une section.</div>;
             break;
@@ -57,6 +61,11 @@ const GestionnaireHomePage = () => {
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("entrevues")}>
                                     <FontAwesomeIcon icon={faCalendarDay} style={{ marginRight: '10px' }}/>Entrevues
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("candidatures-acceptees")}>
+                                    <FontAwesomeIcon icon={faHandshake} style={{ marginRight: '10px' }}/>Embauchés
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton deconnecter">

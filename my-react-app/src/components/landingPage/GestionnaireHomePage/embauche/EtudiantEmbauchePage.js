@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
 import Modal from "../Vetocv/Modal";
 
-const EtudiantEmbauchePage = ({listeCandidature}) => {
+const EtudiantEmbauchePage = () => {
     const [candidatures, setCandidatures] = useState([])
     const [candidature, setCandidature] = useState(null);
     const [openModal, setOpenModal] = useState(false);
@@ -67,16 +67,20 @@ const EtudiantEmbauchePage = ({listeCandidature}) => {
                     (candidature, i) => (
                         <Card key={i} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
                             <Card.Body>
-                                <Card.Title>
+                                <Card.Title data-testid={candidature.student.firstName}>
                                     <b>Prénom:</b> {candidature.student.firstName}
                                 </Card.Title>
-                                <Card.Title>
+                                <Card.Title data-testid={candidature.student.lastName}>
                                     <b>Nom de famille:</b> {candidature.student.lastName}
                                 </Card.Title>
                             </Card.Body>
                             <ListGroup className="list-group-flush">
-                                <ListGroup.Item><b>Adresse courriel:</b> {candidature.student.email}</ListGroup.Item>
-                                <ListGroup.Item><b>Numéro de téléphone:</b> {candidature.student.phoneNumber}</ListGroup.Item>
+                                <ListGroup.Item data-testid={candidature.student.email}>
+                                    <b>Adresse courriel:</b> {candidature.student.email}
+                                </ListGroup.Item>
+                                <ListGroup.Item data-testid={candidature.student.phoneNumber}>
+                                    <b>Numéro de téléphone:</b> {candidature.student.phoneNumber}
+                                </ListGroup.Item>
                             </ListGroup>
                             <Card.Body>
                                 <Button className="btn btn-primary"

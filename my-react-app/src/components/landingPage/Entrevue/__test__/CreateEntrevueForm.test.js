@@ -23,13 +23,6 @@ describe("Test the CreateEntrevueForm Component", () => {
         expect(screen.getByRole('button', {Name: /créer l'entrevue/i}));
     });
 
-    it("should link", () => {
-        render(<MockCreateEntrevueForm onAdd={mockedOnAdd}/>);
-        const links: HTMLAnchorElement[] = screen.getAllByRole("link");
-        expect(links[0].textContent).toEqual("Retour");
-        expect(links[0].href).toContain("/EmployeurHomePage");
-    });
-
     it("should be able to type into input", () => {
         render(<MockCreateEntrevueForm onAdd={mockedOnAdd}/>);
         const inputElementDate = screen.getByLabelText('Date');

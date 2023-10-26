@@ -56,24 +56,6 @@ export const testList1 = [
         },
     }
 ]
-
-export const testList1Acceptes = [
-    {
-        student :{
-            firstName : 'danil',
-            lastName : 'Moskalenko',
-            email : 'email@test.com',
-            phoneNumber : '514-451-1451',
-            lettreMotivation : '',
-            fileName : '',
-            cvStudent : {
-                cv : 'cv',
-            }
-        },
-        status: 'Accepted'
-    }
-]
-
 export const testList2 = [
     {
         student :{

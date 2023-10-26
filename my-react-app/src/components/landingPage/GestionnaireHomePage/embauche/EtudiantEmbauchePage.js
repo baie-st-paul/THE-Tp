@@ -4,6 +4,7 @@ import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
 import Modal from "../Vetocv/Modal";
+import {FaPencil} from "react-icons/fa6";
 
 const EtudiantEmbauchePage = () => {
     const [candidatures, setCandidatures] = useState([])
@@ -21,6 +22,43 @@ const EtudiantEmbauchePage = () => {
                 `http://localhost:8081/api/v1/gestionnaire/candidatures/acceptees`,
                 {
                     method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setCandidatures(data)
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (candidatures !== undefined){
+                setCandidatures(candidatures)
+            }
+        }
+    }
+
+    //en cours marche pas encore
+    async function handleCreateContrat(candidature) {
+        try {
+            const student = candidature.student
+            const employerId = candidature.offreStage.employerId
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/create-contrat/${student}/${employerId}`,
+                {
+                    method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
                     }
@@ -102,6 +140,11 @@ const EtudiantEmbauchePage = () => {
                                         style={{color: 'black'}}
                                     /></Button>
                                 }
+                                <Button className="btn btn-primary"
+                                        onClick={() => handleCreateContrat(candidature)}>
+                                    Créer un contrat de stage <FaPencil
+                                    style={{color: 'black'}}
+                                /></Button>
                             </Card.Body>
                         </Card>
                     )

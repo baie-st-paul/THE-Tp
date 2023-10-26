@@ -19,4 +19,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Intege
     @Transactional
     @Query("UPDATE Candidature SET status = ?2 WHERE student.matricule = ?1")
     void updateCandidatureStatusByMatricule(String matricule, Candidature.Status status);
+
+    List<Candidature> findByStatus(Candidature.Status status);
 }

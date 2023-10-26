@@ -63,4 +63,9 @@ public class GestionnaireController {
         }
     }
 
+    @GetMapping("/candidatures/acceptees")
+    public ResponseEntity<List<CandidatureDTO>> getCandidaturesAcceptees() {
+        List<CandidatureDTO> dtoList = gestionnaireService.getCandidaturesAcceptees();
+        return ResponseEntity.ok(dtoList);
+    }
 }

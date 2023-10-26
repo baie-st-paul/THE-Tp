@@ -173,27 +173,23 @@ public class GestionnaireService {
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        // Récupérer l'entité Student à partir de l'ID
-        Optional<Student> studentOptional = studentRepository.findById(contratStageDTO.getStudentId());
-        if (studentOptional.isEmpty()) {
-            throw new RuntimeException("L'étudiant avec l'ID " + contratStageDTO.getStudentId() + " n'a pas été trouvé.");
-        }
+        Student student = studentRepository.findById(contratStageDTO.getStudentId())
+                .orElseThrow(() -> new RuntimeException("L'étudiant avec l'ID " + contratStageDTO.getStudentId() + " n'a pas été trouvé."));
 
-        // Récupérer l'entité Employer à partir de l'ID
-        Optional<Employer> employerOptional = employerRepository.findById(contratStageDTO.getEmployeurId());
-        if (employerOptional.isEmpty()) {
-            throw new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployeurId() + " n'a pas été trouvé.");
-        }
+        Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
+                .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
 
         ContratStage contratStage = contratStageDTO.toContratStage();
-        contratStage.setStudent(studentOptional.get());
-        contratStage.setEmployeur(employerOptional.get());
+
+        contratStage.setStudent(student);
+        contratStage.setEmployeur(employer);
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
-
 
         return ContratStageDTO.fromContratStage(contratStageSaved);
     }
 
 }
+
+
 

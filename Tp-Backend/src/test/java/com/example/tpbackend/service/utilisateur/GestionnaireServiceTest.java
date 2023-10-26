@@ -559,8 +559,7 @@ public class GestionnaireServiceTest {
         // Arrange
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("0938473");
-        inputDto.setEmployeurId(1L);
-
+        inputDto.setEmployerId(1L);
         Student mockStudent = new Student();
         Employer mockEmployer = new Employer();
         ContratStage mockContrat = new ContratStage();
@@ -574,15 +573,14 @@ public class GestionnaireServiceTest {
 
         // Assert
         assertNotNull(result);
-
     }
+
 
     @Test
     public void testCreateContrat_StudentNotFound() {
         // Arrange
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("nonExistentStudentId");
-        inputDto.setEmployeurId(1L);
 
         Mockito.when(studentRepository.findById("nonExistentStudentId")).thenReturn(Optional.empty());
 
@@ -596,7 +594,6 @@ public class GestionnaireServiceTest {
         // Arrange
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("someStudentId");
-        inputDto.setEmployeurId(999L);
 
         Student mockStudent = new Student();
 

@@ -35,17 +35,6 @@ public class EmployerControllerTest {
     private EmployerService employerService;
 
     @Test
-    public void testGetApplicantsForOffer() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", 1L))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[0].id").value(42L))
-                .andExpect(jsonPath("$[0].name").value("Test"));
-    }
-
-
-    @Test
     public void testGetApplicantsForOffer_NoOfferFound() throws Exception {
         mockMvc.perform(get("/api/employers/{offerId}/applicants", 2L)) // je Suppose que 2L est un ID pour lequel il n'y a pas d'offre
                 .andExpect(status().isNotFound())

@@ -244,7 +244,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     function ModalConvoquerCreateEntrevue() {
         return (
             <div style={OVERLAY_STYLE} className='w-100' >
-                <div style={{backgroundColor: "white", backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
+                <div style={{backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
                     <div className=" opacity-100 bg-body p-3 fullscr">
                         <CreateEntrevueForm onAdd={createEntrevue} setShow={setModal}/>
                         </div>

@@ -7,7 +7,6 @@ import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Candidature;
@@ -49,8 +48,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 

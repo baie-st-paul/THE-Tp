@@ -47,18 +47,16 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [shouldRefetch, setShouldRefetch] = useState(false);
-
+    const [finFetch, setfinFetch ]= useState(false);
 
     useEffect(() => {
-        handleListePostule(); 
-        allEntrevuesStudentMatricule();
+        handleListePostule()
     }, [])
 
-
-    async function handleListePostule() {
-        try {
+    const handleListePostule = async ()=> {
+        try { 
             const token = localStorage.getItem('token');
-            fetch(
+          await fetch(
                 `http://localhost:8081/api/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
@@ -81,7 +79,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         console.log(e)
                     }
                     setListeEtudiants(data)
-                })
+                }).then(await allEntrevuesStudentMatricule()).then(setfinFetch(true))
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (listeEtudiant !== undefined){
@@ -89,10 +87,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             }
         }
     }
-
-    async function allEntrevuesStudentMatricule() {
+    
+     const allEntrevuesStudentMatricule = async ()=> {
         try {
-                fetch(
+              await fetch(
                     `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
                     {
                         method: 'GET',
@@ -113,8 +111,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         } catch (e) {
                             console.log(e)
                         }
-                        setEntrevues(data)
-                        console.log(entrevues)
+                        setEntrevues(data)  
                     })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -230,9 +227,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         } catch (e) {
                             console.log(e)
                         }
-                        setEntrevues([...entrevues, data])
+                        setEntrevues([...entrevues, data]) 
                         console.log(data)
                         setShowConvoquer(false)
+                        window.location.reload()     
                     })
             })
         } catch (error) {
@@ -263,8 +261,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         <caption> <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1> </caption>
                         <thead>
                         <tr>
-                            <th scope="col" className='headerElement w-25'>NOM</th>
                             <th scope='col' className='headerElement w-25'>PRENOM</th>
+                            <th scope="col" className='headerElement w-25'>NOM</th>                          
                             <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
                             <th scope='col' className='headerElement'>RESUME</th>
@@ -278,11 +276,11 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
                                 <tr key={i} className=''>
+                                     <td  data-label="PRENOM" className='headerElement  text-break h6'>
+                                        {etudiant.student.lastName}
+                                    </td>
                                     <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
                                         {etudiant.student.firstName}
-                                    </td>
-                                    <td  data-label="PRENOM" className='headerElement  text-break h6'>
-                                        {etudiant.student.lastName}
                                     </td>
                                     <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
                                         {etudiant.student.email}
@@ -306,8 +304,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                     onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
-                                    }      
-                                        <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
+                                    }    
+                                    {     finFetch === true &&     
+                                 <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
+                                    }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>

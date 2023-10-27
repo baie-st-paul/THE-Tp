@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -73,5 +72,14 @@ public class SignatureControllerTest {
         signature.setImageLink("www.example.org");
         signature.setUserEmail("jane.doe@example.org");
 
+        when(signatureService.createEmployerSignature(signature)).thenReturn(signature);
+        String jsonContent = objectMapper.writeValueAsString(signature);
 
+        mockMvc.perform(post("/api/v1/stages/signatures/employers")
+                        .content(jsonContent)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.imageLink", is("www.example.org")))
+                .andExpect(jsonPath("$.userEmail", is("jane.doe@example.org")));
+    }
 }

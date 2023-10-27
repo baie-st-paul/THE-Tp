@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
 import Modal from "../Vetocv/Modal";
 import {FaPencil} from "react-icons/fa6";
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
 const EtudiantEmbauchePage = () => {
     const [candidatures, setCandidatures] = useState([])
@@ -56,8 +56,7 @@ const EtudiantEmbauchePage = () => {
     async function handleCreateContrat(candidature) {
         try {
             const studentId = candidature.student.matricule
-            //problem employerId
-            const employerId = candidature.offreStage.id
+            const employerId = candidature.offreStage.employerId
 
             console.log(studentId)
             console.log(employerId)

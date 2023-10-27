@@ -25,7 +25,7 @@ public class CandidatureDTO {
             throw new RuntimeException("Candidature is null");
         }
         StudentGetDTO studentDto = StudentGetDTO.fromStudent(candidature.getStudent());
-        OffreStageDTO offreStageDto = OffreStageDTO.fromOffreStage(candidature.getOffreStage());
+        OffreStageDTO offreStageDto = candidature.getOffreStage().toOffreStageDTO();
         CvDTO cvStudentDto = candidature.getCvStudent().toCvDTO();
         return new CandidatureDTO(
                 candidature.getId(),

@@ -24,7 +24,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
     it("should render Button voir Lettre Motivation disabled si lettre n'est pas la" , ()=> {
         render(<MockInformationEtudiantPostule listeEtudiant={testList1}/>)
         expect(screen.getByText('danil')).toBeInTheDocument();
-        const bouttonElement = screen.getByText('Lettre de motivation')
+        const bouttonElement = screen.getByTitle('Lettre de motivation')
         expect(bouttonElement).toBeInTheDocument()
         expect(bouttonElement).toHaveClass('disabled')
     });
@@ -52,7 +52,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
         }]
         const onClickMock = jest.fn();
         render(<MockInformationEtudiantPostule listeEtudiant={testList2} />)
-        const bouttonElement = screen.getByText('Cv')
+        const bouttonElement = screen.getByText('Curriculum Vitae')
         try{
             fireEvent.click(bouttonElement);
             expect(onClickMock).toHaveBeenCalled();

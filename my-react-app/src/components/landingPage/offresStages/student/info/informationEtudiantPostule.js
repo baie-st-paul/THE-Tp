@@ -301,7 +301,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                             </button>
                                         </td>
                                         :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
-                                            <button style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
+                                            <button title="Lettre de motivation" style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
                                                     onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>

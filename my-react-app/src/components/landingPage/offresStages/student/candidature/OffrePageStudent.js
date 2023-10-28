@@ -11,7 +11,6 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
 const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
     const [candidatures, setCandidatures] = useState([]);
-    const [filterOption] = useState("Accepted");
     const [shouldRefetch] = useState(false);
 
     useEffect(() => {
@@ -63,15 +62,13 @@ const OffresPageStudent = () => {
         fetchCandidatures();
     }, [shouldRefetch]);
 
-    const filteredOffreList= offres.filter((offreDto) => offreDto.status === filterOption);
-
     return (
         <div>
             <h1 className="display-4 text-center">Liste des offres de stage</h1>
-            {filteredOffreList.length > 0 ?
+            {offres.length > 0 ?
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container>
-                        {filteredOffreList.map((offre, index) => (
+                        {offres.map((offre, index) => (
                             <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                                 <Grid item xs={12} sm={12} md={4} lg={4}>
                                     <Card style={{ width: '30rem', margin: '5px', textAlign: "left"}}>

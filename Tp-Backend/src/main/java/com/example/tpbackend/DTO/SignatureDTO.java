@@ -13,7 +13,7 @@ public class SignatureDTO {
     private String imageLink;
 
     public SignatureDTO(Signature signature){
-        this.userEmail = signature.getUser().getEmail() + "";
+        this.userEmail = signature.getEmployer().getUtilisateur().getEmail() + "";
         this.imageLink = signature.getImageLink();
     }
 }

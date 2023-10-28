@@ -30,7 +30,7 @@ public class Employer {
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "employer")
     @JoinColumn(name = "signature_id")
     private Signature signature;
 

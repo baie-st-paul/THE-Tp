@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SignatureRepository extends JpaRepository<Signature, Long> {
-    Signature findByUserId(long id);
+    Signature findByEmployer_Utilisateur_Email(String email);
 }

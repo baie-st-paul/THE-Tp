@@ -47,9 +47,6 @@ public class Student  {
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 
-        @OneToOne(mappedBy = "user")
-        @JoinColumn(name = "signature_id", referencedColumnName = "id")
-        private Signature signature;
 
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;

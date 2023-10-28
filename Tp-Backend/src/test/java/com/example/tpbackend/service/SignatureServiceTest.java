@@ -6,7 +6,6 @@ import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
-import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -34,9 +33,6 @@ class SignatureServiceTest {
     private SignatureRepository signatureRepository;
 
     @Mock
-    private UtilisateurRepository userRepository;
-
-    @Mock
     private EmployerRepository employerRepository;
 
     @Test
@@ -61,7 +57,6 @@ class SignatureServiceTest {
         signatureDTO.setImageLink("https://example.org/example");
 
 
-        when(userRepository.findByEmail("jane.doe@example.org")).thenReturn(user);
         when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
         SignatureDTO result = signatureService.createEmployerSignature(signatureDTO);
 
@@ -92,17 +87,17 @@ class SignatureServiceTest {
 
         Signature s = new Signature();
         s.setImageLink("https://example.org/example");
-        s.setUser(user);
+        s.setEmployer(employer);
         s.setId(1L);
 
-        when(userRepository.findByEmail("jane.doe@example.org")).thenReturn(user);
-        when(signatureRepository.findByUserId(1)).thenReturn(s);
+
+        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
         SignatureDTO result = signatureService.getEmployerSignature("jane.doe@example.org");
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
         assertEquals("jane.doe@example.org", result.getUserEmail());
-        verify(signatureRepository, times(1)).findByUserId(1);
+        verify(signatureRepository, times(1)).findByEmployer_Utilisateur_Email(any());
     }
 
     @Test
@@ -124,16 +119,15 @@ class SignatureServiceTest {
 
         Signature s = new Signature();
         s.setImageLink("https://example.org/example");
-        s.setUser(user);
+        s.setEmployer(employer);
         s.setId(1L);
 
         SignatureDTO signatureDTO = new SignatureDTO();
         signatureDTO.setUserEmail("jane.doe@example.org");
         signatureDTO.setImageLink("newlink.org");
 
-        when(userRepository.findByEmail("jane.doe@example.org")).thenReturn(user);
         when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
-        when(signatureRepository.findByUserId(1L)).thenReturn(s);
+        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
         when(signatureRepository.save(any())).thenReturn(s);
         SignatureDTO result = signatureService.updateEmployerSignature(signatureDTO);
 
@@ -162,14 +156,13 @@ class SignatureServiceTest {
 
         Signature s = new Signature();
         s.setImageLink("https://example.org/example");
-        s.setUser(user);
+        s.setEmployer(employer);
         s.setId(1L);
         employer.setSignature(s);
 
 
-        when(userRepository.findByEmail("jane.doe@example.org")).thenReturn(user);
         when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
-        when(signatureRepository.findByUserId(1)).thenReturn(s);
+        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
         signatureService.deleteEmployerSignature("jane.doe@example.org");
 
         assertNull(employer.getSignature());

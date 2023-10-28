@@ -1,6 +1,7 @@
 package com.example.tpbackend.models;
 
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Signature {
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private Utilisateur user;
+    private Employer employer;
 
     private String imageLink;
 }

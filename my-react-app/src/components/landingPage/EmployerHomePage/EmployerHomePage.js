@@ -6,6 +6,8 @@ import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import CreateSignature from "./signature/CreateSignature";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -65,6 +67,9 @@ const EmployerHomePage = () => {
         case "Ajout-offre":
             contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>;
         break;
+        case "signature":
+            contentToRender = <CreateSignature employerId={employerId}></CreateSignature>;
+            break;
         default:
             contentToRender = <div>Choisir une section.</div>;
         break;
@@ -85,6 +90,11 @@ const EmployerHomePage = () => {
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
                                     <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("signature")}>
+                                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton deconnecter">

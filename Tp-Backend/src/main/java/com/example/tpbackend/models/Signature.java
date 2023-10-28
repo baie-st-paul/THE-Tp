@@ -21,6 +21,8 @@ public class Signature {
     @JoinColumn(name = "employer_id")
     private Employer employer;
 
+    @Lob
+    @Column(name = "image_link")
     private String imageLink;
 
     public Signature(long id, String imageLink) {

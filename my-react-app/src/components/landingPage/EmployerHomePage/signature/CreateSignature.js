@@ -7,6 +7,7 @@ import {FaRepeat} from "react-icons/fa6";
 const CreateSignature = ({employerId}) => {
     const [sign, setSign] = useState(null)
     const [urlImage, setUrlImage] = useState(null)
+    const [signature, setSignature] = useState(null)
 
     const handleClear = () => {
         sign.clear()
@@ -15,6 +16,7 @@ const CreateSignature = ({employerId}) => {
         sign.clear()
         deleteSignature()
     }
+
     const deleteSignature = async () => {
         try {
             fetch(
@@ -46,12 +48,85 @@ const CreateSignature = ({employerId}) => {
         setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
     }
 
-    const handleModif = () => {
-        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
+    const saveSignature = async () => {
+        try {
+            const imageLink = urlImage.toString()
+            const signature = ({
+                employerId,
+                imageLink
+            })
+            console.log(JSON.stringify(signature))
+
+            await fetch(
+                'http://localhost:8081/api/v1/stages/signatures/employers/create',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(signature)
+                }
+            ).catch((err) => {
+                console.log(err)
+            }).then(
+                (res) => {
+                    const data= res.json()
+                    try{
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setSignature(data)
+                    console.log(data)
+                }
+            )
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
     }
 
-    console.log("sign",sign)
-    console.log("urlImage",urlImage)
+    const handleModif = async () => {
+        try {
+            const imageLink = urlImage.toString()
+            const signature = ({
+                employerId,
+                imageLink
+            })
+            console.log(JSON.stringify(signature))
+
+            await fetch(
+                `http://localhost:8081/api/v1/stages/signatures/employers/${signature.id}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(signature)
+                }
+            ).catch((err) => {
+                console.log(err)
+            }).then(
+                (res) => {
+                    const data= res.json()
+                    try{
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setSignature(data)
+                    console.log(data)
+                }
+            )
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
 
     return (
         <div>
@@ -68,9 +143,9 @@ const CreateSignature = ({employerId}) => {
                     style={{color: 'black'}}
                 />
                 </Button>
-                {urlImage === null ?
+                {urlImage === null && signature === null ?
                     <Button className="btn btn-success"
-                            onClick={handleSave}>
+                            onClick = {handleSave}>
                         Créer <FaPencilAlt
                         style={{color: 'black'}}
                     />
@@ -81,14 +156,14 @@ const CreateSignature = ({employerId}) => {
                     />
                     </Button>
                 }
-                {urlImage === null ?
-                    <Button className="btn btn-primary disabled">
+                {urlImage !== null && signature !== null ?
+                    <Button className="btn btn-primary"
+                            onClick={handleModif}>
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
                     </Button> :
-                    <Button className="btn btn-primary"
-                            onClick={handleModif}>
+                    <Button className="btn btn-primary disabled">
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
@@ -100,10 +175,18 @@ const CreateSignature = ({employerId}) => {
                     <img src={urlImage} alt="signature"/>
                 }
                 <br/>
-                {urlImage !== null &&
+                {urlImage !== null && signature !== null &&
                     <Button className="btn btn-danger"
                             onClick={handleDelete}>
                         Supprimer <FaTimes
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+                {urlImage !== null && signature === null &&
+                    <Button className="btn btn-success"
+                            onClick={saveSignature}>
+                        Approuver <FaPencilAlt
                         style={{color: 'black'}}
                     />
                     </Button>

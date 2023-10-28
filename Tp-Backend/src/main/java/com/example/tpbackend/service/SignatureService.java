@@ -3,9 +3,7 @@ package com.example.tpbackend.service;
 import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.Signature;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.SignatureRepository;
-import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ public class SignatureService {
 
     @Autowired
     private EmployerService employerService;
-
-    @Autowired
-    private EmployerRepository employerRepository;
 
 
     public SignatureDTO saveEmployerSignature(SignatureDTO signatureDTO){

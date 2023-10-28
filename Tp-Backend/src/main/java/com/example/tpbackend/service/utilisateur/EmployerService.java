@@ -4,10 +4,13 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.TagGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ EmployerService {
     private EmployerRepository employerRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);
@@ -56,5 +61,16 @@ EmployerService {
         return new EmployerGetDTO(
                 employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
                 employer.getPhoneNumber(),utilisateurDTO.getEmail());
+    }
+
+    public Tag getTag(){
+        Tag tag;
+        try{
+            tag = new Tag(TagGenerator.getCurrentSession());
+            tagRepository.save(tag);
+        }catch (Exception e){
+            tag = new Tag(TagGenerator.getCurrentSession());
+        }
+        return tag;
     }
 }

@@ -3,10 +3,12 @@ package com.example.tpbackend.service.creationBD;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +116,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 20),
                 "Accepted",
-                10
+                10,new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
         offreStageService.saveOffre(offreStageDTO);
     }

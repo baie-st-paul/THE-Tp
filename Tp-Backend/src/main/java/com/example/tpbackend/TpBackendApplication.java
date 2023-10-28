@@ -1,11 +1,12 @@
 package com.example.tpbackend;
 
+import com.example.tpbackend.service.TagGenerator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TpBackendApplication implements CommandLineRunner {
+public class   TpBackendApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(TpBackendApplication.class, args);
@@ -13,6 +14,5 @@ public class TpBackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
     }
 }

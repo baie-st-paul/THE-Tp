@@ -49,6 +49,9 @@ public class OffreStage {
     )
     private List<Student> etudiants;
 
+    @Column(name = "tag_name")
+    private String tagName;
+
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
                       LocalDate dateFin, int nbMaxEtudiant, String status) {
@@ -74,10 +77,18 @@ public class OffreStage {
                 dateDebut,
                 dateFin,
                 String.valueOf(status),
-                nbMaxEtudiants
+                nbMaxEtudiants,
+                tagName
         );
     }
 
+    public String getTagName() {
+        return tagName;
+    }
+
+    public void setTagName(String tagName) {
+        this.tagName = tagName;
+    }
 
     public enum Status{
         Accepted,

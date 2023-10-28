@@ -1,6 +1,7 @@
 package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,10 @@ public class OffreStageDTO {
     private LocalDate dateFin;
     private String status;
     private int nbMaxEtudiants;
+    private String tag;
 
     public OffreStage toOffreStage() {
-        return new OffreStage(
+        return  new OffreStage(
                 id,
                 titre,
                 salaire,

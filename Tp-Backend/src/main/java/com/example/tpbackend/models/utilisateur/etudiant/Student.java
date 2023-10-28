@@ -2,6 +2,7 @@ package com.example.tpbackend.models.utilisateur.etudiant;
 
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
@@ -46,6 +48,9 @@ public class Student  {
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 
+        @Column(name = "tag_name")
+        private String tagName;
+
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;
                 this.lastName = lastName;
@@ -67,7 +72,16 @@ public class Student  {
                         utilisateur.getEmail(),
                         phoneNumber,
                         matricule,
-                        program
+                        program,
+                        tagName
                 );
+        }
+
+        public String getTagName() {
+                return tagName;
+        }
+
+        public void setTagName(String tagName) {
+                this.tagName = tagName;
         }
 }

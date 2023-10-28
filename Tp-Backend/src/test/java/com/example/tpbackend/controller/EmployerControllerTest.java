@@ -5,9 +5,12 @@ import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.controllers.EmployerController;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
+import jakarta.persistence.GeneratedValue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -62,8 +65,7 @@ public class EmployerControllerTest {
                 "Root!123",
                 "+15143738384",
                 "3939494",
-                "informatique"
-        );
+                "informatique");
         studentService.saveStudent(studentPostDTO, studentPostDTO.getEmail(), studentPostDTO.getPassword(), "Student");
         EmployerPostDTO employerPostDTO = new EmployerPostDTO(
                 "emp",
@@ -84,7 +86,7 @@ public class EmployerControllerTest {
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 27),
                 "In_review",
-                10
+                10,new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
         offreStageService.saveOffre(offreStageDTO);
         CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(

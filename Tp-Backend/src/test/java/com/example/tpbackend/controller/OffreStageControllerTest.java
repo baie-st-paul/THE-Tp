@@ -2,7 +2,9 @@ package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.controllers.OffreStageController;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.TagGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +50,7 @@ public class OffreStageControllerTest {
                         LocalDate.now(),
                         LocalDate.now().plusDays(10),
                         "In_review",
-                        5),
+                        5,new Tag(TagGenerator.getCurrentSession()).getTagName()),
                 new OffreStageDTO(2L,
                         3L,
                         "Titre2",
@@ -58,7 +60,7 @@ public class OffreStageControllerTest {
                         LocalDate.now(),
                         LocalDate.now().plusDays(20),
                         "Accepted",
-                        7)
+                        7,new Tag(TagGenerator.getCurrentSession()).getTagName())
         );
     }
 

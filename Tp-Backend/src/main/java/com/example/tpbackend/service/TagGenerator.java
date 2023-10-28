@@ -2,14 +2,12 @@ package com.example.tpbackend.service;
 
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Date;
 
 @NoArgsConstructor
-public class SessionManager {
+public class TagGenerator {
     private static LocalDate debutAu = LocalDate.of(2023, 8, 23);
     private static LocalDate finAu = LocalDate.of(2023, 12, 22);
     private static LocalDate debutH = LocalDate.of(2024, 1, 23);

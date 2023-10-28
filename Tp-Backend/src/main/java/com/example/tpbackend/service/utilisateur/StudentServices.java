@@ -10,14 +10,17 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
+import com.example.tpbackend.service.TagGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,14 +43,21 @@ public class StudentServices {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
-
-    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(email, password,role);
+    @Autowired
+    private TagRepository tagRepository;
+    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role) {
+        Utilisateur utilisateur = new Utilisateur(email, password, role);
         Student student = studentPostDTO.toStudent(studentPostDTO);
         student.setUtilisateur(utilisateur);
-        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
+        if (tagRepository.existsByTagName(getTag().getTagName())) {
+            student.setTagName(getTag().getTagName());
+        }else{
+            student.setTagName(getTag().getTagName());
+            tagRepository.save(new Tag(getTag().getTagName()));
+        }
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
+
         return StudentPostDTO.fromStudent(student);
     }
 
@@ -69,8 +79,7 @@ public class StudentServices {
         Student student = studentRepository.findStudentByUtilisateur(utilisateurDTO.getEmail());
         return new StudentGetDTO(
                 student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
-                student.getPhoneNumber(),student.getMatricule(),student.getProgram()
-        );
+                student.getPhoneNumber(),student.getMatricule(),student.getProgram(),student.getTagName());
     }
 
     public StudentGetDTO getStudentByMatricule(String matricule) {
@@ -83,9 +92,15 @@ public class StudentServices {
         Student student = studentRepository.findByMaticule(candidaturePostDTO.getMatricule());
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
-
-        candidatureRepository.save(new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),
-                student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review")));
+        Candidature candidature = new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),
+                student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review"));
+        if (tagRepository.existsByTagName(getTag().getTagName())) {
+            candidature.setTagName(getTag().getTagName());
+        }else{
+            candidature.setTagName(getTag().getTagName());
+            tagRepository.save(new Tag(getTag().getTagName()));
+        }
+        candidatureRepository.save(candidature);
     }
 
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
@@ -109,5 +124,9 @@ public class StudentServices {
 
     public void updateCandidatureStatus(String matricule, String status) {
         candidatureRepository.updateCandidatureStatusByMatricule(matricule, Candidature.Status.valueOf(status));
+    }
+
+    public Tag getTag(){
+        return new Tag(TagGenerator.getCurrentSession());
     }
 }

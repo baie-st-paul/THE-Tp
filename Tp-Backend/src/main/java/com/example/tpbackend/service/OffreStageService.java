@@ -4,9 +4,12 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +26,20 @@ public class OffreStageService {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private EmployerService employerService;
+    @Autowired
+    private TagRepository tagRepository;
 
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
+        if (tagRepository.existsByTagName(getTag().getTagName())) {
+            offreStage.setTagName(getTag().getTagName());
+        }else{
+            offreStage.setTagName(getTag().getTagName());
+            tagRepository.save(new Tag(getTag().getTagName()));
+        }
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
-        return offreStageRepository.save(offreStage).toOffreStageDTO();
+        offreStageRepository.save(offreStage);
+        return offre;
     }
 
     public List<OffreStage> getAllOffres() {
@@ -98,4 +110,7 @@ public class OffreStageService {
         return offreStageDTOS;
     }
 
+    public Tag getTag(){
+        return new Tag(TagGenerator.getCurrentSession());
+    }
 }

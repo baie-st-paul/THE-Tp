@@ -19,13 +19,16 @@ public class CandidatureDTO {
     private OffreStageDTO offreStage;
     private CvDTO cvStudent;
     private String status;
+    private String tagName;
+
 
     public static CandidatureDTO fromCandidature(Candidature candidature) {
         if (candidature == null) {
             throw new RuntimeException("Candidature is null");
         }
         StudentGetDTO studentDto = StudentGetDTO.fromStudent(candidature.getStudent());
-        OffreStageDTO offreStageDto = OffreStageDTO.fromOffreStage(candidature.getOffreStage());
+        OffreStageDTO offreStageDto = new OffreStageDTO();
+        offreStageDto = offreStageDto.fromOffreStage(candidature.getOffreStage());
         CvDTO cvStudentDto = candidature.getCvStudent().toCvDTO();
         return new CandidatureDTO(
                 candidature.getId(),
@@ -34,7 +37,8 @@ public class CandidatureDTO {
                 studentDto,
                 offreStageDto,
                 cvStudentDto,
-                String.valueOf(candidature.getStatus())
+                String.valueOf(candidature.getStatus()),
+                offreStageDto.getTag()
         );
     }
 }

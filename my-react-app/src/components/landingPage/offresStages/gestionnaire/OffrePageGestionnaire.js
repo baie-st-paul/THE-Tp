@@ -125,7 +125,7 @@ export default function OffresPageGestionnaire({listeOffres}) {
                                     <ListGroup className="list-group-flush">
                                         <ListGroup.Item><b>Salaire:</b> {offre.salaire}$/h</ListGroup.Item>
                                         <ListGroup.Item><b>Programme:</b> {offre.studentProgram}</ListGroup.Item>
-                                        <ListGroup.Item><b>Nombre postes disponible:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
+                                        <ListGroup.Item><b>Nombre postes disponibles:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
                                         <ListGroup.Item><b>Date de début:</b> {offre.dateDebut}</ListGroup.Item>
                                         <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
                                         <ListGroup.Item>

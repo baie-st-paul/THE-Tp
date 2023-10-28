@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,35 +33,38 @@ public class SignatureControllerTest {
     public void testGetSignature() throws Exception {
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.example.org");
-        signature.setUserEmail("jane.doe@example.org");
+        signature.setId(1);
+        signature.setEmployerId(1);
 
-        when(signatureService.getEmployerSignature(any())).thenReturn(signature);
+        when(signatureService.getEmployerSignature(1)).thenReturn(signature);
 
-        mockMvc.perform(get("/api/v1/stages/signatures/employers/jane.doe@example.org")
+        mockMvc.perform(get("/api/v1/stages/signatures/employers/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.imageLink", is("www.example.org")))
-                .andExpect(jsonPath("$.userEmail", is("jane.doe@example.org")));
+                .andExpect(jsonPath("$.employerId", is(1)))
+                .andExpect(jsonPath("$.imageLink", is("www.example.org")));
     }
 
     @Test
     public void testUpdateSignature() throws Exception {
         SignatureDTO oldSignature = new SignatureDTO();
         oldSignature.setImageLink("www.example.org");
-        oldSignature.setUserEmail("jane.doe@example.org");
+        oldSignature.setId(1);
+        oldSignature.setEmployerId(1);
 
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.google.com");
-        signature.setUserEmail("jane.doe@example.org");
+        signature.setId(1);
+        signature.setEmployerId(1);
 
-        when(signatureService.updateEmployerSignature(signature)).thenReturn(signature);
+        when(signatureService.updateEmployerSignature(signature.getId(), signature)).thenReturn(signature);
 
-        mockMvc.perform(put("/api/v1/stages/signatures/employers")
+        mockMvc.perform(put("/api/v1/stages/signatures/employers/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signature)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.imageLink", is("www.google.com")))
-                .andExpect(jsonPath("$.userEmail", is("jane.doe@example.org")))
+                .andExpect(jsonPath("$.employerId", is(1)))
                 .andExpect(jsonPath("$.imageLink", Matchers.not("www.example.org")));
     }
 
@@ -70,16 +72,17 @@ public class SignatureControllerTest {
     public void testCreateSignature() throws Exception {
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.example.org");
-        signature.setUserEmail("jane.doe@example.org");
+        signature.setId(1);
+        signature.setEmployerId(1);
 
-        when(signatureService.createEmployerSignature(signature)).thenReturn(signature);
+        when(signatureService.saveEmployerSignature(signature)).thenReturn(signature);
         String jsonContent = objectMapper.writeValueAsString(signature);
 
-        mockMvc.perform(post("/api/v1/stages/signatures/employers")
+        mockMvc.perform(post("/api/v1/stages/signatures/employers/create")
                         .content(jsonContent)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.imageLink", is("www.example.org")))
-                .andExpect(jsonPath("$.userEmail", is("jane.doe@example.org")));
+                .andExpect(jsonPath("$.employerId", is(1)));
     }
 }

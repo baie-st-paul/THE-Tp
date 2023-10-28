@@ -9,12 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignatureDTO {
-    private String userEmail;
+    private long id;
+    private long employerId;
     private String imageLink;
 
-    public SignatureDTO(Signature signature){
-        this.userEmail = signature.getEmployer().getUtilisateur().getEmail() + "";
-        this.imageLink = signature.getImageLink();
+    public Signature toSignature() {
+        return new Signature(
+                id,
+                imageLink
+        );
     }
 }
 

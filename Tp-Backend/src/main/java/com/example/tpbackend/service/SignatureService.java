@@ -1,10 +1,12 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.SignatureDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,42 +18,33 @@ public class SignatureService {
     @Autowired
     private SignatureRepository signatureRepository;
 
+    @Autowired
+    private EmployerService employerService;
 
     @Autowired
     private EmployerRepository employerRepository;
 
 
-    public SignatureDTO createEmployerSignature(SignatureDTO signatureDTO){
-        Employer employer = employerRepository.findEmployerByUtilisateur_Email(signatureDTO.getUserEmail());
-        Signature signature = new Signature();
-        signature.setEmployer(employer);
-        signature.setImageLink(signatureDTO.getImageLink());
-        signatureRepository.save(signature);
-        employer.setSignature(signature);
-        employerRepository.save(employer);
-        return new SignatureDTO(signature);
+    public SignatureDTO saveEmployerSignature(SignatureDTO signatureDTO){
+        Signature signature = signatureDTO.toSignature();
+        signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
+        return signatureRepository.save(signature).toSignatureDTO();
     }
 
-    public SignatureDTO getEmployerSignature(String userEmail) {
-        Signature signature = signatureRepository.findByEmployer_Utilisateur_Email(userEmail);
-        return new SignatureDTO(signature);
+    public SignatureDTO getEmployerSignature(long employerId) {
+        return signatureRepository.findByEmployer_Id(employerId).toSignatureDTO();
     }
 
-    public SignatureDTO updateEmployerSignature(SignatureDTO signatureDTO) {
-        Employer employer = employerRepository.findEmployerByUtilisateur_Email(signatureDTO.getUserEmail());
-        Signature signature = signatureRepository.findByEmployer_Utilisateur_Email(signatureDTO.getUserEmail());
-        signature.setImageLink(signatureDTO.getImageLink());
-        employer.setSignature(signature);
-        employerRepository.save(employer);
-        return new SignatureDTO(signatureRepository.save(signature));
+    public SignatureDTO updateEmployerSignature(long id, SignatureDTO signatureDTO) {
+        Signature signature = signatureDTO.toSignature();
+        signature.setId(id);
+        signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
+
+        return saveEmployerSignature(signature.toSignatureDTO());
     }
 
-    public void deleteEmployerSignature(String userEmail) {
-        Employer employer = employerRepository.findEmployerByUtilisateur_Email(userEmail);
-        Signature signature = signatureRepository.findByEmployer_Utilisateur_Email(userEmail);
-        signatureRepository.delete(signature);
-        employer.setSignature(null);
-        employerRepository.save(employer);
+    public void deleteEmployerSignature(long id) {
+        signatureRepository.deleteSignatureById(id);
     }
 
 }

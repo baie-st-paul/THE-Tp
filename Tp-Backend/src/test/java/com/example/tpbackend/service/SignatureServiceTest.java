@@ -15,8 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -36,7 +34,7 @@ class SignatureServiceTest {
     private EmployerRepository employerRepository;
 
     @Test
-    public void testCreateEmployerSignature() throws Exception {
+    public void testCreateEmployerSignature() {
         Utilisateur user = new Utilisateur();
         user.setEmail("jane.doe@example.org");
         user.setId(1L);
@@ -48,28 +46,29 @@ class SignatureServiceTest {
         employer.setFirstName("Jane");
         employer.setId(1L);
         employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
+        employer.setSignature(new Signature());
         employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(user);
 
         SignatureDTO signatureDTO = new SignatureDTO();
-        signatureDTO.setUserEmail("jane.doe@example.org");
+        signatureDTO.setEmployerId(1L);
+        signatureDTO.setId(1L);
         signatureDTO.setImageLink("https://example.org/example");
 
 
-        when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
-        SignatureDTO result = signatureService.createEmployerSignature(signatureDTO);
+        when(employerRepository.findEmployerById(1L)).thenReturn(employer);
+        SignatureDTO result = signatureService.saveEmployerSignature(signatureDTO);
 
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
-        assertEquals("jane.doe@example.org", result.getUserEmail());
+        assertEquals(1L, result.getEmployerId());
         assertNotNull(employer.getSignature());
         verify(signatureRepository, times(1)).save(any());
     }
 
     @Test
-    public void testGetEmployerSignature() throws Exception {
+    public void testGetEmployerSignature() {
         Utilisateur user = new Utilisateur();
         user.setEmail("jane.doe@example.org");
         user.setId(1L);
@@ -81,7 +80,7 @@ class SignatureServiceTest {
         employer.setFirstName("Jane");
         employer.setId(1L);
         employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
+        employer.setSignature(new Signature());
         employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(user);
 
@@ -91,83 +90,50 @@ class SignatureServiceTest {
         s.setId(1L);
 
 
-        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
-        SignatureDTO result = signatureService.getEmployerSignature("jane.doe@example.org");
+        when(signatureRepository.findByEmployer_Id(1L)).thenReturn(s);
+        SignatureDTO result = signatureService.getEmployerSignature(1L);
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
-        assertEquals("jane.doe@example.org", result.getUserEmail());
-        verify(signatureRepository, times(1)).findByEmployer_Utilisateur_Email(any());
+        assertEquals(1L, result.getEmployerId());
+        verify(signatureRepository, times(1)).findByEmployer_Id(1L);
     }
 
     @Test
-    public void updateEmployerSignature() throws Exception {
-        Utilisateur user = new Utilisateur();
-        user.setEmail("jane.doe@example.org");
-        user.setId(1L);
-        user.setPassword("iloveyou");
-        user.setRole(Utilisateur.Role.Employeur);
+    public void updateEmployerSignature() {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Employeur);
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
         employer.setFirstName("Jane");
         employer.setId(1L);
         employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
+        employer.setSignature(new Signature());
         employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(user);
+        employer.setUtilisateur(utilisateur);
 
-        Signature s = new Signature();
-        s.setImageLink("https://example.org/example");
-        s.setEmployer(employer);
-        s.setId(1L);
-
-        SignatureDTO signatureDTO = new SignatureDTO();
-        signatureDTO.setUserEmail("jane.doe@example.org");
-        signatureDTO.setImageLink("newlink.org");
-
-        when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
-        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
-        when(signatureRepository.save(any())).thenReturn(s);
-        SignatureDTO result = signatureService.updateEmployerSignature(signatureDTO);
-
-        assertNotNull(result);
-        assertNotEquals("https://example.org/example", result.getImageLink());
-        assertEquals("newlink.org", result.getImageLink());
-        assertEquals("jane.doe@example.org", result.getUserEmail());
-        verify(signatureRepository, times(1)).save(any());
+        Signature signature = new Signature();
+        signature.setImageLink("https://example.org/example");
+        signature.setEmployer(employer);
+        signature.setId(1L);
+        SignatureDTO signatureDTO = mock(SignatureDTO.class);
+        when(signatureDTO.getEmployerId()).thenThrow(new RuntimeException("foo"));
+        when(signatureDTO.toSignature()).thenReturn(signature);
+        assertThrows(RuntimeException.class, () -> signatureService.updateEmployerSignature(1L, signatureDTO));
+        verify(signatureDTO).toSignature();
+        verify(signatureDTO).getEmployerId();
     }
+
     @Test
-    public void testDeleteEmployerSignature() throws Exception {
-        Utilisateur user = new Utilisateur();
-        user.setEmail("jane.doe@example.org");
-        user.setId(1L);
-        user.setPassword("iloveyou");
-        user.setRole(Utilisateur.Role.Employeur);
-
-        Employer employer = new Employer();
-        employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
-        employer.setId(1L);
-        employer.setLastName("Doe");
-        employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(user);
-
-        Signature s = new Signature();
-        s.setImageLink("https://example.org/example");
-        s.setEmployer(employer);
-        s.setId(1L);
-        employer.setSignature(s);
-
-
-        when(employerRepository.findEmployerByUtilisateur_Email(any())).thenReturn(employer);
-        when(signatureRepository.findByEmployer_Utilisateur_Email("jane.doe@example.org")).thenReturn(s);
-        signatureService.deleteEmployerSignature("jane.doe@example.org");
-
-        assertNull(employer.getSignature());
-        verify(signatureRepository, times(1)).delete(any());
-        verify(employerRepository, times(1)).save(any());
+    public void testDeleteEmployerSignature() {
+        doNothing().when(signatureRepository).deleteSignatureById(anyLong());
+        signatureService.deleteEmployerSignature(1L);
+        verify(signatureRepository).deleteSignatureById(anyLong());
+        assertTrue(signatureRepository.findSignatureById(1L).isEmpty());
     }
 
 }

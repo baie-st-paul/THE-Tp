@@ -1,5 +1,6 @@
 package com.example.tpbackend.models;
 
+import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import jakarta.persistence.*;
@@ -17,8 +18,21 @@ public class Signature {
     private Long id;
 
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "employer_id")
     private Employer employer;
 
     private String imageLink;
+
+    public Signature(long id, String imageLink) {
+        this.id = id;
+        this.imageLink = imageLink;
+    }
+
+    public SignatureDTO toSignatureDTO() {
+        return new SignatureDTO(
+                id,
+                employer.getId(),
+                imageLink
+        );
+    }
 }

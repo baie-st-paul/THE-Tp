@@ -10,13 +10,26 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/stages/signatures")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SignatureController {
     private final SignatureService signatureService;
 
-    @PostMapping("/employers")
+    @PostMapping("/employers/create")
     public ResponseEntity<SignatureDTO> createSignature(@RequestBody SignatureDTO dto) {
         try {
-            SignatureDTO signature = signatureService.createEmployerSignature(dto);
+            SignatureDTO signature = signatureService.saveEmployerSignature(dto);
+            return new ResponseEntity<>(signature, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(dto);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/employers/{id}")
+    public ResponseEntity<SignatureDTO> updateSignature(@PathVariable("id") long id, @RequestBody SignatureDTO dto) {
+        try {
+            SignatureDTO signature = signatureService.updateEmployerSignature(id, dto);
             return ResponseEntity.ok(signature);
         } catch (Exception e) {
             System.out.println(dto);
@@ -25,37 +38,25 @@ public class SignatureController {
         }
     }
 
-    @PutMapping("/employers")
-    public ResponseEntity<SignatureDTO> updateSignature(@RequestBody SignatureDTO dto) {
+    @GetMapping("/employers/{id}")
+    public ResponseEntity<SignatureDTO> getEmployerSignature(@PathVariable long id) {
         try {
-            SignatureDTO signature = signatureService.updateEmployerSignature(dto);
+            SignatureDTO signature = signatureService.getEmployerSignature(id);
             return ResponseEntity.ok(signature);
         } catch (Exception e) {
-            System.out.println(dto);
+            System.out.println(id);
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/employers/{email}")
-    public ResponseEntity<SignatureDTO> getEmployerSignature(@PathVariable String email) {
+    @DeleteMapping("/employers/{id}")
+    public ResponseEntity<String> deleteEmployerSignature(@PathVariable long id) {
         try {
-            SignatureDTO signature = signatureService.getEmployerSignature(email);
-            return ResponseEntity.ok(signature);
-        } catch (Exception e) {
-            System.out.println(email);
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @DeleteMapping("/employers/{email}")
-    public ResponseEntity<String> deleteEmployerSignature(@PathVariable String email) {
-        try {
-            signatureService.deleteEmployerSignature(email);
+            signatureService.deleteEmployerSignature(id);
             return ResponseEntity.ok("Signature supprimée");
         } catch (Exception e) {
-            System.out.println(email);
+            System.out.println(id);
             System.out.println(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }

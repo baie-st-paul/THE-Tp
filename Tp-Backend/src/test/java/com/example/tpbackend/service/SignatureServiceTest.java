@@ -52,7 +52,6 @@ class SignatureServiceTest {
 
         SignatureDTO signatureDTO = new SignatureDTO();
         signatureDTO.setEmployerId(1L);
-        signatureDTO.setId(1L);
         signatureDTO.setImageLink("https://example.org/example");
 
 
@@ -123,7 +122,7 @@ class SignatureServiceTest {
         SignatureDTO signatureDTO = mock(SignatureDTO.class);
         when(signatureDTO.getEmployerId()).thenThrow(new RuntimeException("foo"));
         when(signatureDTO.toSignature()).thenReturn(signature);
-        assertThrows(RuntimeException.class, () -> signatureService.updateEmployerSignature(1L, signatureDTO));
+        assertThrows(RuntimeException.class, () -> signatureService.updateEmployerSignature(signatureDTO));
         verify(signatureDTO).toSignature();
         verify(signatureDTO).getEmployerId();
     }

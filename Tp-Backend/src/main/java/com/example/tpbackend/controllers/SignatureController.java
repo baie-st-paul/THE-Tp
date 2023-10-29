@@ -28,10 +28,10 @@ public class SignatureController {
         }
     }
 
-    @PutMapping("/employers/{id}")
-    public ResponseEntity<SignatureDTO> updateSignature(@PathVariable("id") long id, @RequestBody SignatureDTO dto) {
+    @PutMapping("/employers")
+    public ResponseEntity<SignatureDTO> updateSignature(@RequestBody SignatureDTO dto) {
         try {
-            SignatureDTO signature = signatureService.updateEmployerSignature(id, dto);
+            SignatureDTO signature = signatureService.updateEmployerSignature(dto);
             return ResponseEntity.ok(signature);
         } catch (Exception e) {
             System.out.println(dto);

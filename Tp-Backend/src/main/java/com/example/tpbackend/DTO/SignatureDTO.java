@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignatureDTO {
-    private long id;
     private long employerId;
     private String imageLink;
 
     public Signature toSignature() {
         return new Signature(
-                id,
                 imageLink
         );
     }

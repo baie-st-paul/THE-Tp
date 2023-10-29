@@ -43,10 +43,6 @@ const CreateSignature = ({employerId}) => {
             })
     }, []);
 
-    const handleSave = () => {
-        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
-    }
-
     const saveSignature = async () => {
         try {
             const imageLink = urlImage.toString()
@@ -80,6 +76,9 @@ const CreateSignature = ({employerId}) => {
                     }
                     setSignature(data)
                     console.log(data)
+                    console.log(signature.imageLink === urlImage)
+                    console.log("1",signature.imageLink)
+                    console.log("2",urlImage)
                 }
             )
         } catch (error) {
@@ -91,10 +90,10 @@ const CreateSignature = ({employerId}) => {
         try {
             signature["imageLink"] = urlImage
             console.log(signature["imageLink"])
-            console.log(signature["id"])
-            console.log(JSON.stringify(signature))//j'arrive pas a avoir id de signature
+            console.log(JSON.stringify(signature))
+
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employers/${signature.id}`,
+                `http://localhost:8081/api/v1/stages/signatures/employers`,
                 {
                     method: 'PUT',
                     headers: {
@@ -126,14 +125,6 @@ const CreateSignature = ({employerId}) => {
         }
     }
 
-    const handleClear = () => {
-        sign.clear()
-    }
-    const handleDelete = () => {
-        sign.clear()
-        deleteSignature()
-    }
-
     const deleteSignature = async () => {
         try {
             fetch(
@@ -161,6 +152,18 @@ const CreateSignature = ({employerId}) => {
         }
     }
 
+    const handleClear = () => {
+        sign.clear()
+    }
+    const handleDelete = () => {
+        sign.clear()
+        deleteSignature()
+    }
+
+    const handleSave = () => {
+        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
+    }
+
     return (
         <div>
             <h1 className="display-4 text-center">Signature</h1>
@@ -184,8 +187,14 @@ const CreateSignature = ({employerId}) => {
                 </Button>
 
                 <br/>
-                {urlImage !== null &&
-                    <img src={urlImage} alt="signature"/>
+                {signature !== null &&
+                    <img src={signature.imageLink} alt="imageLink"/>
+                }
+                <br/>
+
+                <br/>
+                {signature === null && urlImage !== null &&
+                    <img src={urlImage} alt="urlImage"/>
                 }
                 <br/>
 

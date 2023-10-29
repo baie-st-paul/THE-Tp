@@ -2,7 +2,6 @@ package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
@@ -46,9 +45,8 @@ public class SignatureService {
         return Optional.ofNullable(signature.toSignatureDTO());
     }
 
-    public SignatureDTO updateEmployerSignature(long id, SignatureDTO signatureDTO) {
+    public SignatureDTO updateEmployerSignature(SignatureDTO signatureDTO) {
         Signature signature = signatureDTO.toSignature();
-        signature.setId(id);
         signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
 
         return saveEmployerSignature(signature.toSignatureDTO());

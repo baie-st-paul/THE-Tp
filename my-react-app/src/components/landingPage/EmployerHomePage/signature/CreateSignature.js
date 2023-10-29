@@ -45,6 +45,7 @@ const CreateSignature = ({employerId}) => {
 
     const saveSignature = async () => {
         try {
+            console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
                 employerId,
@@ -148,6 +149,7 @@ const CreateSignature = ({employerId}) => {
                         console.log(e)
                     }
                     setUrlImage(null);
+                    setSignature(null)
                 })
         } catch (error) {
             console.error("Error deleting signature:", error);
@@ -189,13 +191,7 @@ const CreateSignature = ({employerId}) => {
                 </Button>
 
                 <br/>
-                {signature !== null &&
-                    <img src={signature.imageLink} alt="imageLink"/>
-                }
-                <br/>
-
-                <br/>
-                {signature === null && urlImage !== null &&
+                {urlImage !== null &&
                     <img src={urlImage} alt="urlImage"/>
                 }
                 <br/>

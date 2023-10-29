@@ -94,7 +94,7 @@ const EmployerHomePage = () => {
                         <h1>Création de la signature</h1>
                     </div>
                     <div className="body">
-                        contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
+                        <CreateSignature employerId={employerId}></CreateSignature>
                     </div>
                     <div className="footer">
                         <button id="cancelBtn" onClick={() => setShowCreate(false)}>Fermer</button>
@@ -115,7 +115,7 @@ const EmployerHomePage = () => {
             contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <div>Choisir une section.</div>
         break;
     }
 
@@ -155,6 +155,7 @@ const EmployerHomePage = () => {
             <div className="container content-container mt-4">
                 <h2>Employeur</h2>
                 {contentToRender}
+
             </div>
         </div>
     )

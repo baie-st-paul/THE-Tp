@@ -11,6 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -36,7 +38,7 @@ public class SignatureControllerTest {
         signature.setId(1);
         signature.setEmployerId(1);
 
-        when(signatureService.getEmployerSignature(1)).thenReturn(signature);
+        when(signatureService.getEmployerSignature(1)).thenReturn(Optional.of(signature));
 
         mockMvc.perform(get("/api/v1/stages/signatures/employers/1")
                         .contentType(MediaType.APPLICATION_JSON))

@@ -90,13 +90,13 @@ class SignatureServiceTest {
         s.setId(1L);
 
 
-        when(signatureRepository.findByEmployer_Id(1L)).thenReturn(s);
-        SignatureDTO result = signatureService.getEmployerSignature(1L);
+        when(signatureRepository.findSignatureByEmployer_Id(1L)).thenReturn(s);
+        SignatureDTO result = signatureService.getEmployerSignature(1L).get();
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
         assertEquals(1L, result.getEmployerId());
-        verify(signatureRepository, times(1)).findByEmployer_Id(1L);
+        verify(signatureRepository, times(1)).findSignatureByEmployer_Id(1L);
     }
 
     @Test

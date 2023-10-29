@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/stages/signatures")
@@ -38,10 +40,15 @@ public class SignatureController {
         }
     }
 
+    @GetMapping("/employers")
+    public ResponseEntity<List<SignatureDTO>> getEmployerSignature() {
+        return new ResponseEntity<>(signatureService.getSignature(), HttpStatus.OK);
+    }
+
     @GetMapping("/employers/{id}")
     public ResponseEntity<SignatureDTO> getEmployerSignature(@PathVariable long id) {
         try {
-            SignatureDTO signature = signatureService.getEmployerSignature(id);
+            SignatureDTO signature = signatureService.getEmployerSignature(id).get();
             return ResponseEntity.ok(signature);
         } catch (Exception e) {
             System.out.println(id);

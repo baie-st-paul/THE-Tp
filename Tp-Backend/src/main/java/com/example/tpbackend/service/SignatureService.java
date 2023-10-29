@@ -5,6 +5,7 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,11 +46,13 @@ public class SignatureService {
         return Optional.ofNullable(signature.toSignatureDTO());
     }
 
+    @Transactional
     public SignatureDTO updateEmployerSignature(SignatureDTO signatureDTO) {
         Signature signature = signatureDTO.toSignature();
         signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
 
-        return saveEmployerSignature(signature.toSignatureDTO());
+        signatureRepository.updateSignatureByEmployer_Id(signature.getEmployer().getId(), signature.getImageLink());
+        return signature.toSignatureDTO();
     }
 
     public void deleteEmployerSignature(long id) {

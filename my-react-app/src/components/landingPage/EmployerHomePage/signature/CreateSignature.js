@@ -89,7 +89,9 @@ const CreateSignature = ({employerId}) => {
     const handleModif = async () => {
         try {
             signature["imageLink"] = urlImage
+            signature["employerId"] = employerId
             console.log(signature["imageLink"])
+            console.log(signature["employerId"])
             console.log(JSON.stringify(signature))
 
             await fetch(

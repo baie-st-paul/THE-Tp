@@ -32,13 +32,12 @@ const CreateSignature = ({employerId}) => {
                     console.log(e)
                 }
                 console.log(data.length)
-                console.log(data.map((dataS) => dataS))
+                data.map((dataS) => console.log(dataS))
                 if(data.length === 0) {
                     setSignature(null)
                 } else {
-                    setSignature(
-                        data.map((dataS) => dataS
-                        ));
+                    data.map((dataS) => setSignature(dataS)
+                    )
                 }
             })
     }, []);
@@ -127,6 +126,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
+        window.location.reload()
     }
 
     const deleteSignature = async () => {
@@ -155,6 +155,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.error("Error deleting signature:", error);
         }
+        window.location.reload()
     }
 
     const handleClear = () => {

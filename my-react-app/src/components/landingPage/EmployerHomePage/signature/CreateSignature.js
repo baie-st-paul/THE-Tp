@@ -85,6 +85,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
+        window.location.reload()
     }
 
     const handleModif = async () => {

@@ -1,6 +1,7 @@
 package com.example.tpbackend.controllers;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.EntrevueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,10 +39,17 @@ public class EntrevueController {
         return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
     }
 
-    @GetMapping("students/{matricule}")
+    @GetMapping("/students/{matricule}")
     @PreAuthorize("authenticated")
     public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable String matricule) {
         List<EntrevueDTO> entrevues = entrevueService.getStudentEntrevues(matricule);
+        return new ResponseEntity<>(entrevues, HttpStatus.OK);
+    }
+
+    @GetMapping("/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<EntrevueDTO>> getEntrevuesStudentMatricule(@PathVariable String matricule) {
+        List<EntrevueDTO> entrevues = entrevueService.getAllEntrevuesStudentMatricule(matricule);
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
     }
 
@@ -51,4 +59,11 @@ public class EntrevueController {
        entrevueService.manageStatusByMatricule(matricule, newStatus);
         return new ResponseEntity<>("Status changed", HttpStatus.OK);
     }
+
+    @GetMapping("/students/interviewed-by-employer/{employerId}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<StudentGetDTO>> getStudentsForInterviewByEmployerId(@PathVariable Long employerId){
+        return ResponseEntity.ok(entrevueService.getStudentsForInterviewByEmployerId(employerId));
+    }
+
 }

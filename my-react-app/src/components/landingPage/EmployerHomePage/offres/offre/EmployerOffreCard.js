@@ -5,6 +5,7 @@ import  { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
+import {ListGroup} from "react-bootstrap";
 
 const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     const [etudiantsNb, setEtudiantsNb] = useState(null);
@@ -47,18 +48,21 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     }
 
     return (
-        <Card className="container-fluid" style={{ margin:"20px" }}>
+        <Card className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
             <Card.Body>
-                <Card.Title>
+                <Card.Title style={{textDecorationLine: 'underline'}}>
                     {offre.titre}
                 </Card.Title>
-                <Card.Text>
-                    Salaire: {offre.salaire}$/h <br/>
-                    description: {offre.description}<br/>
-                    Nombre postes disponible: {offre.nbMaxEtudiants}<br/>
-                    Date de début: {offre.dateDebut}<br/>
-                    Date de fin: {offre.dateFin}<br/>
-                </Card.Text>
+                {offre.description}
+            </Card.Body>
+            <ListGroup className="list-group-flush">
+                <ListGroup.Item><b>Salaire:</b> {offre.salaire}$/h</ListGroup.Item>
+                <ListGroup.Item><b>Programme:</b> {offre.studentProgram}</ListGroup.Item>
+                <ListGroup.Item><b>Nombre postes disponible:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
+                <ListGroup.Item><b>Date de début:</b> {offre.dateDebut}</ListGroup.Item>
+                <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
+            </ListGroup>
+            <Card.Body>
                 <Button className="btn btn-danger"
                         onClick={() => onDelete(offre.id)}>
                     Supprimer <FaTimes
@@ -73,9 +77,9 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 </Button>
                 { etudiantsNb!== 0  ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>
-                        Voir la liste des personnes postule ({etudiantsNb})
+                        Candidatures ({etudiantsNb})
                     </Button> :
-                    <Button className={"btn btn-success disabled "}> Voir la liste des personnes postule (0)</Button>
+                    <Button className={"btn btn-success disabled "}>Candidatures (0)</Button>
                 }
             </Card.Body>
         </Card>

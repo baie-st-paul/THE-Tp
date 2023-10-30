@@ -5,7 +5,6 @@ import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
 import ReactModal from 'react-modal';
 import Grid from "@mui/material/Grid";
-import OffreDescription from "./OffreDescription";
 import Box from "@mui/material/Box";
 
 const customStyles = {
@@ -19,7 +18,7 @@ const customStyles = {
     },
 };
 
-const OffresPageGestionnaire = () => {
+export default function OffresPageGestionnaire({listeOffres}) {
     const [offres, setOffres] = useState([]);
     const [filterOption, setFilterOption] = useState("all");
     const [shouldRefetch, setShouldRefetch] = useState(false);
@@ -119,10 +118,10 @@ const OffresPageGestionnaire = () => {
                         value={filterOption}
                         onChange={handleFilterChange}
                     >
-                        <option value="all">All</option>
-                        <option value="In_review">Pending</option>
-                        <option value="Accepted">Accepted</option>
-                        <option value="Refused">Refused</option>
+                        <option value="all">Tout</option>
+                        <option value="In_review">En attente</option>
+                        <option value="Accepted">Accepté</option>
+                        <option value="Refused">Refusé</option>
                     </select>
                 </div>
             </div>
@@ -132,33 +131,34 @@ const OffresPageGestionnaire = () => {
                     {filteredOffreList.map((offre, index) => (
                         <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Grid item xs={12} sm={12} md={4} lg={4}>
-                                <Card onClick={() => setSelectedOffre(offre)} style={{ width: '30rem', margin: '5px' }}>
+                                <Card onClick={() => setSelectedOffre(offre)}
+                                      style={{ width: '30rem', margin: '5px', textAlign: "left"}}>
                                     <Card.Body>
-                                        <Card.Title>
+                                        <Card.Title style={{textDecorationLine: 'underline'}}>
                                             {offre.titre}
                                         </Card.Title>
-                                        <OffreDescription offre={offre}/>
+                                        {offre.description}
                                     </Card.Body>
                                     <ListGroup className="list-group-flush">
-                                        <ListGroup.Item>Salaire: {offre.salaire}$</ListGroup.Item>
-                                        <ListGroup.Item>Programme: {offre.studentProgram}</ListGroup.Item>
-                                        <ListGroup.Item>Date de début: {offre.dateDebut}</ListGroup.Item>
-                                        <ListGroup.Item>Date de fin: {offre.dateFin}</ListGroup.Item>
+                                        <ListGroup.Item><b>Salaire:</b> {offre.salaire}$/h</ListGroup.Item>
+                                        <ListGroup.Item><b>Programme:</b> {offre.studentProgram}</ListGroup.Item>
+                                        <ListGroup.Item><b>Nombre postes disponible:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
+                                        <ListGroup.Item><b>Date de début:</b> {offre.dateDebut}</ListGroup.Item>
+                                        <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
                                         <ListGroup.Item>
-                                            Status:<br/>
                                             {offre.status === "In_review" && (
                                                 <>
-                                                    <FontAwesomeIcon icon={faClock} /> Pending
+                                                    <FontAwesomeIcon icon={faClock} /> En attente
                                                 </>
                                             )}
                                             {offre.status === "Accepted" && (
                                                 <>
-                                                    <FontAwesomeIcon icon={faCheck} /> Accepted
+                                                    <FontAwesomeIcon icon={faCheck} /> Accepté
                                                 </>
                                             )}
                                             {offre.status === "Refused" && (
                                                 <>
-                                                    <FontAwesomeIcon icon={faTimes} /> Refused
+                                                    <FontAwesomeIcon icon={faTimes} /> Refusé
                                                 </>
                                             )}
                                         </ListGroup.Item>
@@ -212,5 +212,3 @@ const OffresPageGestionnaire = () => {
         </div>
     );
 };
-
-export default OffresPageGestionnaire;

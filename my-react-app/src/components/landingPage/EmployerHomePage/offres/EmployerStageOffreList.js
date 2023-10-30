@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EmployerOffreStages from "./EmployerOffreStages";
-import UpdateOffreForm from "./update/UpdateOffreForm";
-import "./update/ModalUpdate.css"
+import UpdateOffreForm from "./offre/update/UpdateOffreForm";
+import "./offre/update/ModalUpdate.css"
 
 const MODAL_STYLES = {
     position: "absolute",

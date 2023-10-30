@@ -51,4 +51,15 @@ public class Student  {
             studentGetDTO.setPhoneNumber(student.getUtilisateur().getPhoneNumber());
             return studentGetDTO;
         }
+
+        public StudentGetDTO toStudentDTO() {
+                return new StudentGetDTO(
+                        firstName,
+                        lastName,
+                        utilisateur.getEmail(),
+                        phoneNumber,
+                        matricule,
+                        program
+                );
+        }
 }

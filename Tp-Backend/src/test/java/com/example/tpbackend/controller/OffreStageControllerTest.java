@@ -37,6 +37,7 @@ public class OffreStageControllerTest {
 
     @Before
     public void setup() {
+
         offres = Arrays.asList(
                 new OffreStageDTO(1L,
                         2L,

@@ -9,6 +9,7 @@ import ReactModal from "react-modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
 import "../../../../stylesGenerales.css"
+import CreateEntrevueForm from "../../../Entrevue/CreateEntrevueForm";
 
 const customStyles = {
     content: {
@@ -21,11 +22,34 @@ const customStyles = {
     },
 };
 
-export default function InformationEtudiantPostule({listeEtudiant}) {
+const MODAL_STYLES = {
+    position: "absolute",
+    backgroundColor: "#FFF",
+    padding: "15px",
+    zIndex: "1000",
+    width: "70%",
+    borderRadius: ".5em"
+};
 
+const OVERLAY_STYLE = {
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, .8)",
+    zIndex: "1000",
+    overflowY: "auto"
+};
+
+export default function InformationEtudiantPostule({listeEtudiant}) {
     const location = useLocation();
     const navigate = useNavigate();
-    const [listeEtudiants, setListeEtudiants] = useState([])
+    const [listeEtudiants, setListeEtudiants] = useState([]);
+    const [entrevues, setEntrevues] = useState([]);
+    const [showConvoquer, setShowConvoquer] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
     const [student, setStudent] = useState(null);
@@ -35,13 +59,14 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     useEffect(() => {
         handleListePostule();
-    }, [shouldRefetch])
+        allEntrevuesStudentMatricule();
+    }, [])
 
     async function handleListePostule() {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(
-                `http://localhost:8081/api/v1/employers/${location.state.offreId}/applicants`,
+            fetch(
+                `http://localhost:8081/api/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
                     headers: {
@@ -50,18 +75,63 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     },
                     withCredentials: true,
                 }
-            );
-            if (res.ok) {
-                const data = await res.json();
-                setListeEtudiants(data);
-            } else {
-                const data = await res.json();
-                console.log('Erreur', res.status, data);
-            }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setListeEtudiants(data)
+                })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (listeEtudiant !== undefined){
-              setListeEtudiants(listeEtudiant)
+                setListeEtudiants(listeEtudiant)
+            }
+        }
+    }
+
+    async function allEntrevuesStudentMatricule() {
+        try {
+            listeEtudiants.map(async (candidature) => {
+                const matricule = candidature.student.matricule
+                console.log(matricule)
+
+                fetch(
+                    `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                        }
+                    }
+                ).catch(error => {
+                    console.log(error)
+                }).then(
+                    async (res) => {
+                        const data = await res.json()
+                        try {
+                            console.log(res.status)
+                            if (res.status === 400) {
+                                console.log(res.status)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        setEntrevues(data)
+                    })
+            })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (entrevues !== undefined){
+                setEntrevues(entrevues)
             }
         }
     }
@@ -71,20 +141,13 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         setStudent(student)
     }
 
-    function handleRetour(){
-        navigate('/EmployeurHomePage');
-    }
-
-    function handleConvoquerEntrevue(matricule) {
-        console.log(matricule)
-        navigate(`/createEntrevue`, {
-            state: matricule
-        })
-    }
-
     function handleMontrerLettre(student){
         setOpenModalLettre(!openModalLettre)
         setStudent(student)
+    }
+
+    function handleRetour(){
+        navigate('/EmployeurHomePage');
     }
 
     const updateStatus = async (matricule, status) => {
@@ -97,17 +160,27 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     'Authorization': 'Bearer ' + token
                 },
                 withCredentials: true,
-            });
-
-            if (response.ok) {
-                setShouldRefetch(!shouldRefetch);
-            } else {
+            }).catch(error => {
+                console.log(error)
                 console.error("Failed to accept/refuse etudiant");
-            }
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    console.log(data)
+                    setShouldRefetch(!shouldRefetch);
+                });
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
-    };
+    }
 
     const handleAcceptConfirmation = () => {
         updateStatus(student.matricule, "Accepted");
@@ -130,66 +203,149 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         setIsConfirmationModalOpen(false);
     };
 
+    const createEntrevue = async (entrevue) => {
+        try {
+            listeEtudiants.map(async (candidature) => {
+                const matricule = candidature.student.matricule
+                const token = localStorage.getItem('token');
+
+                console.log(matricule)
+
+                let employerId = localStorage.getItem('employer_id')
+
+                entrevue["status"] = "EnAttente"
+                entrevue["idEmployeur"] = employerId
+                entrevue["idEtudiant"] = matricule
+                console.log(JSON.stringify(entrevue))
+
+                fetch(
+                    'http://localhost:8081/api/v1/stages/entrevues',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                        body: JSON.stringify(entrevue)
+                    }
+                ).catch(error => {
+                    console.log(error)
+                }).then(
+                    async (res) => {
+                        const data = await res.json()
+                        try {
+                            console.log(res.status)
+                            if (res.status === 400) {
+                                console.log(res.status)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        setEntrevues([...entrevues, data])
+                        console.log(data)
+                        setShowConvoquer(false)
+                    })
+            })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (entrevues !== undefined){
+                setEntrevues(entrevues)
+            }
+        }
+    }
+
+    function ModalConvoquerCreateEntrevue() {
+        return (
+            <div style={OVERLAY_STYLE}>
+                <div style={MODAL_STYLES}>
+                    <div className="titleCloseBtn">
+                        <button onClick={() => setShowConvoquer(false)}>X</button>
+                    </div>
+                    <div className="title">
+                        <h1>Convoquer un étudiant</h1>
+                    </div>
+                    <div className="body">
+                        <CreateEntrevueForm onAdd={createEntrevue}/>
+                    </div>
+                    <div className="footer">
+                        <button id="cancelBtn" onClick={() => setShowConvoquer(false)}>Fermer</button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className='mt-5'>
             <div className='rootInfo font'>
                 <div className='divFormInfo'>
+                    {showConvoquer && <ModalConvoquerCreateEntrevue />}
                     <table>
                         <caption> <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1> </caption>
                         <thead>
                         <tr>
-                            <th scope="col" className='headerElement'>NOM</th>
-                            <th scope='col' className='headerElement'>PRENOM</th>
-                            <th scope='col' className='headerElement'>ADRESSE COURRIEL</th>
+                            <th scope="col" className='headerElement w-25'>NOM</th>
+                            <th scope='col' className='headerElement w-25'>PRENOM</th>
+                            <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
                             <th scope='col' className='headerElement'>RESUME</th>
                             <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
                             <th scope='col' className='headerElement '>ACTION</th>
                             <th scope='col' className='headerElement text-center'>STATUT</th>
                             <th scope='col' className='headerElement text-center'></th>
-                        
                         </tr>
                         </thead>
                         <tbody className='bg-light border'>
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
-                                <tr key={i} className='' >
-                                    <td data-label="NOM" scope="row" className='headerElement breakWord h4'>
+                                <tr key={i} className=''>
+                                    <td data-label="NOM" scope="row" className='headerElement text-break  h4'>
                                         {etudiant.student.firstName}
                                     </td>
-                                    <td  data-label="PRENOM" className='headerElement breakWord h4'>
+                                    <td  data-label="PRENOM" className='headerElement  text-break h4'>
                                         {etudiant.student.lastName}
                                     </td>
-                                    <td data-label="ADRESSE COURRIEL" className=' headerElement h4'>
+                                    <td data-label="ADRESSE COURRIEL" className=' headerElement text-break h4'>
                                         {etudiant.student.email}
                                     </td>
                                     <td data-label="NUMERO DE TELEPHONE" className=' headerElement h4'>
                                         {etudiant.student.phoneNumber}
                                     </td>
-                                    <td data-label="RESUME" className='headerElement h4 '>
+                                    <td data-label="RESUME" className='headerElement h4 px-0 '>
                                         <button style={{height : "60px", width: '120px' }} className='btn btn-primary '
                                                 onClick={()=>handleMontrerCv(etudiant)}>Cv
                                         </button>
                                     </td>
                                     { etudiant.student.fileName !== '' ?
-                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                        <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
                                             <button style={{height : "60px", width: '120px' }} className='btn btn-primary'
                                                     onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
-                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 '>
+                                        :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
                                             <button style={{height : "60px", width: '120px' }} className='btn btn-primary disabled'
                                                     onClick={()=> handleMontrerLettre(etudiant)}>Lettre de motivation
                                             </button>
                                         </td>
                                     }
-                                    <td className='headerElement h4 '>
-                                        <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
-                                                onClick={()=> handleConvoquerEntrevue(etudiant.student.matricule)}>
-                                            Convoquer
-                                        </button>
-                                    </td>
-                                    <td data-label="Statut" scope="row" className='headerElement breakWord h4 pe-3'>
+
+                                    {entrevues.length > 0 ?
+                                        entrevues.map((entrevue, i) => (
+                                            <td key={i} data-label="ENTREVUE PRÉVUE" scope="row" className='headerElement breakWord h4 pe-3'>
+                                                {entrevue.dateHeure}
+                                            </td>
+                                        )) :
+                                        <td className='headerElement h4'>
+                                            <button title="CONVOQUER" className='btn btn-primary' style={{height : "60px", width: '120px' }}
+                                                    onClick={()=> setShowConvoquer(!showConvoquer)}>
+                                                Convoquer
+                                            </button>
+                                        </td>
+                                    }
+
+
+                                    <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h4 pe-3'>
                                         {etudiant.status === "In_review" && (
                                             <>
                                                 <FontAwesomeIcon icon={faClock} /> En attente

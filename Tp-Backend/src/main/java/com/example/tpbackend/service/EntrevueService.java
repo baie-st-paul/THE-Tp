@@ -1,20 +1,24 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Entrevue;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @NoArgsConstructor
 public class EntrevueService {
+
     @Autowired
     private EntrevueRepository entrevueRepository;
 
@@ -46,7 +50,17 @@ public class EntrevueService {
         List<Entrevue> entrevues = entrevueRepository.findAllByStudent_Matricule(matricule);
 
         for(Entrevue e : entrevues){
-            dtos.add(new EntrevueDTO(e));
+            dtos.add(e.toEntrevueDTO());
+        }
+        return dtos;
+    }
+
+    public List<EntrevueDTO> getAllEntrevuesStudentMatricule(String matricule){
+        List<Entrevue> entrevues = entrevueRepository.getAllByStudentMatricule(matricule);
+        List<EntrevueDTO> dtos = new ArrayList<>();
+
+        for(Entrevue e : entrevues){
+            dtos.add(e.toEntrevueDTO());
         }
         return dtos;
     }
@@ -54,5 +68,24 @@ public class EntrevueService {
     public void manageStatusByMatricule(String matricule, String newStatus) {
         entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
     }
+
+   /* public List<EntrevueDTO> getStudentsForInterviewByEmployerId(Long employerId){
+        Employer employer = employerRepository.findById(employerId).orElseThrow(() -> new ResourceNotFoundException("Employer not found"));
+        List<Entrevue> entrevues = entrevueRepository.findByEmployer(employer);
+        return entrevues.stream().map(Entrevue::toEntrevueDTO).collect(Collectors.toList());
+    }*/
+
+    public List<StudentGetDTO> getStudentsForInterviewByEmployerId(Long employerId){
+        Employer employer = employerRepository.findById(employerId).orElseThrow(() -> new ResourceNotFoundException("Employer not found"));
+        List<Entrevue> entrevues = entrevueRepository.findByEmployer(employer);
+
+        // Transformation des objets Entrevue en objets Student ou StudentDTO
+        return entrevues.stream().map(entrevue -> {
+            Student student = entrevue.getStudent();
+            return student.toStudentDTO();
+        }).collect(Collectors.toList());
+    }
+
+
 }
 

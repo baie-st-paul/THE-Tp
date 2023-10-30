@@ -1,12 +1,16 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
+import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;

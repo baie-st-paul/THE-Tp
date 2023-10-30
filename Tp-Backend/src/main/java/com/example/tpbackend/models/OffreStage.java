@@ -4,17 +4,16 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OffreStage {

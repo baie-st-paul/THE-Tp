@@ -35,9 +35,9 @@ const CandidatureForm = ({matricule, id, close}) => {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
                 body: formdata,
                 redirect: "follow",
-                mode: "no-cors"
             };
 
             fetch(

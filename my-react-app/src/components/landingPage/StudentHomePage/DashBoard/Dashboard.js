@@ -18,6 +18,7 @@ const Dashboard = () =>{
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
             }
         ).catch((error) => {
             console.error("Error:", error);

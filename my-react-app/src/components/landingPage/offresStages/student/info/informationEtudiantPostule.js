@@ -47,7 +47,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 }
             );
             if (res.ok) {
@@ -94,7 +95,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
-                }
+                },
+                withCredentials: true,
             });
 
             if (response.ok) {

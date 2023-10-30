@@ -34,9 +34,9 @@ function FileUploader({matricule}) {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
                 body: formdata,
                 redirect: "follow",
-                mode: "no-cors"
             };
 
             fetch(

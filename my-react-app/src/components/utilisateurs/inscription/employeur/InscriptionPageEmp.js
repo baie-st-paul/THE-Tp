@@ -17,6 +17,7 @@ const InscriptionPageEmp = () => {
                 headers: {
                     'Content-type': 'application/json',
                 },
+                withCredentials: true,
                 body: JSON.stringify(employeur)
             }
         )

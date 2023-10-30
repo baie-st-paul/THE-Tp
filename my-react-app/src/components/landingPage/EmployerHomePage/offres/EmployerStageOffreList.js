@@ -41,7 +41,8 @@ const EmployerStageOffreList = () => {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
-                }
+                },
+                withCredentials: true
             }
         ).catch(error => {
             console.log(error)
@@ -70,7 +71,8 @@ const EmployerStageOffreList = () => {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
-                }
+                },
+                withCredentials: true
             }
         )
 
@@ -88,6 +90,7 @@ const EmployerStageOffreList = () => {
                 'Content-type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
+            withCredentials: true,
             body: JSON.stringify(offre)
         })
         const data = await res.json()

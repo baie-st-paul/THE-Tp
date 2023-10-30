@@ -38,7 +38,8 @@ const OffresPageGestionnaire = () => {
                         headers: {
                             'Content-type': 'application/json',
                             'Authorization': 'Bearer ' + token
-                        }
+                        },
+                        withCredentials: true,
                     }
                 );
                 if (response.ok) {
@@ -86,7 +87,8 @@ const OffresPageGestionnaire = () => {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
-                }
+                },
+                withCredentials: true,
             });
 
             if (response.ok) {

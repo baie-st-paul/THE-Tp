@@ -30,6 +30,7 @@ const ConvoquerEtudiantEntrevuePage = () => {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
                 body: JSON.stringify(entrevue)
             }
         )

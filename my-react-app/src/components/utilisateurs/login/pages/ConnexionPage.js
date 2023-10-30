@@ -45,11 +45,8 @@ const ConnexionPage = () => {
             console.log(role)
 
             if (role) {
-
-
                 switch (role) {
                     case "Student":
-                        console.log("GotHere2")
                         await fetch(
                             'http://localhost:8081/api/v1/student/getstudent',
                             {
@@ -112,7 +109,6 @@ const ConnexionPage = () => {
                         });
                         break;
                     default:
-                        console.log("GotHere13")
                         break;
                 }
 

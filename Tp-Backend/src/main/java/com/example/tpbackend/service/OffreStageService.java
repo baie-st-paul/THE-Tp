@@ -90,13 +90,15 @@ public class OffreStageService {
     }
 
     public List<OffreStageDTO> getOffresByEmployerId() {
+        System.out.println(userService.getUserId());
         List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(userService.getUserId());
+        System.out.println(offreStages);
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {
             offreStageDTOS.add(offreStage.toOffreStageDTO());
         }
-
+        System.out.println(offreStageDTOS);
         return offreStageDTOS;
     }
 }

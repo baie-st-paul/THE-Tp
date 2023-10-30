@@ -37,6 +37,7 @@ const SectionEntrevue = () => {
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
             }
         ).catch((error) => {
             console.error("Error:", error);
@@ -74,7 +75,8 @@ const SectionEntrevue = () => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 })
             .then(() => {
                 setShouldRefetch(true);
@@ -92,7 +94,8 @@ const SectionEntrevue = () => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 })
             .then(() => {
                 setShouldRefetch(true);

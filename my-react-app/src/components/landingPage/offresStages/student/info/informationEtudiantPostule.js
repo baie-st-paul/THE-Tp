@@ -66,13 +66,14 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             const token = localStorage.getItem('token');
             fetch(
-                `http://localhost:8081/api/employers/${location.state.offreId}/applicants`,
+                `http://localhost:8081/api/v1/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 }
             ).catch(error => {
                 console.log(error)
@@ -102,6 +103,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
                 console.log(matricule)
+                const token = localStorage.getItem('token');
 
                 fetch(
                     `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
@@ -109,7 +111,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         method: 'GET',
                         headers: {
                             'Content-type': 'application/json',
-                        }
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
                     }
                 ).catch(error => {
                     console.log(error)
@@ -151,15 +155,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
     const updateStatus = async (matricule, status) => {
         try {
-            fetch(
-                `http://localhost:8081/api/employers/candidature/accept/${matricule}/${status}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                    }
-                }
-            ).catch(error => {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }).catch(error => {
                 console.log(error)
                 console.error("Failed to accept/refuse etudiant");
             }).then(
@@ -175,7 +179,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     }
                     console.log(data)
                     setShouldRefetch(!shouldRefetch);
-                })
+                });
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
@@ -206,6 +210,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
+                const token = localStorage.getItem('token');
+
                 console.log(matricule)
 
                 let employerId = localStorage.getItem('employer_id')
@@ -221,7 +227,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
                         },
+                        withCredentials: true,
                         body: JSON.stringify(entrevue)
                     }
                 ).catch(error => {

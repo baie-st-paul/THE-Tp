@@ -12,8 +12,6 @@ import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,19 +30,16 @@ public class EntrevueService {
     private StudentRepository studentRepository;
 
     public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
-
-
         Entrevue entrevue = new Entrevue();
         entrevue.setId(1L);
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
-        entrevue.setStudent(studentRepository.findByMaticule(entrevueDTO.getIdEtudiant()));
+        entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
-    
     public EntrevueDTO updateStatus(EntrevueDTO entrevueDTO, String newStatus){
         Entrevue entrevue = entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure(entrevueDTO.getIdEtudiant(), Long.parseLong(entrevueDTO.getIdEmployer()), entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(newStatus));
@@ -58,7 +53,6 @@ public class EntrevueService {
         for(Entrevue e : entrevues){
             dtos.add(e.toEntrevueDTO());
         }
-
         return dtos;
     }
 

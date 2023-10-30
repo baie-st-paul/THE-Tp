@@ -26,14 +26,18 @@ const CandidatureForm = ({matricule, id, close}) => {
         event.preventDefault();
         console.log(matricule)
         if (lettreMotiv) {
+            const token = localStorage.getItem('token');
             const formdata = new FormData();
             formdata.append("lettre_motivation", lettreMotiv);
 
             const requestOptions = {
                 method: "POST",
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
                 body: formdata,
                 redirect: "follow",
-                mode: "no-cors"
             };
 
             fetch(

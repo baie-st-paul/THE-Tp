@@ -17,15 +17,16 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
 
     async function handleListePostule() {
         try {
-            const token = localStorage.getItem('token'); 
+            const token = localStorage.getItem('token');
             const res = await fetch(
-                `http://localhost:8081/api/employers/${offre.id}/applicants/nb`,
+                `http://localhost:8081/api/v1/employers/${offre.id}/applicants/nb`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true
                 }
             );
             if (res.ok) {  

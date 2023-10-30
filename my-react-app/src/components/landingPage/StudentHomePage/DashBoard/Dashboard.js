@@ -8,6 +8,7 @@ const Dashboard = () =>{
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
             `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
@@ -15,7 +16,9 @@ const Dashboard = () =>{
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
             }
         ).catch((error) => {
             console.error("Error:", error);
@@ -56,7 +59,7 @@ const Dashboard = () =>{
                         entrevuesEnAttente.map((item, index) => (
                             <EntrevueItemDashboard
                                 key={index}
-                                nomEntreprise={item.comanyName}
+                                nomEntreprise={item.companyName}
                                 entrevue={item}
                                 setShouldRefetch={setShouldRefetch}
                             />

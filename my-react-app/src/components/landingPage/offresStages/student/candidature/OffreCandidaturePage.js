@@ -11,6 +11,7 @@ const OffreCandidaturePage = () => {
     const [shouldRefetch] = useState(false);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         fetch(
             `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
@@ -18,7 +19,9 @@ const OffreCandidaturePage = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
             }
         ).catch((error) => {
             console.error("Error:", error);

@@ -22,12 +22,12 @@ public class StudentGetDTO {
         if (student == null) {
             return null;
         }
-        String email = (student.getUtilisateur() != null) ? student.getUtilisateur().getEmail() : null;
+
         return new StudentGetDTO(
-                student.getFirstName(),
-                student.getLastName(),
-                email,
-                student.getPhoneNumber(),
+                student.getUtilisateur().getFirstName(),
+                student.getUtilisateur().getLastName(),
+                student.getUtilisateur().getEmail(),
+                student.getUtilisateur().getPhoneNumber(),
                 student.getMatricule(),
                 student.getProgram(),
                 student.getTagName()

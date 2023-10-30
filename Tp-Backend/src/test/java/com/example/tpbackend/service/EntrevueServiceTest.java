@@ -11,10 +11,6 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
-
-import com.example.tpbackend.service.EntrevueService;
-import com.example.tpbackend.service.utilisateur.EmployerService;
-import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -41,13 +37,7 @@ class EntrevueServiceTest {
     private StudentRepository studentRepository;
 
     @Mock
-    private StudentServices studentService;
-
-    @Mock
     private EmployerRepository employerRepository;
-
-    @Mock
-    private EmployerService employerService;
 
     @InjectMocks
     private EntrevueService entrevueService;
@@ -57,32 +47,32 @@ class EntrevueServiceTest {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
+        utilisateur.setFirstName("Jane");
         utilisateur.setPassword("iloveyou");
+        utilisateur.setLastName("Doe");
         utilisateur.setRole(Utilisateur.Role.Employeur);
+        utilisateur.setPhoneNumber("6625550144");
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.com");
         utilisateur2.setId(2L);
+        utilisateur2.setFirstName("Jane");
         utilisateur2.setPassword("iloveyou");
+        utilisateur2.setLastName("Student");
         utilisateur2.setRole(Utilisateur.Role.Student);
+        utilisateur2.setPhoneNumber("6625550141");
 
 
         Student student = new Student();
-        student.setFirstName("Jane");
         student.setMatricule("2222222");
-        student.setLastName("Student");
         student.setProgram("Informatique");
-        student.setPhoneNumber("6625550141");
         student.setOffresStages(new ArrayList<>());
         student.setUtilisateur(utilisateur2);
 
@@ -104,7 +94,7 @@ class EntrevueServiceTest {
 
 
         when(employerRepository.findEmployerById(1L)).thenReturn(employer);
-        when(studentRepository.findByMaticule("2222222")).thenReturn(student);
+        when(studentRepository.findByMatricule("2222222")).thenReturn(student);
         when(entrevueRepository.save(entrevue)).thenReturn(entrevue);
 
         EntrevueDTO result = entrevueService.createEntrevue(entrevueDTO);
@@ -117,32 +107,32 @@ class EntrevueServiceTest {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
+        utilisateur.setFirstName("Jane");
         utilisateur.setPassword("iloveyou");
+        utilisateur.setLastName("Doe");
         utilisateur.setRole(Utilisateur.Role.Employeur);
+        utilisateur.setPhoneNumber("6625550144");
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.com");
         utilisateur2.setId(2L);
+        utilisateur2.setFirstName("Jane");
         utilisateur2.setPassword("iloveyou");
+        utilisateur2.setLastName("Student");
         utilisateur2.setRole(Utilisateur.Role.Student);
+        utilisateur2.setPhoneNumber("6625550141");
 
 
         Student student = new Student();
-        student.setFirstName("Jane");
         student.setMatricule("2222222");
-        student.setLastName("Student");
         student.setProgram("Informatique");
-        student.setPhoneNumber("6625550141");
         student.setOffresStages(new ArrayList<>());
         student.setUtilisateur(utilisateur2);
 
@@ -181,30 +171,30 @@ class EntrevueServiceTest {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
+        utilisateur.setFirstName("Jane");
         utilisateur.setPassword("iloveyou");
+        utilisateur.setLastName("Doe");
         utilisateur.setRole(Utilisateur.Role.Employeur);
+        utilisateur.setPhoneNumber("6625550144");
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
         employer.setOffresStages(new ArrayList<>());
-        employer.setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.com");
         utilisateur2.setId(2L);
+        utilisateur2.setFirstName("Jane");
         utilisateur2.setPassword("iloveyou");
+        utilisateur2.setLastName("Student");
         utilisateur2.setRole(Utilisateur.Role.Student);
+        utilisateur2.setPhoneNumber("6625550141");
 
         Student student = new Student();
-        student.setFirstName("Jane");
         student.setMatricule("2222222");
-        student.setLastName("Student");
         student.setProgram("Informatique");
-        student.setPhoneNumber("6625550141");
         student.setOffresStages(new ArrayList<>());
         student.setUtilisateur(utilisateur2);
 

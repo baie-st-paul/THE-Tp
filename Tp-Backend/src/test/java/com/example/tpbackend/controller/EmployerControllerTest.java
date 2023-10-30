@@ -10,7 +10,6 @@ import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
-import jakarta.persistence.GeneratedValue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -59,23 +58,29 @@ public class EmployerControllerTest {
     @Test
     public void testAcceptCandidature() throws Exception {
         StudentPostDTO studentPostDTO = new StudentPostDTO(
-                "lina",
-                "lac",
-                "lina@gmail.com",
-                "Root!123",
-                "+15143738384",
                 "3939494",
                 "informatique");
-        studentService.saveStudent(studentPostDTO, studentPostDTO.getEmail(), studentPostDTO.getPassword(), "Student");
+        studentService.saveStudent(
+                "first",
+                "last",
+                "student@gmail.com",
+                "+15146878898",
+                "1234567",
+                "Student",
+                studentPostDTO
+        );
         EmployerPostDTO employerPostDTO = new EmployerPostDTO(
+                "ALaurendeau"
+        );
+        employerService.saveEmployer(
                 "emp",
                 "lala",
-                "ALaurendeau",
+                "emp@gmail.com",
                 "+15146878898",
-                "lolo@gmail.com",
-                "Root!123"
+                "ALaurendeau",
+                "Employeur",
+                employerPostDTO
         );
-        employerService.saveEmployer(employerPostDTO, employerPostDTO.getEmail(), employerPostDTO.getPassword(), "Employeur");
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
                 1,

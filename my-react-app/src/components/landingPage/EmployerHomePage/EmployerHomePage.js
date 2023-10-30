@@ -22,19 +22,22 @@ const EmployerHomePage = () => {
 
     let contentToRender;
     let employerId = localStorage.getItem('employer_id')
+    const token = localStorage.getItem('token');
     const ajoutOffre = async (offre) => {
 
         offre["status"] = "In_review"
         offre["employerId"] = employerId
         console.log(JSON.stringify(offre))
-
+        console.log(token)
         await fetch(
             'http://localhost:8081/api/v1/stages/offres/create',
             {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
                 body: JSON.stringify(offre)
             }
         ).catch((err) => {
@@ -55,12 +58,11 @@ const EmployerHomePage = () => {
                 console.log(data)
             }
         )
-
     }
 
     switch (activeContent){
         case "offre-page":
-            contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>;
+            contentToRender = <EmployerStageOffreList></EmployerStageOffreList>;
         break;
         case "Ajout-offre":
             contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>;

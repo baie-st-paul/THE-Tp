@@ -1,7 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.Tag;
@@ -17,14 +16,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class
-EmployerService {
+public class EmployerService {
     @Autowired
     private EmployerRepository employerRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private UserService userService;
 
     public boolean existByName(String companyName) {
         return employerRepository.existsByCompanyName(companyName);
@@ -38,29 +38,21 @@ EmployerService {
         return employerRepository.getOffreStageById(id);
     }
 
-    public EmployerGetDTO getEmployerById(Long id){
-        Employer employer = employerRepository.findEmployerById(id);
-        return new EmployerGetDTO(
-                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
-                employer.getPhoneNumber(),employer.getUtilisateur().getEmail());
+    public Employer getEmployerById(Long id){
+        return employerRepository.findEmployerById(id);
     }
 
-    public EmployerPostDTO saveEmployer(EmployerPostDTO employerPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(email, password, role);
-        Employer employer = employerPostDTO.toEmployer(employerPostDTO);
-        employer.setUtilisateur(utilisateur);
-        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
+    public EmployerPostDTO saveEmployer(String firstName, String lastName, String email,String phoneNumber, String password, String role, EmployerPostDTO employerPostDTO){
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
+        Employer employer = new Employer(employerPostDTO.getCompanyName(), utilisateur);
         utilisateurRepository.save(utilisateur);
         employerRepository.save(employer);
         return EmployerPostDTO.fromEmployeur(employer);
     }
 
-    public EmployerGetDTO getEmployeurByUser(UtilisateurDTO utilisateurDTO){
-        Employer employer = employerRepository.findEmployerByUtilisateur();
-        System.out.println(employer);
-        return new EmployerGetDTO(
-                employer.getId(), employer.getFirstName(),employer.getLastName(),employer.getCompanyName(),
-                employer.getPhoneNumber(),utilisateurDTO.getEmail());
+    public EmployerGetDTO getEmployerByAuthentication(){
+        Employer employer = employerRepository.findByUtilisateurId(userService.getUserId());
+        return EmployerGetDTO.fromEmployer(employer);
     }
 
     public Tag getTag(){

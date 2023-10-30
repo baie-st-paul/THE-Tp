@@ -12,12 +12,13 @@ const InscriptionPageE = () => {
     const inscription = async (etudiant) => {
         console.log(erreur)
         const res = await fetch(
-            'http://localhost:8081/api/v1/utilisateur/newStudent',
+            'http://localhost:8081/api/v1/utilisateur/register',
             {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                 },
+                withCredentials: true,
                 body: JSON.stringify(etudiant)
             }
         )

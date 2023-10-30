@@ -17,36 +17,24 @@ public class Employer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
-    private String firstName;
-    private String lastName;
     private String companyName;
-    private String phoneNumber;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
 
-    public Employer(Long id, String firstName, String lastName, String companyName, String phoneNumber) {
+    public Employer(Long id, String companyName, Utilisateur utilisateur) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.companyName = companyName;
-        this.phoneNumber = phoneNumber;
+        this.utilisateur = utilisateur;
     }
 
-    @Override
-    public String toString() {
-        return "Employer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", utilisateur=" + utilisateur +
-                '}';
+    public Employer(String companyName, Utilisateur utilisateur) {
+        this.companyName = companyName;
+        this.utilisateur = utilisateur;
     }
 
     public void setUtilisateur(Utilisateur utilisateur){

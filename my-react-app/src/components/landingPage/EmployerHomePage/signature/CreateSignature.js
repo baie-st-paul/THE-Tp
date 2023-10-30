@@ -76,8 +76,8 @@ const CreateSignature = ({employerId}) => {
                     }
                     setSignature(data)
                     console.log(data)
-                    console.log(signature.imageLink === urlImage)
-                    console.log("1",signature.imageLink)
+                    console.log(data.imageLink === urlImage)
+                    console.log("1",data.imageLink)
                     console.log("2",urlImage)
                 }
             )
@@ -187,10 +187,16 @@ const CreateSignature = ({employerId}) => {
                 </Button>
                 <Button className="btn btn-success"
                         onClick = {handleSave}>
-                    Créer <FaPencilAlt
+                    Dessiner <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
+
+                <br/>
+                {signature !== null && urlImage === null &&
+                    <img src={signature.imageLink} alt="imageLink"/>
+                }
+                <br/>
 
                 <br/>
                 {urlImage !== null &&

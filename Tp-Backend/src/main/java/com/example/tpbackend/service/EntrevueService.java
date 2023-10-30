@@ -2,6 +2,7 @@ package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.exceptionHandler.ResourceNotFoundException;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;

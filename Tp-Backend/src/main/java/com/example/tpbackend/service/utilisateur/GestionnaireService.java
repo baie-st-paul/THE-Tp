@@ -3,7 +3,6 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -123,8 +122,8 @@ public class GestionnaireService {
                     new EmployerGetDTO(),
                     new StudentGetDTO()
             );
-           entrevue.getEtudiant().setFirstName(e.getStudent().getFirstName());
-           entrevue.getEtudiant().setLastName(e.getStudent().getLastName());
+           entrevue.getEtudiant().setFirstName(e.getStudent().getUtilisateur().getFirstName());
+           entrevue.getEtudiant().setLastName(e.getStudent().getUtilisateur().getLastName());
            entrevue.getEtudiant().setMatricule(e.getStudent().getMatricule());
            entrevue.getEmployer().setCompanyName(e.getEmployer().getCompanyName());
            dtoEntrevue.add(entrevue);

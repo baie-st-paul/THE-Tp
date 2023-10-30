@@ -54,10 +54,10 @@ public class Student  {
 
         public StudentGetDTO toStudentDTO() {
                 return new StudentGetDTO(
-                        firstName,
-                        lastName,
+                        utilisateur.getFirstName(),
+                        utilisateur.getLastName(),
                         utilisateur.getEmail(),
-                        phoneNumber,
+                        utilisateur.getPhoneNumber(),
                         matricule,
                         program
                 );

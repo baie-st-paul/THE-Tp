@@ -76,7 +76,6 @@ const SectionEntrevue = () => {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    withCredentials: true,
                 })
             .then(() => {
                 setShouldRefetch(true);

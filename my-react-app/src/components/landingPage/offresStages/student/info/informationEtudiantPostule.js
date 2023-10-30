@@ -66,7 +66,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             const token = localStorage.getItem('token');
             fetch(
-                `http://localhost:8081/api/employers/${location.state.offreId}/applicants`,
+                `http://localhost:8081/api/v1/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
                     headers: {
@@ -103,6 +103,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
                 console.log(matricule)
+                const token = localStorage.getItem('token');
 
                 fetch(
                     `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
@@ -110,7 +111,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         method: 'GET',
                         headers: {
                             'Content-type': 'application/json',
-                        }
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
                     }
                 ).catch(error => {
                     console.log(error)

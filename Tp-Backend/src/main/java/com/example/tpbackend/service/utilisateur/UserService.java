@@ -3,18 +3,21 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    UtilisateurRepository utilisateurRepository;
-
     @Autowired
-    public UserService(UtilisateurRepository utilisateurRepository){
-        this.utilisateurRepository = utilisateurRepository;
+    private UtilisateurRepository utilisateurRepository;
+
+    public UserDetailsService userDetailsService() {
+        return username -> utilisateurRepository.findByEmail(username);
     }
 
-    public Utilisateur findByEmail(String email) {
+    public Utilisateur loadUserByEmail(String email) throws UsernameNotFoundException {
         return utilisateurRepository.findByEmail(email);
     }
 
@@ -31,4 +34,8 @@ public class UserService {
         return false;
     }
 
+    public Long getUserId() {
+        Utilisateur password = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return loadUserByEmail(password.getEmail()).getId();
+    }
 }

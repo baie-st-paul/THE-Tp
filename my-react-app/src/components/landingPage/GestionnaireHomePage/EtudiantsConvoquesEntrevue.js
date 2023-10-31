@@ -11,12 +11,14 @@ export default function EtudiantsConvoquesEntrevue() {
 
     async function getEtudiants() {
         try {
+            const token = localStorage.getItem('token');
             const res = await fetch(
                 `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     }
                 }
             );

@@ -1,12 +1,14 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import jakarta.transaction.Transactional;
+import com.example.tpbackend.service.utilisateur.UserService;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 @NoArgsConstructor
+@AllArgsConstructor
 public class OffreStageService {
-
     @Autowired
     private OffreStageRepository offreStageRepository;
+
     @Autowired
     private EmployerService employerService;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
-        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
+        offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
@@ -63,14 +68,11 @@ public class OffreStageService {
         }
     }
 
-
     @Transactional
     public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
     }
-
-
 
     @Transactional
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
@@ -82,12 +84,11 @@ public class OffreStageService {
         }
     }
 
-
     @Transactional
     public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
-        offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offreStageDTO.getEmployerId())));
+        offreStage.setEmployer(employerService.getEmployerById(offreStageDTO.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
@@ -97,8 +98,8 @@ public class OffreStageService {
     }
 
     @Transactional
-    public List<OffreStageDTO> getOffresByEmployerId(long id) {
-        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
+    public List<OffreStageDTO> getOffresByEmployerId() {
+        List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(userService.getUserId());
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {
@@ -107,5 +108,4 @@ public class OffreStageService {
 
         return offreStageDTOS;
     }
-
 }

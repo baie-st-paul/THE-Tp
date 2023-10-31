@@ -19,8 +19,8 @@ const ConnexionPage = () => {
 
     async function connexion(utilisateur) {
         try {
-            const res = await fetch(
-                'http://localhost:8081/api/v1/utilisateur/loginUtilisateur',
+            await fetch(
+                'http://localhost:8081/api/v1/utilisateur/login',
                 {
                     method: 'POST',
                     headers: {
@@ -28,36 +28,90 @@ const ConnexionPage = () => {
                     },
                     body: JSON.stringify(utilisateur)
                 }
-            );
-            if (res.status === 400) {
+            ).catch((error) => {
+                console.error(error);
                 setErreur(true);
-                throw new Error('Cet Email n\'est pas associé à un compte');
-            } else {
-                setErreur(false);
-            }
-            const data = await res.json();
-            console.log(data)
-            localStorage.clear()
-            localStorage.setItem('token', JSON.stringify(data.data.token));
-            localStorage.setItem('user_type', JSON.stringify(data.user_type))
-            if (data.user_type) {
-                switch (data.user_type) {
-                    case 'Student':
-                        setLoggedInUser(data.data.studentGetDTO);
-                        setRedirectTo("/StudentHomePage");
+            }).then(async (res) => {
+                const data = await res.json();
+                console.log(data)
+                localStorage.clear()
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user_type', data.role);
+            });
+
+            const role = localStorage.getItem('user_type').replace(/["]/g, '');
+            const token = localStorage.getItem('token');
+            console.log(token)
+            console.log(role)
+
+            if (role) {
+                switch (role) {
+                    case "Student":
+                        await fetch(
+                            'http://localhost:8081/api/v1/student/getstudent',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                withCredentials: true
+
+                            }
+                        ).catch((error) => {
+                            console.error(error);
+
+                        }).then(async (res) => {
+                            const dataStudentGetDTO = await res.json();
+                            console.log(dataStudentGetDTO)
+                            setLoggedInUser(dataStudentGetDTO);
+                            setRedirectTo("/StudentHomePage");
+                        });
                         break;
                     case 'Gestionnaire':
-                        setLoggedInUser(data.data.gestionnaireGetDTO);
-                        setRedirectTo("/GestionnaireHomePage");
+                        await fetch(
+                            'http://localhost:8081/api/v1/gestionnaire/getGestionnaire',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    Authorization: 'Bearer ' + token
+                                },
+                                withCredentials: true
+                            }
+                        ).catch((error) => {
+                            console.error(error);
+                            setErreur(true);
+                        }).then(async (res) => {
+                            const dataGestionnaireGetDTO = await res.json();
+                            console.log(dataGestionnaireGetDTO)
+                            setLoggedInUser(dataGestionnaireGetDTO);
+                            setRedirectTo("/GestionnaireHomePage");
+                        });
                         break;
                     case 'Employeur':
-                        setLoggedInUser(data.data.employerGetDTO);
-                        localStorage.setItem("employer_id", JSON.stringify(data.data.employerGetDTO.id));
-                        setRedirectTo("/EmployeurHomePage");
+                        await fetch(
+                            'http://localhost:8081/api/v1/employers/getEmployer',
+                            {
+                                method: 'GET',
+                                headers: {
+                                    Authorization: 'Bearer ' + token
+                                },
+                                withCredentials: true
+                            }
+                        ).catch((error) => {
+                            console.error(error);
+                            setErreur(true);
+                        }).then(async (res) => {
+                            const dataEmployeurGetDTO = await res.json();
+                            console.log(dataEmployeurGetDTO)
+                            setLoggedInUser(dataEmployeurGetDTO);
+                            localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
+                            setRedirectTo("/EmployeurHomePage");
+                        });
                         break;
                     default:
                         break;
                 }
+
             }
         } catch (e) {
             console.error(e);

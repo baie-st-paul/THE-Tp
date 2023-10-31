@@ -3,21 +3,23 @@ package com.example.tpbackend.controllers;
 import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.EntrevueService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/stages/entrevues")
 @CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
 public class EntrevueController {
     private final EntrevueService entrevueService;
 
     @PostMapping
+    @PreAuthorize("authenticated")
     public ResponseEntity<EntrevueDTO> createEntrevue(@RequestBody EntrevueDTO dto) {
         try {
             EntrevueDTO entrevue = entrevueService.createEntrevue(dto);
@@ -30,12 +32,14 @@ public class EntrevueController {
     }
 
     @PutMapping
+    @PreAuthorize("authenticated")
     public ResponseEntity<EntrevueDTO> updateStatus(@RequestBody EntrevueDTO entrevueDTO, @RequestParam String newStatus) {
         EntrevueDTO updatedEntrevue = entrevueService.updateStatus(entrevueDTO, newStatus);
         return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
     }
 
     @GetMapping("/students/{matricule}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable String matricule) {
         List<EntrevueDTO> entrevues = entrevueService.getStudentEntrevues(matricule);
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
@@ -47,7 +51,8 @@ public class EntrevueController {
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
     }
 
-    @PutMapping("manageStatusByMatricule/{matricule}/{newStatus}")
+    @PutMapping("/manageStatusByMatricule/{matricule}/{newStatus}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<String> manageStatusByMatricule(@PathVariable String matricule, @PathVariable String newStatus) {
        entrevueService.manageStatusByMatricule(matricule, newStatus);
         return new ResponseEntity<>("Status changed", HttpStatus.OK);

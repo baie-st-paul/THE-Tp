@@ -11,7 +11,7 @@ const InscriptionPageEmp = () => {
     const inscription = async (employeur) => {
         console.log(erreur)
         const res = await fetch(
-            'http://localhost:8081/api/v1/utilisateur/newEmployer',
+            'http://localhost:8081/api/v1/utilisateur/register',
             {
                 method: 'POST',
                 headers: {

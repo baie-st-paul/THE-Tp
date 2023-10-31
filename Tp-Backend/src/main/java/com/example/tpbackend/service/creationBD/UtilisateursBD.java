@@ -26,6 +26,8 @@ public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private OffreStageService offreStageService;
 
+
+
     @Override
     public void run(String... args) {
         createStudent();
@@ -40,61 +42,51 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createStudent() {
         StudentPostDTO studentPostDTO = new StudentPostDTO(
-                "lina",
-                "lac",
-                "etudiant@gmail.com",
-                "Root!123",
-                "+15147237392",
                 "0938473",
                 "Informatique"
         );
         StudentPostDTO postDTO = studentServices.saveStudent(
-                studentPostDTO,
-                studentPostDTO.getEmail(),
-                studentPostDTO.getPassword(),
-                "Student"
+                "lina",
+                "lac",
+                "etudiant@gmail.com",
+                "+15147237392",
+                "Root!123",
+                "Student",
+                studentPostDTO
         );
         System.out.println(postDTO);
     }
 
     public void createEmployer() {
         Utilisateur utilisateur = new Utilisateur(
-                "emp@gmail.com",
-                "Root!123",
-                "Employeur"
-        );
-        Employer employer = new Employer(
-                1L,
                 "emp",
                 "lala",
+                "emp@gmail.com",
+                "+15147899765",
+                "Root!123",
+                "Employeur"
+       );
+
+        Employer employer = new Employer(
                 "ALaurendeau",
-                "+15147899765"
+                utilisateur
         );
-
-        employer.setUtilisateur(utilisateur);
-
         employerRepository.save(employer);
-
         System.out.println(employer);
     }
 
     public void createGestionnaire() {
         GestionnairePostDTO gestionnairePostDTO = new GestionnairePostDTO(
-                "ges",
-                "toto",
-                "ges@gmail.com",
-                "Root!123",
-                "+15144758345",
                 "9034948"
         );
         GestionnairePostDTO postDTO = gestionnaireService.saveGestionnaire(
-                gestionnairePostDTO.getFirstName(),
-                gestionnairePostDTO.getLastName(),
-                gestionnairePostDTO.getPhoneNumber(),
-                gestionnairePostDTO.getMatricule(),
-                gestionnairePostDTO.getEmail(),
-                gestionnairePostDTO.getPassword(),
-                "Gestionnaire"
+                "ges",
+                "toto",
+                "ges@gmail.com",
+                "+15144758345",
+                "Root!123",
+                "Gestionnaire",
+                gestionnairePostDTO
         );
         System.out.println(postDTO);
     }
@@ -116,6 +108,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Accepted",
                 1
         );
-        offreStageService.saveOffre(offreStageDTO);
+        OffreStageDTO postDTO = offreStageService.saveOffre(offreStageDTO);
+        System.out.println(postDTO);
     }
 }

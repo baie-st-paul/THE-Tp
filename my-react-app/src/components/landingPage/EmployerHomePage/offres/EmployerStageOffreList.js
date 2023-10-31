@@ -25,7 +25,7 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-const EmployerStageOffreList = ({employerId}) => {
+const EmployerStageOffreList = () => {
     const [offres, setOffres] = useState([]);
     const [offre, setOffre] = useState({});
     const [showUpdateOffre, setShowUpdateOffre] = useState(false);
@@ -33,12 +33,14 @@ const EmployerStageOffreList = ({employerId}) => {
     const [error] = useState(null);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         fetch(
-            'http://localhost:8081/api/v1/stages/offres/employer/' + employerId,
+            'http://localhost:8081/api/v1/stages/offres/employer',
             {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 }
             }
         ).catch(error => {
@@ -60,10 +62,15 @@ const EmployerStageOffreList = ({employerId}) => {
     }, []);
 
     const deleteOffre = async (offreId) => {
+        const token = localStorage.getItem('token');
         await fetch(
             `http://localhost:8081/api/v1/stages/offres/${offreId}`,
             {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
             }
         )
 
@@ -72,12 +79,14 @@ const EmployerStageOffreList = ({employerId}) => {
     }
 
     const updateOffre = async (offre) => {
+        const token = localStorage.getItem('token');
         console.log(offre)
         const res = await fetch(
             `http://localhost:8081/api/v1/stages/offres/${offre.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(offre)
         })

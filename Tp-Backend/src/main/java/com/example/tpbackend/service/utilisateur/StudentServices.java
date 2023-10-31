@@ -4,7 +4,6 @@ import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
@@ -17,9 +16,10 @@ import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-
 import jakarta.transaction.Transactional;
+import com.example.tpbackend.service.security.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class StudentServices {
-
     @Autowired
     private StudentRepository studentRepository;
     @Autowired
@@ -41,49 +40,41 @@ public class StudentServices {
     private OffreStageRepository offreStageRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private UserService userService;
 
-    public StudentPostDTO saveStudent(StudentPostDTO studentPostDTO, String email, String password, String role){
-        Utilisateur utilisateur = new Utilisateur(email, password,role);
-        Student student = studentPostDTO.toStudent(studentPostDTO);
-        student.setUtilisateur(utilisateur);
-        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
+
+    public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
+        Student student = new Student(studentPostDTO.getMatricule(), studentPostDTO.getProgram(), utilisateur);
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);
-    }
-
-
-
-    public boolean existsByMatriculeOrEmail(String matricule, String email){
-        return studentRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
     }
 
+    public StudentGetDTO getStudentByAuthentication(){
+        Student student = studentRepository.findByUtilisateurId(userService.getUserId());
+        System.out.println(student);
+        return Student.fromStudent(student);
+    }
+
     public void updateCv(CvDTO cvDTO) throws IOException{
         cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
     }
 
-    public StudentGetDTO getStudentByUser(UtilisateurDTO utilisateurDTO){
-        Student student = studentRepository.findStudentByUtilisateur(utilisateurDTO.getEmail());
-        return new StudentGetDTO(
-                student.getFirstName(),student.getLastName(),utilisateurDTO.getEmail(),
-                student.getPhoneNumber(),student.getMatricule(),student.getProgram()
-        );
-    }
-
     @Transactional
     public StudentGetDTO getStudentByMatricule(String matricule) {
-        Student student = studentRepository.findByMaticule(matricule);
-        System.out.println(student);
+        Student student = studentRepository.findByMatricule(matricule);
         return Student.fromStudent(student);
     }
 
     @Transactional
     public void postulerOffre(CandidaturePostDTO candidaturePostDTO) throws IOException {
-        Student student = studentRepository.findByMaticule(candidaturePostDTO.getMatricule());
+        Student student = studentRepository.findByMatricule(candidaturePostDTO.getMatricule());
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
 

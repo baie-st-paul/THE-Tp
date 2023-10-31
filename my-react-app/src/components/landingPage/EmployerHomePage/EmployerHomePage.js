@@ -67,6 +67,7 @@ const EmployerHomePage = () => {
         navigate('/');
     }
 
+    const token = localStorage.getItem('token');
     const ajoutOffre = async (offre) => {
 
         offre["status"] = "In_review"
@@ -79,6 +80,7 @@ const EmployerHomePage = () => {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify(offre)
             }
@@ -100,12 +102,11 @@ const EmployerHomePage = () => {
                 console.log(data)
             }
         )
-
     }
 
     switch (activeContent){
         case "offre-page":
-            contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>
+            contentToRender = <EmployerStageOffreList></EmployerStageOffreList>
         break;
         case "Ajout-offre":
             contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>

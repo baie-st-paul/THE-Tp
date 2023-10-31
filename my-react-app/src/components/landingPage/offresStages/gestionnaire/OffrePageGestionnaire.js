@@ -29,7 +29,17 @@ export default function OffresPageGestionnaire({listeOffres}) {
     useEffect(() => {
         const fetchOffreList = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/v1/gestionnaire/offres');
+                const token = localStorage.getItem('token');
+                const response = await fetch(
+                    'http://localhost:8081/api/v1/gestionnaire/offres',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                );
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);
@@ -69,8 +79,13 @@ export default function OffresPageGestionnaire({listeOffres}) {
 
     const updateStatus = async (titre, status) => {
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/offres/accept/${titre}/${status}`, {
                 method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
             });
 
             if (response.ok) {
@@ -175,14 +190,14 @@ export default function OffresPageGestionnaire({listeOffres}) {
                 <h2>Confirmation</h2>
                 {confirmationType === "accept" ? (
                     <>
-                        <p>Etes-vous sûr de vouloir accepter cette offre ?</p>
+                        <p>Êtes-vous sûr de vouloir accepter cette offre ?</p>
                         <button className="btn btn-success" onClick={handleAcceptConfirmation}>
                             Oui
                         </button>
                     </>
                 ) : (
                     <>
-                        <p>Etes-vous sûr de vouloir refuser cette offre ?</p>
+                        <p>Êtes-vous sûr de vouloir refuser cette offre ?</p>
                         <button className="btn btn-danger" onClick={handleRefuseConfirmation}>
                             Oui
                         </button>

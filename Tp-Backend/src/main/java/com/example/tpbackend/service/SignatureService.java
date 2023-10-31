@@ -37,7 +37,7 @@ public class SignatureService {
 
     public SignatureDTO saveEmployerSignature(SignatureDTO signatureDTO){
         Signature signature = signatureDTO.toSignature();
-        signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
+        signature.setEmployer(employerService.getEmployerById(signature.getEmployer().getId()));
         return signatureRepository.save(signature).toSignatureDTO();
     }
 
@@ -49,8 +49,7 @@ public class SignatureService {
     @Transactional
     public SignatureDTO updateEmployerSignature(SignatureDTO signatureDTO) {
         Signature signature = signatureDTO.toSignature();
-        signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
-
+        signature.setEmployer(employerService.getEmployerById(signature.getEmployer().getId()));
         signatureRepository.updateSignatureByEmployer_Id(signature.getEmployer().getId(), signature.getImageLink());
         return signature.toSignatureDTO();
     }

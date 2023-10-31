@@ -14,60 +14,51 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class Student  {
-
-        @Setter
-        private String firstName;
-
-        @Setter
-        private String lastName;
-
-        @Setter
-        private String phoneNumber;
-
-        @Setter
         @Id
         private String matricule;
-
-        @Setter
         private String program;
 
-        @Setter
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "user_id")
         private Utilisateur utilisateur;
 
-        @Setter
         @ManyToMany(mappedBy = "etudiants")
         private List<OffreStage> offresStages;
 
-        @Setter
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
 
-
-        public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
-                this.firstName = firstName;
-                this.lastName = lastName;
+        public Student( String matricule, String program) {
                 this.matricule = matricule;
-                this.phoneNumber = phoneNumber;
                 this.program = program;
         }
 
+        public Student(String matricule, String program, Utilisateur utilisateur) {
+                this.matricule = matricule;
+                this.program = program;
+                this.utilisateur = utilisateur;
+        }
+
         public static StudentGetDTO fromStudent(Student student) {
-                StudentGetDTO studentGetDTO = new StudentGetDTO();
-                BeanUtils.copyProperties(student,studentGetDTO);
-                return studentGetDTO;
+            StudentGetDTO studentGetDTO = new StudentGetDTO();
+            BeanUtils.copyProperties(student,studentGetDTO);
+            studentGetDTO.setFirstName(student.getUtilisateur().getFirstName());
+            studentGetDTO.setLastName(student.getUtilisateur().getLastName());
+            studentGetDTO.setEmail(student.getUtilisateur().getEmail());
+            studentGetDTO.setPhoneNumber(student.getUtilisateur().getPhoneNumber());
+            return studentGetDTO;
         }
 
         public StudentGetDTO toStudentDTO() {
                 return new StudentGetDTO(
-                        firstName,
-                        lastName,
+                        utilisateur.getFirstName(),
+                        utilisateur.getLastName(),
                         utilisateur.getEmail(),
-                        phoneNumber,
+                        utilisateur.getPhoneNumber(),
                         matricule,
                         program
                 );

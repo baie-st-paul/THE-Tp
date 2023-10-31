@@ -5,7 +5,6 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
-import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -51,33 +50,22 @@ public class GestionnaireService {
     private EntrevueRepository entrevueRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
-
     @Autowired
     private StudentRepository studentRepository;
-
     @Autowired
     private EmployerRepository employerRepository;
-
     @Autowired
     private ContratStageRepository contratStageRepository;
+    @Autowired
+    private UserService userService;
 
-    public GestionnairePostDTO saveGestionnaire(String firstName,
-                                                String lastName,
-                                                String phoneNumber,
-                                                String matricule,
-                                                String email,
-                                                String password,
-                                                String role){
-        if(existsByEmail(email) || existsByMatricule(matricule)){
+    public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
+        if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
             return null;
         }
 
-        Utilisateur utilisateur = new Utilisateur(email, password, role);
-        Gestionnaire gestionnaire = new Gestionnaire(
-                firstName,
-                lastName,
-                phoneNumber,
-                matricule);
+        Utilisateur utilisateur = new Utilisateur(firstName, lastName, email,phoneNumber, password, role);
+        Gestionnaire gestionnaire = new Gestionnaire(gestionnairePostDTO.getMatricule());
         gestionnaire.setUtilisateur(utilisateur);
         System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
         userRepository.save(utilisateur);
@@ -104,20 +92,9 @@ public class GestionnaireService {
         return gestionnaireRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
-    public GestionnaireGetDTO getGestionnaireByUser(UtilisateurDTO user) {
-        Gestionnaire gestionnaire = gestionnaireRepository.findGestionnaireByUser();
-        return new GestionnaireGetDTO(
-                gestionnaire.getFirstName(),gestionnaire.getLastName(),gestionnaire.getMatricule(),
-                gestionnaire.getPhoneNumber(),user.getEmail());
-    }
-
-    public List<OffreStage> getOffres() {//utilisé que dans test
-        return offreStageRepository.findAll();
-    }
-
-    public List<OffreStageDTO> getToutesLesOffres() {
+    public ArrayList<OffreStageDTO> getToutesLesOffres() {
         List<OffreStage> offreStages = offreStageRepository.findAll();
-        List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
+        ArrayList<OffreStageDTO> offreStageDTOS = new ArrayList<>();
 
         for (OffreStage offreStage: offreStages) {
             offreStageDTOS.add(offreStage.toOffreStageDTO());
@@ -165,8 +142,8 @@ public class GestionnaireService {
                     new EmployerGetDTO(),
                     new StudentGetDTO()
             );
-           entrevue.getEtudiant().setFirstName(e.getStudent().getFirstName());
-           entrevue.getEtudiant().setLastName(e.getStudent().getLastName());
+           entrevue.getEtudiant().setFirstName(e.getStudent().getUtilisateur().getFirstName());
+           entrevue.getEtudiant().setLastName(e.getStudent().getUtilisateur().getLastName());
            entrevue.getEtudiant().setMatricule(e.getStudent().getMatricule());
            entrevue.getEmployer().setCompanyName(e.getEmployer().getCompanyName());
            dtoEntrevue.add(entrevue);
@@ -177,7 +154,7 @@ public class GestionnaireService {
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        Student student = studentRepository.findById(contratStageDTO.getStudentId())
+        Student student = studentRepository.findById(Long.valueOf(contratStageDTO.getStudentId()))
                 .orElseThrow(() -> new RuntimeException("L'étudiant avec l'ID " + contratStageDTO.getStudentId() + " n'a pas été trouvé."));
 
         Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
@@ -197,6 +174,11 @@ public class GestionnaireService {
     public List<CandidatureDTO> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
         return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());
+    }
+
+    public GestionnaireGetDTO getGestionnaireByAuthentication(){
+        Gestionnaire gestionnaire = gestionnaireRepository.findByUtilisateurId(userService.getUserId());
+        return GestionnaireGetDTO.fromGestionnaire(gestionnaire);
     }
 }
 

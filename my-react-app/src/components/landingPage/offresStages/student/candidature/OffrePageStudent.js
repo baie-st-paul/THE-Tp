@@ -17,7 +17,17 @@ const OffresPageStudent = () => {
     useEffect(() => {
         const fetchOffreList = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/v1/stages/offres/');
+                const token = localStorage.getItem('token');
+                const response = await fetch(
+                    'http://localhost:8081/api/v1/stages/offres/',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        }
+                    }
+                );
                 if (response.ok) {
                     const data = await response.json();
                     setOffres(data);
@@ -29,8 +39,10 @@ const OffresPageStudent = () => {
             }
         };
 
+        //problem reload fetchCandidatures à voir
         const fetchCandidatures = async () => {
             try {
+                const token = localStorage.getItem('token');
                 const savedMatricule = localStorage.getItem("loggedInUserMatricule");
                 fetch(
                     `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
@@ -38,6 +50,7 @@ const OffresPageStudent = () => {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/json",
+                            'Authorization': 'Bearer ' + token
                         },
                     }
                 ).catch((error) => {

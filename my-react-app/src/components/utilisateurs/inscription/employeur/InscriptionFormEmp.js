@@ -30,6 +30,11 @@ const InscriptionFormEmp = ({onAdd}) => {
     const validEmail = email.match(/^([\w.%+-]+)@([\w-]+\.)+(\w{2,})$/i);
     const validPassword = password.match('^(?=.*[A-Z])(?=.*[@#$%^&+=!])(.{6,20})$');
 
+    const role = "Employeur"
+    const userType = {
+        companyName: companyName
+    }
+
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -125,10 +130,11 @@ const InscriptionFormEmp = ({onAdd}) => {
             onAdd({
                 firstName,
                 lastName,
-                companyName,
-                phoneNumber,
                 email,
-                password
+                phoneNumber,
+                password,
+                role,
+                userType
             })
         }
     }

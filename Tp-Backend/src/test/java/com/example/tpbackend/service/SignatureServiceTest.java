@@ -45,23 +45,29 @@ class SignatureServiceTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
+        employer.getUtilisateur().setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
-        employer.setPhoneNumber("6625550144");
+        employer.getUtilisateur().setLastName("Doe");
+        employer.getUtilisateur().setPhoneNumber("6625550144");
         employer.setSignature(new Signature());
-        employer.setUtilisateur(new Utilisateur("jane.doe@example.org", "iloveyou", Utilisateur.Role.Employeur.toString()));
+        employer.setUtilisateur(new Utilisateur(
+                employer.getUtilisateur().getFirstName(),
+                employer.getUtilisateur().getLastName(),
+                "jane.doe@example.org",
+                employer.getUtilisateur().getPhoneNumber(),
+                "iloveyou",
+                Utilisateur.Role.Employeur.toString()));
 
         EmployerGetDTO employerGetDTO = new EmployerGetDTO(
                 employer.getId(),
-                employer.getFirstName(),
-                employer.getLastName(),
+                employer.getUtilisateur().getFirstName(),
+                employer.getUtilisateur().getLastName(),
                 employer.getCompanyName(),
-                employer.getPhoneNumber(),
+                employer.getUtilisateur().getPhoneNumber(),
                 employer.getUtilisateur().getEmail()
         );
 
-        when(employerService.getEmployerById(1L)).thenReturn(employerGetDTO);
+        when(employerService.getEmployerById(1L)).thenReturn(employer);
         when(signatureRepository.save(any(Signature.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         ArgumentCaptor<Signature> signatureCaptor = ArgumentCaptor.forClass(Signature.class);
@@ -93,11 +99,11 @@ class SignatureServiceTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
+        employer.getUtilisateur().setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
+        employer.getUtilisateur().setLastName("Doe");
         employer.setSignature(new Signature());
-        employer.setPhoneNumber("6625550144");
+        employer.getUtilisateur().setPhoneNumber("6625550144");
         employer.setUtilisateur(user);
 
         Signature s = new Signature();
@@ -125,11 +131,11 @@ class SignatureServiceTest {
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
+        employer.getUtilisateur().setFirstName("Jane");
         employer.setId(1L);
-        employer.setLastName("Doe");
+        employer.getUtilisateur().setLastName("Doe");
         employer.setSignature(new Signature());
-        employer.setPhoneNumber("6625550144");
+        employer.getUtilisateur().setPhoneNumber("6625550144");
         employer.setUtilisateur(utilisateur);
 
         Signature signature = new Signature();

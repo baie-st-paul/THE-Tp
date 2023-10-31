@@ -18,10 +18,7 @@ public class Employer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
-    private String firstName;
-    private String lastName;
     private String companyName;
-    private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -34,24 +31,15 @@ public class Employer {
     @JoinColumn(name = "signature_id")
     private Signature signature;
 
-    public Employer(Long id, String firstName, String lastName, String companyName, String phoneNumber) {
+    public Employer(Long id, String companyName, Utilisateur utilisateur) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.companyName = companyName;
-        this.phoneNumber = phoneNumber;
+        this.utilisateur = utilisateur;
     }
 
-    @Override
-    public String toString() {
-        return "Employer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", companyName='" + companyName + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", utilisateur=" + utilisateur +
-                '}';
+    public Employer(String companyName, Utilisateur utilisateur) {
+        this.companyName = companyName;
+        this.utilisateur = utilisateur;
     }
 
     public void setUtilisateur(Utilisateur utilisateur){

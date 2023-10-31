@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @NoArgsConstructor
 public class EntrevueService {
-
     @Autowired
     private EntrevueRepository entrevueRepository;
 
@@ -40,7 +39,7 @@ public class EntrevueService {
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
-        entrevue.setStudent(studentRepository.findByMaticule(entrevueDTO.getIdEtudiant()));
+        entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
@@ -59,7 +58,6 @@ public class EntrevueService {
         for(Entrevue e : entrevues){
             dtos.add(e.toEntrevueDTO());
         }
-
         return dtos;
     }
 

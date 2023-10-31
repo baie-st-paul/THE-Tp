@@ -32,6 +32,7 @@
     "react-phone-number-input": "^3.3.6",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
+    "react-signature-canvas": "^1.0.6",
     "reactjs-popup": "^2.0.6",
     "web-vitals": "^2.1.4",
     "webpack": "^5.88.2"

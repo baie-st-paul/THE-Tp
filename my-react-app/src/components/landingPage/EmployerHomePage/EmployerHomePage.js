@@ -6,10 +6,35 @@ import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import CreateSignature from "./signature/CreateSignature";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
+
+const MODAL_STYLES = {
+    position: "absolute",
+    backgroundColor: "#FFF",
+    padding: "15px",
+    zIndex: "1000",
+    width: "70%",
+    borderRadius: ".5em"
+};
+
+const OVERLAY_STYLE = {
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, .8)",
+    zIndex: "1000",
+    overflowY: "auto"
+};
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
     const navigate = useNavigate()
+    const [showCreate, setShowCreate] = useState(false);
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -58,15 +83,39 @@ const EmployerHomePage = () => {
 
     }
 
+    function ModalCreateSignature() {
+        return (
+            <div style={OVERLAY_STYLE}>
+                <div style={MODAL_STYLES}>
+                    <div className="titleCloseBtn">
+                        <button onClick={() => setShowCreate(false)}>X</button>
+                    </div>
+                    <div className="title">
+                        <h1>Création de la signature</h1>
+                    </div>
+                    <div className="body">
+                        <CreateSignature employerId={employerId}></CreateSignature>
+                    </div>
+                    <div className="footer">
+                        <button id="cancelBtn" onClick={() => setShowCreate(false)}>Fermer</button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     switch (activeContent){
         case "offre-page":
-            contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>;
+            contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>
         break;
         case "Ajout-offre":
-            contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>;
+            contentToRender = <AjoutOffreForm onAdd={ajoutOffre}></AjoutOffreForm>
         break;
+        case "signature":
+            contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
+            break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <div>Choisir une section.</div>
         break;
     }
 
@@ -87,6 +136,11 @@ const EmployerHomePage = () => {
                                     <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
                                 </button>
                             </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("signature")}>
+                                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
+                                </button>
+                            </li>
                             <li className="nav-item navbarbutton deconnecter">
                                 <button className="nav-link" onClick={() => handleDisconnect()}>
                                     <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
@@ -101,6 +155,7 @@ const EmployerHomePage = () => {
             <div className="container content-container mt-4">
                 <h2>Employeur</h2>
                 {contentToRender}
+
             </div>
         </div>
     )

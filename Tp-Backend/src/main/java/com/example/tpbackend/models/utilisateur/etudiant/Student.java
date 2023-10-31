@@ -2,6 +2,7 @@ package com.example.tpbackend.models.utilisateur.etudiant;
 
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
@@ -45,6 +46,7 @@ public class Student  {
         @Setter
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
         private List<Candidature> candidatures;
+
 
         public Student(String firstName, String lastName, String matricule, String phoneNumber, String program) {
                 this.firstName = firstName;

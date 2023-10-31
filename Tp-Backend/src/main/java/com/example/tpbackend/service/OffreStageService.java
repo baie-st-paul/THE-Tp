@@ -35,11 +35,16 @@ public class OffreStageService {
 
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
-        if (tagRepository.existsByTagName(getTag().getTagName())) {
-            offreStage.setTagName(getTag().getTagName());
-        }else{
-            offreStage.setTagName(getTag().getTagName());
-            tagRepository.save(new Tag(getTag().getTagName()));
+        if(offre.getTag() == null) {
+            if (tagRepository.existsByTagName(getTag().getTagName())) {
+                offreStage.setTagName(getTag().getTagName());
+            } else {
+                offreStage.setTagName(getTag().getTagName());
+                tagRepository.save(new Tag(getTag().getTagName()));
+            }
+        }
+        else {
+            offreStage.setTagName(offre.getTag());
         }
         offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
         System.out.println("here" + employerService.getEmployerById(offre.getEmployerId()));

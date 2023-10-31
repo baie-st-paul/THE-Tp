@@ -10,11 +10,11 @@ import java.time.Year;
 public class TagGenerator {
     private static LocalDate debutAu = LocalDate.of(2023, 8, 23);
     private static LocalDate finAu = LocalDate.of(2023, 12, 22);
-    private static LocalDate debutH = LocalDate.of(2024, 1, 23);
-    private static LocalDate finH = LocalDate.of(2024, 5, 23);
+    private static LocalDate debutH = LocalDate.of(2023, 1, 23);
+    private static LocalDate finH = LocalDate.of(2023, 5, 23);
 
-    private static LocalDate debutETE = LocalDate.of(2024, 6, 23);
-    private static LocalDate finETE = LocalDate.of(2024, 7, 23);
+    private static LocalDate debutETE = LocalDate.of(2023, 6, 23);
+    private static LocalDate finETE = LocalDate.of(2023, 7, 23);
     private static LocalDate currentDate = LocalDateTime.now().toLocalDate();
     private static String currentYear = Year.now().toString();
 

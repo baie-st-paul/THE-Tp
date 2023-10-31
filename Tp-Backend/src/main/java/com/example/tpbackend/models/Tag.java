@@ -1,5 +1,6 @@
 package com.example.tpbackend.models;
 
+import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,9 @@ public class Tag {
 
     public Tag(String tag){
         this.tagName = tag;
+    }
+
+    public TagDTO toTagDTO(){
+        return new TagDTO(tagName);
     }
 }

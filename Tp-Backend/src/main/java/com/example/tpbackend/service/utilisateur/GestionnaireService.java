@@ -3,6 +3,7 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -10,11 +11,13 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,8 @@ public class GestionnaireService {
     private EntrevueRepository entrevueRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private TagRepository tagRepository;
 
     public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
         if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
@@ -136,4 +141,14 @@ public class GestionnaireService {
         Gestionnaire gestionnaire = gestionnaireRepository.findByUtilisateurId(userService.getUserId());
         return GestionnaireGetDTO.fromGestionnaire(gestionnaire);
     }
+
+    public List<TagDTO> getAllTags(){
+        List<TagDTO> tagsDtos = new ArrayList<>();
+        List<Tag> listAllTags = tagRepository.findAll();
+        for (Tag tag: listAllTags) {
+            tagsDtos.add(tag.toTagDTO());
+        }
+        return tagsDtos;
+    }
+
 }

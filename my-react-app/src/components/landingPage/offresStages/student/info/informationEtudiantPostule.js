@@ -35,7 +35,7 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-export default function InformationEtudiantPostule({listeEtudiant}) {
+export default function InformationEtudiantPostule({listeEtudiant, entrevue}) {
     const location = useLocation();
     const navigate = useNavigate();
     const [listeEtudiants, setListeEtudiants] = useState([]);
@@ -84,6 +84,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             console.log('Une erreur est survenue:', error);
             if (listeEtudiant !== undefined){
                 setListeEtudiants(listeEtudiant)
+            }
+            if (entrevue !== undefined){
+                setListeEtudiants(entrevue)
             }
         }
     }

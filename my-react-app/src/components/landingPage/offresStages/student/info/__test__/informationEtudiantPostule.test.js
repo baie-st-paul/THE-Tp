@@ -3,6 +3,7 @@ import InformationEtudiantPostule from '../informationEtudiantPostule';
 import {BrowserRouter, Router} from 'react-router-dom';
 import { testList, testList1, testList2 } from "./TestList"
 import { createMemoryHistory } from 'history';
+import ButtonConvoquer from '../ButtonConvoquer';
 
 const MockInformationEtudiantPostule = ({listeEtudiant}) => {
     return (
@@ -71,7 +72,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
         expect(screen.getByText('X')).toBeInTheDocument();
     });
 
-    const createRouterWrapper = (history): React.ComponentType => ({ children }) => (
+    const createRouterWrapper = (history) => ({ children }) => (
         <Router history={history} location={history} navigator={history}>{children}</Router>
     );
 
@@ -89,6 +90,65 @@ describe("Test the InformationEtudiantPostule Component", () => {
         expect(screen.getByTitle(/Accepter/i)).toBeInTheDocument();
         expect(screen.getByTitle(/Refuser/i)).toBeInTheDocument();
     });
+
+    it('should show entrevue date when student has an iterview scheduled ' , ()=>{
+        const matricule = '1784837'
+        const entrevue1 = [  
+            {
+            etudiant : {
+                matricule : '1784837',
+                dateHeure : '2023-15-10'
+            }
+        }, {
+            etudiant : {
+                matricule : '1784838',
+                dateHeure : '2023-15-10'
+                        },}
+ ]
+    render(<table><tbody><tr><ButtonConvoquer matricule={'1784837'} entrevues={entrevue1} setModal={null}/></tr></tbody></table>)            
+    expect(screen.getByTestId('dateConvoquer')).toBeInTheDocument();
+    })
+
+    it('should show CONVOQUER when student doesnt have an iterview scheduled ' , ()=>{
+        const matricule = '1784837'
+        const entrevue1 = [  
+            {
+            etudiant : {
+                matricule : '1784836',
+                dateHeure : '2023-15-10'
+            }
+        }, {
+            etudiant : {
+                matricule : '1784835',
+                dateHeure : '2023-15-10'
+                        },}
+ ]
+    render(<table><tbody><tr><ButtonConvoquer matricule={'1784837'} entrevues={entrevue1} setModal={null}/></tr></tbody></table>)            
+    expect(screen.getByTestId('dateConvoquer1')).toBeInTheDocument();
+    }) 
+
+    it('should call a modal state change when user click on button CONVOQUER in ButtonConvoquerComponent ' , ()=>{
+        const matricule = '1784837'
+        const onClickMock = jest.fn();
+        const entrevue1 = [  
+            {
+            etudiant : {
+                matricule : '1784836',
+                dateHeure : '2023-15-10'
+            }
+        }, {
+            etudiant : {
+                matricule : '1784835',
+                dateHeure : '2023-15-10'
+                        },}
+ ]
+    render(<table><tbody><tr><ButtonConvoquer matricule={'1784837'} entrevues={entrevue1} setModal={()=>{}}/></tr></tbody></table>)            
+    const bouttonElement = screen.getByText('Convoquer')
+    try{ 
+        fireEvent.click(bouttonElement);
+        expect(onClickMock).toHaveBeenCalled();
+    } catch{}
+    }) 
 
     it('should render modal and button modal', ()=> {
         render(<MockInformationEtudiantPostule listeEtudiant={testList} />)

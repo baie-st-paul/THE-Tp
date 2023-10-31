@@ -4,23 +4,25 @@ export default function ButtonConvoquer({matricule, entrevues , setModal }) {
         console.log(matricule)
         setModal();
     }
-    const [isPresent, setIsPresent] = useState([]) 
+    const [isPresent, setIsPresent] = React.useState([]) 
     useEffect(() => {
         setIsPresent(entrevues.filter(x => x.etudiant.matricule === matricule))
         console.log(isPresent)   
+        console.log(matricule)
+        console.log(entrevues)
     }, [])
     return (
         <>
             {isPresent.length > 0 ?
-                    <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
+                    <td data-label="ENTREVUE" data-testid="dateConvoquer" test scope="row"  className='headerElement breakWord h6 pe-3'>
                         {isPresent[0].dateHeure}
                     </td>
                  :
-                <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0  '>
+                <td data-label="ENTREVUE" data-testid="dateConvoquer1"  className='headerElement h6 px-3 pe-0  '>
                     <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
-                            onClick={()=> handleConvoquerEntrevue({matricule})}>
+                         onClick={()=> handleConvoquerEntrevue({matricule})}>
                         Convoquer
-                    </button>
+                    </button> 
                 </td>
             }
         </>

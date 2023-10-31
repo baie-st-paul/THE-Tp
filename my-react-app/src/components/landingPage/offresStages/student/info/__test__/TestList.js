@@ -6,6 +6,7 @@ export const testList = [
             email: 'email@test.com',
             phoneNumber: '514-451-1451',
             lettreMotivation: 'lettreMotiv',
+            matricule : '1784837',
             fileName: 'fileName',
             cvStudent: {
                 cv: 'cv',

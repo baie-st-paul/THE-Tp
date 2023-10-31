@@ -27,6 +27,8 @@ import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.EntrevueService;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import org.junit.jupiter.api.Disabled;
 import java.io.IOException;

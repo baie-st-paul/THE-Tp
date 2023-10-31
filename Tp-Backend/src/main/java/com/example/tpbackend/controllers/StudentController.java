@@ -47,9 +47,9 @@ public class StudentController {
         return  new ResponseEntity<>(studentServices.getStudentByMatricule(matricule), HttpStatus.OK);
     }
 
-    @GetMapping("/getStudent")
+    @GetMapping("/getstudent")
     @PreAuthorize("authenticated")
-    public ResponseEntity<StudentGetDTO> getStudentByMatricule() {
+    public ResponseEntity<StudentGetDTO> getStudent() {
         return  new ResponseEntity<>(studentServices.getStudentByAuthentication(), HttpStatus.OK);
     }
 

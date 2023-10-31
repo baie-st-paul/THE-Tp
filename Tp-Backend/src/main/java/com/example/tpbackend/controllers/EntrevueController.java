@@ -31,6 +31,7 @@ public class EntrevueController {
         }
     }
 
+
     @PutMapping
     @PreAuthorize("authenticated")
     public ResponseEntity<EntrevueDTO> updateStatus(@RequestBody EntrevueDTO entrevueDTO, @RequestParam String newStatus) {
@@ -46,6 +47,7 @@ public class EntrevueController {
     }
 
     @GetMapping("/{matricule}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<EntrevueDTO>> getEntrevuesStudentMatricule(@PathVariable String matricule) {
         List<EntrevueDTO> entrevues = entrevueService.getAllEntrevuesStudentMatricule(matricule);
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
@@ -59,6 +61,7 @@ public class EntrevueController {
     }
 
     @GetMapping("/students/interviewed-by-employer/{employerId}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<StudentGetDTO>> getStudentsForInterviewByEmployerId(@PathVariable Long employerId){
         return ResponseEntity.ok(entrevueService.getStudentsForInterviewByEmployerId(employerId));
     }

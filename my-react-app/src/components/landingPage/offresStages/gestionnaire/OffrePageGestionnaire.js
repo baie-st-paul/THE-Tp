@@ -37,7 +37,8 @@ export default function OffresPageGestionnaire({listeOffres}) {
                         headers: {
                             'Content-type': 'application/json',
                             'Authorization': 'Bearer ' + token
-                        }
+                        },
+                        withCredentials: true,
                     }
                 );
                 if (response.ok) {
@@ -85,7 +86,8 @@ export default function OffresPageGestionnaire({listeOffres}) {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
-                }
+                },
+                withCredentials: true,
             });
 
             if (response.ok) {

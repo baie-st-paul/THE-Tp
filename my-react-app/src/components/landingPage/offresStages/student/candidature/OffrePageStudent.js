@@ -25,7 +25,8 @@ const OffresPageStudent = () => {
                         headers: {
                             'Content-type': 'application/json',
                             'Authorization': 'Bearer ' + token
-                        }
+                        },
+                        withCredentials: true,
                     }
                 );
                 if (response.ok) {
@@ -52,6 +53,7 @@ const OffresPageStudent = () => {
                             "Content-Type": "application/json",
                             'Authorization': 'Bearer ' + token
                         },
+                        withCredentials: true,
                     }
                 ).catch((error) => {
                     console.error("Error:", error);

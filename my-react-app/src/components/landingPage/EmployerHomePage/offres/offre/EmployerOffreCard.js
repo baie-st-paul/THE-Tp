@@ -25,7 +25,8 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true
                 }
             );
             if (res.ok) {  

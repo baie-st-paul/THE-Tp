@@ -1,12 +1,15 @@
 package com.example.tpbackend.service.creationBD;
 
+import com.example.tpbackend.DTO.Authentication.RegisterRequest;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +17,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 
 @Service
 public class UtilisateursBD implements CommandLineRunner {
     @Autowired
-    private StudentServices studentServices;
+    private OffreStageService offreStageService;
     @Autowired
-    private EmployerRepository employerRepository;
+    private AuthenticationService authenticationService;
+    @Autowired
+    private StudentServices studentServices;
     @Autowired
     private GestionnaireService gestionnaireService;
     @Autowired
-    private OffreStageService offreStageService;
-
+    private EmployerRepository employerRepository;
 
 
     @Override
@@ -41,54 +46,71 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createStudent() {
-        StudentPostDTO studentPostDTO = new StudentPostDTO(
-                "0938473",
-                "Informatique"
-        );
-        StudentPostDTO postDTO = studentServices.saveStudent(
-                "lina",
-                "lac",
-                "etudiant@gmail.com",
-                "+15147237392",
-                "Root!123",
-                "Student",
-                studentPostDTO
-        );
-        System.out.println(postDTO);
+        LinkedHashMap<String, String> studentDTO = new LinkedHashMap<>();
+        studentDTO.put("matricule", "1234567");
+        studentDTO.put("program", "info");
+        try{
+            RegisterRequest<?> registerRequest = new RegisterRequest<>(
+                    "lina",
+                    "lac",
+                    "etudiant@gmail.com",
+                    "+15147237392",
+                    "Root!123",
+                    "Student",
+                    studentDTO
+            );
+            authenticationService.register(registerRequest);
+            System.out.println(registerRequest);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
     public void createEmployer() {
-        Utilisateur utilisateur = new Utilisateur(
-                "emp",
-                "lala",
-                "emp@gmail.com",
-                "+15147899765",
-                "Root!123",
-                "Employeur"
-       );
+        LinkedHashMap<String, String> employerDTO = new LinkedHashMap<>();
+        employerDTO.put("companyName", "ALaurendeau");
 
-        Employer employer = new Employer(
-                "ALaurendeau",
-                utilisateur
-        );
-        employerRepository.save(employer);
-        System.out.println(employer);
+        try{
+            RegisterRequest<?> registerRequest = new RegisterRequest<>(
+                    "emp",
+                    "lala",
+                    "emp@gmail.com",
+                    "+15147899765",
+                    "Root!123",
+                    "Employeur",
+                    employerDTO
+            );
+            authenticationService.register(registerRequest);
+            System.out.println(registerRequest);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void createGestionnaire() {
-        GestionnairePostDTO gestionnairePostDTO = new GestionnairePostDTO(
-                "9034948"
-        );
-        GestionnairePostDTO postDTO = gestionnaireService.saveGestionnaire(
-                "ges",
-                "toto",
-                "ges@gmail.com",
-                "+15144758345",
-                "Root!123",
-                "Gestionnaire",
-                gestionnairePostDTO
-        );
-        System.out.println(postDTO);
+        LinkedHashMap<String, String> gestionnaireDTO = new LinkedHashMap<>();
+        gestionnaireDTO.put("matricule", "9034948");
+
+        try{
+            RegisterRequest<?> registerRequest = new RegisterRequest<>(
+                    "ges",
+                    "toto",
+                    "ges@gmail.com",
+                    "+15144758345",
+                    "Root!123",
+                    "Gestionnaire",
+                    gestionnaireDTO
+            );
+            authenticationService.register(registerRequest);
+            System.out.println(registerRequest);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void createOffreStage() {
@@ -109,6 +131,8 @@ public class UtilisateursBD implements CommandLineRunner {
                 1
         );
         OffreStageDTO postDTO = offreStageService.saveOffre(offreStageDTO);
+
+
         System.out.println(postDTO);
     }
 }

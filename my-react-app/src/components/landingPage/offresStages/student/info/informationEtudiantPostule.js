@@ -53,17 +53,18 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         handleListePostule()
     }, [])
 
-    const handleListePostule = async ()=> {
-        try { 
+    async function handleListePostule() {
+        try {
             const token = localStorage.getItem('token');
-            const res = await fetch(
+            fetch(
                 `http://localhost:8081/api/v1/employers/${location.state.offreId}/applicants`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 }
             ).catch(error => {
                 console.log(error)
@@ -87,19 +88,24 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             }
         }
     }
-    
-     const allEntrevuesStudentMatricule = async ()=> {
+
+    async function allEntrevuesStudentMatricule() {
         try {
-            const token = localStorage.getItem('token');
-            await fetch(
-                `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
+            listeEtudiants.map(async (candidature) => {
+                const matricule = candidature.student.matricule
+                console.log(matricule)
+                const token = localStorage.getItem('token');
+
+                fetch(
+                    `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
                     }
-                }
                 ).catch(error => {
                     console.log(error)
                 }).then(
@@ -115,6 +121,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         }
                         setEntrevues(data)
                     })
+            })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (entrevues !== undefined){
@@ -163,7 +170,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                     }
                     console.log(data)
                     setShouldRefetch(!shouldRefetch);
-                });
+                })
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
@@ -198,6 +205,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
+                const token = localStorage.getItem('token');
+
                 console.log(matricule)
 
                 let employerId = localStorage.getItem('employer_id')
@@ -213,7 +222,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
                         },
+                        withCredentials: true,
                         body: JSON.stringify(entrevue)
                     }
                 ).catch(error => {
@@ -229,10 +240,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         } catch (e) {
                             console.log(e)
                         }
-                        setEntrevues([...entrevues, data]) 
+                        setEntrevues([...entrevues, data])
                         console.log(data)
                         setShowConvoquer(false)
-                        window.location.reload()     
+                        window.location.reload()
                     })
             })
         } catch (error) {
@@ -265,7 +276,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         <thead>
                         <tr>
                             <th scope='col' className='headerElement w-25'>PRENOM</th>
-                            <th scope="col" className='headerElement w-25'>NOM</th>                          
+                            <th scope="col" className='headerElement w-25'>NOM</th>
                             <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
                             <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
                             <th scope='col' className='headerElement'>RESUME</th>
@@ -307,8 +318,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                     onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
-                                    }    
-                                    {     finFetch === true &&     
+                                    }
+                                    {     finFetch === true &&
                                  <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
@@ -336,7 +347,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                 </button>
                                                 <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
-                                                </button> 
+                                                </button>
                                                 </div>
                                         )}
                                     </td>

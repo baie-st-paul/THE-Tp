@@ -20,7 +20,7 @@ public class Employer {
     private long id;
     private String companyName;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
 

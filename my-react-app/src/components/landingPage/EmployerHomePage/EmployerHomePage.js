@@ -73,7 +73,7 @@ const EmployerHomePage = () => {
         offre["status"] = "In_review"
         offre["employerId"] = employerId
         console.log(JSON.stringify(offre))
-
+        console.log(token)
         await fetch(
             'http://localhost:8081/api/v1/stages/offres/create',
             {
@@ -82,6 +82,7 @@ const EmployerHomePage = () => {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
                 body: JSON.stringify(offre)
             }
         ).catch((err) => {

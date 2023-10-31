@@ -44,7 +44,8 @@ const StudentHomePage = () => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 });
                 if (response.ok) {
                     const data = await response.json();

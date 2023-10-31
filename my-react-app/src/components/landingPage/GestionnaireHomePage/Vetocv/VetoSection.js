@@ -37,7 +37,8 @@ const VetoSection = () => {
                         headers: {
                             'Content-type': 'application/json',
                             'Authorization': 'Bearer ' + token
-                        }
+                        },
+                        withCredentials: true,
                     }
                 );
                 if (response.ok) {
@@ -87,7 +88,8 @@ const VetoSection = () => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
             });
 
             if (response.ok) {

@@ -37,6 +37,7 @@ const SectionEntrevue = () => {
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + token
                 },
+                withCredentials: true,
             }
         ).catch((error) => {
             console.error("Error:", error);
@@ -68,37 +69,61 @@ const SectionEntrevue = () => {
 
     const handleAcceptConfirmation = () => {
         const token = localStorage.getItem('token');
-        axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-            .then(() => {
+        fetch(
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
+            {
+                method: "PUT",
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }
+        ).catch((error) => {
+            console.error("Error:", error);
+        }).then(
+            async (response) => {
+                const data = await response.json();
+                console.log(data)
+                try{
+                    console.log(response.status)
+                }
+                catch (e) {
+                    console.log(e)
+                }
                 setShouldRefetch(true);
             })
-            .catch(() => {
-            });
         setIsConfirmationModalOpen(false);
     };
 
     const handleRefuseConfirmation = () => {
         const token = localStorage.getItem('token');
-        axios
-            .put(`http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
-                {
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-            .then(() => {
+        fetch(
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
+            {
+                method: "PUT",
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }
+        ).catch((error) => {
+            console.error("Error:", error);
+        }).then(
+            async (response) => {
+                const data = await response.json();
+                console.log(data)
+                try{
+                    console.log(response.status)
+                }
+                catch (e) {
+                    console.log(e)
+                }
                 setShouldRefetch(true);
-            })
-            .catch(() => {
-            });
+            }
+        )
+
         setIsConfirmationModalOpen(false);
     };
 

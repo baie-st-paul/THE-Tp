@@ -19,7 +19,8 @@ export default function EtudiantsConvoquesEntrevue() {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
-                    }
+                    },
+                    withCredentials: true,
                 }
             );
             if (res.ok) {

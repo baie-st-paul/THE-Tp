@@ -20,13 +20,16 @@ const EmployerHomePage = () => {
     useEffect(() => {
         const fetchSignature = async () => {
             try {
+
                 fetch(
                     'http://localhost:8081/api/v1/stages/signatures/employers',
                     {
                         method: 'GET',
                         headers: {
                             'Content-type': 'application/json',
-                        }
+                            Authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        withCredentials: true,
                     }
                 ).catch(error => {
                     console.log(error)

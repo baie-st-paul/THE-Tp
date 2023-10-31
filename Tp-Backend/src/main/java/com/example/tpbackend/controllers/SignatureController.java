@@ -5,6 +5,7 @@ import com.example.tpbackend.service.SignatureService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class SignatureController {
     private final SignatureService signatureService;
 
     @PostMapping("/employers/create")
+    @PreAuthorize("authenticated")
     public ResponseEntity<SignatureDTO> createSignature(@RequestBody SignatureDTO dto) {
         try {
             SignatureDTO signature = signatureService.saveEmployerSignature(dto);
@@ -29,6 +31,7 @@ public class SignatureController {
     }
 
     @PutMapping("/employers")
+    @PreAuthorize("authenticated")
     public ResponseEntity<SignatureDTO> updateSignature(@RequestBody SignatureDTO dto) {
         try {
             SignatureDTO signature = signatureService.updateEmployerSignature(dto);
@@ -41,11 +44,13 @@ public class SignatureController {
     }
 
     @GetMapping("/employers")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<SignatureDTO>> getEmployerSignature() {
         return new ResponseEntity<>(signatureService.getSignature(), HttpStatus.OK);
     }
 
     @GetMapping("/employers/{id}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<SignatureDTO> getEmployerSignature(@PathVariable long id) {
         try {
             SignatureDTO signature = signatureService.getEmployerSignature(id).get();
@@ -58,6 +63,7 @@ public class SignatureController {
     }
 
     @DeleteMapping("/employers/{id}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<String> deleteEmployerSignature(@PathVariable long id) {
         try {
             signatureService.deleteEmployerSignature(id);

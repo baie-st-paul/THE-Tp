@@ -77,6 +77,8 @@ public class SignatureService {
 
     public SignatureDTO getStudentSignature(String matricule){
         Signature signature = signatureRepository.findSignatureByStudent_Matricule(matricule);
+        if (signature == null)
+            return null;
         return signature.toSignatureDTO();
     }
 

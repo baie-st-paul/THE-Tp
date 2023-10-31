@@ -97,7 +97,11 @@ public class SignatureController {
     public ResponseEntity<SignatureDTO> getStudentSignature(@PathVariable String matricule) {
         try {
             SignatureDTO signature = signatureService.getStudentSignature(matricule);
-            return ResponseEntity.ok(signature);
+            if (signature != null) {
+                return ResponseEntity.ok(signature);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             System.out.println(matricule);
             System.out.println(e.getMessage());

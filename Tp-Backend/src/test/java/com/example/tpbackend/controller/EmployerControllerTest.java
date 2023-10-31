@@ -4,6 +4,7 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.EmployerController;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.service.OffreStageService;
@@ -11,6 +12,7 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EmployerController.class)
 public class EmployerControllerTest {
     @Autowired
@@ -34,6 +37,9 @@ public class EmployerControllerTest {
     private StudentServices studentService;
     @MockBean
     private EmployerService employerService;
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
 
     @Test
     public void testGetApplicantsForOffer() throws Exception {
@@ -114,7 +120,7 @@ public class EmployerControllerTest {
     public void testGetApplicantsForOfferNoApplicants() throws Exception {
         mockMvc.perform(get("/api/employers/{offerId}/applicants", 3L))  // je Suppose que 3L soit un ID d'offre sans candidats
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune candidature trouvée pour cette offre."));
     }
 

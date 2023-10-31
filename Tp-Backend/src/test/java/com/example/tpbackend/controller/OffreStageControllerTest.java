@@ -39,26 +39,28 @@ public class OffreStageControllerTest {
     public void setup() {
 
         offres = Arrays.asList(
-                new OffreStageDTO(1L,
-                        2L,
+                new OffreStageDTO(
+                        1L,
                         "Titre1",
                         1000.0,
                         "Informatique",
                         "Description1",
                         LocalDate.now(),
                         LocalDate.now().plusDays(10),
+                        5,
                         "In_review",
-                        5),
-                new OffreStageDTO(2L,
-                        3L,
+                        2L),
+                new OffreStageDTO(
+                        2L,
                         "Titre2",
                         2000.0,
                         "Architecture",
                         "Description2",
                         LocalDate.now(),
                         LocalDate.now().plusDays(20),
+                        7,
                         "Accepted",
-                        7)
+                        3L)
         );
     }
 

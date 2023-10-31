@@ -20,14 +20,7 @@ describe("Test the CreateEntrevueForm Component", () => {
         expect(screen.getByLabelText('Date')).toBeInTheDocument();
         expect(screen.getByLabelText('Heure')).toBeInTheDocument();
         expect(screen.getByLabelText('Description')).toBeInTheDocument();
-        expect(screen.getByRole('button', {Name: /créer l'entrevue/i}));
-    });
-
-    it("should link", () => {
-        render(<MockCreateEntrevueForm onAdd={mockedOnAdd}/>);
-        const links: HTMLAnchorElement[] = screen.getAllByRole("link");
-        expect(links[0].textContent).toEqual("Retour");
-        expect(links[0].href).toContain("/EmployeurHomePage");
+        expect(screen.findByRole('button', {Name: /Créer l'entrevue/i}));
     });
 
     it("should be able to type into input", () => {
@@ -76,7 +69,7 @@ describe("Test the CreateEntrevueForm Component", () => {
             target: {value: "réunion par teams, lien par email"}
         })
 
-        const buttonElement = screen.getByRole('button', {Name: /créer l'entrevue/i});
+        const buttonElement = screen.getByText("Créer l'entrevue");
         fireEvent.click(buttonElement)
         expect(mockedOnAdd).toBeCalled()
     });

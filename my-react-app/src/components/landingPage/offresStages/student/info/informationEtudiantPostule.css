@@ -44,10 +44,14 @@ padding-left: 1em;
     }
 }
 
+
+@media screen and (max-width: 600px) {
+  .fullscr{
+    width: 99%;
+  }
+}
+
 @media screen and (max-width: 1250px) {
-
-    
-
     .divFormInfo{
         border-style: none;
         width: 100%;

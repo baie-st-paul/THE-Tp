@@ -66,15 +66,15 @@ public class OffreStage {
     public OffreStageDTO toOffreStageDTO() {
         return new OffreStageDTO(
                 id,
-                employer.getId(),
                 titre,
                 salaire,
                 studentProgram,
                 description,
                 dateDebut,
                 dateFin,
+                nbMaxEtudiants,
                 String.valueOf(status),
-                nbMaxEtudiants
+                employer.getId()
         );
     }
 

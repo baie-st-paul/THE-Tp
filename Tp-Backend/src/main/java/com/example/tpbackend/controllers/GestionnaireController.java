@@ -52,15 +52,19 @@ public class GestionnaireController {
     }
 
     @PostMapping("/create-contrat")
-    public ResponseEntity<ContratStageDTO> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
+    public ResponseEntity<?> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
         try {
             ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
             return new ResponseEntity<>(newContratStage, HttpStatus.CREATED);
         } catch (Exception e) {
-            System.out.println(contratStageDTO);
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
+    @GetMapping("/candidatures/acceptees")
+    public ResponseEntity<List<CandidatureDTO>> getCandidaturesAcceptees() {
+        List<CandidatureDTO> dtoList = gestionnaireService.getCandidaturesAcceptees();
+        return ResponseEntity.ok(dtoList);
+    }
 }

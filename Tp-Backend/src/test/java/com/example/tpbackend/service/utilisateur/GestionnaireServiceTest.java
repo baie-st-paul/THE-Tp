@@ -1,56 +1,64 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.UtilisateurDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+
+import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+
+import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
+import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
-import java.io.IOException;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
 import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
-
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @ContextConfiguration(classes = {GestionnaireService.class})
 @ExtendWith(MockitoExtension.class)
@@ -73,6 +81,18 @@ public class GestionnaireServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
+    @Mock
+    private StudentRepository studentRepository;
+
+    @Mock
+    private EmployerRepository employerRepository;
+
+    @Mock
+    private ContratStageRepository contratStageRepository;
+
+    @Mock
+    private CandidatureRepository candidatureRepository;
 
     /**
      * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
@@ -523,7 +543,6 @@ public class GestionnaireServiceTest {
         student2.setUtilisateur(new Utilisateur());
         student2.getUtilisateur().setId(2L);
 
-        // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
         entrevue1.setEmployer(new Employer());
         entrevue1.getEmployer().setId(1L);
@@ -540,17 +559,101 @@ public class GestionnaireServiceTest {
         entrevue2.setStatus(Entrevue.Status.Acceptee);
         entrevue2.setId(2L);
 
-        // Mock le comportement du repository pour renvoyer les entrevues avec étudiants non nuls
         when(entrevueRepository.findAll()).thenReturn(Arrays.asList(entrevue1, entrevue2));
 
-        // Appeler le service
         List<EntrevueDTODetailed> result = gestionnaireService.getStudentsWithEntrevue();
 
-        // Vérifications
         assertEquals(2, result.size());
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT123")));
         assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT456")));
     }
 
+    @Test
+    public void testCreateContrat_Success() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("0938473");
+        inputDto.setEmployerId(1L);
+        Student mockStudent = new Student();
+        Employer mockEmployer = new Employer();
+        ContratStage mockContrat = new ContratStage();
+
+        Mockito.when(studentRepository.findById("0938473")).thenReturn(Optional.of(mockStudent));
+        Mockito.when(employerRepository.findById(1L)).thenReturn(Optional.of(mockEmployer));
+        Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
+
+        // Act
+        ContratStageDTO result = gestionnaireService.createContrat(inputDto);
+
+        // Assert
+        assertNotNull(result);
+    }
+
+
+    @Test
+    public void testCreateContrat_StudentNotFound() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("nonExistentStudentId");
+
+        Mockito.when(studentRepository.findById("nonExistentStudentId")).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            gestionnaireService.createContrat(inputDto);
+        });
+    }
+
+    @Test
+    public void testCreateContrat_EmployerNotFound() {
+        // Arrange
+        ContratStageDTO inputDto = new ContratStageDTO();
+        inputDto.setStudentId("someStudentId");
+
+        Student mockStudent = new Student();
+
+        Mockito.when(studentRepository.findById("someStudentId")).thenReturn(Optional.of(mockStudent));
+        Mockito.when(employerRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class, () -> {
+            gestionnaireService.createContrat(inputDto);
+        });
+    }
+
+
+    @Test
+    void getCandidaturesAcceptees() {
+        byte[] mockLetter = new byte[] {1, 2, 3};
+        Student mockStudent = mock(Student.class);
+        OffreStage mockOffreStage = mock(OffreStage.class);
+        Cv mockCv = mock(Cv.class);
+
+        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
+        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
+
+        List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
+
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(mockedList);
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertEquals(2, result.size());
+        assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
+        assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
+
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
+    @Test
+    void getCandidaturesAccepteesReturnsEmptyListWhenNoAcceptedApplications() {
+        when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
+
+        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+
+        assertTrue(result.isEmpty());
+
+        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
+    }
+
 
 }
+

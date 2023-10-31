@@ -76,7 +76,7 @@ class SignatureServiceTest {
     @Test
     public void testCreateEmployerSignature() {
         // Arrange
-        SignatureDTO signatureDTO = new SignatureDTO(1L, 1L, "https://example.org/example");
+        SignatureDTO signatureDTO = new SignatureDTO( 1L, "https://example.org/example");
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");

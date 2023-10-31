@@ -40,42 +40,7 @@ class SignatureServiceTest {
     private EmployerService employerService;
 
     @Test
-    public void testCreateEmployerSignature1() {
-        Utilisateur user = new Utilisateur();
-        user.setEmail("jane.doe@example.org");
-        user.setId(1L);
-        user.setPassword("iloveyou");
-        user.setRole(Utilisateur.Role.Employeur);
-
-        Employer employer = new Employer();
-        employer.setCompanyName("Company Name");
-        employer.setFirstName("Jane");
-        employer.setId(1L);
-        employer.setLastName("Doe");
-        employer.setSignature(new Signature());
-        employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(user);
-
-        SignatureDTO signatureDTO = new SignatureDTO();
-        signatureDTO.setEmployerId(1L);
-        signatureDTO.setImageLink("https://example.org/example");
-
-
-        when(employerRepository.findEmployerById(1L)).thenReturn(employer);
-        SignatureDTO result = signatureService.saveEmployerSignature(signatureDTO);
-
-
-        assertNotNull(result);
-        assertEquals("https://example.org/example", result.getImageLink());
-        assertEquals(1L, result.getEmployerId());
-        assertNotNull(employer.getSignature());
-        verify(signatureRepository, times(1)).save(any());
-    }
-
-
-    @Test
     public void testCreateEmployerSignature() {
-        // Arrange
         SignatureDTO signatureDTO = new SignatureDTO( 1L, "https://example.org/example");
 
         Employer employer = new Employer();

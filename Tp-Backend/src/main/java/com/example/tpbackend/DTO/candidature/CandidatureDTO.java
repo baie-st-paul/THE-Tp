@@ -4,6 +4,7 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.Candidature;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CandidatureDTO {
     private Long id;
+
     private byte[] lettreMotivation;
     private String fileName;
     private StudentGetDTO student;

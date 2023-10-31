@@ -2,6 +2,7 @@ package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.utils.CvDTOSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class CvDTO {
     private String matricule;
     private String fileName;
+    @JsonIgnore
     private MultipartFile file_cv;
     private String status;
 

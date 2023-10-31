@@ -5,9 +5,14 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -19,6 +24,16 @@ public class SignatureService {
     @Autowired
     private EmployerService employerService;
 
+    public List<SignatureDTO> getSignature() {
+        List<Signature> signatures = signatureRepository.findAll();
+        List<SignatureDTO> signatureDTOS = new ArrayList<>();
+
+        for (Signature signature: signatures) {
+            signatureDTOS.add(signature.toSignatureDTO());
+        }
+
+        return signatureDTOS;
+    }
 
     public SignatureDTO saveEmployerSignature(SignatureDTO signatureDTO){
         Signature signature = signatureDTO.toSignature();
@@ -26,16 +41,18 @@ public class SignatureService {
         return signatureRepository.save(signature).toSignatureDTO();
     }
 
-    public SignatureDTO getEmployerSignature(long employerId) {
-        return signatureRepository.findByEmployer_Id(employerId).toSignatureDTO();
+    public Optional<SignatureDTO> getEmployerSignature(long employerId) {
+        Signature signature = signatureRepository.findSignatureByEmployer_Id(employerId);
+        return Optional.ofNullable(signature.toSignatureDTO());
     }
 
-    public SignatureDTO updateEmployerSignature(long id, SignatureDTO signatureDTO) {
+    @Transactional
+    public SignatureDTO updateEmployerSignature(SignatureDTO signatureDTO) {
         Signature signature = signatureDTO.toSignature();
-        signature.setId(id);
         signature.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(signatureDTO.getEmployerId())));
 
-        return saveEmployerSignature(signature.toSignatureDTO());
+        signatureRepository.updateSignatureByEmployer_Id(signature.getEmployer().getId(), signature.getImageLink());
+        return signature.toSignatureDTO();
     }
 
     public void deleteEmployerSignature(long id) {

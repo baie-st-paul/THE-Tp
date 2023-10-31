@@ -58,7 +58,6 @@ class SignatureServiceTest {
 
         SignatureDTO signatureDTO = new SignatureDTO();
         signatureDTO.setEmployerId(1L);
-        signatureDTO.setId(1L);
         signatureDTO.setImageLink("https://example.org/example");
 
 
@@ -142,13 +141,13 @@ class SignatureServiceTest {
         s.setId(1L);
 
 
-        when(signatureRepository.findByEmployer_Id(1L)).thenReturn(s);
-        SignatureDTO result = signatureService.getEmployerSignature(1L);
+        when(signatureRepository.findSignatureByEmployer_Id(1L)).thenReturn(s);
+        SignatureDTO result = signatureService.getEmployerSignature(1L).get();
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
         assertEquals(1L, result.getEmployerId());
-        verify(signatureRepository, times(1)).findByEmployer_Id(1L);
+        verify(signatureRepository, times(1)).findSignatureByEmployer_Id(1L);
     }
 
     @Test
@@ -175,7 +174,7 @@ class SignatureServiceTest {
         SignatureDTO signatureDTO = mock(SignatureDTO.class);
         when(signatureDTO.getEmployerId()).thenThrow(new RuntimeException("foo"));
         when(signatureDTO.toSignature()).thenReturn(signature);
-        assertThrows(RuntimeException.class, () -> signatureService.updateEmployerSignature(1L, signatureDTO));
+        assertThrows(RuntimeException.class, () -> signatureService.updateEmployerSignature(signatureDTO));
         verify(signatureDTO).toSignature();
         verify(signatureDTO).getEmployerId();
     }

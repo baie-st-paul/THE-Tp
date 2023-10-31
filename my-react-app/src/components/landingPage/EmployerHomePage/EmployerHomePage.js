@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import EmployerStageOffreList from "./offres/EmployerStageOffreList";
 import { useState } from "react";
 import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
@@ -9,32 +9,54 @@ import { useNavigate } from "react-router-dom";
 import CreateSignature from "./signature/CreateSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 
-const MODAL_STYLES = {
-    position: "absolute",
-    backgroundColor: "#FFF",
-    padding: "15px",
-    zIndex: "1000",
-    width: "70%",
-    borderRadius: ".5em"
-};
-
-const OVERLAY_STYLE = {
-    position: "fixed",
-    display: "flex",
-    justifyContent: "center",
-    top: "0",
-    left: "0",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0, .8)",
-    zIndex: "1000",
-    overflowY: "auto"
-};
-
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
     const navigate = useNavigate()
-    const [showCreate, setShowCreate] = useState(false);
+    const [signature, setSignature] = useState(null)
+
+    let contentToRender;
+    let employerId = localStorage.getItem('employer_id')
+
+    useEffect(() => {
+        const fetchSignature = async () => {
+            try {
+                fetch(
+                    'http://localhost:8081/api/v1/stages/signatures/employers',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                        }
+                    }
+                ).catch(error => {
+                    console.log(error)
+                }).then(
+                    async (res) => {
+                        const data = await res.json()
+                        try {
+                            console.log(res.status)
+                            if (res.status === 400) {
+                                console.log(res.status)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        console.log(data.length)
+                        console.log(data.map((dataS) => dataS))
+                        if(data.length === 0) {
+                            setSignature(null)
+                        } else {
+                            setSignature(
+                                data.map((dataS) => dataS
+                                ));
+                        }
+                    })
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+        fetchSignature()
+    }, []);
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -45,8 +67,6 @@ const EmployerHomePage = () => {
         navigate('/');
     }
 
-    let contentToRender;
-    let employerId = localStorage.getItem('employer_id')
     const ajoutOffre = async (offre) => {
 
         offre["status"] = "In_review"
@@ -83,27 +103,6 @@ const EmployerHomePage = () => {
 
     }
 
-    function ModalCreateSignature() {
-        return (
-            <div style={OVERLAY_STYLE}>
-                <div style={MODAL_STYLES}>
-                    <div className="titleCloseBtn">
-                        <button onClick={() => setShowCreate(false)}>X</button>
-                    </div>
-                    <div className="title">
-                        <h1>Création de la signature</h1>
-                    </div>
-                    <div className="body">
-                        contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
-                    </div>
-                    <div className="footer">
-                        <button id="cancelBtn" onClick={() => setShowCreate(false)}>Fermer</button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     switch (activeContent){
         case "offre-page":
             contentToRender = <EmployerStageOffreList employerId={employerId}></EmployerStageOffreList>
@@ -115,7 +114,7 @@ const EmployerHomePage = () => {
             contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <div>Choisir une section.</div>
         break;
     }
 
@@ -126,16 +125,6 @@ const EmployerHomePage = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <ul className="navbar-nav px-2">
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
-                                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
-                                </button>
-                            </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("signature")}>
                                     <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
@@ -148,6 +137,23 @@ const EmployerHomePage = () => {
                                 </button>
                             </li>
                         </ul>
+                        {
+                            signature !== null &&
+                            <>
+                                <ul className="navbar-nav px-2">
+                                    <li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>
+                                            <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres
+                                        </button>
+                                    </li>
+                                    <li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick("Ajout-offre")}>
+                                            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
+                                        </button>
+                                    </li>
+                                </ul>
+                            </>
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

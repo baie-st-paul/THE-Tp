@@ -1,4 +1,5 @@
 package com.example.tpbackend.controller;
+
 import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.controllers.SignatureController;
 import com.example.tpbackend.service.SignatureService;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
@@ -33,10 +36,9 @@ public class SignatureControllerTest {
     public void testGetSignature() throws Exception {
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.example.org");
-        signature.setId(1);
         signature.setEmployerId(1);
 
-        when(signatureService.getEmployerSignature(1)).thenReturn(signature);
+        when(signatureService.getEmployerSignature(1)).thenReturn(Optional.of(signature));
 
         mockMvc.perform(get("/api/v1/stages/signatures/employers/1")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -49,17 +51,15 @@ public class SignatureControllerTest {
     public void testUpdateSignature() throws Exception {
         SignatureDTO oldSignature = new SignatureDTO();
         oldSignature.setImageLink("www.example.org");
-        oldSignature.setId(1);
         oldSignature.setEmployerId(1);
 
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.google.com");
-        signature.setId(1);
         signature.setEmployerId(1);
 
-        when(signatureService.updateEmployerSignature(signature.getId(), signature)).thenReturn(signature);
+        when(signatureService.updateEmployerSignature(signature)).thenReturn(signature);
 
-        mockMvc.perform(put("/api/v1/stages/signatures/employers/1")
+        mockMvc.perform(put("/api/v1/stages/signatures/employers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(signature)))
                 .andExpect(status().isOk())
@@ -72,7 +72,6 @@ public class SignatureControllerTest {
     public void testCreateSignature() throws Exception {
         SignatureDTO signature = new SignatureDTO();
         signature.setImageLink("www.example.org");
-        signature.setId(1);
         signature.setEmployerId(1);
 
         when(signatureService.saveEmployerSignature(signature)).thenReturn(signature);

@@ -6,6 +6,7 @@ import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,7 @@ public class OffreStageService {
         offreStageRepository.deleteOffreStageById(id);
     }
 
+    @Transactional
     public List<OffreStageDTO> getOffresByEmployerId(long id) {
         List<OffreStage> offreStages = offreStageRepository.findAllByEmployer(id);
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();

@@ -1,7 +1,6 @@
 package com.example.tpbackend.models;
 
 import com.example.tpbackend.DTO.SignatureDTO;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,14 +24,12 @@ public class Signature {
     @Column(name = "image_link")
     private String imageLink;
 
-    public Signature(long id, String imageLink) {
-        this.id = id;
+    public Signature(String imageLink) {
         this.imageLink = imageLink;
     }
 
     public SignatureDTO toSignatureDTO() {
         return new SignatureDTO(
-                id,
                 employer.getId(),
                 imageLink
         );

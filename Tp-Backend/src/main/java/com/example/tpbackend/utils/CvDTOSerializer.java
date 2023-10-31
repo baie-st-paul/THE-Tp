@@ -16,8 +16,11 @@ public class CvDTOSerializer extends JsonSerializer<CvDTO> {
         jsonGenerator.writeStringField("matricule", cvDTO.getMatricule());
         jsonGenerator.writeStringField("fileName", cvDTO.getFileName());
 
-        String file_cvBase64 = convertMultipartFileToBase64(cvDTO.getFile_cv());
-        jsonGenerator.writeStringField("file_cv", file_cvBase64);
+        MultipartFile file_cv = cvDTO.getFile_cv();
+        if (file_cv != null && !file_cv.isEmpty()) {
+            String file_cvBase64 = convertMultipartFileToBase64(file_cv);
+            jsonGenerator.writeStringField("file_cv", file_cvBase64);
+        }
 
         jsonGenerator.writeStringField("status", cvDTO.getStatus());
         jsonGenerator.writeEndObject();

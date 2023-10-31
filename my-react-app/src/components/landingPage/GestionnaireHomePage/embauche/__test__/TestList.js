@@ -11,6 +11,9 @@ export const testList1Acceptes = [
                 cv : 'cv',
             }
         },
+        offreStage : {
+            titre: 'dev mobile'
+        },
         status: 'Accepted'
     }
 ]
@@ -27,6 +30,9 @@ export const testListAcceptes = [{
             file_cv: 'abc',
             cv: 'cv',
         }
+    },
+    offreStage : {
+        titre: 'dev mobile'
     },
     status: 'Accepted'
 }]
@@ -46,6 +52,9 @@ export const testList2Acceptes = [
                 file_cv : null,
                 cv : 'cv',
             }
+        },
+        offreStage : {
+            titre: 'dev mobile'
         },
         status: 'Accepted'
     }

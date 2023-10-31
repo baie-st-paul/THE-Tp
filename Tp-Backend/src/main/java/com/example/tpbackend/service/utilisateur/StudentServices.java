@@ -18,6 +18,7 @@ import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,12 +74,14 @@ public class StudentServices {
         );
     }
 
+    @Transactional
     public StudentGetDTO getStudentByMatricule(String matricule) {
         Student student = studentRepository.findByMaticule(matricule);
         System.out.println(student);
         return Student.fromStudent(student);
     }
 
+    @Transactional
     public void postulerOffre(CandidaturePostDTO candidaturePostDTO) throws IOException {
         Student student = studentRepository.findByMaticule(candidaturePostDTO.getMatricule());
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
@@ -88,6 +91,7 @@ public class StudentServices {
                 student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review")));
     }
 
+    @Transactional
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
         List<Candidature> candidatureList = candidatureRepository.getAllCandidaturesByMatricule(matricule);
         System.out.println(candidatureList);
@@ -100,6 +104,7 @@ public class StudentServices {
         return candidatureGetDTOList;
     }
 
+    @Transactional
     public List<CandidatureDTO> getListCandidatureByOffreId(Long id){
         return candidatureRepository.findByOffreStageId(id)
                 .stream()
@@ -107,6 +112,7 @@ public class StudentServices {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void updateCandidatureStatus(String matricule, String status) {
         candidatureRepository.updateCandidatureStatusByMatricule(matricule, Candidature.Status.valueOf(status));
     }

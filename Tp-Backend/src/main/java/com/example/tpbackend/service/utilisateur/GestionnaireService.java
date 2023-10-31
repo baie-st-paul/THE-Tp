@@ -193,6 +193,7 @@ public class GestionnaireService {
         return ContratStageDTO.fromContratStage(contratStageSaved);
     }
 
+    @Transactional
     public List<CandidatureDTO> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
         return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());

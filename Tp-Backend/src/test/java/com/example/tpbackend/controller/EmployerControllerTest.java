@@ -1,8 +1,11 @@
 package com.example.tpbackend.controller;
 
+import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.controllers.EmployerController;
 import com.example.tpbackend.service.OffreStageService;
@@ -16,7 +19,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -33,6 +40,42 @@ public class EmployerControllerTest {
     private StudentServices studentService;
     @MockBean
     private EmployerService employerService;
+
+    @Test
+    public void testGetApplicantsForOffer() throws Exception {
+        Long offerId = 1L;
+
+        StudentGetDTO studentGetDTO = new StudentGetDTO();
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        CvDTO cvDTO = new CvDTO();
+
+        CandidatureDTO candidatureDTO = new CandidatureDTO(
+                42L,
+                new byte[]{},
+                "fileName.pdf",
+                studentGetDTO,
+                offreStageDTO,
+                cvDTO,
+                "status"
+        );
+
+        List<CandidatureDTO> candidatureDTOList = List.of(candidatureDTO);
+
+        when(offreStageService.getOffreStageById(offerId)).thenReturn(Optional.of(new OffreStageDTO()));
+        when(studentService.getListCandidatureByOffreId(offerId)).thenReturn(candidatureDTOList);
+
+        // Act and Assert
+        mockMvc.perform(get("/api/employers/{offerId}/applicants", offerId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0]").exists())
+                .andExpect(jsonPath("$[0].id").value(42L))
+                .andExpect(jsonPath("$[0].fileName").value("fileName.pdf"))
+                .andExpect(jsonPath("$[0].status").value("status"));
+    }
+
+
+
 
     @Test
     public void testGetApplicantsForOffer_NoOfferFound() throws Exception {
@@ -91,16 +134,26 @@ public class EmployerControllerTest {
 
     @Test
     public void testGetApplicantsForOfferNoApplicants() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", 3L))  // je Suppose que 3L soit un ID d'offre sans candidats
+        // Arrange
+        Long offerId = 3L;
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        offreStageDTO.setId(offerId);
+
+        when(offreStageService.getOffreStageById(offerId)).thenReturn(Optional.of(offreStageDTO));
+        when(studentService.getListCandidatureByOffreId(offerId)).thenReturn(Collections.emptyList());
+
+        // Act & Assert
+        mockMvc.perform(get("/api/employers/{offerId}/applicants", offerId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune candidature trouvée pour cette offre."));
     }
 
 
+
     @Test
     public void testGetApplicantsForOffer_InvalidId() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", "invalid")) // je Suppose que "invalid" est un ID invalide
+        mockMvc.perform(get("/api/employers/{offerId}/applicants", "invalid"))
                 .andExpect(status().isBadRequest());
     }
 }

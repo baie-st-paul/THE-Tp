@@ -28,10 +28,9 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         fetch.mockResponse(JSON.stringify(testList1Acceptes))
         render(<EtudiantEmbauchePage/>)
 
+        expect(await screen.findByTestId('dev mobile')).toBeInTheDocument()
         expect(await screen.findByTestId('lina')).toBeInTheDocument()
         expect(await screen.findByTestId('Moskalenko')).toBeInTheDocument()
-        expect(await screen.findByTestId('email@test.com')).toBeInTheDocument()
-        expect(await screen.findByTestId('514-451-1451')).toBeInTheDocument()
 
         expect(screen.getByText('Résumé')).toBeInTheDocument()
         expect(screen.getByText('Lettre de motivation')).toBeInTheDocument()

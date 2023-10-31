@@ -1,6 +1,7 @@
 package com.example.tpbackend.models.utilisateur.employeur;
 
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class Employer {
 
     @OneToMany(mappedBy = "employer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OffreStage> offresStages;
+
+    @OneToOne(mappedBy = "employer")
+    @JoinColumn(name = "signature_id")
+    private Signature signature;
 
     public Employer(Long id, String firstName, String lastName, String companyName, String phoneNumber) {
         this.id = id;

@@ -68,6 +68,12 @@ class StudentServicesTest {
     @MockBean
     private StudentRepository studentRepository;
 
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private AuthenticationService authenticationService;
+
     @Autowired
     private StudentServices studentServices;
 

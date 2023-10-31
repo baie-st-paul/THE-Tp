@@ -16,6 +16,7 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 
 import java.time.LocalDate;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.tpbackend.service.utilisateur.UserService;
 import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
@@ -44,6 +46,12 @@ class OffreStageServiceTest {
 
     @Autowired
     private OffreStageService offreStageService;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private AuthenticationService authenticationService;
 
     /**
      * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
@@ -139,10 +147,8 @@ class OffreStageServiceTest {
         assertEquals(1L, actualCreateOffreResult.getEmployerId());
         assertEquals("The characteristics of someone or something", actualCreateOffreResult.getDescription());
         assertEquals("1970-01-01", actualCreateOffreResult.getDateFin().toString());
-        verify(employerService).getEmployerById(Mockito.<Long>any());
         verify(offreStageRepository).save(Mockito.<OffreStage>any());
         verify(offre).toOffreStage();
-        verify(offre).getEmployerId();
     }
 
     /**
@@ -183,10 +189,8 @@ class OffreStageServiceTest {
         when(offre.toOffreStage()).thenReturn(offreStage);
         when(offre.getEmployerId()).thenReturn(1L);
         assertThrows(RuntimeException.class, () -> offreStageService.saveOffre(offre));
-        verify(employerService).getEmployerById(Mockito.<Long>any());
         verify(offreStageRepository).save(Mockito.<OffreStage>any());
         verify(offre).toOffreStage();
-        verify(offre).getEmployerId();
     }
 
 

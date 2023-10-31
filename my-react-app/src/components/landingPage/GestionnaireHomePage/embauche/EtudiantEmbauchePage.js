@@ -113,19 +113,16 @@ const EtudiantEmbauchePage = () => {
                     (candidature, i) => (
                         <Card key={i} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
                             <Card.Body>
-                                <Card.Title data-testid={candidature.student.firstName}>
-                                    <b>Prénom:</b> {candidature.student.firstName}
-                                </Card.Title>
-                                <Card.Title data-testid={candidature.student.lastName}>
-                                    <b>Nom de famille:</b> {candidature.student.lastName}
+                                <Card.Title data-testid={candidature.offreStage.titre}>
+                                    <b>Nom de l'offre:</b> {candidature.offreStage.titre}
                                 </Card.Title>
                             </Card.Body>
                             <ListGroup className="list-group-flush">
-                                <ListGroup.Item data-testid={candidature.student.email}>
-                                    <b>Adresse courriel:</b> {candidature.student.email}
+                                <ListGroup.Item data-testid={candidature.student.firstName}>
+                                    <b>Prénom de l'étudiant:</b> {candidature.student.firstName}
                                 </ListGroup.Item>
-                                <ListGroup.Item data-testid={candidature.student.phoneNumber}>
-                                    <b>Numéro de téléphone:</b> {candidature.student.phoneNumber}
+                                <ListGroup.Item data-testid={candidature.student.lastName}>
+                                    <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
                                 </ListGroup.Item>
                             </ListGroup>
                             <Card.Body>

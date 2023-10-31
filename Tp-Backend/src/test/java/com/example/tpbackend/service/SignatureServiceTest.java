@@ -1,14 +1,17 @@
 package com.example.tpbackend.service;
 
 import com.example.tpbackend.DTO.SignatureDTO;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.models.Signature;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.SignatureRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.service.utilisateur.EmployerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,38 +36,52 @@ class SignatureServiceTest {
     @Mock
     private EmployerRepository employerRepository;
 
+    @Mock
+    private EmployerService employerService;
+
     @Test
     public void testCreateEmployerSignature() {
-        Utilisateur user = new Utilisateur();
-        user.setEmail("jane.doe@example.org");
-        user.setId(1L);
-        user.setPassword("iloveyou");
-        user.setRole(Utilisateur.Role.Employeur);
+        SignatureDTO signatureDTO = new SignatureDTO( 1L, "https://example.org/example");
 
         Employer employer = new Employer();
         employer.setCompanyName("Company Name");
         employer.setFirstName("Jane");
         employer.setId(1L);
         employer.setLastName("Doe");
-        employer.setSignature(new Signature());
         employer.setPhoneNumber("6625550144");
-        employer.setUtilisateur(user);
+        employer.setSignature(new Signature());
+        employer.setUtilisateur(new Utilisateur("jane.doe@example.org", "iloveyou", Utilisateur.Role.Employeur.toString()));
 
-        SignatureDTO signatureDTO = new SignatureDTO();
-        signatureDTO.setEmployerId(1L);
-        signatureDTO.setImageLink("https://example.org/example");
+        EmployerGetDTO employerGetDTO = new EmployerGetDTO(
+                employer.getId(),
+                employer.getFirstName(),
+                employer.getLastName(),
+                employer.getCompanyName(),
+                employer.getPhoneNumber(),
+                employer.getUtilisateur().getEmail()
+        );
 
+        when(employerService.getEmployerById(1L)).thenReturn(employerGetDTO);
+        when(signatureRepository.save(any(Signature.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        when(employerRepository.findEmployerById(1L)).thenReturn(employer);
+        ArgumentCaptor<Signature> signatureCaptor = ArgumentCaptor.forClass(Signature.class);
+
         SignatureDTO result = signatureService.saveEmployerSignature(signatureDTO);
-
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
         assertEquals(1L, result.getEmployerId());
-        assertNotNull(employer.getSignature());
-        verify(signatureRepository, times(1)).save(any());
+
+        verify(signatureRepository, times(1)).save(signatureCaptor.capture());
+        Signature savedSignature = signatureCaptor.getValue();
+
+        assertNotNull(savedSignature);
+        assertEquals("https://example.org/example", savedSignature.getImageLink());
+        assertNotNull(savedSignature.getEmployer());
+        assertEquals(1L, savedSignature.getEmployer().getId());
     }
+
+
 
     @Test
     public void testGetEmployerSignature() {

@@ -32,19 +32,19 @@ const CreateSignature = ({employerId}) => {
                     console.log(e)
                 }
                 console.log(data.length)
-                console.log(data.map((dataS) => dataS))
+                data.map((dataS) => console.log(dataS))
                 if(data.length === 0) {
                     setSignature(null)
                 } else {
-                    setSignature(
-                        data.map((dataS) => dataS
-                        ));
+                    data.map((dataS) => setSignature(dataS)
+                    )
                 }
             })
     }, []);
 
     const saveSignature = async () => {
         try {
+            console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
                 employerId,
@@ -76,14 +76,15 @@ const CreateSignature = ({employerId}) => {
                     }
                     setSignature(data)
                     console.log(data)
-                    console.log(signature.imageLink === urlImage)
-                    console.log("1",signature.imageLink)
+                    console.log(data.imageLink === urlImage)
+                    console.log("1",data.imageLink)
                     console.log("2",urlImage)
                 }
             )
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
+        window.location.reload()
     }
 
     const handleModif = async () => {
@@ -125,6 +126,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
+        window.location.reload()
     }
 
     const deleteSignature = async () => {
@@ -148,10 +150,12 @@ const CreateSignature = ({employerId}) => {
                         console.log(e)
                     }
                     setUrlImage(null);
+                    setSignature(null)
                 })
         } catch (error) {
             console.error("Error deleting signature:", error);
         }
+        window.location.reload()
     }
 
     const handleClear = () => {
@@ -183,19 +187,19 @@ const CreateSignature = ({employerId}) => {
                 </Button>
                 <Button className="btn btn-success"
                         onClick = {handleSave}>
-                    Créer <FaPencilAlt
+                    Dessiner <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
 
                 <br/>
-                {signature !== null &&
+                {signature !== null && urlImage === null &&
                     <img src={signature.imageLink} alt="imageLink"/>
                 }
                 <br/>
 
                 <br/>
-                {signature === null && urlImage !== null &&
+                {urlImage !== null &&
                     <img src={urlImage} alt="urlImage"/>
                 }
                 <br/>

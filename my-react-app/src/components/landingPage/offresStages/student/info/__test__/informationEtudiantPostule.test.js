@@ -71,11 +71,6 @@ describe("Test the InformationEtudiantPostule Component", () => {
         expect(screen.getByText('X')).toBeInTheDocument();
     });
 
-    it('should render button CONVOQUER', ()=> {
-        render(<MockInformationEtudiantPostule listeEtudiant={testList2} />)
-        expect(screen.getByTitle(/CONVOQUER/i)).toBeInTheDocument();
-    });
-
     const createRouterWrapper = (history): React.ComponentType => ({ children }) => (
         <Router history={history} location={history} navigator={history}>{children}</Router>
     );

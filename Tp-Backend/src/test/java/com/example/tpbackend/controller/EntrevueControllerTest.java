@@ -1,6 +1,7 @@
 package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.EntrevueController;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -31,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EntrevueController.class)
 public class EntrevueControllerTest {
 
@@ -43,6 +45,9 @@ public class EntrevueControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @BeforeEach
     public void setUp() {

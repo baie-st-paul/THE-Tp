@@ -90,7 +90,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        window.location.reload()
+        //window.location.reload()
     }
 
     const handleModif = async () => {
@@ -134,7 +134,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        window.location.reload()
+        //window.location.reload()
     }
 
     const deleteSignature = async () => {
@@ -167,7 +167,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.error("Error deleting signature:", error);
         }
-        window.location.reload()
+        //window.location.reload()
     }
 
     const handleClear = () => {

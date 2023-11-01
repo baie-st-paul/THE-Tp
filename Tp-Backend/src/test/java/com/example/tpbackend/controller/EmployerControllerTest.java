@@ -79,7 +79,7 @@ public class EmployerControllerTest {
 
     @Test
     public void testGetApplicantsForOffer_NoOfferFound() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", 2L)) // je Suppose que 2L est un ID pour lequel il n'y a pas d'offre
+        mockMvc.perform(get("/api/employers/{offerId}/applicants", 2L))
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune offre trouvée avec cet ID."));

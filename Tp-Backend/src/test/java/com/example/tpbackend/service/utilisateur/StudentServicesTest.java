@@ -74,16 +74,7 @@ class StudentServicesTest {
     @Test
     @Disabled("TODO: Complete this test")
     void testSaveStudent() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.IllegalArgumentException: No enum constant com.example.tpbackend.models.utilisateur.Utilisateur.Role.Role
-        //       at java.lang.Enum.valueOf(Enum.java:273)
-        //       at com.example.tpbackend.models.utilisateur.Utilisateur$Role.valueOf(Utilisateur.java:44)
-        //       at com.example.tpbackend.models.utilisateur.Utilisateur.<init>(Utilisateur.java:33)
-        //       at com.example.tpbackend.service.utilisateur.StudentServices.saveStudent(StudentServices.java:42)
-        //   See https://diff.blue/R013 to resolve this issue.
+
 
         studentServices.saveStudent(
                 new StudentPostDTO("jane.doe@example.org", "iloveyou", "Jane", "Doe", "6625550144", "Matricule", "Program"),

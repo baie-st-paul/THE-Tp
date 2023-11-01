@@ -182,7 +182,7 @@ const CreateSignature = ({employerId}) => {
                 <Button className="btn btn-danger"
                         onClick={handleClear}>
                     Effacer <FaTimes
-                    style={{color: 'black'}}
+                    style={{color: 'black'}}getTrimmedCanvas
                 />
                 </Button>
                 <Button className="btn btn-success"

@@ -184,16 +184,7 @@ class OffreStageServiceTest {
      * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
-    @Disabled("TODO: Complete this test")
     void testCreateOffre4() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.IllegalArgumentException: Source must not be null
-        //       at com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO.fromEmployerDTO(EmployerGetDTO.java:29)
-        //       at com.example.tpbackend.service.OffreStageService.createOffre(OffreStageService.java:31)
-        //   See https://diff.blue/R013 to resolve this issue.
 
         when(employerService.getEmployerById(Mockito.<Long>any())).thenReturn(null);
 
@@ -515,9 +506,7 @@ class OffreStageServiceTest {
         verify(offreStageRepository).findAll();
     }
 
-    /**
-     * Method under test: {@link OffreStageService#getOffres()}
-     */
+
     @Test
     void testGetOffres3() {
         when(offreStageRepository.findAll()).thenThrow(new RuntimeException("foo"));
@@ -525,9 +514,8 @@ class OffreStageServiceTest {
         verify(offreStageRepository).findAll();
     }
 
-    /**
-     * Method under test: {@link OffreStageService#getOffres()}
-     */
+
+
     @Test
     void testGetOffres4() {
         Utilisateur utilisateur = new Utilisateur();

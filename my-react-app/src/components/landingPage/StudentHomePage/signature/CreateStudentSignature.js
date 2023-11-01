@@ -70,7 +70,7 @@ const CreateStudentSignature = ({matricule}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-       // window.location.reload()
+        window.location.reload()
     }
 
     const handleModif = async () => {

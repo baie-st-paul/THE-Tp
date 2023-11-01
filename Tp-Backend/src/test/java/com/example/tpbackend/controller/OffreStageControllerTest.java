@@ -58,9 +58,6 @@ public class OffreStageControllerTest {
                         5,
                         "In_review",
                         5,new Tag(TagGenerator.getCurrentSession()).getTagName()),
-                new OffreStageDTO(2L,
-                        3L,
-                        2L),
                 new OffreStageDTO(
                         2L,
                         "Titre2",
@@ -71,7 +68,7 @@ public class OffreStageControllerTest {
                         LocalDate.now().plusDays(20),
                         7,
                         "Accepted",
-                        3L)
+                        3L,new Tag(TagGenerator.getCurrentSession()).getTagName())
         );
     }
 

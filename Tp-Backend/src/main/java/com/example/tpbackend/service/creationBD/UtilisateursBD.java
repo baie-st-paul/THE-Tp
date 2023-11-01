@@ -162,7 +162,6 @@ public class UtilisateursBD implements CommandLineRunner {
     public void createOffreStage() {
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
-                1,
                 "Dev web",
                 20,
                 "Informatique",
@@ -173,13 +172,13 @@ public class UtilisateursBD implements CommandLineRunner {
                         " claire pour une convivialité optimale.",
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 20),
-                "Refused",
                 10,
+                "Refused",
+                1,
                 new Tag("AU23").getTagName()
         );
         OffreStageDTO offreStageDTO1 = new OffreStageDTO(
                 2,
-                1,
                 "Dev web",
                 20,
                 "Informatique",
@@ -190,8 +189,9 @@ public class UtilisateursBD implements CommandLineRunner {
                         " claire pour une convivialité optimale.",
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 20),
-                "Accepted",
                 10,
+                "Accepted",
+                1,
                 new Tag("H23").getTagName()
         );
         tagRepository.save(new Tag("H23"));

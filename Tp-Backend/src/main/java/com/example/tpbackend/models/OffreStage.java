@@ -76,9 +76,8 @@ public class OffreStage {
                 dateFin,
                 nbMaxEtudiants,
                 String.valueOf(status),
-                nbMaxEtudiants,
+                employer.getId(),
                 tagName
-                employer.getId()
         );
     }
 

@@ -21,12 +21,17 @@ import CreateStudentSignature from "./signature/CreateStudentSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import SessionCotroller from "./SessionController";
 
+
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
     const [cvs, setCvs] = useState([]);
-    const navigate = useNavigate()
+    const [signature, setSignature] = useState(null);
+    const [session, setSession] = useState([]);
+    const navigate = useNavigate();
+
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -83,6 +88,29 @@ const StudentHomePage = () => {
                 console.error("Error fetching data:", error);
             }
         };
+
+        const fetchSignature = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                    });
+                if (response.ok) {
+                    const data = await response.json();
+                    setSignature(data);
+                } else {
+                    console.error("Failed to fetch data");
+                    setSignature([])
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
         fetchSignature()
         fetchCv()
         fetchCurrentSession()
@@ -114,6 +142,9 @@ const StudentHomePage = () => {
             break;
         case "dashboard":
             contentToRender = <Dashboard/>;
+            break;
+        case "signature":
+            contentToRender = <CreateStudentSignature signature={signature}/>;
             break;
         default:
             contentToRender = <div>Choisir une section.</div>;

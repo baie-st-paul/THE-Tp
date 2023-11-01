@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 const SessionController = ({ sessionTag, studentTag }) => {
     const [message, setMessage] = useState('');
-
+    const navigate = useNavigate();
     const handleReinscription = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8081/api/v1/student/reinscriptionANouvelleSession//${localStorage.getItem("loggedInUserMatricule")}`, {
+            console.log(localStorage.getItem("loggedInUserMatricule"))
+            const response = await fetch(`http://localhost:8081/api/v1/student/reinscriptionANouvelleSession/${localStorage.getItem("loggedInUserMatricule")}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
                 withCredentials: true,
-                redirect: "follow",
-                mode: "no-cors"
             });
             if (response.ok) {
                 const data = await response.json();
                 console.log("this is 1" + data)
                 setMessage(data);
+                window.location.reload()
             } else {
                 console.error("Failed to fetch data");
             }
@@ -38,13 +39,13 @@ const SessionController = ({ sessionTag, studentTag }) => {
                     'Authorization': 'Bearer ' + token
                 },
                 withCredentials: true,
-                redirect: "follow",
-                mode: "no-cors"
             });
             if (response.ok) {
                 const data = await response.json();
                 console.log("this is 1" + data)
                 setMessage(data);
+                navigate('/')
+                window.location.reload()
             } else {
                 console.error("Failed to fetch data");
             }

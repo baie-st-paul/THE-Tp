@@ -20,13 +20,13 @@ const SessionController = ({ sessionTag, studentTag }) => {
                 const data = await response.json();
                 console.log("this is 1" + data)
                 setMessage(data);
-                window.location.reload()
             } else {
                 console.error("Failed to fetch data");
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+        window.location.reload();
     };
 
     const handleDesinscription = async () => {
@@ -44,14 +44,13 @@ const SessionController = ({ sessionTag, studentTag }) => {
                 const data = await response.json();
                 console.log("this is 1" + data)
                 setMessage(data);
-                navigate('/')
-                window.location.reload()
             } else {
                 console.error("Failed to fetch data");
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+        navigate('/')
     };
 
     return (

@@ -12,7 +12,7 @@ const CreateStudentSignature = ({matricule}) => {
     useEffect(() => {
         const fetchSignature = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/v1/signatures/students/${matricule}`);
+                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${localStorage.getItem("loggedInUserMatricule")}`);
                 if (response.ok) {
                     const data = await response.json();
                     setSignature(data);
@@ -30,8 +30,9 @@ const CreateStudentSignature = ({matricule}) => {
         try {
             console.log(urlImage.type)
             const imageLink = urlImage.toString()
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             const signature = ({
-                matricule,
+                studentMatricule,
                 imageLink
             })
             console.log(JSON.stringify(signature))
@@ -68,7 +69,7 @@ const CreateStudentSignature = ({matricule}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        window.location.reload()
+       // window.location.reload()
     }
 
     const handleModif = async () => {

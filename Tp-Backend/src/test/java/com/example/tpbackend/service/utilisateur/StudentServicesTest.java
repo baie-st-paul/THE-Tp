@@ -26,6 +26,7 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.CvRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
@@ -53,6 +54,12 @@ import org.springframework.web.multipart.MultipartFile;
 @ContextConfiguration(classes = {StudentServices.class})
 @ExtendWith(SpringExtension.class)
 class StudentServicesTest {
+    @MockBean
+    private TagRepository tagRepository;
+
+    @MockBean
+    private UtilisateurRepository utilisateurRepository;
+
     @MockBean
     private CandidatureRepository candidatureRepository;
 
@@ -262,7 +269,6 @@ class StudentServicesTest {
         verify(cv).setMatricule(Mockito.<String>any());
         verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
     }
-
 
 
     /**
@@ -610,6 +616,50 @@ class StudentServicesTest {
         verify(candidature).setLettre_motivation(Mockito.<byte[]>any());
         verify(candidature).setOffreStage(Mockito.<OffreStage>any());
         verify(candidature).setStudent(Mockito.<Student>any());
+    }
+
+    /**
+     * Method under test: {@link StudentServices#deleteStudentByMatricule(String)}
+     */
+    @Test
+    @Disabled("TODO: Complete this test")
+    void testDeleteStudentByMatricule() {
+        // TODO: Complete this test.
+        //   Reason: R026 Failed to create Spring context.
+        //   Attempt to initialize test context failed with
+        //   com.diffblue.fuzztest.shared.proxy.LibraryLinkageException: java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
+        //       at java.util.Optional.map(Optional.java:260)
+        //   java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
+        //       at org.springframework.boot.test.mock.mockito.MockReset.withSettings(MockReset.java:81)
+        //       at org.springframework.boot.test.mock.mockito.MockDefinition.createMock(MockDefinition.java:147)
+        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.registerMock(MockitoPostProcessor.java:185)
+        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.register(MockitoPostProcessor.java:167)
+        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.postProcessBeanFactory(MockitoPostProcessor.java:141)
+        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.postProcessBeanFactory(MockitoPostProcessor.java:129)
+        //       at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:358)
+        //       at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:194)
+        //       at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:771)
+        //       at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:589)
+        //       at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:221)
+        //       at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:110)
+        //       at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:212)
+        //       at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:187)
+        //       at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:119)
+        //       at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
+        //       at java.util.Optional.map(Optional.java:260)
+        //   java.lang.ExceptionInInitializerError: Exception java.lang.ExceptionInInitializerError [in thread "TimedExecutor-3"]
+        //       at org.mockito.Mockito.<clinit>(Mockito.java:1683)
+        //       at org.powermock.api.mockito.mockmaker.MockMakerLoader.doLoad(MockMakerLoader.java:45)
+        //       at org.powermock.api.mockito.mockmaker.MockMakerLoader.load(MockMakerLoader.java:36)
+        //       at org.powermock.api.mockito.mockmaker.PowerMockMaker.<init>(PowerMockMaker.java:36)
+        //       at org.mockito.internal.configuration.plugins.PluginInitializer.loadImpl(PluginInitializer.java:51)
+        //       at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:65)
+        //       at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:50)
+        //       at org.mockito.internal.configuration.plugins.PluginRegistry.<init>(PluginRegistry.java:27)
+        //       at org.mockito.internal.configuration.plugins.Plugins.<clinit>(Plugins.java:22)
+        //   See https://diff.blue/R026 to resolve this issue.
+
+        studentServices.deleteStudentByMatricule("Matricule");
     }
 }
 

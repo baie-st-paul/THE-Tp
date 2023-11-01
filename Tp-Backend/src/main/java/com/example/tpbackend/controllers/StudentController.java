@@ -76,5 +76,37 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
+
+    @GetMapping("/getSessions/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<Object>> checkCurrentSession(@PathVariable("matricule") String matricule) {
+        List<Object> result = studentServices.checkCurrentSession(matricule);
+        System.out.println(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteStudentByMatricule/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> deleteStudentByMatricule(@PathVariable("matricule") String matricule) {
+        try {
+            studentServices.deleteStudentByMatricule(matricule);
+            return ResponseEntity.ok("Student with matricule " + matricule + " has been deleted.");
+        } catch (Exception ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @PostMapping("/reinscriptionANouvelleSession/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> reinscriptionANouvelleSession(@PathVariable("matricule") String matricule) {
+        try {
+            studentServices.reinscriptionANouvelleSession(matricule);
+            return ResponseEntity.ok("Reinscription to a new session for student with matricule " + matricule + " has been completed.");
+        } catch (Exception ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
 }
 

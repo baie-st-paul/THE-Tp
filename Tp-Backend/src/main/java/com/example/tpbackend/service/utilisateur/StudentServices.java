@@ -123,4 +123,31 @@ public class StudentServices {
     public Tag getTag(){
         return new Tag(TagGenerator.getCurrentSession());
     }
+
+    public List<Object> checkCurrentSession(String matricule) {
+        List<Object> response = new ArrayList<>();
+        Tag currentTag = new Tag(TagGenerator.getCurrentSession());
+        Tag studenTag = new Tag(studentRepository.findTagNameByMatricule(matricule));
+        boolean isSameTag;
+        System.out.println("tag 1" + currentTag + " tag 2" + studenTag);
+        System.out.println(currentTag.getTagName() == studenTag.getTagName());
+        if(currentTag.getTagName().equals(studenTag.getTagName())){
+            isSameTag = true;
+        }
+        else{
+            isSameTag = false;
+        }
+        response.add(currentTag.getTagName());
+        response.add(studenTag.getTagName());
+        response.add(isSameTag);
+        return response;
+    }
+
+    public void deleteStudentByMatricule(String matricule){
+        studentRepository.deleteByMatricule(matricule);
+    }
+
+    public void reinscriptionANouvelleSession(String matricule){
+        studentRepository.updateTagNameByMatricule(matricule,TagGenerator.getCurrentSession());
+    }
 }

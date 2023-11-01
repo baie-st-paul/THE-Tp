@@ -11,5 +11,7 @@
 - merge les taches done dans le main
 - la personne qui met sa tache en review assigne le code review a un membre de l'équipe
 - Plan de review uniforme (voir exemple)
+- Faire plusieurs items pour tester la fonctionalité avec plusieurs entités
+- Les story seront fait en "peer" avec une tache pour le fe et une pour le be et on met en in review en meme temps
 
 🍆

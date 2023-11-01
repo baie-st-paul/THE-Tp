@@ -167,7 +167,7 @@ const CreateSignature = ({employerId}) => {
         } catch (error) {
             console.error("Error deleting signature:", error);
         }
-        //window.location.reload()
+        window.location.reload()
     }
 
     const handleClear = () => {

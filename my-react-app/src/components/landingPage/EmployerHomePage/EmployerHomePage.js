@@ -21,7 +21,7 @@ const EmployerHomePage = () => {
         const fetchSignature = async () => {
             try {
                 fetch(
-                    `http://localhost:8081/api/v1/stages/signatures/employers/${employerId}`,
+                    `http://localhost:8081/api/v1/stages/signatures/employers`,
                     {
                         method: 'GET',
                         headers: {
@@ -46,13 +46,11 @@ const EmployerHomePage = () => {
                             console.log(e)
                         }
                         console.log(data.length)
-                        console.log(data.map((dataS) => dataS))
+                        data.map((dataS) => console.log(dataS))
                         if(data.length === 0) {
                             setSignature(null)
                         } else {
-                            setSignature(
-                                data.map((dataS) => dataS
-                                ));
+                            data.map((dataS) => setSignature(dataS));
                         }
                     })
             } catch (error) {

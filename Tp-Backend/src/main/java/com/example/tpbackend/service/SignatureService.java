@@ -105,7 +105,7 @@ public class SignatureService {
     public void deleteStudentSignature(String matricule){
         Student student = studentRepository.findByMatricule(matricule);
         Signature signature = signatureRepository.findSignatureByStudent_Matricule(matricule);
-        signatureRepository.delete(signature);
+        signatureRepository.deleteSignatureByStudentMatricule(signature.getStudent().getMatricule());
         student.setSignature(null);
         studentRepository.save(student);
     }

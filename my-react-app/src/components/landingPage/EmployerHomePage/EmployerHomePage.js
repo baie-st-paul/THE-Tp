@@ -20,9 +20,8 @@ const EmployerHomePage = () => {
     useEffect(() => {
         const fetchSignature = async () => {
             try {
-
                 fetch(
-                    'http://localhost:8081/api/v1/stages/signatures/employers',
+                    `http://localhost:8081/api/v1/stages/signatures/employers/${employerId}`,
                     {
                         method: 'GET',
                         headers: {
@@ -33,10 +32,12 @@ const EmployerHomePage = () => {
                     }
                 ).catch(error => {
                     console.log(error)
+                    setSignature([])
                 }).then(
                     async (res) => {
-                        const data = await res.json()
+                        let data = []
                         try {
+                            data = await res.json()
                             console.log(res.status)
                             if (res.status === 400) {
                                 console.log(res.status)

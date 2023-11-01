@@ -80,18 +80,22 @@ public class GestionnaireService {
         return gestionnaireDTO;
     }
 
+    @Transactional
     public boolean existsByMatricule(String matricule){
         return gestionnaireRepository.existsByMatricule(matricule);
     }
 
+    @Transactional
     public boolean existsByEmail(String email){
         return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     public boolean existsByMatriculeOrEmail(String matricule, String email){
         return gestionnaireRepository.existsByMatriculeOrEmail(matricule, email);
     }
 
+    @Transactional
     public ArrayList<OffreStageDTO> getToutesLesOffres() {
         List<OffreStage> offreStages = offreStageRepository.findAll();
         ArrayList<OffreStageDTO> offreStageDTOS = new ArrayList<>();
@@ -103,10 +107,12 @@ public class GestionnaireService {
         return offreStageDTOS;
     }
 
+    @Transactional
     public void updateOffreStatus(String titre,String status) {
         offreStageRepository.updateOffreStatusByTitre(titre, OffreStage.Status.valueOf(status));
     }
 
+    @Transactional
     public List<CvDTO> getAllCvs() {
         List<Cv> cvs = cvRepository.findAll();
         List<CvDTO> cvDTOS = new ArrayList<>();
@@ -117,6 +123,7 @@ public class GestionnaireService {
         return cvDTOS;
     }
 
+    @Transactional
     public List<CvDTO> getAllCvsByFileName(String fileName) {
         List<Cv> cvs = cvRepository.getAllByFileName(fileName);
         List<CvDTO> cvDTOS = new ArrayList<>();
@@ -127,9 +134,12 @@ public class GestionnaireService {
         return cvDTOS;
     }
 
+    @Transactional
     public void updateCvStatus(String matricule,String status) {
         cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
     }
+
+    @Transactional
     public List<EntrevueDTODetailed> getStudentsWithEntrevue() {
         List<Entrevue> entrevues = entrevueRepository.findAll();
         List<EntrevueDTODetailed> dtoEntrevue = new ArrayList<>();
@@ -176,6 +186,7 @@ public class GestionnaireService {
         return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());
     }
 
+    @Transactional
     public GestionnaireGetDTO getGestionnaireByAuthentication(){
         Gestionnaire gestionnaire = gestionnaireRepository.findByUtilisateurId(userService.getUserId());
         return GestionnaireGetDTO.fromGestionnaire(gestionnaire);

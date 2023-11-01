@@ -32,7 +32,6 @@ const StudentHomePage = () => {
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-
         if (savedMatricule) {
             setMatricule(savedMatricule);
         }
@@ -60,7 +59,7 @@ const StudentHomePage = () => {
                     setSignature(data);
                 } else {
                     console.error("Failed to fetch data");
-                    setSignature(null)
+                    setSignature([])
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -122,7 +121,7 @@ const StudentHomePage = () => {
             contentToRender = <Dashboard/>;
             break;
         case "signature":
-            contentToRender = <CreateStudentSignature matricule = {matricule}></CreateStudentSignature>
+            contentToRender = <CreateStudentSignature></CreateStudentSignature>
             break;
         default:
             contentToRender = <div>Choisir une section.</div>;

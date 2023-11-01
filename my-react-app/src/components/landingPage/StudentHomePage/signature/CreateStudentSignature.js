@@ -14,17 +14,8 @@ const CreateStudentSignature = ({matricule}) => {
     useEffect(() => {
         const fetchSignature = async () => {
             try {
-                const response = await fetch(
-                    `http://localhost:8081/api/v1/signatures/students/${matricule}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true
-                    }
-                );
+                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${localStorage.getItem("loggedInUserMatricule")}`);
+                console.log(token)
                 if (response.ok) {
                     const data = await response.json();
                     setSignature(data);
@@ -37,16 +28,18 @@ const CreateStudentSignature = ({matricule}) => {
             }
         };
         fetchSignature()
-    }, []);
+    }, [setSignature]);
 
     const saveSignature = async () => {
         try {
             console.log(urlImage.type)
             const imageLink = urlImage.toString()
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             const signature = ({
-                matricule,
+                studentMatricule,
                 imageLink
             })
+            console.log(token)
             console.log(JSON.stringify(signature))
 
             await fetch(
@@ -88,12 +81,12 @@ const CreateStudentSignature = ({matricule}) => {
 
     const handleModif = async () => {
         try {
-            signature["imageLink"] = urlImage
-            signature["studentMatricule"] = matricule
-            console.log(signature["imageLink"])
-            console.log(signature["studentMatricule"])
-            console.log(JSON.stringify(signature))
-
+            const imageLink = urlImage.toString()
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
+            const signature = ({
+                studentMatricule,
+                imageLink
+            })
             await fetch(
                 `http://localhost:8081/api/v1/stages/signatures/students`,
                 {
@@ -132,8 +125,9 @@ const CreateStudentSignature = ({matricule}) => {
 
     const deleteSignature = async () => {
         try {
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/students/${studentMatricule}`,
                 {
                     method: 'DELETE',
                     headers: {

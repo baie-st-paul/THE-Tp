@@ -52,16 +52,19 @@ public class StudentServices {
         return StudentPostDTO.fromStudent(student);
     }
 
+    @Transactional
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
     }
 
+    @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
         System.out.println(student);
         return Student.fromStudent(student);
     }
 
+    @Transactional
     public void updateCv(CvDTO cvDTO) throws IOException{
         cvRepository.updateCvWhenStudentHaveCv(cvDTO.getMatricule(),cvDTO.getFileName(),cvDTO.toCv().getFile_cv(),cvDTO.toCv().getStatus());
     }

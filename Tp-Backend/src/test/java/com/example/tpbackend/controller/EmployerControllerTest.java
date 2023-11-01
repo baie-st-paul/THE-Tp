@@ -108,15 +108,15 @@ public class EmployerControllerTest {
         employerService.saveEmployer(employerPostDTO, employerPostDTO.getEmail(), employerPostDTO.getPassword(), "Employeur");
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
-                1,
                 "dev web",
                 20,
                 "informatique",
                 "fdgd f dfg gfdsfs gdd",
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 27),
+                10,
                 "In_review",
-                10
+                1
         );
         offreStageService.saveOffre(offreStageDTO);
         CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(

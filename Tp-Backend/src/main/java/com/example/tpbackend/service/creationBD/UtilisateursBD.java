@@ -102,7 +102,6 @@ public class UtilisateursBD implements CommandLineRunner {
     public void createOffreStage() {
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
-                1,
                 "Dev web",
                 20,
                 "Informatique",
@@ -113,8 +112,9 @@ public class UtilisateursBD implements CommandLineRunner {
                         " claire pour une convivialité optimale.",
                 LocalDate.of(2023, 10, 20),
                 LocalDate.of(2023, 10, 20),
+                10,
                 "Accepted",
-                10
+                1
         );
         offreStageService.saveOffre(offreStageDTO);
     }

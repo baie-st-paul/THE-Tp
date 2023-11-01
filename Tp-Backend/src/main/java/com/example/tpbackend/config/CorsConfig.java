@@ -1,4 +1,4 @@
-package com.example.tpbackend.confih;
+package com.example.tpbackend.config;
 
 
 

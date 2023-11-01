@@ -25,16 +25,19 @@ public class OffreStageService {
     @Autowired
     private EmployerService employerService;
 
+    @Transactional
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
         offreStage.setEmployer(EmployerGetDTO.fromEmployerDTO(employerService.getEmployerById(offre.getEmployerId())));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
+    @Transactional
     public List<OffreStage> getAllOffres() {
         return offreStageRepository.findAll();
     }
 
+    @Transactional
     public List<OffreStageDTO> getOffres() {
         List<OffreStage> offreStages = offreStageRepository.findAll();
         List<OffreStageDTO> offreStageDTOS = new ArrayList<>();
@@ -46,6 +49,7 @@ public class OffreStageService {
         return offreStageDTOS;
     }
 
+    @Transactional
     public OffreStageDTO convertToDto(OffreStage offreStage) {
         if(offreStage == null) {
             throw new IllegalArgumentException("L'objet OffreStage fourni est null");
@@ -60,6 +64,7 @@ public class OffreStageService {
     }
 
 
+    @Transactional
     public OffreStageDTO getOffreById(long id) {
         return offreStageRepository.findOffreById(id)
                 .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + id)).toOffreStageDTO();
@@ -67,6 +72,7 @@ public class OffreStageService {
 
 
 
+    @Transactional
     public Optional<OffreStageDTO> getOffreStageById(Long id) {
         try {
             return offreStageRepository.findById(id)
@@ -77,6 +83,7 @@ public class OffreStageService {
     }
 
 
+    @Transactional
     public OffreStageDTO updateOffreStage(long id ,OffreStageDTO offreStageDTO){
         OffreStage offreStage = offreStageDTO.toOffreStage();
         offreStage.setId(id);
@@ -84,6 +91,7 @@ public class OffreStageService {
         return offreStageRepository.save(offreStage).toOffreStageDTO();
     }
 
+    @Transactional
     public void deleteOffreStage(long id){
         offreStageRepository.deleteOffreStageById(id);
     }

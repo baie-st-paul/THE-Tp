@@ -13,15 +13,15 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class OffreStageDTO {
     private long id;
-    private long employerId;
     private String titre;
     private double salaire;
     private String studentProgram;
     private String description;
     private LocalDate dateDebut;
     private LocalDate dateFin;
-    private String status;
     private int nbMaxEtudiants;
+    private String status;
+    private long employerId;
 
     public OffreStage toOffreStage() {
         return new OffreStage(

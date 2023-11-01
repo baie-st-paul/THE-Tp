@@ -44,7 +44,14 @@ const StudentHomePage = () => {
 
         const fetchSignature = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/v1/signatures/students/${matricule}`);
+                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                {
+                    
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                });
                 if (response.ok) {
                     const data = await response.json();
                     setSignature(data);
@@ -65,10 +72,10 @@ const StudentHomePage = () => {
                     const data = await response.json();
                     setCvs(data);
                 } else {
-                    console.error("Failed to fetch data");
+                    console.error("Failed to fetch cvs");
                 }
             } catch (error) {
-                console.error("Error fetching data:", error);
+              console.error("Error fetching data:", error);
             }
         };
 
@@ -175,7 +182,6 @@ const StudentHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
-                <h2>Étudiant</h2>
                 {contentToRender}
             </div>
         </div>

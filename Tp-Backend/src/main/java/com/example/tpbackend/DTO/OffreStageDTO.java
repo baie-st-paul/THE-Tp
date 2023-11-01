@@ -45,6 +45,7 @@ public class OffreStageDTO {
         }
         OffreStageDTO offreStageDTO = new OffreStageDTO();
         BeanUtils.copyProperties(offreStage, offreStageDTO);
+        offreStageDTO.setEmployerId(offreStage.getEmployer().getId());
         return offreStageDTO;
     }
 }

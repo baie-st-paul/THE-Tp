@@ -179,7 +179,7 @@ public class UtilisateursBD implements CommandLineRunner {
         );
         OffreStageDTO offreStageDTO1 = new OffreStageDTO(
                 2,
-                "Dev web",
+                "Dev web autre",
                 20,
                 "Informatique",
                 "Un développeur Web est responsable de la conception, du codage et de la modification des sites Web," +

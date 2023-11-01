@@ -7,12 +7,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Employer {
     @GeneratedValue(strategy = GenerationType.AUTO)

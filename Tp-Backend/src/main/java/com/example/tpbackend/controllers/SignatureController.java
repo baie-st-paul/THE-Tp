@@ -74,4 +74,60 @@ public class SignatureController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/students/create")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<SignatureDTO> createStudentSignature(@RequestBody SignatureDTO dto) {
+        try {
+            SignatureDTO signature = signatureService.createStudentSignature(dto);
+            return new ResponseEntity<>(signature, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.out.println(dto);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/students")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<SignatureDTO> updateStudentSignature(@RequestBody SignatureDTO dto) {
+        try {
+            SignatureDTO signature = signatureService.updateStudentSignature(dto);
+            return ResponseEntity.ok(signature);
+        } catch (Exception e) {
+            System.out.println(dto);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/students/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<SignatureDTO> getStudentSignature(@PathVariable String matricule) {
+        try {
+            SignatureDTO signature = signatureService.getStudentSignature(matricule);
+            if (signature != null) {
+                return ResponseEntity.ok(signature);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.out.println(matricule);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/students/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<String> deleteStudentSignature(@PathVariable String matricule) {
+        try {
+            signatureService.deleteStudentSignature(matricule);
+            return ResponseEntity.ok("Signature supprimée");
+        } catch (Exception e) {
+            System.out.println(matricule);
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

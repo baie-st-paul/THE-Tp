@@ -15,6 +15,8 @@ const EtudiantEmbauchePage = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
 
+    const token = localStorage.getItem('token');
+
     useEffect(() => {
         getEtudiantsEmbauches();
     },[])
@@ -27,7 +29,9 @@ const EtudiantEmbauchePage = () => {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
-                    }
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true
                 }
             ).catch(error => {
                 console.log(error)
@@ -71,7 +75,9 @@ const EtudiantEmbauchePage = () => {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
                     },
+                    withCredentials: true,
                     body: JSON.stringify(contratStage)
                 }
             ).catch(error => {

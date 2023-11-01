@@ -2,6 +2,7 @@ package com.example.tpbackend.models;
 
 import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,18 +21,26 @@ public class Signature {
     @JoinColumn(name = "employer_id")
     private Employer employer;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "student_id")
+    private Student student;
+
     @Lob
     @Column(name = "image_link")
     private String imageLink;
+
 
     public Signature(String imageLink) {
         this.imageLink = imageLink;
     }
 
     public SignatureDTO toSignatureDTO() {
-        return new SignatureDTO(
-                employer.getId(),
-                imageLink
-        );
+        SignatureDTO dto = new SignatureDTO();
+        if(employer != null)
+            dto.setEmployerId(employer.getId());
+        if(student != null)
+            dto.setStudentMatricule(student.getMatricule());
+        dto.setImageLink(imageLink);
+        return dto;
     }
 }

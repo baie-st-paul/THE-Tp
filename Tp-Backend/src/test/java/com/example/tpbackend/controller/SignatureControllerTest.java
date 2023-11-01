@@ -84,4 +84,59 @@ public class SignatureControllerTest {
                 .andExpect(jsonPath("$.imageLink", is("www.example.org")))
                 .andExpect(jsonPath("$.employerId", is(1)));
     }
+
+    @Test
+    public void testGetStudentSignature() throws Exception {
+        SignatureDTO signature = new SignatureDTO();
+        signature.setImageLink("www.example.org");
+        signature.setStudentMatricule("2222222");
+
+        when(signatureService.getStudentSignature("2222222")).thenReturn(signature);
+
+        mockMvc.perform(get("/api/v1/stages/signatures/students/2222222")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.studentMatricule", is("2222222")))
+                .andExpect(jsonPath("$.imageLink", is("www.example.org")));
+    }
+
+    @Test
+    public void testUpdateStudentSignature() throws Exception {
+        SignatureDTO oldSignature = new SignatureDTO();
+        oldSignature.setImageLink("www.example.org");
+        oldSignature.setStudentMatricule("2222222");
+
+        SignatureDTO signature = new SignatureDTO();
+        signature.setImageLink("www.google.com");
+        signature.setStudentMatricule("2222222");
+
+        when(signatureService.updateEmployerSignature(signature)).thenReturn(signature);
+
+        mockMvc.perform(put("/api/v1/stages/signatures/employers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(signature)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.imageLink", is("www.google.com")))
+                .andExpect(jsonPath("$.studentMatricule", is("2222222")))
+                .andExpect(jsonPath("$.imageLink", Matchers.not("www.example.org")));
+    }
+
+    @Test
+    public void testCreateStudentSignature() throws Exception {
+        SignatureDTO signature = new SignatureDTO();
+        signature.setImageLink("www.example.org");
+        signature.setStudentMatricule("2222222");
+
+        when(signatureService.createStudentSignature(signature)).thenReturn(signature);
+        String jsonContent = objectMapper.writeValueAsString(signature);
+
+        mockMvc.perform(post("/api/v1/stages/signatures/students/create")
+                        .content(jsonContent)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.imageLink", is("www.example.org")))
+                .andExpect(jsonPath("$.studentMatricule", is("2222222")));
+    }
+
+
 }

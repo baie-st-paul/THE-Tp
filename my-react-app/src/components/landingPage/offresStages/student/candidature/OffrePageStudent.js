@@ -40,7 +40,6 @@ const OffresPageStudent = () => {
             }
         };
 
-        //problem reload fetchCandidatures à voir
         const fetchCandidatures = async () => {
             try {
                 const token = localStorage.getItem('token');

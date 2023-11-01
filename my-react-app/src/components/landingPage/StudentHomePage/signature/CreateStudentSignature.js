@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import {FaPencilAlt, FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 
-const CreateSignature = ({employerId}) => {
+const CreateStudentSignature = ({matricule}) => {
     const [sign, setSign] = useState(null)
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
@@ -12,38 +12,31 @@ const CreateSignature = ({employerId}) => {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        fetch(
-            'http://localhost:8081/api/v1/stages/signatures/employers',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true
-            }
-        ).catch(error => {
-            console.log(error)
-        }).then(
-            async (res) => {
-                const data = await res.json()
-                try {
-                    console.log(res.status)
-                    if (res.status === 400) {
-                        console.log(res.status)
+        const fetchSignature = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:8081/api/v1/signatures/students/${matricule}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true
                     }
-                } catch (e) {
-                    console.log(e)
-                }
-                console.log(data.length)
-                data.map((dataS) => console.log(dataS))
-                if(data.length === 0) {
-                    setSignature(null)
+                );
+                if (response.ok) {
+                    const data = await response.json();
+                    setSignature(data);
                 } else {
-                    data.map((dataS) => setSignature(dataS)
-                    )
+                    console.error("Failed to fetch data");
+                    setSignature(null)
                 }
-            })
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchSignature()
     }, []);
 
     const saveSignature = async () => {
@@ -51,13 +44,13 @@ const CreateSignature = ({employerId}) => {
             console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
-                employerId,
+                matricule,
                 imageLink
             })
             console.log(JSON.stringify(signature))
 
             await fetch(
-                'http://localhost:8081/api/v1/stages/signatures/employers/create',
+                'http://localhost:8081/api/v1/stages/signatures/students/create',
                 {
                     method: 'POST',
                     headers: {
@@ -96,13 +89,13 @@ const CreateSignature = ({employerId}) => {
     const handleModif = async () => {
         try {
             signature["imageLink"] = urlImage
-            signature["employerId"] = employerId
+            signature["studentMatricule"] = matricule
             console.log(signature["imageLink"])
-            console.log(signature["employerId"])
+            console.log(signature["studentMatricule"])
             console.log(JSON.stringify(signature))
 
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employers`,
+                `http://localhost:8081/api/v1/stages/signatures/students`,
                 {
                     method: 'PUT',
                     headers: {
@@ -116,7 +109,7 @@ const CreateSignature = ({employerId}) => {
                 console.log(err)
             }).then(
                 (res) => {
-                    const data= res.json()
+                    const data = res.json()
                     try{
                         console.log(res.status)
                         if (res.status === 400) {
@@ -140,13 +133,14 @@ const CreateSignature = ({employerId}) => {
     const deleteSignature = async () => {
         try {
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employers/${employerId}`,
+                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
                 {
                     method: 'DELETE',
                     headers: {
+                        'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    withCredentials: true
+                    withCredentials: true,
                 }
             ).catch(error => {
                 console.log(error)
@@ -245,4 +239,4 @@ const CreateSignature = ({employerId}) => {
     )
 }
 
-export default CreateSignature
+export default CreateStudentSignature

@@ -17,13 +17,18 @@ import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
 import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
+import CreateStudentSignature from "./signature/CreateStudentSignature";
+import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
-    const [matricule, setMatricule] = useState(null);
+    const [matricule, setMatricule] = useState(localStorage.getItem("loggedInUserMatricule"));
     const [activeContent, setActiveContent] = useState("none");
+    const [signature, setSignature] = useState(null);
     const [cvs, setCvs] = useState([]);
     const navigate = useNavigate()
+
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -36,6 +41,33 @@ const StudentHomePage = () => {
             setMatricule(loggedInUser.matricule);
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
+
+        console.log(matricule)
+
+        const fetchSignature = async () => {
+            try {
+                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setSignature(data);
+                } else {
+                    console.error("Failed to fetch data");
+                    setSignature(null)
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+
         const fetchCv = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -51,13 +83,14 @@ const StudentHomePage = () => {
                     const data = await response.json();
                     setCvs(data);
                 } else {
-                    console.error("Failed to fetch data");
+                    console.error("Failed to fetch cvs");
                 }
             } catch (error) {
-                console.error("Error fetching data:", error);
+              console.error("Error fetching data:", error);
             }
         };
 
+        fetchSignature()
         fetchCv()
     }, [loggedInUser, setLoggedInUser]);
 
@@ -88,6 +121,9 @@ const StudentHomePage = () => {
         case "dashboard":
             contentToRender = <Dashboard/>;
             break;
+        case "signature":
+            contentToRender = <CreateStudentSignature matricule = {matricule}></CreateStudentSignature>
+            break;
         default:
             contentToRender = <div>Choisir une section.</div>;
             break;
@@ -97,10 +133,15 @@ const StudentHomePage = () => {
         <div className="student-homepage">
             <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
                 <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
-                <Navbar.Collapse id="basic-navbar-nav">               
+                <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <ul className="navbar-nav px-2">
                             <ul className="navbar-nav ml-auto px-1">
+                                <li className="nav-item navbarbutton">
+                                    <button className="nav-link" onClick={() => handleButtonClick("signature")}>
+                                        <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
+                                    </button>
+                                </li>
                                 <li className="nav-item navbarbutton deconnecter">
                                     <button className="nav-link" onClick={() => handleDisconnect()}>
                                         <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
@@ -146,13 +187,12 @@ const StudentHomePage = () => {
                                     </div>
                                 ))
                             }
-                        </ul>   
+                        </ul>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
 
             <div className="container content-container mt-4">
-                <h2>Étudiant</h2>
                 {contentToRender}
             </div>
         </div>

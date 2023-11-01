@@ -53,12 +53,14 @@ public class GestionnaireController {
     }
 
     @GetMapping("/studentsWithEntrevue")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<EntrevueDTODetailed>> getStudentsWithEntrevue() {
         List<EntrevueDTODetailed> studentDTOS = gestionnaireService.getStudentsWithEntrevue();
         return new ResponseEntity<>(studentDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/create-contrat")
+    @PreAuthorize("authenticated")
     public ResponseEntity<?> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
         try {
             ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
@@ -70,6 +72,7 @@ public class GestionnaireController {
     }
 
     @GetMapping("/candidatures/acceptees")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<CandidatureDTO>> getCandidaturesAcceptees() {
         List<CandidatureDTO> dtoList = gestionnaireService.getCandidaturesAcceptees();
         return ResponseEntity.ok(dtoList);

@@ -71,6 +71,47 @@ public class UtilisateursBD implements CommandLineRunner {
             System.out.println(e.getMessage());
         }
 
+        LinkedHashMap<String, String> studentDTO2 = new LinkedHashMap<>();
+        studentDTO2.put("matricule", "7654321");
+        studentDTO2.put("program", "info");
+        try{
+            RegisterRequest<?> registerRequest2 = new RegisterRequest<>(
+                    "lina",
+                    "lac",
+                    "student@gmail.com",
+                    "+14389999999",
+                    "Root!123",
+                    "Student",
+                    studentDTO2
+            );
+            authenticationService.register(registerRequest2);
+            System.out.println(registerRequest2);
+            studentServices.updateTag("7654321","AU20");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        LinkedHashMap<String, String> studentDTO3 = new LinkedHashMap<>();
+        studentDTO3.put("matricule", "0123456");
+        studentDTO3.put("program", "info");
+        try{
+            RegisterRequest<?> registerRequest3 = new RegisterRequest<>(
+                    "lina",
+                    "lac",
+                    "student2@gmail.com",
+                    "+14389999992",
+                    "Root!123",
+                    "Student",
+                    studentDTO3
+            );
+            authenticationService.register(registerRequest3);
+            System.out.println(registerRequest3);
+            studentServices.updateTag("0123456","AU20");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

@@ -150,4 +150,8 @@ public class StudentServices {
     public void reinscriptionANouvelleSession(String matricule){
         studentRepository.updateTagNameByMatricule(matricule,TagGenerator.getCurrentSession());
     }
+
+    public void updateTag(String matricule,String tag){
+        studentRepository.updateTagNameByMatricule(matricule,tag);
+    }
 }

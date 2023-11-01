@@ -14,7 +14,17 @@ const CreateStudentSignature = ({matricule}) => {
     useEffect(() => {
         const fetchSignature = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${localStorage.getItem("loggedInUserMatricule")}`);
+                const response = await fetch(
+                    `http://localhost:8081/api/v1/stages/signatures/students/${localStorage.getItem("loggedInUserMatricule")}`,
+                {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                    }
+                );
                 console.log(token)
                 if (response.ok) {
                     const data = await response.json();

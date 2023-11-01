@@ -65,7 +65,8 @@ public class EmployerControllerTest {
                 studentGetDTO,
                 offreStageDTO,
                 cvDTO,
-                "status"
+                "status",
+                new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
 
         List<CandidatureDTO> candidatureDTOList = List.of(candidatureDTO);
@@ -122,7 +123,6 @@ public class EmployerControllerTest {
         );
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
-                1,
                 "dev web",
                 20,
                 "informatique",
@@ -131,8 +131,8 @@ public class EmployerControllerTest {
                 LocalDate.of(2023, 10, 27),
                 10,
                 "In_review",
-                1
-                10,new Tag(TagGenerator.getCurrentSession()).getTagName()
+                1,
+                new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
         offreStageService.saveOffre(offreStageDTO);
         CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(

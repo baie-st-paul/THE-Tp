@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 import Card from "react-bootstrap/Card";
-import {ListGroup} from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 import ReactModal from 'react-modal';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -18,9 +18,11 @@ const customStyles = {
     },
 };
 
-export default function OffresPageGestionnaire({listeOffres}) {
+export default function OffresPageGestionnaire({ listeOffres }) {
     const [offres, setOffres] = useState([]);
+    const [sessions, setSession] = useState([]);
     const [filterOption, setFilterOption] = useState("all");
+    const [selectedTagName, setSelectedTagName] = useState("");
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [selectedOffre, setSelectedOffre] = useState(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -52,11 +54,41 @@ export default function OffresPageGestionnaire({listeOffres}) {
             }
         };
 
+        const fetchSessions = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(
+                    'http://localhost:8081/api/v1/gestionnaire/getSessions',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                    }
+                );
+                if (response.ok) {
+                    const data = await response.json();
+                    setSession(data);
+                } else {
+                    console.error("Failed to fetch data");
+                }
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchSessions();
         fetchOffreList();
     }, [shouldRefetch]);
 
     const handleFilterChange = (event) => {
-        setFilterOption(event.target.value);
+        const value = event.target.value;
+        if (event.target.name === "filterOption") {
+            setFilterOption(value);
+        } else if (event.target.name === "tagName") {
+            setSelectedTagName(value);
+        }
     };
 
     const openConfirmationModal = (type) => {
@@ -100,41 +132,58 @@ export default function OffresPageGestionnaire({listeOffres}) {
         }
     };
 
-    const filteredOffreList =
-        filterOption === "all"
-            ? offres
-            : offres.filter((offreDto) => offreDto.status === filterOption);
+    const filteredOffreList = offres
+        .filter((offreDto) => filterOption === "all" || offreDto.status === filterOption)
+        .filter((offreDto) => !selectedTagName || offreDto.tag === selectedTagName);
+
+    console.log(sessions)
+    console.log(offres)
 
     return (
         <div>
             <h1 className="display-4 text-center">Liste des offres de stage</h1>
             <div className="row align-items-center">
-                <div className="col-md-6">
+                <div className="col-md-3">
                     <h3 className="mb-0">Filtrer par</h3>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                     <select
                         className="form-control w-100 d-inline"
+                        name="filterOption"
                         value={filterOption}
                         onChange={handleFilterChange}
                     >
-                        <option value="all">Tout</option>
+                        <option value="all">Tous les états</option>
                         <option value="In_review">En attente</option>
                         <option value="Accepted">Accepté</option>
                         <option value="Refused">Refusé</option>
                     </select>
                 </div>
+                <div className="col-md-3">
+                    <select
+                        className="form-control w-100 d-inline"
+                        name="tagName"
+                        value={selectedTagName}
+                        onChange={handleFilterChange}
+                    >
+                        <option value="">Toutes les sessions</option>
+                        {sessions.map((session, index) => (
+                            <option key={index} value={session.tagName}>
+                                {session.tagName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
-
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container>
                     {filteredOffreList.map((offre, index) => (
                         <div key={index} style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                             <Grid item xs={12} sm={12} md={4} lg={4}>
                                 <Card onClick={() => setSelectedOffre(offre)}
-                                      style={{ width: '30rem', margin: '5px', textAlign: "left"}}>
+                                      style={{ width: '30rem', margin: '5px', textAlign: "left" }}>
                                     <Card.Body>
-                                        <Card.Title style={{textDecorationLine: 'underline'}}>
+                                        <Card.Title style={{ textDecorationLine: 'underline' }}>
                                             {offre.titre}
                                         </Card.Title>
                                         {offre.description}
@@ -181,7 +230,6 @@ export default function OffresPageGestionnaire({listeOffres}) {
                     ))}
                 </Grid>
             </Box>
-
             <ReactModal
                 isOpen={isConfirmationModalOpen}
                 onRequestClose={closeConfirmationModal}
@@ -211,4 +259,4 @@ export default function OffresPageGestionnaire({listeOffres}) {
             </ReactModal>
         </div>
     );
-};
+}

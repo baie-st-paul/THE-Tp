@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.utilisateur.student;
 
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class StudentGetDTO {
     private String phoneNumber;
     private String matricule;
     private String program;
+    private String tag;
 
     public static StudentGetDTO fromStudent(Student student) {
         if (student == null) {
@@ -27,7 +29,8 @@ public class StudentGetDTO {
                 student.getUtilisateur().getEmail(),
                 student.getUtilisateur().getPhoneNumber(),
                 student.getMatricule(),
-                student.getProgram()
+                student.getProgram(),
+                student.getTagName()
         );
     }
 }

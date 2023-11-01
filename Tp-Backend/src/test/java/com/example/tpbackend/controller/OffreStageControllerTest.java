@@ -3,7 +3,9 @@ package com.example.tpbackend.controller;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.OffreStageController;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.TagGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +57,9 @@ public class OffreStageControllerTest {
                         LocalDate.now().plusDays(10),
                         5,
                         "In_review",
+                        5,new Tag(TagGenerator.getCurrentSession()).getTagName()),
+                new OffreStageDTO(2L,
+                        3L,
                         2L),
                 new OffreStageDTO(
                         2L,

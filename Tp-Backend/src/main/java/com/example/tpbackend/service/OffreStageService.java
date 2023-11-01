@@ -3,13 +3,15 @@ package com.example.tpbackend.service;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
 import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import jakarta.transaction.Transactional;
 import com.example.tpbackend.service.utilisateur.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ public class OffreStageService {
 
     @Autowired
     private EmployerService employerService;
+    @Autowired
+    private TagRepository tagRepository;
 
     @Autowired
     private UserService userService;
@@ -33,6 +37,17 @@ public class OffreStageService {
     @Transactional
     public OffreStageDTO saveOffre(OffreStageDTO offre) {
         OffreStage offreStage = offre.toOffreStage();
+        if(offre.getTag() == null) {
+            if (tagRepository.existsByTagName(getTag().getTagName())) {
+                offreStage.setTagName(getTag().getTagName());
+            } else {
+                offreStage.setTagName(getTag().getTagName());
+                tagRepository.save(new Tag(getTag().getTagName()));
+            }
+        }
+        else {
+            offreStage.setTagName(offre.getTag());
+        }
         offreStage.setEmployer(employerService.getEmployerById(offre.getEmployerId()));
         System.out.println("here" + employerService.getEmployerById(offre.getEmployerId()));
         return offreStageRepository.save(offreStage).toOffreStageDTO();
@@ -110,5 +125,8 @@ public class OffreStageService {
         }
         System.out.println(offreStageDTOS);
         return offreStageDTOS;
+    }
+    public Tag getTag(){
+        return new Tag(TagGenerator.getCurrentSession());
     }
 }

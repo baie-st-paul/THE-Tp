@@ -5,6 +5,7 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -82,5 +83,11 @@ public class GestionnaireController {
     @PreAuthorize("authenticated")
     public ResponseEntity<GestionnaireGetDTO> getGestionnaire() {
         return new ResponseEntity<>(gestionnaireService.getGestionnaireByAuthentication(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getSessions")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<TagDTO>> getAllTags() {
+        return new ResponseEntity<>(gestionnaireService.getAllTags(), HttpStatus.OK);
     }
 }

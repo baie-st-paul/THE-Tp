@@ -44,7 +44,7 @@ class OffreStageServiceTest {
     @MockBean
     private OffreStageRepository offreStageRepository;
 
-    @Autowired
+    @MockBean
     private OffreStageService offreStageService;
 
     @MockBean

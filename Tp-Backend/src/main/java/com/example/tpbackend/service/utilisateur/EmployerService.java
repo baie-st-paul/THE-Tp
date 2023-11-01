@@ -3,10 +3,13 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.TagGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class EmployerService {
     private EmployerRepository employerRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private TagRepository tagRepository;
     @Autowired
     private UserService userService;
 
@@ -56,4 +61,14 @@ public class EmployerService {
         return EmployerGetDTO.fromEmployer(employer);
     }
 
+    public Tag getTag(){
+        Tag tag;
+        try{
+            tag = new Tag(TagGenerator.getCurrentSession());
+            tagRepository.save(tag);
+        }catch (Exception e){
+            tag = new Tag(TagGenerator.getCurrentSession());
+        }
+        return tag;
+    }
 }

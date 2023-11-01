@@ -14,6 +14,7 @@ import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
@@ -29,6 +30,7 @@ import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.EntrevueService;
 import com.example.tpbackend.service.security.AuthenticationService;
+
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import org.junit.jupiter.api.Disabled;
 import java.io.IOException;

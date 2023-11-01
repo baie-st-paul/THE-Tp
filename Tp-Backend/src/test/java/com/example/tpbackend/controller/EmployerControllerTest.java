@@ -9,8 +9,9 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.EmployerController;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.yaml.snakeyaml.tokens.Token.ID.Tag;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EmployerController.class)
@@ -95,12 +97,8 @@ public class EmployerControllerTest {
     @Test
     public void testAcceptCandidature() throws Exception {
         StudentPostDTO studentPostDTO = new StudentPostDTO(
-                "1234567",
-                "informatique"
-        );
-
-
-
+                "3939494",
+                "informatique");
         studentService.saveStudent(
                 "first",
                 "last",
@@ -124,6 +122,7 @@ public class EmployerControllerTest {
         );
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 1,
+                1,
                 "dev web",
                 20,
                 "informatique",
@@ -133,6 +132,7 @@ public class EmployerControllerTest {
                 10,
                 "In_review",
                 1
+                10,new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
         offreStageService.saveOffre(offreStageDTO);
         CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(

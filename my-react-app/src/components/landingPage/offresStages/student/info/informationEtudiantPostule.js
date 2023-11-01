@@ -89,39 +89,34 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         }
     }
 
-    async function allEntrevuesStudentMatricule() {
+    const allEntrevuesStudentMatricule = async ()=> {
+        const token = localStorage.getItem('token');
         try {
-            listeEtudiants.map(async (candidature) => {
-                const matricule = candidature.student.matricule
-                console.log(matricule)
-                const token = localStorage.getItem('token');
-
-                fetch(
-                    `http://localhost:8081/api/v1/stages/entrevues/${matricule}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                ).catch(error => {
-                    console.log(error)
-                }).then(
-                    async (res) => {
-                        const data = await res.json()
-                        try {
+            await fetch(
+                'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }
+        ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
                             console.log(res.status)
-                            if (res.status === 400) {
-                                console.log(res.status)
-                            }
-                        } catch (e) {
-                            console.log(e)
                         }
-                        setEntrevues(data)
-                    })
-            })
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setEntrevues(data)
+                })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (entrevues !== undefined){
@@ -174,6 +169,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
+        window.location.reload();
     }
 
     const setModal = () => {

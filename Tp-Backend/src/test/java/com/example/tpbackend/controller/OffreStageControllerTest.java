@@ -1,6 +1,7 @@
 package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.OffreStageController;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
@@ -9,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringRunner.class)
 @WebMvcTest(OffreStageController.class)
 public class OffreStageControllerTest {
@@ -34,6 +37,9 @@ public class OffreStageControllerTest {
 
     @MockBean
     private OffreStageService offreStageService;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private List<OffreStageDTO> offres;
 

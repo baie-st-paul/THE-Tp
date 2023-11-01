@@ -29,6 +29,7 @@ import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
+import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
@@ -76,6 +77,9 @@ class StudentServicesTest {
     private StudentRepository studentRepository;
 
     @MockBean
+    private AuthenticationService authenticationService;
+
+    @Autowired
     private StudentServices studentServices;
 
     /**
@@ -269,6 +273,7 @@ class StudentServicesTest {
         verify(cv).setMatricule(Mockito.<String>any());
         verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
     }
+
 
 
     /**

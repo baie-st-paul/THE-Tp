@@ -64,17 +64,20 @@ public class SignatureService {
         signatureRepository.deleteSignatureById(id);
     }
 
+    @Transactional
     public SignatureDTO createStudentSignature(SignatureDTO dto){
         Student student = studentRepository.findByMaticule(dto.getStudentMatricule());
         Signature signature = new Signature();
         signature.setStudent(student);
         signature.setImageLink(dto.getImageLink());
+        System.out.print(signature);
         signatureRepository.save(signature);
         student.setSignature(signature);
         studentRepository.save(student);
         return signature.toSignatureDTO();
     }
 
+    @Transactional
     public SignatureDTO getStudentSignature(String matricule){
         Signature signature = signatureRepository.findSignatureByStudent_Matricule(matricule);
         if (signature == null)
@@ -82,16 +85,20 @@ public class SignatureService {
         return signature.toSignatureDTO();
     }
 
+    @Transactional
     public SignatureDTO updateStudentSignature(SignatureDTO dto){
         Student student = studentRepository.findByMaticule(dto.getStudentMatricule());
         Signature signature = signatureRepository.findSignatureByStudent_Matricule(dto.getStudentMatricule());
+        System.out.println(signature);
         signature.setImageLink(dto.getImageLink());
         student.setSignature(signature);
-        studentRepository.save(student);
+        System.out.println(dto.getImageLink());
         signatureRepository.save(signature);
+        studentRepository.save(student);
         return signature.toSignatureDTO();
     }
 
+    @Transactional
     public void deleteStudentSignature(String matricule){
         Student student = studentRepository.findByMaticule(matricule);
         Signature signature = signatureRepository.findSignatureByStudent_Matricule(matricule);

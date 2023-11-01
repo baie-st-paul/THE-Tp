@@ -22,7 +22,7 @@ public class Signature {
     private Employer employer;
 
     @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_matricule")
     private Student student;
 
     @Lob

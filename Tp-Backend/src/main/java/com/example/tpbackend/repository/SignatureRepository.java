@@ -27,5 +27,6 @@ public interface SignatureRepository extends JpaRepository<Signature, Long> {
     @Query("DELETE FROM Signature s WHERE s.employer.id = ?1")
     void deleteSignatureById(long id);
 
+    @Transactional
     Signature findSignatureByStudent_Matricule(String matricule);
 }

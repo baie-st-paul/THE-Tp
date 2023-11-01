@@ -24,7 +24,8 @@ const CreateStudentSignature = ({matricule}) => {
                 console.error("Error fetching data:", error);
             }
         };
-    }, []);
+        fetchSignature();
+    }, [setSignature]);
 
     const saveSignature = async () => {
         try {
@@ -74,12 +75,12 @@ const CreateStudentSignature = ({matricule}) => {
 
     const handleModif = async () => {
         try {
-            signature["imageLink"] = urlImage
-            signature["studentMatricule"] = matricule
-            console.log(signature["imageLink"])
-            console.log(signature["studentMatricule"])
-            console.log(JSON.stringify(signature))
-
+            const imageLink = urlImage.toString()
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
+            const signature = ({
+                studentMatricule,
+                imageLink
+            })
             await fetch(
                 `http://localhost:8081/api/v1/stages/signatures/students`,
                 {
@@ -116,8 +117,9 @@ const CreateStudentSignature = ({matricule}) => {
 
     const deleteSignature = async () => {
         try {
+            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/students/${studentMatricule}`,
                 {
                     method: 'DELETE'
                 }

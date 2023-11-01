@@ -224,9 +224,14 @@ const CreateSignature = ({employerId}) => {
                     />
                     </Button>
                 }
-                {signature === null &&
+                {signature === null && urlImage !== null ?
                     <Button className="btn btn-success"
                             onClick={saveSignature}>
+                        Approuver <FaPencilAlt
+                        style={{color: 'black'}}
+                    />
+                    </Button> :
+                    <Button className="btn btn-success disabled">
                         Approuver <FaPencilAlt
                         style={{color: 'black'}}
                     />

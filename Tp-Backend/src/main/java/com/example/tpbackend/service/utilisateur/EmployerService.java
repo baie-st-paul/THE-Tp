@@ -1,11 +1,14 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployerService {
@@ -26,6 +30,8 @@ public class EmployerService {
     private TagRepository tagRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    ContratStageRepository contratStageRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -71,4 +77,9 @@ public class EmployerService {
         }
         return tag;
     }
+
+   public List<ContratStageDTO> getContratStageByEmpleur(Long employeurId) {
+        List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
+        return contrats.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+   }
 }

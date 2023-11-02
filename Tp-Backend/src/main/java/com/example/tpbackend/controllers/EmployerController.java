@@ -65,4 +65,6 @@ public class EmployerController {
         }
         return ResponseEntity.ok(candidatures);
     }
+
+
 }

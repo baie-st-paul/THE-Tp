@@ -14,11 +14,9 @@ import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import jakarta.transaction.Transactional;
-import com.example.tpbackend.service.security.AuthenticationService;
 
 import com.example.tpbackend.service.TagGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -162,8 +160,8 @@ public class StudentServices {
         studentRepository.updateTagNameByMatricule(matricule,tag);
     }
 
-    public List<ContratStageDTO> getContratByStudent(Long studentId){
-        List<ContratStage> studentContracts = studentRepository.findByStudent_Id(studentId);
+    public List<ContratStageDTO> getContratByStudent(String studentId){
+        List<ContratStage> studentContracts = studentRepository.findByStudent_matricule(studentId);
         return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
     }
 }

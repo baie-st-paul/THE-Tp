@@ -111,7 +111,7 @@ public class StudentController {
     }
 
     @GetMapping("/student-contracts/{studentId}")
-    public ResponseEntity<?> getContratsByStudent(@PathVariable Long  studendId) {
+    public ResponseEntity<?> getContratsByStudent(@PathVariable String  studendId) {
         try {
             List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studendId);
             return ResponseEntity.ok(studentContracts);

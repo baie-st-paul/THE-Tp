@@ -1,8 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -10,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -19,7 +18,6 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
@@ -666,5 +664,15 @@ class StudentServicesTest {
 
         studentServices.deleteStudentByMatricule("Matricule");
     }
+
+   /* @Test
+    void TestGetContratByStudent() {
+        ArrayList<ContratStageDTO> contratStageDTOList = new ArrayList<>();
+        when(studentServices.getContratByStudent(Mockito.<String>any())).thenReturn(contratStageDTOList);
+        List<ContratStageDTO> actualContratStageByStudent = studentServices.getContratByStudent("1234567");
+        assertSame(contratStageDTOList, actualContratStageByStudent);
+        assertTrue(actualContratStageByStudent.isEmpty());
+        verify(studentRepository).findByStudent_matricule(Mockito.<String>any());
+    }*/
 }
 

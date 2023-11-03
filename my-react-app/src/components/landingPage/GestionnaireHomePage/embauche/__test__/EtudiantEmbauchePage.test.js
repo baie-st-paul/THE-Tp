@@ -32,7 +32,7 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         expect(await screen.findByTestId('lina')).toBeInTheDocument()
         expect(await screen.findByTestId('Moskalenko')).toBeInTheDocument()
 
-        expect(screen.getByText('Résumé')).toBeInTheDocument()
+        expect(screen.getByText('CV')).toBeInTheDocument()
         expect(screen.getByText('Lettre de motivation')).toBeInTheDocument()
         expect(screen.getByText('Créer un contrat de stage')).toBeInTheDocument()
     });
@@ -54,7 +54,7 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         render(<EtudiantEmbauchePage/>)
 
         expect(await screen.findByTestId('danil')).toBeInTheDocument()
-        const bouttonElement = await screen.getByText('Résumé')
+        const bouttonElement = await screen.getByText('CV')
         expect(bouttonElement).toBeInTheDocument()
 
         try{

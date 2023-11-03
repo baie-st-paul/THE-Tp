@@ -29,30 +29,6 @@ const SessionController = ({ sessionTag, studentTag }) => {
         window.location.reload();
     };
 
-    const handleDesinscription = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8081/api/v1/student/deleteStudentByMatricule/${localStorage.getItem("loggedInUserMatricule")}`, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log("this is 1" + data)
-                setMessage(data);
-            } else {
-                console.error("Failed to fetch data");
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-        navigate('/')
-    };
-
     return (
         <div className="container text-center">
             <p className="mt-5 mb-3" style={{ fontSize: '24px' }}>
@@ -62,11 +38,6 @@ const SessionController = ({ sessionTag, studentTag }) => {
                 <div className="col-md">
                     <button className="btn btn-success btn-block" onClick={handleReinscription}>
                         Je me réinscris à cette session {sessionTag}
-                    </button>
-                </div>
-                <div className="col-md">
-                    <button className="btn btn-danger btn-block" onClick={handleDesinscription}>
-                        Je souhaite me désinscrire de la plateforme
                     </button>
                 </div>
             </div>

@@ -21,8 +21,4 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     @Query("UPDATE Student s SET s.tagName = ?2 WHERE s.matricule = ?1")
     void updateTagNameByMatricule(@Param("matricule") String matricule, @Param("tagName") String tagName);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Student s WHERE s.matricule = ?1")
-    void deleteByMatricule(@Param("matricule") String matricule);
 }

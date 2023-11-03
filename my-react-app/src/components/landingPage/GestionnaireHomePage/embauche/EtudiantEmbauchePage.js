@@ -134,7 +134,7 @@ const EtudiantEmbauchePage = () => {
                             <Card.Body>
                                 <Button className="btn btn-primary"
                                         onClick={() => handleMontrerCv(candidature)}>
-                                    Résumé <FaIdCard
+                                    CV <FaIdCard
                                     style={{color: 'black'}}
                                 />
                                 </Button>

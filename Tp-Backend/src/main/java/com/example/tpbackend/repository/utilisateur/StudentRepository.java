@@ -28,8 +28,4 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
     @Transactional
     @Query("DELETE FROM Student s WHERE s.matricule = ?1")
     void deleteByMatricule(@Param("matricule") String matricule);
-
-    @Query("SELECT c FROM ContratStage c WHERE c.student.matricule = ?1")
-    List<ContratStage> findByStudent_matricule(String studentId);
-
 }

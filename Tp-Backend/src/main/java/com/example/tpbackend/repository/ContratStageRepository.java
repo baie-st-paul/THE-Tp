@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ContratStageRepository extends JpaRepository<ContratStage, Long> {
+    List<ContratStage> findByStudentMatricule(String matricule);
 }

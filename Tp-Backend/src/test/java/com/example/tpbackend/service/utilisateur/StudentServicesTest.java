@@ -7,6 +7,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
@@ -42,6 +43,7 @@ import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +55,6 @@ import org.springframework.web.multipart.MultipartFile;
 @ContextConfiguration(classes = {StudentServices.class})
 @ExtendWith(SpringExtension.class)
 class StudentServicesTest {
-    @MockBean
-    private TagRepository tagRepository;
-
-    @MockBean
-    private UtilisateurRepository utilisateurRepository;
 
     @MockBean
     private CandidatureRepository candidatureRepository;
@@ -69,16 +66,13 @@ class StudentServicesTest {
     private OffreStageRepository offreStageRepository;
 
     @MockBean
-    private UserService userService;
-
-    @MockBean
     private StudentRepository studentRepository;
 
-    @MockBean
-    private AuthenticationService authenticationService;
-
-    @MockBean
+    @InjectMocks
     private StudentServices studentServices;
+
+    @Mock
+    private ContratStageRepository contratStageRepository;
 
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}
@@ -665,15 +659,7 @@ class StudentServicesTest {
         studentServices.deleteStudentByMatricule("Matricule");
     }
 
-    @Test
-    void TestGetContratByStudent() {
-        ArrayList<ContratStageDTO> contratStageDTOList = new ArrayList<>();
-        when(studentServices.getContratByStudent(Mockito.<String>any())).thenReturn(contratStageDTOList);
-        List<ContratStageDTO> actualContratStageByStudent = studentServices.getContratByStudent("1234567");
-        assertSame(contratStageDTOList, actualContratStageByStudent);
-        assertTrue(actualContratStageByStudent.isEmpty());
-        verify(studentRepository).findByStudent_matricule(Mockito.<String>any());
-    }
+
 
     @Test
     void testGetContratStageByStudent() {
@@ -681,11 +667,40 @@ class StudentServicesTest {
         ContratStage contrat1 = new ContratStage();
         ContratStage contrat2 = new ContratStage();
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
-        when(studentRepository.findByStudent_matricule(studenId)).thenReturn(contrats);
+        when(contratStageRepository.findByStudentMatricule(studenId)).thenReturn(contrats);
 
         List<ContratStageDTO> result = studentServices.getContratByStudent(studenId);
 
         assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testGetContratByStudent() {
+        // Given
+        String studentMatricule = "0123456";
+        ContratStage contrat1 = mock(ContratStage.class);
+        ContratStage contrat2 = mock(ContratStage.class);
+        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+
+        when(contratStageRepository.findByStudentMatricule(studentMatricule)).thenReturn(contrats);
+        // Assuming fromContratStage is a non-static method inside ContratStageDTO
+        ContratStageDTO dto1 = new ContratStageDTO(); // You might need to set up this DTO
+        ContratStageDTO dto2 = new ContratStageDTO(); // You might need to set up this DTO
+        when(ContratStageDTO.fromContratStage(contrat1)).thenReturn(dto1);
+        when(ContratStageDTO.fromContratStage(contrat2)).thenReturn(dto2);
+
+        // When
+        List<ContratStageDTO> result = studentServices.getContratByStudent(studentMatricule);
+
+        // Then
+        assertEquals(2, result.size());
+        // If needed, you can also verify the interactions
+        verify(contratStageRepository).findByStudentMatricule(studentMatricule);
+        verifyNoMoreInteractions(contratStageRepository);
+
+        // Ensure the DTOs are the ones returned
+        assertTrue(result.contains(dto1));
+        assertTrue(result.contains(dto2));
     }
 }
 

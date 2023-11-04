@@ -46,6 +46,8 @@ public class StudentServices {
 
 
 
+
+
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
         Student student = new Student(studentPostDTO.getMatricule(), studentPostDTO.getProgram(), utilisateur);
@@ -161,7 +163,7 @@ public class StudentServices {
     }
 
     public List<ContratStageDTO> getContratByStudent(String studentId){
-        List<ContratStage> studentContracts = studentRepository.findByStudent_matricule(studentId);
+        List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
         return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
     }
 }

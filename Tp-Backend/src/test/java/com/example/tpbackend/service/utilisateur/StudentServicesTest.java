@@ -665,7 +665,7 @@ class StudentServicesTest {
         studentServices.deleteStudentByMatricule("Matricule");
     }
 
-   /* @Test
+    @Test
     void TestGetContratByStudent() {
         ArrayList<ContratStageDTO> contratStageDTOList = new ArrayList<>();
         when(studentServices.getContratByStudent(Mockito.<String>any())).thenReturn(contratStageDTOList);
@@ -673,6 +673,6 @@ class StudentServicesTest {
         assertSame(contratStageDTOList, actualContratStageByStudent);
         assertTrue(actualContratStageByStudent.isEmpty());
         verify(studentRepository).findByStudent_matricule(Mockito.<String>any());
-    }*/
+    }
 }
 

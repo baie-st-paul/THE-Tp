@@ -16,15 +16,13 @@ import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.security.AuthenticationService;
@@ -36,6 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +42,7 @@ import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -77,7 +77,7 @@ class StudentServicesTest {
     @MockBean
     private AuthenticationService authenticationService;
 
-    @Autowired
+    @MockBean
     private StudentServices studentServices;
 
     /**
@@ -673,6 +673,19 @@ class StudentServicesTest {
         assertSame(contratStageDTOList, actualContratStageByStudent);
         assertTrue(actualContratStageByStudent.isEmpty());
         verify(studentRepository).findByStudent_matricule(Mockito.<String>any());
+    }
+
+    @Test
+    void testGetContratStageByStudent() {
+        String studenId = "123456";
+        ContratStage contrat1 = new ContratStage();
+        ContratStage contrat2 = new ContratStage();
+        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+        when(studentRepository.findByStudent_matricule(studenId)).thenReturn(contrats);
+
+        List<ContratStageDTO> result = studentServices.getContratByStudent(studenId);
+
+        assertEquals(2, result.size());
     }
 }
 

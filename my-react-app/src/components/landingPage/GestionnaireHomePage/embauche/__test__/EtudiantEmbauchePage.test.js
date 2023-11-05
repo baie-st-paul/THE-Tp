@@ -21,7 +21,7 @@ const MockEtudiantEmbauchePage = ({listeCandidature}) => {
 describe("Test the EtudiantEmbauchePage Component", () => {
     it('should render titre page', () => {
         render(<MockEtudiantEmbauchePage listeEtudiant={[]}/>)
-        expect(screen.getByText('Liste des candidatures acceptées')).toBeInTheDocument()
+        expect(screen.getByText('Liste des candidatures embauchées')).toBeInTheDocument()
     });
 
     it("should render all info text student" , async () => {

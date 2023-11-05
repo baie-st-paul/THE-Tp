@@ -1,4 +1,4 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;

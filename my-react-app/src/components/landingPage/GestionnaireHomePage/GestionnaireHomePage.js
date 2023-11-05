@@ -5,7 +5,7 @@ import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestio
 import {faArrowRight, faBriefcase, faFileUpload, faCalendarDay, faHandshake} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import EtudiantsConvoquesEntrevue from "./EtudiantsConvoquesEntrevue";
+import EtudiantsConvoquesEntrevue from "./entrevue/EtudiantsConvoquesEntrevue";
 import EtudiantEmbauchePage from "./embauche/EtudiantEmbauchePage";
 
 const GestionnaireHomePage = () => {

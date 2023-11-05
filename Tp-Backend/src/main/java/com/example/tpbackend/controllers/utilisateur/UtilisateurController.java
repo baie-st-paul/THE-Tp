@@ -1,4 +1,4 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.Authentication.JwtAuthenticationResponse;
 import com.example.tpbackend.DTO.Authentication.LoginRequest;

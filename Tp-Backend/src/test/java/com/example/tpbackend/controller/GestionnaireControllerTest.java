@@ -2,7 +2,8 @@ package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
-import com.example.tpbackend.controllers.GestionnaireController;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -80,8 +81,8 @@ public class GestionnaireControllerTest {
     @Test
     public void testGetCandidaturesAcceptees() throws Exception {
         // Créez quelques objets DTO de test mockés
-        CandidatureDTO dto1 = mock(CandidatureDTO.class);
-        CandidatureDTO dto2 = mock(CandidatureDTO.class);
+        CandidatureDTODetailed dto1 = mock(CandidatureDTODetailed.class);
+        CandidatureDTODetailed dto2 = mock(CandidatureDTODetailed.class);
 
         when(dto1.getId()).thenReturn(1L);
         when(dto1.getFileName()).thenReturn("fileName1");
@@ -91,7 +92,7 @@ public class GestionnaireControllerTest {
         when(dto2.getFileName()).thenReturn("fileName2");
         when(dto2.getStatus()).thenReturn("accepted");
 
-        List<CandidatureDTO> mockedList = Arrays.asList(dto1, dto2);
+        List<CandidatureDTODetailed> mockedList = Arrays.asList(dto1, dto2);
 
         when(gestionnaireService.getCandidaturesAcceptees()).thenReturn(mockedList);
 

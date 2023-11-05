@@ -1,14 +1,5 @@
 package com.example.tpbackend.service.utilisateur;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.verifyNoMoreInteractions;
-
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
@@ -23,35 +14,31 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.*;
+import com.example.tpbackend.repository.CandidatureRepository;
+import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.CvRepository;
+import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
-import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
-
-import java.io.IOException;
-
-import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {StudentServices.class})
 @ExtendWith(SpringExtension.class)
 class StudentServicesTest {
@@ -71,7 +58,7 @@ class StudentServicesTest {
     @InjectMocks
     private StudentServices studentServices;
 
-    @Mock
+    @MockBean
     private ContratStageRepository contratStageRepository;
 
     /**
@@ -661,46 +648,29 @@ class StudentServicesTest {
 
 
 
-    @Test
-    void testGetContratStageByStudent() {
-        String studenId = "123456";
-        ContratStage contrat1 = new ContratStage();
-        ContratStage contrat2 = new ContratStage();
-        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
-        when(contratStageRepository.findByStudentMatricule(studenId)).thenReturn(contrats);
-
-        List<ContratStageDTO> result = studentServices.getContratByStudent(studenId);
-
-        assertEquals(2, result.size());
-    }
 
     @Test
-    public void testGetContratByStudent() {
-        // Given
-        String studentMatricule = "0123456";
-        ContratStage contrat1 = mock(ContratStage.class);
-        ContratStage contrat2 = mock(ContratStage.class);
-        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+    void getContratByStudentShouldReturnContracts() {
+        // Arrange
+        String studentId = "S001";
+        ContratStage contract1 = new ContratStage();
+        contract1.setId(1L);
+        ContratStage contract2 = new ContratStage();
+        contract2.setId(2L);
 
-        when(contratStageRepository.findByStudentMatricule(studentMatricule)).thenReturn(contrats);
-        // Assuming fromContratStage is a non-static method inside ContratStageDTO
-        ContratStageDTO dto1 = new ContratStageDTO(); // You might need to set up this DTO
-        ContratStageDTO dto2 = new ContratStageDTO(); // You might need to set up this DTO
-        when(ContratStageDTO.fromContratStage(contrat1)).thenReturn(dto1);
-        when(ContratStageDTO.fromContratStage(contrat2)).thenReturn(dto2);
+        List<ContratStage> contracts = List.of(contract1, contract2);
+        when(contratStageRepository.findByStudentMatricule(studentId)).thenReturn(contracts);
 
-        // When
-        List<ContratStageDTO> result = studentServices.getContratByStudent(studentMatricule);
+        // Act
+        List<ContratStageDTO> result = studentServices.getContratByStudent(studentId);
 
-        // Then
+        // Assert
+        assertNotNull(result);
         assertEquals(2, result.size());
-        // If needed, you can also verify the interactions
-        verify(contratStageRepository).findByStudentMatricule(studentMatricule);
-        verifyNoMoreInteractions(contratStageRepository);
+        assertEquals(contract1.getId(), result.get(0).getId());
+        assertEquals(contract2.getId(), result.get(1).getId());
 
-        // Ensure the DTOs are the ones returned
-        assertTrue(result.contains(dto1));
-        assertTrue(result.contains(dto2));
     }
+
 }
 

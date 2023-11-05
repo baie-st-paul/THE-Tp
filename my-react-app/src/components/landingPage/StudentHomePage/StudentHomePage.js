@@ -44,77 +44,115 @@ const StudentHomePage = () => {
             setMatricule(loggedInUser.matricule);
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
-        const fetchCv = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/cvs`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setCvs(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        const fetchCurrentSession = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const matricule = localStorage.getItem('loggedInUserMatricule');
-                const response = await fetch(`http://localhost:8081/api/v1/student/getSessions/${matricule}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log(data)
-                    setSession(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
 
-        const fetchSignature = async () => {
-            try {
-                const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    });
-                if (response.ok) {
-                    const data = await response.json();
-                    setSignature(data);
-                } else {
-                    console.error("Failed to fetch data");
-                    setSignature([])
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchSignature()
         fetchCv()
         fetchCurrentSession()
-    }, [loggedInUser, setLoggedInUser,]);
+        fetchSignature()
+    }, [loggedInUser, setLoggedInUser]);
+
+    async function fetchCv() {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/cvs`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setCvs(data)
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
+
+    async function fetchCurrentSession() {
+        try {
+            console.log(matricule)
+            fetch(
+                `http://localhost:8081/api/v1/student/getSessions/${matricule}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                            console.log(data)
+                            setSession(data);
+                        } else {
+                            console.error("Failed to fetch data");
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
+
+    async function fetchSignature() {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                            setSignature(data);
+                            console.log(data)
+                        } else {
+                            console.error("Failed to fetch data");
+                            setSignature([])
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            setSignature([])
+        }
+    }
 
     const handleButtonClick = (content) => {
         setActiveContent(content);
@@ -144,7 +182,7 @@ const StudentHomePage = () => {
             contentToRender = <Dashboard/>;
             break;
         case "signature":
-            contentToRender = <CreateStudentSignature signature={signature}/>;
+            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>;
             break;
         default:
             contentToRender = <div>Choisir une section.</div>;

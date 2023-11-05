@@ -13,68 +13,81 @@ const OffresPageStudent = () => {
     const [candidatures, setCandidatures] = useState([]);
     const [shouldRefetch] = useState(false);
 
-    useEffect(() => {
-        const fetchOffreList = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(
-                    'http://localhost:8081/api/v1/stages/offres/',
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                );
-                if (response.ok) {
-                    const data = await response.json();
-                    setOffres(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    const token = localStorage.getItem('token');
 
-        const fetchCandidatures = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-                fetch(
-                    `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
-                    {
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                ).catch((error) => {
-                    console.error("Error:", error);
-                }).then(
-                    async (response) => {
-                        const data = await response.json();
-                        console.log(response.status)
-                        try{
-                            console.log(response.status)
-                        }
-                        catch (e) {
-                            console.log(e)
-                        }
-                        setCandidatures(data)
-                    }
-                );
-            } catch (error) {
-                console.log("Error fetching data:", error)
-            }
-        }
+    useEffect(() => {
         fetchOffreList();
         fetchCandidatures();
     }, [shouldRefetch]);
+
+    async function fetchOffreList() {
+        try {
+            fetch(
+                'http://localhost:8081/api/v1/stages/offres/',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setOffres(data);
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (offres !== undefined){
+                setOffres(offres)
+            }
+        }
+    }
+
+    const fetchCandidatures = async () => {
+        try {
+            const savedMatricule = localStorage.getItem("loggedInUserMatricule");
+            fetch(
+                `http://localhost:8081/api/v1/student/getMesCandidatures/${savedMatricule}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch((error) => {
+                console.error("Error:", error);
+            }).then(
+                async (response) => {
+                    const data = await response.json();
+                    console.log(response.status)
+                    try{
+                        console.log(response.status)
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                    setCandidatures(data)
+                }
+            );
+        } catch (error) {
+            console.log("Error fetching data:", error)
+        }
+    }
 
     return (
         <div>

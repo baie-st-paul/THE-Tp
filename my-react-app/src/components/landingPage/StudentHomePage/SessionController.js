@@ -1,33 +1,46 @@
 import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom";
 
 const SessionController = ({ sessionTag, studentTag }) => {
     const [message, setMessage] = useState('');
-    const navigate = useNavigate();
-    const handleReinscription = async () => {
+
+    async function handleReinscription() {
         try {
             const token = localStorage.getItem('token');
-            console.log(localStorage.getItem("loggedInUserMatricule"))
-            const response = await fetch(`http://localhost:8081/api/v1/student/reinscriptionANouvelleSession/${localStorage.getItem("loggedInUserMatricule")}`, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log("this is 1" + data)
-                setMessage(data);
-            } else {
-                console.error("Failed to fetch data");
-            }
+            const matricule = localStorage.getItem("loggedInUserMatricule")
+            console.log(matricule)
+
+            fetch(
+                `http://localhost:8081/api/v1/student/reinscriptionANouvelleSession/${matricule}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                            console.log("this is 1" + data)
+                            setMessage(data);
+                        } else {
+                            console.error("Failed to fetch data");
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.log('Une erreur est survenue:', error);
         }
         window.location.reload();
-    };
+    }
 
     return (
         <div className="container text-center">

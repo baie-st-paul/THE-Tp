@@ -142,7 +142,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const updateStatus = async (matricule, status) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
+            await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

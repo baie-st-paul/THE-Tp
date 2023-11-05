@@ -12,44 +12,52 @@ const CreateStudentSignature = ({matricule}) => {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        const fetchSignature = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:8081/api/v1/stages/signatures/students/${localStorage.getItem("loggedInUserMatricule")}`,
-                {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                );
-                console.log(token)
-                if (response.ok) {
-                    const data = await response.json();
-                    setSignature(data);
-                } else {
-                    console.error("Failed to fetch data");
-                    setSignature(null)
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
         fetchSignature()
     }, [setSignature]);
+
+    async function fetchSignature() {
+        try {
+            console.log(matricule)
+            fetch(
+                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setSignature(data);
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            setSignature(null)
+        }
+    }
 
     const saveSignature = async () => {
         try {
             console.log(urlImage.type)
             const imageLink = urlImage.toString()
-            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             const signature = ({
-                studentMatricule,
+                matricule,
                 imageLink
             })
-            console.log(token)
             console.log(JSON.stringify(signature))
 
             await fetch(
@@ -78,9 +86,6 @@ const CreateStudentSignature = ({matricule}) => {
                     }
                     setSignature(data)
                     console.log(data)
-                    console.log(data.imageLink === urlImage)
-                    console.log("1",data.imageLink)
-                    console.log("2",urlImage)
                 }
             )
         } catch (error) {
@@ -92,9 +97,8 @@ const CreateStudentSignature = ({matricule}) => {
     const handleModif = async () => {
         try {
             const imageLink = urlImage.toString()
-            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             const signature = ({
-                studentMatricule,
+                matricule,
                 imageLink
             })
             await fetch(
@@ -135,9 +139,8 @@ const CreateStudentSignature = ({matricule}) => {
 
     const deleteSignature = async () => {
         try {
-            let studentMatricule = localStorage.getItem("loggedInUserMatricule")
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${studentMatricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
                 {
                     method: 'DELETE',
                     headers: {

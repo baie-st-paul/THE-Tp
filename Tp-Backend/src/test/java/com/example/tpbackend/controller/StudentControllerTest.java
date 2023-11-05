@@ -39,8 +39,8 @@ public class StudentControllerTest {
     public void testGetContratsByStudent_Success() throws Exception {
         String studentId = "student1";
         List<ContratStageDTO> mockContracts = List.of(
-                new ContratStageDTO(/* initialize with sample data */),
-                new ContratStageDTO(/* initialize with sample data */)
+                new ContratStageDTO(),
+                new ContratStageDTO()
         );
 
         when(studentServices.getContratByStudent(studentId)).thenReturn(mockContracts);

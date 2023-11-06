@@ -85,9 +85,10 @@ const StudentHomePage = () => {
 
     async function fetchCurrentSession() {
         try {
-            console.log(matricule)
+            const m = localStorage.getItem("loggedInUserMatricule")
+            console.log(m)
             fetch(
-                `http://localhost:8081/api/v1/student/getSessions/${matricule}`,
+                `http://localhost:8081/api/v1/student/getSessions/${m}`,
                 {
                     method: 'GET',
                     headers: {
@@ -120,8 +121,10 @@ const StudentHomePage = () => {
 
     async function fetchSignature() {
         try {
+            const m = localStorage.getItem("loggedInUserMatricule")
+            console.log(m)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/students/${m}`,
                 {
                     method: 'GET',
                     headers: {

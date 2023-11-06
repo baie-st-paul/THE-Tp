@@ -26,6 +26,7 @@ const EtudiantEmbauchePage = () => {
     const [candidature, setCandidature] = useState(null);
     const [offre, setOffre] = useState(null);
     const [contrats, setContrats] = useState([]);
+    const [filtre, setFiltre] = useState('')
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
     const [showOffreDetailed, setShowOffreDetailed] = useState(false);
@@ -161,11 +162,14 @@ const EtudiantEmbauchePage = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
             <h1 className="display-4 text-center">Liste des candidatures embauchées</h1>
+            <div className='text-start mt-3'> <label ><h3>Trouver par matricule &nbsp; </h3></label>
+                <input onChange={ (event)=> setFiltre(event.target.value)}></input>
+            </div>
             {showOffreDetailed && <HandleOffreDetailed />}
             {candidatures.length > 0 &&
-                candidatures.map(
-                    (candidature, i) => (
-                        <Card key={i} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
+                candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
+                .map((candidature, i) => (
+                        <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
                             <Card.Body>
                                 <Card.Title data-testid={candidature.offreStage.titre}>
                                     <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>
@@ -187,6 +191,9 @@ const EtudiantEmbauchePage = () => {
                                 </ListGroup.Item>
                                 <ListGroup.Item data-testid={candidature.student.lastName}>
                                     <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
+                                </ListGroup.Item>
+                                <ListGroup.Item data-testid={candidature.student.matricule}>
+                                    <b>Matricule de l'étudiant:</b> {candidature.student.matricule}
                                 </ListGroup.Item>
                             </ListGroup>
                             <Card.Body>

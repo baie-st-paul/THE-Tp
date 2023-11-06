@@ -109,7 +109,7 @@ export default function EtudiantsConvoquesEntrevue() {
             {candidatures.length > 0 &&
                 candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
                 .map((candidature, i) => (
-                    <Card key={i} className="container-fluid" style={{ width: '30rem', margin:"20px", textAlign: "left"}}>
+                    <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
                         <Card.Body>
                             <Card.Title data-testid={candidature.offreStage.titre}>
                                 <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>

@@ -13,39 +13,47 @@ const CreateSignature = ({employerId}) => {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        fetch(
-            'http://localhost:8081/api/v1/stages/signatures/employers',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true
-            }
-        ).catch(error => {
-            console.log(error)
-        }).then(
-            async (res) => {
-                const data = await res.json()
-                try {
-                    console.log(res.status)
-                    if (res.status === 400) {
-                        console.log(res.status)
-                    }
-                } catch (e) {
-                    console.log(e)
-                }
-                console.log(data.length)
-                data.map((dataS) => console.log(dataS))
-                if(data.length === 0) {
-                    setSignature(null)
-                } else {
-                    data.map((dataS) => setSignature(dataS)
-                    )
-                }
-            })
+        getSignature()
     }, []);
+
+    async function getSignature() {
+        try {
+            fetch(
+                'http://localhost:8081/api/v1/stages/signatures/employers',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    console.log(data.length)
+                    data.map((dataS) => console.log(dataS))
+                    if(data.length === 0) {
+                        setSignature(null)
+                    } else {
+                        data.map((dataS) => setSignature(dataS)
+                        )
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
 
     const saveSignature = async () => {
         try {

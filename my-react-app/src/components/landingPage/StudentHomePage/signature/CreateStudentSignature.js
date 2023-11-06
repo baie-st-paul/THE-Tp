@@ -4,13 +4,14 @@ import Button from "react-bootstrap/Button";
 import {FaPencilAlt, FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 
-const CreateStudentSignature = ({matricule}) => {
+const CreateStudentSignature = () => {
     const [sign, setSign] = useState(null)
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
 
     const token = localStorage.getItem('token');
+    const matricule = localStorage.getItem("loggedInUserMatricule")
 
     useEffect(() => {
         fetchSignature()
@@ -54,6 +55,7 @@ const CreateStudentSignature = ({matricule}) => {
 
     const saveSignature = async () => {
         try {
+            console.log(matricule)
             console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
@@ -93,11 +95,12 @@ const CreateStudentSignature = ({matricule}) => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        window.location.reload()
+        //window.location.reload()
     }
 
     const handleModif = async () => {
         try {
+            console.log(matricule)
             const imageLink = urlImage.toString()
             const signature = ({
                 matricule,
@@ -141,6 +144,7 @@ const CreateStudentSignature = ({matricule}) => {
 
     const deleteSignature = async () => {
         try {
+            console.log(matricule)
             fetch(
                 `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
                 {

@@ -1,7 +1,6 @@
-package com.example.tpbackend.repository;
+package com.example.tpbackend.repository.signature;
 
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.Signature;
+import com.example.tpbackend.models.signature.Signature;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

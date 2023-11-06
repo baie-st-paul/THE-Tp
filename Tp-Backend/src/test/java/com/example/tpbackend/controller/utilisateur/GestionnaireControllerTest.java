@@ -1,13 +1,15 @@
-package com.example.tpbackend.controller;
+package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(GestionnaireController.class)
 public class GestionnaireControllerTest {
 
@@ -34,6 +37,9 @@ public class GestionnaireControllerTest {
 
     @MockBean
     private GestionnaireService gestionnaireService;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Test

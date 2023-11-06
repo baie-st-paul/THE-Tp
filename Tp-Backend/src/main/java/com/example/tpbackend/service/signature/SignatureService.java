@@ -1,10 +1,9 @@
-package com.example.tpbackend.service;
+package com.example.tpbackend.service.signature;
 
-import com.example.tpbackend.DTO.SignatureDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
-import com.example.tpbackend.models.Signature;
+import com.example.tpbackend.DTO.signature.SignatureDTO;
+import com.example.tpbackend.models.signature.Signature;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.SignatureRepository;
+import com.example.tpbackend.repository.signature.SignatureRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import jakarta.transaction.Transactional;

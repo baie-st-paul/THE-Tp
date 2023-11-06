@@ -1,6 +1,6 @@
-package com.example.tpbackend.DTO;
+package com.example.tpbackend.DTO.signature;
 
-import com.example.tpbackend.models.Signature;
+import com.example.tpbackend.models.signature.Signature;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;

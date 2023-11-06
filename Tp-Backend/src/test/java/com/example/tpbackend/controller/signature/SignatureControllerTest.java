@@ -1,12 +1,14 @@
-package com.example.tpbackend.controller;
+package com.example.tpbackend.controller.signature;
 
-import com.example.tpbackend.DTO.SignatureDTO;
-import com.example.tpbackend.controllers.SignatureController;
-import com.example.tpbackend.service.SignatureService;
+import com.example.tpbackend.DTO.signature.SignatureDTO;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
+import com.example.tpbackend.controllers.signature.SignatureController;
+import com.example.tpbackend.service.signature.SignatureService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,7 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(SignatureController.class)
 public class SignatureControllerTest {
 
@@ -31,6 +33,9 @@ public class SignatureControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     public void testGetSignature() throws Exception {

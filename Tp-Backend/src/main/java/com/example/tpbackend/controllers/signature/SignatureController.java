@@ -1,7 +1,7 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.signature;
 
-import com.example.tpbackend.DTO.SignatureDTO;
-import com.example.tpbackend.service.SignatureService;
+import com.example.tpbackend.DTO.signature.SignatureDTO;
+import com.example.tpbackend.service.signature.SignatureService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

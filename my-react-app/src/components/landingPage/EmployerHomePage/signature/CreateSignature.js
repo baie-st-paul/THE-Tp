@@ -18,8 +18,9 @@ const CreateSignature = ({employerId}) => {
 
     async function getSignature() {
         try {
+            console.log(employerId)
             fetch(
-                'http://localhost:8081/api/v1/stages/signatures/employers',
+                `http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`,
                 {
                     method: 'GET',
                     headers: {
@@ -32,32 +33,29 @@ const CreateSignature = ({employerId}) => {
                 console.log(error)
             }).then(
                 async (res) => {
-                    const data = await res.json()
                     try {
                         console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json()
+                            setSignature(data)
+                            console.log(data)
+                        }
+                        else {
+                            console.log("Failed to fetch data")
+                            setSignature(null)
                         }
                     } catch (e) {
                         console.log(e)
                     }
-                    console.log(data.length)
-                    data.map((dataS) => console.log(dataS))
-                    if(data.length === 0) {
-                        setSignature(null)
-                    } else {
-                        data.map((dataS) => setSignature(dataS)
-                        )
-                    }
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
+            setSignature(null)
         }
     }
 
     const saveSignature = async () => {
         try {
-            console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
                 employerId,
@@ -66,7 +64,7 @@ const CreateSignature = ({employerId}) => {
             console.log(JSON.stringify(signature))
 
             await fetch(
-                'http://localhost:8081/api/v1/stages/signatures/employers/create',
+                'http://localhost:8081/api/v1/stages/signatures/employer/create',
                 {
                     method: 'POST',
                     headers: {
@@ -91,9 +89,6 @@ const CreateSignature = ({employerId}) => {
                     }
                     setSignature(data)
                     console.log(data)
-                    console.log(data.imageLink === urlImage)
-                    console.log("1",data.imageLink)
-                    console.log("2",urlImage)
                 }
             )
         } catch (error) {
@@ -111,7 +106,7 @@ const CreateSignature = ({employerId}) => {
             console.log(JSON.stringify(signature))
 
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employers`,
+                `http://localhost:8081/api/v1/stages/signatures/employer/update`,
                 {
                     method: 'PUT',
                     headers: {
@@ -148,8 +143,9 @@ const CreateSignature = ({employerId}) => {
 
     const deleteSignature = async () => {
         try {
+            console.log(employerId)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employers/${employerId}`,
+                `http://localhost:8081/api/v1/stages/signatures/employer/delete/${employerId}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -183,16 +179,17 @@ const CreateSignature = ({employerId}) => {
         sign.clear()
         setDisableWhenEmpty(true)
         console.log(sign.empty)
-        console.log(disableWhenEmpty)
     }
 
     const handleDelete = () => {
         sign.clear()
         setDisableWhenEmpty(true)
+        console.log(sign.empty)
         deleteSignature()
     }
 
     const handleSave = () => {
+        console.log(sign.empty)
         setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
     }
 
@@ -207,6 +204,7 @@ const CreateSignature = ({employerId}) => {
                     onEnd={() => setDisableWhenEmpty(true)}
                 />
             </div>
+
             <Button className="btn btn-danger"
                     disabled={!disableWhenEmpty}
                     onClick={handleClear}>

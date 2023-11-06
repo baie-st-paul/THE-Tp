@@ -208,7 +208,7 @@ const CreateSignature = ({employerId}) => {
             </Button>
             <Button className="btn btn-success"
                     disabled={!disableWhenEmpty}
-                    onClick = {handleSave}>
+                    onClick={handleSave}>
                 Dessiner <FaPencilAlt
                 style={{color: 'black'}}
             />

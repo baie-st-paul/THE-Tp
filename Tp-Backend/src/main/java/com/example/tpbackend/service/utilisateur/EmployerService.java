@@ -77,8 +77,8 @@ public class EmployerService {
         }
         return tag;
     }
-
-   public List<ContratStageDTO> getContratStageByEmpleur(Long employeurId) {
+    @Transactional
+   public List<ContratStageDTO> getContratStageByEmployeur(Long employeurId) {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
         return contrats.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
    }

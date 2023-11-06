@@ -119,7 +119,7 @@ const EmployerHomePage = () => {
             contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
             break;
         case "mes-contrats":
-            contentToRender = <EmployeurMesContrats employerId={employerId}> </EmployeurMesContrats>
+            contentToRender = <EmployeurMesContrats employerId={employerId} contratsTest={[]}> </EmployeurMesContrats>
             break;
         default:
             contentToRender = <div>Choisir une section.</div>

@@ -68,8 +68,9 @@ public class EmployerController {
     }
 
     @GetMapping("/employer-contracts/{employerId}")
+    @PreAuthorize("authenticated")
     public ResponseEntity<List<ContratStageDTO>> getContratsByEmployeur(@PathVariable Long employerId) {
-        List<ContratStageDTO> employerContracts = employerService.getContratStageByEmpleur(employerId);
+        List<ContratStageDTO> employerContracts = employerService.getContratStageByEmployeur(employerId);
         return ResponseEntity.ok(employerContracts);
     }
 }

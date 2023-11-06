@@ -192,7 +192,7 @@ public class EmployerControllerTest {
 
         List<ContratStageDTO> contrats = Arrays.asList(contrat1, contrat2);
 
-        when(employerService.getContratStageByEmpleur(employerId)).thenReturn(contrats);
+        when(employerService.getContratStageByEmployeur(employerId)).thenReturn(contrats);
 
         mockMvc.perform(get("http://localhost:8081/api/v1/employers/employer-contracts/{employerId}", employerId))
                 .andExpect(status().isOk())

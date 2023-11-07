@@ -1,8 +1,8 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -13,16 +13,16 @@ import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import jakarta.transaction.Transactional;
-
 import com.example.tpbackend.service.TagGenerator;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,6 @@ public class StudentServices {
     private TagRepository tagRepository;
     @Autowired
     ContratStageRepository contratStageRepository;
-
 
 
 

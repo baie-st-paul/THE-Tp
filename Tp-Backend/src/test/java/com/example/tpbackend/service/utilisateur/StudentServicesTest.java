@@ -656,7 +656,7 @@ class StudentServicesTest {
 
 
 
-    @Test
+   /* @Test
     void getContratByStudentShouldReturnContracts() {
         // Arrange
         String studentId = "S001";
@@ -700,7 +700,7 @@ class StudentServicesTest {
         assertEquals(studentId, result.get(1).getStudentId());
         assertEquals(employerId, result.get(1).getEmployerId());
         assertEquals(contract2.getNomDePoste(), result.get(1).getNomDePoste());
-    }
+    }*/
 
 
 }

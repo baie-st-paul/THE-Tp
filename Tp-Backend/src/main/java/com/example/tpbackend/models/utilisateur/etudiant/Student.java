@@ -7,6 +7,7 @@ import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Data
 @NoArgsConstructor
 public class Student  {
         @Id

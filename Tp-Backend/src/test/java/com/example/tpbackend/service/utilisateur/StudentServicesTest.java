@@ -653,10 +653,28 @@ class StudentServicesTest {
     void getContratByStudentShouldReturnContracts() {
         // Arrange
         String studentId = "S001";
+        Long employerId = 1L;
+
+        // Mock Student and Employer
+        Student student = new Student();
+        student.setMatricule(studentId);
+        student.setUtilisateur(new Utilisateur("John", "Doe", "john.doe@example.com", "1234567890", "password", Utilisateur.Role.Student.toString()));
+
+        Employer employer = new Employer();
+        employer.setId(employerId);
+
+        // Mock ContratStage entities
         ContratStage contract1 = new ContratStage();
         contract1.setId(1L);
+        contract1.setStudent(student);
+        contract1.setEmployeur(employer);
+        contract1.setNomDePoste("Développeur");
+
         ContratStage contract2 = new ContratStage();
         contract2.setId(2L);
+        contract2.setStudent(student);
+        contract2.setEmployeur(employer);
+        contract2.setNomDePoste("Testeur");
 
         List<ContratStage> contracts = List.of(contract1, contract2);
         when(contratStageRepository.findByStudentMatricule(studentId)).thenReturn(contracts);
@@ -668,9 +686,15 @@ class StudentServicesTest {
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(contract1.getId(), result.get(0).getId());
+        assertEquals(studentId, result.get(0).getStudentId());
+        assertEquals(employerId, result.get(0).getEmployerId());
+        assertEquals(contract1.getNomDePoste(), result.get(0).getNomDePoste());
         assertEquals(contract2.getId(), result.get(1).getId());
-
+        assertEquals(studentId, result.get(1).getStudentId());
+        assertEquals(employerId, result.get(1).getEmployerId());
+        assertEquals(contract2.getNomDePoste(), result.get(1).getNomDePoste());
     }
+
 
 }
 

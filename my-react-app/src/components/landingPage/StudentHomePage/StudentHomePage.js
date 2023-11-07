@@ -90,6 +90,8 @@ const StudentHomePage = () => {
         };
 
         const fetchSignature = async () => {
+            const token = localStorage.getItem('token');
+                const matricule = localStorage.getItem('loggedInUserMatricule');
             try {
                 const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
                     {

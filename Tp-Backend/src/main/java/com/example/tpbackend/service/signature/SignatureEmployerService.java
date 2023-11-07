@@ -18,7 +18,7 @@ public class SignatureEmployerService {
     private EmployerService employerService;
 
     @Transactional
-    public SignatureEmployerDTO getSignatureByEmployerId(long id){
+    public SignatureEmployerDTO getSignatureByEmployerId(long id) {
         SignatureEmployer signature = signatureEmployerRepository.findSignatureEmployerByEmployer_Id(id);
         if (signature == null)
             return null;
@@ -26,7 +26,7 @@ public class SignatureEmployerService {
     }
 
     @Transactional
-    public SignatureEmployerDTO saveEmployerSignature(SignatureEmployerDTO signatureDTO){
+    public SignatureEmployerDTO saveEmployerSignature(SignatureEmployerDTO signatureDTO) {
         SignatureEmployer signature = signatureDTO.toSignatureEmployer();
         signature.setEmployer(employerService.getEmployerById(signatureDTO.getEmployerId()));
         return signatureEmployerRepository.save(signature).toSignatureEmployerDTO();

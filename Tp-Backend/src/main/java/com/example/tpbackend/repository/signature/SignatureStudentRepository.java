@@ -9,8 +9,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SignatureStudentRepository extends JpaRepository<SignatureStudent, Long> {
-    @Transactional
+    @Query("SELECT s FROM SignatureStudent s WHERE s.student.matricule = ?1")
     SignatureStudent findSignatureStudentByStudentMatricule(String matricule);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE SignatureStudent SET imageLink = ?2 WHERE student.matricule = ?1")
+    void updateSignatureStudentByStudent_Matricule(String matricule, String imageLink);
 
     @Modifying
     @Transactional

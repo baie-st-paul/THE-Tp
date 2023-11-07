@@ -19,20 +19,7 @@ public class SignatureStudentService {
     private StudentRepository studentRepository;
 
     @Transactional
-    public SignatureStudentDTO createStudentSignature(SignatureStudentDTO dto){
-        Student student = studentRepository.findByMatricule(dto.getStudentMatricule());
-        SignatureStudent signature = new SignatureStudent();
-        signature.setStudent(student);
-        signature.setImageLink(dto.getImageLink());
-        System.out.print(signature);
-        signatureStudentRepository.save(signature);
-        student.setSignatureStudent(signature);
-        studentRepository.save(student);
-        return signature.toSignatureStudentDTO();
-    }
-
-    @Transactional
-    public SignatureStudentDTO getStudentSignature(String matricule){
+    public SignatureStudentDTO getSignatureByStudentMatricule(String matricule) {
         SignatureStudent signature = signatureStudentRepository.findSignatureStudentByStudentMatricule(matricule);
         if (signature == null)
             return null;
@@ -40,24 +27,28 @@ public class SignatureStudentService {
     }
 
     @Transactional
-    public SignatureStudentDTO updateStudentSignature(SignatureStudentDTO dto){
-        Student student = studentRepository.findByMatricule(dto.getStudentMatricule());
-        SignatureStudent signature = signatureStudentRepository.findSignatureStudentByStudentMatricule(dto.getStudentMatricule());
+    public SignatureStudentDTO saveStudentSignature(SignatureStudentDTO dto) {
+        SignatureStudent signature = dto.toSignatureStudent();
+        signature.setStudent(studentRepository.findByMatricule(dto.getStudentMatricule()));
+        System.out.print("dto "+dto);
+        System.out.print("signature "+signature);
+        return signatureStudentRepository.save(signature).toSignatureStudentDTO();
+    }
+
+    @Transactional
+    public SignatureStudentDTO updateStudentSignature(SignatureStudentDTO dto) {
+        SignatureStudent signature = dto.toSignatureStudent();
+        signature.setStudent(studentRepository.findByMatricule(dto.getStudentMatricule()));
         System.out.println(signature);
-        signature.setImageLink(dto.getImageLink());
-        student.setSignatureStudent(signature);
-        System.out.println(dto.getImageLink());
-        signatureStudentRepository.save(signature);
-        studentRepository.save(student);
+        signatureStudentRepository.updateSignatureStudentByStudent_Matricule(
+                dto.getStudentMatricule(),
+                signature.getImageLink()
+        );
         return signature.toSignatureStudentDTO();
     }
 
     @Transactional
-    public void deleteStudentSignature(String matricule){
-        Student student = studentRepository.findByMatricule(matricule);
-        SignatureStudent signature = signatureStudentRepository.findSignatureStudentByStudentMatricule(matricule);
-        signatureStudentRepository.deleteSignatureStudentByStudentMatricule(signature.getStudent().getMatricule());
-        student.setSignature(null);
-        studentRepository.save(student);
+    public void deleteSignatureByStudentMatricule(String matricule) {
+        signatureStudentRepository.deleteSignatureStudentByStudentMatricule(matricule);
     }
 }

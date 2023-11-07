@@ -124,7 +124,7 @@ const StudentHomePage = () => {
             const m = localStorage.getItem("loggedInUserMatricule")
             console.log(m)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${m}`,
+                `http://localhost:8081/api/v1/stages/signatures/student/get/${m}`,
                 {
                     method: 'GET',
                     headers: {
@@ -144,8 +144,8 @@ const StudentHomePage = () => {
                             setSignature(data);
                             console.log(data)
                         } else {
-                            console.error("Failed to fetch data");
-                            setSignature([])
+                            console.log("Failed to fetch data");
+                            setSignature(null)
                         }
                     } catch (e) {
                         console.log(e)
@@ -153,7 +153,7 @@ const StudentHomePage = () => {
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            setSignature([])
+            setSignature(null)
         }
     }
 

@@ -19,12 +19,8 @@ public class SignatureStudentController {
     @PreAuthorize("authenticated")
     public ResponseEntity<SignatureStudentDTO> getStudentSignature(@PathVariable String matricule) {
         try {
-            SignatureStudentDTO signature = signatureStudentService.getStudentSignature(matricule);
-            if (signature != null) {
-                return ResponseEntity.ok(signature);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+            SignatureStudentDTO signature = signatureStudentService.getSignatureByStudentMatricule(matricule);
+            return ResponseEntity.ok(signature);
         } catch (Exception e) {
             System.out.println(matricule);
             System.out.println(e.getMessage());
@@ -36,7 +32,7 @@ public class SignatureStudentController {
     @PreAuthorize("authenticated")
     public ResponseEntity<SignatureStudentDTO> createStudentSignature(@RequestBody SignatureStudentDTO dto) {
         try {
-            SignatureStudentDTO signature = signatureStudentService.createStudentSignature(dto);
+            SignatureStudentDTO signature = signatureStudentService.saveStudentSignature(dto);
             return new ResponseEntity<>(signature, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(dto);
@@ -62,7 +58,7 @@ public class SignatureStudentController {
     @PreAuthorize("authenticated")
     public ResponseEntity<String> deleteStudentSignature(@PathVariable String matricule) {
         try {
-            signatureStudentService.deleteStudentSignature(matricule);
+            signatureStudentService.deleteSignatureByStudentMatricule(matricule);
             return ResponseEntity.ok("Signature supprimée");
         } catch (Exception e) {
             System.out.println(matricule);

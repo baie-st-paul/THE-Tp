@@ -11,7 +11,7 @@ const CreateStudentSignature = () => {
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
 
     const token = localStorage.getItem('token');
-    const matricule = localStorage.getItem("loggedInUserMatricule")
+    const studentMatricule = localStorage.getItem("loggedInUserMatricule")
 
     useEffect(() => {
         fetchSignature()
@@ -19,9 +19,9 @@ const CreateStudentSignature = () => {
 
     async function fetchSignature() {
         try {
-            console.log(matricule)
+            console.log(studentMatricule)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/student/get/${studentMatricule}`,
                 {
                     method: 'GET',
                     headers: {
@@ -40,7 +40,7 @@ const CreateStudentSignature = () => {
                             const data = await res.json();
                             setSignature(data);
                         } else {
-                            console.error("Failed to fetch data");
+                            console.log("Failed to fetch data");
                             setSignature(null)
                         }
                     } catch (e) {
@@ -55,17 +55,16 @@ const CreateStudentSignature = () => {
 
     const saveSignature = async () => {
         try {
-            console.log(matricule)
-            console.log(urlImage.type)
+            console.log(studentMatricule)
             const imageLink = urlImage.toString()
             const signature = ({
-                matricule,
+                studentMatricule,
                 imageLink
             })
             console.log(JSON.stringify(signature))
 
             await fetch(
-                'http://localhost:8081/api/v1/stages/signatures/students/create',
+                'http://localhost:8081/api/v1/stages/signatures/student/create',
                 {
                     method: 'POST',
                     headers: {
@@ -95,19 +94,19 @@ const CreateStudentSignature = () => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        //window.location.reload()
+        window.location.reload()
     }
 
     const handleModif = async () => {
         try {
-            console.log(matricule)
+            console.log(studentMatricule)
             const imageLink = urlImage.toString()
             const signature = ({
-                matricule,
+                studentMatricule,
                 imageLink
             })
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students`,
+                `http://localhost:8081/api/v1/stages/signatures/student/update`,
                 {
                     method: 'PUT',
                     headers: {
@@ -144,9 +143,9 @@ const CreateStudentSignature = () => {
 
     const deleteSignature = async () => {
         try {
-            console.log(matricule)
+            console.log(studentMatricule)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/students/${matricule}`,
+                `http://localhost:8081/api/v1/stages/signatures/student/delete/${studentMatricule}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -204,6 +203,7 @@ const CreateStudentSignature = () => {
                     onEnd={() => setDisableWhenEmpty(true)}
                 />
             </div>
+
             <Button className="btn btn-danger"
                     disabled={!disableWhenEmpty}
                     onClick={handleClear}>

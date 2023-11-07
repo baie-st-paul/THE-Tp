@@ -41,7 +41,7 @@ class SignatureStudentControllerTest {
         signature.setImageLink("www.example.org");
         signature.setStudentMatricule("2222222");
 
-        when(signatureStudentService.getStudentSignature("2222222")).thenReturn(signature);
+        when(signatureStudentService.getSignatureByStudentMatricule("2222222")).thenReturn(signature);
 
         mockMvc.perform(get("/api/v1/stages/signatures/student/get/2222222")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -56,7 +56,7 @@ class SignatureStudentControllerTest {
         signature.setImageLink("www.example.org");
         signature.setStudentMatricule("2222222");
 
-        when(signatureStudentService.createStudentSignature(signature)).thenReturn(signature);
+        when(signatureStudentService.saveStudentSignature(signature)).thenReturn(signature);
         String jsonContent = objectMapper.writeValueAsString(signature);
 
         mockMvc.perform(post("/api/v1/stages/signatures/student/create")

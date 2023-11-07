@@ -62,7 +62,7 @@ class SignatureStudentServiceTest {
 
         ArgumentCaptor<SignatureStudent> signatureCaptor = ArgumentCaptor.forClass(SignatureStudent.class);
 
-        SignatureStudentDTO result = signatureStudentService.createStudentSignature(signatureDTO);
+        SignatureStudentDTO result = signatureStudentService.saveStudentSignature(signatureDTO);
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
@@ -101,7 +101,7 @@ class SignatureStudentServiceTest {
 
 
         when(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222")).thenReturn(signature);
-        SignatureStudentDTO result = signatureStudentService.getStudentSignature("2222222");
+        SignatureStudentDTO result = signatureStudentService.getSignatureByStudentMatricule("2222222");
 
         assertNotNull(result);
         assertEquals("https://example.org/example", result.getImageLink());
@@ -174,7 +174,7 @@ class SignatureStudentServiceTest {
         when(studentRepository.findByMatricule("2222222")).thenReturn(student);
         when(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222")).thenReturn(s);
 
-        signatureStudentService.deleteStudentSignature("2222222");
+        signatureStudentService.deleteSignatureByStudentMatricule("2222222");
 
 
         verify(signatureStudentRepository, times(1)).delete(s);

@@ -1,7 +1,7 @@
 import {BrowserRouter} from "react-router-dom";
 import EtudiantEmbauchePage from "../EtudiantEmbauchePage";
 import {fireEvent, render, screen} from "@testing-library/react";
-import {testList, testList1Acceptes, testList2Acceptes, testListAcceptes} from "./TestList";
+import {testList1Acceptes, testList2Acceptes, testListAcceptes} from "./TestList";
 
 beforeEach(() => {
     fetch.resetMocks()

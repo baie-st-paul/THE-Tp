@@ -4,10 +4,11 @@ import { useState } from "react";
 import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus, faFile} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import CreateSignature from "./signature/CreateSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
+import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -117,6 +118,9 @@ const EmployerHomePage = () => {
         case "signature":
             contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
             break;
+        case "mes-contrats":
+            contentToRender = <EmployeurMesContrats employerId={employerId} contratsTest={[]}> </EmployeurMesContrats>
+            break;
         default:
             contentToRender = <div>Choisir une section.</div>
         break;
@@ -155,6 +159,11 @@ const EmployerHomePage = () => {
                                             <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
                                         </button>
                                     </li>
+                                    <li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick("mes-contrats")}>
+                                            <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
+                                        </button>
+                                    </li>
                                 </ul>
                             </>
                         }
@@ -163,7 +172,6 @@ const EmployerHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
-                <h2>Employeur</h2>
                 {contentToRender}
             </div>
         </div>

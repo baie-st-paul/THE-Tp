@@ -2,7 +2,6 @@ package com.example.tpbackend.models.utilisateur.etudiant;
 
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.signature.Signature;
 import com.example.tpbackend.models.signature.SignatureStudent;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -35,11 +34,6 @@ public class Student  {
 
         @Column(name = "tag_name")
         private String tagName;
-
-        @OneToOne(mappedBy = "student")
-        @JoinColumn(name = "signature_id")
-        @Setter
-        private Signature signature;
 
         @OneToOne(mappedBy = "student")
         @JoinColumn(name = "signature_student_id")

@@ -111,9 +111,9 @@ public class StudentController {
     }
 
     @GetMapping("/student-contracts/{studentId}")
-    public ResponseEntity<?> getContratsByStudent(@PathVariable String  studendId) {
+    public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
         try {
-            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studendId);
+            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studentId);
             return ResponseEntity.ok(studentContracts);
         } catch (Exception ex) {
             String errorMessage = "Une erreur est survenue lors du traitement de votre requête";

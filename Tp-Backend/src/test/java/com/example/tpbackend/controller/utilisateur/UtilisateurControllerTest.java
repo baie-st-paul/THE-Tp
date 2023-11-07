@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -72,9 +73,10 @@ public class UtilisateurControllerTest {
 
         System.out.println(objectMapper.writeValueAsString(registerRequest));
         mockMvc.perform(post("/api/v1/utilisateur/register")
-                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequest))
+                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(registerRequest.getEmail()))
         ).andExpect(status().isOk());
 
         LinkedHashMap<String, String> gestionnaireDTO = new LinkedHashMap<>();
@@ -92,6 +94,8 @@ public class UtilisateurControllerTest {
         mockMvc.perform(post("/api/v1/utilisateur/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequest2))
+                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(registerRequest2.getEmail()))
         ).andExpect(status().isOk());
 
         LinkedHashMap<String, String> studentDTO = new LinkedHashMap<>();
@@ -111,6 +115,8 @@ public class UtilisateurControllerTest {
         mockMvc.perform(post("/api/v1/utilisateur/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequest3))
+                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(registerRequest3.getEmail()))
         ).andExpect(status().isOk());
     }
 
@@ -132,6 +138,8 @@ public class UtilisateurControllerTest {
         mockMvc.perform(post("/api/v1/utilisateur/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequest))
+                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(registerRequest.getEmail()))
         ).andExpect(status().isOk());
 
 
@@ -141,6 +149,8 @@ public class UtilisateurControllerTest {
         mockMvc.perform(post("/api/v1/utilisateur/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest))
+                .with(csrf())
+                .with(SecurityMockMvcRequestPostProcessors.user(loginRequest.getEmail()))
         ).andExpect(status().isOk());
     }
 }

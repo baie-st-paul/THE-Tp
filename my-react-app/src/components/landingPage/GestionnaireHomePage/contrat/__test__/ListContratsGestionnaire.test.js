@@ -1,8 +1,8 @@
 import {render, fireEvent, screen, act } from '@testing-library/react';
-import EmployeurMesContrats from '../EmployeurMesContrats';
 import React from 'react';
+import ListContratsGestionnaire from "../ListContratsGestionnaire";
 
-describe('Tests Employeur voit ses contrats', () => {
+describe('Tests Gestionnaire voit tous les contrats', () => {
 
     let contrats = [{
         employerId : 1,
@@ -28,9 +28,9 @@ describe('Tests Employeur voit ses contrats', () => {
 
     it('should show contracts if there is any', () => {
         act(() => {
-            render(<EmployeurMesContrats employerId={1} contratsTest={contrats}></EmployeurMesContrats>)
+            render(<ListContratsGestionnaire contratsTest={contrats}/>)
         })
-        const row = document.querySelectorAll('tr');
+        const row = document.querySelectorAll('tr')
         expect(row.length).toBe(3)
         const element = screen.getByText('1234567');
         expect(element).toBeInTheDocument();
@@ -38,7 +38,7 @@ describe('Tests Employeur voit ses contrats', () => {
 
     it('should filter properly', () => {
         const { getByTestId } =
-            render(<EmployeurMesContrats employerId={1234} contratsTest={contrats}></EmployeurMesContrats>)
+            render(<ListContratsGestionnaire contratsTest={contrats}/>)
         const inputElement = getByTestId('input');
 
         fireEvent.change(inputElement, { target: { value: '1234567' } });

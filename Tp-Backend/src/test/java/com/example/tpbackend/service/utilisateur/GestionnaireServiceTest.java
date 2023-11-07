@@ -469,6 +469,40 @@ public class GestionnaireServiceTest {
         });
     }
 
+    @Test
+    void testGetAllContrats() {
+        Long employeurId = 1L;
+        ContratStage contrat1 = new ContratStage();
+        ContratStage contrat2 = new ContratStage();
+
+        Student studentMock = mock(Student.class);
+        Employer employeurMock = mock(Employer.class);
+
+        when(studentMock.getMatricule()).thenReturn("matricule1");
+        when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
+        when(employeurMock.getId()).thenReturn(employeurId);
+
+        contrat1.setStudent(studentMock);
+        contrat1.setEmployeur(employeurMock);
+        contrat1.setNomDePoste("Poste 1");
+
+        contrat2.setStudent(studentMock);
+        contrat2.setEmployeur(employeurMock);
+        contrat2.setNomDePoste("Poste 2");
+
+        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+        when(contratStageRepository.findAll()).thenReturn(contrats);
+        List<ContratStageDTO> result = gestionnaireService.getAllContrats();
+
+        assertEquals(2, result.size());
+        assertEquals("matricule1", result.get(0).getStudentId());
+        assertEquals(employeurId, result.get(0).getEmployerId());
+        assertEquals("Poste 1", result.get(0).getNomDePoste());
+        assertEquals("matricule1", result.get(1).getStudentId());
+        assertEquals(employeurId, result.get(1).getEmployerId());
+        assertEquals("Poste 2", result.get(1).getNomDePoste());
+    }
+
 
     @Test
     void getCandidaturesAcceptees() {

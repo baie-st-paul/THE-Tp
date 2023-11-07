@@ -1,7 +1,6 @@
 package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
@@ -19,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -82,6 +82,34 @@ public class GestionnaireControllerTest {
                         .content(jsonContent))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(errorMessage));
+    }
+
+    @Test
+    public void getAllContratsTest() throws Exception {
+        ContratStageDTO contrat1 = new ContratStageDTO();
+        contrat1.setId(1L);
+        contrat1.setStudentId("0123456");
+        contrat1.setEmployerId(1L);
+
+        ContratStageDTO contrat2 = new ContratStageDTO();
+        contrat2.setId(2L);
+        contrat2.setStudentId("student2");
+        contrat2.setEmployerId(1L);
+
+        List<ContratStageDTO> contratStageDTOS = Arrays.asList(contrat1, contrat2);
+
+        when(gestionnaireService.getAllContrats()).thenReturn(contratStageDTOS);
+
+        mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/getContrats"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(contrat1.getId()))
+                .andExpect(jsonPath("$[0].studentId").value(contrat1.getStudentId()))
+                .andExpect(jsonPath("$[0].employerId").value(contrat1.getEmployerId()))
+                .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
+                .andExpect(jsonPath("$[1].studentId").value(contrat2.getStudentId()))
+                .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
     }
 
     @Test

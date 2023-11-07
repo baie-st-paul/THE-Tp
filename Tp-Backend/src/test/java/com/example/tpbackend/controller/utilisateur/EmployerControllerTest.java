@@ -36,24 +36,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EmployerController.class)
 public class EmployerControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @MockBean
-    private OffreStageService offreStageService;
-    @MockBean
-    private StudentServices studentService;
+
     @MockBean
     private EmployerService employerService;
+
+    @MockBean
+    private OffreStageService offreStageService;
+
+    @MockBean
+    private StudentServices studentService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-
 
     @Test
     public void testGetApplicantsForOffer() throws Exception {
@@ -80,9 +84,9 @@ public class EmployerControllerTest {
         when(studentService.getListCandidatureByOffreId(offerId)).thenReturn(candidatureDTOList);
 
         // Act and Assert
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", offerId))
+        mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", offerId)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0]").exists())
                 .andExpect(jsonPath("$[0].id").value(42L))
                 .andExpect(jsonPath("$[0].fileName").value("fileName.pdf"))
@@ -94,9 +98,9 @@ public class EmployerControllerTest {
 
     @Test
     public void testGetApplicantsForOffer_NoOfferFound() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", 2L)) // je Suppose que 2L est un ID pour lequel il n'y a pas d'offre
+        mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", 8L)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune offre trouvée avec cet ID."));
     }
 
@@ -147,7 +151,7 @@ public class EmployerControllerTest {
                 null
         );
         studentService.postulerOffre(candidaturePostDTO);
-        mockMvc.perform(post("http://localhost:8081/api/employers/candidature/accept/{matricule}/{status}",
+        mockMvc.perform(post("http://localhost:8081/api/v1/employers/candidature/accept/{matricule}/{status}",
                         candidaturePostDTO.getMatricule(), "Accepted"))
                 .andExpect(status().isOk());
     }
@@ -164,7 +168,7 @@ public class EmployerControllerTest {
         when(studentService.getListCandidatureByOffreId(offerId)).thenReturn(Collections.emptyList());
 
         // Act & Assert
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", offerId))
+        mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", offerId))
                 .andExpect(status().isNotFound())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune candidature trouvée pour cette offre."));
@@ -174,7 +178,7 @@ public class EmployerControllerTest {
 
     @Test
     public void testGetApplicantsForOffer_InvalidId() throws Exception {
-        mockMvc.perform(get("/api/employers/{offerId}/applicants", "invalid"))
+        mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", "invalid"))
                 .andExpect(status().isBadRequest());
     }
 

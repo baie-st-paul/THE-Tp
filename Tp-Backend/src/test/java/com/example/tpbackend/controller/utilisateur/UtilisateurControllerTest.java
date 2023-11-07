@@ -75,7 +75,7 @@ public class UtilisateurControllerTest {
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(registerRequest))
-            ).andExpect(status().isOk());
+        ).andExpect(status().isOk());
 
         LinkedHashMap<String, String> gestionnaireDTO = new LinkedHashMap<>();
         gestionnaireDTO.put("matricule", "1234567");
@@ -144,4 +144,3 @@ public class UtilisateurControllerTest {
         ).andExpect(status().isOk());
     }
 }
-

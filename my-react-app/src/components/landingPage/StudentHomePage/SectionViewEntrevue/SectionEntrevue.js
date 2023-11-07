@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import ReactModal from "react-modal";
 import { format } from 'date-fns';
-import axios from "axios";
 
 const customStyles = {
     content: {
@@ -17,58 +16,58 @@ const customStyles = {
     },
 };
 
-const SectionEntrevue = () => {
-    const [entrevues, setEntrevues] = useState([]);
+const SectionEntrevue = ({entrevueTest}) => {
+    const [entrevues, setEntrevues] = useState(entrevueTest);
     const [shouldRefetch, setShouldRefetch] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
     const [expandedDescriptions, setExpandedDescriptions] = useState({});
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [selectedEntrevue, setSelectedEntrevue] = useState(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-        fetch(
-            `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            }
-        ).catch((error) => {
-            console.error("Error:", error);
-        }).then(
-            async (response) => {
-                const data = await response.json();
-                setEntrevues(data)
-                console.log(response.status)
-                try{
-                    console.log(response.status)
-                }
-                catch (e) {
-                    console.log(e)
-                }
-                setIsLoading(false);
-            }
-        );
+    const token = localStorage.getItem('token');
+    const savedMatricule = localStorage.getItem("loggedInUserMatricule");
 
+    useEffect(() => {
+        getStudentEntrevues()
     }, [shouldRefetch]);
 
-    const openConfirmationModal = (type) => {
-        setConfirmationType(type);
-        setIsConfirmationModalOpen(true);
-    };
-
-    const closeConfirmationModal = () => {
-        setIsConfirmationModalOpen(false);
-    };
+    async function getStudentEntrevues() {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/stages/entrevues/students/${savedMatricule}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setEntrevues(data)
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (entrevues !== undefined){
+                setEntrevues(entrevues)
+            }
+        }
+    }
 
     const handleAcceptConfirmation = () => {
-        const token = localStorage.getItem('token');
         fetch(
             `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
             {
@@ -79,25 +78,24 @@ const SectionEntrevue = () => {
                 },
                 withCredentials: true,
             }
-        ).catch((error) => {
-            console.error("Error:", error);
+        ).catch(error => {
+            console.log(error)
         }).then(
             async (response) => {
                 const data = await response.json();
-                console.log(data)
-                try{
+                try {
                     console.log(response.status)
                 }
                 catch (e) {
                     console.log(e)
                 }
+                console.log(data)
                 setShouldRefetch(true);
             })
         setIsConfirmationModalOpen(false);
     };
 
     const handleRefuseConfirmation = () => {
-        const token = localStorage.getItem('token');
         fetch(
             `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
             {
@@ -108,22 +106,30 @@ const SectionEntrevue = () => {
                 },
                 withCredentials: true,
             }
-        ).catch((error) => {
-            console.error("Error:", error);
+        ).catch(error => {
+            console.log(error)
         }).then(
             async (response) => {
                 const data = await response.json();
-                console.log(data)
                 try{
                     console.log(response.status)
                 }
                 catch (e) {
                     console.log(e)
                 }
+                console.log(data)
                 setShouldRefetch(true);
             }
         )
+        setIsConfirmationModalOpen(false);
+    };
 
+    const openConfirmationModal = (type) => {
+        setConfirmationType(type);
+        setIsConfirmationModalOpen(true);
+    };
+
+    const closeConfirmationModal = () => {
         setIsConfirmationModalOpen(false);
     };
 

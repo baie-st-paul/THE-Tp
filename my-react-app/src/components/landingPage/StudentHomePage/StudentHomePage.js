@@ -170,25 +170,25 @@ const StudentHomePage = () => {
 
     switch (activeContent) {
         case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule}/>;
+            contentToRender = <FileUploader matricule={matricule}/>
             break;
         case "offre-page-student":
-            contentToRender = <OffresPageStudent/>;
+            contentToRender = <OffresPageStudent/>
             break;
         case "section-entrevue":
-            contentToRender = <SectionEntrevue/>
+            contentToRender = <SectionEntrevue entrevueTest={[]}/>
             break;
         case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>;
+            contentToRender = <OffreCandidaturePage/>
             break;
         case "dashboard":
-            contentToRender = <Dashboard/>;
+            contentToRender = <Dashboard entrevuesTest={[]}/>
             break;
         case "signature":
-            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>;
+            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <div>Choisir une section.</div>
             break;
     }
 

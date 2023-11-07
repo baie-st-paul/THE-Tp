@@ -14,11 +14,9 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
+import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -58,8 +56,17 @@ class StudentServicesTest {
     @InjectMocks
     private StudentServices studentServices;
 
-    @MockBean
+   @MockBean
     private ContratStageRepository contratStageRepository;
+
+    @MockBean
+    UtilisateurRepository utilisateurRepository;
+
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private TagRepository tagRepository;
 
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}

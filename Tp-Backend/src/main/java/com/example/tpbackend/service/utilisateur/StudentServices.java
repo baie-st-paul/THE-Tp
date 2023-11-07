@@ -16,6 +16,7 @@ import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import jakarta.transaction.Transactional;
 
 import com.example.tpbackend.service.TagGenerator;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Data
 public class StudentServices {
     @Autowired
     private StudentRepository studentRepository;

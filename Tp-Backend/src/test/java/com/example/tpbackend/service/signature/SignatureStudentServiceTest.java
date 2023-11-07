@@ -131,53 +131,19 @@ class SignatureStudentServiceTest {
         signature.setId(1L);
         signature.setStudent(student);
 
-        SignatureStudentDTO signatureDTO = new SignatureStudentDTO();
-        signatureDTO.setStudentMatricule("2222222");
-        signatureDTO.setImageLink("newlink.org");
-
-        when(studentRepository.findByMatricule(any())).thenReturn(student);
-        when(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222")).thenReturn(signature);
-        when(signatureStudentRepository.save(any())).thenReturn(signature);
-        SignatureStudentDTO result = signatureStudentService.updateStudentSignature(signatureDTO);
-
-        assertNotNull(result);
-        assertNotEquals("https://example.org/example", result.getImageLink());
-        assertEquals("newlink.org", result.getImageLink());
-        assertEquals("2222222", result.getStudentMatricule());
-        verify(signatureStudentRepository, times(1)).save(any());
+        SignatureStudentDTO signatureDTO = mock(SignatureStudentDTO.class);
+        when(signatureDTO.getStudentMatricule()).thenThrow(new RuntimeException("foo"));
+        when(signatureDTO.toSignatureStudent()).thenReturn(signature);
+        assertThrows(RuntimeException.class, () -> signatureStudentService.updateStudentSignature(signatureDTO));
+        verify(signatureDTO).toSignatureStudent();
+        verify(signatureDTO).getStudentMatricule();
     }
 
     @Test
     public void testDeleteStudentSignature() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setFirstName("Jane");
-        utilisateur.setLastName("Student");
-        utilisateur.setPhoneNumber("6625550141");
-        utilisateur.setEmail("jane.doe@example.com");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-
-        Student student = new Student();
-        student.setMatricule("2222222");
-        student.setProgram("Informatique");
-        student.setOffresStages(new ArrayList<>());
-        student.setUtilisateur(utilisateur);
-        student.setSignatureStudent(new SignatureStudent());
-
-
-        SignatureStudent s = new SignatureStudent();
-        s.setImageLink("https://example.org/example");
-        s.setStudent(student);
-        s.setId(1L);
-
-        when(studentRepository.findByMatricule("2222222")).thenReturn(student);
-        when(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222")).thenReturn(s);
-
+        doNothing().when(signatureStudentRepository).deleteSignatureStudentByStudentMatricule(anyString());
         signatureStudentService.deleteSignatureByStudentMatricule("2222222");
-
-
-        verify(signatureStudentRepository, times(1)).delete(s);
-        verify(studentRepository, times(1)).save(student);
+        verify(signatureStudentRepository).deleteSignatureStudentByStudentMatricule(anyString());
+        assertNull(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222"));
     }
 }

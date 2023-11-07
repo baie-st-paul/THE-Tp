@@ -33,9 +33,9 @@ public class ContratStageDTO {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
 
-        dto.setStatutEtudiant(ContratStage.Status.Pas_signer.toString());
-        dto.setStatutEmployeur(ContratStage.Status.Pas_signer.toString());
-        dto.setStatutGestionnaire(ContratStage.Status.Pas_signer.toString());
+        dto.setStatutEtudiant(ContratStage.Statut.Pas_Signer.toString());
+        dto.setStatutEmployeur(ContratStage.Statut.Pas_Signer.toString());
+        dto.setStatutGestionnaire(ContratStage.Statut.Pas_Signer.toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
         dto.setNomDePoste(contratStage.getNomDePoste());

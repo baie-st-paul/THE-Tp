@@ -162,6 +162,10 @@ public class GestionnaireService {
 
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
+        contratStage.setNomDePoste(getOffreStageEtudiantEmbauche(contratStage.getStudent()).getOffreStage().getTitre());
+        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 
@@ -173,6 +177,11 @@ public class GestionnaireService {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
         System.out.println(candidaturesAcceptees);
         return candidaturesAcceptees.stream().map(CandidatureDTODetailed::toCandidatureDTODetailed).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Candidature getOffreStageEtudiantEmbauche(Student student){
+        return candidatureRepository.findByStatusAndStudent(Candidature.Status.Accepted,student);
     }
 
     @Transactional

@@ -69,6 +69,13 @@ public class GestionnaireController {
         }
     }
 
+    @GetMapping("/getContrats")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<ContratStageDTO>> getAllContrats() {
+        List<ContratStageDTO> contratStageDTOS = gestionnaireService.getAllContrats();
+        return ResponseEntity.ok(contratStageDTOS);
+    }
+
     @GetMapping("/candidatures/acceptees")
     @PreAuthorize("authenticated")
     public ResponseEntity<List<CandidatureDTODetailed>> getCandidaturesAcceptees() {

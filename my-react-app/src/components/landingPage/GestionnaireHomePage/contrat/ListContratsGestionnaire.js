@@ -62,7 +62,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                         <table className="table w-100 text-start">
                             <thead>
                             <tr>
-                                <th className="header-cell h5">Nom</th>
+                                <th className="header-cell h5">Nom, Prénom</th>
                                 <th className="header-cell h5">Matricule</th>
                                 <th className='header-cell h5'>Poste</th>
                                 <th className="header-cell h5">Signé par étudiant</th>
@@ -74,7 +74,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                             {contrats.length > 0  && contrats.filter(etudiantNf => etudiantNf.studentId.includes(filtre))
                                 .map((etudiant, index) => (
                                     <tr key={index} className="table-row align-middle">
-                                        <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ' ' + etudiant.prenomEtudiant}</td>
+                                        <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
                                         <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
                                         <td data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>

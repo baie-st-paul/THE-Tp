@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import CreateStudentSignature from "./signature/CreateStudentSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import SessionCotroller from "./SessionController";
+import EtudiantMesContrats from "./contrat/EtudiantMesContrats";
 
 
 const StudentHomePage = () => {
@@ -148,6 +149,9 @@ const StudentHomePage = () => {
         case "signature":
             contentToRender = <CreateStudentSignature signature={signature}/>;
             break;
+        case "mes-contrats":
+            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]} ></EtudiantMesContrats>
+            break;
         default:
             contentToRender = <div>Choisir une section.</div>;
             break;
@@ -207,7 +211,13 @@ const StudentHomePage = () => {
                                                                         <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
                                                                     </button>
                                                                 </li>
+                                                                <li className="nav-item navbarbutton px-1">
+                                                <button className="nav-link" onClick={() => setActiveContent('mes-contrats')}>
+                                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> Mes Contrats
+                                                </button>
+                                            </li>
                                                             </ul>
+                                                            
                                                         </>
                                                     }
                                                 </div>
@@ -217,9 +227,7 @@ const StudentHomePage = () => {
                                 </Nav>
                             </Navbar.Collapse>
                         </Navbar>
-
                         <div className="container content-container mt-4">
-                            <h2>Étudiant</h2>
                             {contentToRender}
                         </div>
                     </div>

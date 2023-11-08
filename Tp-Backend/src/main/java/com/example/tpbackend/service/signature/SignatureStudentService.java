@@ -47,8 +47,4 @@ public class SignatureStudentService {
         return signature.toSignatureStudentDTO();
     }
 
-    @Transactional
-    public void deleteSignatureByStudentMatricule(String matricule) {
-        signatureStudentRepository.deleteSignatureStudentByStudentMatricule(matricule);
-    }
 }

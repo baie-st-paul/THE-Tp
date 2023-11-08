@@ -464,10 +464,9 @@ public class GestionnaireServiceTest {
         contratDTO.setStudentId("9");
         contratDTO.setEmployerId(1L);
 
-        Mockito.when(studentRepository.findByMatricule("9")).thenReturn(mockStudent);
-        Mockito.when(employerRepository.findById(1L)).thenReturn(Optional.of(mockEmployer));
-        Mockito.when(offreStageRepository.findById(3L)).thenReturn(Optional.of(mockOffreStage));
-        Mockito.when(candidatureRepository.findById(5L)).thenReturn(Optional.of(mockCandidature));
+        Mockito.when(studentRepository.findByMatricule(anyString())).thenReturn(mockStudent);
+        Mockito.when(employerRepository.findById(anyLong())).thenReturn(Optional.of(mockEmployer));
+        Mockito.when(candidatureRepository.findByStatusAndStudent(any(), any())).thenReturn(Optional.of(mockCandidature));
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
 
         // Act
@@ -577,6 +576,7 @@ public class GestionnaireServiceTest {
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
 
         List<CandidatureDTODetailed> result = gestionnaireService.getCandidaturesAcceptees();
+        System.out.println(result);
 
         assertTrue(result.isEmpty());
 

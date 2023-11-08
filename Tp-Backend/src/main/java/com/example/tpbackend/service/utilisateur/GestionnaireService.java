@@ -6,10 +6,8 @@ import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.TagDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
@@ -36,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -162,7 +161,10 @@ public class GestionnaireService {
 
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
-        contratStage.setNomDePoste(getOffreStageEtudiantEmbauche(contratStage.getStudent()).getOffreStage().getTitre());
+        System.out.println(student.getCandidatures());
+        Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
+        System.out.println(candidature);
+        contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
         contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
         contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
@@ -186,7 +188,7 @@ public class GestionnaireService {
     }
 
     @Transactional
-    public Candidature getOffreStageEtudiantEmbauche(Student student){
+    public Optional<Candidature> getOffreStageEtudiantEmbauche(Student student){
         return candidatureRepository.findByStatusAndStudent(Candidature.Status.Accepted,student);
     }
 

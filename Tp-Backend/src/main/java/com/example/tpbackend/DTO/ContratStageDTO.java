@@ -7,6 +7,7 @@ public class ContratStageDTO {
     private Long id;
     private String studentId;
     private Long employerId;
+    private String nomDeCompagnie;
     private String nomEtudiant;
     private String nomDePoste;
     private String prenomEtudiant;
@@ -34,6 +35,7 @@ public class ContratStageDTO {
         }
 
         dto.setStatutEtudiant(ContratStage.Statut.Pas_Signer.toString());
+        dto.setNomDeCompagnie(contratStage.getEmployeur().getCompanyName());
         dto.setStatutEmployeur(ContratStage.Statut.Pas_Signer.toString());
         dto.setStatutGestionnaire(ContratStage.Statut.Pas_Signer.toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());

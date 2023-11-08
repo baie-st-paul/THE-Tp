@@ -169,14 +169,10 @@ public class GestionnaireService {
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        System.out.println(contratStageDTO);
         Student student = studentRepository.findByMatricule(contratStageDTO.getStudentId());
-        System.out.println(student);
         Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
                 .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
-        System.out.println(employer);
         ContratStage contratStage = contratStageDTO.toContratStage();
-
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
         contratStage.setNomDePoste(getOffreStageEtudiantEmbauche(contratStage.getStudent()).getOffreStage().getTitre());
@@ -192,7 +188,6 @@ public class GestionnaireService {
     @Transactional
     public List<CandidatureDTO> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
-        System.out.println(candidaturesAcceptees);
         return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());
     }
 

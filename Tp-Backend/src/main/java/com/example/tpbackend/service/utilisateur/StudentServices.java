@@ -71,7 +71,7 @@ public class StudentServices {
     @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
-        System.out.println(student);
+        //System.out.println(student);
         return Student.fromStudent(student);
     }
 
@@ -131,7 +131,7 @@ public class StudentServices {
     public Tag getTag(){
         return new Tag(TagGenerator.getCurrentSession());
     }
-
+    @Transactional
     public List<Object> checkCurrentSession(String matricule) {
         List<Object> response = new ArrayList<>();
         Tag currentTag = new Tag(TagGenerator.getCurrentSession());
@@ -163,6 +163,7 @@ public class StudentServices {
         studentRepository.updateTagNameByMatricule(matricule,tag);
     }
 
+    @Transactional
     public List<ContratStageDTO> getContratByStudent(String studentId){
         List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
         return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());

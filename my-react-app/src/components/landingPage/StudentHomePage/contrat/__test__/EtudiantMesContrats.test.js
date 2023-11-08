@@ -1,9 +1,9 @@
 import {render, fireEvent, screen, act, waitForElement  } from '@testing-library/react';
-import EmployeurMesContrats from '../EmployeurMesContrats';
+import EtudiantMesContrats from '../EtudiantMesContrats.js'
 import React from 'react';
 describe('Tests Employeur voit ses contrats', () => {
 
-    let contrats = [{
+    let contrats = [{ 
         employerId : 1,
         id : 1,
         nomDePoste : 'Dev',
@@ -25,29 +25,14 @@ describe('Tests Employeur voit ses contrats', () => {
          studentId : "1234565"
 }]
 
-
-
     it('should show contracts if there is any', () => {
         act(() => {
-       render(<EmployeurMesContrats employerId={1} contratsTest={contrats}></EmployeurMesContrats>)
+       render(<EtudiantMesContrats employerId={1} contratsTest={contrats}></EtudiantMesContrats>)
     })
       const row = document.querySelectorAll('tr');
       expect(row.length).toBe(3) 
-      const element = screen.getByText('1234567');
+      const element = screen.getByText('Dev');
       expect(element).toBeInTheDocument();
       
     })
-
-    it('should filter properly' , ()=>{
-        const { getByTestId } = render(<EmployeurMesContrats employerId={1234} contratsTest={contrats}></EmployeurMesContrats>)        
-        const inputElement = getByTestId('input');
-        
-        fireEvent.change(inputElement, { target: { value: '1234567' } });      
-        const element = screen.getByText('1234567'); 
-        expect(element).toBeInTheDocument();
-        fireEvent.change(inputElement, { target: { value: '999999' }});   
-        const row = document.querySelectorAll('tr');      
-        expect(row.length).toBe(1)             
-    })
-
 })

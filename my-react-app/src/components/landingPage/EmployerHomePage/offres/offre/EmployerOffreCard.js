@@ -71,7 +71,7 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
             </ListGroup>
             <Card.Body>
-                { etudiantsNb > 0 ?
+                { etudiantsNb === 0 ?
                     <Button className="btn btn-danger"
                             onClick={() => onDelete(offre.id)}>
                             Supprimer

@@ -374,9 +374,10 @@ public class GestionnaireServiceTest {
                 "123456789",
                 "Student"
         );
-        // Créer des étudiants
+        user1.setId(1L);
+
         Student student1 = new Student( "MAT123", "Programme1", user1);
-        student1.getUtilisateur().setId(1L);
+        Employer employer1 = new Employer(1L, "ABC", user1);
 
         Utilisateur user2 = new Utilisateur(
                 "Marie",
@@ -386,23 +387,21 @@ public class GestionnaireServiceTest {
                 "123456789",
                 "Student"
         );
+        user2.setId(2L);
+
         Student student2 = new Student("MAT456", "Programme2", user2);
-        student2.getUtilisateur().setId(2L);
+        Employer employer2 = new Employer(2L, "ABCDC", user2);
 
         // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
-        entrevue1.setEmployer(new Employer());
-        entrevue1.getEmployer().setId(1L);
-        entrevue1.getEmployer().setCompanyName("ABC");
+        entrevue1.setEmployer(employer1);
         entrevue1.setStudent(student1);
         entrevue1.setStatus(Entrevue.Status.Acceptee);
         entrevue1.setId(1L);
 
         Entrevue entrevue2 = new Entrevue();
         entrevue2.setStudent(student2);
-        entrevue2.setEmployer(new Employer());
-        entrevue2.getEmployer().setId(2L);
-        entrevue2.getEmployer().setCompanyName("ABCDC");
+        entrevue2.setEmployer(employer2);
         entrevue2.setStatus(Entrevue.Status.Acceptee);
         entrevue2.setId(2L);
 
@@ -421,20 +420,58 @@ public class GestionnaireServiceTest {
     @Test
     public void testCreateContrat_Success() {
         // Arrange
-        ContratStageDTO inputDto = new ContratStageDTO();
-        inputDto.setStudentId("9");
-        inputDto.setEmployerId(1L);
-        Student mockStudent = new Student();
-        Employer mockEmployer = new Employer();
-        ContratStage mockContrat = new ContratStage();
+        Utilisateur mockUtilisateur = new Utilisateur();
+        mockUtilisateur.setId(6);
+        mockUtilisateur.setFirstName("abcd");
+        mockUtilisateur.setLastName("ok");
 
-        Mockito.when(studentRepository.findById(9L)).thenReturn(Optional.of(mockStudent));
+        Student mockStudent = new Student();
+        mockStudent.setMatricule("9");
+        mockStudent.setUtilisateur(mockUtilisateur);
+
+        Employer mockEmployer = new Employer();
+        mockEmployer.setId(1L);
+
+        OffreStage mockOffreStage = new OffreStage();
+        mockOffreStage.setId(3L);
+        mockOffreStage.setTitre("abc");
+        mockOffreStage.setEmployer(mockEmployer);
+        mockOffreStage.setSalaire(20.0);
+
+        Candidature mockCandidature = new Candidature();
+        mockCandidature.setId(5L);
+        mockCandidature.setStudent(mockStudent);
+        mockCandidature.setOffreStage(mockOffreStage);
+        mockCandidature.setStatus(Candidature.Status.Accepted);
+
+        List<OffreStage> mockOffreStages = new ArrayList<>();
+        mockOffreStages.add(mockOffreStage);
+
+        List<Candidature> mockCandidatures = new ArrayList<>();
+        mockCandidatures.add(mockCandidature);
+
+        mockEmployer.setOffresStages(mockOffreStages);
+
+        mockStudent.setOffresStages(mockOffreStages);
+        mockStudent.setCandidatures(mockCandidatures);
+
+        ContratStage mockContrat = new ContratStage();
+        mockContrat.setStudent(mockStudent);
+        mockContrat.setEmployeur(mockEmployer);
+        mockContrat.setId(3L);
+
+        ContratStageDTO contratDTO = ContratStageDTO.fromContratStage(mockContrat);
+        contratDTO.setStudentId("9");
+        contratDTO.setEmployerId(1L);
+
+        Mockito.when(studentRepository.findByMatricule("9")).thenReturn(mockStudent);
         Mockito.when(employerRepository.findById(1L)).thenReturn(Optional.of(mockEmployer));
+        Mockito.when(offreStageRepository.findById(3L)).thenReturn(Optional.of(mockOffreStage));
+        Mockito.when(candidatureRepository.findById(5L)).thenReturn(Optional.of(mockCandidature));
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
 
         // Act
-        ContratStageDTO result = gestionnaireService.createContrat(inputDto);
-
+        ContratStageDTO result = gestionnaireService.createContrat(contratDTO);
         // Assert
         assertNotNull(result);
     }
@@ -446,7 +483,7 @@ public class GestionnaireServiceTest {
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("nonExistentStudentId");
 
-        Mockito.when(studentRepository.findById(3432L)).thenReturn(Optional.empty());
+        Mockito.when(studentRepository.findByMatricule("3432L")).thenReturn(null);
 
         assertThrows(RuntimeException.class, () -> {
             gestionnaireService.createContrat(inputDto);
@@ -507,8 +544,15 @@ public class GestionnaireServiceTest {
     @Test
     void getCandidaturesAcceptees() {
         byte[] mockLetter = new byte[] {1, 2, 3};
-        Student mockStudent = mock(Student.class);
-        OffreStage mockOffreStage = mock(OffreStage.class);
+        Utilisateur mockUtilisateur = new Utilisateur();
+        mockUtilisateur.setFirstName("abcd");
+        mockUtilisateur.setLastName("ok");
+        Student mockStudent = new Student();
+        mockStudent.setUtilisateur(mockUtilisateur);
+        OffreStage mockOffreStage = new OffreStage();
+        mockOffreStage.setSalaire(15.0);
+        mockOffreStage.setId(7L);
+        mockOffreStage.setEmployer(new Employer("abc", mockUtilisateur));
         Cv mockCv = mock(Cv.class);
 
         Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
@@ -522,8 +566,8 @@ public class GestionnaireServiceTest {
 
         assertEquals(2, result.size());
 
-        assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
-        assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
+        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature1), result.get(0));
+        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature2), result.get(1));
 
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }
@@ -540,7 +584,4 @@ public class GestionnaireServiceTest {
         assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0101010101")));
         assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0202020202")));
     }
-
-
 }
-

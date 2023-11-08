@@ -54,16 +54,4 @@ public class SignatureStudentController {
         }
     }
 
-    @DeleteMapping("/delete/{matricule}")
-    @PreAuthorize("authenticated")
-    public ResponseEntity<String> deleteStudentSignature(@PathVariable String matricule) {
-        try {
-            signatureStudentService.deleteSignatureByStudentMatricule(matricule);
-            return ResponseEntity.ok("Signature supprimée");
-        } catch (Exception e) {
-            System.out.println(matricule);
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
 }

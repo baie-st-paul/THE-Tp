@@ -141,51 +141,10 @@ const CreateSignature = ({employerId}) => {
         window.location.reload()
     }
 
-    const deleteSignature = async () => {
-        try {
-            console.log(employerId)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/delete/${employerId}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true
-                }
-            ).catch(error => {
-                console.log(error)
-                console.error("Failed to delete signature");
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setUrlImage(null);
-                    setSignature(null)
-                })
-        } catch (error) {
-            console.error("Error deleting signature:", error);
-        }
-        window.location.reload()
-    }
-
     const handleClear = () => {
         sign.clear()
         setDisableWhenEmpty(true)
         console.log(sign.empty)
-    }
-
-    const handleDelete = () => {
-        sign.clear()
-        setDisableWhenEmpty(true)
-        console.log(sign.empty)
-        deleteSignature()
     }
 
     const handleSave = () => {
@@ -232,14 +191,6 @@ const CreateSignature = ({employerId}) => {
             }
             <br/>
 
-            {signature !== null &&
-                <Button className="btn btn-danger"
-                        onClick={handleDelete}>
-                    Supprimer <FaTimes
-                    style={{color: 'black'}}
-                />
-                </Button>
-            }
             {signature === null && urlImage !== null &&
                 <Button className="btn btn-success"
                         onClick={saveSignature}>

@@ -16,9 +16,4 @@ public interface SignatureEmployerRepository extends JpaRepository<SignatureEmpl
     @Transactional
     @Query("UPDATE SignatureEmployer SET imageLink = ?2 WHERE employer.id = ?1")
     void updateSignatureEmployerByEmployer_Id(long employerId, String imageLink);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM SignatureEmployer s WHERE s.employer.id = ?1")
-    void deleteSignatureEmployerByEmployer_Id(long id);
 }

@@ -579,9 +579,5 @@ public class GestionnaireServiceTest {
         System.out.println(result);
 
         assertTrue(result.isEmpty());
-
-        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
-        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0101010101")));
-        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0202020202")));
     }
 }

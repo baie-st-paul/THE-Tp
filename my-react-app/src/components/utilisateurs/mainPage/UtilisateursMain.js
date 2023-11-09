@@ -1,7 +1,7 @@
 import React from 'react'
 import al from '../../../images/al.png'
-import './utilisateursMain.css'
-import MenuUtilisateursMain from './menuUtilisateursMain'
+import './UtilisateursMain.css'
+import MenuUtilisateursMain from './MenuUtilisateursMain'
 
 export default function UtilisateursMain() {
 

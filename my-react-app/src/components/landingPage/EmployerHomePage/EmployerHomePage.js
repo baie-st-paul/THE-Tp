@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import EmployerStageOffreList from "./offres/EmployerStageOffreList";
 import { useState } from "react";
-import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
+import AjoutOffreForm from "./offres/offre/AjoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faBriefcase, faPlus, faFile} from "@fortawesome/free-solid-svg-icons";

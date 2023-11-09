@@ -3,7 +3,7 @@ import "../InscriptionPage.css"
 import PhoneInput from 'react-phone-number-input'
 import {isValidPhoneNumber} from "react-phone-number-input";
 import 'react-phone-number-input/style.css'
-import '../../../stylesGenerales.css'
+import '../../../StylesGenerales.css'
 import {Link} from "react-router-dom";
 
 const InscriptionFormEmp = ({onAdd}) => {

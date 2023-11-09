@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import EtudiantsConvoquesEntrevue from "./entrevue/EtudiantsConvoquesEntrevue";
 import EtudiantEmbauchePage from "./embauche/EtudiantEmbauchePage";
 import ListContratsGestionnaire from "./contrat/ListContratsGestionnaire";
+import DashboardPageGestionnaire from "./dashboard/DashboardPageGestionnaire";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -48,7 +49,7 @@ const GestionnaireHomePage = () => {
             contentToRender = <ListContratsGestionnaire contratsTest={[]}/>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <DashboardPageGestionnaire/>
             break;
     }
 

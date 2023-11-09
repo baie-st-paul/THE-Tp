@@ -1,5 +1,5 @@
 import {render, screen, fireEvent} from '@testing-library/react';
-import InformationEtudiantPostule from '../informationEtudiantPostule';
+import InformationEtudiantPostule from '../InformationEtudiantPostule';
 import {BrowserRouter, Router} from 'react-router-dom';
 import { testList, testList1, testList2 } from "./TestList"
 import { createMemoryHistory } from 'history';

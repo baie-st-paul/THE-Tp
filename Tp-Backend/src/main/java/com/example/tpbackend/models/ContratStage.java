@@ -24,7 +24,7 @@ public class ContratStage {
     @JoinColumn(name = "employer_id")
     private Employer employeur;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "signature_id")
     private Signature studentSignature;
 }

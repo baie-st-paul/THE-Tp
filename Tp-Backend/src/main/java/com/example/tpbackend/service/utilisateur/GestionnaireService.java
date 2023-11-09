@@ -70,7 +70,6 @@ public class GestionnaireService {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email,phoneNumber, password, role);
         Gestionnaire gestionnaire = new Gestionnaire(gestionnairePostDTO.getMatricule());
         gestionnaire.setUtilisateur(utilisateur);
-        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
         userRepository.save(utilisateur);
         gestionnaireRepository.save(gestionnaire);
 
@@ -145,26 +144,22 @@ public class GestionnaireService {
     @Transactional
     public List<EntrevueDTODetailed> getStudentsWithEntrevue() {
         List<Entrevue> entrevues = entrevueRepository.findAll();
-        System.out.println(entrevues);
         return entrevues.stream().map(EntrevueDTODetailed::toEntrevueDTODetailed).collect(Collectors.toList());
     }
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        System.out.println(contratStageDTO);
         Student student = studentRepository.findByMatricule(contratStageDTO.getStudentId());
-        System.out.println(student);
         Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
                 .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
-        System.out.println(employer);
         ContratStage contratStage = contratStageDTO.toContratStage();
 
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
-        System.out.println(student.getCandidatures());
+
         Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
-        System.out.println(candidature);
         contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
+
         contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
         contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
@@ -183,7 +178,6 @@ public class GestionnaireService {
     @Transactional
     public List<CandidatureDTODetailed> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
-        System.out.println(candidaturesAcceptees);
         return candidaturesAcceptees.stream().map(CandidatureDTODetailed::toCandidatureDTODetailed).collect(Collectors.toList());
     }
 

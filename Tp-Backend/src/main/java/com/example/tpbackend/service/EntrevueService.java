@@ -41,11 +41,9 @@ public class EntrevueService {
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
-        System.out.println(entrevueDTO.getIdOffre());
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
         entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         entrevue.setOffreStage(offreStageRepository.getOffreById(Long.parseLong(entrevueDTO.getIdOffre())));
-        System.out.println(entrevue.getOffreStage());
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
@@ -82,12 +80,6 @@ public class EntrevueService {
     public void manageStatusByMatricule(String matricule, String newStatus) {
         entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
     }
-
-   /* public List<EntrevueDTO> getStudentsForInterviewByEmployerId(Long employerId){
-        Employer employer = employerRepository.findById(employerId).orElseThrow(() -> new ResourceNotFoundException("Employer not found"));
-        List<Entrevue> entrevues = entrevueRepository.findByEmployer(employer);
-        return entrevues.stream().map(Entrevue::toEntrevueDTO).collect(Collectors.toList());
-    }*/
 
     @Transactional
     public List<StudentGetDTO> getStudentsForInterviewByEmployerId(Long employerId){

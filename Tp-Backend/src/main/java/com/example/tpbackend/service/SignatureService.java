@@ -109,5 +109,4 @@ public class SignatureService {
         student.setSignature(null);
         studentRepository.save(student);
     }
-
 }

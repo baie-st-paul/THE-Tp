@@ -88,6 +88,7 @@ public class SignatureController {
         }
     }
 
+
     @PutMapping("/students")
     @PreAuthorize("authenticated")
     public ResponseEntity<SignatureDTO> updateStudentSignature(@RequestBody SignatureDTO dto) {

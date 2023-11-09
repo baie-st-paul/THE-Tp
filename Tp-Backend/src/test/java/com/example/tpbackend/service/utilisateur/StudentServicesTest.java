@@ -3,6 +3,7 @@ package com.example.tpbackend.service.utilisateur;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doNothing;
@@ -10,23 +11,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.security.AuthenticationService;
@@ -78,6 +74,9 @@ class StudentServicesTest {
 
     @MockBean
     private AuthenticationService authenticationService;
+
+    @MockBean
+    private ContratStageRepository contratStageRepository;
 
     @Autowired
     private StudentServices studentServices;
@@ -666,5 +665,61 @@ class StudentServicesTest {
 
         studentServices.deleteStudentByMatricule("Matricule");
     }
+
+    @Test
+    void signContract() throws Exception {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.com");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Student);
+        utilisateur.setFirstName("Jane");
+        utilisateur.setLastName("Student");
+        utilisateur.setPhoneNumber("6625550141");
+
+        Student student = new Student();
+        student.setMatricule("2222222");
+        student.setProgram("Informatique");
+        student.setOffresStages(new ArrayList<>());
+        student.setUtilisateur(utilisateur);
+
+        Signature signature = new Signature();
+        signature.setImageLink("https://example.org/example");
+        signature.setEmployer(null);
+        signature.setId(1L);
+        signature.setStudent(student);
+        student.setSignature(signature);
+
+        ContratStage contract = new ContratStage();
+        contract.setStudent(student);
+        contract.setId(1L);
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.doe@example.org");
+        utilisateur2.setId(2L);
+        utilisateur2.setFirstName("Jane");
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setLastName("Doe");
+        utilisateur2.setRole(Utilisateur.Role.Employeur);
+        utilisateur2.setPhoneNumber("6625550144");
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setId(1L);
+        employer.setOffresStages(new ArrayList<>());
+        employer.setUtilisateur(utilisateur2);
+        contract.setEmployeur(employer);
+
+        when(contratStageRepository.findById(1L)).thenReturn(Optional.of(contract));
+        when(contratStageRepository.save(any(ContratStage.class))).thenReturn(contract);
+        when(studentRepository.findByMatricule("2222222")).thenReturn(student);
+
+        ContratStageDTO result = studentServices.signContract(ContratStageDTO.fromContratStage(contract));
+
+        assertEquals(contract.getId(), result.getId());
+        assertEquals(contract.getStudent().getMatricule(), result.getStudentId());
+        assertTrue(result.isSignedByStudent());
+    }
+
 }
 

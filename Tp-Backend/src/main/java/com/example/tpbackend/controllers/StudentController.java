@@ -1,5 +1,6 @@
 package com.example.tpbackend.controllers;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -106,6 +107,18 @@ public class StudentController {
         } catch (Exception ex) {
             String errorMessage = "An error occurred while processing your request";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @PostMapping("/signContract")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
+        try {
+            studentServices.signContract(contratStageDTO);
+            return ResponseEntity.ok(contratStageDTO);
+        } catch (Exception ex) {
+            String errorMessage = "Le contrat n'a pas pu être signé par l'étudiant";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

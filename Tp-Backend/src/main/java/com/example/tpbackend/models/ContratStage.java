@@ -2,6 +2,7 @@ package com.example.tpbackend.models;
 
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,8 @@ public class ContratStage {
     @OneToOne
     @JoinColumn(name = "employer_id")
     private Employer employeur;
+
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
+    @JoinColumn(name = "signature_id")
+    private Signature studentSignature;
 }

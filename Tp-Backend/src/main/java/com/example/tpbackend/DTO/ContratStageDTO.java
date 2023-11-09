@@ -8,6 +8,7 @@ public class ContratStageDTO {
     private Long id;
     private String studentId;
     private Long employerId;
+    private boolean isSignedByStudent;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -24,6 +25,9 @@ public class ContratStageDTO {
 
         if (contratStage.getEmployeur() != null) {
             dto.setEmployerId(contratStage.getEmployeur().getId());
+        }
+        if (contratStage.getStudentSignature() != null) {
+            dto.setSignedByStudent(true);
         }
         return dto;
     }

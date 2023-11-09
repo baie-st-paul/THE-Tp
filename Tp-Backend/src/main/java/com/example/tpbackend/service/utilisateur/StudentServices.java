@@ -1,21 +1,16 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import jakarta.transaction.Transactional;
@@ -48,7 +43,8 @@ public class StudentServices {
     private UserService userService;
     @Autowired
     private TagRepository tagRepository;
-
+    @Autowired
+    private ContratStageRepository contratStageRepository;
 
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
@@ -161,7 +157,17 @@ public class StudentServices {
         studentRepository.updateTagNameByMatricule(matricule,TagGenerator.getCurrentSession());
     }
 
-    public void updateTag(String matricule,String tag){
+    public void updateTag(String matricule, String tag){
         studentRepository.updateTagNameByMatricule(matricule,tag);
+    }
+
+    @Transactional
+    public ContratStageDTO signContract(ContratStageDTO contractDTO) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        ContratStage contract = optionalContract.get();
+        Student student = studentRepository.findByMatricule(contractDTO.getStudentId());
+        contract.setStudentSignature(student.getSignature());
+        return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
     }
 }

@@ -39,6 +39,7 @@ public class Candidature {
     @Column(name = "tag_name")
     private String tagName;
 
+
     public Candidature(byte[] lettre_motivation, Student student,
                        OffreStage offreStage, Cv cvStudent,String fileName, Status status) {
         this.lettre_motivation = lettre_motivation;

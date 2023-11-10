@@ -73,7 +73,6 @@ public class StudentServices {
     @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
-        System.out.println(student);
         return Student.fromStudent(student);
     }
 
@@ -107,7 +106,6 @@ public class StudentServices {
     @Transactional
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
         List<Candidature> candidatureList = candidatureRepository.getAllCandidaturesByMatricule(matricule);
-        System.out.println(candidatureList);
         List<CandidatureGetDTO> candidatureGetDTOList = new ArrayList<>();
 
         for (Candidature candidature : candidatureList) {
@@ -139,8 +137,6 @@ public class StudentServices {
         Tag currentTag = new Tag(TagGenerator.getCurrentSession());
         Tag studenTag = new Tag(studentRepository.findTagNameByMatricule(matricule));
         boolean isSameTag;
-        System.out.println("tag 1" + currentTag + " tag 2" + studenTag);
-        System.out.println(currentTag.getTagName() == studenTag.getTagName());
         if(currentTag.getTagName().equals(studenTag.getTagName())){
             isSameTag = true;
         }

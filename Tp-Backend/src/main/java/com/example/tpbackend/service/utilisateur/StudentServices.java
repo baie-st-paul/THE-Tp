@@ -71,6 +71,13 @@ public class StudentServices {
     }
 
     @Transactional
+    public CvDTO getCvByMatricule(String matricule) {
+        Cv cv = cvRepository.findCvByMatricule(matricule);
+        System.out.println(cv);
+        return cv.toCvDTO();
+    }
+
+    @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
         return Student.fromStudent(student);

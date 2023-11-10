@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Card from "react-bootstrap/Card";
 import Grid from "@mui/material/Grid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faTimes, faClock, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faTimes, faClock} from "@fortawesome/free-solid-svg-icons";
 import {List, Avatar, ListItem, ListItemAvatar, ListItemText, IconButton} from "@mui/material";
 import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -115,14 +115,17 @@ const CardPageOffres = ({sessions, offres}) => {
                             {filteredOffreList.map((offre, index) => (
                                 <ListItem key={index}
                                           secondaryAction={
-                                              <IconButton edge="end" aria-label="plus">
-                                                  <Button className="btn btn-secondary"
+                                              <IconButton edge="end" aria-label="plus"
                                                           onClick={() => {
                                                               setShowOffreDetailed(!showOffreDetailed)
                                                               setOffre(offre)
                                                           }}>
-                                                      <p>voir plus</p>
-                                                  </Button>
+                                                  <p style={{borderColor: "gray",
+                                                      borderRadius: "4px",
+                                                      color: "white",
+                                                      width: "80px",
+                                                      height: "30px",
+                                                      backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
                                               </IconButton>
                                           }>
                                     <ListItemAvatar>

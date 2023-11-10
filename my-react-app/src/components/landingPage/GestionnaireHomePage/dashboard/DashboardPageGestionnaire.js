@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import FetchsForDashboard from "./FetchsForDashboard";
 import CardPageOffres from "./cards/CardPageOffres";
 import Grid from "@mui/material/Grid";
+import CardPageCvs from "./cards/CardPageCvs";
 
 const DashboardPageGestionnaire = () => {
     const [cvList, setCvList] = useState([])
@@ -31,6 +32,7 @@ const DashboardPageGestionnaire = () => {
             <h1 className="display-4 text-center">Dashboard</h1>
             <Grid container spacing={2}>
                 <CardPageOffres sessions={sessions} offres={offres}/>
+                <CardPageCvs cvList={cvList}/>
             </Grid>
         </div>
     )

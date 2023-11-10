@@ -4,9 +4,6 @@ import Grid from "@mui/material/Grid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 import {List, Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 
 const CardPageOffres = ({sessions, offres}) => {
     const [filterOption, setFilterOption] = useState("all");
@@ -31,7 +28,8 @@ const CardPageOffres = ({sessions, offres}) => {
                 {sessions.length !== 0 && sessions.length !== undefined &&
                     offres.length !== 0 && offres.length !== undefined &&
                     <div className="col">
-                        <div className="row m-2">
+                        <h4 style={{textAlign: "left", marginLeft: "1.5rem", marginTop: "10px"}}>Section : Offres Véto</h4>
+                        <div className="row" style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
                             <Grid item xs={6} sm={6} md={5} lg={6}>
                                 <select
                                     className="form-control w-100 d-inline"
@@ -61,34 +59,32 @@ const CardPageOffres = ({sessions, offres}) => {
                                 </select>
                             </Grid>
                         </div>
-                        <div className="col">
-                            <List>
-                                {filteredOffreList.map((offre, index) => (
-                                    <ListItem key={index}>
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                {offre.status === "In_review" && (
-                                                    <>
-                                                        <FontAwesomeIcon icon={faClock} />
-                                                    </>
-                                                )}
-                                                {offre.status === "Accepted" && (
-                                                    <>
-                                                        <FontAwesomeIcon icon={faCheck} />
-                                                    </>
-                                                )}
-                                                {offre.status === "Refused" && (
-                                                    <>
-                                                        <FontAwesomeIcon icon={faTimes} />
-                                                    </>
-                                                )}
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={offre.titre} secondary={offre.salaire + "$/h"} />
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </div>
+                        <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}>
+                            {filteredOffreList.map((offre, index) => (
+                                <ListItem key={index}>
+                                    <ListItemAvatar>
+                                        <Avatar>
+                                            {offre.status === "In_review" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faClock} />
+                                                </>
+                                            )}
+                                            {offre.status === "Accepted" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faCheck} />
+                                                </>
+                                            )}
+                                            {offre.status === "Refused" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faTimes} />
+                                                </>
+                                            )}
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={offre.titre} secondary={offre.salaire + "$/h"} />
+                                </ListItem>
+                            ))}
+                        </List>
                     </div>
                 }
             </Card>

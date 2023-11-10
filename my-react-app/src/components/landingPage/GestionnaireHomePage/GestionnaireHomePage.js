@@ -8,7 +8,8 @@ import {
     faFileUpload,
     faCalendarDay,
     faHandshake,
-    faFile
+    faFile,
+    faHome
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -34,22 +35,52 @@ const GestionnaireHomePage = () => {
 
     switch (activeContent) {
         case "veto-section":
-            contentToRender = <VetoSection/>
+            contentToRender =
+                <div className="container content-container mt-4">
+                    <VetoSection/>
+                </div>
             break;
         case "offre-page-ges":
-            contentToRender = <OffresPageGestionnaire/>
+            contentToRender =
+                <div className="container content-container mt-4">
+                    <h2>Gestionnaire</h2>
+                    <OffresPageGestionnaire/>
+                </div>
             break;
         case "entrevues":
-            contentToRender = <EtudiantsConvoquesEntrevue/>
+            contentToRender =
+                <div className="container content-container mt-4">
+                    <h2>Gestionnaire</h2>
+                    <EtudiantsConvoquesEntrevue/>
+                </div>
             break;
         case "candidatures-acceptees":
-            contentToRender = <EtudiantEmbauchePage/>
+            contentToRender =
+                <div className="container content-container mt-4">
+                    <h2>Gestionnaire</h2>
+                    <EtudiantEmbauchePage/>
+                </div>
             break;
         case "contrats":
-            contentToRender = <ListContratsGestionnaire contratsTest={[]}/>
+            contentToRender =
+                <div className="container content-container mt-4">
+                    <h2>Gestionnaire</h2>
+                    <ListContratsGestionnaire contratsTest={[]}/>
+                </div>
+            break;
+        case "dashboard":
+            contentToRender =
+                <div className="container content-container m-4">
+                    <h2>Gestionnaire</h2>
+                    <DashboardPageGestionnaire/>
+                </div>
             break;
         default:
-            contentToRender = <DashboardPageGestionnaire/>
+            contentToRender =
+                <div className="container content-container m-4">
+                    <h2>Gestionnaire</h2>
+                    <DashboardPageGestionnaire/>
+                </div>
             break;
     }
 
@@ -60,6 +91,11 @@ const GestionnaireHomePage = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <ul className="navbar-nav px-2">
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("dashboard")}>
+                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                                </button>
+                            </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV Veto
@@ -96,8 +132,7 @@ const GestionnaireHomePage = () => {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div id="Render" className="container content-container mt-4">
-                <h2>Gestionnaire</h2>
+            <div id="Render">
                 {contentToRender}
             </div>
         </div>

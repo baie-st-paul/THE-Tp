@@ -68,6 +68,7 @@ const fetchSessions = async (token, sessions, setSession) => {
             setSession(sessions)
         }
     }
+    return sessions
 }
 
 const fetchOffreList = async (token, offres, setOffres) => {

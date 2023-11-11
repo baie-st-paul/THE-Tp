@@ -3,20 +3,20 @@ import Card from "react-bootstrap/Card";
 import React from "react";
 import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 
-const CardPageContrats = ({contrats}) => {
+const CardPageCandidaturesEmbauches = ({candidaturesEmbauches}) => {
     return (
         <Grid item xs={10} sm={12} md={6} lg={6}>
             <Card>
                 <div className="col">
                     <h4 style={{width: "60%", textAlign: "left", marginLeft: "1.5rem", marginTop: "10px"}}>
-                        Section : Contrats
+                        Section : Embauchés
                     </h4>
-                    {contrats.length !== 0 && contrats.length !== undefined ?
+                    {candidaturesEmbauches.length !== 0 && candidaturesEmbauches.length !== undefined ?
                         <div>
                             <div style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}></div>
                             <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}></List>
                         </div>
-                        : <p>Aucun contrats disponible</p>
+                        : <p>Aucune candidature embauchée disponible</p>
                     }
                 </div>
             </Card>
@@ -24,4 +24,4 @@ const CardPageContrats = ({contrats}) => {
     )
 }
 
-export default CardPageContrats
+export default CardPageCandidaturesEmbauches

@@ -98,12 +98,12 @@ const GestionnaireHomePage = () => {
                             </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV Veto
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>Cv Véto
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Véto
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton">

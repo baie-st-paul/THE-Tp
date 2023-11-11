@@ -3,6 +3,9 @@ import FetchsForDashboard from "./FetchsForDashboard";
 import CardPageOffres from "./cards/CardPageOffres";
 import Grid from "@mui/material/Grid";
 import CardPageCvs from "./cards/CardPageCvs";
+import CardPageCandidaturesEntrevue from "./cards/CardPageCandidaturesEntrevue";
+import CardPageCandidaturesEmbauches from "./cards/CardPageCandidaturesEmbauches";
+import CardPageContrats from "./cards/CardPageContrats";
 
 const DashboardPageGestionnaire = () => {
     const [cvList, setCvList] = useState([])
@@ -10,7 +13,8 @@ const DashboardPageGestionnaire = () => {
     const [sessions, setSessions] = useState([])
     const [offres, setOffres] = useState([])
 
-    const [candidatures, setCandidatures] = useState([])
+    const [candidaturesEntrevue, setCandidaturesEntrevue] = useState([])
+    const [candidaturesEmbauches, setCandidaturesEmbauches] = useState([])
     const [contrats, setContrats] = useState([])
 
     const token = localStorage.getItem('token');
@@ -23,7 +27,8 @@ const DashboardPageGestionnaire = () => {
         setCvList(FetchsForDashboard.fetchCvList(token, cvList, setCvList))
         setSessions(FetchsForDashboard.fetchSessions(token, sessions, setSessions))
         setOffres(FetchsForDashboard.fetchOffreList(token, offres, setOffres))
-        setCandidatures(FetchsForDashboard.getEtudiantsEmbauches(token, candidatures, setCandidatures))
+        setCandidaturesEntrevue(FetchsForDashboard.getEtudiantsEntrevue(token, candidaturesEntrevue, setCandidaturesEntrevue))
+        setCandidaturesEmbauches(FetchsForDashboard.getEtudiantsEmbauches(token, candidaturesEmbauches, setCandidaturesEmbauches))
         setContrats(FetchsForDashboard.fetchContrats(token, contrats, setContrats))
     }
 
@@ -33,6 +38,9 @@ const DashboardPageGestionnaire = () => {
             <Grid container spacing={2}>
                 <CardPageOffres sessions={sessions} offres={offres}/>
                 <CardPageCvs cvList={cvList}/>
+                <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
+                <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
+                <CardPageContrats contrats={contrats}/>
             </Grid>
         </div>
     )

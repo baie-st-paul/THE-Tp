@@ -107,7 +107,43 @@ const fetchOffreList = async (token, offres, setOffres) => {
     }
 }
 
-const getEtudiantsEmbauches = async (token, candidatures, setCandidatures) => {
+const getEtudiantsEntrevue = async (token, candidaturesEntrevue, setCandidaturesEntrevue) => {
+    try {
+        fetch(
+            `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+                setCandidaturesEntrevue(data)
+                console.log("candidaturesEntrevue",data)
+            })
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+        if (candidaturesEntrevue !== undefined){
+            setCandidaturesEntrevue(candidaturesEntrevue)
+        }
+    }
+}
+
+const getEtudiantsEmbauches = async (token, candidaturesEmbauches, setCandidaturesEmbauches) => {
     try {
         fetch(
             `http://localhost:8081/api/v1/gestionnaire/candidatures/acceptees`,
@@ -132,13 +168,13 @@ const getEtudiantsEmbauches = async (token, candidatures, setCandidatures) => {
                 } catch (e) {
                     console.log(e)
                 }
-                setCandidatures(data)
-                console.log("candidatures",data)
+                setCandidaturesEmbauches(data)
+                console.log("candidaturesEmbauches",data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
-        if (candidatures !== undefined){
-            setCandidatures(candidatures)
+        if (candidaturesEmbauches !== undefined){
+            setCandidaturesEmbauches(candidaturesEmbauches)
         }
     }
 }
@@ -185,6 +221,7 @@ const exportedFetchs = {
     fetchCvList,
     fetchSessions,
     fetchOffreList,
+    getEtudiantsEntrevue,
     getEtudiantsEmbauches,
     fetchContrats
 }

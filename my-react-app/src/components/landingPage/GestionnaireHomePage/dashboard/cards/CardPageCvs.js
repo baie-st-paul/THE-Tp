@@ -21,72 +21,75 @@ const CardPageCvs = ({cvList}) => {
             : cvList.filter((cvDto) => cvDto.status === filterOption);
 
     return (
-        <Grid item xs={10} sm={12} md={6} lg={5}>
+        <Grid item xs={10} sm={12} md={6} lg={6}>
             {openModal && selectedCv && (
                 <Modal cv={selectedCv.file_cv} fileName={selectedCv.fileName} onClose={() => setOpenModal(false)} />
             )}
             <Card>
-                {cvList.length !== 0 && cvList.length !== undefined &&
-                    <div className="col">
-                        <h4 style={{width: "60%", textAlign: "left", marginLeft: "1.5rem", marginTop: "10px"}}>
-                            Section : Cv Véto
-                        </h4>
-                        <div style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
-                            <Grid item xs={6} sm={6} md={5} lg={6}>
-                                <select
-                                    className="form-control w-100 d-inline"
-                                    value={filterOption}
-                                    onChange={handleFilterChange}
-                                >
-                                    <option value="all">Tous les états</option>
-                                    <option value="In_review">En attente</option>
-                                    <option value="Accepted">Accepté</option>
-                                    <option value="Refused">Refusé</option>
-                                </select>
-                            </Grid>
+                <div className="col">
+                    <h4 style={{width: "60%", textAlign: "left", marginLeft: "1.5rem", marginTop: "10px"}}>
+                        Section : Cv Véto
+                    </h4>
+                    {cvList.length !== 0 && cvList.length !== undefined ?
+                        <div>
+                            <div style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
+                                <Grid item xs={6} sm={6} md={5} lg={6}>
+                                    <select
+                                        className="form-control w-100 d-inline"
+                                        value={filterOption}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="all">Tous les états</option>
+                                        <option value="In_review">En attente</option>
+                                        <option value="Accepted">Accepté</option>
+                                        <option value="Refused">Refusé</option>
+                                    </select>
+                                </Grid>
+                            </div>
+                            <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}>
+                                {filteredCvList.map((cv, index) => (
+                                    <ListItem key={index}
+                                              secondaryAction={
+                                                  <IconButton edge="end" aria-label="plus"
+                                                              onClick={() => {
+                                                                  setOpenModal(true)
+                                                                  setSelectedCv(cv)
+                                                              }}>
+                                                      <p style={{borderColor: "gray",
+                                                          borderRadius: "4px",
+                                                          color: "white",
+                                                          width: "80px",
+                                                          height: "30px",
+                                                          backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
+                                                  </IconButton>
+                                              }>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                {cv.status === "In_review" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faClock} />
+                                                    </>
+                                                )}
+                                                {cv.status === "Accepted" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faCheck} />
+                                                    </>
+                                                )}
+                                                {cv.status === "Refused" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faTimes} />
+                                                    </>
+                                                )}
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={cv.matricule} secondary={cv.fileName} />
+                                    </ListItem>
+                                ))}
+                            </List>
                         </div>
-                        <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}>
-                            {filteredCvList.map((cv, index) => (
-                                <ListItem key={index}
-                                          secondaryAction={
-                                              <IconButton edge="end" aria-label="plus"
-                                                          onClick={() => {
-                                                              setOpenModal(true)
-                                                              setSelectedCv(cv)
-                                                          }}>
-                                                  <p style={{borderColor: "gray",
-                                                      borderRadius: "4px",
-                                                      color: "white",
-                                                      width: "80px",
-                                                      height: "30px",
-                                                      backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
-                                              </IconButton>
-                                          }>
-                                    <ListItemAvatar>
-                                        <Avatar>
-                                            {cv.status === "In_review" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faClock} />
-                                                </>
-                                            )}
-                                            {cv.status === "Accepted" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faCheck} />
-                                                </>
-                                            )}
-                                            {cv.status === "Refused" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faTimes} />
-                                                </>
-                                            )}
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText primary={cv.matricule} secondary={cv.fileName} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </div>
-                }
+                        : <p>Aucun cv disponible</p>
+                    }
+                </div>
             </Card>
         </Grid>
     )

@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Grid from "@mui/material/Grid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faTimes, faClock} from "@fortawesome/free-solid-svg-icons";
-import {List, Avatar, ListItem, ListItemAvatar, ListItemText, IconButton, ListItemSecondaryAction} from "@mui/material";
+import {List, Avatar, ListItem, ListItemAvatar, ListItemText, IconButton} from "@mui/material";
 import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import FetchsUpdateStatus from "../FetchsUpdateStatus";
@@ -126,13 +126,17 @@ const CardPageOffres = ({sessions, offres}) => {
                                     </select>
                                 </Grid>
                                 <Grid item xs={4} sm={4} md={4} lg={4}>
+                                    <link href={"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"} rel="stylesheet"/>
                                     <select
+                                        style={{fontFamily: 'FontAwesome'}}
                                         className="form-control w-100 d-inline"
                                         name="filterOptionVuPasVu"
                                         value={filterOptionVuPasVu}
                                         onChange={handleFilterChange}
                                     >
-                                        <option value="all">Vu / Pas vu</option>
+                                        <option value="all">
+                                            &#xf06e; / &#xf070;
+                                        </option>
                                         <option value="vu">Vu</option>
                                         <option value="pasVu">Pas vu</option>
                                     </select>

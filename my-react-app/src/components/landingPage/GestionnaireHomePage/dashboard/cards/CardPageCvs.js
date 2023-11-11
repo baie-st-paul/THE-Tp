@@ -32,7 +32,7 @@ const CardPageCvs = ({cvList}) => {
                     </h4>
                     {cvList.length !== 0 && cvList.length !== undefined ?
                         <div>
-                            <div style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
+                            <div style={{marginTop: "0.5rem", marginLeft: "1.5rem", marginRight: "0.5rem"}}>
                                 <Grid item xs={6} sm={6} md={5} lg={6}>
                                     <select
                                         className="form-control w-100 d-inline"

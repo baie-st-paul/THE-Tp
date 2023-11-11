@@ -34,7 +34,7 @@ const DashboardPageGestionnaire = () => {
 
     return (
         <div className="m-0 p-0">
-            <h1 className="display-4 text-center">Dashboard</h1>
+            <h1 className="display-4 text-center">Tableau de bord</h1>
             <Grid container spacing={2}>
                 <CardPageOffres sessions={sessions} offres={offres}/>
                 <CardPageCvs cvList={cvList}/>

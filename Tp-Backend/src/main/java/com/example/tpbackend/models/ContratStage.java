@@ -33,7 +33,9 @@ public class ContratStage {
     private String nomDePoste;
     public enum Statut {
         Signer,
-        Pas_Signer
+        Pas_Signer,
+        vu,
+        pasVu
     }
 
 }

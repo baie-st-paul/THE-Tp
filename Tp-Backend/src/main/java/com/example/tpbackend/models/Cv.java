@@ -54,6 +54,12 @@ public class Cv {
         Accepted,
         In_review,
         Refused,
+        vuGestionnaire,
+        pasVuGestionnaire,
+        vuEmployer,
+        pasVuEmployer,
+        vuStudent,
+        pasVuStudent
     }
 }
 

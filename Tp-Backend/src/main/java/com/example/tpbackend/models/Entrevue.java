@@ -53,9 +53,14 @@ public class Entrevue {
 
     public enum Status{
         EnAttente,
-        Vue,
         Acceptee,
-        Refusee
+        Refusee,
+        vuGestionnaire,
+        pasVuGestionnaire,
+        vuEmployer,
+        pasVuEmployer,
+        vuStudent,
+        pasVuStudent
     }
 
 }

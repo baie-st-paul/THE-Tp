@@ -37,7 +37,7 @@ public class EntrevueService {
     @Transactional
     public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
         Entrevue entrevue = new Entrevue();
-        entrevue.setId(1L);
+        entrevue.setId(entrevueDTO.getId());
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));

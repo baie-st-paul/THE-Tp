@@ -38,9 +38,9 @@ const DashboardPageGestionnaire = () => {
             <Grid container spacing={2}>
                 <CardPageOffres sessions={sessions} offres={offres}/>
                 <CardPageCvs cvList={cvList}/>
-                <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
-                <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
                 <CardPageContrats contrats={contrats}/>
+                <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
+                <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
             </Grid>
         </div>
     )

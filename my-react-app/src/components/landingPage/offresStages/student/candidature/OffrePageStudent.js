@@ -10,7 +10,7 @@ import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
 const OffresPageStudent = () => {
     const [offres, setOffres] = useState([]);
-    const [candidatures, setCandidatures] = useState([]);
+    const [candidaturesOffreId, setCandidaturesOffreId] = useState([]);
     const [shouldRefetch] = useState(false);
 
     const token = localStorage.getItem('token');
@@ -36,7 +36,7 @@ const OffresPageStudent = () => {
                 console.log(error)
             }).then(
                 async (res) => {
-                    const data = await res.json()
+                    let data = await res.json()
                     try {
                         console.log(res.status)
                         if (res.status === 400) {
@@ -45,8 +45,11 @@ const OffresPageStudent = () => {
                     } catch (e) {
                         console.log(e)
                     }
+                    data = data.filter((offre) => {
+                        return offre.status === "Accepted"
+                    })
+
                     setOffres(data);
-                    console.log(data)
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -81,7 +84,13 @@ const OffresPageStudent = () => {
                     catch (e) {
                         console.log(e)
                     }
-                    setCandidatures(data)
+
+                    setCandidaturesOffreId(data.map(
+                        (candidature) => {
+                            return candidature.offreStageDTO.id
+                        }
+                    ))
+
                 }
             );
         } catch (error) {
@@ -113,7 +122,8 @@ const OffresPageStudent = () => {
                                             <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
 
                                             <ListGroup.Item>
-                                                {candidatures.length > 0 ?
+                                                { candidaturesOffreId.length > 0 &&
+                                                  candidaturesOffreId.includes(offre.id) ?
                                                     (
                                                         <>
                                                             <FontAwesomeIcon icon={faCheck} /> Vous avez postulé

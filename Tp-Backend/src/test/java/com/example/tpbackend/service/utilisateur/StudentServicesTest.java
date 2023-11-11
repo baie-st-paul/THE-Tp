@@ -82,6 +82,7 @@ class StudentServicesTest {
     @Autowired
     private StudentServices studentServices;
 
+
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}
      */
@@ -147,6 +148,26 @@ class StudentServicesTest {
         studentServices.saveCv(cvDTO);
         verify(cvRepository).save(Mockito.<Cv>any());
         verify(cvDTO).toCv();
+    }
+
+    @Test
+    void testGetCvByStudentMatricule() throws IOException {
+        Cv cv = new Cv();
+        cv.setFileName("foo.txt");
+        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setId(1L);
+        cv.setMatricule("1234567");
+        cv.setStatus(Cv.StatusCV.Accepted);
+
+        CvDTO cvDTO = mock(CvDTO.class);
+        when(cvRepository.save(Mockito.<Cv>any())).thenReturn(cv);
+        studentServices.saveCv(cvDTO);
+        verify(cvRepository).save(Mockito.<Cv>any());
+        verify(cvDTO).toCv();
+
+        CvDTO cvDto2 = studentServices.getCvByMatricule("1234567");
+        assertEquals("foo.txt", cvDto2.getFileName());
+
     }
 
     /**

@@ -12,12 +12,15 @@ public class ContratStage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employeur;
+
     @Enumerated(EnumType.STRING)
     private ContratStage.Statut statutEtudiant;
 

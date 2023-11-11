@@ -355,6 +355,30 @@ public class UtilisateursBD implements CommandLineRunner {
                 "lac",
                 "Dev web react"
         );
+        createContrat(
+                2L,
+                "5869595",
+                1L,
+                "flo",
+                "fla",
+                "Dev web angular"
+        );
+        createContrat(
+                3L,
+                "8675848",
+                1L,
+                "lala",
+                "lolo",
+                "Dev web mobile"
+        );
+        createContrat(
+                4L,
+                "4738494",
+                1L,
+                "tata",
+                "toto",
+                "Dev java"
+        );
     }
 
     public void createContrat(Long id, String matricule, Long idEmp, String prenom, String nom, String titreOffre) {

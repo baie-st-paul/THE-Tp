@@ -4,7 +4,6 @@ import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 
@@ -240,7 +239,7 @@ public class GestionnaireServiceTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -271,12 +270,12 @@ public class GestionnaireServiceTest {
         doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
         doNothing().when(cv).setId(anyLong());
         doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setStatus(Mockito.<Cv.Status>any());
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -288,7 +287,7 @@ public class GestionnaireServiceTest {
         verify(cv).setFile_cv(Mockito.<byte[]>any());
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setStatus(Mockito.<Cv.Status>any());
     }
 
     /**
@@ -311,7 +310,7 @@ public class GestionnaireServiceTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -342,12 +341,12 @@ public class GestionnaireServiceTest {
         doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
         doNothing().when(cv).setId(anyLong());
         doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setStatus(Mockito.<Cv.Status>any());
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -359,7 +358,7 @@ public class GestionnaireServiceTest {
         verify(cv).setFile_cv(Mockito.<byte[]>any());
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setStatus(Mockito.<Cv.Status>any());
     }
 
 
@@ -554,8 +553,10 @@ public class GestionnaireServiceTest {
         mockOffreStage.setEmployer(new Employer("abc", mockUtilisateur));
         Cv mockCv = mock(Cv.class);
 
-        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
-        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
+        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf",
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf",
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
 
         List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
 

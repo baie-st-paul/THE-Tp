@@ -1,6 +1,8 @@
 package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.ContratStage;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,15 +20,21 @@ public class ContratStageDTO {
     private String statutEtudiant;
     private String statutEmployeur;
     private String statutGestionnaire;
+    private String statusVuPasVuG;
+    private String statusVuPasVuE;
+    private String statusVuPasVuS;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         ContratStageDTO dto = new ContratStageDTO();
         dto.setId(contratStage.getId());
         dto.setStudentId(contratStage.getStudent().getMatricule());
         dto.setEmployerId(contratStage.getEmployeur().getId());
-        dto.setStatutEtudiant(ContratStage.Statut.Pas_Signer.toString());
-        dto.setStatutEmployeur(ContratStage.Statut.Pas_Signer.toString());
-        dto.setStatutGestionnaire(ContratStage.Statut.Pas_Signer.toString());
+        dto.setStatutEtudiant(ContratStage.Status.Pas_Signer.toString());
+        dto.setStatutEmployeur(ContratStage.Status.Pas_Signer.toString());
+        dto.setStatutGestionnaire(ContratStage.Status.Pas_Signer.toString());
+        dto.setStatusVuPasVuG(ContratStage.StatusVuPasVu.pasVu.toString());
+        dto.setStatusVuPasVuE(ContratStage.StatusVuPasVu.pasVu.toString());
+        dto.setStatusVuPasVuS(ContratStage.StatusVuPasVu.pasVu.toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
         dto.setNomDePoste(contratStage.getNomDePoste());

@@ -100,7 +100,11 @@ public class StudentServices {
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
         Candidature candidature = new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),
-                student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review"));
+                student,offreStage.get(),cv,candidaturePostDTO.getFileName(),
+                Candidature.Status.valueOf("In_review"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"));
         if (tagRepository.existsByTagName(getTag().getTagName())) {
             candidature.setTagName(getTag().getTagName());
         }else{

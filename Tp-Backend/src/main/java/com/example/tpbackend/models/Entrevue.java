@@ -37,6 +37,15 @@ public class Entrevue {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuG;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuE;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuS;
+
 
     public EntrevueDTO toEntrevueDTO() {
         return new EntrevueDTO(
@@ -44,6 +53,9 @@ public class Entrevue {
                 dateHeure,
                 description,
                 String.valueOf(status),
+                String.valueOf(statusVuPasVuG),
+                String.valueOf(statusVuPasVuE),
+                String.valueOf(statusVuPasVuS),
                 employer.getCompanyName(),
                 employer.getId() + "",
                 student.getMatricule(),
@@ -54,13 +66,12 @@ public class Entrevue {
     public enum Status{
         EnAttente,
         Acceptee,
-        Refusee,
-        vuGestionnaire,
-        pasVuGestionnaire,
-        vuEmployer,
-        pasVuEmployer,
-        vuStudent,
-        pasVuStudent
+        Refusee
+    }
+
+    public enum StatusVuPasVu {
+        vu,
+        pasVu
     }
 
 }

@@ -20,27 +20,27 @@ public class DashboardUpdateStatus {
     private ContratStageRepository contratStageRepository;
 
     @Transactional
-    public void updateStatusCvVuG(String matricule, Cv.StatusCV statusCV) {
-        cvRepository.updateCvStatusByMatricule(matricule, statusCV);
+    public void updateStatusCvVuG(String matricule, Cv.StatusVuPasVu status) {
+        cvRepository.updateCvStatusVuPasVuGByMatricule(matricule, status);
     }
 
     @Transactional
-    public void updateStatusOffreVuG(String titre, OffreStage.Status statusOffre) {
-        offreStageRepository.updateOffreStatusByTitre(titre, statusOffre);
+    public void updateStatusOffreVuG(String titre, OffreStage.StatusVuPasVu statusOffre) {
+        offreStageRepository.updateOffreStatusVuPasVuGByTitre(titre, statusOffre);
     }
 
     @Transactional
-    public void updateStatusEntrevueVuG(String matricule, Entrevue.Status statusEntrevue) {
-        entrevueRepository.updateStatusByMatricule(matricule, statusEntrevue);
+    public void updateStatusEntrevueVuG(String matricule, Entrevue.StatusVuPasVu statusEntrevue) {
+        entrevueRepository.updateStatusVuPasVuGByMatricule(matricule, statusEntrevue);
     }
 
     @Transactional
-    public void updateStatusCandidatureEmbaucheVuG(String matricule, Candidature.Status statusCandidature) {
-        candidatureRepository.updateCandidatureStatusByMatricule(matricule, statusCandidature);
+    public void updateStatusCandidatureEmbaucheVuG(String matricule, Candidature.StatusVuPasVu statusCandidature) {
+        candidatureRepository.updateCandidatureStatusVuPasVuGByMatricule(matricule, statusCandidature);
     }
 
     @Transactional
-    public void updateStatusContratVuG(String matricule, ContratStage.Statut statutContrat) {
-        contratStageRepository.updateStatusByMatricule(matricule, statutContrat);
+    public void updateStatusContratVuG(String matricule, ContratStage.StatusVuPasVu statusContrat) {
+        contratStageRepository.updateStatusVuPasVuGByMatricule(matricule, statusContrat);
     }
 }

@@ -22,6 +22,11 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     @Query("UPDATE Candidature SET status = ?2 WHERE student.matricule = ?1")
     void updateCandidatureStatusByMatricule(String matricule, Candidature.Status status);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Candidature SET statusVuPasVuG = ?2 WHERE student.matricule = ?1")
+    void updateCandidatureStatusVuPasVuGByMatricule(String matricule, Candidature.StatusVuPasVu status);
+
     List<Candidature> findByStatus(Candidature.Status status);
 
     Optional<Candidature> findByStatusAndStudent(Candidature.Status statut, Student student);

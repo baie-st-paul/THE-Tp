@@ -3,9 +3,11 @@ import Card from "react-bootstrap/Card";
 import Grid from "@mui/material/Grid";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faTimes, faClock} from "@fortawesome/free-solid-svg-icons";
-import {List, Avatar, ListItem, ListItemAvatar, ListItemText, IconButton} from "@mui/material";
+import {List, Avatar, ListItem, ListItemAvatar, ListItemText, IconButton, ListItemSecondaryAction} from "@mui/material";
 import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import FetchsUpdateStatus from "../FetchsUpdateStatus";
+import Box from "@mui/material/Box";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -22,9 +24,12 @@ const OVERLAY_STYLE = {
 
 const CardPageOffres = ({sessions, offres}) => {
     const [filterOption, setFilterOption] = useState("all");
+    const [filterOptionVuPasVu, setFilterOptionVuPasVu] = useState("all");
     const [selectedTagName, setSelectedTagName] = useState("");
     const [showOffreDetailed, setShowOffreDetailed] = useState(false);
     const [offre, setOffre] = useState(null);
+
+    const token = localStorage.getItem('token');
 
     function HandleDetailedOffre() {
         return (
@@ -58,18 +63,27 @@ const CardPageOffres = ({sessions, offres}) => {
         )
     }
 
+    const handleUpdateStatus = (titre, status) => {
+        FetchsUpdateStatus.updateStatusOffreVuG(token, titre, status)
+        console.log(status)
+        window.location.reload()
+    }
+
     const handleFilterChange = (event) => {
         const value = event.target.value;
         if (event.target.name === "filterOption") {
             setFilterOption(value);
         } else if (event.target.name === "tagName") {
             setSelectedTagName(value);
+        } else if (event.target.name === "filterOptionVuPasVu") {
+            setFilterOptionVuPasVu(value)
         }
     };
 
     const filteredOffreList = offres.length !== 0 && offres.length !== undefined &&
         offres.filter((offreDto) => filterOption === "all" || offreDto.status === filterOption)
-        .filter((offreDto) => !selectedTagName || offreDto.tag === selectedTagName);
+        .filter((offreDto) => !selectedTagName || offreDto.tag === selectedTagName)
+            .filter((offreDto) => filterOptionVuPasVu === "all" || offreDto.statusVuPasVuG === filterOptionVuPasVu);
 
     return (
         <Grid item xs={10} sm={12} md={6} lg={6}>
@@ -83,14 +97,14 @@ const CardPageOffres = ({sessions, offres}) => {
                     offres.length !== 0 && offres.length !== undefined ?
                         <div>
                             <div className="row" style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
-                                <Grid item xs={6} sm={6} md={5} lg={6}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <select
                                         className="form-control w-100 d-inline"
                                         name="tagName"
                                         value={selectedTagName}
                                         onChange={handleFilterChange}
                                     >
-                                        <option value="">Toutes les sessions</option>
+                                        <option value="">Sessions</option>
                                         {sessions.map((session, index) => (
                                             <option key={index} value={session.tagName}>
                                                 {session.tagName}
@@ -98,7 +112,7 @@ const CardPageOffres = ({sessions, offres}) => {
                                         ))}
                                     </select>
                                 </Grid>
-                                <Grid item xs={6} sm={6} md={5} lg={6}>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
                                     <select
                                         className="form-control w-100 d-inline"
                                         name="filterOption"
@@ -111,23 +125,69 @@ const CardPageOffres = ({sessions, offres}) => {
                                         <option value="Refused">Refusé</option>
                                     </select>
                                 </Grid>
+                                <Grid item xs={4} sm={4} md={4} lg={4}>
+                                    <select
+                                        className="form-control w-100 d-inline"
+                                        name="filterOptionVuPasVu"
+                                        value={filterOptionVuPasVu}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="all">Vu / Pas vu</option>
+                                        <option value="vu">Vu</option>
+                                        <option value="pasVu">Pas vu</option>
+                                    </select>
+                                </Grid>
                             </div>
                             <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}>
                                 {filteredOffreList.map((offre, index) => (
                                     <ListItem key={index}
                                               secondaryAction={
-                                                  <IconButton edge="end" aria-label="plus"
-                                                              onClick={() => {
-                                                                  setShowOffreDetailed(!showOffreDetailed)
-                                                                  setOffre(offre)
-                                                              }}>
-                                                      <p style={{borderColor: "gray",
-                                                          borderRadius: "4px",
-                                                          color: "white",
-                                                          width: "80px",
-                                                          height: "30px",
-                                                          backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
-                                                  </IconButton>
+                                                  <Box>
+                                                      <Grid container spacing={1} align="center" direction="row">
+                                                          <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                              <IconButton aria-label="plus"
+                                                                          onClick={() => {
+                                                                              setShowOffreDetailed(!showOffreDetailed)
+                                                                              setOffre(offre)
+                                                                          }}>
+                                                                  <p style={{borderColor: "lightblue",
+                                                                      borderRadius: "4px",
+                                                                      color: "white",
+                                                                      width: "80px",
+                                                                      height: "30px",
+                                                                      backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
+                                                              </IconButton>
+                                                          </Grid>
+                                                          {offre.statusVuPasVuG === "pasVu" ?
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(offre.titre, "vu")
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "80px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
+                                                                  </IconButton>
+                                                              </Grid> :
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(offre.titre, "pasVu")
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "88px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai pas vu</p>
+                                                                  </IconButton>
+                                                              </Grid>
+                                                          }
+                                                      </Grid>
+                                                  </Box>
                                               }>
                                         <ListItemAvatar>
                                             <Avatar>
@@ -148,7 +208,8 @@ const CardPageOffres = ({sessions, offres}) => {
                                                 )}
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary={offre.titre} secondary={offre.salaire + "$/h"} />
+                                        <ListItemText primary={offre.statusVuPasVuG === "pasVu" ? <b>{offre.titre}</b> :
+                                            offre.titre} secondary={offre.salaire + "$/h"} />
                                     </ListItem>
                                 ))}
                             </List>

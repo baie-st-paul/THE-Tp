@@ -75,6 +75,9 @@ public class EmployerControllerTest {
                 offreStageDTO,
                 cvDTO,
                 "status",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
 
@@ -140,6 +143,9 @@ public class EmployerControllerTest {
                 LocalDate.of(2023, 10, 27),
                 10,
                 "In_review",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 1,
                 new Tag(TagGenerator.getCurrentSession()).getTagName()
         );

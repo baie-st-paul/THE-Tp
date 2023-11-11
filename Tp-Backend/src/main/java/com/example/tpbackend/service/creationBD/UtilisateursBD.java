@@ -6,10 +6,12 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.service.EntrevueService;
 import com.example.tpbackend.service.OffreStageService;
+import com.example.tpbackend.service.dashboard.DashboardUpdateStatus;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -29,6 +31,8 @@ import java.util.LinkedHashMap;
 public class UtilisateursBD implements CommandLineRunner {
     @Autowired
     private AuthenticationService authenticationService;
+    @Autowired
+    private DashboardUpdateStatus dashboardUpdateStatus;
     @Autowired
     private StudentServices studentServices;
     @Autowired
@@ -59,6 +63,8 @@ public class UtilisateursBD implements CommandLineRunner {
         System.out.println("entrevues created");
         candidatureEmbauche();
         System.out.println("candidatures embauches");
+        updateCandidatureEmbauche();
+        System.out.println("update candidatures embauches");
         createAllContrats();
         System.out.println("contrats created");
     }
@@ -188,13 +194,20 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createAllCvs() throws IOException {
-        createCv("web-developer-resume-example.pdf", "1234567", "In_review");
-        createCv("web-developer-resume-example.pdf", "5869595", "In_review");
-        createCv("web-developer-resume-example.pdf", "8675848", "In_review");
-        createCv("web-developer-resume-example.pdf", "4738494", "In_review");
-        createCv("web-developer-resume-example.pdf", "4959695", "Accepted");
-        createCv("web-developer-resume-example.pdf", "7654321", "Refused");
-        createCv("web-developer-resume-example.pdf", "0123456", "Accepted");
+        createCv("web-developer-resume-example.pdf", "1234567",
+                "In_review", "vu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "5869595",
+                "In_review", "pasVu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "8675848",
+                "In_review", "pasVu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "4738494",
+                "In_review", "pasVu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "4959695",
+                "Accepted", "vu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "7654321",
+                "Refused", "vu", "pasVu", "pasVu");
+        createCv("web-developer-resume-example.pdf", "0123456",
+                "Accepted", "vu", "pasVu", "pasVu");
     }
 
     public MultipartFile createFile(String fileName) {
@@ -245,12 +258,16 @@ public class UtilisateursBD implements CommandLineRunner {
         };
     }
 
-    public void createCv(String fileName, String matricule, String status) throws IOException {
+    public void createCv(String fileName, String matricule, String status,
+                         String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) throws IOException {
         CvDTO cvDTO = new CvDTO(
                 matricule,
                 fileName,
                 createFile(fileName),
-                status
+                status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS
         );
         studentServices.saveCv(cvDTO);
     }
@@ -280,11 +297,19 @@ public class UtilisateursBD implements CommandLineRunner {
         studentServices.updateCandidatureStatus("4738494", "Accepted");
     }
 
+    public void updateCandidatureEmbauche() {
+        dashboardUpdateStatus.updateStatusCandidatureEmbaucheVuG("5869595", Candidature.StatusVuPasVu.vu);
+        dashboardUpdateStatus.updateStatusCandidatureEmbaucheVuG("8675848", Candidature.StatusVuPasVu.vu);
+    }
+
     public void createAllEntrevues() {
         createEntrevue(1,
                 "2023-11-11, 10:30",
                 "rendez-vous sur teams",
                 "EnAttente",
+                "vu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "1234567",
@@ -293,6 +318,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-20, 11:00",
                 "rendez-vous sur teams",
                 "EnAttente",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "5869595",
@@ -301,6 +329,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-30, 14:30",
                 "rendez-vous sur teams",
                 "EnAttente",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "8675848",
@@ -309,6 +340,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-25, 9:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
+                "vu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "4738494",
@@ -317,6 +351,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-15, 10:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
+                "vu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "4959695",
@@ -325,6 +362,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-10, 8:00",
                 "rendez-vous sur teams",
                 "Refusee",
+                "vu",
+                "pasVu",
+                "pasVu",
                 "ALaurendeau",
                 "1",
                 "7654321",
@@ -332,12 +372,16 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,
+                               String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS,
                                String companyName, String idEmp, String idStudent, String idOffre) {
         EntrevueDTO entrevueDTO = new EntrevueDTO(
                 id,
                 dateHeure,
                 description,
                 status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS,
                 companyName,
                 idEmp,
                 idStudent,
@@ -391,14 +435,18 @@ public class UtilisateursBD implements CommandLineRunner {
                 prenom,
                 "Pas_Signer",
                 "Pas_Signer",
-                "Pas_Signer"
+                "Pas_Signer",
+                "pasVu",
+                "pasVu",
+                "pasVu"
         );
         gestionnaireService.createContrat(contratStageDTO);
     }
 
     public void createOffre(long id, String titre, double salaire, String program,
                             String description, LocalDate dateDebut, LocalDate dateFin,
-                            int nbMaxStudent, String status, long idEmp, String tag) {
+                            int nbMaxStudent, String status,
+                            String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS, long idEmp, String tag) {
         OffreStageDTO offreStageDTO = new OffreStageDTO(
                 id,
                 titre,
@@ -409,6 +457,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 dateFin,
                 nbMaxStudent,
                 status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS,
                 idEmp,
                 new Tag(tag).getTagName()
         );
@@ -432,6 +483,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 23),
                 10,
                 "Refused",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 1,
                 "AU23");
 
@@ -448,6 +502,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 25),
                 10,
                 "Accepted",
+                "vu",
+                "pasVu",
+                "pasVu",
                 1,
                 "H23");
 
@@ -466,6 +523,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 30),
                 8,
                 "In_review",
+                "vu",
+                "pasVu",
+                "pasVu",
                 1,
                 "AU23");
 
@@ -481,6 +541,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 30),
                 15,
                 "In_review",
+                "pasVu",
+                "pasVu",
+                "pasVu",
                 1,
                 "AU23");
     }

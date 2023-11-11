@@ -41,6 +41,9 @@ public class EntrevueService {
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuG()));
+        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuE()));
+        entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuS()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
         entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
         entrevue.setOffreStage(offreStageRepository.getOffreById(Long.parseLong(entrevueDTO.getIdOffre())));

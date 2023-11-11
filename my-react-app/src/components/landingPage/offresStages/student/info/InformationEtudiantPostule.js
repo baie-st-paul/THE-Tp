@@ -211,6 +211,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                 let employerId = localStorage.getItem('employer_id')
 
                 entrevue["status"] = "EnAttente"
+                entrevue["statusVuPasVuG"] = "pasVu"
+                entrevue["statusVuPasVuE"] = "pasVu"
+                entrevue["statusVuPasVuS"] = "pasVu"
                 entrevue["idEmployeur"] = employerId
                 entrevue["idEtudiant"] = matricule
                 entrevue["idOffre"] = offreId

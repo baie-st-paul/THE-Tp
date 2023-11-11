@@ -1,4 +1,5 @@
 package com.example.tpbackend.DTO.entrevue;
+
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -6,6 +7,7 @@ import com.example.tpbackend.models.Entrevue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +17,9 @@ public class EntrevueDTODetailed {
     private String dateHeure;
     private String description;
     private String status;
+    private String statusVuPasVuG;
+    private String statusVuPasVuE;
+    private String statusVuPasVuS;
     private EmployerGetDTO employer;
     private StudentGetDTO student;
     private OffreStageDTO offreStage;
@@ -31,6 +36,9 @@ public class EntrevueDTODetailed {
                 entrevue.getDateHeure(),
                 entrevue.getDescription(),
                 String.valueOf(entrevue.getStatus()),
+                String.valueOf(entrevue.getStatusVuPasVuG()),
+                String.valueOf(entrevue.getStatusVuPasVuE()),
+                String.valueOf(entrevue.getStatusVuPasVuS()),
                 employerDto,
                 studentDto,
                 offreStageDto

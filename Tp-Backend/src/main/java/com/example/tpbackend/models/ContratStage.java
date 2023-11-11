@@ -2,12 +2,14 @@ package com.example.tpbackend.models;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ContratStage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,18 +24,31 @@ public class ContratStage {
     private Employer employeur;
 
     @Enumerated(EnumType.STRING)
-    private ContratStage.Statut statutEtudiant;
+    private Status statusEtudiant;
 
     @Enumerated(EnumType.STRING)
-    private ContratStage.Statut statutEmployeur;
+    private Status statusEmployeur;
 
     @Enumerated(EnumType.STRING)
-    private ContratStage.Statut statutGestionnaire;
+    private Status statusGestionnaire;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuG;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuE;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuS;
 
     private String nomDePoste;
-    public enum Statut {
+
+    public enum Status {
         Signer,
-        Pas_Signer,
+        Pas_Signer
+    }
+
+    public enum StatusVuPasVu {
         vu,
         pasVu
     }

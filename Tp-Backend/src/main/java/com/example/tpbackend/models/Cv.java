@@ -26,13 +26,25 @@ public class Cv {
     private byte[] file_cv;
 
     @Enumerated(EnumType.STRING)
-    private StatusCV status;
+    private Status status;
 
-    public Cv(String matricule, String fileName, byte[] file_cv, String status) {
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuG;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuE;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuS;
+
+    public Cv(String matricule, String fileName, byte[] file_cv, String status, String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) {
         this.matricule = matricule;
         this.fileName = fileName;
         this.file_cv = file_cv;
-        this.status = StatusCV.valueOf(status);
+        this.status = Status.valueOf(status);
+        this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
+        this.statusVuPasVuE = StatusVuPasVu.valueOf(statusVuPasVuE);
+        this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
     }
 
     public CvDTO toCvDTO() {
@@ -45,21 +57,23 @@ public class Cv {
                 matricule,
                 fileName,
                 multipartFile,
-                String.valueOf(status)
+                String.valueOf(status),
+                String.valueOf(statusVuPasVuG),
+                String.valueOf(statusVuPasVuE),
+                String.valueOf(statusVuPasVuS)
         );
     }
 
 
-    public enum StatusCV{
+    public enum Status {
         Accepted,
         In_review,
-        Refused,
-        vuGestionnaire,
-        pasVuGestionnaire,
-        vuEmployer,
-        pasVuEmployer,
-        vuStudent,
-        pasVuStudent
+        Refused
+    }
+
+    public enum StatusVuPasVu {
+        vu,
+        pasVu
     }
 }
 

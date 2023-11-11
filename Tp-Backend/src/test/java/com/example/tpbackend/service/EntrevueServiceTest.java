@@ -93,11 +93,15 @@ class EntrevueServiceTest {
 
 
         EntrevueDTO entrevueDTO = new EntrevueDTO();
+        entrevueDTO.setId(1);
         entrevueDTO.setIdEmployeur("1");
         entrevueDTO.setIdEtudiant("2222222");
         entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
         entrevueDTO.setDescription("Interview description");
         entrevueDTO.setStatus("EnAttente");
+        entrevueDTO.setStatusVuPasVuG("pasVu");
+        entrevueDTO.setStatusVuPasVuE("pasVu");
+        entrevueDTO.setStatusVuPasVuS("pasVu");
         entrevueDTO.setIdOffre(offreStage.getId() + "");
 
         Entrevue entrevue = new Entrevue();
@@ -105,9 +109,16 @@ class EntrevueServiceTest {
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuG()));
+        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuE()));
+        entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuS()));
+
         entrevue.setEmployer(employer);
         entrevue.setStudent(student);
         entrevue.setOffreStage(offreStage);
+
+        System.out.println(entrevueDTO);
+        System.out.println(entrevue);
 
         when(employerRepository.findEmployerById(anyLong())).thenReturn(employer);
         when(studentRepository.findByMatricule(anyString())).thenReturn(student);
@@ -166,6 +177,9 @@ class EntrevueServiceTest {
         entrevueDTO.setDateHeure(String.valueOf(LocalDate.now()));
         entrevueDTO.setDescription("Interview description");
         entrevueDTO.setStatus("EnAttente");
+        entrevueDTO.setStatusVuPasVuG("pasVu");
+        entrevueDTO.setStatusVuPasVuE("pasVu");
+        entrevueDTO.setStatusVuPasVuS("pasVu");
         entrevueDTO.setIdOffre(offreStage.getId() + "");
 
         Entrevue entrevue = new Entrevue();
@@ -173,11 +187,14 @@ class EntrevueServiceTest {
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.pasVu);
+        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.pasVu);
+        entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.pasVu);
         entrevue.setEmployer(employer);
         entrevue.setStudent(student);
         entrevue.setOffreStage(offreStage);
 
-        String newStatus = "Vue";
+        String newStatus = "Acceptee";
         entrevueDTO.setStatus(newStatus);
 
         when(entrevueRepository.findByStudent_MatriculeAndEmployer_IdAndDateHeure("2222222", 1L, entrevueDTO.getDateHeure())).thenReturn(entrevue);

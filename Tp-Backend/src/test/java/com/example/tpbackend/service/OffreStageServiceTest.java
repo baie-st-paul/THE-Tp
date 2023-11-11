@@ -103,6 +103,9 @@ class OffreStageServiceTest {
         offreStage.setEmployer(employer);
         offreStage.setSalaire(10.0d);
         offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStatusVuPasVuG(OffreStage.StatusVuPasVu.vu);
+        offreStage.setStatusVuPasVuE(OffreStage.StatusVuPasVu.vu);
+        offreStage.setStatusVuPasVuS(OffreStage.StatusVuPasVu.vu);
         offreStage.setStudentProgram("Student Program");
         offreStage.setTitre("Titre");
 
@@ -114,6 +117,9 @@ class OffreStageServiceTest {
         offreStage2.setEmployer(employer2);
         offreStage2.setSalaire(10.0d);
         offreStage2.setStatus(OffreStage.Status.Accepted);
+        offreStage2.setStatusVuPasVuG(OffreStage.StatusVuPasVu.vu);
+        offreStage2.setStatusVuPasVuE(OffreStage.StatusVuPasVu.vu);
+        offreStage2.setStatusVuPasVuS(OffreStage.StatusVuPasVu.vu);
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
 

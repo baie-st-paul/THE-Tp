@@ -21,14 +21,19 @@ public class CvDTO {
     @JsonIgnore
     private MultipartFile file_cv;
     private String status;
-
+    private String statusVuPasVuG;
+    private String statusVuPasVuE;
+    private String statusVuPasVuS;
 
     public Cv toCv() throws IOException {
         return new Cv(
                 matricule,
                 fileName,
                 convertMultipartFileToByteArray(file_cv),
-                status
+                status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS
         );
     }
 

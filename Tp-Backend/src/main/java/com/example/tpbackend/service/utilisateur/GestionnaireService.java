@@ -139,7 +139,7 @@ public class GestionnaireService {
 
     @Transactional
     public void updateCvStatus(String matricule,String status) {
-        cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
+        cvRepository.updateCvStatusByMatricule(matricule, Cv.Status.valueOf(status));
     }
 
     @Transactional
@@ -161,9 +161,13 @@ public class GestionnaireService {
         Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
         contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
 
-        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatusGestionnaire(ContratStage.Status.Pas_Signer);
+        contratStage.setStatusEtudiant(ContratStage.Status.Pas_Signer);
+        contratStage.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+
+        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 

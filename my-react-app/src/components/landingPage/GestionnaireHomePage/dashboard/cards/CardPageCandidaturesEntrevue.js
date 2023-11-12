@@ -137,7 +137,7 @@ const CardPageCandidaturesEntrevue = ({candidaturesEntrevue}) => {
                                                                   <p style={{borderColor: "lightblue",
                                                                       borderRadius: "4px",
                                                                       color: "white",
-                                                                      width: "80px",
+                                                                      width: "88px",
                                                                       height: "30px",
                                                                       backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
                                                               </IconButton>
@@ -151,7 +151,7 @@ const CardPageCandidaturesEntrevue = ({candidaturesEntrevue}) => {
                                                                       <p style={{borderColor: "lightgreen",
                                                                           borderRadius: "4px",
                                                                           color: "white",
-                                                                          width: "80px",
+                                                                          width: "88px",
                                                                           height: "30px",
                                                                           backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
                                                                   </IconButton>

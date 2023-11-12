@@ -175,7 +175,7 @@ const CardPageContrats = ({contrats}) => {
                                                                       <p style={{borderColor: "lightgreen",
                                                                           borderRadius: "4px",
                                                                           color: "white",
-                                                                          width: "80px",
+                                                                          width: "88px",
                                                                           height: "30px",
                                                                           backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
                                                                   </IconButton>

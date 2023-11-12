@@ -1,5 +1,6 @@
 package com.example.tpbackend.controllers.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -94,6 +95,17 @@ public class StudentController {
             return ResponseEntity.ok("Reinscription to a new session for student with matricule " + matricule + " has been completed.");
         } catch (Exception ex) {
             String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @GetMapping("/student-contracts/{studentId}")
+    public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
+        try {
+            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studentId);
+            return ResponseEntity.ok(studentContracts);
+        } catch (Exception ex) {
+            String errorMessage = "Une erreur est survenue lors du traitement de votre requête";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }

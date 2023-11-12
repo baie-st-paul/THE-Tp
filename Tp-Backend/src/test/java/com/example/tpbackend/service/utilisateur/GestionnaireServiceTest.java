@@ -539,10 +539,10 @@ public class GestionnaireServiceTest {
         assertEquals(2, result.size());
         assertEquals("matricule1", result.get(0).getStudentId());
         assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals("Poste 1", result.get(0).getNomDePoste());
+        assertEquals("Poste 1", result.get(0).getNomDeCompany());
         assertEquals("matricule1", result.get(1).getStudentId());
         assertEquals(employeurId, result.get(1).getEmployerId());
-        assertEquals("Poste 2", result.get(1).getNomDePoste());
+        assertEquals("Poste 2", result.get(1).getNomDeCompany());
     }
 
 

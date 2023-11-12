@@ -153,7 +153,6 @@ public class GestionnaireService {
         Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
                 .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
         ContratStage contratStage = contratStageDTO.toContratStage();
-
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
 

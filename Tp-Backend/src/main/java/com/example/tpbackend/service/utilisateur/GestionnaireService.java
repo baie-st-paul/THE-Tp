@@ -105,7 +105,6 @@ public class GestionnaireService {
         for (OffreStage offreStage: offreStages) {
             offreStageDTOS.add(offreStage.toOffreStageDTO());
         }
-        System.out.println(offreStageDTOS);
 
         return offreStageDTOS;
     }

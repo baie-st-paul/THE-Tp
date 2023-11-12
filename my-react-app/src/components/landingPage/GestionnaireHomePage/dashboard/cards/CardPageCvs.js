@@ -85,17 +85,17 @@ const CardPageCvs = ({cvList}) => {
                                                   <Box>
                                                       <Grid container spacing={1} align="center" direction="row">
                                                           <Grid item xs={6} sm={6} md={6} lg={6}>
-                                                              <IconButton edge="end" aria-label="plus"
+                                                              <IconButton aria-label="plus"
                                                                           onClick={() => {
                                                                               setOpenModal(true)
                                                                               setSelectedCv(cv)
                                                                           }}>
-                                                                  <p style={{borderColor: "gray",
+                                                                  <p style={{borderColor: "lightblue",
                                                                       borderRadius: "4px",
                                                                       color: "white",
                                                                       width: "80px",
                                                                       height: "30px",
-                                                                      backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
+                                                                      backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
                                                               </IconButton>
                                                           </Grid>
                                                           {cv.statusVuPasVuG === "pasVu" ?

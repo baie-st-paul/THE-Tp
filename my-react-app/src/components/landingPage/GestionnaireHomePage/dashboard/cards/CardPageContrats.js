@@ -158,12 +158,12 @@ const CardPageContrats = ({contrats}) => {
                                                                               setShowContratDetailed(!showContratDetailed)
                                                                               setContrat(contrat)
                                                                           }}>
-                                                                  <p style={{borderColor: "gray",
+                                                                  <p style={{borderColor: "lightblue",
                                                                       borderRadius: "4px",
                                                                       color: "white",
                                                                       width: "80px",
                                                                       height: "30px",
-                                                                      backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
+                                                                      backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
                                                               </IconButton>
                                                           </Grid>
                                                           {contrat.statusVuPasVuG === "pasVu" ?

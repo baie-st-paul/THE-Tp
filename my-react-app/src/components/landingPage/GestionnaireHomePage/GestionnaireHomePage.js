@@ -35,52 +35,25 @@ const GestionnaireHomePage = () => {
 
     switch (activeContent) {
         case "veto-section":
-            contentToRender =
-                <div className="container content-container mt-4">
-                    <VetoSection/>
-                </div>
+            contentToRender = <VetoSection/>
             break;
         case "offre-page-ges":
-            contentToRender =
-                <div className="container content-container mt-4">
-                    <h2>Gestionnaire</h2>
-                    <OffresPageGestionnaire/>
-                </div>
+            contentToRender = <OffresPageGestionnaire/>
             break;
         case "entrevues":
-            contentToRender =
-                <div className="container content-container mt-4">
-                    <h2>Gestionnaire</h2>
-                    <EtudiantsConvoquesEntrevue/>
-                </div>
+            contentToRender = <EtudiantsConvoquesEntrevue/>
             break;
         case "candidatures-acceptees":
-            contentToRender =
-                <div className="container content-container mt-4">
-                    <h2>Gestionnaire</h2>
-                    <EtudiantEmbauchePage/>
-                </div>
+            contentToRender = <EtudiantEmbauchePage/>
             break;
         case "contrats":
-            contentToRender =
-                <div className="container content-container mt-4">
-                    <h2>Gestionnaire</h2>
-                    <ListContratsGestionnaire contratsTest={[]}/>
-                </div>
+            contentToRender = <ListContratsGestionnaire contratsTest={[]}/>
             break;
         case "dashboard":
-            contentToRender =
-                <div className="container content-container m-4">
-                    <h2>Gestionnaire</h2>
-                    <DashboardPageGestionnaire/>
-                </div>
+            contentToRender = <DashboardPageGestionnaire/>
             break;
         default:
-            contentToRender =
-                <div className="container content-container m-4">
-                    <h2>Gestionnaire</h2>
-                    <DashboardPageGestionnaire/>
-                </div>
+            contentToRender = <DashboardPageGestionnaire/>
             break;
     }
 
@@ -132,7 +105,8 @@ const GestionnaireHomePage = () => {
                 </Navbar.Collapse>
             </Navbar>
 
-            <div id="Render">
+            <div id="Render" className="container content-container mt-4">
+                <h2>Gestionnaire</h2>
                 {contentToRender}
             </div>
         </div>

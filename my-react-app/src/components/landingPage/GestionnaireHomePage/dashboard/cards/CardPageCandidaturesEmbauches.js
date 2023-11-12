@@ -1,9 +1,14 @@
 import Grid from "@mui/material/Grid";
 import Card from "react-bootstrap/Card";
 import React, {useState} from "react";
-import {IconButton, List, ListItem, ListItemText} from "@mui/material";
+import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import FetchsUpdateStatus from "../FetchsUpdateStatus";
+import Box from "@mui/material/Box";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEye} from "@fortawesome/free-regular-svg-icons/faEye";
+import {faEyeSlash} from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -21,6 +26,9 @@ const OVERLAY_STYLE = {
 const CardPageCandidaturesEmbauches = ({candidaturesEmbauches}) => {
     const [showCandidatureEmbaucheDetailed, setShowCandidatureEmbaucheDetailed] = useState(false);
     const [candidatureEmbauche, setCandidatureEmbauche] = useState(null);
+    const [filterOptionVuPasVu, setFilterOptionVuPasVu] = useState("all");
+
+    const token = localStorage.getItem('token');
 
     function HandleDetailedCandidatureEmbauche() {
         return (
@@ -52,6 +60,23 @@ const CardPageCandidaturesEmbauches = ({candidaturesEmbauches}) => {
         )
     }
 
+    const handleUpdateStatus = (matricule, status) => {
+        console.log(matricule)
+        FetchsUpdateStatus.updateStatusCandidatureEmbaucheVuG(token, matricule, status)
+        console.log(status)
+        window.location.reload()
+    }
+
+    const handleFilterChange = (event) => {
+        const value = event.target.value;
+        if (event.target.name === "filterOptionVuPasVu") {
+            setFilterOptionVuPasVu(value)
+        }
+    };
+
+    const filteredEmbauchesList = candidaturesEmbauches.length !== 0 && candidaturesEmbauches.length !== undefined &&
+        candidaturesEmbauches.filter((embauche) => filterOptionVuPasVu === "all" || embauche.statusVuPasVuG === filterOptionVuPasVu);
+
     return (
         <Grid item xs={10} sm={12} md={6} lg={6}>
             {showCandidatureEmbaucheDetailed && <HandleDetailedCandidatureEmbauche/>}
@@ -62,25 +87,95 @@ const CardPageCandidaturesEmbauches = ({candidaturesEmbauches}) => {
                     </h4>
                     {candidaturesEmbauches.length !== 0 && candidaturesEmbauches.length !== undefined ?
                         <div>
+                            <div className="row" style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
+                                <Grid item xs={6} sm={6} md={6} lg={6}>
+                                    <link href={"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"} rel="stylesheet"/>
+                                    <select
+                                        style={{fontFamily: 'FontAwesome'}}
+                                        className="form-control w-100 d-inline"
+                                        name="filterOptionVuPasVu"
+                                        value={filterOptionVuPasVu}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="all">
+                                            &#xf06e; / &#xf070;
+                                        </option>
+                                        <option value="vu">Vu</option>
+                                        <option value="pasVu">Pas vu</option>
+                                    </select>
+                                </Grid>
+                            </div>
                             <List style={{padding: "0px", overflow: "auto", maxHeight: "210px"}}>
-                                {candidaturesEmbauches.map((candidatureEmbauche, index) => (
+                                {filteredEmbauchesList.map((candidatureEmbauche, index) => (
                                     <ListItem key={index}
                                               secondaryAction={
-                                                  <IconButton edge="end" aria-label="plus"
-                                                              onClick={() => {
-                                                                  setShowCandidatureEmbaucheDetailed(!showCandidatureEmbaucheDetailed)
-                                                                  setCandidatureEmbauche(candidatureEmbauche)
-                                                              }}>
-                                                      <p style={{borderColor: "gray",
-                                                          borderRadius: "4px",
-                                                          color: "white",
-                                                          width: "80px",
-                                                          height: "30px",
-                                                          backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
-                                                  </IconButton>
+                                                  <Box>
+                                                      <Grid container spacing={1} align="center" direction="row">
+                                                          <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                              <IconButton edge="end" aria-label="plus"
+                                                                          onClick={() => {
+                                                                              setShowCandidatureEmbaucheDetailed(!showCandidatureEmbaucheDetailed)
+                                                                              setCandidatureEmbauche(candidatureEmbauche)
+                                                                          }}>
+                                                                  <p style={{borderColor: "lightblue",
+                                                                      borderRadius: "4px",
+                                                                      color: "white",
+                                                                      width: "80px",
+                                                                      height: "30px",
+                                                                      backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
+                                                              </IconButton>
+                                                          </Grid>
+                                                          {candidatureEmbauche.statusVuPasVuG === "pasVu" ?
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(candidatureEmbauche.student.matricule, 'vu')
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "80px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
+                                                                  </IconButton>
+                                                              </Grid> :
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(candidatureEmbauche.student.matricule, 'pasVu')
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "88px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai pas vu</p>
+                                                                  </IconButton>
+                                                              </Grid>
+                                                          }
+                                                      </Grid>
+                                                  </Box>
                                               }>
-                                        <ListItemText primary={candidatureEmbauche.student.firstName + ", " +
-                                            candidatureEmbauche.student.lastName} secondary={candidatureEmbauche.offreStage.titre} />
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                {candidatureEmbauche.statusVuPasVuG === "vu" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faEye} />
+                                                    </>
+                                                )}
+                                                {candidatureEmbauche.statusVuPasVuG === "pasVu" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faEyeSlash} />
+                                                    </>
+                                                )}
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={candidatureEmbauche.statusVuPasVuG === "pasVu" ?
+                                            <b> {candidatureEmbauche.student.firstName + ", " +
+                                                candidatureEmbauche.student.lastName} </b> :
+                                            candidatureEmbauche.student.firstName + ", " +
+                                            candidatureEmbauche.student.lastName}
+                                                      secondary={candidatureEmbauche.offreStage.titre} />
                                     </ListItem>
                                 ))}
                             </List>

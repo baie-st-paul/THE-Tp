@@ -345,7 +345,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-25, 9:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
-                "vu",
+                "pasVu",
                 "pasVu",
                 "pasVu",
                 "ALaurendeau",

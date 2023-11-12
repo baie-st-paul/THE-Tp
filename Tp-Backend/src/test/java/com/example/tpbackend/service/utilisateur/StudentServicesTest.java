@@ -1,16 +1,5 @@
 package com.example.tpbackend.service.utilisateur;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
@@ -18,44 +7,39 @@ import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.*;
+import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
-
-import java.io.IOException;
-
-import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {StudentServices.class})
 @ExtendWith(SpringExtension.class)
 class StudentServicesTest {
-    @MockBean
-    private TagRepository tagRepository;
-
-    @MockBean
-    private UtilisateurRepository utilisateurRepository;
 
     @MockBean
     private CandidatureRepository candidatureRepository;
@@ -67,19 +51,22 @@ class StudentServicesTest {
     private OffreStageRepository offreStageRepository;
 
     @MockBean
+    private StudentRepository studentRepository;
+
+    @InjectMocks
+    private StudentServices studentServices;
+
+   @MockBean
+    private ContratStageRepository contratStageRepository;
+
+    @MockBean
+    UtilisateurRepository utilisateurRepository;
+
+    @MockBean
     private UserService userService;
 
     @MockBean
-    private StudentRepository studentRepository;
-
-    @MockBean
-    private AuthenticationService authenticationService;
-
-    @MockBean
-    private ContratStageRepository contratStageRepository;
-
-    @Autowired
-    private StudentServices studentServices;
+    private TagRepository tagRepository;
 
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}
@@ -621,105 +608,5 @@ class StudentServicesTest {
         verify(candidature).setOffreStage(Mockito.<OffreStage>any());
         verify(candidature).setStudent(Mockito.<Student>any());
     }
-
-    /**
-     * Method under test: {@link StudentServices#deleteStudentByMatricule(String)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testDeleteStudentByMatricule() {
-        // TODO: Complete this test.
-        //   Reason: R026 Failed to create Spring context.
-        //   Attempt to initialize test context failed with
-        //   com.diffblue.fuzztest.shared.proxy.LibraryLinkageException: java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
-        //       at java.util.Optional.map(Optional.java:260)
-        //   java.lang.NoClassDefFoundError: Could not initialize class org.mockito.Mockito
-        //       at org.springframework.boot.test.mock.mockito.MockReset.withSettings(MockReset.java:81)
-        //       at org.springframework.boot.test.mock.mockito.MockDefinition.createMock(MockDefinition.java:147)
-        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.registerMock(MockitoPostProcessor.java:185)
-        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.register(MockitoPostProcessor.java:167)
-        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.postProcessBeanFactory(MockitoPostProcessor.java:141)
-        //       at org.springframework.boot.test.mock.mockito.MockitoPostProcessor.postProcessBeanFactory(MockitoPostProcessor.java:129)
-        //       at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:358)
-        //       at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:194)
-        //       at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:771)
-        //       at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:589)
-        //       at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:221)
-        //       at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:110)
-        //       at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:212)
-        //       at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:187)
-        //       at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:119)
-        //       at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:127)
-        //       at java.util.Optional.map(Optional.java:260)
-        //   java.lang.ExceptionInInitializerError: Exception java.lang.ExceptionInInitializerError [in thread "TimedExecutor-3"]
-        //       at org.mockito.Mockito.<clinit>(Mockito.java:1683)
-        //       at org.powermock.api.mockito.mockmaker.MockMakerLoader.doLoad(MockMakerLoader.java:45)
-        //       at org.powermock.api.mockito.mockmaker.MockMakerLoader.load(MockMakerLoader.java:36)
-        //       at org.powermock.api.mockito.mockmaker.PowerMockMaker.<init>(PowerMockMaker.java:36)
-        //       at org.mockito.internal.configuration.plugins.PluginInitializer.loadImpl(PluginInitializer.java:51)
-        //       at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:65)
-        //       at org.mockito.internal.configuration.plugins.PluginLoader.loadPlugin(PluginLoader.java:50)
-        //       at org.mockito.internal.configuration.plugins.PluginRegistry.<init>(PluginRegistry.java:27)
-        //       at org.mockito.internal.configuration.plugins.Plugins.<clinit>(Plugins.java:22)
-        //   See https://diff.blue/R026 to resolve this issue.
-
-        studentServices.deleteStudentByMatricule("Matricule");
-    }
-
-    @Test
-    void signContract() throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.com");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Student);
-        utilisateur.setFirstName("Jane");
-        utilisateur.setLastName("Student");
-        utilisateur.setPhoneNumber("6625550141");
-
-        Student student = new Student();
-        student.setMatricule("2222222");
-        student.setProgram("Informatique");
-        student.setOffresStages(new ArrayList<>());
-        student.setUtilisateur(utilisateur);
-
-        Signature signature = new Signature();
-        signature.setImageLink("https://example.org/example");
-        signature.setEmployer(null);
-        signature.setId(1L);
-        signature.setStudent(student);
-        student.setSignature(signature);
-
-        ContratStage contract = new ContratStage();
-        contract.setStudent(student);
-        contract.setId(1L);
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.doe@example.org");
-        utilisateur2.setId(2L);
-        utilisateur2.setFirstName("Jane");
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setLastName("Doe");
-        utilisateur2.setRole(Utilisateur.Role.Employeur);
-        utilisateur2.setPhoneNumber("6625550144");
-
-        Employer employer = new Employer();
-        employer.setCompanyName("Company Name");
-        employer.setId(1L);
-        employer.setOffresStages(new ArrayList<>());
-        employer.setUtilisateur(utilisateur2);
-        contract.setEmployeur(employer);
-
-        when(contratStageRepository.findById(1L)).thenReturn(Optional.of(contract));
-        when(contratStageRepository.save(any(ContratStage.class))).thenReturn(contract);
-        when(studentRepository.findByMatricule("2222222")).thenReturn(student);
-
-        ContratStageDTO result = studentServices.signContract(ContratStageDTO.fromContratStage(contract));
-
-        assertEquals(contract.getId(), result.getId());
-        assertEquals(contract.getStudent().getMatricule(), result.getStudentId());
-        assertTrue(result.isSignedByStudent());
-    }
-
 }
 

@@ -1,12 +1,11 @@
 package com.example.tpbackend.models.utilisateur.employeur;
 
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Signature;
+import com.example.tpbackend.models.signature.SignatureEmployer;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import jakarta.persistence.OneToOne;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,8 +30,8 @@ public class Employer {
     private List<OffreStage> offresStages;
 
     @OneToOne(mappedBy = "employer")
-    @JoinColumn(name = "signature_id")
-    private Signature signature;
+    @JoinColumn(name = "signature_employer_id")
+    private SignatureEmployer signatureEmployer;
 
     public Employer(Long id, String companyName, Utilisateur utilisateur) {
         this.id = id;

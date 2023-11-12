@@ -2,9 +2,9 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
@@ -36,7 +36,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -147,38 +146,22 @@ public class GestionnaireService {
     @Transactional
     public List<EntrevueDTODetailed> getStudentsWithEntrevue() {
         List<Entrevue> entrevues = entrevueRepository.findAll();
-        List<EntrevueDTODetailed> dtoEntrevue = new ArrayList<>();
-        for(Entrevue e : entrevues){
-           EntrevueDTODetailed entrevue = new EntrevueDTODetailed(
-                    e.getId(),
-                    e.getDateHeure(),
-                    e.getDescription(),
-                    e.getStatus().toString(),
-                    new EmployerGetDTO(),
-                    new StudentGetDTO()
-            );
-           entrevue.getEtudiant().setFirstName(e.getStudent().getUtilisateur().getFirstName());
-           entrevue.getEtudiant().setLastName(e.getStudent().getUtilisateur().getLastName());
-           entrevue.getEtudiant().setMatricule(e.getStudent().getMatricule());
-           entrevue.getEmployer().setCompanyName(e.getEmployer().getCompanyName());
-           dtoEntrevue.add(entrevue);
-        }
-        System.out.println(entrevues.size());
-       return dtoEntrevue;
+        System.out.println(entrevues);
+        return entrevues.stream().map(EntrevueDTODetailed::toEntrevueDTODetailed).collect(Collectors.toList());
     }
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        System.out.println(contratStageDTO);
         Student student = studentRepository.findByMatricule(contratStageDTO.getStudentId());
-        System.out.println(student);
         Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
                 .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
-        System.out.println(employer);
         ContratStage contratStage = contratStageDTO.toContratStage();
-
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
+        contratStage.setNomDePoste(getOffreStageEtudiantEmbauche(contratStage.getStudent()).getOffreStage().getTitre());
+        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 
@@ -186,10 +169,20 @@ public class GestionnaireService {
     }
 
     @Transactional
-    public List<CandidatureDTO> getCandidaturesAcceptees() {
+    public List<ContratStageDTO> getAllContrats() {
+        List<ContratStage> contratStages = contratStageRepository.findAll();
+        return contratStages.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<CandidatureDTODetailed> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
-        System.out.println(candidaturesAcceptees);
-        return candidaturesAcceptees.stream().map(CandidatureDTO::fromCandidature).collect(Collectors.toList());
+        return candidaturesAcceptees.stream().map(CandidatureDTODetailed::toCandidatureDTODetailed).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Candidature getOffreStageEtudiantEmbauche(Student student){
+        return candidatureRepository.findByStatusAndStudent(Candidature.Status.Accepted,student);
     }
 
     @Transactional

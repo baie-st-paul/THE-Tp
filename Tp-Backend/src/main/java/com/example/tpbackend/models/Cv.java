@@ -37,14 +37,15 @@ public class Cv {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuS;
 
-    public Cv(String matricule, String fileName, byte[] file_cv, String status, String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) {
+    public Cv(String matricule, String fileName, byte[] file_cv, String status,
+              StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuE, StatusVuPasVu statusVuPasVuS) {
         this.matricule = matricule;
         this.fileName = fileName;
         this.file_cv = file_cv;
         this.status = Status.valueOf(status);
-        this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
-        this.statusVuPasVuE = StatusVuPasVu.valueOf(statusVuPasVuE);
-        this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
+        this.statusVuPasVuG = statusVuPasVuG;
+        this.statusVuPasVuE = statusVuPasVuE;
+        this.statusVuPasVuS = statusVuPasVuS;
     }
 
     public CvDTO toCvDTO() {

@@ -240,15 +240,22 @@ public class GestionnaireServiceTest {
         cv.setId(1L);
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.Status.Accepted);
+        cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
         when(cvRepository.findAll()).thenReturn(cvList);
         List<CvDTO> actualAllCvs = gestionnaireService.getAllCvs();
+        System.out.println(actualAllCvs);
         assertEquals(1, actualAllCvs.size());
         CvDTO getResult = actualAllCvs.get(0);
         assertEquals("foo.txt", getResult.getFileName());
         assertEquals("Accepted", getResult.getStatus());
+        assertEquals("pasVu", getResult.getStatusVuPasVuG());
+        assertEquals("pasVu", getResult.getStatusVuPasVuE());
+        assertEquals("pasVu", getResult.getStatusVuPasVuS());
         assertEquals("Matricule", getResult.getMatricule());
         MultipartFile file_cv = getResult.getFile_cv();
         assertTrue(file_cv instanceof ByteArrayMultipartFile);

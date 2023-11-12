@@ -31,9 +31,9 @@ public class CvDTO {
                 fileName,
                 convertMultipartFileToByteArray(file_cv),
                 status,
-                statusVuPasVuG,
-                statusVuPasVuE,
-                statusVuPasVuS
+                Cv.StatusVuPasVu.valueOf(statusVuPasVuG),
+                Cv.StatusVuPasVu.valueOf(statusVuPasVuE),
+                Cv.StatusVuPasVu.valueOf(statusVuPasVuS)
         );
     }
 

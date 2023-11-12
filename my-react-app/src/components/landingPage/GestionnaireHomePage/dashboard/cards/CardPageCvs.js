@@ -6,6 +6,7 @@ import Modal from "../../Vetocv/Modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
 import FetchsUpdateStatus from "../FetchsUpdateStatus";
+import Box from "@mui/material/Box";
 
 const CardPageCvs = ({cvList}) => {
     const [filterOption, setFilterOption] = useState("all");
@@ -18,7 +19,7 @@ const CardPageCvs = ({cvList}) => {
     const handleUpdateStatus = (matricule, status) => {
         FetchsUpdateStatus.updateStatusCvVuG(token, matricule, status)
         console.log(status)
-        //window.location.reload()
+        window.location.reload()
     }
 
     const handleFilterChange = (event) => {
@@ -46,10 +47,11 @@ const CardPageCvs = ({cvList}) => {
                     </h4>
                     {cvList.length !== 0 && cvList.length !== undefined ?
                         <div>
-                            <div className="row" style={{marginTop: "0.5rem", marginLeft: "1.5rem", marginRight: "0.5rem"}}>
+                            <div className="row" style={{marginTop: "0.5rem", marginLeft: "0.5rem", marginRight: "0.5rem"}}>
                                 <Grid item xs={6} sm={6} md={6} lg={6}>
                                     <select
                                         className="form-control w-100 d-inline"
+                                        name="filterOption"
                                         value={filterOption}
                                         onChange={handleFilterChange}
                                     >
@@ -80,18 +82,52 @@ const CardPageCvs = ({cvList}) => {
                                 {filteredCvList.map((cv, index) => (
                                     <ListItem key={index}
                                               secondaryAction={
-                                                  <IconButton edge="end" aria-label="plus"
-                                                              onClick={() => {
-                                                                  setOpenModal(true)
-                                                                  setSelectedCv(cv)
-                                                              }}>
-                                                      <p style={{borderColor: "gray",
-                                                          borderRadius: "4px",
-                                                          color: "white",
-                                                          width: "80px",
-                                                          height: "30px",
-                                                          backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
-                                                  </IconButton>
+                                                  <Box>
+                                                      <Grid container spacing={1} align="center" direction="row">
+                                                          <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                              <IconButton edge="end" aria-label="plus"
+                                                                          onClick={() => {
+                                                                              setOpenModal(true)
+                                                                              setSelectedCv(cv)
+                                                                          }}>
+                                                                  <p style={{borderColor: "gray",
+                                                                      borderRadius: "4px",
+                                                                      color: "white",
+                                                                      width: "80px",
+                                                                      height: "30px",
+                                                                      backgroundColor: "gray", fontSize: "15px"}}>voir plus</p>
+                                                              </IconButton>
+                                                          </Grid>
+                                                          {cv.statusVuPasVuG === "pasVu" ?
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(cv.matricule, "vu")
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "80px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
+                                                                  </IconButton>
+                                                              </Grid> :
+                                                              <Grid item xs={6} sm={6} md={6} lg={6}>
+                                                                  <IconButton aria-label="update"
+                                                                              onClick={() => {
+                                                                                  handleUpdateStatus(cv.matricule, "pasVu")
+                                                                              }}>
+                                                                      <p style={{borderColor: "lightgreen",
+                                                                          borderRadius: "4px",
+                                                                          color: "white",
+                                                                          width: "88px",
+                                                                          height: "30px",
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai pas vu</p>
+                                                                  </IconButton>
+                                                              </Grid>
+                                                          }
+                                                      </Grid>
+                                                  </Box>
                                               }>
                                         <ListItemAvatar>
                                             <Avatar>
@@ -112,7 +148,10 @@ const CardPageCvs = ({cvList}) => {
                                                 )}
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary={cv.matricule} secondary={cv.fileName} />
+                                        <ListItemText
+                                            secondaryTypographyProps={{fontSize: "10px"}}
+                                            primary={cv.statusVuPasVuG === "pasVu" ? <b>{cv.matricule}</b> :
+                                            cv.matricule} secondary={cv.fileName} />
                                     </ListItem>
                                 ))}
                             </List>

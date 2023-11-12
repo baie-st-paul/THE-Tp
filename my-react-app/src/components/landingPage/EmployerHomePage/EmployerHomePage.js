@@ -4,11 +4,10 @@ import { useState } from "react";
 import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faBriefcase, faPlus, faFile} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import CreateSignature from "./signature/CreateSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
-import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -17,50 +16,60 @@ const EmployerHomePage = () => {
 
     let contentToRender;
     let employerId = localStorage.getItem('employer_id')
-    const token = localStorage.getItem('token');
 
     useEffect(() => {
+        const fetchSignature = async () => {
+            try {
+                fetch(
+                    `http://localhost:8081/api/v1/stages/signatures/employers`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            Authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        withCredentials: true,
+                    }
+                ).catch(error => {
+                    console.log(error)
+                    setSignature([])
+                }).then(
+                    async (res) => {
+                        let data = []
+                        try {
+                            data = await res.json()
+                            console.log(res.status)
+                            if (res.status === 400) {
+                                console.log(res.status)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        console.log(data.length)
+                        data.map((dataS) => console.log(dataS))
+                        if(data.length === 0) {
+                            setSignature(null)
+                        } else {
+                            data.map((dataS) => setSignature(dataS));
+                        }
+                    })
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
         fetchSignature()
     }, []);
 
-    const fetchSignature = async () => {
-        try {
-            console.log(employerId)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        Authorization: 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.ok) {
-                            const data = await res.json()
-                            setSignature(data)
-                            console.log(data)
-                        }
-                        else {
-                            console.log("Failed to fetch data")
-                            setSignature(null)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                })
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setSignature(null)
-        }
+    const handleButtonClick = (content) => {
+        setActiveContent(content);
+    };
+
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
     }
 
+    const token = localStorage.getItem('token');
     const ajoutOffre = async (offre) => {
 
         offre["status"] = "In_review"
@@ -98,15 +107,6 @@ const EmployerHomePage = () => {
         )
     }
 
-    const handleButtonClick = (content) => {
-        setActiveContent(content);
-    };
-
-    const handleDisconnect = () => {
-        localStorage.clear()
-        navigate('/');
-    }
-
     switch (activeContent){
         case "offre-page":
             contentToRender = <EmployerStageOffreList></EmployerStageOffreList>
@@ -116,9 +116,6 @@ const EmployerHomePage = () => {
         break;
         case "signature":
             contentToRender = <CreateSignature employerId={employerId}></CreateSignature>
-            break;
-        case "mes-contrats":
-            contentToRender = <EmployeurMesContrats employerId={employerId} contratsTest={[]}> </EmployeurMesContrats>
             break;
         default:
             contentToRender = <div>Choisir une section.</div>
@@ -158,11 +155,6 @@ const EmployerHomePage = () => {
                                             <FontAwesomeIcon icon={faPlus} style={{ marginRight: '10px' }}/>Ajout Offre
                                         </button>
                                     </li>
-                                    <li className="nav-item navbarbutton">
-                                        <button className="nav-link" onClick={() => handleButtonClick("mes-contrats")}>
-                                            <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
-                                        </button>
-                                    </li>
                                 </ul>
                             </>
                         }
@@ -171,6 +163,7 @@ const EmployerHomePage = () => {
             </Navbar>
 
             <div className="container content-container mt-4">
+                <h2>Employeur</h2>
                 {contentToRender}
             </div>
         </div>

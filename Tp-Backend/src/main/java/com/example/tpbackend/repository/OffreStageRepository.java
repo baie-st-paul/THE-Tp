@@ -14,8 +14,6 @@ import java.util.Optional;
 public interface OffreStageRepository extends JpaRepository<OffreStage, Long> {
     Optional<OffreStage> findOffreById(long id);
 
-    OffreStage getOffreById(Long id);
-
     @Modifying
     @Transactional
     @Query("UPDATE OffreStage SET status = ?2 WHERE titre = ?1")

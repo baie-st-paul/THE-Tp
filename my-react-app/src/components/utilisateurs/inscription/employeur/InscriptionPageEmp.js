@@ -8,41 +8,36 @@ const InscriptionPageEmp = () => {
     const [employeurs, setEmployeurs] = useState([]);
     const [erreur, setErreur] = useState(false);
 
-    async function inscription(employeur) {
+    const inscription = async (employeur) => {
+        console.log(erreur)
+        const res = await fetch(
+            'http://localhost:8081/api/v1/utilisateur/register',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                withCredentials: true,
+                body: JSON.stringify(employeur)
+            }
+        )
+
         try {
-            console.log(erreur)
-            fetch(
-                'http://localhost:8081/api/v1/utilisateur/register',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    withCredentials: true,
-                    body: JSON.stringify(employeur)
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                            setErreur(true)
-                            throw new Error('Cet Email est déjà associé à un compte');
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setErreur(false)
-                    setEmployeurs([...employeurs, data])
-                    console.log(data)
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
+            console.log(res.status)
+            if (res.status === 400) {
+                console.log(res.status)
+                setErreur(true)
+                throw new Error('Cet Email est déjà associé à un compte');
+            } else {
+                setErreur(false)
+            }
+        } catch (e) {
+            console.log(e)
         }
+
+        const data = await res.json()
+        setEmployeurs([...employeurs, data])
+        console.log(data)
     }
 
     return (

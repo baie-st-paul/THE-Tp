@@ -1,6 +1,5 @@
-package com.example.tpbackend.controllers.utilisateur;
+package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
@@ -65,14 +64,5 @@ public class EmployerController {
             return ResponseEntity.status(404).body(Map.of("error", "Aucune candidature trouvée pour cette offre."));
         }
         return ResponseEntity.ok(candidatures);
-    }
-
-
-
-    @GetMapping("/employer-contracts/{employerId}")
-    @PreAuthorize("authenticated")
-    public ResponseEntity<List<ContratStageDTO>> getContratsByEmployeur(@PathVariable Long employerId) {
-        List<ContratStageDTO> employerContracts = employerService.getContratStageByEmployeur(employerId);
-        return ResponseEntity.ok(employerContracts);
     }
 }

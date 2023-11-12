@@ -1,6 +1,5 @@
-package com.example.tpbackend.controller.utilisateur;
+package com.example.tpbackend.controller;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
@@ -9,13 +8,12 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
-import com.example.tpbackend.controllers.utilisateur.EmployerController;
+import com.example.tpbackend.controllers.EmployerController;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,10 +21,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,14 +33,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.yaml.snakeyaml.tokens.Token.ID.Tag;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EmployerController.class)
 public class EmployerControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     @MockBean
     private OffreStageService offreStageService;
     @MockBean
@@ -177,35 +172,4 @@ public class EmployerControllerTest {
         mockMvc.perform(get("/api/employers/{offerId}/applicants", "invalid"))
                 .andExpect(status().isBadRequest());
     }
-
-    @Test
-    public void getContratsByEmployeurTest() throws Exception {
-        Long employerId = 1L;
-
-        ContratStageDTO contrat1 = new ContratStageDTO();
-        contrat1.setId(1L);
-        contrat1.setStudentId("0123456");
-        contrat1.setEmployerId(employerId);
-
-        ContratStageDTO contrat2 = new ContratStageDTO();
-        contrat2.setId(2L);
-        contrat2.setStudentId("student2");
-        contrat2.setEmployerId(employerId);
-
-        List<ContratStageDTO> contrats = Arrays.asList(contrat1, contrat2);
-
-        when(employerService.getContratStageByEmployeur(employerId)).thenReturn(contrats);
-
-        mockMvc.perform(get("http://localhost:8081/api/v1/employers/employer-contracts/{employerId}", employerId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").value(contrat1.getId()))
-                .andExpect(jsonPath("$[0].studentId").value(contrat1.getStudentId()))
-                .andExpect(jsonPath("$[0].employerId").value(contrat1.getEmployerId()))
-                .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
-                .andExpect(jsonPath("$[1].studentId").value(contrat2.getStudentId()))
-                .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
-    }
-
 }

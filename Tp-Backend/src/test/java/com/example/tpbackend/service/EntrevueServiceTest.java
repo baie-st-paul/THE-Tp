@@ -3,7 +3,7 @@ package com.example.tpbackend.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
+import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;

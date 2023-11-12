@@ -1,7 +1,7 @@
 import {BrowserRouter} from "react-router-dom";
 import EtudiantEmbauchePage from "../EtudiantEmbauchePage";
 import {fireEvent, render, screen} from "@testing-library/react";
-import {testList1Acceptes, testList2Acceptes, testListAcceptes} from "./TestList";
+import {testList, testList1Acceptes, testList2Acceptes, testListAcceptes} from "./TestList";
 
 beforeEach(() => {
     fetch.resetMocks()
@@ -21,7 +21,7 @@ const MockEtudiantEmbauchePage = ({listeCandidature}) => {
 describe("Test the EtudiantEmbauchePage Component", () => {
     it('should render titre page', () => {
         render(<MockEtudiantEmbauchePage listeEtudiant={[]}/>)
-        expect(screen.getByText('Liste des candidatures embauchées')).toBeInTheDocument()
+        expect(screen.getByText('Liste des candidatures acceptées')).toBeInTheDocument()
     });
 
     it("should render all info text student" , async () => {
@@ -32,7 +32,7 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         expect(await screen.findByTestId('lina')).toBeInTheDocument()
         expect(await screen.findByTestId('Moskalenko')).toBeInTheDocument()
 
-        expect(screen.getByText('CV')).toBeInTheDocument()
+        expect(screen.getByText('Résumé')).toBeInTheDocument()
         expect(screen.getByText('Lettre de motivation')).toBeInTheDocument()
         expect(screen.getByText('Créer un contrat de stage')).toBeInTheDocument()
     });
@@ -54,7 +54,7 @@ describe("Test the EtudiantEmbauchePage Component", () => {
         render(<EtudiantEmbauchePage/>)
 
         expect(await screen.findByTestId('danil')).toBeInTheDocument()
-        const bouttonElement = await screen.getByText('CV')
+        const bouttonElement = await screen.getByText('Résumé')
         expect(bouttonElement).toBeInTheDocument()
 
         try{

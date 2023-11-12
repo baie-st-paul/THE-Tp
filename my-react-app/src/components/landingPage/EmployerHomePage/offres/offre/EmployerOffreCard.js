@@ -11,15 +11,14 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     const [etudiantsNb, setEtudiantsNb] = useState(null);
     const navigate = useNavigate();
 
-    const token = localStorage.getItem('token');
-
     useEffect(() => {
         handleListePostule();
     }, [])
 
     async function handleListePostule() {
         try {
-            fetch(
+            const token = localStorage.getItem('token');
+            const res = await fetch(
                 `http://localhost:8081/api/v1/employers/${offre.id}/applicants/nb`,
                 {
                     method: 'GET',
@@ -29,28 +28,21 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                     },
                     withCredentials: true
                 }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setEtudiantsNb(data);
-                    console.log(data)
-                })
+            );
+            if (res.ok) {  
+                const data = await res.json();
+                setEtudiantsNb(data);
+                console.log(data)
+            } else {
+                const data = await res.json(); 
+                console.log('Erreur', res.status, data);
+                
+            }
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             setEtudiantsNb(0)
         }
     }
-
     function handleCheckListe(){
         navigate('/infoStudent', {state: {offreId : offre.id}})
     }

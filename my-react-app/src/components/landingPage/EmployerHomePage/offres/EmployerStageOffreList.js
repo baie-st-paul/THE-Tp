@@ -32,132 +32,83 @@ const EmployerStageOffreList = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error] = useState(null);
 
-    const token = localStorage.getItem('token');
-
     useEffect(() => {
-        getOffres()
+        const token = localStorage.getItem('token');
+        fetch(
+            'http://localhost:8081/api/v1/stages/offres/employer',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+                setOffres(data);
+                setIsLoading(false);
+            })
     }, []);
 
-    async function getOffres() {
-        try {
-            fetch(
-                'http://localhost:8081/api/v1/stages/offres/employer',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setOffres(data);
-                    setIsLoading(false);
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            if (offres !== undefined){
-                setOffres(offres)
+    const deleteOffre = async (offreId) => {
+        const token = localStorage.getItem('token');
+        await fetch(
+            `http://localhost:8081/api/v1/stages/offres/${offreId}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
             }
-        }
+        )
+
+        setOffres(offres.filter((offre) => offre.id !== offreId));
+        setIsLoading(false);
     }
 
-    async function deleteOffre(offreId) {
-        try {
-            fetch(
-                `http://localhost:8081/api/v1/stages/offres/${offreId}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setOffres(offres.filter((offre) => offre.id !== offreId));
-                    setIsLoading(false);
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            if (offres !== undefined){
-                setOffres(offres)
-            }
-        }
-    }
-
-    async function updateOffre(offre) {
-        try {
-            fetch(
-                `http://localhost:8081/api/v1/stages/offres/${offre.id}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                    body: JSON.stringify(offre)
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    console.log(data)
-                    setOffres(
-                        offres.map(
-                            (o) => o.id === offre.id ?
-                                {...offre,
-                                    titre: data.titre,
-                                    description: data.description,
-                                    salaire: data.salaire,
-                                    studentProgram: data.studentProgram,
-                                    dateDebut: data.dateDebut,
-                                    dateFin: data.dateFin,
-                                    nbMaxStudiants: data.nbMaxStudiants
-                                } : o
-                        )
-                    )
-                    setShowUpdateOffre(false)
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            if (offres !== undefined){
-                setOffres(offres)
-            }
-        }
+    const updateOffre = async (offre) => {
+        const token = localStorage.getItem('token');
+        console.log(offre)
+        const res = await fetch(
+            `http://localhost:8081/api/v1/stages/offres/${offre.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            withCredentials: true,
+            body: JSON.stringify(offre)
+        })
+        const data = await res.json()
+        setOffres(
+            offres.map(
+                (o) => o.id === offre.id ?
+                    {...offre,
+                        titre: data.titre,
+                        description: data.description,
+                        salaire: data.salaire,
+                        studentProgram: data.studentProgram,
+                        dateDebut: data.dateDebut,
+                        dateFin: data.dateFin,
+                        nbMaxStudiants: data.nbMaxStudiants
+                    } : o
+            )
+        )
+        setShowUpdateOffre(false)
     }
 
     function ModalUpdate() {

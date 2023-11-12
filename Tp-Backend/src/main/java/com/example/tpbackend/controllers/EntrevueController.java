@@ -1,6 +1,6 @@
 package com.example.tpbackend.controllers;
 
-import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
+import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.service.EntrevueService;
 import lombok.RequiredArgsConstructor;

@@ -1,46 +1,57 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 const SessionController = ({ sessionTag, studentTag }) => {
     const [message, setMessage] = useState('');
-
-    async function handleReinscription() {
+    const navigate = useNavigate();
+    const handleReinscription = async () => {
         try {
             const token = localStorage.getItem('token');
-            const matricule = localStorage.getItem("loggedInUserMatricule")
-            console.log(matricule)
-
-            fetch(
-                `http://localhost:8081/api/v1/student/reinscriptionANouvelleSession/${matricule}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.ok) {
-                            const data = await res.json();
-                            console.log("this is 1" + data)
-                            setMessage(data);
-                        } else {
-                            console.error("Failed to fetch data");
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                })
+            console.log(localStorage.getItem("loggedInUserMatricule"))
+            const response = await fetch(`http://localhost:8081/api/v1/student/reinscriptionANouvelleSession/${localStorage.getItem("loggedInUserMatricule")}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log("this is 1" + data)
+                setMessage(data);
+            } else {
+                console.error("Failed to fetch data");
+            }
         } catch (error) {
-            console.log('Une erreur est survenue:', error);
+            console.error("Error fetching data:", error);
         }
         window.location.reload();
-    }
+    };
+
+    const handleDesinscription = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8081/api/v1/student/deleteStudentByMatricule/${localStorage.getItem("loggedInUserMatricule")}`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log("this is 1" + data)
+                setMessage(data);
+            } else {
+                console.error("Failed to fetch data");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+        navigate('/')
+    };
 
     return (
         <div className="container text-center">
@@ -51,6 +62,11 @@ const SessionController = ({ sessionTag, studentTag }) => {
                 <div className="col-md">
                     <button className="btn btn-success btn-block" onClick={handleReinscription}>
                         Je me réinscris à cette session {sessionTag}
+                    </button>
+                </div>
+                <div className="col-md">
+                    <button className="btn btn-danger btn-block" onClick={handleDesinscription}>
+                        Je souhaite me désinscrire de la plateforme
                     </button>
                 </div>
             </div>

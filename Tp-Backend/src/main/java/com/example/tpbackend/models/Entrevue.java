@@ -1,6 +1,6 @@
 package com.example.tpbackend.models;
 
-import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
+import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
@@ -25,14 +25,9 @@ public class Entrevue {
     @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
-
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "offre_stage")
-    private OffreStage offreStage;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -46,8 +41,7 @@ public class Entrevue {
                 String.valueOf(status),
                 employer.getCompanyName(),
                 employer.getId() + "",
-                student.getMatricule(),
-                offreStage.getId() + ""
+                student.getMatricule()
         );
     }
 

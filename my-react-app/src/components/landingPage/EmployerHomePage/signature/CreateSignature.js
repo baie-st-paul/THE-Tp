@@ -8,54 +8,47 @@ const CreateSignature = ({employerId}) => {
     const [sign, setSign] = useState(null)
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
-    const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
 
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        getSignature()
-    }, []);
-
-    async function getSignature() {
-        try {
-            console.log(employerId)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
+        fetch(
+            'http://localhost:8081/api/v1/stages/signatures/employers',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
                         console.log(res.status)
-                        if (res.ok) {
-                            const data = await res.json()
-                            setSignature(data)
-                            console.log(data)
-                        }
-                        else {
-                            console.log("Failed to fetch data")
-                            setSignature(null)
-                        }
-                    } catch (e) {
-                        console.log(e)
                     }
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            setSignature(null)
-        }
-    }
+                } catch (e) {
+                    console.log(e)
+                }
+                console.log(data.length)
+                data.map((dataS) => console.log(dataS))
+                if(data.length === 0) {
+                    setSignature(null)
+                } else {
+                    data.map((dataS) => setSignature(dataS)
+                    )
+                }
+            })
+    }, []);
 
     const saveSignature = async () => {
         try {
+            console.log(urlImage.type)
             const imageLink = urlImage.toString()
             const signature = ({
                 employerId,
@@ -64,7 +57,7 @@ const CreateSignature = ({employerId}) => {
             console.log(JSON.stringify(signature))
 
             await fetch(
-                'http://localhost:8081/api/v1/stages/signatures/employer/create',
+                'http://localhost:8081/api/v1/stages/signatures/employers/create',
                 {
                     method: 'POST',
                     headers: {
@@ -89,6 +82,9 @@ const CreateSignature = ({employerId}) => {
                     }
                     setSignature(data)
                     console.log(data)
+                    console.log(data.imageLink === urlImage)
+                    console.log("1",data.imageLink)
+                    console.log("2",urlImage)
                 }
             )
         } catch (error) {
@@ -106,7 +102,7 @@ const CreateSignature = ({employerId}) => {
             console.log(JSON.stringify(signature))
 
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/update`,
+                `http://localhost:8081/api/v1/stages/signatures/employers`,
                 {
                     method: 'PUT',
                     headers: {
@@ -143,9 +139,8 @@ const CreateSignature = ({employerId}) => {
 
     const deleteSignature = async () => {
         try {
-            console.log(employerId)
             fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/delete/${employerId}`,
+                `http://localhost:8081/api/v1/stages/signatures/employers/${employerId}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -177,19 +172,13 @@ const CreateSignature = ({employerId}) => {
 
     const handleClear = () => {
         sign.clear()
-        setDisableWhenEmpty(true)
-        console.log(sign.empty)
     }
-
     const handleDelete = () => {
         sign.clear()
-        setDisableWhenEmpty(true)
-        console.log(sign.empty)
         deleteSignature()
     }
 
     const handleSave = () => {
-        console.log(sign.empty)
         setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
     }
 
@@ -197,65 +186,66 @@ const CreateSignature = ({employerId}) => {
         <div>
             <h1 className="display-4 text-center">Signature</h1>
             <div style={{border: "2px solid black"}}>
-                <p>Dessiner la signature ici</p>
                 <SignatureCanvas
                     canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
-                    ref={data => setSign(data)}
-                    onEnd={() => setDisableWhenEmpty(true)}
+                    ref={data=>setSign(data)}
                 />
-            </div>
 
-            <Button className="btn btn-danger"
-                    disabled={!disableWhenEmpty}
-                    onClick={handleClear}>
-                Effacer <FaTimes
-                style={{color: 'black'}}
-            />
-            </Button>
-            <Button className="btn btn-success"
-                    disabled={!disableWhenEmpty}
-                    onClick={handleSave}>
-                Dessiner <FaPencilAlt
-                style={{color: 'black'}}
-            />
-            </Button>
-
-            <br/>
-            {signature !== null && urlImage === null &&
-                <img src={signature.imageLink} alt="imageLink"/>
-            }
-            <br/>
-
-            <br/>
-            {urlImage !== null &&
-                <img src={urlImage} alt="urlImage"/>
-            }
-            <br/>
-
-            {signature !== null &&
                 <Button className="btn btn-danger"
-                        onClick={handleDelete}>
-                    Supprimer <FaTimes
+                        onClick={handleClear}>
+                    Effacer <FaTimes
                     style={{color: 'black'}}
                 />
                 </Button>
-            }
-            {signature === null && urlImage !== null &&
                 <Button className="btn btn-success"
-                        onClick={saveSignature}>
-                    Approuver <FaPencilAlt
+                        onClick = {handleSave}>
+                    Dessiner <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
-            }
-            {signature !== null &&
-                <Button className="btn btn-primary"
-                        onClick={handleModif}>
-                    Modifier <FaRepeat
-                    style={{color: 'black'}}
-                />
-                </Button>
-            }
+
+                <br/>
+                {signature !== null && urlImage === null &&
+                    <img src={signature.imageLink} alt="imageLink"/>
+                }
+                <br/>
+
+                <br/>
+                {urlImage !== null &&
+                    <img src={urlImage} alt="urlImage"/>
+                }
+                <br/>
+
+                {signature !== null &&
+                    <Button className="btn btn-danger"
+                            onClick={handleDelete}>
+                        Supprimer <FaTimes
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+                {signature === null && urlImage !== null ?
+                    <Button className="btn btn-success"
+                            onClick={saveSignature}>
+                        Approuver <FaPencilAlt
+                        style={{color: 'black'}}
+                    />
+                    </Button> :
+                    <Button className="btn btn-success disabled">
+                        Approuver <FaPencilAlt
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+                {signature !== null &&
+                    <Button className="btn btn-primary"
+                            onClick={handleModif}>
+                        Modifier <FaRepeat
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+            </div>
         </div>
     )
 }

@@ -142,7 +142,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const updateStatus = async (matricule, status) => {
         try {
             const token = localStorage.getItem('token');
-            await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
+            const response = await fetch(`http://localhost:8081/api/v1/employers/candidature/accept/${matricule}/${status}`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -201,19 +201,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             listeEtudiants.map(async (candidature) => {
                 const matricule = candidature.student.matricule
-                const offreId = candidature.offreStage.id
                 const token = localStorage.getItem('token');
 
                 console.log(matricule)
-                console.log(candidature.offreStage)
-                console.log(offreId)
 
                 let employerId = localStorage.getItem('employer_id')
 
                 entrevue["status"] = "EnAttente"
                 entrevue["idEmployeur"] = employerId
                 entrevue["idEtudiant"] = matricule
-                entrevue["idOffre"] = offreId
                 console.log(JSON.stringify(entrevue))
 
                 fetch(
@@ -319,8 +315,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                             </button>
                                         </td>
                                     }
-                                    { finFetch === true &&
-                                        <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
+                                    {     finFetch === true &&
+                                 <ButtonConvoquer matricule={etudiant.student.matricule} entrevues={entrevues} setModal={setModal}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {etudiant.status === "In_review" && (

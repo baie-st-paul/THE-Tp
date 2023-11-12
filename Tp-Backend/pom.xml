@@ -68,22 +68,6 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.1</version>
         </dependency>
-
-        <!-- Mockito -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version> 4.6.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Mockito Extension for JUnit 5 -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.4.0</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -95,7 +79,7 @@
         </dependency>
 
 
-       <!--<dependency>
+        <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito2</artifactId>
             <version>2.0.9</version>
@@ -105,7 +89,7 @@
             <artifactId>powermock-module-junit4</artifactId>
             <version>2.0.9</version>
             <scope>test</scope>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -140,7 +124,21 @@
         </dependency>
 
 
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version> 5.4.0</version>
+            <scope>test</scope>
+        </dependency>
 
+        <!-- Mockito Extension for JUnit 5 -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
 
 
         <dependency>

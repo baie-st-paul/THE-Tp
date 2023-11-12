@@ -1,6 +1,6 @@
 package com.example.tpbackend.controller;
 
-import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
+import com.example.tpbackend.DTO.EntrevueDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.EntrevueController;
 import com.example.tpbackend.models.Entrevue;

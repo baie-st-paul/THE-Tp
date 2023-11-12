@@ -1,10 +1,10 @@
-package com.example.tpbackend.controller.utilisateur;
+package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.Authentication.JwtAuthenticationResponse;
 import com.example.tpbackend.DTO.Authentication.LoginRequest;
 import com.example.tpbackend.DTO.Authentication.RegisterRequest;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
-import com.example.tpbackend.controllers.utilisateur.UtilisateurController;
+import com.example.tpbackend.controllers.UtilisateurController;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;

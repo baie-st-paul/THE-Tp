@@ -22,15 +22,15 @@ public class Candidature {
     private String fileName;
 
     @ManyToOne
-    @JoinColumn(name = "student_candidat", nullable = false)
+    @JoinColumn(name = "student_candidat",nullable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "offre_stage", nullable=false)
+    @JoinColumn(name = "offre_stage",nullable=false)
     private OffreStage offreStage;
 
     @ManyToOne
-    @JoinColumn(name = "cv_student", nullable = false)
+    @JoinColumn(name = "cv_student",nullable = false)
     private Cv cvStudent;
 
     @Enumerated(EnumType.STRING)

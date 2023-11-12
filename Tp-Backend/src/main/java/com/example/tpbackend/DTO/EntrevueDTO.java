@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO.entrevue;
+package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.Entrevue;
 import lombok.AllArgsConstructor;
@@ -16,14 +16,12 @@ public class EntrevueDTO {
     private String companyName;
     private String idEmployer;
     private String idEtudiant;
-    private String idOffre;
 
     public EntrevueDTO(Entrevue entrevue){
         this.id = entrevue.getId();
         this.dateHeure = entrevue.getDateHeure();
         this.description = entrevue.getDescription();
         this.idEmployer = entrevue.getEmployer().getId() + "";
-        this.idOffre = entrevue.getOffreStage().getId() + "";
         this.companyName = entrevue.getEmployer().getCompanyName();
         this.idEtudiant = entrevue.getStudent().getMatricule();
         this.status = entrevue.getStatus().toString();

@@ -1,7 +1,8 @@
-package com.example.tpbackend.models.signature;
+package com.example.tpbackend.models;
 
-import com.example.tpbackend.DTO.signature.SignatureEmployerDTO;
+import com.example.tpbackend.DTO.SignatureDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignatureEmployer {
+public class Signature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,17 +21,25 @@ public class SignatureEmployer {
     @JoinColumn(name = "employer_id")
     private Employer employer;
 
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "student_matricule")
+    private Student student;
+
     @Lob
     @Column(name = "image_link")
     private String imageLink;
 
-    public SignatureEmployer(String imageLink) {
+
+    public Signature(String imageLink) {
         this.imageLink = imageLink;
     }
 
-    public SignatureEmployerDTO toSignatureEmployerDTO() {
-        SignatureEmployerDTO dto = new SignatureEmployerDTO();
-        dto.setEmployerId(employer.getId());
+    public SignatureDTO toSignatureDTO() {
+        SignatureDTO dto = new SignatureDTO();
+        if(employer != null)
+            dto.setEmployerId(employer.getId());
+        if(student != null)
+            dto.setStudentMatricule(student.getMatricule());
         dto.setImageLink(imageLink);
         return dto;
     }

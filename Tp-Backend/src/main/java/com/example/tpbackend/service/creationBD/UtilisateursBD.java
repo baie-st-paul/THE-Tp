@@ -17,6 +17,8 @@ import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -194,8 +196,8 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createAllCvs() throws IOException {
-        createCv("web-developer-resume-example.pdf", "1234567",
-                "In_review", "vu", "pasVu", "pasVu");
+        System.out.println(createCv("web-developer-resume-example.pdf", "1234567",
+                "In_review", "vu", "pasVu", "pasVu"));
         createCv("web-developer-resume-example.pdf", "5869595",
                 "In_review", "pasVu", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "8675848",
@@ -208,6 +210,23 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Refused", "vu", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "0123456",
                 "Accepted", "vu", "pasVu", "pasVu");
+    }
+
+    public ResponseEntity<CvDTO> createCv(String fileName, String matricule, String status,
+                                          String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) throws IOException {
+        CvDTO cvDTO = new CvDTO(
+                matricule,
+                fileName,
+                createFile(fileName),
+                status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS
+        );
+        studentServices.saveCv(cvDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(cvDTO);
     }
 
     public MultipartFile createFile(String fileName) {
@@ -256,20 +275,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 Files.write(path, Files.readAllBytes(Path.of(file.getPath())));
             }
         };
-    }
-
-    public void createCv(String fileName, String matricule, String status,
-                         String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) throws IOException {
-        CvDTO cvDTO = new CvDTO(
-                matricule,
-                fileName,
-                createFile(fileName),
-                status,
-                statusVuPasVuG,
-                statusVuPasVuE,
-                statusVuPasVuS
-        );
-        studentServices.saveCv(cvDTO);
     }
 
     public void createAllCandidature() throws IOException {

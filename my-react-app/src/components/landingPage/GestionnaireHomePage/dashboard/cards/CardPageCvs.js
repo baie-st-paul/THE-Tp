@@ -5,20 +5,34 @@ import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "
 import Modal from "../../Vetocv/Modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
+import FetchsUpdateStatus from "../FetchsUpdateStatus";
 
 const CardPageCvs = ({cvList}) => {
     const [filterOption, setFilterOption] = useState("all");
+    const [filterOptionVuPasVu, setFilterOptionVuPasVu] = useState("all");
     const [openModal, setOpenModal] = useState(false);
     const [selectedCv, setSelectedCv] = useState(null);
 
+    const token = localStorage.getItem('token');
+
+    const handleUpdateStatus = (matricule, status) => {
+        FetchsUpdateStatus.updateStatusCvVuG(token, matricule, status)
+        console.log(status)
+        //window.location.reload()
+    }
+
     const handleFilterChange = (event) => {
-        setFilterOption(event.target.value);
+        const value = event.target.value;
+        if (event.target.name === "filterOption") {
+            setFilterOption(value);
+        } else if (event.target.name === "filterOptionVuPasVu") {
+            setFilterOptionVuPasVu(value)
+        }
     };
 
-    const filteredCvList =
-        filterOption === "all"
-            ? cvList
-            : cvList.filter((cvDto) => cvDto.status === filterOption);
+    const filteredCvList = cvList.length !== 0 && cvList.length !== undefined &&
+        cvList.filter((cvDto) => filterOption === "all" || cvDto.status === filterOption)
+                .filter((cvDto) => filterOptionVuPasVu === "all" || cvDto.statusVuPasVuG === filterOptionVuPasVu);
 
     return (
         <Grid item xs={10} sm={12} md={6} lg={6}>
@@ -32,8 +46,8 @@ const CardPageCvs = ({cvList}) => {
                     </h4>
                     {cvList.length !== 0 && cvList.length !== undefined ?
                         <div>
-                            <div style={{marginTop: "0.5rem", marginLeft: "1.5rem", marginRight: "0.5rem"}}>
-                                <Grid item xs={6} sm={6} md={5} lg={6}>
+                            <div className="row" style={{marginTop: "0.5rem", marginLeft: "1.5rem", marginRight: "0.5rem"}}>
+                                <Grid item xs={6} sm={6} md={6} lg={6}>
                                     <select
                                         className="form-control w-100 d-inline"
                                         value={filterOption}
@@ -43,6 +57,22 @@ const CardPageCvs = ({cvList}) => {
                                         <option value="In_review">En attente</option>
                                         <option value="Accepted">Accepté</option>
                                         <option value="Refused">Refusé</option>
+                                    </select>
+                                </Grid>
+                                <Grid item xs={6} sm={6} md={6} lg={6}>
+                                    <link href={"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"} rel="stylesheet"/>
+                                    <select
+                                        style={{fontFamily: 'FontAwesome'}}
+                                        className="form-control w-100 d-inline"
+                                        name="filterOptionVuPasVu"
+                                        value={filterOptionVuPasVu}
+                                        onChange={handleFilterChange}
+                                    >
+                                        <option value="all">
+                                            &#xf06e; / &#xf070;
+                                        </option>
+                                        <option value="vu">Vu</option>
+                                        <option value="pasVu">Pas vu</option>
                                     </select>
                                 </Grid>
                             </div>

@@ -1,10 +1,17 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -15,11 +22,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ContextConfiguration(classes = {EmployerService.class})
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +33,9 @@ class EmployerServiceTest {
     private EmployerService employerService;
     @Mock
     private EmployerRepository employerRepository;
+
+    @Mock
+    ContratStageRepository contratStageRepository;
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
@@ -85,6 +92,43 @@ class EmployerServiceTest {
         assertTrue(actualOffreStageByEmployer.isEmpty());
         verify(employerRepository).getOffreStageById(Mockito.<Long>any());
     }
+
+    @Test
+    void testGetContratStageByEmpleur() {
+        Long employeurId = 1L;
+        ContratStage contrat1 = new ContratStage();
+        ContratStage contrat2 = new ContratStage();
+
+        Student studentMock = mock(Student.class);
+        Employer employeurMock = mock(Employer.class);
+
+        when(studentMock.getMatricule()).thenReturn("matricule1");
+        when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
+        when(employeurMock.getId()).thenReturn(employeurId);
+
+        contrat1.setStudent(studentMock);
+        contrat1.setEmployeur(employeurMock);
+        contrat1.setNomDePoste("Poste 1");
+
+        contrat2.setStudent(studentMock);
+        contrat2.setEmployeur(employeurMock);
+        contrat2.setNomDePoste("Poste 2");
+
+        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+        when(contratStageRepository.findByEmployeur_Id(employeurId)).thenReturn(contrats);
+
+        List<ContratStageDTO> result = employerService.getContratStageByEmployeur(employeurId);
+
+        assertEquals(2, result.size());
+        assertEquals("matricule1", result.get(0).getStudentId());
+        assertEquals(employeurId, result.get(0).getEmployerId());
+        assertEquals("Poste 1", result.get(0).getNomDePoste());
+        assertEquals("matricule1", result.get(1).getStudentId());
+        assertEquals(employeurId, result.get(1).getEmployerId());
+        assertEquals("Poste 2", result.get(1).getNomDePoste());
+    }
+
+
 
 
 

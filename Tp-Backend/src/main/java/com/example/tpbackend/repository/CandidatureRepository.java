@@ -2,6 +2,7 @@ package com.example.tpbackend.repository;
 import com.example.tpbackend.models.Candidature;
 import java.util.List;
 
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,4 +22,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     void updateCandidatureStatusByMatricule(String matricule, Candidature.Status status);
 
     List<Candidature> findByStatus(Candidature.Status status);
+
+    Candidature findByStatusAndStudent(Candidature.Status statut, Student student);
 }

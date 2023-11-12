@@ -28,59 +28,115 @@ export default function OffresPageGestionnaire({ listeOffres }) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
 
-    useEffect(() => {
-        const fetchOffreList = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(
-                    'http://localhost:8081/api/v1/gestionnaire/offres',
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                );
-                if (response.ok) {
-                    const data = await response.json();
-                    setOffres(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    const token = localStorage.getItem('token');
 
-        const fetchSessions = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(
-                    'http://localhost:8081/api/v1/gestionnaire/getSessions',
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                );
-                if (response.ok) {
-                    const data = await response.json();
-                    setSession(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    useEffect(() => {
         fetchSessions();
         fetchOffreList();
     }, [shouldRefetch]);
+
+    async function fetchSessions() {
+        try {
+            fetch(
+                'http://localhost:8081/api/v1/gestionnaire/getSessions',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setSession(data);
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (sessions !== undefined){
+                setSession(sessions)
+            }
+        }
+    }
+
+    async function fetchOffreList() {
+        try {
+            fetch(
+                'http://localhost:8081/api/v1/gestionnaire/offres',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setOffres(data);
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (offres !== undefined){
+                setOffres(offres)
+            }
+        }
+    }
+
+    async function updateStatus(titre, status) {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/offres/accept/${titre}/${status}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setShouldRefetch(!shouldRefetch);
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
 
     const handleFilterChange = (event) => {
         const value = event.target.value;
@@ -108,28 +164,6 @@ export default function OffresPageGestionnaire({ listeOffres }) {
     const handleRefuseConfirmation = () => {
         updateStatus(selectedOffre.titre, "Refused");
         setIsConfirmationModalOpen(false);
-    };
-
-    const updateStatus = async (titre, status) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8081/api/v1/gestionnaire/offres/accept/${titre}/${status}`, {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            });
-
-            if (response.ok) {
-                setShouldRefetch(!shouldRefetch);
-            } else {
-                console.error("Failed to accept/refuse offre");
-            }
-        } catch (error) {
-            console.error("Error accepting/refusing offre:", error);
-        }
     };
 
     const filteredOffreList = offres

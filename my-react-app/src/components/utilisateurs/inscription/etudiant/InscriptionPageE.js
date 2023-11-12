@@ -9,36 +9,41 @@ const InscriptionPageE = () => {
     const [etudiants, setEtudiants] = useState([]);
     const [erreur, setErreur] = useState(false);
 
-    const inscription = async (etudiant) => {
-        console.log(erreur)
-        const res = await fetch(
-            'http://localhost:8081/api/v1/utilisateur/register',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                },
-                withCredentials: true,
-                body: JSON.stringify(etudiant)
-            }
-        )
-
+    async function inscription(etudiant) {
         try {
-            console.log(res.status)
-            if (res.status === 400) {
-                console.log(res.status)
-                setErreur(true)
-                throw new Error('Cette matricule ou Email est déjà associé à un compte');
-            } else {
-                setErreur(false)
-            }
-        } catch (e) {
-            console.log(e)
+            console.log(erreur)
+            fetch(
+                'http://localhost:8081/api/v1/utilisateur/register',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    withCredentials: true,
+                    body: JSON.stringify(etudiant)
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                            setErreur(true)
+                            throw new Error('Cette matricule ou Email est déjà associé à un compte');
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setErreur(false)
+                    setEtudiants([...etudiants, data])
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
         }
-
-        const data = await res.json()
-        setEtudiants([...etudiants, data])
-        console.log(data)
     }
 
     return (

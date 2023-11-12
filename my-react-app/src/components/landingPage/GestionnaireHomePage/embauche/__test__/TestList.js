@@ -3,6 +3,7 @@ export const testList1Acceptes = [
         student :{
             firstName : 'lina',
             lastName : 'Moskalenko',
+            matricule: '2304032',
             email : 'email@test.com',
             phoneNumber : '514-451-1451',
             lettreMotivation : '',
@@ -10,6 +11,9 @@ export const testList1Acceptes = [
             cvStudent : {
                 cv : 'cv',
             }
+        },
+        employer: {
+            companyName: 'dell'
         },
         offreStage : {
             titre: 'dev mobile'
@@ -22,6 +26,7 @@ export const testListAcceptes = [{
     student: {
         firstName: 'danil',
         lastName: 'Moskalenko',
+        matricule: '2304032',
         email: 'email@test.com',
         phoneNumber: '514-451-1451',
         lettreMotivation: 'lettreMotiv',
@@ -30,6 +35,9 @@ export const testListAcceptes = [{
             file_cv: 'abc',
             cv: 'cv',
         }
+    },
+    employer: {
+        companyName: 'dell'
     },
     offreStage : {
         titre: 'dev mobile'
@@ -52,6 +60,9 @@ export const testList2Acceptes = [
                 file_cv : null,
                 cv : 'cv',
             }
+        },
+        employer: {
+            companyName: 'dell'
         },
         offreStage : {
             titre: 'dev mobile'

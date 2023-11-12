@@ -13,8 +13,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
@@ -169,7 +171,7 @@ public class GestionnaireControllerTest {
 
         when(gestionnaireService.getAllCvs()).thenReturn(cvDTOList);
 
-        mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/cvs"))
+       mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/cvs"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].matricule").value("1234"))
@@ -180,6 +182,40 @@ public class GestionnaireControllerTest {
                 .andExpect(jsonPath("$[1].statusVuPasVuG").value("vu"))
                 .andExpect(jsonPath("$[1].statusVuPasVuE").value("vu"))
                 .andExpect(jsonPath("$[1].statusVuPasVuS").value("pasVu"));
+
     }
 
+//ce test c'est juste pour afficher les elements récupérés dans le console
+   /* @Test
+    @WithMockUser
+    public void getAllCvsTest() throws Exception {
+        CvDTO cv1 = new CvDTO();
+        cv1.setMatricule("1234");
+        cv1.setFileName("cv1.pdf");
+        cv1.setStatus("Accepted");
+        cv1.setStatusVuPasVuG("vu");
+        cv1.setStatusVuPasVuE("pasVu");
+        cv1.setStatusVuPasVuS("vu");
+
+        CvDTO cv2 = new CvDTO();
+        cv2.setMatricule("5678");
+        cv2.setFileName("cv2.pdf");
+        cv2.setStatus("In_review");
+        cv2.setStatusVuPasVuG("vu");
+        cv2.setStatusVuPasVuE("vu");
+        cv2.setStatusVuPasVuS("pasVu");
+
+        List<CvDTO> cvDTOList = Arrays.asList(cv1, cv2);
+
+        when(gestionnaireService.getAllCvs()).thenReturn(cvDTOList);
+
+        MvcResult result = mockMvc.perform(get("/api/v1/gestionnaire/cvs"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+        System.out.println(responseContent);
+    }*/
 }
+
+

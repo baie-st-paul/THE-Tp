@@ -151,10 +151,6 @@ public class StudentServices {
         return response;
     }
 
-    public void deleteStudentByMatricule(String matricule){
-        studentRepository.deleteByMatricule(matricule);
-    }
-
     public void reinscriptionANouvelleSession(String matricule){
         studentRepository.updateTagNameByMatricule(matricule,TagGenerator.getCurrentSession());
     }

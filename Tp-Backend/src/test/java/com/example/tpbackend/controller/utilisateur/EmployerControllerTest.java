@@ -1,4 +1,4 @@
-package com.example.tpbackend.controller;
+package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
@@ -9,12 +9,13 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
-import com.example.tpbackend.controllers.EmployerController;
+import com.example.tpbackend.controllers.utilisateur.EmployerController;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,13 +37,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.yaml.snakeyaml.tokens.Token.ID.Tag;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(EmployerController.class)
 public class EmployerControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
     @MockBean
     private OffreStageService offreStageService;
     @MockBean

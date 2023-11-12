@@ -1,12 +1,13 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.EntrevueDTO;
+import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.exceptionHandler.ResourceNotFoundException;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.EntrevueRepository;
+import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import jakarta.transaction.Transactional;
@@ -30,6 +31,9 @@ public class EntrevueService {
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private OffreStageRepository offreStageRepository;
+
     @Transactional
     public EntrevueDTO createEntrevue(EntrevueDTO entrevueDTO) {
         Entrevue entrevue = new Entrevue();
@@ -37,8 +41,11 @@ public class EntrevueService {
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
+        System.out.println(entrevueDTO.getIdOffre());
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
         entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
+        entrevue.setOffreStage(offreStageRepository.getOffreById(Long.parseLong(entrevueDTO.getIdOffre())));
+        System.out.println(entrevue.getOffreStage());
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 

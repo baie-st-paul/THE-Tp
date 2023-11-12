@@ -1,16 +1,13 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.TagDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
-import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,10 +69,17 @@ public class GestionnaireController {
         }
     }
 
+    @GetMapping("/getContrats")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<ContratStageDTO>> getAllContrats() {
+        List<ContratStageDTO> contratStageDTOS = gestionnaireService.getAllContrats();
+        return ResponseEntity.ok(contratStageDTOS);
+    }
+
     @GetMapping("/candidatures/acceptees")
     @PreAuthorize("authenticated")
-    public ResponseEntity<List<CandidatureDTO>> getCandidaturesAcceptees() {
-        List<CandidatureDTO> dtoList = gestionnaireService.getCandidaturesAcceptees();
+    public ResponseEntity<List<CandidatureDTODetailed>> getCandidaturesAcceptees() {
+        List<CandidatureDTODetailed> dtoList = gestionnaireService.getCandidaturesAcceptees();
         return ResponseEntity.ok(dtoList);
     }
 

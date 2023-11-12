@@ -1,4 +1,4 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
@@ -86,17 +86,6 @@ public class StudentController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/deleteStudentByMatricule/{matricule}")
-    @PreAuthorize("authenticated")
-    public ResponseEntity<?> deleteStudentByMatricule(@PathVariable("matricule") String matricule) {
-        try {
-            studentServices.deleteStudentByMatricule(matricule);
-            return ResponseEntity.ok("Student with matricule " + matricule + " has been deleted.");
-        } catch (Exception ex) {
-            String errorMessage = "An error occurred while processing your request";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }
-    }
 
     @PostMapping("/reinscriptionANouvelleSession/{matricule}")
     @PreAuthorize("authenticated")

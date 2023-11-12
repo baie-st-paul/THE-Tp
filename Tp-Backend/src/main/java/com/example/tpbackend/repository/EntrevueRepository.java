@@ -1,6 +1,7 @@
 package com.example.tpbackend.repository;
 
 import com.example.tpbackend.models.Entrevue;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,6 +25,7 @@ public interface EntrevueRepository extends JpaRepository<Entrevue, Long> {
     @Transactional
     @Query("UPDATE Entrevue  SET status = ?2   WHERE student.matricule =  ?1")
     void updateStatusByMatricule(String matricule, Entrevue.Status newStatus);
+
     List<Entrevue> findByStudentNotNull();
 
     List<Entrevue> findByEmployer(Employer employer);

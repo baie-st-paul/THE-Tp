@@ -102,9 +102,10 @@ const CardPageContrats = ({contrats}) => {
     }
 
     const handleUpdateStatus = (matricule, status) => {
+        console.log(matricule)
         FetchsUpdateStatus.updateStatusContratVuG(token, matricule, status)
         console.log(status)
-        //window.location.reload()
+        window.location.reload()
     }
 
     const handleFilterChange = (event) => {

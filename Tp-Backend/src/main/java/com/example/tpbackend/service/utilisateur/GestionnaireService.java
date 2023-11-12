@@ -165,9 +165,9 @@ public class GestionnaireService {
         contratStage.setStatusEtudiant(ContratStage.Status.Pas_Signer);
         contratStage.setStatusEmployeur(ContratStage.Status.Pas_Signer);
 
-        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
+        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuE()));
+        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuS()));
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 

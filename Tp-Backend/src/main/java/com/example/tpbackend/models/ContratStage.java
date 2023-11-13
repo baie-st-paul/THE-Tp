@@ -1,4 +1,5 @@
 package com.example.tpbackend.models;
+import com.example.tpbackend.models.signature.SignatureGestionnaire;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.persistence.*;
@@ -40,6 +41,10 @@ public class ContratStage {
 
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuS;
+
+    @OneToOne
+    @JoinColumn(name = "signature_id")
+    private SignatureGestionnaire gestionnaireSignature;
 
     private String nomDePoste;
 

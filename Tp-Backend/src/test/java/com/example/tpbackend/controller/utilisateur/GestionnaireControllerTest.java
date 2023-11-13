@@ -116,19 +116,19 @@ public class GestionnaireControllerTest {
                 .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
     }
 
+
+
     @Test
     public void testGetCandidaturesAcceptees() throws Exception {
-        // Créez quelques objets DTO de test mockés
-        CandidatureDTODetailed dto1 = mock(CandidatureDTODetailed.class);
-        CandidatureDTODetailed dto2 = mock(CandidatureDTODetailed.class);
+        CandidatureDTODetailed dto1 = new CandidatureDTODetailed();
+        dto1.setId(1L);
+        dto1.setFileName("fileName1");
+        dto1.setStatus("accepted");
 
-        when(dto1.getId()).thenReturn(1L);
-        when(dto1.getFileName()).thenReturn("fileName1");
-        when(dto1.getStatus()).thenReturn("accepted");
-
-        when(dto2.getId()).thenReturn(2L);
-        when(dto2.getFileName()).thenReturn("fileName2");
-        when(dto2.getStatus()).thenReturn("accepted");
+        CandidatureDTODetailed dto2 = new CandidatureDTODetailed();
+        dto2.setId(2L);
+        dto2.setFileName("fileName2");
+        dto2.setStatus("accepted");
 
         List<CandidatureDTODetailed> mockedList = Arrays.asList(dto1, dto2);
 
@@ -138,12 +138,12 @@ public class GestionnaireControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()", is(2)))
-                .andExpect(jsonPath("$[0].id", is(dto1.getId().intValue())))
-                .andExpect(jsonPath("$[0].fileName", is(dto1.getFileName())))
-                .andExpect(jsonPath("$[0].status", is(dto1.getStatus())))
-                .andExpect(jsonPath("$[1].id", is(dto2.getId().intValue())))
-                .andExpect(jsonPath("$[1].fileName", is(dto2.getFileName())))
-                .andExpect(jsonPath("$[1].status", is(dto2.getStatus())));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].fileName", is("fileName1")))
+                .andExpect(jsonPath("$[0].status", is("accepted")))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].fileName", is("fileName2")))
+                .andExpect(jsonPath("$[1].status", is("accepted")));
 
         verify(gestionnaireService, times(1)).getCandidaturesAcceptees();
     }

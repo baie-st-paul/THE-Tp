@@ -105,15 +105,14 @@ class EmployerServiceTest {
         when(studentMock.getMatricule()).thenReturn("matricule1");
         when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
         when(employeurMock.getId()).thenReturn(employeurId);
-        when(employeurMock.getCompanyName()).thenReturn("Company Name");
 
         contrat1.setStudent(studentMock);
         contrat1.setEmployeur(employeurMock);
-        contrat1.setNomDePoste("Poste 1");
+        contrat1.setNomDePoste("Company Name");
 
         contrat2.setStudent(studentMock);
         contrat2.setEmployeur(employeurMock);
-        contrat2.setNomDePoste("Poste 2");
+        contrat2.setNomDePoste("Company Name");
 
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findByEmployeur_Id(employeurId)).thenReturn(contrats);

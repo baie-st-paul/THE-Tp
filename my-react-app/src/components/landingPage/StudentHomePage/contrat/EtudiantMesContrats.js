@@ -89,10 +89,13 @@ try{
 }
 }
 
-
 const handleAcceptConfirmation = () => {
     setIsConfirmationModalOpen(false);
     console.log("Accepted")
+    let arrTmp = [...contrats]
+    let idx = arrTmp.findIndex((x) => x.id === contrat.id)
+    arrTmp[idx].statutEtudiant = 'Signer'
+    setContrats(arrTmp)
     handleSignerContrat(contrat)
 };
 

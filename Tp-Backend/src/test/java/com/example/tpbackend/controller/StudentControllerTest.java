@@ -1,18 +1,14 @@
 package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
-<<<<<<< HEAD
-import com.example.tpbackend.controllers.StudentController;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-=======
 import com.example.tpbackend.controllers.utilisateur.StudentController;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
->>>>>>> a78160353905c6a13449a0f7eb7bec65f1c92ef2
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,16 +37,10 @@ public class StudentControllerTest {
     @MockBean
     private JwtService jwtService;
 
-    @MockBean
-<<<<<<< HEAD
-    JwtService jwtService;
 
     @MockBean
     UserService userService;
 
-=======
-    private UserService userService;
->>>>>>> a78160353905c6a13449a0f7eb7bec65f1c92ef2
 
     @Test
     @WithMockUser(username="admin", roles={"USER","ADMIN"})

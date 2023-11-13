@@ -99,9 +99,7 @@ const handleAcceptConfirmation = () => {
     handleSignerContrat(contrat)
 };
 
-const handleRefuseConfirmation = () => {
-    setIsConfirmationModalOpen(false);
-};
+
 
 const openConfirmationModal = (type, contrat1) => {
     setIsConfirmationModalOpen(true);
@@ -173,8 +171,8 @@ const closeConfirmationModal = () => {
                             </>
                         ) : (
                             <>
-                                <p>Êtes-vous sûr de vouloir refuser cet étudiant ?</p>
-                                <button title="ConfirmRefuse" className="btn btn-danger" onClick={handleRefuseConfirmation}>
+                                <p>Êtes-vous sûr de vouloir refuser  ?</p>
+                                <button title="ConfirmRefuse" className="btn btn-danger" >
                                     Oui
                                 </button>
                             </>

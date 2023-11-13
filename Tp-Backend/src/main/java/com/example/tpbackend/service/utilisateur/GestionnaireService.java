@@ -36,6 +36,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -198,6 +199,15 @@ public class GestionnaireService {
             tagsDtos.add(tag.toTagDTO());
         }
         return tagsDtos;
+    }
+
+    @Transactional
+    public ContratStageDTO signContract(ContratStageDTO contractDTO) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        ContratStage contract = optionalContract.get();
+        contract.setStatutGestionnaire(ContratStage.Statut.Signer);
+        return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
     }
 
 }

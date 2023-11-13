@@ -14,7 +14,7 @@ public class ContratStageDTO {
     private String statutEtudiant;
     private String statutEmployeur;
     private String statutGestionnaire;
-
+    private boolean isSignedByGestionnaire;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
 
@@ -32,6 +32,9 @@ public class ContratStageDTO {
 
         if (contratStage.getEmployeur() != null) {
             dto.setEmployerId(contratStage.getEmployeur().getId());
+        }
+        if (contratStage.getStatutGestionnaire() != null) {
+            dto.setSignedByGestionnaire(true);
         }
 
         dto.setStatutEtudiant(ContratStage.Statut.Pas_Signer.toString());

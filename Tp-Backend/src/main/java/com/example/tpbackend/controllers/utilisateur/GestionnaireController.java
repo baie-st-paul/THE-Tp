@@ -94,4 +94,15 @@ public class GestionnaireController {
     public ResponseEntity<List<TagDTO>> getAllTags() {
         return new ResponseEntity<>(gestionnaireService.getAllTags(), HttpStatus.OK);
     }
+
+    @PostMapping("/signContract")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
+        try {
+            gestionnaireService.signContract(contratStageDTO);
+            return ResponseEntity.ok(contratStageDTO);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

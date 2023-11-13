@@ -2,7 +2,9 @@ package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.controllers.StudentController;
+import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
+import com.example.tpbackend.service.utilisateur.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,12 @@ public class StudentControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    JwtService jwtService;
+
+    @MockBean
+    UserService userService;
 
 
     @Test

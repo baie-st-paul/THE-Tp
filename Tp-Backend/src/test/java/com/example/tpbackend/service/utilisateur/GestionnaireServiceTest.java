@@ -2,9 +2,9 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.EntrevueDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
-import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 
@@ -14,7 +14,6 @@ import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
-import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
@@ -28,11 +27,9 @@ import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import com.example.tpbackend.service.EntrevueService;
-import com.example.tpbackend.service.security.AuthenticationService;
 
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
-import org.junit.jupiter.api.Disabled;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -57,19 +54,10 @@ import static org.mockito.ArgumentMatchers.any;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import java.util.Arrays;
-import java.util.List;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -426,8 +414,8 @@ public class GestionnaireServiceTest {
 
         // Vérifications
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT123")));
-        assertTrue(result.stream().anyMatch(dto -> dto.getEtudiant().getMatricule().equals("MAT456")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("MAT123")));
+        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("MAT456")));
     }
 
     @Test
@@ -481,6 +469,40 @@ public class GestionnaireServiceTest {
         });
     }
 
+    @Test
+    void testGetAllContrats() {
+        Long employeurId = 1L;
+        ContratStage contrat1 = new ContratStage();
+        ContratStage contrat2 = new ContratStage();
+
+        Student studentMock = mock(Student.class);
+        Employer employeurMock = mock(Employer.class);
+
+        when(studentMock.getMatricule()).thenReturn("matricule1");
+        when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
+        when(employeurMock.getId()).thenReturn(employeurId);
+
+        contrat1.setStudent(studentMock);
+        contrat1.setEmployeur(employeurMock);
+        contrat1.setNomDePoste("Poste 1");
+
+        contrat2.setStudent(studentMock);
+        contrat2.setEmployeur(employeurMock);
+        contrat2.setNomDePoste("Poste 2");
+
+        List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
+        when(contratStageRepository.findAll()).thenReturn(contrats);
+        List<ContratStageDTO> result = gestionnaireService.getAllContrats();
+
+        assertEquals(2, result.size());
+        assertEquals("matricule1", result.get(0).getStudentId());
+        assertEquals(employeurId, result.get(0).getEmployerId());
+        assertEquals("Poste 1", result.get(0).getNomDePoste());
+        assertEquals("matricule1", result.get(1).getStudentId());
+        assertEquals(employeurId, result.get(1).getEmployerId());
+        assertEquals("Poste 2", result.get(1).getNomDePoste());
+    }
+
 
     @Test
     void getCandidaturesAcceptees() {
@@ -496,7 +518,7 @@ public class GestionnaireServiceTest {
 
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(mockedList);
 
-        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+        List<CandidatureDTODetailed> result = gestionnaireService.getCandidaturesAcceptees();
 
         assertEquals(2, result.size());
 
@@ -510,7 +532,7 @@ public class GestionnaireServiceTest {
     void getCandidaturesAccepteesReturnsEmptyListWhenNoAcceptedApplications() {
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
 
-        List<CandidatureDTO> result = gestionnaireService.getCandidaturesAcceptees();
+        List<CandidatureDTODetailed> result = gestionnaireService.getCandidaturesAcceptees();
 
         assertTrue(result.isEmpty());
 

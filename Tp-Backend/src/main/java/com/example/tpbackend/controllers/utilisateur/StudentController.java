@@ -1,4 +1,4 @@
-package com.example.tpbackend.controllers;
+package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
@@ -86,17 +86,6 @@ public class StudentController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PostMapping("/deleteStudentByMatricule/{matricule}")
-    @PreAuthorize("authenticated")
-    public ResponseEntity<?> deleteStudentByMatricule(@PathVariable("matricule") String matricule) {
-        try {
-            studentServices.deleteStudentByMatricule(matricule);
-            return ResponseEntity.ok("Student with matricule " + matricule + " has been deleted.");
-        } catch (Exception ex) {
-            String errorMessage = "An error occurred while processing your request";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }
-    }
 
     @PostMapping("/reinscriptionANouvelleSession/{matricule}")
     @PreAuthorize("authenticated")
@@ -110,7 +99,18 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/signContract")
+    @GetMapping("/student-contracts/{studentId}")
+    public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
+        try {
+            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studentId);
+            return ResponseEntity.ok(studentContracts);
+        } catch (Exception ex) {
+            String errorMessage = "Une erreur est survenue lors du traitement de votre requête";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @PostMapping("/signerContrat")
     @PreAuthorize("authenticated")
     public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
         try {

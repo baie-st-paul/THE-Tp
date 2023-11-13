@@ -26,34 +26,78 @@ const VetoSection = () => {
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-    useEffect(() => {
-        const fetchCvList = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(
-                    "http://localhost:8081/api/v1/gestionnaire/cvs",
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                    }
-                );
-                if (response.ok) {
-                    const data = await response.json();
-                    setCvList(data);
-                } else {
-                    console.error("Failed to fetch data");
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+    const token = localStorage.getItem('token');
 
+    useEffect(() => {
         fetchCvList();
     }, [shouldRefetch]);
+
+    async function fetchCvList() {
+        try {
+            fetch(
+                "http://localhost:8081/api/v1/gestionnaire/cvs",
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setCvList(data);
+                    console.log(data)
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (cvList !== undefined){
+                setCvList(cvList)
+            }
+        }
+    }
+
+    async function updateStatus(matricule, status) {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/cvs/accept/${matricule}/${status}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
+                            console.log(res.status)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setShouldRefetch(!shouldRefetch);
+                })
+        } catch (error) {
+            console.error("Error accepting/refusing CV:", error);
+        }
+    }
 
     const handleFilterChange = (event) => {
         setFilterOption(event.target.value);
@@ -76,30 +120,6 @@ const VetoSection = () => {
     const handleRefuseConfirmation = () => {
         updateStatus(selectedCv.matricule, "Refused");
         setIsConfirmationModalOpen(false);
-    };
-
-    const updateStatus = async (matricule, status) => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(
-                `http://localhost:8081/api/v1/gestionnaire/cvs/accept/${matricule}/${status}`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-            });
-
-            if (response.ok) {
-                setShouldRefetch(!shouldRefetch);
-            } else {
-                console.error("Failed to accept/refuse CV");
-            }
-        } catch (error) {
-            console.error("Error accepting/refusing CV:", error);
-        }
     };
 
     const filteredCvList =

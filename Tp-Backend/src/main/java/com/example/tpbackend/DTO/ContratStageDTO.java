@@ -2,13 +2,19 @@ package com.example.tpbackend.DTO;
 
 import com.example.tpbackend.models.ContratStage;
 import lombok.Data;
-
 @Data
 public class ContratStageDTO {
     private Long id;
     private String studentId;
     private Long employerId;
-    private boolean isSignedByStudent;
+    private String nomDeCompagnie;
+    private String nomEtudiant;
+    private String nomDePoste;
+    private String prenomEtudiant;
+    private String statutEtudiant;
+    private String statutEmployeur;
+    private String statutGestionnaire;
+
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -26,9 +32,14 @@ public class ContratStageDTO {
         if (contratStage.getEmployeur() != null) {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
-        if (contratStage.getStudentSignature() != null) {
-            dto.setSignedByStudent(true);
-        }
+
+        dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
+        dto.setNomDeCompagnie(contratStage.getEmployeur().getCompanyName());
+        dto.setStatutEmployeur(contratStage.getStatutEmployeur().toString());
+        dto.setStatutGestionnaire(contratStage.getStatutGestionnaire().toString());
+        dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
+        dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
+        dto.setNomDePoste(contratStage.getNomDePoste());
         return dto;
     }
 

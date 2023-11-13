@@ -1,12 +1,14 @@
-package com.example.tpbackend.controller;
+package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
-import com.example.tpbackend.controllers.GestionnaireController;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.config.JwtAuthenticationFilter;
+import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -16,12 +18,14 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(GestionnaireController.class)
 public class GestionnaireControllerTest {
 
@@ -33,6 +37,9 @@ public class GestionnaireControllerTest {
 
     @MockBean
     private GestionnaireService gestionnaireService;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
     @Test
@@ -78,10 +85,38 @@ public class GestionnaireControllerTest {
     }
 
     @Test
+    public void getAllContratsTest() throws Exception {
+        ContratStageDTO contrat1 = new ContratStageDTO();
+        contrat1.setId(1L);
+        contrat1.setStudentId("0123456");
+        contrat1.setEmployerId(1L);
+
+        ContratStageDTO contrat2 = new ContratStageDTO();
+        contrat2.setId(2L);
+        contrat2.setStudentId("student2");
+        contrat2.setEmployerId(1L);
+
+        List<ContratStageDTO> contratStageDTOS = Arrays.asList(contrat1, contrat2);
+
+        when(gestionnaireService.getAllContrats()).thenReturn(contratStageDTOS);
+
+        mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/getContrats"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value(contrat1.getId()))
+                .andExpect(jsonPath("$[0].studentId").value(contrat1.getStudentId()))
+                .andExpect(jsonPath("$[0].employerId").value(contrat1.getEmployerId()))
+                .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
+                .andExpect(jsonPath("$[1].studentId").value(contrat2.getStudentId()))
+                .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
+    }
+
+    @Test
     public void testGetCandidaturesAcceptees() throws Exception {
         // Créez quelques objets DTO de test mockés
-        CandidatureDTO dto1 = mock(CandidatureDTO.class);
-        CandidatureDTO dto2 = mock(CandidatureDTO.class);
+        CandidatureDTODetailed dto1 = mock(CandidatureDTODetailed.class);
+        CandidatureDTODetailed dto2 = mock(CandidatureDTODetailed.class);
 
         when(dto1.getId()).thenReturn(1L);
         when(dto1.getFileName()).thenReturn("fileName1");
@@ -91,7 +126,7 @@ public class GestionnaireControllerTest {
         when(dto2.getFileName()).thenReturn("fileName2");
         when(dto2.getStatus()).thenReturn("accepted");
 
-        List<CandidatureDTO> mockedList = Arrays.asList(dto1, dto2);
+        List<CandidatureDTODetailed> mockedList = Arrays.asList(dto1, dto2);
 
         when(gestionnaireService.getCandidaturesAcceptees()).thenReturn(mockedList);
 

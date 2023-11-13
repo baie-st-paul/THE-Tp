@@ -2,22 +2,22 @@ package com.example.tpbackend.models.utilisateur.etudiant;
 
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Signature;
-import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.models.signature.SignatureStudent;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@Data
 @NoArgsConstructor
 public class Student  {
         @Id
@@ -38,9 +38,9 @@ public class Student  {
         private String tagName;
 
         @OneToOne(mappedBy = "student")
-        @JoinColumn(name = "signature_id")
+        @JoinColumn(name = "signature_student_id")
         @Setter
-        private Signature signature;
+        private SignatureStudent signatureStudent;
 
         public Student( String matricule, String program) {
                 this.matricule = matricule;

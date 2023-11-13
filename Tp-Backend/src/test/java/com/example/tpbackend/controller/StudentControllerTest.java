@@ -52,9 +52,9 @@ public class StudentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].nomDePoste").value("Software Engineer"))
+                .andExpect(jsonPath("$[0].nomDeCompany").value("Software Engineer"))
                 .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].nomDePoste").value("Data Analyst"));
+                .andExpect(jsonPath("$[1].nomDeCompany").value("Data Analyst"));
     }
 
     @Test

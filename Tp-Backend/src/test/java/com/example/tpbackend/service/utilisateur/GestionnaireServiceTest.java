@@ -484,7 +484,7 @@ public class GestionnaireServiceTest {
 
     @Test
     public void testCreateContrat_StudentNotFound() {
-
+        // Arrange
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("nonExistentStudentId");
 
@@ -497,7 +497,7 @@ public class GestionnaireServiceTest {
 
     @Test
     public void testCreateContrat_EmployerNotFound() {
-
+        // Arrange
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("someStudentId");
 
@@ -512,32 +512,26 @@ public class GestionnaireServiceTest {
     }
 
 
+
     @Test
     void testGetAllContrats() {
         Long employeurId = 1L;
-        String companyName1 = "Poste 1";
-        String companyName2 = "Poste 2";
         ContratStage contrat1 = new ContratStage();
         ContratStage contrat2 = new ContratStage();
 
         Student studentMock = mock(Student.class);
-        Employer employeurMock1 = mock(Employer.class);
-        Employer employeurMock2 = mock(Employer.class);
+        Employer employeurMock = mock(Employer.class);
 
         when(studentMock.getMatricule()).thenReturn("matricule1");
         when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
-
-        when(employeurMock1.getId()).thenReturn(employeurId);
-        when(employeurMock1.getCompanyName()).thenReturn(companyName1);
-
-        when(employeurMock2.getId()).thenReturn(employeurId + 1);
-        when(employeurMock2.getCompanyName()).thenReturn(companyName2);
+        when(employeurMock.getId()).thenReturn(employeurId);
+        when(employeurMock.getCompanyName()).thenReturn("Poste 1", "Poste 2");
 
         contrat1.setStudent(studentMock);
-        contrat1.setEmployeur(employeurMock1);
+        contrat1.setEmployeur(employeurMock);
 
         contrat2.setStudent(studentMock);
-        contrat2.setEmployeur(employeurMock2);
+        contrat2.setEmployeur(employeurMock);
 
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findAll()).thenReturn(contrats);
@@ -547,12 +541,11 @@ public class GestionnaireServiceTest {
         assertEquals(2, result.size());
         assertEquals("matricule1", result.get(0).getStudentId());
         assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals(companyName1, result.get(0).getNomDeCompany());
+        assertEquals("Poste 1", result.get(0).getNomDeCompany());
         assertEquals("matricule1", result.get(1).getStudentId());
-        assertEquals(employeurId + 1, result.get(1).getEmployerId());
-        assertEquals(companyName2, result.get(1).getNomDeCompany());
+        assertEquals(employeurId, result.get(1).getEmployerId());
+        assertEquals("Poste 2", result.get(1).getNomDeCompany());
     }
-
 
 
 

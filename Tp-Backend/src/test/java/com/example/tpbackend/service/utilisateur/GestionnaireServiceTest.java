@@ -475,9 +475,7 @@ public class GestionnaireServiceTest {
         Mockito.when(candidatureRepository.findByStatusAndStudent(any(), any())).thenReturn(Optional.of(mockCandidature));
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
 
-        // Act
         ContratStageDTO result = gestionnaireService.createContrat(contratDTO);
-        // Assert
         assertNotNull(result);
     }
 

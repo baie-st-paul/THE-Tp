@@ -1,15 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -17,49 +8,38 @@ import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
-
-import java.io.IOException;
-
-import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Disabled;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {StudentServices.class})
 @ExtendWith(SpringExtension.class)
 class StudentServicesTest {
-    @MockBean
-    private TagRepository tagRepository;
-
-    @MockBean
-    private UtilisateurRepository utilisateurRepository;
 
     @MockBean
     private CandidatureRepository candidatureRepository;
@@ -71,16 +51,22 @@ class StudentServicesTest {
     private OffreStageRepository offreStageRepository;
 
     @MockBean
+    private StudentRepository studentRepository;
+
+    @InjectMocks
+    private StudentServices studentServices;
+
+   @MockBean
+    private ContratStageRepository contratStageRepository;
+
+    @MockBean
+    UtilisateurRepository utilisateurRepository;
+
+    @MockBean
     private UserService userService;
 
     @MockBean
-    private StudentRepository studentRepository;
-
-    @MockBean
-    private AuthenticationService authenticationService;
-
-    @Autowired
-    private StudentServices studentServices;
+    private TagRepository tagRepository;
 
 
     /**
@@ -643,6 +629,5 @@ class StudentServicesTest {
         verify(candidature).setOffreStage(Mockito.<OffreStage>any());
         verify(candidature).setStudent(Mockito.<Student>any());
     }
-
 }
 

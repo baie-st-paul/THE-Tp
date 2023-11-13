@@ -1,38 +1,33 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
-import jakarta.transaction.Transactional;
-import com.example.tpbackend.service.security.AuthenticationService;
-
 import com.example.tpbackend.service.TagGenerator;
+import jakarta.transaction.Transactional;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Data
 public class StudentServices {
     @Autowired
     private StudentRepository studentRepository;
@@ -48,6 +43,9 @@ public class StudentServices {
     private UserService userService;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    ContratStageRepository contratStageRepository;
+
 
 
 
@@ -80,6 +78,7 @@ public class StudentServices {
     @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
+        //System.out.println(student);
         return Student.fromStudent(student);
     }
 
@@ -138,7 +137,7 @@ public class StudentServices {
     public Tag getTag(){
         return new Tag(TagGenerator.getCurrentSession());
     }
-
+    @Transactional
     public List<Object> checkCurrentSession(String matricule) {
         List<Object> response = new ArrayList<>();
         Tag currentTag = new Tag(TagGenerator.getCurrentSession());
@@ -162,5 +161,11 @@ public class StudentServices {
 
     public void updateTag(String matricule,String tag){
         studentRepository.updateTagNameByMatricule(matricule,tag);
+    }
+
+    @Transactional
+    public List<ContratStageDTO> getContratByStudent(String studentId){
+        List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
+        return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
     }
 }

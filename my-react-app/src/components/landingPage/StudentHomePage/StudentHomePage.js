@@ -52,8 +52,9 @@ const StudentHomePage = () => {
 
     async function fetchCv() {
         try {
+            const savedMatricule = localStorage.getItem("loggedInUserMatricule");
             fetch(
-                `http://localhost:8081/api/v1/gestionnaire/cvs`,
+                `http://localhost:8081/api/v1/student/getCvByMatricule/${savedMatricule}`,
                 {
                     method: 'GET',
                     headers: {
@@ -75,8 +76,11 @@ const StudentHomePage = () => {
                     } catch (e) {
                         console.log(e)
                     }
-                    setCvs(data)
                     console.log(data)
+                    if(data.status === "Accepted"){
+                        setCvs([data])
+                    }
+
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);

@@ -209,7 +209,7 @@ public class GestionnaireService {
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
         if(optionalContract.isEmpty()) throw new Exception("Contract not found");
         ContratStage contract = optionalContract.get();
-        contract.setStatutGestionnaire(ContratStage.Statut.Signer);
+        contract.setStatusGestionnaire(ContratStage.Status.Signer);
         return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
     }
 

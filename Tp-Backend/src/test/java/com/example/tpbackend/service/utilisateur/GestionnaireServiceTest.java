@@ -643,22 +643,22 @@ public class GestionnaireServiceTest {
         employer.setCompanyName("ABC");
 
         ContratStage contract = new ContratStage();
-        contract.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        contract.setStatusGestionnaire(ContratStage.Status.Pas_Signer);
         contract.setId(1L);
         contract.setStudent(student);
         contract.setEmployeur(employer);
         contract.setNomDePoste("Poste 1");
-        contract.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
-        contract.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contract.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+        contract.setStatusEtudiant(ContratStage.Status.Pas_Signer);
 
         ContratStage contractUpdated = new ContratStage();
-        contract.setStatutGestionnaire(ContratStage.Statut.Signer);
+        contract.setStatusGestionnaire(ContratStage.Status.Signer);
         contract.setId(1L);
         contract.setStudent(student);
         contract.setEmployeur(employer);
         contract.setNomDePoste("Poste 1");
-        contract.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
-        contract.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contract.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+        contract.setStatusEtudiant(ContratStage.Status.Pas_Signer);
 
 
         when(contratStageRepository.findById(anyLong())).thenReturn(Optional.of(contract));
@@ -667,6 +667,6 @@ public class GestionnaireServiceTest {
         ContratStageDTO result = gestionnaireService.signContract(ContratStageDTO.fromContratStage(contract));
 
         verify(contratStageRepository, times(1)).save(ArgumentMatchers.any(ContratStage.class));
-        assertEquals(ContratStage.Statut.Signer.toString(), result.getStatutGestionnaire());
+        assertEquals(ContratStage.Status.Signer.toString(), result.getStatutGestionnaire());
     }
 }

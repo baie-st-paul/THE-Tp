@@ -1,6 +1,6 @@
 import React from 'react'
 import DropdownUsersInscription from "../dropdownUsers/DropdownUsersInscription";
-import '../../stylesGenerales.css'
+import '../../StylesGenerales.css'
 import {Link} from "react-router-dom";
 
 

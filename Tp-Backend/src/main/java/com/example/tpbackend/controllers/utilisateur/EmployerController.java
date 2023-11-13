@@ -26,6 +26,13 @@ public class EmployerController {
     private final StudentServices studentService;
     private final EmployerService employerService;
 
+    @PostMapping("/dashboard/update/contrat/{matricule}/{status}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<Void> updateStatusContratVuE(@PathVariable String matricule, @PathVariable String status) {
+        employerService.updateStatusContratVuE(matricule, status);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/candidature/accept/{matricule}/{status}")
     @PreAuthorize("authenticated")
     public ResponseEntity<Void> acceptCandidature(@PathVariable String matricule, @PathVariable String status) {

@@ -3,18 +3,18 @@ import {Routes, Route} from "react-router-dom";
 import React from "react";
 import InscriptionPageE from "./components/utilisateurs/inscription/etudiant/InscriptionPageE";
 import InscriptionPageEmp from "./components/utilisateurs/inscription/employeur/InscriptionPageEmp";
-import UtilisateursMain from './components/utilisateurs/mainPage/utilisateursMain';
+import UtilisateursMain from './components/utilisateurs/mainPage/UtilisateursMain';
 import 'bootstrap/dist/css/bootstrap.css';
 import FileUploader from "./components/cv/FileUploader";
 import PageNotFound from "./page_not_found/PageNotFound";
 import StudentPrivateRoutes from "./utils/StudentPrivateRoutes";
 import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
-import AjoutOffreForm from './components/landingPage/EmployerHomePage/offres/offre/ajoutOffreForm';
+import AjoutOffreForm from './components/landingPage/EmployerHomePage/offres/offre/AjoutOffreForm';
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
-import OffresPageGestionnaire from "./components/landingPage/offresStages/gestionnaire/OffrePageGestionnaire";
-import OffresPageStudent from "./components/landingPage/offresStages/student/candidature/OffrePageStudent";
-import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/informationEtudiantPostule';
+import OffresPageGestionnaire from "./components/landingPage/GestionnaireHomePage/offreGestionnaire/OffrePageGestionnaire";
+import OffresPageStudent from "./components/landingPage/StudentHomePage/candidature/OffrePageStudent";
+import InformationEtudiantPostule from './components/landingPage/EmployerHomePage/offres/offre/infoStudentOffre/InformationEtudiantPostule';
 
 function App() {
     return (

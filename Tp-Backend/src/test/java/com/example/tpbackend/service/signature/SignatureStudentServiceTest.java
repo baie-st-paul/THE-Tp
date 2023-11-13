@@ -139,11 +139,4 @@ class SignatureStudentServiceTest {
         verify(signatureDTO).getStudentMatricule();
     }
 
-    @Test
-    public void testDeleteStudentSignature() {
-        doNothing().when(signatureStudentRepository).deleteSignatureStudentByStudentMatricule(anyString());
-        signatureStudentService.deleteSignatureByStudentMatricule("2222222");
-        verify(signatureStudentRepository).deleteSignatureStudentByStudentMatricule(anyString());
-        assertNull(signatureStudentRepository.findSignatureStudentByStudentMatricule("2222222"));
-    }
 }

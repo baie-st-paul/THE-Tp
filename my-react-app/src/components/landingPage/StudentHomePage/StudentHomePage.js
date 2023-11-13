@@ -3,7 +3,7 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
+import OffresPageStudent from "./candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileUpload,
@@ -15,7 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
-import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
+import OffreCandidaturePage from "./candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 import CreateStudentSignature from "./signature/CreateStudentSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
@@ -53,8 +53,9 @@ const StudentHomePage = () => {
 
     async function fetchCv() {
         try {
+            const savedMatricule = localStorage.getItem("loggedInUserMatricule");
             fetch(
-                `http://localhost:8081/api/v1/gestionnaire/cvs`,
+                `http://localhost:8081/api/v1/student/getCvByMatricule/${savedMatricule}`,
                 {
                     method: 'GET',
                     headers: {
@@ -76,8 +77,11 @@ const StudentHomePage = () => {
                     } catch (e) {
                         console.log(e)
                     }
-                    setCvs(data)
                     console.log(data)
+                    if(data.status === "Accepted"){
+                        setCvs([data])
+                    }
+
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -171,28 +175,28 @@ const StudentHomePage = () => {
 
     switch (activeContent) {
         case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule}/>;
+            contentToRender = <FileUploader matricule={matricule}/>
             break;
         case "offre-page-student":
-            contentToRender = <OffresPageStudent/>;
+            contentToRender = <OffresPageStudent/>
             break;
         case "section-entrevue":
-            contentToRender = <SectionEntrevue/>
+            contentToRender = <SectionEntrevue entrevueTest={[]}/>
             break;
         case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>;
+            contentToRender = <OffreCandidaturePage/>
             break;
         case "dashboard":
-            contentToRender = <Dashboard/>;
+            contentToRender = <Dashboard entrevuesTest={[]}/>
             break;
         case "signature":
-            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>;
+            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
             break;
         case "mes-contrats":
-            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]} ></EtudiantMesContrats>
+            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <div>Choisir une section.</div>
             break;
     }
 

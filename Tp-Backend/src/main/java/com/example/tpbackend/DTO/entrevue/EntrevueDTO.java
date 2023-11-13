@@ -13,6 +13,9 @@ public class EntrevueDTO {
     private String dateHeure;
     private String description;
     private String status;
+    private String statusVuPasVuG;
+    private String statusVuPasVuE;
+    private String statusVuPasVuS;
     private String companyName;
     private String idEmployer;
     private String idEtudiant;
@@ -27,6 +30,9 @@ public class EntrevueDTO {
         this.companyName = entrevue.getEmployer().getCompanyName();
         this.idEtudiant = entrevue.getStudent().getMatricule();
         this.status = entrevue.getStatus().toString();
+        this.statusVuPasVuG = entrevue.getStatusVuPasVuG().toString();
+        this.statusVuPasVuE = entrevue.getStatusVuPasVuE().toString();
+        this.statusVuPasVuS = entrevue.getStatusVuPasVuS().toString();
     }
 
     public void setIdEmployeur(String number) {

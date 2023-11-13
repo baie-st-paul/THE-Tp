@@ -26,6 +26,11 @@ public interface EntrevueRepository extends JpaRepository<Entrevue, Long> {
     @Query("UPDATE Entrevue  SET status = ?2   WHERE student.matricule =  ?1")
     void updateStatusByMatricule(String matricule, Entrevue.Status newStatus);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Entrevue  SET statusVuPasVuG = ?2   WHERE student.matricule =  ?1")
+    void updateStatusVuPasVuGByMatricule(String matricule, Entrevue.StatusVuPasVu newStatus);
+
     List<Entrevue> findByStudentNotNull();
 
     List<Entrevue> findByEmployer(Employer employer);

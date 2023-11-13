@@ -61,6 +61,10 @@ public class EmployerService {
         return EmployerPostDTO.fromEmployeur(employer);
     }
 
+    public void updateStatusContratVuE(String matricule, String statusVu) {
+        contratStageRepository.updateStatusVuPasVuEByMatricule(matricule, ContratStage.StatusVuPasVu.valueOf(statusVu));
+    }
+
     @Transactional
     public EmployerGetDTO getEmployerByAuthentication(){
         Employer employer = employerRepository.findByUtilisateurId(userService.getUserId());

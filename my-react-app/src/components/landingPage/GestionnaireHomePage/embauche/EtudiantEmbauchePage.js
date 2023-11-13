@@ -83,7 +83,10 @@ const EtudiantEmbauchePage = () => {
 
             const contratStage = ({
                 "studentId": studentId,
-                "employerId": employerId
+                "employerId": employerId,
+                "statusVuPasVuG":"pasVu",
+                "statusVuPasVuE":"pasVu",
+                "statusVuPasVuS":"pasVu",
             })
             fetch(
                 `http://localhost:8081/api/v1/gestionnaire/create-contrat`,

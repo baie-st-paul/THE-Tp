@@ -69,9 +69,14 @@ public class StudentServices {
     }
 
     @Transactional
+    public CvDTO getCvByMatricule(String matricule) {
+        Cv cv = cvRepository.findCvByMatricule(matricule);
+        return cv.toCvDTO();
+    }
+
+    @Transactional
     public StudentGetDTO getStudentByAuthentication(){
         Student student = studentRepository.findByUtilisateurId(userService.getUserId());
-        //System.out.println(student);
         return Student.fromStudent(student);
     }
 
@@ -92,7 +97,11 @@ public class StudentServices {
         Cv cv = cvRepository.findCvByMatricule(candidaturePostDTO.getMatricule());
         Optional<OffreStage> offreStage = offreStageRepository.findOffreById(candidaturePostDTO.getIdOffre());
         Candidature candidature = new Candidature(CvDTO.convertMultipartFileToByteArray(candidaturePostDTO.getLettre_motivation()),
-                student,offreStage.get(),cv,candidaturePostDTO.getFileName(), Candidature.Status.valueOf("In_review"));
+                student,offreStage.get(),cv,candidaturePostDTO.getFileName(),
+                Candidature.Status.valueOf("In_review"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"),
+                Candidature.StatusVuPasVu.valueOf("pasVu"));
         if (tagRepository.existsByTagName(getTag().getTagName())) {
             candidature.setTagName(getTag().getTagName());
         }else{
@@ -105,7 +114,6 @@ public class StudentServices {
     @Transactional
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
         List<Candidature> candidatureList = candidatureRepository.getAllCandidaturesByMatricule(matricule);
-        System.out.println(candidatureList);
         List<CandidatureGetDTO> candidatureGetDTOList = new ArrayList<>();
 
         for (Candidature candidature : candidatureList) {
@@ -137,8 +145,6 @@ public class StudentServices {
         Tag currentTag = new Tag(TagGenerator.getCurrentSession());
         Tag studenTag = new Tag(studentRepository.findTagNameByMatricule(matricule));
         boolean isSameTag;
-        System.out.println("tag 1" + currentTag + " tag 2" + studenTag);
-        System.out.println(currentTag.getTagName() == studenTag.getTagName());
         if(currentTag.getTagName().equals(studenTag.getTagName())){
             isSameTag = true;
         }

@@ -71,19 +71,21 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
             </ListGroup>
             <Card.Body>
-                <Button className="btn btn-danger"
-                        onClick={() => onDelete(offre.id)}>
-                    Supprimer <FaTimes
-                    style={{color: 'black'}}
-                />
-                </Button>
+                { etudiantsNb === 0 ?
+                    <Button className="btn btn-danger"
+                            onClick={() => onDelete(offre.id)}>
+                            Supprimer
+                            <FaTimes style={{color: 'black'}}/>
+                    </Button>:
+                    <Button className="btn btn-danger disabled" >Supprimer <FaTimes style={{color: 'black'}}/> </Button>
+                }
                 <Button className="btn btn-primary"
                         onClick={() => onUpdate(offre)}>
                     Modifier <FaRepeat
                     style={{color: 'black'}}
                 />
                 </Button>
-                { etudiantsNb!== 0  ?
+                { etudiantsNb > 0  ?
                     <Button className={"btn btn-success"} onClick={handleCheckListe}>
                         Candidatures ({etudiantsNb})
                     </Button> :

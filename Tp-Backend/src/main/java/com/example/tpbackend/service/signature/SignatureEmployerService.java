@@ -42,8 +42,4 @@ public class SignatureEmployerService {
         return signature.toSignatureEmployerDTO();
     }
 
-    @Transactional
-    public void deleteSignatureByEmployerId(long id) {
-        signatureEmployerRepository.deleteSignatureEmployerByEmployer_Id(id);
-    }
 }

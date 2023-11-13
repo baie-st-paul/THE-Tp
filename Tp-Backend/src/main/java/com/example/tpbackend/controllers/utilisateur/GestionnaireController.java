@@ -40,7 +40,8 @@ public class GestionnaireController {
     @GetMapping("/cvs")
     @PreAuthorize("authenticated")
     public ResponseEntity<List<CvDTO>> getAllCvs() {
-        return ResponseEntity.ok(gestionnaireService.getAllCvs());
+        List<CvDTO> cvDTOS = gestionnaireService.getAllCvs();
+        return new ResponseEntity<>(cvDTOS, HttpStatus.OK);
     }
 
     @PostMapping("/cvs/accept/{matricule}/{status}")

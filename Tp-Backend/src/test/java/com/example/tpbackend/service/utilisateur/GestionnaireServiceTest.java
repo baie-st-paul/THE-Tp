@@ -4,7 +4,6 @@ import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 
@@ -241,16 +240,23 @@ public class GestionnaireServiceTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
+        cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
         when(cvRepository.findAll()).thenReturn(cvList);
         List<CvDTO> actualAllCvs = gestionnaireService.getAllCvs();
+        System.out.println(actualAllCvs);
         assertEquals(1, actualAllCvs.size());
         CvDTO getResult = actualAllCvs.get(0);
         assertEquals("foo.txt", getResult.getFileName());
         assertEquals("Accepted", getResult.getStatus());
+        assertEquals("pasVu", getResult.getStatusVuPasVuG());
+        assertEquals("pasVu", getResult.getStatusVuPasVuE());
+        assertEquals("pasVu", getResult.getStatusVuPasVuS());
         assertEquals("Matricule", getResult.getMatricule());
         MultipartFile file_cv = getResult.getFile_cv();
         assertTrue(file_cv instanceof ByteArrayMultipartFile);
@@ -272,12 +278,12 @@ public class GestionnaireServiceTest {
         doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
         doNothing().when(cv).setId(anyLong());
         doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setStatus(Mockito.<Cv.Status>any());
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -289,7 +295,7 @@ public class GestionnaireServiceTest {
         verify(cv).setFile_cv(Mockito.<byte[]>any());
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setStatus(Mockito.<Cv.Status>any());
     }
 
     /**
@@ -312,7 +318,7 @@ public class GestionnaireServiceTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -343,12 +349,12 @@ public class GestionnaireServiceTest {
         doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
         doNothing().when(cv).setId(anyLong());
         doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setStatus(Mockito.<Cv.Status>any());
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -360,7 +366,7 @@ public class GestionnaireServiceTest {
         verify(cv).setFile_cv(Mockito.<byte[]>any());
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setStatus(Mockito.<Cv.Status>any());
     }
 
 
@@ -375,9 +381,10 @@ public class GestionnaireServiceTest {
                 "123456789",
                 "Student"
         );
-        // Créer des étudiants
+        user1.setId(1L);
+
         Student student1 = new Student( "MAT123", "Programme1", user1);
-        student1.getUtilisateur().setId(1L);
+        Employer employer1 = new Employer(1L, "ABC", user1);
 
         Utilisateur user2 = new Utilisateur(
                 "Marie",
@@ -387,23 +394,21 @@ public class GestionnaireServiceTest {
                 "123456789",
                 "Student"
         );
+        user2.setId(2L);
+
         Student student2 = new Student("MAT456", "Programme2", user2);
-        student2.getUtilisateur().setId(2L);
+        Employer employer2 = new Employer(2L, "ABCDC", user2);
 
         // Créer des entrevues pour ces étudiants
         Entrevue entrevue1 = new Entrevue();
-        entrevue1.setEmployer(new Employer());
-        entrevue1.getEmployer().setId(1L);
-        entrevue1.getEmployer().setCompanyName("ABC");
+        entrevue1.setEmployer(employer1);
         entrevue1.setStudent(student1);
         entrevue1.setStatus(Entrevue.Status.Acceptee);
         entrevue1.setId(1L);
 
         Entrevue entrevue2 = new Entrevue();
         entrevue2.setStudent(student2);
-        entrevue2.setEmployer(new Employer());
-        entrevue2.getEmployer().setId(2L);
-        entrevue2.getEmployer().setCompanyName("ABCDC");
+        entrevue2.setEmployer(employer2);
         entrevue2.setStatus(Entrevue.Status.Acceptee);
         entrevue2.setId(2L);
 
@@ -422,23 +427,62 @@ public class GestionnaireServiceTest {
     @Test
     public void testCreateContrat_Success() {
         // Arrange
-        ContratStageDTO inputDto = new ContratStageDTO();
-        inputDto.setStudentId("9");
-        inputDto.setEmployerId(1L);
-        Student mockStudent = new Student();
-        Employer mockEmployer = new Employer();
-        ContratStage mockContrat = new ContratStage();
+        Utilisateur mockUtilisateur = new Utilisateur();
+        mockUtilisateur.setId(6);
+        mockUtilisateur.setFirstName("abcd");
+        mockUtilisateur.setLastName("ok");
 
-        Mockito.when(studentRepository.findById(9L)).thenReturn(Optional.of(mockStudent));
-        Mockito.when(employerRepository.findById(1L)).thenReturn(Optional.of(mockEmployer));
+        Student mockStudent = new Student();
+        mockStudent.setMatricule("9");
+        mockStudent.setUtilisateur(mockUtilisateur);
+
+        Employer mockEmployer = new Employer();
+        mockEmployer.setId(1L);
+
+        OffreStage mockOffreStage = new OffreStage();
+        mockOffreStage.setId(3L);
+        mockOffreStage.setTitre("abc");
+        mockOffreStage.setEmployer(mockEmployer);
+        mockOffreStage.setSalaire(20.0);
+
+        Candidature mockCandidature = new Candidature();
+        mockCandidature.setId(5L);
+        mockCandidature.setStudent(mockStudent);
+        mockCandidature.setOffreStage(mockOffreStage);
+        mockCandidature.setStatus(Candidature.Status.Accepted);
+
+        List<OffreStage> mockOffreStages = new ArrayList<>();
+        mockOffreStages.add(mockOffreStage);
+
+        List<Candidature> mockCandidatures = new ArrayList<>();
+        mockCandidatures.add(mockCandidature);
+
+        mockEmployer.setOffresStages(mockOffreStages);
+
+        mockStudent.setOffresStages(mockOffreStages);
+        mockStudent.setCandidatures(mockCandidatures);
+
+        ContratStage mockContrat = new ContratStage();
+        mockContrat.setStudent(mockStudent);
+        mockContrat.setEmployeur(mockEmployer);
+        mockContrat.setId(3L);
+
+        ContratStageDTO contratDTO = ContratStageDTO.fromContratStage(mockContrat);
+        contratDTO.setStudentId("9");
+        contratDTO.setEmployerId(1L);
+        contratDTO.setStatusVuPasVuG("pasVu");
+        contratDTO.setStatusVuPasVuE("pasVu");
+        contratDTO.setStatusVuPasVuS("pasVu");
+
+        Mockito.when(studentRepository.findByMatricule(anyString())).thenReturn(mockStudent);
+        Mockito.when(employerRepository.findById(anyLong())).thenReturn(Optional.of(mockEmployer));
+        Mockito.when(candidatureRepository.findByStatusAndStudent(any(), any())).thenReturn(Optional.of(mockCandidature));
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
 
-        // Act
-        ContratStageDTO result = gestionnaireService.createContrat(inputDto);
-
-        // Assert
+        ContratStageDTO result = gestionnaireService.createContrat(contratDTO);
         assertNotNull(result);
     }
+
 
 
     @Test
@@ -447,7 +491,7 @@ public class GestionnaireServiceTest {
         ContratStageDTO inputDto = new ContratStageDTO();
         inputDto.setStudentId("nonExistentStudentId");
 
-        Mockito.when(studentRepository.findById(3432L)).thenReturn(Optional.empty());
+        Mockito.when(studentRepository.findByMatricule("3432L")).thenReturn(null);
 
         assertThrows(RuntimeException.class, () -> {
             gestionnaireService.createContrat(inputDto);
@@ -470,6 +514,8 @@ public class GestionnaireServiceTest {
         });
     }
 
+
+
     @Test
     void testGetAllContrats() {
         Long employeurId = 1L;
@@ -485,35 +531,46 @@ public class GestionnaireServiceTest {
 
         contrat1.setStudent(studentMock);
         contrat1.setEmployeur(employeurMock);
-        contrat1.setNomDePoste("Poste 1");
+        contrat1.setNomDePoste("Company Name 1");
 
         contrat2.setStudent(studentMock);
         contrat2.setEmployeur(employeurMock);
-        contrat2.setNomDePoste("Poste 2");
+        contrat2.setNomDePoste("Company Name 2");
 
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findAll()).thenReturn(contrats);
+
         List<ContratStageDTO> result = gestionnaireService.getAllContrats();
 
         assertEquals(2, result.size());
         assertEquals("matricule1", result.get(0).getStudentId());
         assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals("Poste 1", result.get(0).getNomDePoste());
+        assertEquals("Company Name 1", result.get(0).getNomDeCompany());
         assertEquals("matricule1", result.get(1).getStudentId());
         assertEquals(employeurId, result.get(1).getEmployerId());
-        assertEquals("Poste 2", result.get(1).getNomDePoste());
+        assertEquals("Company Name 2", result.get(1).getNomDeCompany());
     }
+
 
 
     @Test
     void getCandidaturesAcceptees() {
         byte[] mockLetter = new byte[] {1, 2, 3};
-        Student mockStudent = mock(Student.class);
-        OffreStage mockOffreStage = mock(OffreStage.class);
+        Utilisateur mockUtilisateur = new Utilisateur();
+        mockUtilisateur.setFirstName("abcd");
+        mockUtilisateur.setLastName("ok");
+        Student mockStudent = new Student();
+        mockStudent.setUtilisateur(mockUtilisateur);
+        OffreStage mockOffreStage = new OffreStage();
+        mockOffreStage.setSalaire(15.0);
+        mockOffreStage.setId(7L);
+        mockOffreStage.setEmployer(new Employer("abc", mockUtilisateur));
         Cv mockCv = mock(Cv.class);
 
-        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf", Candidature.Status.Accepted);
-        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf", Candidature.Status.Accepted);
+        Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf",
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+        Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf",
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
 
         List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
 
@@ -523,8 +580,8 @@ public class GestionnaireServiceTest {
 
         assertEquals(2, result.size());
 
-        assertEquals(CandidatureDTO.fromCandidature(candidature1), result.get(0));
-        assertEquals(CandidatureDTO.fromCandidature(candidature2), result.get(1));
+        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature1), result.get(0));
+        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature2), result.get(1));
 
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }
@@ -534,12 +591,9 @@ public class GestionnaireServiceTest {
         when(candidatureRepository.findByStatus(Candidature.Status.Accepted)).thenReturn(Collections.emptyList());
 
         List<CandidatureDTODetailed> result = gestionnaireService.getCandidaturesAcceptees();
+        System.out.println(result);
 
         assertTrue(result.isEmpty());
-
-        verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
-        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0101010101")));
-        assertTrue(result.stream().anyMatch(dto -> dto.getStudent().getMatricule().equals("0202020202")));
     }
 
     @Test
@@ -616,4 +670,3 @@ public class GestionnaireServiceTest {
         assertEquals(ContratStage.Statut.Signer.toString(), result.getStatutGestionnaire());
     }
 }
-

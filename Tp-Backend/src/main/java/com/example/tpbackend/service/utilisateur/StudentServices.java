@@ -160,13 +160,13 @@ public class StudentServices {
     }
 
     @Transactional
-    public ContratStageDTO signContract(ContratStageDTO contractDTO) throws Exception {
+    public void signContract(ContratStageDTO contractDTO) throws Exception {
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
         if(optionalContract.isEmpty()) throw new Exception("Contract not found");
         ContratStage contract = optionalContract.get();
-        Student student = studentRepository.findByMatricule(contractDTO.getStudentId());
-        //contract.setStudentSignature(student.getSignature());
-        return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
+        //Student student = studentRepository.findByMatricule(contractDTO.getStudentId());
+        contract.setStatutEtudiant(ContratStage.Statut.Signer);
+        contratStageRepository.save(contract);
     }
 
     @Transactional

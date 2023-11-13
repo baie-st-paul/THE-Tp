@@ -110,7 +110,7 @@ public class StudentController {
         }
     }
 
-    @PostMapping("/signContract")
+    @PostMapping("/signerContrat")
     @PreAuthorize("authenticated")
     public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
         try {

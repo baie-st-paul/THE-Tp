@@ -17,7 +17,6 @@ public class ContratStageDTO {
 
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
-
         if (contratStage == null) {
             return null;
         }
@@ -34,10 +33,10 @@ public class ContratStageDTO {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
 
-        dto.setStatutEtudiant(ContratStage.Statut.Pas_Signer.toString());
+        dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
         dto.setNomDeCompagnie(contratStage.getEmployeur().getCompanyName());
-        dto.setStatutEmployeur(ContratStage.Statut.Pas_Signer.toString());
-        dto.setStatutGestionnaire(ContratStage.Statut.Pas_Signer.toString());
+        dto.setStatutEmployeur(contratStage.getStatutEmployeur().toString());
+        dto.setStatutGestionnaire(contratStage.getStatutGestionnaire().toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
         dto.setNomDePoste(contratStage.getNomDePoste());

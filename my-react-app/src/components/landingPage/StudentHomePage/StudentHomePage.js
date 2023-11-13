@@ -3,7 +3,7 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
+import OffresPageStudent from "./candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileUpload,
@@ -15,7 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
-import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
+import OffreCandidaturePage from "./candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 import CreateStudentSignature from "./signature/CreateStudentSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
@@ -189,7 +189,7 @@ const StudentHomePage = () => {
             contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
             break;
         case "mes-contrats":
-            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]} ></EtudiantMesContrats>
+            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
             break;
         default:
             contentToRender = <div>Choisir une section.</div>

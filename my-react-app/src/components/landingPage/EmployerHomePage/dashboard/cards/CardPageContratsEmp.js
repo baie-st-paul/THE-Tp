@@ -1,15 +1,15 @@
-import Grid from "@mui/material/Grid";
-import Card from "react-bootstrap/Card";
 import React, {useState} from "react";
-import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
+import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Button from "react-bootstrap/Button";
 import {faCheck, faClock} from "@fortawesome/free-solid-svg-icons";
-import FetchsUpdateStatus from "../FetchsUpdateStatus";
+import Grid from "@mui/material/Grid";
+import {Avatar, IconButton, List, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import Box from "@mui/material/Box";
 import {faEye} from "@fortawesome/free-regular-svg-icons/faEye";
 import {faEyeSlash} from "@fortawesome/free-regular-svg-icons/faEyeSlash";
+import FetchsUpdateStatusEmp from "../FetchsUpdateStatusEmp";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -24,7 +24,7 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-const CardPageContrats = ({contrats}) => {
+const CardPageContratsEmp = ({contrats}) => {
     const [showContratDetailed, setShowContratDetailed] = useState(false);
     const [contrat, setContrat] = useState(null);
     const [filterOptionVuPasVu, setFilterOptionVuPasVu] = useState("all");
@@ -103,7 +103,7 @@ const CardPageContrats = ({contrats}) => {
 
     const handleUpdateStatus = (matricule, status) => {
         console.log(matricule)
-        FetchsUpdateStatus.updateStatusContratVuG(token, matricule, status)
+        FetchsUpdateStatusEmp.updateStatusContratVuE(token, matricule, status)
         console.log(status)
         window.location.reload()
     }
@@ -116,7 +116,7 @@ const CardPageContrats = ({contrats}) => {
     };
 
     const filteredContratsList = contrats.length !== 0 && contrats.length !== undefined &&
-        contrats.filter((contrat) => filterOptionVuPasVu === "all" || contrat.statusVuPasVuG === filterOptionVuPasVu);
+        contrats.filter((contrat) => filterOptionVuPasVu === "all" || contrat.statusVuPasVuE === filterOptionVuPasVu);
 
     return (
         <Grid item xs={10} sm={12} md={6} lg={6}>
@@ -166,7 +166,7 @@ const CardPageContrats = ({contrats}) => {
                                                                       backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
                                                               </IconButton>
                                                           </Grid>
-                                                          {contrat.statusVuPasVuG === "pasVu" ?
+                                                          {contrat.statusVuPasVuE === "pasVu" ?
                                                               <Grid item xs={6} sm={6} md={6} lg={6}>
                                                                   <IconButton aria-label="update"
                                                                               onClick={() => {
@@ -199,19 +199,19 @@ const CardPageContrats = ({contrats}) => {
                                               }>
                                         <ListItemAvatar>
                                             <Avatar>
-                                                {contrat.statusVuPasVuG === "vu" && (
+                                                {contrat.statusVuPasVuE === "vu" && (
                                                     <>
                                                         <FontAwesomeIcon icon={faEye} />
                                                     </>
                                                 )}
-                                                {contrat.statusVuPasVuG === "pasVu" && (
+                                                {contrat.statusVuPasVuE === "pasVu" && (
                                                     <>
                                                         <FontAwesomeIcon icon={faEyeSlash} />
                                                     </>
                                                 )}
                                             </Avatar>
                                         </ListItemAvatar>
-                                        <ListItemText primary={contrat.statusVuPasVuG === "pasVu" ?
+                                        <ListItemText primary={contrat.statusVuPasVuE === "pasVu" ?
                                             <b> {contrat.prenomEtudiant + ", " + contrat.nomEtudiant} </b> :
                                             contrat.prenomEtudiant + ", " + contrat.nomEtudiant}
                                                       secondary={contrat.nomDeCompany} />
@@ -227,4 +227,4 @@ const CardPageContrats = ({contrats}) => {
     )
 }
 
-export default CardPageContrats
+export default CardPageContratsEmp

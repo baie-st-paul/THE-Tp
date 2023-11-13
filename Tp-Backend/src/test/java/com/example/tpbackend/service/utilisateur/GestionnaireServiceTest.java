@@ -469,6 +469,9 @@ public class GestionnaireServiceTest {
         ContratStageDTO contratDTO = ContratStageDTO.fromContratStage(mockContrat);
         contratDTO.setStudentId("9");
         contratDTO.setEmployerId(1L);
+        contratDTO.setStatusVuPasVuG("pasVu");
+        contratDTO.setStatusVuPasVuE("pasVu");
+        contratDTO.setStatusVuPasVuS("pasVu");
 
         Mockito.when(studentRepository.findByMatricule(anyString())).thenReturn(mockStudent);
         Mockito.when(employerRepository.findById(anyLong())).thenReturn(Optional.of(mockEmployer));

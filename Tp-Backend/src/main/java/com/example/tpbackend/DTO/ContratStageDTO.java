@@ -50,7 +50,7 @@ public class ContratStageDTO {
 
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
-        dto.setNomDeCompany(contratStage.getNomDePoste());
+        dto.setNomDeCompany(contratStage.getEmployeur().getCompanyName());
         return dto;
     }
 

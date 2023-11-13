@@ -1,4 +1,5 @@
 import React from "react";
+import "./CardPageSignature.css"
 
 const CardPageSignature = () => {
     return (

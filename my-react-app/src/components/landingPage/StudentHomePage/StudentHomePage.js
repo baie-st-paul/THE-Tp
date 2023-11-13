@@ -193,6 +193,9 @@ const StudentHomePage = () => {
         case "mes-contrats":
             contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
             break;
+        case "dashboard":
+
+            break;
         default:
             console.log(signature)
             console.log(cv)

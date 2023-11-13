@@ -480,6 +480,7 @@ public class GestionnaireServiceTest {
     }
 
 
+
     @Test
     public void testCreateContrat_StudentNotFound() {
         // Arrange

@@ -22,6 +22,7 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import SessionCotroller from "./SessionController";
 import EtudiantMesContrats from "./contrat/EtudiantMesContrats";
 import CardPageCvSignature from "./dashboardS/cards/cvSignature/CardPageCvSignature";
+import DashboardPageStudent from "./dashboardS/DashboardPageStudent";
 
 
 const StudentHomePage = () => {
@@ -193,14 +194,14 @@ const StudentHomePage = () => {
         case "mes-contrats":
             contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
             break;
-        case "dashboard":
-
+        case "dashboardS":
+            contentToRender = <DashboardPageStudent/>
             break;
         default:
             console.log(signature)
             console.log(cv)
             contentToRender = signature !== null && cv !== null && cv.status === "Accepted" ?
-                <div>Tableau de bord...</div> : <CardPageCvSignature signature={signature} cv={cv}/>
+                <DashboardPageStudent/> : <CardPageCvSignature signature={signature} cv={cv}/>
             break;
     }
 
@@ -238,6 +239,11 @@ const StudentHomePage = () => {
                                                     cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
                                                     <>
                                                         <ul className="navbar-nav ml-auto px-1">
+                                                            <li className="nav-item navbarbutton">
+                                                                <button className="nav-link" onClick={() => handleButtonClick("dashboardS")}>
+                                                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                                                                </button>
+                                                            </li>
                                                             <li className="nav-item navbarbutton px-1">
                                                                 <button className="nav-link" onClick={() => handleButtonClick('dashboard')}>
                                                                     <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard

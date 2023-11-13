@@ -61,7 +61,7 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                             .map((etudiant, index) => (
                                 <tr key={index} className="table-row align-middle">
                                     <td data-label="Compagnie" className="fw-semibold">{etudiant.nomDeCompagnie}</td>
-                                    <td data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
+                                    <td data-label="Poste" className="fw-semibold">{etudiant.nomDeCompany}</td>
                                     <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                     <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                     <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>

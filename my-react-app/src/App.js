@@ -12,9 +12,9 @@ import ConnexionPage from "./components/utilisateurs/login/pages/ConnexionPage";
 import EmployeurPrivateRoutes from "./utils/EmployerPrivateRoutes";
 import AjoutOffreForm from './components/landingPage/EmployerHomePage/offres/offre/AjoutOffreForm';
 import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
-import OffresPageGestionnaire from "./components/landingPage/offresStages/gestionnaire/OffrePageGestionnaire";
-import OffresPageStudent from "./components/landingPage/offresStages/student/candidature/OffrePageStudent";
-import InformationEtudiantPostule from './components/landingPage/offresStages/student/info/InformationEtudiantPostule';
+import OffresPageGestionnaire from "./components/landingPage/GestionnaireHomePage/offreGestionnaire/OffrePageGestionnaire";
+import OffresPageStudent from "./components/landingPage/StudentHomePage/candidature/OffrePageStudent";
+import InformationEtudiantPostule from './components/landingPage/EmployerHomePage/offres/offre/infoStudentOffre/InformationEtudiantPostule';
 
 function App() {
     return (

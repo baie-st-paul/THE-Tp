@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faHandshake} from "@fortawesome/free-solid-svg-icons";
 import CandidatureForm from "./CandidatureForm";
-import {useUser} from "../../../../../Providers/UserProvider";
+import {useUser} from "../../../../Providers/UserProvider";
 
 const CandidatureModal = ({id}) => {
     const [show, setShow] = useState(false);

@@ -76,7 +76,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                     <tr key={index} className="table-row align-middle">
                                         <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
                                         <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
-                                        <td data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
+                                        <td data-label="Poste" className="fw-semibold">{etudiant.nomDeCompany}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>

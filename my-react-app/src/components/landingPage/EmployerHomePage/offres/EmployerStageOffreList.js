@@ -63,6 +63,7 @@ const EmployerStageOffreList = () => {
                     } catch (e) {
                         console.log(e)
                     }
+                    console.log(data)
                     setOffres(data);
                     setIsLoading(false);
                 })

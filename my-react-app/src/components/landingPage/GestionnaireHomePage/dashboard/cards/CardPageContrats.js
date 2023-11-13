@@ -41,7 +41,7 @@ const CardPageContrats = ({contrats}) => {
                                 <Card.Title style={{textDecorationLine: 'underline'}}>
                                     {contrat.prenomEtudiant + ", " + contrat.nomEtudiant}
                                 </Card.Title>
-                                {contrat.nomDePoste}
+                                {contrat.nomDeCompany}
                             </Card.Body>
                             <ListGroup className="list-group-flush">
                                 <ListGroup.Item><b>Matricule:</b> {contrat.studentId}</ListGroup.Item>
@@ -214,7 +214,7 @@ const CardPageContrats = ({contrats}) => {
                                         <ListItemText primary={contrat.statusVuPasVuG === "pasVu" ?
                                             <b> {contrat.prenomEtudiant + ", " + contrat.nomEtudiant} </b> :
                                             contrat.prenomEtudiant + ", " + contrat.nomEtudiant}
-                                                      secondary={contrat.nomDePoste} />
+                                                      secondary={contrat.nomDeCompany} />
                                     </ListItem>
                                 ))}
                             </List>

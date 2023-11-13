@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestionnaire";
+import OffresPageGestionnaire from "./offreGestionnaire/OffrePageGestionnaire";
 import {
     faArrowRight,
     faBriefcase,

@@ -31,7 +31,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -45,34 +47,34 @@ import java.util.List;
 import java.util.Optional;
 
 @ContextConfiguration(classes = {StudentServices.class})
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class StudentServicesTest {
 
-    @MockBean
+    @Mock
     private CandidatureRepository candidatureRepository;
 
-    @MockBean
+    @Mock
     private CvRepository cvRepository;
 
-    @MockBean
+    @Mock
     private OffreStageRepository offreStageRepository;
 
-    @MockBean
+    @Mock
     private StudentRepository studentRepository;
 
     @InjectMocks
     private StudentServices studentServices;
 
-   @MockBean
+    @Mock
     private ContratStageRepository contratStageRepository;
 
-    @MockBean
+    @Mock
     UtilisateurRepository utilisateurRepository;
 
-    @MockBean
+    @Mock
     private UserService userService;
 
-    @MockBean
+    @Mock
     private TagRepository tagRepository;
 
 
@@ -475,6 +477,22 @@ class StudentServicesTest {
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
 
+        CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO();
+        candidaturePostDTO.setMatricule(candidature.getStudent().getMatricule());
+        candidaturePostDTO.setIdOffre(candidature.getOffreStage().getId());
+        candidaturePostDTO.setFileName(candidature.getFileName());
+
+        byte[] yourByteArray = candidature.getLettreMotivation();
+        String originalFilename = candidature.getFileName();
+        String contentType = "application/pdf";
+
+        MultipartFile multipartFile = new ByteArrayMultipartFile(candidature.getFileName(), originalFilename, contentType, yourByteArray);
+        candidaturePostDTO.setLettre_motivation(multipartFile);
+
+        when(studentRepository.findByMatricule(anyString())).thenReturn(candidature.getStudent());
+        when(offreStageRepository.findOffreById(anyLong())).thenReturn(Optional.ofNullable(candidature.getOffreStage()));
+
+        studentServices.postulerOffre(candidaturePostDTO);
     }
 
     /**

@@ -1,7 +1,7 @@
 const updateStatusContratVuE = async (token, matricule, status) => {
     try {
         fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/contrat/${matricule}/${status}`,
+            `http://localhost:8081/api/v1/employers/dashboard/update/contrat/${matricule}/${status}`,
             {
                 method: 'POST',
                 headers: {

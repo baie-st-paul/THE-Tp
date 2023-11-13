@@ -1,11 +1,13 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import {IconButton, ListItem, ListItemText} from "@mui/material";
+import {Avatar, IconButton, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Card from "react-bootstrap/Card";
 import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import {useNavigate} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -33,7 +35,6 @@ const CardOffre = ({offre}) => {
 
     async function handleNbListePostule() {
         try {
-            console.log("offre", offre)
             fetch(
                 `http://localhost:8081/api/v1/employers/${offre.id}/applicants/nb`,
                 {
@@ -126,7 +127,6 @@ const CardOffre = ({offre}) => {
                                       <Grid item xs={6} sm={6} md={6} lg={6}>
                                           <IconButton aria-label="candidatures"
                                                       onClick={() => {
-                                                          console.log(offre.id)
                                                           handleCheckListe()
                                                       }}>
                                               <p style={{borderColor: "lightgreen",
@@ -151,6 +151,25 @@ const CardOffre = ({offre}) => {
                               </Grid>
                           </Box>
                       }>
+                <ListItemAvatar>
+                    <Avatar>
+                        {offre.status === "In_review" && (
+                            <>
+                                <FontAwesomeIcon icon={faClock} />
+                            </>
+                        )}
+                        {offre.status === "Accepted" && (
+                            <>
+                                <FontAwesomeIcon icon={faCheck} />
+                            </>
+                        )}
+                        {offre.status === "Refused" && (
+                            <>
+                                <FontAwesomeIcon icon={faTimes} />
+                            </>
+                        )}
+                    </Avatar>
+                </ListItemAvatar>
                 <ListItemText primary={offre.titre} secondary={offre.salaire + "$/h"} />
             </ListItem>
         </div>

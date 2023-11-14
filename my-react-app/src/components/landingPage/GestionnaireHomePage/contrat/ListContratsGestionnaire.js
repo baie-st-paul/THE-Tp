@@ -158,7 +158,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                     etudiant.statutGestionnaire === 'Pas_Signer' ?
                                     <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
                                     :
-                                    <td data-label="Signé par étudiant" className="fw-semibold">Signé</td>
+                                    <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
                                     }
                                     </tr>
                                 ))

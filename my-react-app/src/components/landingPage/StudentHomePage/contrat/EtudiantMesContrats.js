@@ -124,6 +124,8 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                         <table className="table w-100 text-start">
                             <thead>
                             <tr>
+                                <th className="header-cell h5">Nom, Prénom</th>
+                                <th className="header-cell h5">Matricule</th>
                                 <th className='header-cell h5'>Nom de compagnie</th>
                                 <th className='header-cell h5'>Poste</th>
                                 <th className="header-cell h5">Signé par étudiant</th>
@@ -135,8 +137,10 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                             {contrats.length > 0  && contrats
                                 .map((etudiant, index) => (
                                     <tr key={index} className="table-row align-middle">
-                                        <td data-label="Compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
-                                        <td data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
+                                        <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
+                                        <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
+                                        <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
+                                        <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
                                         {
                                             etudiant.statutEtudiant === 'Pas_Signer' ?
                                                 <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>

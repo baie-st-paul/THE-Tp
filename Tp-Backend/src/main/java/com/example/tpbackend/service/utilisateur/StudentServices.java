@@ -44,10 +44,9 @@ public class StudentServices {
     @Autowired
     private TagRepository tagRepository;
     @Autowired
-    ContratStageRepository contratStageRepository;
-
-
-
+    private ContratStageRepository contratStageRepository;
+    @Autowired
+    private EntrevueRepository entrevueRepository;
 
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
@@ -66,6 +65,21 @@ public class StudentServices {
     @Transactional
     public void saveCv(CvDTO cvDTO) throws IOException {
         cvRepository.save(cvDTO.toCv());
+    }
+
+    @Transactional
+    public void updateStatusOffreVuS(String titre, OffreStage.StatusVuPasVu statusVuPasVu) {
+        offreStageRepository.updateOffreStatusVuPasVuSByTitre(titre, statusVuPasVu);
+    }
+
+    @Transactional
+    public void updateStatusEntrevueVuS(String matricule, Entrevue.StatusVuPasVu statusVuPasVu) {
+        entrevueRepository.updateStatusVuPasVuSByMatricule(matricule, statusVuPasVu);
+    }
+
+    @Transactional
+    public void updateStatusContratVuS(String matricule, ContratStage.StatusVuPasVu statusVuPasVu) {
+        contratStageRepository.updateStatusVuPasVuSByMatricule(matricule, statusVuPasVu);
     }
 
     @Transactional
@@ -139,6 +153,7 @@ public class StudentServices {
     public Tag getTag(){
         return new Tag(TagGenerator.getCurrentSession());
     }
+
     @Transactional
     public List<Object> checkCurrentSession(String matricule) {
         List<Object> response = new ArrayList<>();

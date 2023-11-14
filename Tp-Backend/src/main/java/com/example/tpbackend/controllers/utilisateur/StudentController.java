@@ -5,6 +5,9 @@ import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Entrevue;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -41,6 +44,26 @@ public class StudentController {
         }
     }
 
+    @PostMapping("/update/offre/{titre}/{status}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<Void> updateStatusOffreVuS(@PathVariable String titre, @PathVariable String status) {
+        studentServices.updateStatusOffreVuS(titre, OffreStage.StatusVuPasVu.valueOf(status));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/update/entrevue/{matricule}/{status}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<Void> updateStatusEntrevueVuS(@PathVariable String matricule, @PathVariable String status) {
+        studentServices.updateStatusEntrevueVuS(matricule, Entrevue.StatusVuPasVu.valueOf(status));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/update/contrat/{matricule}/{status}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<Void> updateStatusContratVuS(@PathVariable String matricule, @PathVariable String status) {
+        studentServices.updateStatusContratVuS(matricule, ContratStage.StatusVuPasVu.valueOf(status));
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/getStudentByMatricule/{matricule}")
     @PreAuthorize("authenticated")

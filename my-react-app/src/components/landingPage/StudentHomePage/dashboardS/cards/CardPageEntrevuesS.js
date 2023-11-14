@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import {faEye} from "@fortawesome/free-regular-svg-icons/faEye";
 import {faEyeSlash} from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import FethsUpdateStatusS from "../FetchsUpdateStatusS";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -58,11 +59,11 @@ const CardPageEntrevuesS = ({entrevues}) => {
         )
     }
 
-    const handleUpdateStatus = (id, status) => {
-        //FethsUpdateStatusS.updateStatusEntrevueVuS(token, id, status)
+    const handleUpdateStatus = (matricule, status) => {
+        FethsUpdateStatusS.updateStatusEntrevueVuS(token, matricule, status)
         console.log(status)
-        console.log(id)
-        //window.location.reload()
+        console.log(matricule)
+        window.location.reload()
     }
 
     const handleFilterChange = (event) => {
@@ -82,7 +83,7 @@ const CardPageEntrevuesS = ({entrevues}) => {
             <Card>
                 <div className="col">
                     <h4 style={{width: "60%", textAlign: "left", marginLeft: "1.5rem", marginTop: "10px"}}>
-                        Section : Mes entrevues
+                        Section : Entrevues
                     </h4>
                     <div style={{textAlign: "left", marginLeft: "1.5rem", fontSize: "12px"}}><b>À accepter ou refuser</b></div>
                     {entrevues.length !== 0 && entrevues.length !== undefined ?
@@ -122,34 +123,34 @@ const CardPageEntrevuesS = ({entrevues}) => {
                                                                       color: "white",
                                                                       width: "80px",
                                                                       height: "30px",
-                                                                      backgroundColor: "lightblue", fontSize: "12px"}}>voir plus</p>
+                                                                      backgroundColor: "lightblue", fontSize: "15px"}}>voir plus</p>
                                                               </IconButton>
                                                           </Grid>
                                                           {entrevue.statusVuPasVuS === "pasVu" ?
                                                               <Grid item xs={6} sm={6} md={6} lg={6}>
                                                                   <IconButton aria-label="update"
                                                                               onClick={() => {
-                                                                                  handleUpdateStatus(entrevue.id, "vu")
+                                                                                  handleUpdateStatus(entrevue.idEtudiant, "vu")
                                                                               }}>
                                                                       <p style={{borderColor: "lightgreen",
                                                                           borderRadius: "4px",
                                                                           color: "white",
                                                                           width: "80px",
                                                                           height: "30px",
-                                                                          backgroundColor: "lightgreen", fontSize: "12px"}}>Je l'ai vu</p>
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai vu</p>
                                                                   </IconButton>
                                                               </Grid> :
                                                               <Grid item xs={6} sm={6} md={6} lg={6}>
                                                                   <IconButton aria-label="update"
                                                                               onClick={() => {
-                                                                                  handleUpdateStatus(entrevue.id, "pasVu")
+                                                                                  handleUpdateStatus(entrevue.idEtudiant, "pasVu")
                                                                               }}>
                                                                       <p style={{borderColor: "lightgreen",
                                                                           borderRadius: "4px",
                                                                           color: "white",
                                                                           width: "80px",
                                                                           height: "30px",
-                                                                          backgroundColor: "lightgreen", fontSize: "12px"}}>Je l'ai pas vu</p>
+                                                                          backgroundColor: "lightgreen", fontSize: "15px"}}>Je l'ai pas vu</p>
                                                                   </IconButton>
                                                               </Grid>
                                                           }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/gestionnaire/dashboard")
 @RequiredArgsConstructor
-public class DashboardController {
+public class DashboardControllerG {
     private final DashboardUpdateStatus dashboardUpdateStatus;
 
     @PostMapping("/update/cv/{matricule}/{status}")

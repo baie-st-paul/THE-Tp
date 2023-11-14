@@ -9,6 +9,7 @@ import {faEye} from "@fortawesome/free-regular-svg-icons/faEye";
 import {faEyeSlash} from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faTimes} from "@fortawesome/free-solid-svg-icons";
+import FethsUpdateStatusS from "../FetchsUpdateStatusS";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -63,10 +64,10 @@ const CardPageOffresS = ({offres, candidaturesOffreId}) => {
     }
 
     const handleUpdateStatus = (titre, status) => {
-        //FethsUpdateStatusS.updateStatusOffreVuS(token, titre, status)
+        FethsUpdateStatusS.updateStatusOffreVuS(token, titre, status)
         console.log(status)
         console.log(titre)
-        //window.location.reload()
+        window.location.reload()
     }
 
     const handleFilterChange = (event) => {

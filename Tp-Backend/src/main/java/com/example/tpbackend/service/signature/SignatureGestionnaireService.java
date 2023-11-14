@@ -43,8 +43,8 @@ public class SignatureGestionnaireService {
     }
 
     @Transactional
-    public SignatureGestionnaireDTO getGestionnaireSignature(SignatureGestionnaireDTO dto){
-        SignatureGestionnaire signature = signatureGestionnaireRepository.findByGestionnaire_Matricule(dto.getGestionnaireMatricule());
+    public SignatureGestionnaireDTO getGestionnaireSignature(String matricule){
+        SignatureGestionnaire signature = signatureGestionnaireRepository.findByGestionnaire_Matricule(matricule);
         if(signature == null)
             return null;
         return signature.toSignatureGestionnaireDTO();

@@ -135,7 +135,7 @@ const closeConfirmationModal = () => {
                          {contrats.length > 0  && contrats
                             .map((etudiant, index) => (
                                 <tr key={index} className="table-row align-middle">
-                                    <td data-label="Compagnie" className="fw-semibold">{etudiant.nomDeCompagnie}</td>
+                                    <td data-label="Compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
                                     <td data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
                                     {
                                     etudiant.statutEtudiant === 'Pas_Signer' ?
@@ -144,7 +144,7 @@ const closeConfirmationModal = () => {
                                     <td data-label="Signé par étudiant" className="fw-semibold">Signé</td>
                                     }
                                     <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                    <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                    <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                 </tr>
                             ))  
                         }

@@ -156,7 +156,6 @@ public class GestionnaireControllerTest {
         cv1.setFileName("cv1.pdf");
         cv1.setStatus("Accepted");
         cv1.setStatusVuPasVuG("vu");
-        cv1.setStatusVuPasVuE("pasVu");
         cv1.setStatusVuPasVuS("vu");
 
         CvDTO cv2 = new CvDTO();
@@ -164,7 +163,6 @@ public class GestionnaireControllerTest {
         cv2.setFileName("cv2.pdf");
         cv2.setStatus("In_review");
         cv2.setStatusVuPasVuG("vu");
-        cv2.setStatusVuPasVuE("vu");
         cv2.setStatusVuPasVuS("pasVu");
 
         List<CvDTO> cvDTOList = Arrays.asList(cv1, cv2);
@@ -180,7 +178,6 @@ public class GestionnaireControllerTest {
                 .andExpect(jsonPath("$[0].statusVuPasVuS").value("vu"))
                 .andExpect(jsonPath("$[1].matricule").value("5678"))
                 .andExpect(jsonPath("$[1].statusVuPasVuG").value("vu"))
-                .andExpect(jsonPath("$[1].statusVuPasVuE").value("vu"))
                 .andExpect(jsonPath("$[1].statusVuPasVuS").value("pasVu"));
     }
 }

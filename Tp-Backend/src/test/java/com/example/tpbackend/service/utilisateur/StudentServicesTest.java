@@ -117,7 +117,7 @@ class StudentServicesTest {
 
         studentServices.saveCv(new CvDTO("Matricule", "foo.txt",
                 new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")),
-                "Status", "pasVu", "pasVu", "pasVu"));
+                "Status", "pasVu", "pasVu"));
     }
 
     /**
@@ -155,7 +155,6 @@ class StudentServicesTest {
         cv.setMatricule("1234567");
         cv.setStatus(Cv.Status.Accepted);
         cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
-        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
         cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         CvDTO cvDTO = mock(CvDTO.class);
@@ -209,7 +208,7 @@ class StudentServicesTest {
 
         studentServices.updateCv(new CvDTO("Matricule", "foo.txt",
                 new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")),
-                "Status", "pasVu", "pasVu", "pasVu"));
+                "Status", "pasVu", "pasVu"));
     }
 
     /**

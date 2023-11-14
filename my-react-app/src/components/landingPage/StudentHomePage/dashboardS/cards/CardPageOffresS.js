@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import {faEye} from "@fortawesome/free-regular-svg-icons/faEye";
 import {faEyeSlash} from "@fortawesome/free-regular-svg-icons/faEyeSlash";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import CandidatureModal from "../../candidature/CandidatureModal";
 import {faCheck, faTimes} from "@fortawesome/free-solid-svg-icons";
 
 const OVERLAY_STYLE = {
@@ -113,7 +112,7 @@ const CardPageOffresS = ({offres, candidaturesOffreId}) => {
                                     <ListItem key={index}
                                               secondaryAction={
                                                   <Box>
-                                                      <Grid container spacing={1} align="center" direction="row">
+                                                      <Grid container align="center" direction="row">
                                                           <Grid item xs={4} sm={4} md={4} lg={4}>
                                                               <IconButton aria-label="plus"
                                                                           onClick={() => {

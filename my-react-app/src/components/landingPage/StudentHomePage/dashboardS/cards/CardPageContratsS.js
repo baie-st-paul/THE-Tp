@@ -1,5 +1,5 @@
-const CardPageContratsS = () => {
-
+const CardPageContratsS = ({contrats}) => {
+    
 }
 
 export default CardPageContratsS

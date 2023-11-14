@@ -1,4 +1,5 @@
 package com.example.tpbackend.models;
+import com.example.tpbackend.models.signature.SignatureGestionnaire;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.annotation.Nullable;
@@ -27,30 +28,33 @@ public class ContratStage {
     private Employer employeur;
 
     @Enumerated(EnumType.STRING)
-    private Status statusEtudiant;
+    private Statut statutEtudiant;
 
     @Enumerated(EnumType.STRING)
-    private Status statusEmployeur;
+    private Statut statutEmployeur;
 
     @Enumerated(EnumType.STRING)
-    private Status statusGestionnaire;
+    private Statut statutGestionnaire;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuG;
+    private StatusVuPasVu statutVuPasVuG;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
+    private StatusVuPasVu statutVuPasVuE;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuS;
+    private StatusVuPasVu statutVuPasVuS;
+
+    @OneToOne
+    @JoinColumn(name = "signature_id")
+    private SignatureGestionnaire gestionnaireSignature;
 
     private String nomDePoste;
 
-    public enum Status {
+    public enum Statut {
         Signer,
         Pas_Signer
     }
-
     public enum StatusVuPasVu {
         vu,
         pasVu

@@ -159,13 +159,13 @@ public class GestionnaireService {
         Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
         contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
 
-        contratStage.setStatusGestionnaire(ContratStage.Status.Pas_Signer);
-        contratStage.setStatusEtudiant(ContratStage.Status.Pas_Signer);
-        contratStage.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
 
-        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
-        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuE()));
-        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuS()));
+        contratStage.setStatutVuPasVuS(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
+        contratStage.setStatutVuPasVuG(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
+        contratStage.setStatutVuPasVuE(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuS()));
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 
@@ -202,6 +202,15 @@ public class GestionnaireService {
             tagsDtos.add(tag.toTagDTO());
         }
         return tagsDtos;
+    }
+
+    @Transactional
+    public ContratStageDTO signContract(ContratStageDTO contractDTO) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        ContratStage contract = optionalContract.get();
+        contract.setStatutGestionnaire(ContratStage.Statut.Signer);
+        return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
     }
 
 }

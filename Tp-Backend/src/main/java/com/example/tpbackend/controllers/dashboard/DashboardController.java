@@ -2,6 +2,7 @@ package com.example.tpbackend.controllers.dashboard;
 
 import com.example.tpbackend.models.*;
 import com.example.tpbackend.service.dashboard.DashboardUpdateStatus;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/v1/gestionnaire/dashboard")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DashboardController {
     private final DashboardUpdateStatus dashboardUpdateStatus;
 

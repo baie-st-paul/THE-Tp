@@ -42,6 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -593,5 +594,79 @@ public class GestionnaireServiceTest {
         System.out.println(result);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void signContract() throws Exception {
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.com");
+        utilisateur.setId(1L);
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setRole(Utilisateur.Role.Gestionnaire);
+        utilisateur.setFirstName("Jane");
+        utilisateur.setLastName("Gestionnaire");
+        utilisateur.setPhoneNumber("6625550141");
+
+        Utilisateur utilisateur2 = new Utilisateur();
+        utilisateur2.setEmail("jane.stu@gmail.com");
+        utilisateur2.setId(2L);
+        utilisateur2.setPassword("iloveyou");
+        utilisateur2.setRole(Utilisateur.Role.Student);
+        utilisateur2.setFirstName("Jane");
+        utilisateur2.setLastName("Student");
+        utilisateur2.setPhoneNumber("5142141424");
+
+        Utilisateur utilisateur3 = new Utilisateur();
+        utilisateur3.setEmail("jane.emp@example.org");
+        utilisateur3.setId(3L);
+        utilisateur3.setPassword("iloveyou");
+        utilisateur3.setRole(Utilisateur.Role.Employeur);
+        utilisateur3.setFirstName("Jane");
+        utilisateur3.setLastName("Employer");
+        utilisateur3.setPhoneNumber("5145542232");
+
+        Gestionnaire gestionnaire = new Gestionnaire();
+        gestionnaire.setMatricule("2222222");
+        gestionnaire.setUtilisateur(utilisateur);
+
+        Student student = new Student();
+        student.setProgram("Informatique");
+        student.setMatricule("2058982");
+        student.setOffresStages(new ArrayList<>());
+        student.setCandidatures(new ArrayList<>());
+        student.setUtilisateur(utilisateur2);
+
+        Employer employer = new Employer();
+        employer.setId(7L);
+        employer.setUtilisateur(utilisateur3);
+        employer.setOffresStages(new ArrayList<>());
+        employer.setCompanyName("ABC");
+
+        ContratStage contract = new ContratStage();
+        contract.setStatusGestionnaire(ContratStage.Status.Pas_Signer);
+        contract.setId(1L);
+        contract.setStudent(student);
+        contract.setEmployeur(employer);
+        contract.setNomDePoste("Poste 1");
+        contract.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+        contract.setStatusEtudiant(ContratStage.Status.Pas_Signer);
+
+        ContratStage contractUpdated = new ContratStage();
+        contract.setStatusGestionnaire(ContratStage.Status.Signer);
+        contract.setId(1L);
+        contract.setStudent(student);
+        contract.setEmployeur(employer);
+        contract.setNomDePoste("Poste 1");
+        contract.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+        contract.setStatusEtudiant(ContratStage.Status.Pas_Signer);
+
+
+        when(contratStageRepository.findById(anyLong())).thenReturn(Optional.of(contract));
+        when(contratStageRepository.save(any(ContratStage.class))).thenReturn(contractUpdated);
+
+        ContratStageDTO result = gestionnaireService.signContract(ContratStageDTO.fromContratStage(contract));
+
+        verify(contratStageRepository, times(1)).save(ArgumentMatchers.any(ContratStage.class));
+        assertEquals(ContratStage.Status.Signer.toString(), result.getStatutGestionnaire());
     }
 }

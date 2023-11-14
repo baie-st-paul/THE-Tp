@@ -16,11 +16,11 @@ public interface ContratStageRepository extends JpaRepository<ContratStage, Long
 
     @Modifying
     @Transactional
-    @Query("UPDATE ContratStage SET statusVuPasVuG = ?2   WHERE student.matricule =  ?1")
+    @Query("UPDATE ContratStage SET statutVuPasVuG = ?2   WHERE student.matricule =  ?1")
     void updateStatusVuPasVuGByMatricule(String matricule, ContratStage.StatusVuPasVu statutContrat);
 
     @Modifying
     @Transactional
-    @Query("UPDATE ContratStage SET statusVuPasVuE = ?2   WHERE student.matricule =  ?1")
+    @Query("UPDATE ContratStage SET statutVuPasVuE = ?2   WHERE student.matricule =  ?1")
     void updateStatusVuPasVuEByMatricule(String matricule, ContratStage.StatusVuPasVu statutContrat);
 }

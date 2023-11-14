@@ -15,4 +15,6 @@ public interface GestionnaireRepository extends JpaRepository<Gestionnaire, Long
 
     Gestionnaire findByUtilisateurId(Long id);
 
+    Gestionnaire findByMatricule(String matricule);
+
 }

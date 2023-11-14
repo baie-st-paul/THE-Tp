@@ -537,11 +537,17 @@ public class GestionnaireServiceTest {
 
         contrat1.setStudent(studentMock);
         contrat1.setEmployeur(employeurMock);
-        contrat1.setNomDePoste("Company Name 1");
+        contrat1.setNomDePoste("poste Name 1");
+        contrat1.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+        contrat1.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contrat1.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
 
         contrat2.setStudent(studentMock);
         contrat2.setEmployeur(employeurMock);
-        contrat2.setNomDePoste("Company Name 2");
+        contrat2.setNomDePoste("poste Name 2");
+        contrat2.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+        contrat2.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contrat2.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
 
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findAll()).thenReturn(contrats);
@@ -551,10 +557,10 @@ public class GestionnaireServiceTest {
         assertEquals(2, result.size());
         assertEquals("matricule1", result.get(0).getStudentId());
         assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals("Company Name 1", result.get(0).getNomDeCompanie());
+        assertEquals("poste Name 1", result.get(0).getNomDePoste());
         assertEquals("matricule1", result.get(1).getStudentId());
         assertEquals(employeurId, result.get(1).getEmployerId());
-        assertEquals("Company Name 2", result.get(1).getNomDeCompanie());
+        assertEquals("poste Name 2", result.get(1).getNomDePoste());
     }
 
 

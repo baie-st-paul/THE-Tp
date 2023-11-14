@@ -658,13 +658,13 @@ public class GestionnaireServiceTest {
         contract.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
 
         ContratStage contractUpdated = new ContratStage();
-        contract.setStatutGestionnaire(ContratStage.Statut.Signer);
-        contract.setId(1L);
-        contract.setStudent(student);
-        contract.setEmployeur(employer);
-        contract.setNomDePoste("Poste 1");
-        contract.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
-        contract.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        contractUpdated.setStatutGestionnaire(ContratStage.Statut.Signer);
+        contractUpdated.setId(1L);
+        contractUpdated.setStudent(student);
+        contractUpdated.setEmployeur(employer);
+        contractUpdated.setNomDePoste("Poste 1");
+        contractUpdated.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+        contractUpdated.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
 
 
         when(contratStageRepository.findById(anyLong())).thenReturn(Optional.of(contract));

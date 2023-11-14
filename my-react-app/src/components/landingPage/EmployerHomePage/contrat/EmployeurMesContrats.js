@@ -1,15 +1,29 @@
 import React from 'react'
 import { useState , useEffect } from "react";
+import ReactModal from "react-modal";
 
 export default function EmployeurMesContrats({employerId, contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
     const [filtre, setFiltre] = useState('')
-
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+    const [confirmationType, setConfirmationType] = useState("");
+    const [contrat, setContrat] = useState(null)
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         fetchContrats()
     } , [])
+
+    const customStyles = {
+        content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+        },
+    };
 
     const fetchContrats = async () => {
         try {
@@ -50,6 +64,65 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
         }
     }
 
+    const handleSignerContrat = async (contrat) => {
+        console.log(contrat)
+        const token = localStorage.getItem('token');
+        try{
+            fetch(
+                `http://localhost:8081/api/v1/employers/signerContrat`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body : JSON.stringify(contrat)
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                        } else {
+                            console.error("Failed to fetch data");
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+        }
+
+    const handleAcceptConfirmation = () => {
+        setIsConfirmationModalOpen(false);
+        console.log("Accepted")
+        let arrTmp = [...contrats]
+        let idx = arrTmp.findIndex((x) => x.id === contrat.id)
+        arrTmp[idx].statutEmployeur = 'Signer'
+        setContrats(arrTmp)
+        handleSignerContrat(contrat)
+    };
+    
+    
+    
+    const openConfirmationModal = (type, contrat1) => {
+        setIsConfirmationModalOpen(true);
+        setContrat(contrat1)
+        setConfirmationType(type)
+        
+    };
+    
+    const closeConfirmationModal = () => {
+        setIsConfirmationModalOpen(false);
+    };
+
+
     return (
         <div className="container w-100">
             <div className="row">
@@ -80,8 +153,13 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
                                         <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
                                         <td data-label="Poste" className="fw-semibold">{etudiant.nomDeCompanie}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                        {
+                                    etudiant.statutEmployeur === 'Pas_Signer' ?
+                                    <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
+                                    :
+                                    <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
+                                    }
+                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                     </tr>
                                 ))
                             }
@@ -90,6 +168,33 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
                     </div>
                     : <div>AUCUN CONTRAT À AFFICHER</div> }
             </div>
+            <ReactModal
+                        isOpen={isConfirmationModalOpen}
+                        onRequestClose={closeConfirmationModal}
+                        style={customStyles}
+                        ariaHideApp={false}
+                        contentLabel="Confirmation Modal"
+                    >
+                        <h2 title="Confirmation modal">Confirmation</h2>
+                        {confirmationType === "accept" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir signer le contrat ?</p>
+                                <button title="ConfirmAccept" className="btn btn-success" onClick={handleAcceptConfirmation}>
+                                    Oui
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <p>Êtes-vous sûr de vouloir refuser  ?</p>
+                                <button title="ConfirmRefuse" className="btn btn-danger" >
+                                    Oui
+                                </button>
+                            </>
+                        )}
+                        <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
+                            Non
+                        </button>
+                    </ReactModal>      
         </div>
     )
 }

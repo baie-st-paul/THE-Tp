@@ -3,7 +3,7 @@ import "./StudentHomePage.css";
 import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "../offresStages/student/candidature/OffrePageStudent";
+import OffresPageStudent from "./candidature/OffrePageStudent";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileUpload,
@@ -15,19 +15,20 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
 import Dashboard from "./DashBoard/Dashboard";
-import OffreCandidaturePage from "../offresStages/student/candidature/OffreCandidaturePage";
+import OffreCandidaturePage from "./candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 import CreateStudentSignature from "./signature/CreateStudentSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import SessionCotroller from "./SessionController";
 import EtudiantMesContrats from "./contrat/EtudiantMesContrats";
+import CardPageCvSignature from "./dashboardS/cards/cvSignature/CardPageCvSignature";
 
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
     const [matricule, setMatricule] = useState(null);
     const [activeContent, setActiveContent] = useState("none");
-    const [cvs, setCvs] = useState([]);
+    const [cv, setCv] = useState(null);
     const [signature, setSignature] = useState(null);
     const [session, setSession] = useState([]);
     const navigate = useNavigate();
@@ -53,8 +54,9 @@ const StudentHomePage = () => {
 
     async function fetchCv() {
         try {
+            const savedMatricule = localStorage.getItem("loggedInUserMatricule");
             fetch(
-                `http://localhost:8081/api/v1/gestionnaire/cvs`,
+                `http://localhost:8081/api/v1/student/getCvByMatricule/${savedMatricule}`,
                 {
                     method: 'GET',
                     headers: {
@@ -76,8 +78,8 @@ const StudentHomePage = () => {
                     } catch (e) {
                         console.log(e)
                     }
-                    setCvs(data)
                     console.log(data)
+                    setCv(data)
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -171,106 +173,108 @@ const StudentHomePage = () => {
 
     switch (activeContent) {
         case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule}/>;
+            contentToRender = <FileUploader matricule={matricule}/>
             break;
         case "offre-page-student":
-            contentToRender = <OffresPageStudent/>;
+            contentToRender = <OffresPageStudent/>
             break;
         case "section-entrevue":
-            contentToRender = <SectionEntrevue/>
+            contentToRender = <SectionEntrevue entrevueTest={[]}/>
             break;
         case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>;
+            contentToRender = <OffreCandidaturePage/>
             break;
         case "dashboard":
-            contentToRender = <Dashboard/>;
+            contentToRender = <Dashboard entrevuesTest={[]}/>
             break;
         case "signature":
-            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>;
+            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
             break;
         case "mes-contrats":
-            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]} ></EtudiantMesContrats>
+            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
             break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            console.log(signature)
+            console.log(cv)
+            contentToRender = signature !== null && cv !== null && cv.status === "Accepted" ?
+                <div>Tableau de bord...</div> : <CardPageCvSignature signature={signature} cv={cv}/>
             break;
     }
 
     return (
         <div>
             {session.at(2) ?  (
-                    <div className="student-homepage">
-                        <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
-                            <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
-                            <Navbar.Collapse id="basic-navbar-nav">
-                                <Nav>
-                                    <ul className="navbar-nav px-2">
-                                        <ul className="navbar-nav ml-auto px-1">
-                                            <li className="nav-item navbarbutton deconnecter">
-                                                <button className="nav-link" onClick={() => handleDisconnect()}>
-                                                    <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
-                                                    Se déconnecter
-                                                </button>
-                                            </li>
-                                            <li className="nav-item navbarbutton">
-                                                <button className="nav-link" onClick={() => handleButtonClick("signature")}>
-                                                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
-                                                </button>
-                                            </li>
-                                            <li className="nav-item navbarbutton px-1">
-                                                <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> CV
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        {
-                                            cvs.map((cv, index) => (
-                                                <div key={index}>
-                                                    {
-                                                        cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
-                                                        <>
-                                                            <ul className="navbar-nav ml-auto px-1">
-                                                                <li className="nav-item navbarbutton px-1">
-                                                                    <button className="nav-link" onClick={() => handleButtonClick('dashboard')}>
-                                                                        <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
-                                                                    </button>
-                                                                </li>
-                                                                <li className="nav-item navbarbutton px-1">
-                                                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                                                        <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
-                                                                    </button>
-                                                                </li>
-                                                                <li className="nav-item navbarbutton px-1">
-                                                                    <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
-                                                                        <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '2px' }}/> Mes candidatures
-                                                                    </button>
-                                                                </li>
-                                                                <li className="nav-item navbarbutton px-1">
-                                                                    <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
-                                                                        <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
-                                                                    </button>
-                                                                </li>
-                                                                <li className="nav-item navbarbutton px-1">
-                                                <button className="nav-link" onClick={() => setActiveContent('mes-contrats')}>
-                                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> Mes Contrats
-                                                </button>
-                                            </li>
-                                                            </ul>
-                                                            
-                                                        </>
-                                                    }
-                                                </div>
-                                            ))
-                                        }
+                <div className="student-homepage">
+                    <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
+                        <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav>
+                                <ul className="navbar-nav px-2">
+                                    <ul className="navbar-nav ml-auto px-1">
+                                        <li className="nav-item navbarbutton deconnecter">
+                                            <button className="nav-link" onClick={() => handleDisconnect()}>
+                                                <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
+                                                Se déconnecter
+                                            </button>
+                                        </li>
+                                        <li className="nav-item navbarbutton">
+                                            <button className="nav-link" onClick={() => handleButtonClick("signature")}>
+                                                <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
+                                            </button>
+                                        </li>
+                                        <li className="nav-item navbarbutton px-1">
+                                            <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
+                                                <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> CV
+                                            </button>
+                                        </li>
                                     </ul>
-                                </Nav>
-                            </Navbar.Collapse>
-                        </Navbar>
-                        <div className="container content-container mt-4">
-                            {contentToRender}
-                        </div>
+                                    {
+                                        signature !== null && cv !== null && cv.status === "Accepted" && (
+                                            <div>
+                                                {
+                                                    cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
+                                                    <>
+                                                        <ul className="navbar-nav ml-auto px-1">
+                                                            <li className="nav-item navbarbutton px-1">
+                                                                <button className="nav-link" onClick={() => handleButtonClick('dashboard')}>
+                                                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
+                                                                </button>
+                                                            </li>
+                                                            <li className="nav-item navbarbutton px-1">
+                                                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
+                                                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
+                                                                </button>
+                                                            </li>
+                                                            <li className="nav-item navbarbutton px-1">
+                                                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
+                                                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '2px' }}/> Mes candidatures
+                                                                </button>
+                                                            </li>
+                                                            <li className="nav-item navbarbutton px-1">
+                                                                <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
+                                                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
+                                                                </button>
+                                                            </li>
+                                                            <li className="nav-item navbarbutton px-1">
+                                                                <button className="nav-link" onClick={() => setActiveContent('mes-contrats')}>
+                                                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> Mes Contrats
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </>
+                                                }
+                                            </div>
+                                        )
+                                    }
+                                </ul>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
+                    <div className="container content-container mt-4">
+                        {contentToRender}
                     </div>
-                ) : (
+                </div>
+            ) : (
                 <SessionCotroller sessionTag={session.at(0)} studentTag={session.at(1)}/>
             )}
         </div>

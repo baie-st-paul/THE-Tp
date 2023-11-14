@@ -6,10 +6,8 @@ import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.TagDTO;
-import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Cv;
@@ -36,6 +34,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +70,6 @@ public class GestionnaireService {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email,phoneNumber, password, role);
         Gestionnaire gestionnaire = new Gestionnaire(gestionnairePostDTO.getMatricule());
         gestionnaire.setUtilisateur(utilisateur);
-        System.out.println(utilisateur.getEmail() + ", " + utilisateur.getPassword() + ", " + utilisateur.getRole());
         userRepository.save(utilisateur);
         gestionnaireRepository.save(gestionnaire);
 
@@ -140,13 +138,12 @@ public class GestionnaireService {
 
     @Transactional
     public void updateCvStatus(String matricule,String status) {
-        cvRepository.updateCvStatusByMatricule(matricule, Cv.StatusCV.valueOf(status));
+        cvRepository.updateCvStatusByMatricule(matricule, Cv.Status.valueOf(status));
     }
 
     @Transactional
     public List<EntrevueDTODetailed> getStudentsWithEntrevue() {
         List<Entrevue> entrevues = entrevueRepository.findAll();
-        System.out.println(entrevues);
         return entrevues.stream().map(EntrevueDTODetailed::toEntrevueDTODetailed).collect(Collectors.toList());
     }
 
@@ -158,10 +155,17 @@ public class GestionnaireService {
         ContratStage contratStage = contratStageDTO.toContratStage();
         contratStage.setStudent(student);
         contratStage.setEmployeur(employer);
-        contratStage.setNomDePoste(getOffreStageEtudiantEmbauche(contratStage.getStudent()).getOffreStage().getTitre());
-        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+
+        Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
+        contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
+
+        contratStage.setStatusGestionnaire(ContratStage.Status.Pas_Signer);
+        contratStage.setStatusEtudiant(ContratStage.Status.Pas_Signer);
+        contratStage.setStatusEmployeur(ContratStage.Status.Pas_Signer);
+
+        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
+        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuE()));
+        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuS()));
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 
@@ -181,7 +185,7 @@ public class GestionnaireService {
     }
 
     @Transactional
-    public Candidature getOffreStageEtudiantEmbauche(Student student){
+    public Optional<Candidature> getOffreStageEtudiantEmbauche(Student student){
         return candidatureRepository.findByStatusAndStudent(Candidature.Status.Accepted,student);
     }
 

@@ -53,17 +53,4 @@ public class SignatureEmployerController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("authenticated")
-    public ResponseEntity<String> deleteEmployerSignature(@PathVariable long id) {
-        try {
-            signatureEmployerService.deleteSignatureByEmployerId(id);
-            return ResponseEntity.ok("Signature supprimée");
-        } catch (Exception e) {
-            System.out.println(id);
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
-    }
 }

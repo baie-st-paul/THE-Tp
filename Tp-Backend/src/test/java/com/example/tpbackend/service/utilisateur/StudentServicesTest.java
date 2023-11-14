@@ -1,6 +1,16 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -8,7 +18,6 @@ import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -22,7 +31,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -35,38 +46,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 @ContextConfiguration(classes = {StudentServices.class})
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 class StudentServicesTest {
 
-    @MockBean
+    @Mock
     private CandidatureRepository candidatureRepository;
 
-    @MockBean
+    @Mock
     private CvRepository cvRepository;
 
-    @MockBean
+    @Mock
     private OffreStageRepository offreStageRepository;
 
-    @MockBean
+    @Mock
     private StudentRepository studentRepository;
 
     @InjectMocks
     private StudentServices studentServices;
 
-   @MockBean
+    @Mock
     private ContratStageRepository contratStageRepository;
 
-    @MockBean
+    @Mock
     UtilisateurRepository utilisateurRepository;
 
-    @MockBean
+    @Mock
     private UserService userService;
 
-    @MockBean
+    @Mock
     private TagRepository tagRepository;
+
 
     /**
      * Method under test: {@link StudentServices#saveCv(CvDTO)}
@@ -106,7 +116,8 @@ class StudentServicesTest {
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.saveCv(new CvDTO("Matricule", "foo.txt",
-                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")), "Status"));
+                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")),
+                "Status", "pasVu", "pasVu", "pasVu"));
     }
 
     /**
@@ -119,7 +130,7 @@ class StudentServicesTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
         when(cvRepository.save(Mockito.<Cv>any())).thenReturn(cv);
 
         Cv cv2 = new Cv();
@@ -127,12 +138,36 @@ class StudentServicesTest {
         cv2.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv2.setId(1L);
         cv2.setMatricule("Matricule");
-        cv2.setStatus(Cv.StatusCV.Accepted);
+        cv2.setStatus(Cv.Status.Accepted);
         CvDTO cvDTO = mock(CvDTO.class);
         when(cvDTO.toCv()).thenReturn(cv2);
         studentServices.saveCv(cvDTO);
         verify(cvRepository).save(Mockito.<Cv>any());
         verify(cvDTO).toCv();
+    }
+
+    @Test
+    void testGetCvByStudentMatricule() throws IOException {
+        Cv cv = new Cv();
+        cv.setFileName("foo.txt");
+        cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
+        cv.setId(1L);
+        cv.setMatricule("1234567");
+        cv.setStatus(Cv.Status.Accepted);
+        cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
+
+        CvDTO cvDTO = mock(CvDTO.class);
+        when(cvRepository.findCvByMatricule(anyString())).thenReturn(cv);
+        when(cvRepository.save(Mockito.<Cv>any())).thenReturn(cv);
+        studentServices.saveCv(cvDTO);
+        verify(cvRepository).save(Mockito.<Cv>any());
+        verify(cvDTO).toCv();
+
+        CvDTO cvDto2 = studentServices.getCvByMatricule("1234567");
+        assertEquals("foo.txt", cvDto2.getFileName());
+
     }
 
     /**
@@ -173,7 +208,8 @@ class StudentServicesTest {
         //   See https://diff.blue/R013 to resolve this issue.
 
         studentServices.updateCv(new CvDTO("Matricule", "foo.txt",
-                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")), "Status"));
+                new ByteArrayMultipartFile("Name", "foo.txt", "text/plain", "AXAXAXAX".getBytes("UTF-8")),
+                "Status", "pasVu", "pasVu", "pasVu"));
     }
 
     /**
@@ -200,21 +236,21 @@ class StudentServicesTest {
     void testUpdateCv4() throws IOException {
         doNothing().when(cvRepository)
                 .updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(), Mockito.<byte[]>any(),
-                        Mockito.<Cv.StatusCV>any());
+                        Mockito.<Cv.Status>any());
 
         Cv cv = new Cv();
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
         CvDTO cvDTO = mock(CvDTO.class);
         when(cvDTO.toCv()).thenReturn(cv);
         when(cvDTO.getFileName()).thenReturn("foo.txt");
         when(cvDTO.getMatricule()).thenReturn("Matricule");
         studentServices.updateCv(cvDTO);
         verify(cvRepository).updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(),
-                Mockito.<byte[]>any(), Mockito.<Cv.StatusCV>any());
+                Mockito.<byte[]>any(), Mockito.<Cv.Status>any());
         verify(cvDTO, atLeast(1)).toCv();
         verify(cvDTO).getFileName();
         verify(cvDTO).getMatricule();
@@ -227,27 +263,27 @@ class StudentServicesTest {
     void testUpdateCv5() throws IOException {
         doNothing().when(cvRepository)
                 .updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(), Mockito.<byte[]>any(),
-                        Mockito.<Cv.StatusCV>any());
+                        Mockito.<Cv.Status>any());
         Cv cv = mock(Cv.class);
         when(cv.getFile_cv()).thenReturn("AXAXAXAX".getBytes("UTF-8"));
-        when(cv.getStatus()).thenReturn(Cv.StatusCV.Accepted);
+        when(cv.getStatus()).thenReturn(Cv.Status.Accepted);
         doNothing().when(cv).setFileName(Mockito.<String>any());
         doNothing().when(cv).setFile_cv(Mockito.<byte[]>any());
         doNothing().when(cv).setId(anyLong());
         doNothing().when(cv).setMatricule(Mockito.<String>any());
-        doNothing().when(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        doNothing().when(cv).setStatus(Mockito.<Cv.Status>any());
         cv.setFileName("foo.txt");
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
         CvDTO cvDTO = mock(CvDTO.class);
         when(cvDTO.toCv()).thenReturn(cv);
         when(cvDTO.getFileName()).thenReturn("foo.txt");
         when(cvDTO.getMatricule()).thenReturn("Matricule");
         studentServices.updateCv(cvDTO);
         verify(cvRepository).updateCvWhenStudentHaveCv(Mockito.<String>any(), Mockito.<String>any(),
-                Mockito.<byte[]>any(), Mockito.<Cv.StatusCV>any());
+                Mockito.<byte[]>any(), Mockito.<Cv.Status>any());
         verify(cvDTO, atLeast(1)).toCv();
         verify(cvDTO).getFileName();
         verify(cvDTO).getMatricule();
@@ -257,7 +293,7 @@ class StudentServicesTest {
         verify(cv).setFile_cv(Mockito.<byte[]>any());
         verify(cv).setId(anyLong());
         verify(cv).setMatricule(Mockito.<String>any());
-        verify(cv).setStatus(Mockito.<Cv.StatusCV>any());
+        verify(cv).setStatus(Mockito.<Cv.Status>any());
     }
 
 
@@ -313,7 +349,7 @@ class StudentServicesTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
         when(cvRepository.findCvByMatricule(Mockito.<String>any())).thenReturn(cv);
 
         Utilisateur utilisateur = new Utilisateur();
@@ -365,7 +401,7 @@ class StudentServicesTest {
         cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cvStudent.setId(1L);
         cvStudent.setMatricule("Matricule");
-        cvStudent.setStatus(Cv.StatusCV.Accepted);
+        cvStudent.setStatus(Cv.Status.Accepted);
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
@@ -415,7 +451,7 @@ class StudentServicesTest {
         cv.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cv.setId(1L);
         cv.setMatricule("Matricule");
-        cv.setStatus(Cv.StatusCV.Accepted);
+        cv.setStatus(Cv.Status.Accepted);
         when(cvRepository.findCvByMatricule(Mockito.<String>any())).thenReturn(cv);
 
         Utilisateur utilisateur3 = new Utilisateur();
@@ -441,6 +477,22 @@ class StudentServicesTest {
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
 
+        CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO();
+        candidaturePostDTO.setMatricule(candidature.getStudent().getMatricule());
+        candidaturePostDTO.setIdOffre(candidature.getOffreStage().getId());
+        candidaturePostDTO.setFileName(candidature.getFileName());
+
+        byte[] yourByteArray = candidature.getLettreMotivation();
+        String originalFilename = candidature.getFileName();
+        String contentType = "application/pdf";
+
+        MultipartFile multipartFile = new ByteArrayMultipartFile(candidature.getFileName(), originalFilename, contentType, yourByteArray);
+        candidaturePostDTO.setLettre_motivation(multipartFile);
+
+        when(studentRepository.findByMatricule(anyString())).thenReturn(candidature.getStudent());
+        when(offreStageRepository.findOffreById(anyLong())).thenReturn(Optional.ofNullable(candidature.getOffreStage()));
+
+        studentServices.postulerOffre(candidaturePostDTO);
     }
 
     /**
@@ -463,7 +515,7 @@ class StudentServicesTest {
         cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cvStudent.setId(1L);
         cvStudent.setMatricule("Matricule");
-        cvStudent.setStatus(Cv.StatusCV.Accepted);
+        cvStudent.setStatus(Cv.Status.Accepted);
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
@@ -545,7 +597,7 @@ class StudentServicesTest {
         cvStudent.setFile_cv("AXAXAXAX".getBytes("UTF-8"));
         cvStudent.setId(1L);
         cvStudent.setMatricule("Matricule");
-        cvStudent.setStatus(Cv.StatusCV.Accepted);
+        cvStudent.setStatus(Cv.Status.Accepted);
 
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");

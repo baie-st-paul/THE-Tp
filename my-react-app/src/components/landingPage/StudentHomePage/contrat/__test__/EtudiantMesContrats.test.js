@@ -6,7 +6,7 @@ describe('Tests Employeur voit ses contrats', () => {
     let contrats = [{ 
         employerId : 1,
         id : 1,
-        nomDePoste : 'Dev',
+        nomDeCompany : 'Dev',
         nomEtudiant : 'dan',
         prenomEtudiant : 'dan',
         statutEmployeur : 'Pas_Signer',
@@ -16,7 +16,7 @@ describe('Tests Employeur voit ses contrats', () => {
     }, {
          employerId : 2,
          id : 2,
-         nomDePoste : 'Dev1',
+         nomDeCompany : 'Dev1',
          nomEtudiant : 'dan1',
          prenomEtudiant : 'dan1',
          statutEmployeur : 'Pas_Signer',

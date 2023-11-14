@@ -141,51 +141,11 @@ const CreateStudentSignature = () => {
         window.location.reload()
     }
 
-    const deleteSignature = async () => {
-        try {
-            console.log(studentMatricule)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/student/delete/${studentMatricule}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-                console.error("Failed to delete signature");
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    setUrlImage(null);
-                    setSignature(null)
-                })
-        } catch (error) {
-            console.error("Error deleting signature:", error);
-        }
-        window.location.reload()
-    }
-
     const handleClear = () => {
         sign.clear()
         setDisableWhenEmpty(true)
         console.log(sign.empty)
         console.log(disableWhenEmpty)
-    }
-    const handleDelete = () => {
-        sign.clear()
-        setDisableWhenEmpty(true)
-        deleteSignature()
     }
 
     const handleSave = () => {
@@ -231,14 +191,6 @@ const CreateStudentSignature = () => {
             }
             <br/>
 
-            {signature !== null &&
-                <Button className="btn btn-danger"
-                        onClick={handleDelete}>
-                    Supprimer <FaTimes
-                    style={{color: 'black'}}
-                />
-                </Button>
-            }
             {signature === null && urlImage !== null &&
                 <Button className="btn btn-success"
                         onClick={saveSignature}>

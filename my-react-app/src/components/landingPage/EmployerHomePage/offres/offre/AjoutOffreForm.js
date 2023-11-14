@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import "../../../../utilisateurs/inscription/InscriptionPage.css"
-import "../../../../stylesGenerales.css"
+import "../../../../StylesGenerales.css"
 
 const AjoutOffreForm = ({onAdd}) => {
     const [titre, setTitre] = useState('');

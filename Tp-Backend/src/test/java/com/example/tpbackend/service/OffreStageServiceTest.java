@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -16,6 +17,9 @@ import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.utilisateur.EmployerRepository;
+import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 
@@ -29,59 +33,38 @@ import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ContextConfiguration(classes = {OffreStageService.class})
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(MockitoExtension.class)
 class OffreStageServiceTest {
-    @MockBean
+    @Mock
     private EmployerService employerService;
 
-    @MockBean
+    @Mock
+    private TagRepository tagRepository;
+
+    @Mock
     private OffreStageRepository offreStageRepository;
 
-    @MockBean
+    @InjectMocks
     private OffreStageService offreStageService;
-
-    @MockBean
-    private UserService userService;
-
-    @MockBean
-    private AuthenticationService authenticationService;
-
-    /**
-     * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
-     */
-    @Test
-    @Disabled("TODO: Complete this test")
-    void testCreateOffre() {
-        // TODO: Complete this test.
-        //   Reason: R013 No inputs found that don't throw a trivial exception.
-        //   Diffblue Cover tried to run the arrange/act section, but the method under
-        //   test threw
-        //   java.lang.NullPointerException: Name is null
-        //       at java.lang.Enum.valueOf(Enum.java:271)
-        //       at com.example.tpbackend.models.OffreStage$Status.valueOf(OffreStage.java:64)
-        //       at com.example.tpbackend.models.OffreStage.<init>(OffreStage.java:47)
-        //       at com.example.tpbackend.DTO.OffreStageDTO.toOffreStage(OffreStageDTO.java:29)
-        //       at com.example.tpbackend.service.OffreStageService.createOffre(OffreStageService.java:30)
-        //   See https://diff.blue/R013 to resolve this issue.
-
-        offreStageService.saveOffre(new OffreStageDTO());
-    }
 
     /**
      * Method under test: {@link OffreStageService#saveOffre(OffreStageDTO)}
      */
     @Test
     void testCreateOffre2() {
-        when(employerService.getEmployerById(Mockito.<Long>any()))
-                .thenReturn(new Employer(1L, "Company Name", new Utilisateur( "Jane", "Doe", "jane.doe@example.org","6625550144", "iloveyou", "Employeur" ) ));
-
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setEmail("jane.doe@example.org");
         utilisateur.setId(1L);
@@ -96,18 +79,6 @@ class OffreStageServiceTest {
         employer.setId(1L);
         employer.setOffresStages(new ArrayList<>());
         employer.setUtilisateur(utilisateur);
-
-        OffreStage offreStage = new OffreStage();
-        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
-        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
-        offreStage.setDescription("The characteristics of someone or something");
-        offreStage.setEmployer(employer);
-        offreStage.setId(1L);
-        offreStage.setSalaire(10.0d);
-        offreStage.setStatus(OffreStage.Status.Accepted);
-        offreStage.setStudentProgram("Student Program");
-        offreStage.setTitre("Titre");
-        when(offreStageRepository.save(Mockito.<OffreStage>any())).thenReturn(offreStage);
 
         Utilisateur utilisateur2 = new Utilisateur();
         utilisateur2.setEmail("jane.doe@example.org");
@@ -124,31 +95,48 @@ class OffreStageServiceTest {
         employer2.setOffresStages(new ArrayList<>());
         employer2.setUtilisateur(utilisateur2);
 
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setId(1L);
+        offreStage.setEmployer(employer);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStatusVuPasVuG(OffreStage.StatusVuPasVu.vu);
+        offreStage.setStatusVuPasVuE(OffreStage.StatusVuPasVu.vu);
+        offreStage.setStatusVuPasVuS(OffreStage.StatusVuPasVu.vu);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
         OffreStage offreStage2 = new OffreStage();
         offreStage2.setDateDebut(LocalDate.of(1970, 1, 1));
         offreStage2.setDateFin(LocalDate.of(1970, 1, 1));
         offreStage2.setDescription("The characteristics of someone or something");
-        offreStage2.setEmployer(employer2);
         offreStage2.setId(1L);
+        offreStage2.setEmployer(employer2);
         offreStage2.setSalaire(10.0d);
         offreStage2.setStatus(OffreStage.Status.Accepted);
+        offreStage2.setStatusVuPasVuG(OffreStage.StatusVuPasVu.vu);
+        offreStage2.setStatusVuPasVuE(OffreStage.StatusVuPasVu.vu);
+        offreStage2.setStatusVuPasVuS(OffreStage.StatusVuPasVu.vu);
         offreStage2.setStudentProgram("Student Program");
         offreStage2.setTitre("Titre");
-        OffreStageDTO offre = mock(OffreStageDTO.class);
-        when(offre.toOffreStage()).thenReturn(offreStage2);
-        when(offre.getEmployerId()).thenReturn(1L);
-        OffreStageDTO actualCreateOffreResult = offreStageService.saveOffre(offre);
-        assertEquals("1970-01-01", actualCreateOffreResult.getDateDebut().toString());
-        assertEquals("Titre", actualCreateOffreResult.getTitre());
-        assertEquals("Student Program", actualCreateOffreResult.getStudentProgram());
-        assertEquals("Accepted", actualCreateOffreResult.getStatus());
-        assertEquals(10.0d, actualCreateOffreResult.getSalaire());
-        assertEquals(1L, actualCreateOffreResult.getId());
-        assertEquals(1L, actualCreateOffreResult.getEmployerId());
-        assertEquals("The characteristics of someone or something", actualCreateOffreResult.getDescription());
-        assertEquals("1970-01-01", actualCreateOffreResult.getDateFin().toString());
-        verify(offreStageRepository).save(Mockito.<OffreStage>any());
-        verify(offre).toOffreStage();
+
+        when(employerService.getEmployerById(anyLong())).thenReturn(employer);
+        when(offreStageRepository.save(Mockito.<OffreStage>any())).thenReturn(offreStage);
+
+        OffreStageDTO result = offreStageService.saveOffre(offreStage.toOffreStageDTO());
+
+        assertEquals("1970-01-01", result.getDateDebut().toString());
+        assertEquals("Titre", result.getTitre());
+        assertEquals("Student Program", result.getStudentProgram());
+        assertEquals("Accepted", result.getStatus());
+        assertEquals(10.0d, result.getSalaire());
+        assertEquals(1L, result.getId());
+        assertEquals(1L, result.getEmployerId());
+        assertEquals("The characteristics of someone or something", result.getDescription());
+        assertEquals("1970-01-01", result.getDateFin().toString());
     }
 
     /**

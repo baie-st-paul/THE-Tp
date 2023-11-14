@@ -30,8 +30,6 @@ public class SignatureStudentService {
     public SignatureStudentDTO saveStudentSignature(SignatureStudentDTO dto) {
         SignatureStudent signature = dto.toSignatureStudent();
         signature.setStudent(studentRepository.findByMatricule(dto.getStudentMatricule()));
-        System.out.print("dto "+dto);
-        System.out.print("signature "+signature);
         return signatureStudentRepository.save(signature).toSignatureStudentDTO();
     }
 
@@ -39,7 +37,6 @@ public class SignatureStudentService {
     public SignatureStudentDTO updateStudentSignature(SignatureStudentDTO dto) {
         SignatureStudent signature = dto.toSignatureStudent();
         signature.setStudent(studentRepository.findByMatricule(dto.getStudentMatricule()));
-        System.out.println(signature);
         signatureStudentRepository.updateSignatureStudentByStudent_Matricule(
                 dto.getStudentMatricule(),
                 signature.getImageLink()
@@ -47,8 +44,4 @@ public class SignatureStudentService {
         return signature.toSignatureStudentDTO();
     }
 
-    @Transactional
-    public void deleteSignatureByStudentMatricule(String matricule) {
-        signatureStudentRepository.deleteSignatureStudentByStudentMatricule(matricule);
-    }
 }

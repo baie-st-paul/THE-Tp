@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import VetoSection from "./Vetocv/VetoSection";
 import {Nav, Navbar} from "react-bootstrap";
-import OffresPageGestionnaire from "../offresStages/gestionnaire/OffrePageGestionnaire";
+import OffresPageGestionnaire from "./offreGestionnaire/OffrePageGestionnaire";
 import {
     faArrowRight,
     faBriefcase,
     faFileUpload,
     faCalendarDay,
     faHandshake,
-    faFile
+    faFile,
+    faHome
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import EtudiantsConvoquesEntrevue from "./entrevue/EtudiantsConvoquesEntrevue";
 import EtudiantEmbauchePage from "./embauche/EtudiantEmbauchePage";
 import ListContratsGestionnaire from "./contrat/ListContratsGestionnaire";
+import DashboardPageGestionnaire from "./dashboard/DashboardPageGestionnaire";
 
 const GestionnaireHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -47,8 +49,11 @@ const GestionnaireHomePage = () => {
         case "contrats":
             contentToRender = <ListContratsGestionnaire contratsTest={[]}/>
             break;
+        case "dashboard":
+            contentToRender = <DashboardPageGestionnaire/>
+            break;
         default:
-            contentToRender = <div>Choisir une section.</div>;
+            contentToRender = <DashboardPageGestionnaire/>
             break;
     }
 
@@ -60,13 +65,18 @@ const GestionnaireHomePage = () => {
                     <Nav>
                         <ul className="navbar-nav px-2">
                             <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("dashboard")}>
+                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("veto-section")}>
-                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>CV Veto
+                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>Cv Véto
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton">
                                 <button className="nav-link" onClick={() => handleButtonClick("offre-page-ges")}>
-                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Veto
+                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres Véto
                                 </button>
                             </li>
                             <li className="nav-item navbarbutton">

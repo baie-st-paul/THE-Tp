@@ -22,6 +22,9 @@ public class OffreStageDTO {
     private LocalDate dateFin;
     private int nbMaxEtudiants;
     private String status;
+    private String statusVuPasVuG;
+    private String statusVuPasVuE;
+    private String statusVuPasVuS;
     private long employerId;
     private String tag;
 
@@ -35,7 +38,10 @@ public class OffreStageDTO {
                 dateDebut,
                 dateFin,
                 nbMaxEtudiants,
-                status
+                status,
+                statusVuPasVuG,
+                statusVuPasVuE,
+                statusVuPasVuS
         );
     }
 

@@ -1,14 +1,16 @@
 import React, {useEffect} from "react";
 import EmployerStageOffreList from "./offres/EmployerStageOffreList";
 import { useState } from "react";
-import AjoutOffreForm from "./offres/offre/ajoutOffreForm";
+import AjoutOffreForm from "./offres/offre/AjoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faBriefcase, faPlus, faFile} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus, faFile, faHome} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import CreateSignature from "./signature/CreateSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
+import DashboardPageEmp from "./dashboard/DashboardPageEmp";
+import CardPageSignature from "./dashboard/cards/signature/CardPageSignature";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none");
@@ -64,6 +66,9 @@ const EmployerHomePage = () => {
     const ajoutOffre = async (offre) => {
 
         offre["status"] = "In_review"
+        offre["statusVuPasVuG"] = "pasVu"
+        offre["statusVuPasVuE"] = "pasVu"
+        offre["statusVuPasVuS"] = "pasVu"
         offre["employerId"] = employerId
         console.log(JSON.stringify(offre))
         console.log(token)
@@ -120,8 +125,13 @@ const EmployerHomePage = () => {
         case "mes-contrats":
             contentToRender = <EmployeurMesContrats employerId={employerId} contratsTest={[]}> </EmployeurMesContrats>
             break;
+        case "dashboard":
+            contentToRender = <DashboardPageEmp/>
+            break;
         default:
-            contentToRender = <div>Choisir une section.</div>
+            signature !== null ?
+                contentToRender = <DashboardPageEmp/>
+                : contentToRender = <CardPageSignature/>
         break;
     }
 
@@ -132,15 +142,15 @@ const EmployerHomePage = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <ul className="navbar-nav px-2">
-                            <li className="nav-item navbarbutton">
-                                <button className="nav-link" onClick={() => handleButtonClick("signature")}>
-                                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
-                                </button>
-                            </li>
                             <li className="nav-item navbarbutton deconnecter">
                                 <button className="nav-link" onClick={() => handleDisconnect()}>
                                     <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
                                     Se déconnecter
+                                </button>
+                            </li>
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => handleButtonClick("signature")}>
+                                    <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
                                 </button>
                             </li>
                         </ul>
@@ -148,6 +158,11 @@ const EmployerHomePage = () => {
                             signature !== null &&
                             <>
                                 <ul className="navbar-nav px-2">
+                                    <li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick("dashboard")}>
+                                            <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                                        </button>
+                                    </li>
                                     <li className="nav-item navbarbutton">
                                         <button className="nav-link" onClick={() => handleButtonClick("offre-page")}>
                                             <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '10px' }}/>Offres

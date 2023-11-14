@@ -99,6 +99,18 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/getCvByMatricule/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> getCvByMatricule(@PathVariable("matricule") String matricule) {
+        try {
+            CvDTO cvDTO = studentServices.getCvByMatricule(matricule);
+            return ResponseEntity.ok(cvDTO);
+        } catch (Exception ex) {
+            String errorMessage = "No cv found for student with matricule " + matricule + " has been completed.";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+        }
+    }
+
     @GetMapping("/student-contracts/{studentId}")
     public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
         try {

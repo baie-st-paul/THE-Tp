@@ -1,6 +1,7 @@
 package com.example.tpbackend.repository;
 import com.example.tpbackend.models.Candidature;
 import java.util.List;
+import java.util.Optional;
 
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.transaction.Transactional;
@@ -21,7 +22,12 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     @Query("UPDATE Candidature SET status = ?2 WHERE student.matricule = ?1")
     void updateCandidatureStatusByMatricule(String matricule, Candidature.Status status);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Candidature SET statusVuPasVuG = ?2 WHERE student.matricule = ?1")
+    void updateCandidatureStatusVuPasVuGByMatricule(String matricule, Candidature.StatusVuPasVu status);
+
     List<Candidature> findByStatus(Candidature.Status status);
 
-    Candidature findByStatusAndStudent(Candidature.Status statut, Student student);
+    Optional<Candidature> findByStatusAndStudent(Candidature.Status statut, Student student);
 }

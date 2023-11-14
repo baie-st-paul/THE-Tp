@@ -1,6 +1,7 @@
 package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
@@ -12,7 +13,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
@@ -112,19 +116,19 @@ public class GestionnaireControllerTest {
                 .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
     }
 
+
+
     @Test
     public void testGetCandidaturesAcceptees() throws Exception {
-        // Créez quelques objets DTO de test mockés
-        CandidatureDTODetailed dto1 = mock(CandidatureDTODetailed.class);
-        CandidatureDTODetailed dto2 = mock(CandidatureDTODetailed.class);
+        CandidatureDTODetailed dto1 = new CandidatureDTODetailed();
+        dto1.setId(1L);
+        dto1.setFileName("fileName1");
+        dto1.setStatus("accepted");
 
-        when(dto1.getId()).thenReturn(1L);
-        when(dto1.getFileName()).thenReturn("fileName1");
-        when(dto1.getStatus()).thenReturn("accepted");
-
-        when(dto2.getId()).thenReturn(2L);
-        when(dto2.getFileName()).thenReturn("fileName2");
-        when(dto2.getStatus()).thenReturn("accepted");
+        CandidatureDTODetailed dto2 = new CandidatureDTODetailed();
+        dto2.setId(2L);
+        dto2.setFileName("fileName2");
+        dto2.setStatus("accepted");
 
         List<CandidatureDTODetailed> mockedList = Arrays.asList(dto1, dto2);
 
@@ -134,13 +138,49 @@ public class GestionnaireControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()", is(2)))
-                .andExpect(jsonPath("$[0].id", is(dto1.getId().intValue())))
-                .andExpect(jsonPath("$[0].fileName", is(dto1.getFileName())))
-                .andExpect(jsonPath("$[0].status", is(dto1.getStatus())))
-                .andExpect(jsonPath("$[1].id", is(dto2.getId().intValue())))
-                .andExpect(jsonPath("$[1].fileName", is(dto2.getFileName())))
-                .andExpect(jsonPath("$[1].status", is(dto2.getStatus())));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].fileName", is("fileName1")))
+                .andExpect(jsonPath("$[0].status", is("accepted")))
+                .andExpect(jsonPath("$[1].id", is(2)))
+                .andExpect(jsonPath("$[1].fileName", is("fileName2")))
+                .andExpect(jsonPath("$[1].status", is("accepted")));
 
         verify(gestionnaireService, times(1)).getCandidaturesAcceptees();
+    }
+
+    @Test
+    @WithMockUser
+    public void getAllCvsTest() throws Exception {
+        CvDTO cv1 = new CvDTO();
+        cv1.setMatricule("1234");
+        cv1.setFileName("cv1.pdf");
+        cv1.setStatus("Accepted");
+        cv1.setStatusVuPasVuG("vu");
+        cv1.setStatusVuPasVuE("pasVu");
+        cv1.setStatusVuPasVuS("vu");
+
+        CvDTO cv2 = new CvDTO();
+        cv2.setMatricule("5678");
+        cv2.setFileName("cv2.pdf");
+        cv2.setStatus("In_review");
+        cv2.setStatusVuPasVuG("vu");
+        cv2.setStatusVuPasVuE("vu");
+        cv2.setStatusVuPasVuS("pasVu");
+
+        List<CvDTO> cvDTOList = Arrays.asList(cv1, cv2);
+
+        when(gestionnaireService.getAllCvs()).thenReturn(cvDTOList);
+
+        mockMvc.perform(get("http://localhost:8081/api/v1/gestionnaire/cvs"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].matricule").value("1234"))
+                .andExpect(jsonPath("$[0].statusVuPasVuG").value("vu"))
+                .andExpect(jsonPath("$[0].statusVuPasVuE").value("pasVu"))
+                .andExpect(jsonPath("$[0].statusVuPasVuS").value("vu"))
+                .andExpect(jsonPath("$[1].matricule").value("5678"))
+                .andExpect(jsonPath("$[1].statusVuPasVuG").value("vu"))
+                .andExpect(jsonPath("$[1].statusVuPasVuE").value("vu"))
+                .andExpect(jsonPath("$[1].statusVuPasVuS").value("pasVu"));
     }
 }

@@ -17,8 +17,4 @@ public interface SignatureStudentRepository extends JpaRepository<SignatureStude
     @Query("UPDATE SignatureStudent SET imageLink = ?2 WHERE student.matricule = ?1")
     void updateSignatureStudentByStudent_Matricule(String matricule, String imageLink);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM SignatureStudent s WHERE s.student.matricule = ?1")
-    void deleteSignatureStudentByStudentMatricule(String matricule);
 }

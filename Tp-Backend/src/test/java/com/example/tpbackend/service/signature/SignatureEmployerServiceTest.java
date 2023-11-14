@@ -135,11 +135,4 @@ class SignatureEmployerServiceTest {
         verify(signatureDTO).getEmployerId();
     }
 
-    @Test
-    public void testDeleteEmployerSignature() {
-        doNothing().when(signatureEmployerRepository).deleteSignatureEmployerByEmployer_Id(anyLong());
-        signatureEmployerService.deleteSignatureByEmployerId(1L);
-        verify(signatureEmployerRepository).deleteSignatureEmployerByEmployer_Id(anyLong());
-        assertNull(signatureEmployerRepository.findSignatureEmployerByEmployer_Id(1L));
-    }
 }

@@ -36,6 +36,15 @@ public class OffreStage {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuG;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuE;
+
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuS;
+
     @ManyToOne
     @JoinColumn(name = "employer_id")
     private Employer employer;
@@ -53,7 +62,8 @@ public class OffreStage {
 
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
-                      LocalDate dateFin, int nbMaxEtudiant, String status) {
+                      LocalDate dateFin, int nbMaxEtudiant, String status,
+                      String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) {
         this.id = id;
         this.titre = titre;
         this.salaire = salaire;
@@ -63,6 +73,9 @@ public class OffreStage {
         this.dateFin = dateFin;
         this.nbMaxEtudiants = nbMaxEtudiant;
         this.status = Status.valueOf(status);
+        this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
+        this.statusVuPasVuE = StatusVuPasVu.valueOf(statusVuPasVuE);
+        this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
     }
 
     public OffreStageDTO toOffreStageDTO() {
@@ -76,6 +89,9 @@ public class OffreStage {
                 dateFin,
                 nbMaxEtudiants,
                 String.valueOf(status),
+                String.valueOf(statusVuPasVuG),
+                String.valueOf(statusVuPasVuE),
+                String.valueOf(statusVuPasVuS),
                 employer.getId(),
                 tagName
         );
@@ -92,6 +108,11 @@ public class OffreStage {
     public enum Status{
         Accepted,
         In_review,
-        Refused,
+        Refused
+    }
+
+    public enum StatusVuPasVu {
+        vu,
+        pasVu
     }
 }

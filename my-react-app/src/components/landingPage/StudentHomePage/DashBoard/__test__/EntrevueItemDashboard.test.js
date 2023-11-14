@@ -5,30 +5,28 @@ import {format} from "date-fns";
 
 describe('EntrevueItemDashboard Component', () => {
     it('renders the component with the provided enterprise name', () => {
-        const nomEntreprise = 'Company XYZ';
         const entrevue = {
-            entreprise: 'Company XYZ',
+            companyName: 'Company XYZ',
             dateHeure: '2023-10-15T14:00:00',
             description: 'Description 1',
         };
 
         const { getByText } = render(
-            <EntrevueItemDashboard nomEntreprise={nomEntreprise} entrevue={entrevue} />
+            <EntrevueItemDashboard nomEntreprise={entrevue.companyName} entrevue={entrevue} />
         );
 
-        expect(getByText(nomEntreprise, { exact: false })).toBeInTheDocument();
+        expect(getByText(entrevue.companyName, { exact: false })).toBeInTheDocument();
     });
 
     it('opens and closes the modal when "Voir entrevue" button is clicked', async () => {
-        const nomEntreprise = 'Company XYZ';
         const entrevue = {
-            entreprise: 'Company XYZ',
+            companyName: 'Company XYZ',
             dateHeure: '2023-10-15T14:00:00',
             description: 'Description 1',
         };
 
         render(
-            <EntrevueItemDashboard nomEntreprise={nomEntreprise} entrevue={entrevue} />
+            <EntrevueItemDashboard nomEntreprise={entrevue.companyName} entrevue={entrevue} />
         );
 
         const initialModal = screen.queryByTestId('modal');
@@ -50,15 +48,14 @@ describe('EntrevueItemDashboard Component', () => {
     });
 
     it('displays interview details in the modal', async () => {
-        const nomEntreprise = 'Company XYZS';
         const entrevue = {
-            entreprise: 'Company XYZS',
+            companyName: 'Company XYZS',
             dateHeure: '2023-10-15T14:00:00',
             description: 'Description 1',
         };
 
         render(
-            <EntrevueItemDashboard nomEntreprise={nomEntreprise} entrevue={entrevue} />
+            <EntrevueItemDashboard nomEntreprise={entrevue.companyName} entrevue={entrevue} />
         );
 
         const voirEntrevueButton = screen.getByText('Voir entrevue');
@@ -66,22 +63,21 @@ describe('EntrevueItemDashboard Component', () => {
 
         const modal = await screen.queryByTestId('modal');
 
-        expect(screen.getByText(entrevue.entreprise, { container: modal })).toBeInTheDocument();
+        expect(screen.getAllByText(entrevue.companyName, { container: modal }).length).toBe(2);
         expect(screen.getByText(entrevue.description, { container: modal })).toBeInTheDocument();
         expect(screen.getByText(format(new Date(entrevue.dateHeure), "dd-MM-yyyy HH:mm"), { container: modal })).toBeInTheDocument();
     });
 
     it('closes the modal when "x" button is clicked', () => {
-        const nomEntreprise = 'Company XYZ';
         const entrevue = {
-            entreprise: 'Company XYZ',
+            companyName: 'Company XYZ',
             dateHeure: '2023-10-15T14:00:00',
             description: 'Description 1',
         };
         const closeModalMock = jest.fn();
 
         const { getByText } = render(
-            <EntrevueItemDashboard nomEntreprise={nomEntreprise} entrevue={entrevue} closeModal={closeModalMock} />
+            <EntrevueItemDashboard nomEntreprise={entrevue.companyName} entrevue={entrevue} closeModal={closeModalMock} />
         );
 
         const voirEntrevueButton = getByText('Voir entrevue');

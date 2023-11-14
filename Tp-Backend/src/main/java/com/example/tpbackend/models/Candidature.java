@@ -39,8 +39,6 @@ public class Candidature {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuG;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
 
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuS;
@@ -50,7 +48,7 @@ public class Candidature {
 
     public Candidature(byte[] lettre_motivation, Student student,
                        OffreStage offreStage, Cv cvStudent,String fileName, Status status,
-                       StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuE, StatusVuPasVu statusVuPasVuS) {
+                       StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuS) {
         this.lettre_motivation = lettre_motivation;
         this.student = student;
         this.offreStage = offreStage;
@@ -58,7 +56,6 @@ public class Candidature {
         this.fileName = fileName;
         this.status = status;
         this.statusVuPasVuG = statusVuPasVuG;
-        this.statusVuPasVuE = statusVuPasVuE;
         this.statusVuPasVuS = statusVuPasVuS;
     }
 

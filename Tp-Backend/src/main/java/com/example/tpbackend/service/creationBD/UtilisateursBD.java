@@ -220,7 +220,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 createFile(fileName),
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS
         );
         studentServices.saveCv(cvDTO);
@@ -314,7 +313,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "EnAttente",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "1234567",
@@ -323,7 +321,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-20, 11:00",
                 "rendez-vous sur teams",
                 "EnAttente",
-                "pasVu",
                 "pasVu",
                 "pasVu",
                 "ALaurendeau",
@@ -336,7 +333,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "EnAttente",
                 "pasVu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "8675848",
@@ -345,7 +341,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-25, 9:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
-                "pasVu",
                 "pasVu",
                 "pasVu",
                 "ALaurendeau",
@@ -358,7 +353,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Acceptee",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "4959695",
@@ -369,7 +363,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Refusee",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "7654321",
@@ -377,7 +370,7 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,
-                               String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS,
+                               String statusVuPasVuG, String statusVuPasVuS,
                                String companyName, String idEmp, String idStudent, String idOffre) {
         EntrevueDTO entrevueDTO = new EntrevueDTO(
                 id,
@@ -385,7 +378,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 description,
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS,
                 companyName,
                 idEmp,
@@ -476,7 +468,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 nbMaxStudent,
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS,
                 idEmp,
                 new Tag(tag).getTagName()

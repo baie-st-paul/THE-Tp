@@ -100,7 +100,6 @@ public class StudentServices {
                 student,offreStage.get(),cv,candidaturePostDTO.getFileName(),
                 Candidature.Status.valueOf("In_review"),
                 Candidature.StatusVuPasVu.valueOf("pasVu"),
-                Candidature.StatusVuPasVu.valueOf("pasVu"),
                 Candidature.StatusVuPasVu.valueOf("pasVu"));
         if (tagRepository.existsByTagName(getTag().getTagName())) {
             candidature.setTagName(getTag().getTagName());

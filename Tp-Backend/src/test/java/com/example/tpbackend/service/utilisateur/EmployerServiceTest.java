@@ -122,10 +122,10 @@ class EmployerServiceTest {
         assertEquals(2, result.size());
         assertEquals("matricule1", result.get(0).getStudentId());
         assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals("Company Name", result.get(0).getNomDeCompany());
+        assertEquals("Company Name", result.get(0).getNomDeCompanie());
         assertEquals("matricule1", result.get(1).getStudentId());
         assertEquals(employeurId, result.get(1).getEmployerId());
-        assertEquals("Company Name", result.get(1).getNomDeCompany());
+        assertEquals("Company Name", result.get(1).getNomDeCompanie());
     }
 
 

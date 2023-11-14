@@ -1,5 +1,4 @@
 package com.example.tpbackend.DTO;
-
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +12,9 @@ public class ContratStageDTO {
     private String studentId;
     private Long employerId;
     private String nomEtudiant;
-    private String nomDeCompany;
+    private String nomDeCompanie;
+
+    private String nomDePoste;
     private String prenomEtudiant;
     private String statutEtudiant;
     private String statutEmployeur;
@@ -22,9 +23,7 @@ public class ContratStageDTO {
     private String statusVuPasVuE;
     private String statusVuPasVuS;
 
-
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
-
         if (contratStage == null) {
             return null;
         }
@@ -39,21 +38,19 @@ public class ContratStageDTO {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
 
-        dto.setId(contratStage.getId());
-
-        dto.setStatutEtudiant(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatutEmployeur(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatutGestionnaire(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatusVuPasVuG()));
-        dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatusVuPasVuE()));
-        dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatusVuPasVuS()));
-
+        dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
+        dto.setNomDeCompanie(contratStage.getEmployeur().getCompanyName());
+        dto.setStatutEmployeur(contratStage.getStatutEmployeur().toString());
+        dto.setStatutGestionnaire(contratStage.getStatutGestionnaire().toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
+        dto.setNomDePoste(contratStage.getNomDePoste());
+        dto.setId(contratStage.getId());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
-        dto.setNomDeCompany(contratStage.getNomDePoste());
+        dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatutVuPasVuG()));
+        dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatutVuPasVuE()));
+        dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));
         return dto;
     }
-
     public ContratStage toContratStage() {
         ContratStage contratStage = new ContratStage();
 

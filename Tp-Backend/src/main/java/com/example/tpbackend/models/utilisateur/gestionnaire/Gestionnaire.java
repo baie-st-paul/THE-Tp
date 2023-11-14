@@ -1,5 +1,7 @@
 package com.example.tpbackend.models.utilisateur.gestionnaire;
 
+import com.example.tpbackend.DTO.signature.SignatureGestionnaireDTO;
+import com.example.tpbackend.models.signature.SignatureGestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,6 +18,10 @@ public class Gestionnaire {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private Utilisateur utilisateur;
+
+    @OneToOne
+    @JoinColumn(name = "signature_id")
+    private SignatureGestionnaire signature;
 
     public Gestionnaire(String matricule) {
         this.matricule = matricule;

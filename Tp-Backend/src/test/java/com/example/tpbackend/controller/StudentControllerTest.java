@@ -1,6 +1,10 @@
 package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.service.security.JwtService;
+import com.example.tpbackend.service.utilisateur.StudentServices;
+import com.example.tpbackend.service.utilisateur.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.tpbackend.controllers.utilisateur.StudentController;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -33,8 +37,10 @@ public class StudentControllerTest {
     @MockBean
     private JwtService jwtService;
 
+
     @MockBean
-    private UserService userService;
+    UserService userService;
+
 
     @Test
     @WithMockUser(username="admin", roles={"USER","ADMIN"})
@@ -73,7 +79,7 @@ public class StudentControllerTest {
         dto.setId(id);
         dto.setStudentId(studentId);
         dto.setNomEtudiant(studentName);
-        dto.setNomDeCompany(poste);
+        dto.setNomDeCompanie(poste);
         return dto;
     }
 }

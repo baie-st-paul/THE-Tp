@@ -90,10 +90,10 @@ public class StudentServiceTestCustom {
         assertEquals(contract1.getId(), result.get(0).getId());
         assertEquals(studentId, result.get(0).getStudentId());
         assertEquals(employerId, result.get(0).getEmployerId());
-        assertEquals(contract1.getNomDePoste(), result.get(0).getNomDeCompany());
+        assertEquals(contract1.getNomDePoste(), result.get(0).getNomDeCompanie());
         assertEquals(contract2.getId(), result.get(1).getId());
         assertEquals(studentId, result.get(1).getStudentId());
         assertEquals(employerId, result.get(1).getEmployerId());
-        assertEquals(contract2.getNomDePoste(), result.get(1).getNomDeCompany());
+        assertEquals(contract2.getNomDePoste(), result.get(1).getNomDeCompanie());
     }
 }

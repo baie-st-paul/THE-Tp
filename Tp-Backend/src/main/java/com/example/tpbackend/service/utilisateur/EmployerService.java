@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,4 +87,12 @@ public class EmployerService {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
         return contrats.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
    }
+    @Transactional
+    public void signContract(ContratStageDTO contractDTO) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        ContratStage contract = optionalContract.get();
+        contract.setStatutEmployeur(ContratStage.Statut.Signer);
+        contratStageRepository.save(contract);
+    }
 }

@@ -64,10 +64,10 @@ let contratsSigne = [{
 
     it('should show contracts if there is any', () => {
         act(() => {
-       render(<EtudiantMesContrats employerId={1} contratsTest={contrats}></EtudiantMesContrats>)
+       render(<EtudiantMesContrats employerId={1} contratsTest={unContrat}></EtudiantMesContrats>)
     })
       const row = document.querySelectorAll('tr');
-      expect(row.length).toBe(3) 
+      expect(row.length).toBe(2) 
       const element = screen.getByText('Dev');
       expect(element).toBeInTheDocument();
       

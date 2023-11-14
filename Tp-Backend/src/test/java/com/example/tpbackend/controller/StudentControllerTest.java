@@ -79,7 +79,7 @@ public class StudentControllerTest {
         dto.setId(id);
         dto.setStudentId(studentId);
         dto.setNomEtudiant(studentName);
-        dto.setNomDeCompany(poste);
+        dto.setNomDeCompanie(poste);
         return dto;
     }
 }

@@ -47,6 +47,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
             console.log(contrats)
         }
     }
+    
 
     return (
         <div className="container w-100">

@@ -144,7 +144,7 @@ public class UtilisateursBD implements CommandLineRunner {
 
         updateTagCreateStudent("7654321", "Informatique",
                 "toto", "tata", "toto@gmail.com",
-                "+15143748594", "Root!123", "Student", "AU20");
+                "+15143748594", "Root!123", "Student", "H23");
 
         updateTagCreateStudent("0123456", "Informatique",
                 "soso", "sasa", "soso@gmail.com",

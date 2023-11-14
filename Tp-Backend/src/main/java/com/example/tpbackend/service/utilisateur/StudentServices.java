@@ -171,7 +171,7 @@ public class StudentServices {
         if(optionalContract.isEmpty()) throw new Exception("Contract not found");
         ContratStage contract = optionalContract.get();
         //Student student = studentRepository.findByMatricule(contractDTO.getStudentId());
-        contract.setStatutEtudiant(ContratStage.Statut.Signer);
+        //contract.setStatutEtudiant(ContratStage.Statut.Signer);
         contratStageRepository.save(contract);
     }
 

@@ -466,10 +466,16 @@ public class GestionnaireServiceTest {
         mockContrat.setStudent(mockStudent);
         mockContrat.setEmployeur(mockEmployer);
         mockContrat.setId(3L);
+        mockContrat.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        mockContrat.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        mockContrat.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
 
         ContratStageDTO contratDTO = ContratStageDTO.fromContratStage(mockContrat);
         contratDTO.setStudentId("9");
         contratDTO.setEmployerId(1L);
+        contratDTO.setStatutGestionnaire("Pas_Signer");
+        contratDTO.setStatutEtudiant("Pas_Signer");
+        contratDTO.setStatutEmployeur("Pas_Signer");
         contratDTO.setStatusVuPasVuG("pasVu");
         contratDTO.setStatusVuPasVuE("pasVu");
         contratDTO.setStatusVuPasVuS("pasVu");

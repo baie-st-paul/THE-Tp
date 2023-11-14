@@ -220,8 +220,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 createFile(fileName),
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
-                statusVuPasVuS
+                statusVuPasVuE
         );
         studentServices.saveCv(cvDTO);
         return ResponseEntity

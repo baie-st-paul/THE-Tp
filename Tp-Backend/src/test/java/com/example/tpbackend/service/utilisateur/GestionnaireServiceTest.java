@@ -243,7 +243,6 @@ public class GestionnaireServiceTest {
         cv.setStatus(Cv.Status.Accepted);
         cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
         cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
-        cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         ArrayList<Cv> cvList = new ArrayList<>();
         cvList.add(cv);
@@ -256,7 +255,6 @@ public class GestionnaireServiceTest {
         assertEquals("Accepted", getResult.getStatus());
         assertEquals("pasVu", getResult.getStatusVuPasVuG());
         assertEquals("pasVu", getResult.getStatusVuPasVuE());
-        assertEquals("pasVu", getResult.getStatusVuPasVuS());
         assertEquals("Matricule", getResult.getMatricule());
         MultipartFile file_cv = getResult.getFile_cv();
         assertTrue(file_cv instanceof ByteArrayMultipartFile);
@@ -568,9 +566,9 @@ public class GestionnaireServiceTest {
         Cv mockCv = mock(Cv.class);
 
         Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf",
-                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
         Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf",
-                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
 
         List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
 

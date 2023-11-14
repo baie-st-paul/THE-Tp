@@ -77,7 +77,6 @@ public class EmployerControllerTest {
                 "status",
                 "pasVu",
                 "pasVu",
-                "pasVu",
                 new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
 

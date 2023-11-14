@@ -3,6 +3,8 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Entrevue;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
@@ -18,7 +20,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 public class StudentServiceTestCustom {
@@ -30,6 +33,7 @@ public class StudentServiceTestCustom {
     private UtilisateurRepository utilisateurRepository;
     private UserService userService;
     private TagRepository tagRepository;
+
 
     private StudentServices studentServices;
 

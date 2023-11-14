@@ -23,7 +23,6 @@ public class CvDTO {
     private String status;
     private String statusVuPasVuG;
     private String statusVuPasVuE;
-    private String statusVuPasVuS;
 
     public Cv toCv() throws IOException {
         return new Cv(
@@ -32,8 +31,7 @@ public class CvDTO {
                 convertMultipartFileToByteArray(file_cv),
                 status,
                 Cv.StatusVuPasVu.valueOf(statusVuPasVuG),
-                Cv.StatusVuPasVu.valueOf(statusVuPasVuE),
-                Cv.StatusVuPasVu.valueOf(statusVuPasVuS)
+                Cv.StatusVuPasVu.valueOf(statusVuPasVuE)
         );
     }
 

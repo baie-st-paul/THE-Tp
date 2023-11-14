@@ -42,16 +42,13 @@ public class Candidature {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuE;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuS;
-
     @Column(name = "tag_name")
     private String tagName;
 
 
     public Candidature(byte[] lettre_motivation, Student student,
                        OffreStage offreStage, Cv cvStudent,String fileName, Status status,
-                       StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuE, StatusVuPasVu statusVuPasVuS) {
+                       StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuE) {
         this.lettre_motivation = lettre_motivation;
         this.student = student;
         this.offreStage = offreStage;
@@ -60,7 +57,6 @@ public class Candidature {
         this.status = status;
         this.statusVuPasVuG = statusVuPasVuG;
         this.statusVuPasVuE = statusVuPasVuE;
-        this.statusVuPasVuS = statusVuPasVuS;
     }
 
     public byte[] getLettreMotivation() {

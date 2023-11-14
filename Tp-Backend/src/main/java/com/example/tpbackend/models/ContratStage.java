@@ -2,13 +2,16 @@ package com.example.tpbackend.models;
 import com.example.tpbackend.models.signature.SignatureGestionnaire;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Data
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContratStage {

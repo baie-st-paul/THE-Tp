@@ -114,6 +114,7 @@ public class StudentServices {
     @Transactional
     public List<CandidatureGetDTO> getMesCandidaturesByMatricule(String matricule) {
         List<Candidature> candidatureList = candidatureRepository.getAllCandidaturesByMatricule(matricule);
+        //System.out.println(candidatureList);
         List<CandidatureGetDTO> candidatureGetDTOList = new ArrayList<>();
 
         for (Candidature candidature : candidatureList) {
@@ -161,8 +162,18 @@ public class StudentServices {
         studentRepository.updateTagNameByMatricule(matricule,TagGenerator.getCurrentSession());
     }
 
-    public void updateTag(String matricule,String tag){
+    public void updateTag(String matricule, String tag){
         studentRepository.updateTagNameByMatricule(matricule,tag);
+    }
+
+    @Transactional
+    public void signContract(ContratStageDTO contractDTO) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        ContratStage contract = optionalContract.get();
+        //Student student = studentRepository.findByMatricule(contractDTO.getStudentId());
+        //contract.setStatutEtudiant(ContratStage.Statut.Signer);
+        contratStageRepository.save(contract);
     }
 
     @Transactional

@@ -23,7 +23,6 @@ public class ContratStageDTO {
     private String statusVuPasVuS;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
-
         if (contratStage == null) {
             return null;
         }
@@ -38,18 +37,16 @@ public class ContratStageDTO {
             dto.setEmployerId(contratStage.getEmployeur().getId());
         }
 
-        dto.setId(contratStage.getId());
-
-        dto.setStatutEtudiant(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatutEmployeur(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatutGestionnaire(ContratStage.Status.Pas_Signer.toString());
-        dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatusVuPasVuG()));
-        dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatusVuPasVuE()));
-        dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatusVuPasVuS()));
-
+        //dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
+        //dto.setNomDeCompagnie(contratStage.getEmployeur().getCompanyName());
+        //dto.setStatutEmployeur(contratStage.getStatutEmployeur().toString());
+        //dto.setStatutGestionnaire(contratStage.getStatutGestionnaire().toString());
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
         dto.setNomDeCompany(contratStage.getNomDePoste());
+        dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatusVuPasVuG()));
+        dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatusVuPasVuE()));
+        dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatusVuPasVuS()));
         return dto;
     }
 

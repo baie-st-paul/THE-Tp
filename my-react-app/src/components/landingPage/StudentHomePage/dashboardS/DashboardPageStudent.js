@@ -30,9 +30,9 @@ const DashboardPageStudent = () => {
             <h1 className="display-4 text-center"
                 style={{marginBottom: "20px"}}>Tableau de bord</h1>
             <Grid container spacing={2}>
-                <CardPageOffresS/>
-                <CardPageEntrevuesS/>
-                <CardPageContratsS/>
+                <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId}/>
+                <CardPageEntrevuesS entrevues={entrevues}/>
+                <CardPageContratsS contrats={contrats}/>
             </Grid>
         </div>
     )

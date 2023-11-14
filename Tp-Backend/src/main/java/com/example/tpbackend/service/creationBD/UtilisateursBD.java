@@ -500,10 +500,10 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 10),
                 LocalDate.of(2023, 11, 23),
                 10,
-                "Refused",
+                "Accepted",
                 "pasVu",
-                "pasVu",
-                "pasVu",
+                "vu",
+                "vu",
                 1,
                 "AU23");
 
@@ -521,7 +521,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 10,
                 "Accepted",
                 "vu",
-                "pasVu",
+                "vu",
                 "pasVu",
                 1,
                 "H23");
@@ -542,7 +542,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 8,
                 "In_review",
                 "vu",
-                "pasVu",
+                "vu",
                 "pasVu",
                 1,
                 "AU23");
@@ -560,7 +560,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 15,
                 "In_review",
                 "pasVu",
-                "pasVu",
+                "vu",
                 "pasVu",
                 1,
                 "AU23");

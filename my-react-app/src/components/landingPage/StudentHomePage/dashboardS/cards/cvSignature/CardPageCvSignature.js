@@ -14,7 +14,9 @@ const CardPageCvSignature = ({signature, cv}) => {
                     {cv === null && signature === null ?
                         <div>Ajouter un cv et une signature !</div> :
                         signature === null && cv !== null && cv.status === "Accepted" ?
-                            <div>Ajouter une signature, le cv a été accepté</div>
+                            <div>Ajouter une signature, le cv a été accepté</div> :
+                            signature !== null && cv === null ?
+                                <div>La signature a bien été ajoutée, ajouter un cv !</div>
                         : signature !== null && cv !== null && cv.status === "In_review" ?
                             <div>Le cv n'a pas encore été accepté,
                                 la signature a bien été ajoutée</div> :

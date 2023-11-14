@@ -63,9 +63,10 @@ const fetchCandidatures = async (token, candidaturesOffreId, setCandidaturesOffr
                 } catch (e) {
                     console.log(e)
                 }
+                console.log("candidatures", data)
                 data.map(
                     (candidature) => {
-                        console.log("candidatures", candidature.offreStageDTO.id)
+                        console.log("offre id candidature", candidature.offreStageDTO.id)
                     }
                 )
                 setCandidaturesOffreId(data.map(
@@ -140,7 +141,7 @@ const fetchContrats = async (token, contrats, setContrats) => {
                     if (res.ok) {
                         const data = await res.json();
                         setContrats(data)
-                        console.log(data)
+                        console.log("contrats",data)
                     } else {
                         const data = await res.json();
                         console.log('Erreur', res.status, data);

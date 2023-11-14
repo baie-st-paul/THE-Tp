@@ -14,7 +14,6 @@ import {
     faPortrait
 } from '@fortawesome/free-solid-svg-icons';
 import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
-import Dashboard from "./DashBoard/Dashboard";
 import OffreCandidaturePage from "./candidature/OffreCandidaturePage";
 import { useNavigate } from "react-router-dom";
 import CreateStudentSignature from "./signature/CreateStudentSignature";
@@ -185,9 +184,6 @@ const StudentHomePage = () => {
         case "offre-page-candidature":
             contentToRender = <OffreCandidaturePage/>
             break;
-        case "dashboard":
-            contentToRender = <Dashboard entrevuesTest={[]}/>
-            break;
         case "signature":
             contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
             break;
@@ -245,11 +241,6 @@ const StudentHomePage = () => {
                                                                 </button>
                                                             </li>
                                                             <li className="nav-item navbarbutton px-1">
-                                                                <button className="nav-link" onClick={() => handleButtonClick('dashboard')}>
-                                                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '2px' }}/> Dashboard
-                                                                </button>
-                                                            </li>
-                                                            <li className="nav-item navbarbutton px-1">
                                                                 <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
                                                                     <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
                                                                 </button>
@@ -261,7 +252,7 @@ const StudentHomePage = () => {
                                                             </li>
                                                             <li className="nav-item navbarbutton px-1">
                                                                 <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
-                                                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Section Entrevue
+                                                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Mes Entrevues
                                                                 </button>
                                                             </li>
                                                             <li className="nav-item navbarbutton px-1">

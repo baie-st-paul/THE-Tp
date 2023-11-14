@@ -28,22 +28,22 @@ public class ContratStage {
     private Employer employeur;
 
     @Enumerated(EnumType.STRING)
-    private Status statusEtudiant;
+    private Statut statutEtudiant;
 
     @Enumerated(EnumType.STRING)
-    private Status statusEmployeur;
+    private Statut statutEmployeur;
 
     @Enumerated(EnumType.STRING)
-    private Status statusGestionnaire;
+    private Statut statutGestionnaire;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuG;
+    private StatusVuPasVu statutVuPasVuG;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
+    private StatusVuPasVu statutVuPasVuE;
 
     @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuS;
+    private StatusVuPasVu statutVuPasVuS;
 
     @OneToOne
     @JoinColumn(name = "signature_id")
@@ -51,11 +51,10 @@ public class ContratStage {
 
     private String nomDePoste;
 
-    public enum Status {
+    public enum Statut {
         Signer,
         Pas_Signer
     }
-
     public enum StatusVuPasVu {
         vu,
         pasVu

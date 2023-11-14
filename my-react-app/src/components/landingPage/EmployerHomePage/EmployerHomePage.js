@@ -67,7 +67,6 @@ const EmployerHomePage = () => {
 
         offre["status"] = "In_review"
         offre["statusVuPasVuG"] = "pasVu"
-        offre["statusVuPasVuE"] = "pasVu"
         offre["statusVuPasVuS"] = "pasVu"
         offre["employerId"] = employerId
         console.log(JSON.stringify(offre))

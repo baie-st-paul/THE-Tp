@@ -24,7 +24,7 @@ public class CvDTOSerializer extends JsonSerializer<CvDTO> {
 
         jsonGenerator.writeStringField("status", cvDTO.getStatus());
         jsonGenerator.writeStringField("statusVuPasVuG", cvDTO.getStatusVuPasVuG());
-        jsonGenerator.writeStringField("statusVuPasVuE", cvDTO.getStatusVuPasVuE());
+        jsonGenerator.writeStringField("statusVuPasVuS", cvDTO.getStatusVuPasVuS());
 
         jsonGenerator.writeEndObject();
     }
@@ -40,4 +40,3 @@ public class CvDTOSerializer extends JsonSerializer<CvDTO> {
         return new String(base64Bytes);
     }
 }
-

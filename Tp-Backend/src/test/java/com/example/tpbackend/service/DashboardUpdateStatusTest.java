@@ -45,7 +45,6 @@ class DashboardUpdateStatusTest
         cv.setId(1L);
         cv.setMatricule("2222222");
         cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
-        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
         cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
         cv.setFileName("asbascv.pdf");
 
@@ -62,7 +61,6 @@ class DashboardUpdateStatusTest
         offre.setTitre("offer");
         offre.setId(1L);
         offre.setStatus(OffreStage.Status.In_review);
-        offre.setStatusVuPasVuE(OffreStage.StatusVuPasVu.pasVu);
         offre.setStatusVuPasVuG(OffreStage.StatusVuPasVu.pasVu);
         offre.setStatusVuPasVuS(OffreStage.StatusVuPasVu.pasVu);
 
@@ -77,7 +75,6 @@ class DashboardUpdateStatusTest
         Entrevue entrevue = new Entrevue();
         entrevue.setId(1L);
         entrevue.setStatus(Entrevue.Status.EnAttente);
-        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.pasVu);
         entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.pasVu);
         entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.pasVu);
 
@@ -92,7 +89,6 @@ class DashboardUpdateStatusTest
         Candidature candidature = new Candidature();
         candidature.setStatus(Candidature.Status.In_review);
         candidature.setId(1L);
-        candidature.setStatusVuPasVuE(Candidature.StatusVuPasVu.pasVu);
         candidature.setStatusVuPasVuG(Candidature.StatusVuPasVu.pasVu);
         candidature.setStatusVuPasVuS(Candidature.StatusVuPasVu.pasVu);
 
@@ -106,9 +102,9 @@ class DashboardUpdateStatusTest
     void updateStatusContratSetViewedByGestionnaire(){
         ContratStage contratStage = new ContratStage();
         contratStage.setId(1L);
-        contratStage.setStatusVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatusVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatusVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatutVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatutVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatutVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
 
         doNothing().when(contratStageRepository).updateStatusVuPasVuGByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
         dashboardUpdateStatus.updateStatusContratVuG("2222222", ContratStage.StatusVuPasVu.vu);

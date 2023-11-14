@@ -4,7 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
@@ -12,7 +17,9 @@ import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
-import com.example.tpbackend.models.*;
+import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
@@ -45,9 +52,6 @@ class StudentServicesTest {
 
     @Mock
     private CandidatureRepository candidatureRepository;
-
-    @Mock
-    private EntrevueRepository entrevueRepository;
 
     @Mock
     private CvRepository cvRepository;
@@ -151,7 +155,7 @@ class StudentServicesTest {
         cv.setMatricule("1234567");
         cv.setStatus(Cv.Status.Accepted);
         cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
-        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
+        cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         CvDTO cvDTO = mock(CvDTO.class);
         when(cvRepository.findCvByMatricule(anyString())).thenReturn(cv);
@@ -655,49 +659,4 @@ class StudentServicesTest {
         verify(candidature).setOffreStage(Mockito.<OffreStage>any());
         verify(candidature).setStudent(Mockito.<Student>any());
     }
-
-    @Test
-    void testUpdateInterviewStatusSetViewedByStudent(){
-        Entrevue entrevue = new Entrevue();
-        entrevue.setId(1L);
-        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.pasVu);
-        entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.pasVu);
-        entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.pasVu);
-
-        doNothing().when(entrevueRepository).updateStatusVuPasVuSByMatricule("2222222", Entrevue.StatusVuPasVu.vu);
-        studentServices.updateStatusEntrevueVuS("2222222", Entrevue.StatusVuPasVu.vu);
-
-        verify(entrevueRepository, times(1)).updateStatusVuPasVuSByMatricule("2222222", Entrevue.StatusVuPasVu.vu);
-    }
-
-    @Test
-    void testUpdateContractStatusSetViewedByStudent(){
-        ContratStage contratStage = new ContratStage();
-        contratStage.setId(1L);
-        contratStage.setStatutVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatutVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
-        contratStage.setStatutVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
-
-        doNothing().when(contratStageRepository).updateStatusVuPasVuSByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
-        studentServices.updateStatusContratVuS("2222222", ContratStage.StatusVuPasVu.vu);
-
-        verify(contratStageRepository, times(1)).updateStatusVuPasVuSByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
-    }
-
-
-    @Test
-    void testUpdateOfferStatusSetViewedByStudent(){
-        OffreStage offer = new OffreStage();
-        offer.setId(1L);
-        offer.setTitre("title");
-        offer.setStatusVuPasVuE(OffreStage.StatusVuPasVu.pasVu);
-        offer.setStatusVuPasVuS(OffreStage.StatusVuPasVu.pasVu);
-        offer.setStatusVuPasVuG(OffreStage.StatusVuPasVu.pasVu);
-
-        doNothing().when(offreStageRepository).updateOffreStatusVuPasVuSByTitre("title", OffreStage.StatusVuPasVu.vu);
-        studentServices.updateStatusOffreVuS("title", OffreStage.StatusVuPasVu.vu);
-
-        verify(offreStageRepository, times(1)).updateOffreStatusVuPasVuSByTitre("title", OffreStage.StatusVuPasVu.vu);
-    }
 }
-

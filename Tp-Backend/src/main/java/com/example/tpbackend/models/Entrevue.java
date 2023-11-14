@@ -40,8 +40,6 @@ public class Entrevue {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuG;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
 
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuS;
@@ -54,7 +52,6 @@ public class Entrevue {
                 description,
                 String.valueOf(status),
                 String.valueOf(statusVuPasVuG),
-                String.valueOf(statusVuPasVuE),
                 String.valueOf(statusVuPasVuS),
                 employer.getCompanyName(),
                 employer.getId() + "",

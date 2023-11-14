@@ -40,7 +40,7 @@ function FileUploader({matricule}) {
             };
 
             fetch(
-                `http://localhost:8081/api/v1/student/saveCV?matricule=${matricule}&fileName=${fileName}&status=In_review&statusVuPasVuG=pasVu&statusVuPasVuE=pasVu&statusVuPasVuS=pasVu`,
+                `http://localhost:8081/api/v1/student/saveCV?matricule=${matricule}&fileName=${fileName}&status=In_review&statusVuPasVuG=pasVu&statusVuPasVuS=pasVu`,
                 requestOptions
             )
                 .then(() => {

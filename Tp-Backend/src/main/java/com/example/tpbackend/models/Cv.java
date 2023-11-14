@@ -31,18 +31,18 @@ public class Cv {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuG;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
 
+    @Enumerated(EnumType.STRING)
+    private StatusVuPasVu statusVuPasVuS;
 
     public Cv(String matricule, String fileName, byte[] file_cv, String status,
-              StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuE) {
+              StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuS) {
         this.matricule = matricule;
         this.fileName = fileName;
         this.file_cv = file_cv;
         this.status = Status.valueOf(status);
         this.statusVuPasVuG = statusVuPasVuG;
-        this.statusVuPasVuE = statusVuPasVuE;
+        this.statusVuPasVuS = statusVuPasVuS;
     }
 
     public CvDTO toCvDTO() {
@@ -57,7 +57,7 @@ public class Cv {
                 multipartFile,
                 String.valueOf(status),
                 String.valueOf(statusVuPasVuG),
-                String.valueOf(statusVuPasVuE)
+                String.valueOf(statusVuPasVuS)
         );
     }
 
@@ -73,4 +73,3 @@ public class Cv {
         pasVu
     }
 }
-

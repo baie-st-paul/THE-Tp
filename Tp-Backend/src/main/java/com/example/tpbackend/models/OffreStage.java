@@ -39,8 +39,6 @@ public class OffreStage {
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuG;
 
-    @Enumerated(EnumType.STRING)
-    private StatusVuPasVu statusVuPasVuE;
 
     @Enumerated(EnumType.STRING)
     private StatusVuPasVu statusVuPasVuS;
@@ -63,7 +61,7 @@ public class OffreStage {
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
                       LocalDate dateFin, int nbMaxEtudiant, String status,
-                      String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) {
+                      String statusVuPasVuG, String statusVuPasVuS) {
         this.id = id;
         this.titre = titre;
         this.salaire = salaire;
@@ -74,7 +72,6 @@ public class OffreStage {
         this.nbMaxEtudiants = nbMaxEtudiant;
         this.status = Status.valueOf(status);
         this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
-        this.statusVuPasVuE = StatusVuPasVu.valueOf(statusVuPasVuE);
         this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
     }
 
@@ -90,7 +87,6 @@ public class OffreStage {
                 nbMaxEtudiants,
                 String.valueOf(status),
                 String.valueOf(statusVuPasVuG),
-                String.valueOf(statusVuPasVuE),
                 String.valueOf(statusVuPasVuS),
                 employer.getId(),
                 tagName

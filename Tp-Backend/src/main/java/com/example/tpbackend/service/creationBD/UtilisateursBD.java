@@ -197,30 +197,30 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllCvs() throws IOException {
         System.out.println(createCv("web-developer-resume-example.pdf", "1234567",
-                "In_review", "vu", "pasVu", "pasVu"));
+                "In_review", "vu", "pasVu"));
         createCv("web-developer-resume-example.pdf", "5869595",
-                "In_review", "pasVu", "pasVu", "pasVu");
+                "In_review", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "8675848",
-                "In_review", "pasVu", "pasVu", "pasVu");
+                "In_review", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "4738494",
-                "In_review", "pasVu", "pasVu", "pasVu");
+                "In_review", "pasVu","pasVu");
         createCv("web-developer-resume-example.pdf", "4959695",
-                "Accepted", "vu", "pasVu", "pasVu");
+                "Accepted", "vu", "pasVu");
         createCv("web-developer-resume-example.pdf", "7654321",
-                "Refused", "vu", "pasVu", "pasVu");
+                "Refused", "vu", "pasVu");
         createCv("web-developer-resume-example.pdf", "0123456",
-                "Accepted", "vu", "pasVu", "pasVu");
+                "Accepted", "vu", "pasVu");
     }
 
     public ResponseEntity<CvDTO> createCv(String fileName, String matricule, String status,
-                                          String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS) throws IOException {
+                                          String statusVuPasVuG, String statusVuPasVuS) throws IOException {
         CvDTO cvDTO = new CvDTO(
                 matricule,
                 fileName,
                 createFile(fileName),
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE
+                statusVuPasVuS
         );
         studentServices.saveCv(cvDTO);
         return ResponseEntity
@@ -313,7 +313,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "EnAttente",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "1234567",
@@ -322,7 +321,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-20, 11:00",
                 "rendez-vous sur teams",
                 "EnAttente",
-                "pasVu",
                 "pasVu",
                 "pasVu",
                 "ALaurendeau",
@@ -335,7 +333,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "EnAttente",
                 "pasVu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "8675848",
@@ -344,7 +341,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "2023-11-25, 9:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
-                "pasVu",
                 "pasVu",
                 "pasVu",
                 "ALaurendeau",
@@ -357,7 +353,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Acceptee",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "4959695",
@@ -368,7 +363,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Refusee",
                 "vu",
                 "pasVu",
-                "pasVu",
                 "ALaurendeau",
                 "1",
                 "7654321",
@@ -376,7 +370,7 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,
-                               String statusVuPasVuG, String statusVuPasVuE, String statusVuPasVuS,
+                               String statusVuPasVuG, String statusVuPasVuS,
                                String companyName, String idEmp, String idStudent, String idOffre) {
         EntrevueDTO entrevueDTO = new EntrevueDTO(
                 id,
@@ -384,7 +378,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 description,
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS,
                 companyName,
                 idEmp,
@@ -481,7 +474,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 nbMaxStudent,
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS,
                 idEmp,
                 new Tag(tag).getTagName()

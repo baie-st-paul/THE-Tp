@@ -144,7 +144,6 @@ public class EmployerControllerTest {
                 "In_review",
                 "pasVu",
                 "pasVu",
-                "pasVu",
                 1,
                 new Tag(TagGenerator.getCurrentSession()).getTagName()
         );

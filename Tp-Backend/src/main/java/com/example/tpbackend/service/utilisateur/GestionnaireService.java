@@ -149,15 +149,11 @@ public class GestionnaireService {
 
     @Transactional
     public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
-        Student student = studentRepository.findByMatricule(contratStageDTO.getStudentId());
-        Employer employer = employerRepository.findById(contratStageDTO.getEmployerId())
-                .orElseThrow(() -> new RuntimeException("L'employeur avec l'ID " + contratStageDTO.getEmployerId() + " n'a pas été trouvé."));
+        Candidature candidature = candidatureRepository.getReferenceById(contratStageDTO.getCandidatureId());
         ContratStage contratStage = contratStageDTO.toContratStage();
-        contratStage.setStudent(student);
-        contratStage.setEmployeur(employer);
+        contratStage.setCandidature(candidature);
 
-        Optional<Candidature> candidature = getOffreStageEtudiantEmbauche(contratStage.getStudent());
-        contratStage.setNomDePoste(candidature.get().getOffreStage().getTitre());
+        contratStage.setNomDePoste(candidature.getOffreStage().getTitre());
 
         contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
         contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);

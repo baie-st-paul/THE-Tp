@@ -390,7 +390,6 @@ public class UtilisateursBD implements CommandLineRunner {
     public void createAllContrats() {
         createContrat(
                 1L,
-                "1234567",
                 1L,
                 "DEV",
                 "lina",
@@ -402,8 +401,7 @@ public class UtilisateursBD implements CommandLineRunner {
         );
         createContrat(
                 2L,
-                "5869595",
-                1L,
+                2L,
                 "DEV",
                 "flo",
                 "fla",
@@ -414,8 +412,7 @@ public class UtilisateursBD implements CommandLineRunner {
         );
         createContrat(
                 3L,
-                "8675848",
-                1L,
+                3L,
                 "DEV",
                 "lala",
                 "lolo",
@@ -426,8 +423,7 @@ public class UtilisateursBD implements CommandLineRunner {
         );
         createContrat(
                 4L,
-                "4738494",
-                1L,
+                4L,
                 "Dev",
                 "tata",
                 "toto",
@@ -438,16 +434,14 @@ public class UtilisateursBD implements CommandLineRunner {
         );
     }
 
-    public void createContrat(Long id, String matricule, Long idEmp, String nomDePoste, String prenom, String nom, String titreOffre,
+    public void createContrat(Long id, Long candidatureId, String nomDePoste, String prenom, String nom, String titreOffre,
                               String statusG, String statusE, String statusS) {
         ContratStageDTO contratStageDTO = new ContratStageDTO(
                 id,
-                matricule,
-                idEmp,
+                candidatureId,
                 nomDePoste,
                 nom,
                 titreOffre,
-
                 prenom,
                 "Pas_Signer",
                 "Pas_Signer",

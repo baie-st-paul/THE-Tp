@@ -47,8 +47,8 @@ public class StudentControllerTest {
     public void testGetContratsByStudent_Success() throws Exception {
         String studentId = "student1";
         List<ContratStageDTO> mockContracts = List.of(
-                createMockContratStageDTO(1L, studentId, 3L,"Google", "Alice", "Software Engineer"),
-                createMockContratStageDTO(2L, studentId, 4L,"Facebook", "Bob", "Data Analyst")
+                createMockContratStageDTO(1L, 1L,"Google", "Alice", "Software Engineer"),
+                createMockContratStageDTO(2L, 2L,"Facebook", "Bob", "Data Analyst")
         );
 
         when(studentServices.getContratByStudent(studentId)).thenReturn(mockContracts);
@@ -74,11 +74,10 @@ public class StudentControllerTest {
                 .andExpect(content().string(containsString("Une erreur est survenue lors du traitement de votre requête")));
     }
 
-    private ContratStageDTO createMockContratStageDTO(Long id, String studentId, Long employerId, String companyName, String studentName, String poste) {
+    private ContratStageDTO createMockContratStageDTO(Long id, Long candidatureId, String companyName, String studentName, String poste) {
         ContratStageDTO dto = new ContratStageDTO();
         dto.setId(id);
-        dto.setEmployerId(employerId);
-        dto.setStudentId(studentId);
+        dto.setCandidatureId(candidatureId);
         dto.setNomEtudiant(studentName);
         dto.setNomDeCompanie(companyName);
         dto.setNomDePoste(poste);

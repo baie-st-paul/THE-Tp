@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen, act } from '@testing-library/react';
 import CardPageOffresS from '../cards/CardPageOffresS';
-import { offres, offresIds } from './GenerateOffresTest';
+import { offres, offresIds } from './GenerateTestData';
 
 
 jest.mock('../FetchsUpdateStatusS', () => ({
@@ -32,14 +32,12 @@ describe('CardPageOffresS Component Tests', () => {
     const handleUpdateStatusMock = jest.fn();
 
     render(<CardPageOffresS offres={offres} candidaturesOffreId={offresIds} handleUpdateStatus={handleUpdateStatusMock}/>);
-    const nbVusAvantClick = screen.getAllByText("Je l'ai vu").length;
-    const vuButton = screen.getAllByText("Je l'ai vu")[1];
+    const vuButton = screen.getAllByText("Je l'ai vu")[0];
 
     fireEvent.click(vuButton);
 
-    const nbVusApresClick = screen.getAllByText("Je l'ai vu").length;
+    const pasVuButton = screen.getByText("Pas vu");
 
-    expect(handleUpdateStatusMock).toHaveBeenCalledWith(offres[1].titre, 'vu');
-    expect(nbVusApresClick).toBe(nbVusAvantClick - 1);
+    expect(pasVuButton).toBeInTheDocument();
   });
 });

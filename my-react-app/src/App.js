@@ -15,26 +15,38 @@ import GestionnairePrivateRoutes from "./utils/GestionnairePrivateRoutes";
 import OffresPageGestionnaire from "./components/landingPage/GestionnaireHomePage/offreGestionnaire/OffrePageGestionnaire";
 import OffresPageStudent from "./components/landingPage/StudentHomePage/candidature/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/EmployerHomePage/offres/offre/infoStudentOffre/InformationEtudiantPostule';
+import DashboardPageGestionnaire
+    from "./components/landingPage/GestionnaireHomePage/dashboard/DashboardPageGestionnaire";
+import VetoSection from "./components/landingPage/GestionnaireHomePage/Vetocv/VetoSection";
+import EtudiantsConvoquesEntrevue
+    from "./components/landingPage/GestionnaireHomePage/entrevue/EtudiantsConvoquesEntrevue";
+import EtudiantEmbauchePage from "./components/landingPage/GestionnaireHomePage/embauche/EtudiantEmbauchePage";
+import ListContratsGestionnaire from "./components/landingPage/GestionnaireHomePage/contrat/ListContratsGestionnaire";
 
 function App() {
     return (
         <div>
             <Routes>
-                <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
-                <Route path={"/addJobOffer"} element={<AjoutOffreForm/>}></Route>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
-                <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
-                <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
-                <Route path="/offresGestionnaire" element={<OffresPageGestionnaire/>} />
                 <Route path="/offresStudent" element={<OffresPageStudent/>} />
-                <Route path="/veto-section" component={<GestionnairePrivateRoutes/>}/>
-                <Route path="/offre-page" component={<GestionnairePrivateRoutes/>}/>
+
+                <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
+                <Route path={"/CV-veto"} element={<VetoSection/>}/>
+                <Route path={"/Offres-veto"} element={<OffresPageGestionnaire/>}/>
+                <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>
+                <Route path={"/embauchés"} element={<EtudiantEmbauchePage/>}/>
+                <Route path={"/contrats"} element={<ListContratsGestionnaire contratsTest={[]}/>}/>
+
+
+                <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
+                <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
+
                 <Route path="*" element={<PageNotFound/>}/>
                 <Route path="/" element={<UtilisateursMain/>}/>
+
                 <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                 <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
                 <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
-                <Route path="/saveCv" element={<FileUploader/>}/>
             </Routes>
         </div>
     )

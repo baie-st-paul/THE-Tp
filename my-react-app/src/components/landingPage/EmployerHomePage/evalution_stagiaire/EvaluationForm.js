@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './EvaluationForm.css';
+import "./EvaluationForm.css";
 
 const EvaluationForm = ({ onSubmit }) => {
     const [evaluationData, setEvaluationData] = useState({
@@ -21,7 +21,7 @@ const EvaluationForm = ({ onSubmit }) => {
 
     const initialState = {
         // Productivité
-        //planifierEtOrganiser: '',
+        planifierEtOrganiser: '',
         comprendreDirectives: '',
         maintenirRythme: '',
         etablirPriorites: '',
@@ -59,7 +59,7 @@ const EvaluationForm = ({ onSubmit }) => {
         discussionStagiaire: '',
         heuresEncadrement: '',
         accueilProchainStage: '',
-        commentaireAppréciation: '',
+        commentaireAppreciation: '',
         accord: '',
 
         //Acceuil prochain stage
@@ -105,28 +105,28 @@ const EvaluationForm = ({ onSubmit }) => {
     return (
         <form onSubmit={handleSubmit} className='formStyle'>
             <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
-            <div style={{ border: '1px solid black', padding: '10px' }} className='sectionStyle'>
-                <div>
+            <div className='sectionStyle'>
+                <div className='questionStyle'>
                     <label>Nom de l’élève :</label>
                     <input type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
                 </div>
-                <div>
+                <div className='questionStyle'>
                     <label>Programme d’études :</label>
                     <input type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
                 </div>
-                <div>
+                <div className='questionStyle'>
                     <label>Nom de l’entreprise :</label>
                     <input type="text" name="nomEntreprise" value={evaluationData.nomEntreprise} onChange={handleChange} />
                 </div>
-                <div>
+                <div className='questionStyle'>
                     <label>Nom du superviseur :</label>
                     <input type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
                 </div>
-                <div>
+                <div className='questionStyle'>
                     <label>Fonction :</label>
                     <input type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
                 </div>
-                <div>
+                <div className='questionStyle'>
                     <label>Téléphone :</label>
                     <input type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
                 </div>
@@ -193,7 +193,7 @@ const EvaluationForm = ({ onSubmit }) => {
                 <div>Les habiletés démontrées répondent pleinement aux attentes : {renderDropdown("heuresEncadrement")}</div>
                 <div>Les habiletés démontrées répondent partiellement aux attentes : {renderDropdown("accueilProchainStage")}</div>
                 <div>Les habiletés démontrées ne répondent pas aux attentes : {renderDropdown("autreElement")}</div>
-                <div>PRÉCISEZ VOTRE APPRÉCIATION:<br /><textarea name="commentaireAppréciation" value={evaluationData.commentairesHabiletes} onChange={handleChange} /></div>
+                <div>PRÉCISEZ VOTRE APPRÉCIATION:<br /><textarea name="commentaireAppreciation" value={evaluationData.commentairesHabiletes} onChange={handleChange} /></div>
                 <div>Cette évaluation a été discutée avec le stagiaire :{renderChoices( "accord")}</div>
             </div>
             <div style={{ border: '1px solid black', padding: '10px', marginTop: '10px' }}>

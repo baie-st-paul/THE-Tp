@@ -1,0 +1,45 @@
+.formStyle {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.sectionStyle {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.sectionStyle {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.questionStyle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 5px 0;
+}
+
+.questionStyle label {
+    flex: 1;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.questionStyle input,
+.questionStyle select,
+.questionStyle textarea {
+    flex: 2;
+}
+

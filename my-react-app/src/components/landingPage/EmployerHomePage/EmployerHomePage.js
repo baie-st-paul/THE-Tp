@@ -11,12 +11,13 @@ import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
 import DashboardPageEmp from "./dashboard/DashboardPageEmp";
 import CardPageSignature from "./dashboard/cards/signature/CardPageSignature";
-import EvaluationForm from "./evalution_stagiaire/EavluationForm";
+import EvaluationForm from "./evalution_stagiaire/EvaluationForm";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none"); 
-    const navigate = useNavigate()
+    const navigate = useNavigate()  // ligne 18
     const [signature, setSignature] = useState(null)
+    
 
     let contentToRender;
     let employerId = localStorage.getItem('employer_id')

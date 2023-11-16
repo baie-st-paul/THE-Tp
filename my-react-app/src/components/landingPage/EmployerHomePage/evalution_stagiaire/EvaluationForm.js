@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "./EvaluationForm.css";
 
 const EvaluationForm = ({ onSubmit }) => {
-    const [evaluationData, setEvaluationData] = useState({
+    const initialState = {
         nomEleve: '',
         programmeEtudes: '',
         nomEntreprise: '',
@@ -13,13 +13,7 @@ const EvaluationForm = ({ onSubmit }) => {
         qualityOfWork: '',
         interpersonalSkills: '',
         personalAbilities: '',
-        comments: ''
-    });
-
-    const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"];
-    const choices = ["Oui", "Non"];
-
-    const initialState = {
+        comments: '',
         // Productivité
         planifierEtOrganiser: '',
         comprendreDirectives: '',
@@ -54,7 +48,7 @@ const EvaluationForm = ({ onSubmit }) => {
         ponctuelAssidu: '',
         commentairesHabiletes: '',
     
-        // ppréciation globale du stagiaire
+        // appréciation globale du stagiaire
         appreciationGlobale: '',
         discussionStagiaire: '',
         heuresEncadrement: '',
@@ -71,12 +65,20 @@ const EvaluationForm = ({ onSubmit }) => {
         dateSignature: ''
     };
 
+    const [evaluationData, setEvaluationData] = useState(initialState);
+
+    const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"] ;
+    const choices = ["Oui", "Non"];
+
+   
+
 
     const handleChange = (e) => {
-        setEvaluationData({
-            ...evaluationData,
-            [e.target.name]: e.target.value
-        });
+        const {name, value} = e.target;
+        setEvaluationData(prevState =>({
+            ...prevState,
+            [name]: value
+        }))
     };
 
     const handleSubmit = (e) => {

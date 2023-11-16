@@ -4,16 +4,17 @@ import { useState } from "react";
 import AjoutOffreForm from "./offres/offre/AjoutOffreForm";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faBriefcase, faPlus, faFile, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus, faFile, faHome, faFilePdf} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import CreateSignature from "./signature/CreateSignature";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
 import DashboardPageEmp from "./dashboard/DashboardPageEmp";
 import CardPageSignature from "./dashboard/cards/signature/CardPageSignature";
+import EvaluationForm from "./evalution_stagiaire/EavluationForm";
 
 const EmployerHomePage = () => {
-    const [activeContent, setActiveContent] = useState("none");
+    const [activeContent, setActiveContent] = useState("none"); 
     const navigate = useNavigate()
     const [signature, setSignature] = useState(null)
 
@@ -103,6 +104,41 @@ const EmployerHomePage = () => {
         )
     }
 
+    const handleEvaluationSubmit = async (evaluationData) => {
+        console.log(JSON.stringify(evaluationData));
+        console.log(token);
+        await fetch(
+            'http://localhost:8081/api/v1/evaluations/create', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token 
+                },
+                withCredentials: true,
+                body: JSON.stringify(evaluationData)
+            }
+        ).catch((err) => {
+            console.log("Erreur lors de l'envoi des données d'évaluation:", err);
+        }).then(
+            async (res) => {
+                const data = await res.json();
+                try {
+                    console.log("Statut de la réponse:", res.status);
+                    if (res.status === 400) {
+                        console.log("Erreur de réponse:", res.status);
+                    }
+                    
+                } catch (e) {
+                    console.log("Erreur lors du traitement de la réponse:", e);
+                }
+                setActiveContent("evaluation-page"); 
+                console.log("Données reçues:", data);
+            }
+        );
+    };
+    
+
     const handleButtonClick = (content) => {
         setActiveContent(content);
     };
@@ -127,6 +163,11 @@ const EmployerHomePage = () => {
             break;
         case "dashboard":
             contentToRender = <DashboardPageEmp/>
+            break;
+        
+        // Ajout du case pour l'évaluation dans le switch
+        case "evaluation":
+            contentToRender = <EvaluationForm onSubmit={handleEvaluationSubmit}/>
             break;
         default:
             signature !== null ?
@@ -178,6 +219,13 @@ const EmployerHomePage = () => {
                                             <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
                                         </button>
                                     </li>
+                                    // Ajout du bouton pour l'évaluation dans la barre de navigation
+                                    <li className="nav-item navbarbutton">
+                                        <button className="nav-link" onClick={() => handleButtonClick("evaluation")}>
+                                            <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }}/>Évaluation
+                                        </button>
+                                    </li>
+
                                 </ul>
                             </>
                         }

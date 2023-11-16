@@ -25,7 +25,7 @@
 
 .questionStyle {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-;
     align-items: center;
     margin-bottom: 5px;
     padding: 5px 0;
@@ -52,7 +52,7 @@
     width: 200px;
 }
 
-.questionStyle .dropdownStyle {
+/* .questionStyle .dropdownStyle {
     flex: 1;
-}
+} */
 

@@ -271,34 +271,33 @@ const EvaluationForm = ({ onSubmit }) => {
 
             <div className='sectionStyle'>
                 <strong>L’ENTREPRISE AIMERAIT ACCUEILLIR CET ÉLÈVE POUR SON PROCHAIN STAGE :</strong><br />
-                <label>
-                    <input className= '.questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Oui" onChange={handleChange}/>
+                <label > 
+                    <input className= 'questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Oui" onChange={handleChange}/>
                     Oui
                 </label>
                 <label >
-                    <input className= '.questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Non" onChange={handleChange} />
+                    <input className= 'questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Non" onChange={handleChange} />
                     Non
                 </label>
                 <label >
-                    <input className= '.questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Peut-être" onChange={handleChange} />
+                    <input className= 'questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Peut-être" onChange={handleChange} />
                     Peut-être
                 </label><br />
 
-                <label className='questionStyle label'>La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
-            <div className='questionStyle textarea'><br /><textarea name="commentairesHabiletes" value={evaluationData.commentairesHabiletes} onChange={handleChange} /></div>
+                <label >La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
+                <div className='questionStyle textarea'><br /><textarea name="commentairesHabiletes" value={evaluationData.commentairesHabiletes} onChange={handleChange} /></div>
 
+                <label className='questionStyle label'>Nom (en lettres moulées):</label><br />
+                <input className= 'questionStyle input' type="text" name="nomSignataire" value={evaluationData.nomSignataire} onChange={handleChange} /><br />
 
-            <label className='questionStyle label'>Nom (en lettres moulées):</label><br />
-            <input className= 'questionStyle input' type="text" name="nomSignataire" value={evaluationData.nomSignataire} onChange={handleChange} /><br />
+                <label className='questionStyle label'>Fonction :</label><br />
+                <input className= 'questionStyle input' type="text" name="fonctionSignataire" value={evaluationData.fonctionSignataire} onChange={handleChange} /><br />
 
-            <label className='questionStyle label'>Fonction :</label><br />
-            <input className= 'questionStyle input' type="text" name="fonctionSignataire" value={evaluationData.fonctionSignataire} onChange={handleChange} /><br />
+                <label className='questionStyle label'>Signature :</label><br />
+                <input className= 'questionStyle input' type="text" name="signature" value={evaluationData.signature} onChange={handleChange} /><br />
 
-            <label className='questionStyle label'>Signature :</label><br />
-            <input className= 'questionStyle input' type="text" name="signature" value={evaluationData.signature} onChange={handleChange} /><br />
-
-            <label className='questionStyle label'>Date :</label><br />
-            <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                <label className='questionStyle label'>Date :</label><br />
+                <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
         </div>
         <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
             <strong>Veuillez retourner ce formulaire à :</strong><br />

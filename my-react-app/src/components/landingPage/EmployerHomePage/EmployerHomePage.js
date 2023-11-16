@@ -166,7 +166,7 @@ const EmployerHomePage = () => {
             contentToRender = <DashboardPageEmp/>
             break;
         
-        // Ajout du case pour l'évaluation dans le switch
+        
         case "evaluation":
             contentToRender = <EvaluationForm onSubmit={handleEvaluationSubmit}/>
             break;
@@ -220,7 +220,7 @@ const EmployerHomePage = () => {
                                             <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
                                         </button>
                                     </li>
-                                    // Ajout du bouton pour l'évaluation dans la barre de navigation
+                                
                                     <li className="nav-item navbarbutton">
                                         <button className="nav-link" onClick={() => handleButtonClick("evaluation")}>
                                             <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }}/>Évaluation

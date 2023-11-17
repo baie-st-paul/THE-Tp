@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import "./EvaluationForm.css";
+import EvaluationPDF from './EvaluationPDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { set } from 'date-fns';
+
 
 const EvaluationForm = ({ onSubmit }) => {
     const initialState = {
@@ -85,6 +89,7 @@ const EvaluationForm = ({ onSubmit }) => {
         e.preventDefault();
         onSubmit(evaluationData);
     };
+
 
     const renderDropdown = (name) => (
         <select name={name} value={evaluationData[name]} onChange={handleChange} className='dropdownStyle'>
@@ -298,25 +303,29 @@ const EvaluationForm = ({ onSubmit }) => {
 
                 <label className='questionStyle label'>Date :</label><br />
                 <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
-        </div>
-        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
-            <strong>Veuillez retourner ce formulaire à :</strong><br />
-            Patrice Brodeur<br />
-            Cégep André-Laurendeau<br />
-            1111, rue Lapierre<br />
-            LASALLE (Québec)<br />
-            H8N 2J4<br />
-            <strong>Numéro de télécopieur :</strong> (514) 364-7130
-        </div>
+            </div>
+            <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
+                <strong>Veuillez retourner ce formulaire à :</strong><br />
+                Patrice Brodeur<br />
+                Cégep André-Laurendeau<br />
+                1111, rue Lapierre<br />
+                LASALLE (Québec)<br />
+                H8N 2J4<br />
+                <strong>Numéro de télécopieur :</strong> (514) 364-7130
+            </div>
 
-        <div style={{ textAlign: 'left', fontSize: 'small', marginTop: '10px' }}>
-            <strong>Nous vous remercions de votre appui !</strong><br />
-            Collège André-Laurendeau<br />
-            ALTERNANCE TRAVAIL-ÉTUDES<br />
-            2010-09-21
-        </div>
-            <button type="submit">Soumettre l'Évaluation</button>
-        </form>
+            <div style={{ textAlign: 'left', fontSize: 'small', marginTop: '10px' }}>
+                <strong>Nous vous remercions de votre appui !</strong><br />
+                Collège André-Laurendeau<br />
+                ALTERNANCE TRAVAIL-ÉTUDES<br />
+                2010-09-21
+            </div>
+                <button type="submit">Soumettre l'Évaluation</button>
+
+            <PDFDownloadLink document={<EvaluationPDF evaluationData={evaluationData} />} fileName="evaluation-form.pdf">
+                {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+            </PDFDownloadLink>
+    </form>
     );
 }
 

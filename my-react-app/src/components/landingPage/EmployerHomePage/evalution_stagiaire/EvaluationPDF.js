@@ -99,9 +99,9 @@ const EvaluationPDF = ({ evaluationData }) => (
             Numéro de télécopieur : (514) 364-7130
         </Text>
 
-        <Text>Nous vous remercions de votre appui !
-            Collège André-Laurendeau
-            ALTERNANCE TRAVAIL-ÉTUDES
+        <Text style={styles.subtitle}>Nous vous remercions de votre appui !{"\n"}
+            Collège André-Laurendeau{"\n"}
+            ALTERNANCE TRAVAIL-ÉTUDES{"\n"}
             2010-09-21
         </Text>
     </Page>

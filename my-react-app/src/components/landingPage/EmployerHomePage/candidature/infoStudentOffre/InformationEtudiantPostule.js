@@ -4,13 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './InformationEtudiantPostule.css'
 import { useNavigate  } from "react-router-dom";
 import {useLocation} from 'react-router-dom';
-import Modal from "../../../../GestionnaireHomePage/Vetocv/Modal";
+import Modal from "../../../GestionnaireHomePage/Vetocv/Modal";
 import ReactModal from "react-modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
-import "../../../../../StylesGenerales.css"
+import "../../../../StylesGenerales.css"
 import ButtonConvoquer from './ButtonConvoquer';
-import CreateEntrevueForm from "../../../Entrevue/CreateEntrevueForm";
+import CreateEntrevueForm from "../Entrevue/CreateEntrevueForm";
 
 const customStyles = {
     content: {
@@ -136,7 +136,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     }
 
     function handleRetour(){
-        navigate('/EmployeurHomePage');
+        navigate('/offres');
     }
 
     const updateStatus = async (matricule, status) => {

@@ -1,13 +1,16 @@
 import React from 'react'
 import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
+import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 
-export default function EmployeurMesContrats({employerId, contratsTest}) {
+export default function EmployeurMesContrats({contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
     const [filtre, setFiltre] = useState('')
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
+
+    let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -124,53 +127,56 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
 
 
     return (
-        <div className="container w-100">
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
-                </div>
-                {contrats.length > 0  ?
-                    <div className="table-responsive table-container">
-                        <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
-                            <input data-testid="input" onChange={ (event)=> setFiltre(event.target.value)}></input>
+        <div>
+            <NavBarEmployeur/>
+            <div id="Render" className="container content-container mt-4">
+                <div className="container w-100">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
                         </div>
-                        <table className="table w-100 text-start">
-                            <thead>
-                            <tr>
-                                <th className="header-cell h5">Nom, Prénom</th>
-                                <th className="header-cell h5">Matricule</th>
-                                <th className='header-cell h5'>Nom de compagnie</th>
-                                <th className='header-cell h5'>Poste</th>
-                                <th className="header-cell h5">Signé par étudiant</th>
-                                <th className="header-cell h5">Signé par employeur</th>
-                                <th className="header-cell h5" >Signé par gestionnaire</th>
-                            </tr>
-                            </thead>
-                            <tbody className='w-100'>
-                            {contrats.length > 0  && contrats.filter(etudiantNf => etudiantNf.studentId.includes(filtre))
-                                .map((etudiant, index) => (
-                                    <tr key={index} className="table-row align-middle">
-                                        <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
-                                        <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
-                                        <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
-                                        <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
-                                        <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        {
-                                    etudiant.statutEmployeur === 'Pas_Signer' ?
-                                    <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
-                                    :
-                                    <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
-                                    }
-                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                        {contrats.length > 0  ?
+                            <div className="table-responsive table-container">
+                                <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
+                                    <input data-testid="input" onChange={ (event)=> setFiltre(event.target.value)}></input>
+                                </div>
+                                <table className="table w-100 text-start">
+                                    <thead>
+                                    <tr>
+                                        <th className="header-cell h5">Nom, Prénom</th>
+                                        <th className="header-cell h5">Matricule</th>
+                                        <th className='header-cell h5'>Nom de compagnie</th>
+                                        <th className='header-cell h5'>Poste</th>
+                                        <th className="header-cell h5">Signé par étudiant</th>
+                                        <th className="header-cell h5">Signé par employeur</th>
+                                        <th className="header-cell h5" >Signé par gestionnaire</th>
                                     </tr>
-                                ))
-                            }
-                            </tbody>
-                        </table>
+                                    </thead>
+                                    <tbody className='w-100'>
+                                    {contrats.length > 0  && contrats.filter(etudiantNf => etudiantNf.studentId.includes(filtre))
+                                        .map((etudiant, index) => (
+                                            <tr key={index} className="table-row align-middle">
+                                                <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
+                                                <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
+                                                <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
+                                                <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
+                                                <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                {
+                                                    etudiant.statutEmployeur === 'Pas_Signer' ?
+                                                        <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
+                                                        :
+                                                        <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
+                                                }
+                                                <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                            </tr>
+                                        ))
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            : <div>AUCUN CONTRAT À AFFICHER</div> }
                     </div>
-                    : <div>AUCUN CONTRAT À AFFICHER</div> }
-            </div>
-            <ReactModal
+                    <ReactModal
                         isOpen={isConfirmationModalOpen}
                         onRequestClose={closeConfirmationModal}
                         style={customStyles}
@@ -196,7 +202,9 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
                         <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
                             Non
                         </button>
-                    </ReactModal>      
+                    </ReactModal>
+                </div>
+            </div>
         </div>
     )
 }

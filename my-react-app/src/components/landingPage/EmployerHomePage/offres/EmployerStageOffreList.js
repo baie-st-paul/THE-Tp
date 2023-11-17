@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import EmployerOffreStages from "./EmployerOffreStages";
 import UpdateOffreForm from "./offre/update/UpdateOffreForm";
 import "./offre/update/ModalUpdate.css"
+import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -191,23 +192,28 @@ const EmployerStageOffreList = () => {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 className="display-4 text-center">Liste des offres de stage</h1>
-            {showUpdateOffre && <ModalUpdate />}
-            {offres.length === 0 ?
-                <div>Aucune offre</div>
-                :
-                <EmployerOffreStages
-                    offreStages={offres}
-                    onDelete={deleteOffre}
-                    onUpdate={(offre) => {
-                        setShowUpdateOffre(!showUpdateOffre)
-                        setOffre(offre)
-                        console.log("offre",offre)
-                    }}
-                    showUpdate={showUpdateOffre}
-                />
-            }
+        <div>
+            <NavBarEmployeur/>
+            <div id="Render" className="container content-container mt-4">
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <h1 className="display-4 text-center">Liste des offres de stage</h1>
+                    {showUpdateOffre && <ModalUpdate />}
+                    {offres.length === 0 ?
+                        <div>Aucune offre</div>
+                        :
+                        <EmployerOffreStages
+                            offreStages={offres}
+                            onDelete={deleteOffre}
+                            onUpdate={(offre) => {
+                                setShowUpdateOffre(!showUpdateOffre)
+                                setOffre(offre)
+                                console.log("offre",offre)
+                            }}
+                            showUpdate={showUpdateOffre}
+                        />
+                    }
+                </div>
+            </div>
         </div>
     );
 };

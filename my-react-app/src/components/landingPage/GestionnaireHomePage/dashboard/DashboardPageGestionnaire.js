@@ -36,7 +36,7 @@ const DashboardPageGestionnaire = () => {
     return (
         <div>
             <h1 className="display-4 text-center"
-                style={{marginBottom: "20px"}}>Tableau de bord</h1>
+                style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
                     <CardPageOffres sessions={sessions} offres={offres}/>

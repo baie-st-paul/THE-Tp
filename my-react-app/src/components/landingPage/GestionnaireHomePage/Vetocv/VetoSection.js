@@ -20,7 +20,7 @@ const customStyles = {
 
 const VetoSection = () => {
     const [cvList, setCvList] = useState([]);
-    const [filterOption, setFilterOption] = useState("all");
+    const [filterOption, setFilterOption] = useState("In_review");
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [selectedCv, setSelectedCv] = useState(null);

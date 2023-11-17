@@ -2,8 +2,8 @@ package com.example.tpbackend.service.utilisateur;
 
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
@@ -20,8 +20,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class StudentServiceTestCustom {
@@ -71,11 +71,19 @@ public class StudentServiceTestCustom {
 
         Employer employer = new Employer();
         employer.setId(employerId);
+        Candidature candidatureMock = mock(Candidature.class);
+        OffreStage offreStage = mock(OffreStage.class);
+        when(candidatureMock.getOffreStage()).thenReturn(offreStage);
+        when(offreStage.getEmployer()).thenReturn(employer);
+        when(candidatureMock.getStudent()).thenReturn(student);
+        when(candidatureMock.getId()).thenReturn(2L);
+        Candidature candidatureMock2 = mock(Candidature.class);
+        when(candidatureMock2.getStudent()).thenReturn(student);
+        when(candidatureMock2.getId()).thenReturn(3L);
 
         ContratStage contract1 = new ContratStage();
         contract1.setId(1L);
-        contract1.setStudent(student);
-        contract1.setEmployeur(employer);
+        contract1.setCandidature(candidatureMock);
         contract1.setNomDePoste("Développeur");
         contract1.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contract1.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
@@ -83,8 +91,7 @@ public class StudentServiceTestCustom {
 
         ContratStage contract2 = new ContratStage();
         contract2.setId(2L);
-        contract2.setStudent(student);
-        contract2.setEmployeur(employer);
+        contract2.setCandidature(candidatureMock2);
         contract2.setNomDePoste("Testeur");
         contract2.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contract2.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
@@ -98,12 +105,10 @@ public class StudentServiceTestCustom {
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(contract1.getId(), result.get(0).getId());
-        assertEquals(studentId, result.get(0).getStudentId());
-        assertEquals(employerId, result.get(0).getEmployerId());
+        assertEquals(2L, result.get(0).getCandidatureId());
         assertEquals(contract1.getNomDePoste(), result.get(0).getNomDePoste());
         assertEquals(contract2.getId(), result.get(1).getId());
-        assertEquals(studentId, result.get(1).getStudentId());
-        assertEquals(employerId, result.get(1).getEmployerId());
+        assertEquals(3L, result.get(1).getCandidatureId());
         assertEquals(contract2.getNomDePoste(), result.get(1).getNomDePoste());
     }
 }

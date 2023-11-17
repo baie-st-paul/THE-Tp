@@ -3,6 +3,7 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -42,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.rules.Timeout;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -101,6 +103,7 @@ public class GestionnaireServiceTest {
 
     @Mock
     private CandidatureRepository candidatureRepository;
+
 
     /**
      * Method under test: {@link GestionnaireService#saveGestionnaire(GestionnairePostDTO)}
@@ -442,11 +445,10 @@ public class GestionnaireServiceTest {
         mockOffreStage.setEmployer(mockEmployer);
         mockOffreStage.setSalaire(20.0);
 
-        Candidature mockCandidature = new Candidature();
-        mockCandidature.setId(5L);
-        mockCandidature.setStudent(mockStudent);
-        mockCandidature.setOffreStage(mockOffreStage);
-        mockCandidature.setStatus(Candidature.Status.Accepted);
+        Candidature mockCandidature = mock(Candidature.class);
+        when(mockCandidature.getId()).thenReturn(5L);
+        when(mockCandidature.getOffreStage()).thenReturn(mockOffreStage);
+        when(mockCandidature.getStudent()).thenReturn(mockStudent);
 
         List<OffreStage> mockOffreStages = new ArrayList<>();
         mockOffreStages.add(mockOffreStage);
@@ -460,63 +462,26 @@ public class GestionnaireServiceTest {
         mockStudent.setCandidatures(mockCandidatures);
 
         ContratStage mockContrat = new ContratStage();
-        mockContrat.setStudent(mockStudent);
-        mockContrat.setEmployeur(mockEmployer);
+        mockContrat.setCandidature(mockCandidature);
         mockContrat.setId(3L);
         mockContrat.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         mockContrat.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
         mockContrat.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
 
         ContratStageDTO contratDTO = ContratStageDTO.fromContratStage(mockContrat);
-        contratDTO.setStudentId("9");
-        contratDTO.setEmployerId(1L);
+        contratDTO.setCandidatureId(mockCandidature.getId());
         contratDTO.setStatutGestionnaire("Pas_Signer");
         contratDTO.setStatutEtudiant("Pas_Signer");
         contratDTO.setStatutEmployeur("Pas_Signer");
         contratDTO.setStatusVuPasVuG("pasVu");
         contratDTO.setStatusVuPasVuS("pasVu");
 
-        Mockito.when(studentRepository.findByMatricule(anyString())).thenReturn(mockStudent);
-        Mockito.when(employerRepository.findById(anyLong())).thenReturn(Optional.of(mockEmployer));
-        Mockito.when(candidatureRepository.findByStatusAndStudent(any(), any())).thenReturn(Optional.of(mockCandidature));
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
+        Mockito.when(candidatureRepository.getReferenceById(anyLong())).thenReturn(mockCandidature);
 
         ContratStageDTO result = gestionnaireService.createContrat(contratDTO);
         assertNotNull(result);
     }
-
-
-
-    @Test
-    public void testCreateContrat_StudentNotFound() {
-        // Arrange
-        ContratStageDTO inputDto = new ContratStageDTO();
-        inputDto.setStudentId("nonExistentStudentId");
-
-        Mockito.when(studentRepository.findByMatricule("3432L")).thenReturn(null);
-
-        assertThrows(RuntimeException.class, () -> {
-            gestionnaireService.createContrat(inputDto);
-        });
-    }
-
-    @Test
-    public void testCreateContrat_EmployerNotFound() {
-        // Arrange
-        ContratStageDTO inputDto = new ContratStageDTO();
-        inputDto.setStudentId("someStudentId");
-
-        Student mockStudent = new Student();
-
-        Mockito.when(studentRepository.findById(1L)).thenReturn(Optional.of(mockStudent));
-        Mockito.when(employerRepository.findById(999L)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> {
-            gestionnaireService.createContrat(inputDto);
-        });
-    }
-
-
 
     @Test
     void testGetAllContrats() {
@@ -526,20 +491,27 @@ public class GestionnaireServiceTest {
 
         Student studentMock = mock(Student.class);
         Employer employeurMock = mock(Employer.class);
+        OffreStage offreStageMock = mock(OffreStage.class);
+        Candidature candidature1 = mock(Candidature.class);
+        Candidature candidature2 = mock(Candidature.class);
 
-        when(studentMock.getMatricule()).thenReturn("matricule1");
+        when(offreStageMock.getEmployer()).thenReturn(employeurMock);
+        when(candidature1.getId()).thenReturn(1L);
+        when(candidature2.getId()).thenReturn(2L);
+
         when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
-        when(employeurMock.getId()).thenReturn(employeurId);
+        when(candidature1.getStudent()).thenReturn(studentMock);
+        when(candidature1.getOffreStage()).thenReturn(offreStageMock);
+        when(candidature2.getStudent()).thenReturn(studentMock);
+        when(candidature2.getOffreStage()).thenReturn(offreStageMock);
 
-        contrat1.setStudent(studentMock);
-        contrat1.setEmployeur(employeurMock);
+        contrat1.setCandidature(candidature1);
         contrat1.setNomDePoste("poste Name 1");
         contrat1.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
         contrat1.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contrat1.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
 
-        contrat2.setStudent(studentMock);
-        contrat2.setEmployeur(employeurMock);
+        contrat2.setCandidature(candidature2);
         contrat2.setNomDePoste("poste Name 2");
         contrat2.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
         contrat2.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
@@ -551,11 +523,9 @@ public class GestionnaireServiceTest {
         List<ContratStageDTO> result = gestionnaireService.getAllContrats();
 
         assertEquals(2, result.size());
-        assertEquals("matricule1", result.get(0).getStudentId());
-        assertEquals(employeurId, result.get(0).getEmployerId());
+        assertEquals(1L, result.get(0).getCandidatureId());
         assertEquals("poste Name 1", result.get(0).getNomDePoste());
-        assertEquals("matricule1", result.get(1).getStudentId());
-        assertEquals(employeurId, result.get(1).getEmployerId());
+        assertEquals(2L, result.get(1).getCandidatureId());
         assertEquals("poste Name 2", result.get(1).getNomDePoste());
     }
 

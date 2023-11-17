@@ -6,6 +6,7 @@ import CardPageCvs from "./cards/CardPageCvs";
 import CardPageCandidaturesEntrevue from "./cards/CardPageCandidaturesEntrevue";
 import CardPageCandidaturesEmbauches from "./cards/CardPageCandidaturesEmbauches";
 import CardPageContrats from "./cards/CardPageContrats";
+import {List} from "@mui/material";
 
 const DashboardPageGestionnaire = () => {
     const [cvList, setCvList] = useState([])
@@ -36,13 +37,15 @@ const DashboardPageGestionnaire = () => {
         <div>
             <h1 className="display-4 text-center"
                 style={{marginBottom: "20px"}}>Tableau de bord</h1>
-            <Grid container spacing={2}>
-                <CardPageOffres sessions={sessions} offres={offres}/>
-                <CardPageCvs cvList={cvList}/>
-                <CardPageContrats contrats={contrats}/>
-                <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
-                <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
-            </Grid>
+            <List style={{justifyContent: "center", display: "flex"}}>
+                <div>
+                    <CardPageOffres sessions={sessions} offres={offres}/>
+                    <CardPageCvs cvList={cvList}/>
+                    <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
+                    <CardPageContrats contrats={contrats}/>
+                    <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
+                </div>
+            </List>
         </div>
     )
 }

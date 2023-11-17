@@ -37,7 +37,6 @@ function App() {
                 <Route path={"/embauchés"} element={<EtudiantEmbauchePage/>}/>
                 <Route path={"/contrats"} element={<ListContratsGestionnaire contratsTest={[]}/>}/>
 
-
                 <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}></Route>
 

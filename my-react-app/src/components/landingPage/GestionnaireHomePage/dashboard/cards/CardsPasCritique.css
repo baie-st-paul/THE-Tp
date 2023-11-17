@@ -1,0 +1,13 @@
+#cardsPasCritique {
+    background-color: rgb(203, 220, 248);
+    border-color: #000066;
+    color: #000066;
+    width: 450px;
+    height: 60px;
+    margin: 20px;
+    font-family: FontAwesome, serif;
+}
+
+#cardsPasCritique:hover {
+    background-color: rgba(77, 127, 215, 0.35);
+}

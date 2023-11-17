@@ -1,0 +1,13 @@
+#cards {
+    background-color: rgb(248, 240, 229);
+    border-color: saddlebrown;
+    color: saddlebrown;
+    width: 450px;
+    height: 60px;
+    margin: 20px;
+    font-family: FontAwesome, serif;
+}
+
+#cards:hover {
+    background-color: rgba(249, 159, 48, 0.25);
+}

@@ -27,8 +27,8 @@ const DashboardPageEmp = () => {
                 style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
-                    <CardPageCandidatures candidatures={candidatures} entrevues={entrevues}/>
                     <CardPageContratsEmp contrats={contrats}/>
+                    <CardPageCandidatures candidatures={candidatures} entrevues={entrevues}/>
                 </div>
             </List>
         </div>

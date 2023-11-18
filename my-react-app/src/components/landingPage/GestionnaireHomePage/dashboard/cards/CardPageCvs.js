@@ -1,7 +1,7 @@
 import React from "react";
-import CardsPage from "./CardsPage";
-import "./CardsCritique.css"
-import "./CardsPasCritique.css"
+import CardsPage from "../../../Dashboard/CardsPage";
+import "../../../Dashboard/CardsCritique.css"
+import "../../../Dashboard/CardsPasCritique.css"
 
 const CardPageCvs = ({cvList}) => {
     const filteredList = cvList.length !== 0 && cvList.length !== undefined &&

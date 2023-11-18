@@ -62,6 +62,7 @@ const EvaluationForm = ({ onSubmit }) => {
 
         //Acceuil prochain stage
         accueilProchainStage: '',
+        commentaireAccueilProchain: '',
         formationTechniqueSuffisante: '',
         nomSignataire: '',
         fonctionSignataire: '',
@@ -85,10 +86,40 @@ const EvaluationForm = ({ onSubmit }) => {
         }))
     };
 
-    const handleSubmit = (e) => {
+    
+    const handleEvaluationSubmit = async (e) => {
         e.preventDefault();
-        onSubmit(evaluationData);
+        const token = localStorage.getItem('token');
+        console.log("Données d'évaluation:", JSON.stringify(evaluationData));
+        console.log("Token:", token);
+    
+        await fetch('http://localhost:8081/api/v1/employers/upload_evaluation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            withCredentials: true,
+            body: JSON.stringify(evaluationData)
+        })
+        .then(async (res) => {
+            console.log("Statut de la réponse:", res.status);
+            const data = await res.json();
+            if (res.status === 400) {
+                console.log("Erreur de réponse:", data);
+            } else {
+                console.log("Données reçues:", data);
+                 //setActiveContent("evaluation-page");
+            }
+        })
+        .catch((err) => {
+            console.log("Erreur lors de l'envoi des données d'évaluation:", err);
+        });
     };
+    
+
+
+  
 
 
     const renderDropdown = (name) => (
@@ -110,7 +141,7 @@ const EvaluationForm = ({ onSubmit }) => {
     );
 
     return (
-        <form onSubmit={handleSubmit} className='formStyle'>
+        <form onSubmit={handleEvaluationSubmit} className='formStyle'>
             <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
             <div className='sectionStyle'>
                 <div className='questionStyle'>
@@ -138,6 +169,7 @@ const EvaluationForm = ({ onSubmit }) => {
                     <input className= 'questionStyle input' type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
                 </div>
             </div>
+
             <div className='sectionStyle'>
                 <strong>1. PRODUCTIVITÉ</strong><br />
                 Capacité d’optimiser son rendement au travail
@@ -202,6 +234,41 @@ const EvaluationForm = ({ onSubmit }) => {
                 </div>
             </div>
 
+            <div className='sectionStyle'>
+                <strong>3. RELATIONS INTERPERSONNELLES</strong><br />
+                <p>Capacité à établir de bonnes relations interpersonnelles au travail</p>
+            </div>
+            <div className='sectionStyle'>
+                <p>Le stagiaire a été en mesure de :</p>
+                <div className='questionStyle'>
+                    <label htmlFor="etablirContacts">a) Établir facilement des contacts avec les gens :</label>
+                    {renderDropdown("etablirContacts")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="travailEquipe">b) Contribuer activement au travail d’équipe :</label>
+                    {renderDropdown("travailEquipe")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="adapterCulture">c) S’adapter facilement à la culture de l’entreprise :</label>
+                    {renderDropdown("adapterCulture")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="accepterCritiques">d) Accepter les critiques constructives :</label>
+                    {renderDropdown("accepterCritiques")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="respecterGens">e) Être respectueux envers les gens :</label>
+                    {renderDropdown("respecterGens")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="ecouteActive">f) Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre :</label>
+                    {renderDropdown("ecouteActive")}
+                </div>
+                <div className='questionStyle'>
+                    <label htmlFor="commentairesRelations">Commentaires :</label>
+                    <textarea id="commentairesRelations" name="commentairesRelations" value={evaluationData.commentairesRelations} onChange={handleChange} />
+                </div>
+            </div>
 
             <div className='sectionStyle'>
                 <strong>4. HABILETÉS PERSONNELLES</strong><br />
@@ -288,10 +355,10 @@ const EvaluationForm = ({ onSubmit }) => {
                     <input className= 'questionStyle input[type="radio"]' type="radio" name="accueilProchainStage" value="Peut-être" onChange={handleChange} />
                     Peut-être
                 </label><br />
-
-                <label >La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
-                <div className='questionStyle textarea'><br /><textarea name="commentairesHabiletes" value={evaluationData.commentairesHabiletes} onChange={handleChange} /></div>
-
+                <div className='questionStyle'>
+                    <label htmlFor='formationTechniqueSuffisante'>La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
+                    <textarea id='formationTechniqueSuffisante' name="formationTechniqueSuffisante" value={evaluationData.formationTechniqueSuffisante} onChange={handleChange} />
+                </div>
                 <label className='questionStyle label'>Nom (en lettres moulées):</label><br />
                 <input className= 'questionStyle input' type="text" name="nomSignataire" value={evaluationData.nomSignataire} onChange={handleChange} /><br />
 
@@ -322,7 +389,7 @@ const EvaluationForm = ({ onSubmit }) => {
             </div>
                 <button type="submit">Soumettre l'Évaluation</button>
 
-            <PDFDownloadLink document={<EvaluationPDF evaluationData={evaluationData} />} fileName="evaluation-form.pdf">
+            <PDFDownloadLink document={<EvaluationPDF evaluationData={evaluationData} />} fileName="evaluation-form1.pdf">
                 {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
             </PDFDownloadLink>
     </form>

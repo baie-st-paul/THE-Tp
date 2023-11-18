@@ -1,9 +1,9 @@
-const updateStatusCvVuG = async (token, matricule, status) => {
+const fetchCvList = async (token, cvList, setCvList) => {
     try {
         fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/cv/${matricule}/${status}`,
+            "http://localhost:8081/api/v1/gestionnaire/cvs",
             {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
@@ -12,9 +12,9 @@ const updateStatusCvVuG = async (token, matricule, status) => {
             }
         ).catch(error => {
             console.log(error)
-            console.error("Failed to update status cv");
         }).then(
             async (res) => {
+                const data = await res.json()
                 try {
                     console.log(res.status)
                     if (res.status === 400) {
@@ -23,18 +23,23 @@ const updateStatusCvVuG = async (token, matricule, status) => {
                 } catch (e) {
                     console.log(e)
                 }
+                setCvList(data);
+                console.log("cvList",data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        if (cvList !== undefined){
+            setCvList(cvList)
+        }
     }
 }
 
-const updateStatusOffreVuG = async (token, titre, status) => {
+const fetchSessions = async (token, sessions, setSession) => {
     try {
         fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/offre/${titre}/${status}`,
+            'http://localhost:8081/api/v1/gestionnaire/getSessions',
             {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
@@ -43,9 +48,9 @@ const updateStatusOffreVuG = async (token, titre, status) => {
             }
         ).catch(error => {
             console.log(error)
-            console.error("Failed to update status offre");
         }).then(
             async (res) => {
+                const data = await res.json()
                 try {
                     console.log(res.status)
                     if (res.status === 400) {
@@ -54,18 +59,24 @@ const updateStatusOffreVuG = async (token, titre, status) => {
                 } catch (e) {
                     console.log(e)
                 }
+                setSession(data);
+                console.log("sessions",data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        if (sessions !== undefined){
+            setSession(sessions)
+        }
     }
+    return sessions
 }
 
-const updateStatusEntrevueVuG = async (token, matricule, status) => {
+const fetchOffreList = async (token, offres, setOffres) => {
     try {
         fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/entrevue/${matricule}/${status}`,
+            'http://localhost:8081/api/v1/gestionnaire/offres',
             {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
@@ -74,9 +85,9 @@ const updateStatusEntrevueVuG = async (token, matricule, status) => {
             }
         ).catch(error => {
             console.log(error)
-            console.error("Failed to update status entrevue");
         }).then(
             async (res) => {
+                const data = await res.json()
                 try {
                     console.log(res.status)
                     if (res.status === 400) {
@@ -85,33 +96,115 @@ const updateStatusEntrevueVuG = async (token, matricule, status) => {
                 } catch (e) {
                     console.log(e)
                 }
+                setOffres(data);
+                console.log("offres",data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        if (offres !== undefined){
+            setOffres(offres)
+        }
     }
 }
 
-const updateStatusCandidatureEmbaucheVuG = async (token, matricule, status) => {
+const getEtudiantsEntrevue = async (token, candidaturesEntrevue, setCandidaturesEntrevue) => {
     try {
         fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/embauche/${matricule}/${status}`,
+            `http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue`,
             {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+                setCandidaturesEntrevue(data)
+                console.log("candidaturesEntrevue",data)
+            })
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+        if (candidaturesEntrevue !== undefined){
+            setCandidaturesEntrevue(candidaturesEntrevue)
+        }
+    }
+}
+
+const getEtudiantsEmbauches = async (token, candidaturesEmbauches, setCandidaturesEmbauches) => {
+    try {
+        fetch(
+            `http://localhost:8081/api/v1/gestionnaire/candidatures/acceptees`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true
+            }
+        ).catch(error => {
+            console.log(error)
+        }).then(
+            async (res) => {
+                const data = await res.json()
+                try {
+                    console.log(res.status)
+                    if (res.status === 400) {
+                        console.log(res.status)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+                setCandidaturesEmbauches(data)
+                console.log("candidaturesEmbauches",data)
+            })
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+        if (candidaturesEmbauches !== undefined){
+            setCandidaturesEmbauches(candidaturesEmbauches)
+        }
+    }
+}
+
+const fetchContrats = async (token, contrats, setContrats) => {
+    try {
+        fetch(
+            `http://localhost:8081/api/v1/gestionnaire/getContrats`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    Authorization: 'Bearer ' + token
                 },
                 withCredentials: true,
             }
         ).catch(error => {
             console.log(error)
-            console.error("Failed to update status embauche");
         }).then(
             async (res) => {
                 try {
                     console.log(res.status)
-                    if (res.status === 400) {
-                        console.log(res.status)
+                    if (res.ok) {
+                        const data = await res.json()
+                        setContrats(data)
+                        console.log("contrats",data)
+                    }
+                    else {
+                        const data = await res.json();
+                        console.log('Erreur', res.status, data);
                     }
                 } catch (e) {
                     console.log(e)
@@ -119,46 +212,18 @@ const updateStatusCandidatureEmbaucheVuG = async (token, matricule, status) => {
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        setContrats([])
+        console.log(contrats)
     }
 }
 
-const updateStatusContratVuG = async (token, matricule, status) => {
-    try {
-        fetch(
-            `http://localhost:8081/api/v1/gestionnaire/dashboard/update/contrat/${matricule}/${status}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            }
-        ).catch(error => {
-            console.log(error)
-            console.error("Failed to update status contrat");
-        }).then(
-            async (res) => {
-                try {
-                    console.log(res.status)
-                    if (res.status === 400) {
-                        console.log(res.status)
-                    }
-                } catch (e) {
-                    console.log(e)
-                }
-            })
-    } catch (error) {
-        console.log('Une erreur est survenue:', error);
-    }
+const exportedFetchs = {
+    fetchCvList,
+    fetchSessions,
+    fetchOffreList,
+    getEtudiantsEntrevue,
+    getEtudiantsEmbauches,
+    fetchContrats
 }
 
-const exportedFetchsUpdateStatus = {
-    updateStatusCvVuG,
-    updateStatusOffreVuG,
-    updateStatusEntrevueVuG,
-    updateStatusCandidatureEmbaucheVuG,
-    updateStatusContratVuG
-}
-
-export default exportedFetchsUpdateStatus
+export default exportedFetchs

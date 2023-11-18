@@ -1,14 +1,17 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.EvaluationPDFRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -17,6 +20,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +37,8 @@ public class EmployerService {
     private UserService userService;
     @Autowired
     ContratStageRepository contratStageRepository;
+    @Autowired
+    EvaluationPDFRepository evaluationPDFRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -94,5 +100,19 @@ public class EmployerService {
         ContratStage contract = optionalContract.get();
         contract.setStatutEmployeur(ContratStage.Statut.Signer);
         contratStageRepository.save(contract);
+    }
+
+    @Transactional
+    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto) throws IOException {
+        EvaluationPDF evaluation = new EvaluationPDF();
+        evaluation.setName(evaluationPdfDto.getName());
+        evaluation.setContent(evaluationPdfDto.getContent());
+
+        EvaluationPDF savedEvaluation = evaluationPDFRepository.save(evaluation);
+
+        EvaluationPdfDto savedEvaluationDto = new EvaluationPdfDto();
+        savedEvaluationDto.setName(savedEvaluation.getName());
+
+        return savedEvaluationDto;
     }
 }

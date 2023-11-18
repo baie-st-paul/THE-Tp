@@ -3,14 +3,22 @@ import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
     body: { padding: 10 },
-    title: { fontSize: 18, textAlign: 'center', marginBottom: 10, fontWeight: 'bold' },
+    title: { fontSize: 20, textAlign: 'center', marginBottom: 10, fontWeight: 'bold' },
     subtitle: { fontSize: 15, marginTop: 10, marginBottom: 5, fontWeight: 'bold' },
     header: { fontSize: 12, fontWeight: 'bold', marginBottom: 2 },
-    text: { margin: 5, fontSize: 12 },
-    section: { marginBottom: 10 },
-    footer: { fontSize: 10, textAlign: 'center', marginTop: 10 },
+    text: { margin: 5, fontSize: 12, textAlign: 'justify' },
+    section: { marginBottom: 10, textAlign: 'center', border: '1px solid black', padding: 10, fontSize: 15 },
+    footer: { fontSize: 7, textAlign: 'left', marginTop: 10 },
     input: { marginBottom: 3 },
-    // TODO:  autres styles et champs
+    textarea: { marginBottom: 3, height: 100 },
+    checkbox: { margin: 3 },
+    radio: { margin: 3 },
+    select: { marginBottom: 3 },
+    button: { marginTop: 10 },
+    table: { display: "table", width: "auto", borderStyle: "solid", borderWidth: 1, borderRightWidth: 0, borderBottomWidth: 0 },
+    tableRow: { margin: "auto", flexDirection: "row" },
+    tableColHeader: { width: "25%", borderStyle: "solid", borderBottomWidth: 1, borderLeftWidth: 1 },
+    tableCol: { width: "25%", borderStyle: "solid", borderLeftWidth: 1 },
 });
 
 const EvaluationPDF = ({ evaluationData }) => (
@@ -21,7 +29,11 @@ const EvaluationPDF = ({ evaluationData }) => (
       {/* Section Informations générales */}
       <View style={styles.section}>
         <Text style={styles.text}>Nom de l’élève: {evaluationData.nomEleve}</Text>
-        {/* Autres champs */}
+        <Text style={styles.text}>Programme d'étude: {evaluationData.numeroTelephone}</Text>
+        <Text style={styles.text}>Nom de l’entreprise: {evaluationData.nomEntreprise}</Text>
+        <Text style={styles.text}>Nom du superviseur: {evaluationData.nomSuperviseur}</Text>
+        <Text style={styles.text}>Fonction: {evaluationData.fonctionSuperviseur}</Text>
+        <Text style={styles.text}>Numéro de téléphone: {evaluationData.numeroTelephone}</Text>
       </View>
 
       {/* Section Productivité */}
@@ -46,6 +58,7 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Commentaires: {evaluationData.commentairesQualite}</Text>
       </View>
 
+        {/* Section Relations interpersonnelles */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>3. RELATIONS INTERPERSONNELLES</Text>
         <Text style={styles.text}>a) Établir des contacts aisément: {evaluationData.etablirContacts}</Text>
@@ -57,6 +70,8 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Commentaires: {evaluationData.commentairesRelations}</Text>
       </View>
 
+
+        {/* Section Habiletés personnelles */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>4. HABILETÉS PERSONNELLES</Text>
         <Text style={styles.text}>a) Démontrer de l’intérêt et de la motivation au travail: {evaluationData.interetMotivation}</Text>
@@ -68,6 +83,8 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Commentaires: {evaluationData.commentairesHabiletes}</Text>
       </View>
 
+
+        {/* Section Habiletés techniques */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>APPRECIATION GLOBALE DU STAGIAIRE</Text>
         <Text style={styles.text}>Les habiletés démontrées dépassent de beaucoup les attentes: {evaluationData.appreciationGlobale}</Text>
@@ -79,6 +96,8 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Cette évaluation a été discutée avec le stagiaire: {evaluationData.accord}</Text>
       </View>
 
+
+        {/* Section Signature */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>L’ENTREPRISE AIMERAIT ACCUEILLIR CET ÉLÈVE POUR SON PROCHAIN STAGE</Text>
         <Text style={styles.text}>Accueil pour le prochain stage: {evaluationData.accueilProchainStage}</Text>
@@ -90,7 +109,7 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Date: {evaluationData.dateSignature}</Text>
       </View>
 
-        <Text style={styles.subtitle}>Veuillez retourner ce formulaire à :{"\n"}
+        <Text>Veuillez retourner ce formulaire à :{"\n"}
             Patrice Brodeur{"\n"}
             Cégep André-Laurendeau{"\n"}
             1111, rue Lapierre{"\n"}
@@ -99,7 +118,7 @@ const EvaluationPDF = ({ evaluationData }) => (
             Numéro de télécopieur : (514) 364-7130
         </Text>
 
-        <Text style={styles.subtitle}>Nous vous remercions de votre appui !{"\n"}
+        <Text style={styles.footer}>Nous vous remercions de votre appui !{"\n"}
             Collège André-Laurendeau{"\n"}
             ALTERNANCE TRAVAIL-ÉTUDES{"\n"}
             2010-09-21

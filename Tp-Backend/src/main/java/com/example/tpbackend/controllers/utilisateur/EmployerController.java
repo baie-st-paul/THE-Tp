@@ -1,9 +1,11 @@
 package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -12,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -89,5 +93,18 @@ public class EmployerController {
     public ResponseEntity<List<ContratStageDTO>> getContratsByEmployeur(@PathVariable Long employerId) {
         List<ContratStageDTO> employerContracts = employerService.getContratStageByEmployeur(employerId);
         return ResponseEntity.ok(employerContracts);
+    }
+
+    @PostMapping("/upload_evaluation")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        try {
+            EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
+            EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO);
+           String message = String.format("Fichier '%s' reçu et sauvegardé.", savedDocumentDto.getName());
+
+            return ResponseEntity.ok(message);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier");
+        }
     }
 }

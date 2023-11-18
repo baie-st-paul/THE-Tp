@@ -21,8 +21,7 @@ const fetchSignature = async (token, employerId, signature, setSignature) => {
                     if (res.ok) {
                         const data = await res.json()
                         setSignature(data)
-                        console.log("dataS",data)
-                        console.log("signature",signature)
+                        console.log("signature",data)
                     }
                     else {
                         console.log("Failed to fetch data")

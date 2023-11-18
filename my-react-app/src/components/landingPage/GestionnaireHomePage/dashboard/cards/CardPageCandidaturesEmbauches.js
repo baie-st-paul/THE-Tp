@@ -8,7 +8,7 @@ const CardPageCandidaturesEmbauches = ({candidaturesEmbauches}) => {
         candidaturesEmbauches.filter((embauche) => embauche.statusVuPasVuG === "pasVu");
 
     return (
-        <CardsPage filteredList={filteredEmbauchesList} titre="création de contrats en attente" url="/embauchés"
+        <CardsPage nbFilteredList={filteredEmbauchesList.length} titre="création de contrats en attente" url="/embauchés"
                    id="cards" colorAvatar="saddlebrown"/>
     )
 }

@@ -8,7 +8,7 @@ const CardPageOffres = ({sessions, offres}) => {
         offres.filter((dto) => dto.status === "In_review");
 
     return (
-        <CardsPage filteredList={filteredList} titre="offres en attente" url="/Offres-veto"
+        <CardsPage nbFilteredList={filteredList.length} titre="offres en attente" url="/Offres-veto"
                    id="cards" colorAvatar="saddlebrown"/>
     )
 }

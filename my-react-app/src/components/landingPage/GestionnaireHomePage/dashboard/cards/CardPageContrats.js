@@ -8,7 +8,7 @@ const CardPageContrats = ({contrats}) => {
         contrats.filter((dto) => dto.statutGestionnaire === "Pas_Signer");
 
     return (
-        <CardsPage filteredList={filteredList} titre="signatures de contrats en attente" url="/contrats"
+        <CardsPage nbFilteredList={filteredList.length} titre="signatures de contrats en attente" url="/contrats"
                    id="cards" colorAvatar="saddlebrown"/>
     )
 }

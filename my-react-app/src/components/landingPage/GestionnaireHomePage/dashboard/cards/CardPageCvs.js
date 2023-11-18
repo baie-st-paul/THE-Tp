@@ -8,7 +8,7 @@ const CardPageCvs = ({cvList}) => {
         cvList.filter((dto) => dto.status === "In_review");
 
     return (
-        <CardsPage filteredList={filteredList} titre="cvs en attente" url="/CV-veto"
+        <CardsPage nbFilteredList={filteredList.length} titre="cvs en attente" url="/CV-veto"
                    id="cards" colorAvatar="saddlebrown"/>
     )
 }

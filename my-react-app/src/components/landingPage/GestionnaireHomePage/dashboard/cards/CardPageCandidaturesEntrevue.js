@@ -11,9 +11,9 @@ const CardPageCandidaturesEntrevue = ({candidaturesEntrevue}) => {
 
     return (
         <div>
-            <CardsPage filteredList={filteredEntrevues} titre="entrevues pas encore accepté par l'étudiant" url="/entrevues"
+            <CardsPage nbFilteredList={filteredEntrevues.length} titre="entrevues pas encore accepté par l'étudiant" url="/entrevues"
                        id="cardsPasCritique" colorAvatar="#000066"/>
-            <CardsPage filteredList={filteredPasVuEntrevues} titre="nouvelles entrevues" url="/entrevues"
+            <CardsPage nbFilteredList={filteredPasVuEntrevues.length} titre="nouvelles entrevues" url="/entrevues"
                        id="cardsPasCritique" colorAvatar="#000066"/>
         </div>
     )

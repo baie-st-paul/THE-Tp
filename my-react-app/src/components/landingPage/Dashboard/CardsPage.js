@@ -5,7 +5,7 @@ import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 import "./CardsCritique.css"
 import "./CardsPasCritique.css"
 
-const CardsPage = ({filteredList, titre, url, id, colorAvatar}) => {
+const CardsPage = ({nbFilteredList, titre, url, id, colorAvatar}) => {
     const navigate = useNavigate()
 
     return (
@@ -19,7 +19,7 @@ const CardsPage = ({filteredList, titre, url, id, colorAvatar}) => {
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                        primary={filteredList.length + " " + titre}
+                        primary={nbFilteredList + " " + titre}
                     />
                 </ListItem>
             </Card.Body>

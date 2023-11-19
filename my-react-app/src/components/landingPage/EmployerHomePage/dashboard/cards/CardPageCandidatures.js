@@ -1,6 +1,6 @@
 import CardsPage from "../../../Dashboard/CardsPage";
 
-const CardPageCandidatures = ({candidatures, entrevues}) => {
+const CardPageCandidatures = ({offres, candidatures, entrevues}) => {
     const filterEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
         candidatures.filter((candidature) => candidature.status === "In_review");
 
@@ -15,6 +15,9 @@ const CardPageCandidatures = ({candidatures, entrevues}) => {
         )
     console.log(filterPasEntrevue)
 
+    const offresNotAccepted = offres.length !== 0 && offres.length !== undefined &&
+        offres.filter((offre) => offre.status !== "Accepted")
+
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");
 
@@ -25,6 +28,8 @@ const CardPageCandidatures = ({candidatures, entrevues}) => {
             <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/offres"
                        id="cards" colorAvatar="saddlebrown"/>
             <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant" url="/offres"
+                       id="cardsPasCritique" colorAvatar="#000066"/>
+            <CardsPage nbFilteredList={offresNotAccepted.length} titre="offres pas encore acceptées par le gestionnaire" url="/offres"
                        id="cardsPasCritique" colorAvatar="#000066"/>
         </div>
     )

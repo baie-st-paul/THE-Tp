@@ -5,6 +5,7 @@ import CardPageCandidatures from "./cards/CardPageCandidatures";
 import {List} from "@mui/material";
 
 const DashboardPageEmp = () => {
+    const [offres, setOffres] = useState([])
     const [candidatures, setCandidatures] = useState([])
     const [entrevues, setEntrevues] = useState([])
     const [contrats, setContrats] = useState([])
@@ -16,6 +17,7 @@ const DashboardPageEmp = () => {
     }, []);
 
     const getFetchs = async () => {
+        setOffres(FetchsForDashboardEmp.fetchOffresEmp(token, offres, setOffres))
         setCandidatures(FetchsForDashboardEmp.fetchAllCandidatures(token, candidatures, setCandidatures))
         setEntrevues(FetchsForDashboardEmp.fetchAllEntrevues(token, entrevues, setEntrevues))
         setContrats(FetchsForDashboardEmp.fetchContratsEmp(token, contrats, setContrats))
@@ -28,7 +30,7 @@ const DashboardPageEmp = () => {
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
                     <CardPageContratsEmp contrats={contrats}/>
-                    <CardPageCandidatures candidatures={candidatures} entrevues={entrevues}/>
+                    <CardPageCandidatures offres={offres} candidatures={candidatures} entrevues={entrevues}/>
                 </div>
             </List>
         </div>

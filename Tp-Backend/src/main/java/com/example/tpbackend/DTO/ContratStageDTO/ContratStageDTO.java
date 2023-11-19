@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO;
+package com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;

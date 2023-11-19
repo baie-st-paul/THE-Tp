@@ -1,6 +1,6 @@
 package com.example.tpbackend.controller.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
@@ -13,10 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;

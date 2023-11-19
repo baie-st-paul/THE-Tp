@@ -1,12 +1,9 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.utilisateur.Utilisateur;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;

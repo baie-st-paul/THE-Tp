@@ -1,6 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

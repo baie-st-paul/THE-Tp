@@ -1,9 +1,8 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
-import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
@@ -43,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.rules.Timeout;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -58,7 +56,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -558,8 +555,8 @@ public class GestionnaireServiceTest {
 
         assertEquals(2, result.size());
 
-        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature1), result.get(0));
-        assertEquals(CandidatureDTODetailed.toCandidatureDTODetailed(candidature2), result.get(1));
+        assertEquals(CandidatureDTODetailed.fromCandidature(candidature1), result.get(0));
+        assertEquals(CandidatureDTODetailed.fromCandidature(candidature2), result.get(1));
 
         verify(candidatureRepository, times(1)).findByStatus(Candidature.Status.Accepted);
     }

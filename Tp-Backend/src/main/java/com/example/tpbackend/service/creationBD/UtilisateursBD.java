@@ -1,7 +1,7 @@
 package com.example.tpbackend.service.creationBD;
 
 import com.example.tpbackend.DTO.Authentication.RegisterRequest;
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;

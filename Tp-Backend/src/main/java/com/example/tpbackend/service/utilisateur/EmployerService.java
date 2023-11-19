@@ -1,6 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;

@@ -1,6 +1,6 @@
 package com.example.tpbackend.controller.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;

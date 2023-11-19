@@ -1,7 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.OffreStage;

@@ -1,14 +1,10 @@
 package com.example.tpbackend.controller;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.tpbackend.controllers.utilisateur.StudentController;
-import com.example.tpbackend.service.security.JwtService;
-import com.example.tpbackend.service.utilisateur.StudentServices;
-import com.example.tpbackend.service.utilisateur.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

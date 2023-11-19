@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
@@ -14,7 +15,6 @@ import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.Entrevue;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
-import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
@@ -174,10 +174,15 @@ public class GestionnaireService {
         return contratStages.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
     }
 
+    public List<ContratStageDTODetails> getAllContratsDetails() {
+        List<ContratStage> contratStages = contratStageRepository.findAll();
+        return contratStages.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
+    }
+
     @Transactional
     public List<CandidatureDTODetailed> getCandidaturesAcceptees() {
         List<Candidature> candidaturesAcceptees = candidatureRepository.findByStatus(Candidature.Status.Accepted);
-        return candidaturesAcceptees.stream().map(CandidatureDTODetailed::toCandidatureDTODetailed).collect(Collectors.toList());
+        return candidaturesAcceptees.stream().map(CandidatureDTODetailed::fromCandidature).collect(Collectors.toList());
     }
 
     @Transactional

@@ -36,6 +36,7 @@ const EtudiantEmbauchePage = () => {
 
     useEffect(() => {
         getEtudiantsEmbauches();
+        fetchContrats();
     },[])
 
     async function getEtudiantsEmbauches() {
@@ -74,23 +75,55 @@ const EtudiantEmbauchePage = () => {
         }
     }
 
+    async function fetchContrats() {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/getContratsDetails`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        Authorization: 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json()
+                            console.log(data)
+                            setContrats(data)
+                        }
+                        else {
+                            const data = await res.json();
+                            console.log('Erreur', res.status, data);
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            console.log(contrats)
+        }
+    }
+
     async function handleCreateContrat(candidature) {
         try {
-            const studentId = candidature.student.matricule
-            const employerId = candidature.offreStage.employerId
-            const nomDePoste = candidature.offreStage.titre
-
-            console.log(studentId)
-            console.log(employerId)
-            console.log(nomDePoste)
 
             const contratStage = ({
-                "studentId": studentId,
-                "employerId": employerId,
-                nomDePoste,
-                "statutEtudiant": "Pas_Signer",
-                "statutEmployeur": "Pas_Signer",
-                "statutGestionnaire": "Pas_Signer",
+                "candidatureId": candidature.id,
+                "nomEtudiant": candidature.student.lastName,
+                "nomDeCompanie": candidature.employer.companyName,
+                "nomDePoste": candidature.offreStage.titre,
+                "prenomEtudiant": candidature.student.firstName,
+                "statutEtudiant":"Pas_Signer",
+                "statutEmployeur":"Pas_Signer",
+                "statutGestionnaire":"Pas_Signer",
                 "statusVuPasVuG":"pasVu",
                 "statusVuPasVuE":"pasVu",
                 "statusVuPasVuS":"pasVu",
@@ -120,7 +153,7 @@ const EtudiantEmbauchePage = () => {
                         console.log(e)
                     }
                     console.log(data)
-                    setContrats([data])
+                    setContrats([...contrats, data])
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -217,44 +250,44 @@ const EtudiantEmbauchePage = () => {
                                             />
                                             </Button>
 
-                                            { candidature.student.fileName !== '' ?
-                                                <Button className="btn btn-primary"
-                                                        onClick={() => handleMontrerLettre(candidature)}>
-                                                    Lettre de motivation <FaEnvelopeOpen
-                                                    style={{color: 'black'}}
-                                                /></Button>
-                                                : <Button className="btn btn-primary disabled"
-                                                          onClick={() => handleMontrerLettre(candidature)}>
-                                                    Lettre de motivation <FaEnvelopeOpen
-                                                    style={{color: 'black'}}
-                                                /></Button>
-                                            }
-                                            { contrats.length > 0 ?
-                                                <>
-                                                    <br/>
-                                                    <FontAwesomeIcon icon={faCheck} /> Contrat créé
-                                                </> :
-                                                <Button className="btn btn-primary"
-                                                        onClick={() => handleCreateContrat(candidature)}>
-                                                    Créer un contrat de stage <FaPencil
-                                                    style={{color: 'black'}}
-                                                /></Button>
-                                            }
-                                        </Card.Body>
-                                    </Card>
-                                )
-                            )
-                    }
-                    {openModal && candidatures.length > 0 &&
-                        <Modal cv={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
-                               onClose={handleMontrerCv} />
-                    }
-                    {openModalLettre && candidatures.length > 0 &&
-                        <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
-                               onClose={handleMontrerLettre} />
-                    }
-                </div>
-            </div>
+                                { candidature.student.fileName !== '' ?
+                                    <Button className="btn btn-primary"
+                                            onClick={() => handleMontrerLettre(candidature)}>
+                                        Lettre de motivation <FaEnvelopeOpen
+                                        style={{color: 'black'}}
+                                    /></Button>
+                                    : <Button className="btn btn-primary disabled"
+                                              onClick={() => handleMontrerLettre(candidature)}>
+                                        Lettre de motivation <FaEnvelopeOpen
+                                        style={{color: 'black'}}
+                                    /></Button>
+                                }
+                                { contrats.some( contrat => { return contrat.candidatureDTO.id === candidature.id } ) ?
+                                    <>
+                                        <br/>
+                                        <FontAwesomeIcon icon={faCheck} /> Contrat créé
+                                    </> :
+                                    <Button className="btn btn-primary"
+                                            onClick={() => handleCreateContrat(candidature)}>
+                                        Créer un contrat de stage <FaPencil
+                                        style={{color: 'black'}}
+                                    /></Button>
+                                }
+                            </Card.Body>
+                        </Card>
+                    )
+                )
+            }
+            {openModal && candidatures.length > 0 &&
+                <Modal cv={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
+                       onClose={handleMontrerCv} />
+            }
+            {openModalLettre && candidatures.length > 0 &&
+                <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
+                       onClose={handleMontrerLettre} />
+            }
+        </div>
+    </div>
         </div>
     )
 }

@@ -1,7 +1,9 @@
 package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
@@ -50,9 +52,9 @@ public class GestionnaireControllerTest {
         inputDto.setId(1L);
         inputDto.setCandidatureId(2L);
 
-        ContratStageDTO mockResponse = new ContratStageDTO();
+        ContratStageDTODetails mockResponse = new ContratStageDTODetails();
         mockResponse.setId(1L);
-        mockResponse.setCandidatureId(2L);
+
 
         when(gestionnaireService.createContrat(any(ContratStageDTO.class))).thenReturn(mockResponse);
 
@@ -63,8 +65,7 @@ public class GestionnaireControllerTest {
                         .content(jsonContent))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(mockResponse)))
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.candidatureId").value(2L));
+                .andExpect(jsonPath("$.id").value(1L));
     }
 
     @Test

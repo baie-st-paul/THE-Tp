@@ -410,6 +410,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "pasVu",
                 "pasVu"
         );
+        /*
         createContrat(
                 3L,
                 3L,
@@ -432,6 +433,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "pasVu",
                 "pasVu"
         );
+        */
     }
 
     public void createContrat(Long id, Long candidatureId, String nomDePoste, String prenom, String nom, String titreOffre,

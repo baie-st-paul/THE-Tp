@@ -148,7 +148,7 @@ public class GestionnaireService {
     }
 
     @Transactional
-    public ContratStageDTO createContrat(ContratStageDTO contratStageDTO) {
+    public ContratStageDTODetails createContrat(ContratStageDTO contratStageDTO) {
         Candidature candidature = candidatureRepository.getReferenceById(contratStageDTO.getCandidatureId());
         ContratStage contratStage = contratStageDTO.toContratStage();
         contratStage.setCandidature(candidature);
@@ -165,7 +165,7 @@ public class GestionnaireService {
 
         ContratStage contratStageSaved = contratStageRepository.save(contratStage);
 
-        return ContratStageDTO.fromContratStage(contratStageSaved);
+        return ContratStageDTODetails.fromContratStage(contratStageSaved);
     }
 
     @Transactional

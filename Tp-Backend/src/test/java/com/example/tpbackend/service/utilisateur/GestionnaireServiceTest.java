@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
@@ -476,7 +477,7 @@ public class GestionnaireServiceTest {
         Mockito.when(contratStageRepository.save(any(ContratStage.class))).thenReturn(mockContrat);
         Mockito.when(candidatureRepository.getReferenceById(anyLong())).thenReturn(mockCandidature);
 
-        ContratStageDTO result = gestionnaireService.createContrat(contratDTO);
+        ContratStageDTODetails result = gestionnaireService.createContrat(contratDTO);
         assertNotNull(result);
     }
 

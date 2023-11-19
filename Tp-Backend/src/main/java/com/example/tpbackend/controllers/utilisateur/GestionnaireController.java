@@ -62,7 +62,7 @@ public class GestionnaireController {
     @PreAuthorize("authenticated")
     public ResponseEntity<?> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
         try {
-            ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
+            ContratStageDTODetails newContratStage = gestionnaireService.createContrat(contratStageDTO);
             return new ResponseEntity<>(newContratStage, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e.getMessage());

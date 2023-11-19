@@ -2,12 +2,15 @@ package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
@@ -33,6 +36,8 @@ public class EmployerService {
     private UserService userService;
     @Autowired
     ContratStageRepository contratStageRepository;
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -70,6 +75,14 @@ public class EmployerService {
     public EmployerGetDTO getEmployerByAuthentication(){
         Employer employer = employerRepository.findByUtilisateurId(userService.getUserId());
         return EmployerGetDTO.fromEmployer(employer);
+    }
+
+    @Transactional
+    public List<CandidatureDTO> getAllCandidatures() {
+        return candidatureRepository.findAll()
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
     }
 
     public Tag getTag(){

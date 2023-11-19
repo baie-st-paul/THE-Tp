@@ -278,6 +278,9 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllCandidature() throws IOException {
         createCandidature("1234567", 1L, "lettreMotiv.pdf");
+        createCandidature("1234567", 2L, "lettreMotiv.pdf");
+        createCandidature("1234567", 3L, "lettreMotiv.pdf");
+        createCandidature("1234567", 4L, "lettreMotiv.pdf");
         createCandidature("5869595", 2L, "lettreMotiv.pdf");
         createCandidature("8675848", 3L, "lettreMotiv.pdf");
         createCandidature("4738494", 4L, "lettreMotiv.pdf");
@@ -328,26 +331,6 @@ public class UtilisateursBD implements CommandLineRunner {
                 "5869595",
                 "2");
         createEntrevue(3,
-                "2023-11-30, 14:30",
-                "rendez-vous sur teams",
-                "EnAttente",
-                "pasVu",
-                "pasVu",
-                "ALaurendeau",
-                "1",
-                "8675848",
-                "2");
-        createEntrevue(4,
-                "2023-11-25, 9:30",
-                "rendez-vous sur zoom",
-                "Acceptee",
-                "pasVu",
-                "pasVu",
-                "ALaurendeau",
-                "1",
-                "4738494",
-                "3");
-        createEntrevue(5,
                 "2023-11-15, 10:30",
                 "rendez-vous sur zoom",
                 "Acceptee",
@@ -357,7 +340,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 "1",
                 "4959695",
                 "4");
-        createEntrevue(6,
+        createEntrevue(4,
                 "2023-11-10, 8:00",
                 "rendez-vous sur teams",
                 "Refusee",
@@ -365,8 +348,8 @@ public class UtilisateursBD implements CommandLineRunner {
                 "pasVu",
                 "ALaurendeau",
                 "1",
-                "7654321",
-                "4");
+                "8675848",
+                "3");
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,
@@ -391,7 +374,7 @@ public class UtilisateursBD implements CommandLineRunner {
         createContrat(
                 1L,
                 1L,
-                "DEV",
+                "ALaurendeau",
                 "lina",
                 "lac",
                 "Dev web react",
@@ -401,8 +384,8 @@ public class UtilisateursBD implements CommandLineRunner {
         );
         createContrat(
                 2L,
-                2L,
-                "DEV",
+                5L,
+                "ALaurendeau",
                 "flo",
                 "fla",
                 "Dev web angular",
@@ -436,13 +419,13 @@ public class UtilisateursBD implements CommandLineRunner {
         */
     }
 
-    public void createContrat(Long id, Long candidatureId, String nomDePoste, String prenom, String nom, String titreOffre,
+    public void createContrat(Long id, Long candidatureId, String nomDeCompanie, String prenom, String nom, String titreOffre,
                               String statusG, String statusE, String statusS) {
         ContratStageDTO contratStageDTO = new ContratStageDTO(
                 id,
                 candidatureId,
-                nomDePoste,
                 nom,
+                nomDeCompanie,
                 titreOffre,
                 prenom,
                 "Pas_Signer",
@@ -551,7 +534,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 22),
                 LocalDate.of(2023, 11, 30),
                 15,
-                "In_review",
+                "Accepted",
                 "pasVu",
                 "vu",
                 "pasVu",

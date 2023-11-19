@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
+import NavBarStudent from "../../NavBar/student/NavBarStudent";
 
 export default function EtudiantMesContrats({matricule, contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
@@ -25,30 +26,39 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
     )
 
     const fetchContrats = async () => {
+        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
         try {
-            const res = await fetch(
-                `http://localhost:8081/api/v1/student/student-contracts/${matricule}`,
+            fetch(
+                `http://localhost:8081/api/v1/student/student-contracts/${savedMatricule}`,
                 {
                     method: 'GET',
                     headers: {
                         'Content-type': 'application/json',
                         Authorization : 'Bearer ' + localStorage.getItem('token')
                     },
-                    withCredentials: true
+                    withCredentials: true,
                 }
-            );
-            if (res.ok) {
-                const data = await res.json();
-                setContrats(data)
-                console.log(data)
-            } else {
-                const data = await res.json();
-                console.log('Erreur', res.status, data);
-
-            }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    console.log(res.status)
+                    try {
+                        if (res.ok) {
+                            const data = await res.json();
+                            setContrats(data)
+                            console.log("contrats",data)
+                        } else {
+                            const data = await res.json();
+                            console.log('Erreur', res.status, data);
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            setContrats(contratsTest)
+            setContrats([])
             console.log(contrats)
 
         }
@@ -114,78 +124,82 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
 
 
     return (
-        <div className="container w-100">
-            <div className="row">
-                <div className="col-lg-12">
-                    <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
-                </div>
-                {contrats.length > 0  ?
-                    <div className="table-responsive table-container">
-                        <table className="table w-100 text-start">
-                            <thead>
-                            <tr>
-                                <th className="header-cell h5">Nom, Prénom</th>
-                                <th className="header-cell h5">Matricule</th>
-                                <th className='header-cell h5'>Nom de compagnie</th>
-                                <th className='header-cell h5'>Poste</th>
-                                <th className="header-cell h5">Signé par étudiant</th>
-                                <th className="header-cell h5">Signé par employeur</th>
-                                <th className="header-cell h5" >Signé par gestionnaire</th>
-                            </tr>
-                            </thead>
-                            <tbody className='w-100'>
-                            {contrats.length > 0  && contrats
-                                .map((etudiant, index) => (
-                                    <tr key={index} className="table-row align-middle">
-                                        <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
-                                        <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
-                                        <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
-                                        <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
-                                        {
-                                            etudiant.statutEtudiant === 'Pas_Signer' ?
-                                                <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
-                                                :
-                                                <td data-label="Signé par étudiant" className="fw-semibold">Signé</td>
-                                        }
-                                        <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+        <div>
+            <NavBarStudent/>
+            <div id="Render" className="container content-container mt-4">
+                <div className="container w-100">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
+                        </div>
+                        {contrats !== undefined && contrats.length > 0  ?
+                            <div className="table-responsive table-container">
+                                <table className="table w-100 text-start">
+                                    <thead>
+                                    <tr>
+                                        <th className="header-cell h5">Nom, Prénom</th>
+                                        <th className="header-cell h5">Matricule</th>
+                                        <th className='header-cell h5'>Nom de compagnie</th>
+                                        <th className='header-cell h5'>Poste</th>
+                                        <th className="header-cell h5">Signé par étudiant</th>
+                                        <th className="header-cell h5">Signé par employeur</th>
+                                        <th className="header-cell h5" >Signé par gestionnaire</th>
                                     </tr>
-                                ))
-                            }
-                            </tbody>
-                        </table>
+                                    </thead>
+                                    <tbody className='w-100'>
+                                    {contrats.length > 0  && contrats
+                                        .map((etudiant, index) => (
+                                            <tr key={index} className="table-row align-middle">
+                                                <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
+                                                <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
+                                                <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
+                                                <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
+                                                {
+                                                    etudiant.statutEtudiant === 'Pas_Signer' ?
+                                                        <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
+                                                        :
+                                                        <td data-label="Signé par étudiant" className="fw-semibold">Signé</td>
+                                                }
+                                                <td data-label="Signé par employeur" className="fw-semibold">{etudiant.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                            </tr>
+                                        ))
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                            : <div>AUCUN CONTRAT A AFFICHER</div> }
                     </div>
-                    : <div>AUCUN CONTRAT A AFFICHER</div> }
+
+                    <ReactModal
+                        isOpen={isConfirmationModalOpen}
+                        onRequestClose={closeConfirmationModal}
+                        style={customStyles}
+                        ariaHideApp={false}
+                        contentLabel="Confirmation Modal"
+                    >
+                        <h2 title="Confirmation modal">Confirmation</h2>
+                        {confirmationType === "accept" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir signer le contrat ?</p>
+                                <button title="ConfirmAccept" className="btn btn-success" onClick={handleAcceptConfirmation}>
+                                    Oui
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <p>Êtes-vous sûr de vouloir refuser  ?</p>
+                                <button title="ConfirmRefuse" className="btn btn-danger" >
+                                    Oui
+                                </button>
+                            </>
+                        )}
+                        <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
+                            Non
+                        </button>
+                    </ReactModal>
+                </div>
             </div>
-
-            <ReactModal
-                isOpen={isConfirmationModalOpen}
-                onRequestClose={closeConfirmationModal}
-                style={customStyles}
-                ariaHideApp={false}
-                contentLabel="Confirmation Modal"
-            >
-                <h2 title="Confirmation modal">Confirmation</h2>
-                {confirmationType === "accept" ? (
-                    <>
-                        <p>Êtes-vous sûr de vouloir signer le contrat ?</p>
-                        <button title="ConfirmAccept" className="btn btn-success" onClick={handleAcceptConfirmation}>
-                            Oui
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <p>Êtes-vous sûr de vouloir refuser  ?</p>
-                        <button title="ConfirmRefuse" className="btn btn-danger" >
-                            Oui
-                        </button>
-                    </>
-                )}
-                <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
-                    Non
-                </button>
-            </ReactModal>
-
         </div>
     )
 }

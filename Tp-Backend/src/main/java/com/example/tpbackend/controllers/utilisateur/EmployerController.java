@@ -73,6 +73,13 @@ public class EmployerController {
         }
         return ResponseEntity.ok(candidatures);
     }
+
+    @GetMapping("/candidatures")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<CandidatureDTO>> getCandidatures() {
+        return ResponseEntity.ok(employerService.getAllCandidatures());
+    }
+
     @PostMapping("/signerContrat")
     @PreAuthorize("authenticated")
     public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {

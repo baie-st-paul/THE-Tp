@@ -85,7 +85,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                     try {
                         console.log(res.status)
                         if (res.ok) {
-                            const data = await res.json();
+                            await res.json();
                         } else {
                             console.error("Failed to fetch data");
                         }
@@ -146,16 +146,15 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
-                                {contrats //.length > 0 // && contrats.filter(etudiantNf => etudiantNf.studentId.includes(filtre))
-                                    .map((contrat, index) => (
-                                        <tr key={index} className="table-row align-middle">
-                                            <td  data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
-                                            <td  data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
-                                            <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
-                                            <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                            <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                            <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        </tr>
+                                {contrats.map((contrat, index) => (
+                                    <tr key={index} className="table-row align-middle">
+                                        <td  data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
+                                        <td  data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
+                                        <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
+                                        <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                        <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                    </tr>
                                     ))
                                 }
                                 </tbody>

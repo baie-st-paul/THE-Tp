@@ -86,41 +86,12 @@ const EvaluationForm = ({ onSubmit }) => {
         }))
     };
 
-    
-    const handleEvaluationSubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        console.log("Données d'évaluation:", JSON.stringify(evaluationData));
-        console.log("Token:", token);
-    
-        await fetch('http://localhost:8081/api/v1/employers/upload_evaluation', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            withCredentials: true,
-            body: JSON.stringify(evaluationData)
-        })
-        .then(async (res) => {
-            console.log("Statut de la réponse:", res.status);
-            const data = await res.json();
-            if (res.status === 400) {
-                console.log("Erreur de réponse:", data);
-            } else {
-                console.log("Données reçues:", data);
-                 //setActiveContent("evaluation-page");
-            }
-        })
-        .catch((err) => {
-            console.log("Erreur lors de l'envoi des données d'évaluation:", err);
-        });
-    };
-    
 
-
-  
-
+    const handleSubmit = () => {
+        onSubmit(evaluationData);
+    }
+    
+    
 
     const renderDropdown = (name) => (
         <select name={name} value={evaluationData[name]} onChange={handleChange} className='dropdownStyle'>
@@ -141,7 +112,7 @@ const EvaluationForm = ({ onSubmit }) => {
     );
 
     return (
-        <form onSubmit={handleEvaluationSubmit} className='formStyle'>
+        <form onSubmit={onSubmit} className='formStyle'>
             <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
             <div className='sectionStyle'>
                 <div className='questionStyle'>
@@ -387,9 +358,9 @@ const EvaluationForm = ({ onSubmit }) => {
                 ALTERNANCE TRAVAIL-ÉTUDES<br />
                 2010-09-21
             </div>
-                <button type="submit">Soumettre l'Évaluation</button>
+            <button type="button" onClick={handleSubmit}>Soumettre l'Évaluation en PDF</button>
 
-            <PDFDownloadLink document={<EvaluationPDF evaluationData={evaluationData} />} fileName="evaluation-form1.pdf">
+            <PDFDownloadLink document={<EvaluationPDF evaluationData={evaluationData} />} fileName="evaluation-form.pdf">
                 {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
             </PDFDownloadLink>
     </form>

@@ -12,6 +12,8 @@ import EmployeurMesContrats from "./contrat/EmployeurMesContrats";
 import DashboardPageEmp from "./dashboard/DashboardPageEmp";
 import CardPageSignature from "./dashboard/cards/signature/CardPageSignature";
 import EvaluationForm from "./evalution_stagiaire/EvaluationForm";
+import { pdf } from '@react-pdf/renderer';
+import EvaluationPDF from "./evalution_stagiaire/EvaluationPDF";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none"); 
@@ -106,38 +108,38 @@ const EmployerHomePage = () => {
     }
 
     const handleEvaluationSubmit = async (evaluationData) => {
-        console.log(JSON.stringify(evaluationData));
-        console.log(token);
-        await fetch(
-            'http://localhost:8081/api/v1/evaluations/create', 
-            {
+        pdf(<EvaluationPDF evaluationData={evaluationData} />).toBlob().then(blob => {
+            const formData = new FormData();
+            formData.append('file', blob, 'evaluation.pdf');
+
+            fetch('http://localhost:8081/api/v1/employers/upload_evaluation', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token 
+                    'Authorization': 'Bearer ' + token
                 },
-                withCredentials: true,
-                body: JSON.stringify(evaluationData)
-            }
-        ).catch((err) => {
-            console.log("Erreur lors de l'envoi des données d'évaluation:", err);
-        }).then(
-            async (res) => {
-                const data = await res.json();
-                try {
-                    console.log("Statut de la réponse:", res.status);
-                    if (res.status === 400) {
-                        console.log("Erreur de réponse:", res.status);
-                    }
-                    
-                } catch (e) {
-                    console.log("Erreur lors du traitement de la réponse:", e);
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log("PDF envoyé avec succès");
+                    setActiveContent("evaluation-page");
+                    return response.json(); // ou .text() si la réponse n'est pas en JSON
+                } else {
+                    console.log("Erreur lors de l'envoi du PDF");
+                    throw new Error('Erreur lors de l\'envoi');
                 }
-                setActiveContent("evaluation-page"); 
-                console.log("Données reçues:", data);
-            }
-        );
+            })
+            .then(data => {
+                console.log("Réponse du serveur:", data);
+            })
+            .catch(error => {
+                console.error("Erreur lors de l'envoi:", error);
+            });
+        }).catch(error => {
+            console.error("Erreur lors de la génération du PDF:", error);
+        });
     };
+
     
 
     const handleButtonClick = (content) => {
@@ -170,6 +172,7 @@ const EmployerHomePage = () => {
         case "evaluation":
             contentToRender = <EvaluationForm onSubmit={handleEvaluationSubmit}/>
             break;
+
         default:
             signature !== null ?
                 contentToRender = <DashboardPageEmp/>

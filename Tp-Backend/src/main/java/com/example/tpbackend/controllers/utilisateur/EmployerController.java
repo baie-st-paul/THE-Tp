@@ -11,6 +11,7 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -95,8 +96,9 @@ public class EmployerController {
         return ResponseEntity.ok(employerContracts);
     }
 
-    @PostMapping("/upload_evaluation")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/upload_evaluation", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
             EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO);

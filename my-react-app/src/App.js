@@ -34,7 +34,7 @@ function App() {
         <div>
             <Routes>
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
-                <Route path={"/cvEtudiant"} element={<FileUploader/>}/>
+                <Route path={"/cvEtudiant"} element={<FileUploader matricule={localStorage.getItem("loggedInUserMatricule")}/>}/>
                 <Route path={"/signatureEtudiant"} element={<CreateStudentSignature/>}/>
                 <Route path={"/offresEtudiant"} element={<OffresPageStudent/>}/>
                 <Route path={"/entrevuesEtudiant"} element={<SectionEntrevue entrevueTest={[]}/>}/>

@@ -14,6 +14,7 @@ const fetchCv = async (token, cv, setCv) => {
             }
         ).catch(error => {
             console.log(error)
+            setCv(null)
         }).then(
             async (res) => {
                 const data = await res.json()
@@ -24,12 +25,14 @@ const fetchCv = async (token, cv, setCv) => {
                     }
                 } catch (e) {
                     console.log(e)
+                    setCv(null)
                 }
                 console.log(data)
                 setCv(data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);
+        setCv(null)
     }
 }
 

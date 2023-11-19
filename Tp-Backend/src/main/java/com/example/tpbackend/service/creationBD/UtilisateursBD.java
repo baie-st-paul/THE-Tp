@@ -407,6 +407,18 @@ public class UtilisateursBD implements CommandLineRunner {
                 "pasVu",
                 "pasVu"
         );
+        createContrat(
+                4L,
+                "1234567",
+                1L,
+                "ALaurendeau",
+                "lina",
+                "lac",
+                "Dev web react",
+                "pasVu",
+                "pasVu",
+                "pasVu"
+        );
     }
 
     public void createContrat(Long id, String matricule, Long idEmp, String nomDeCompanie, String prenom, String nom, String titreOffre,
@@ -525,7 +537,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 22),
                 LocalDate.of(2023, 11, 30),
                 15,
-                "In_review",
+                "Accepted",
                 "pasVu",
                 "vu",
                 "pasVu",

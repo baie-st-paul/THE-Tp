@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 
-export default function ButtonConvoquer({matricule, entrevues , setModal }) {
+export default function ButtonConvoquer({matricule, offre, entrevues , setModal }) {
     const [isPresent, setIsPresent] = useState([])
 
     useEffect(() => {
-        setIsPresent(entrevues.filter(x => x.student.matricule === matricule))
+        setIsPresent(entrevues.filter(x =>
+            x.student.matricule + " " + x.offreStage.titre ===
+            matricule + " " + offre))
         console.log(isPresent)
     }, [])
 

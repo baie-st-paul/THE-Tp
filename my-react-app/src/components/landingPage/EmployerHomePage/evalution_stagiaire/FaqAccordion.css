@@ -44,5 +44,5 @@
 }
 
 .faq-section .faq-answer.active {
-    max-height: 700px; /* Hauteur maximale pour la transition */
+    max-height: 1000; /* Hauteur maximale pour la transition */
 }

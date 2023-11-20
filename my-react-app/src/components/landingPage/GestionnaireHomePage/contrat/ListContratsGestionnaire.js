@@ -159,7 +159,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                         <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         {
-                                    etudiant.statutGestionnaire === 'Pas_Signer' ?
+                                        contrat.statutGestionnaire === 'Pas_Signer' ?
                                     <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
                                     :
                                     <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>

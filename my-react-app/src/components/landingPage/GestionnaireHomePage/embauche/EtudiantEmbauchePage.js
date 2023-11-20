@@ -128,6 +128,7 @@ const EtudiantEmbauchePage = () => {
                 "statusVuPasVuE":"pasVu",
                 "statusVuPasVuS":"pasVu",
             })
+
             fetch(
                 `http://localhost:8081/api/v1/gestionnaire/create-contrat`,
                 {

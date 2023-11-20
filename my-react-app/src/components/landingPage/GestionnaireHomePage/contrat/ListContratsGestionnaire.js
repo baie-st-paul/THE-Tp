@@ -3,6 +3,7 @@ import ReactModal from "react-modal";
 import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
 const ListContratsGestionnaire = ({contratsTest}) => {
     const [contrats, setContrats] = useState(contratsTest)
+    const [filtre, setFiltre] = useState('')
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
@@ -139,6 +140,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 <tr>
                                     <th className="header-cell h5">Nom, Prénom</th>
                                     <th className="header-cell h5">Matricule</th>
+                                    <th className="header-cell h5">Nom de compagnie</th>
                                     <th className='header-cell h5'>Poste</th>
                                     <th className="header-cell h5">Signé par étudiant</th>
                                     <th className="header-cell h5">Signé par employeur</th>
@@ -146,14 +148,22 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
-                                {contrats.map((contrat, index) => (
+                                {contrats.length > 0  && contrats.filter(contrat => contrat.candidatureDTO.student.id.includes(filtre))
+                                    .map((contrat, index) => (
                                     <tr key={index} className="table-row align-middle">
-                                        <td  data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
-                                        <td  data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
-                                        <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
+                                        <td data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
+                                        <td data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
+                                        <td data-label="Nom de compagnie" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
+                                        <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                        {
+                                    etudiant.statutGestionnaire === 'Pas_Signer' ?
+                                    <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
+                                    :
+                                    <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
+                                    }
                                     </tr>
                                     ))
                                 }

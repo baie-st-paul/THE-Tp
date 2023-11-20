@@ -17,7 +17,7 @@ import EvaluationPDF from "./evalution_stagiaire/EvaluationPDF";
 
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none"); 
-    const navigate = useNavigate()  // ligne 18
+    const navigate = useNavigate()  
     const [signature, setSignature] = useState(null)
     
 
@@ -123,7 +123,7 @@ const EmployerHomePage = () => {
                 if (response.ok) {
                     console.log("PDF envoyé avec succès");
                     setActiveContent("evaluation-page");
-                    return response.json(); // ou .text() si la réponse n'est pas en JSON
+                    return response.json(); 
                 } else {
                     console.log("Erreur lors de l'envoi du PDF");
                     throw new Error('Erreur lors de l\'envoi');

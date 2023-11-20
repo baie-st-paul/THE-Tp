@@ -1,60 +1,99 @@
+
 .formStyle {
     max-width: 800px;
-    margin: auto;
+    margin: 30px auto;
     padding: 20px;
-    box-sizing: border-box;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+    border: 3px solid #f3e6e6; 
+    border-radius: 12px;
+    background: #ffffff;
 }
+
 
 
 .sectionStyle {
     text-align: center;
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 15px;
+    border-bottom: 2px solid #605d5d;
+    padding: 20px;
+    margin-bottom: 20px;
 }
-
-/* .sectionStyle {
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-align: left;
-    max-width: 800px;
-    width: 100%;
-    box-sizing: border-box;
-} */
 
 .questionStyle {
     display: flex;
-    justify-content: flex-;
     align-items: center;
-    margin-bottom: 5px;
-    padding: 5px 0;
-    font-size: 12px;
+    margin-bottom: 15px;
 }
 
 .questionStyle label {
-    flex: 1;
+    flex: 0 0 30%;
     text-align: right;
-    margin-right: 10px;
+    margin-right: 20px;
+    font-weight: 600;
 }
 
 .questionStyle input,
 .questionStyle select,
 .questionStyle textarea {
-    flex: 2;
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.questionStyle input[type="radio"] {
-    margin-right: 5px;
+
+
+.radioGroup {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px; 
+    margin-top: 10px; 
 }
 
+.radioGroup label {
+    display: flex;
+    align-items: center;
+}
+
+.radioGroup input[type="radio"] {
+    margin-right: 10px; 
+}
 
 .dropdownStyle {
-    width: 200px;
+    width: auto; 
 }
 
-/* .questionStyle .dropdownStyle {
-    flex: 1;
-} */
+.buttonStyle {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #197fed;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.buttonStyle:hover {
+    background-color: #160082;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .questionStyle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .questionStyle label {
+        margin-bottom: 5px;
+        text-align: left;
+    }
+}
+
+
+
+
 

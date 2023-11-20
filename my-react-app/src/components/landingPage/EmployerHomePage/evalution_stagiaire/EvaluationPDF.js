@@ -29,7 +29,7 @@ const EvaluationPDF = ({ evaluationData }) => (
       {/* Section Informations générales */}
       <View style={styles.section}>
         <Text style={styles.text}>Nom de l’élève: {evaluationData.nomEleve}</Text>
-        <Text style={styles.text}>Programme d'étude: {evaluationData.numeroTelephone}</Text>
+        <Text style={styles.text}>Programme d'étude: {evaluationData.programmeEtudes}</Text>
         <Text style={styles.text}>Nom de l’entreprise: {evaluationData.nomEntreprise}</Text>
         <Text style={styles.text}>Nom du superviseur: {evaluationData.nomSuperviseur}</Text>
         <Text style={styles.text}>Fonction: {evaluationData.fonctionSuperviseur}</Text>

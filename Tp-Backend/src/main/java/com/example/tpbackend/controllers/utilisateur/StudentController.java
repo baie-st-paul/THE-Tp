@@ -1,6 +1,7 @@
 package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -137,7 +138,7 @@ public class StudentController {
     @GetMapping("/student-contracts/{studentId}")
     public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
         try {
-            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studentId);
+            List<ContratStageDTODetails> studentContracts = studentServices.getContratByStudent(studentId);
             return ResponseEntity.ok(studentContracts);
         } catch (Exception ex) {
             String errorMessage = "Une erreur est survenue lors du traitement de votre requête";

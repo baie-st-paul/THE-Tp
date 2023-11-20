@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -189,8 +190,8 @@ public class StudentServices {
     }
 
     @Transactional
-    public List<ContratStageDTO> getContratByStudent(String studentId){
+    public List<ContratStageDTODetails> getContratByStudent(String studentId){
         List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
-        return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+        return studentContracts.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
     }
 }

@@ -2,6 +2,7 @@ package com.example.tpbackend.service.utilisateur;
 
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.OffreStage;
@@ -100,15 +101,15 @@ public class StudentServiceTestCustom {
         List<ContratStage> contracts = List.of(contract1, contract2);
         when(contratStageRepository.findByStudentMatricule(studentId)).thenReturn(contracts);
 
-        List<ContratStageDTO> result = studentServices.getContratByStudent(studentId);
+        List<ContratStageDTODetails> result = studentServices.getContratByStudent(studentId);
 
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals(contract1.getId(), result.get(0).getId());
-        assertEquals(2L, result.get(0).getCandidatureId());
-        assertEquals(contract1.getNomDePoste(), result.get(0).getNomDePoste());
+        assertEquals(2L, result.get(0).getCandidatureDTO().getId());
+        assertEquals(contract1.getNomDePoste(), result.get(0).getCandidatureDTO().getOffreStage().getTitre());
         assertEquals(contract2.getId(), result.get(1).getId());
-        assertEquals(3L, result.get(1).getCandidatureId());
-        assertEquals(contract2.getNomDePoste(), result.get(1).getNomDePoste());
+        assertEquals(3L, result.get(1).getCandidatureDTO().getId());
+        assertEquals(contract2.getNomDePoste(), result.get(1).getCandidatureDTO().getOffreStage().getTitre());
     }
 }

@@ -11,10 +11,14 @@ const CardPageOffresS = ({offres, candidaturesOffreId, candidatures}) => {
 
     return (
         <div>
-            <CardsPage nbFilteredList={filteredOffreList.length} titre="offres nouvelles offres pas postulé" url="/offresEtudiant"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
-            <CardsPage nbFilteredList={filterCandidaturesAccepted.length} titre="candidatures acceptées par l'employeur" url="/candidaturesEtudiant"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
+            {filteredOffreList.length > 0 &&
+                <CardsPage nbFilteredList={filteredOffreList.length} titre="offres nouvelles offres pas postulé" url="/offresEtudiant"
+                           id="cardsPasCritique" colorAvatar="#000066"/>
+            }
+            {filterCandidaturesAccepted.length > 0 &&
+                <CardsPage nbFilteredList={filterCandidaturesAccepted.length} titre="candidatures acceptées par l'employeur" url="/candidaturesEtudiant"
+                           id="cardsPasCritique" colorAvatar="#000066"/>
+            }
         </div>
     )
 }

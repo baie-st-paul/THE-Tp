@@ -23,14 +23,24 @@ const CardPageCandidatures = ({offres, candidatures, entrevues}) => {
 
     return (
         <div>
-            <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/offres"
-                       id="cards" colorAvatar="saddlebrown"/>
-            <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/offres"
-                       id="cards" colorAvatar="saddlebrown"/>
-            <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant" url="/offres"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
-            <CardsPage nbFilteredList={offresNotAccepted.length} titre="offres pas encore acceptées par le gestionnaire" url="/offres"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
+            {filterEnAttente.length > 0 &&
+                <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/offres"
+                        id="cards" colorAvatar="saddlebrown"/>
+            }
+            {filterPasEntrevue.length > 0 &&
+                <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/offres"
+                        id="cards" colorAvatar="saddlebrown"/>
+            }
+            {filterEntrevuesRefused.length > 0 &&
+                <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
+                        url="/offres"
+                        id="cardsPasCritique" colorAvatar="#000066"/>
+            }
+            {offresNotAccepted.length > 0 &&
+                <CardsPage nbFilteredList={offresNotAccepted.length}
+                        titre="offres pas encore acceptées par le gestionnaire" url="/offres"
+                        id="cardsPasCritique" colorAvatar="#000066"/>
+            }
         </div>
     )
 }

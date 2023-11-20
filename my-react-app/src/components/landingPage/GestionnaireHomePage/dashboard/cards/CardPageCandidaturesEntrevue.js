@@ -11,10 +11,15 @@ const CardPageCandidaturesEntrevue = ({candidaturesEntrevue}) => {
 
     return (
         <div>
-            <CardsPage nbFilteredList={filteredEntrevues.length} titre="entrevues pas encore accepté par l'étudiant" url="/entrevues"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
-            <CardsPage nbFilteredList={filteredPasVuEntrevues.length} titre="nouvelles entrevues" url="/entrevues"
-                       id="cardsPasCritique" colorAvatar="#000066"/>
+            {filteredPasVuEntrevues.length > 0 &&
+                <CardsPage nbFilteredList={filteredPasVuEntrevues.length} titre="nouvelles entrevues" url="/entrevues"
+                           id="cardsPasCritique" colorAvatar="#000066"/>
+            }
+            {filteredEntrevues.length > 0 &&
+                <CardsPage nbFilteredList={filteredEntrevues.length} titre="entrevues pas encore accepté par l'étudiant"
+                        url="/entrevues"
+                        id="cardsPasCritique" colorAvatar="#000066"/>
+            }
         </div>
     )
 }

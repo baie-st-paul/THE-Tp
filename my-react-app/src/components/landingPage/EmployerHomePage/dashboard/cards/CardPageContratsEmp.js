@@ -6,6 +6,7 @@ const CardPageContratsEmp = ({contrats}) => {
         contrats.filter((contrat) => contrat.statutEmployeur === "Pas_Signer");
 
     return (
+        filteredContratsList.length > 0 &&
         <CardsPage nbFilteredList={filteredContratsList.length} titre="signatures de contrats en attente" url="/contrats-emp"
                    id="cards" colorAvatar="saddlebrown"/>
     )

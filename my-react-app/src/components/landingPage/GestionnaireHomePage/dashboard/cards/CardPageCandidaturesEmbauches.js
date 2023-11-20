@@ -17,6 +17,7 @@ const CardPageCandidaturesEmbauches = ({contrats, candidaturesEmbauches}) => {
         )
 
     return (
+        filterEmbauchePasContrat.length > 0 &&
         <CardsPage nbFilteredList={filterEmbauchePasContrat.length} titre="création de contrats en attente" url="/embauchés"
                    id="cards" colorAvatar="saddlebrown"/>
     )

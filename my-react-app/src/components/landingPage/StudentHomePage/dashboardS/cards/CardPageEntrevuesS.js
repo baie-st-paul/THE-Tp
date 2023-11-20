@@ -29,6 +29,7 @@ const CardPageEntrevuesS = ({entrevues}) => {
         entrevues.filter((entrevue) => entrevue.status === "EnAttente");
 
     return (
+        filteredEntrevuesEnAttente.length > 0 &&
         <CardsPage nbFilteredList={filteredEntrevuesEnAttente.length} titre="entrevues en attente" url="/entrevuesEtudiant"
                    id="cards" colorAvatar="saddlebrown"/>
     )

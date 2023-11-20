@@ -17,18 +17,20 @@ const fetchCv = async (token, cv, setCv) => {
             setCv(null)
         }).then(
             async (res) => {
-                const data = await res.json()
                 try {
                     console.log(res.status)
-                    if (res.status === 400) {
-                        console.log(res.status)
+                    if (res.ok) {
+                        const data = await res.json();
+                        setCv(data);
+                        console.log("cv",data)
+                    } else {
+                        console.log("Failed to fetch data");
+                        setCv(null)
                     }
                 } catch (e) {
                     console.log(e)
                     setCv(null)
                 }
-                console.log(data)
-                setCv(data)
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);

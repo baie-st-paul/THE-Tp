@@ -7,7 +7,6 @@ import DashboardPageStudent from "./dashboardS/DashboardPageStudent";
 import NavBarStudent from "../NavBar/student/NavBarStudent";
 import FetchsStudent from "../NavBar/student/FetchsStudent";
 
-
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
 

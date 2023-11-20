@@ -148,7 +148,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
-                                {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.id?.includes(filtre))
+                                {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
                                     .map((contrat, index) => (
                                     <tr key={index} className="table-row align-middle">
                                         <td data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
@@ -157,10 +157,9 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                         <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                        <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         {
                                         contrat.statutGestionnaire === 'Pas_Signer' ?
-                                    <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',contrat)}><span className='h6'>Signer le contrat</span></button></td>
+                                    <td data-label="Signé par Gestionnaire"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',contrat)}><span className='h6'>Signer le contrat</span></button></td>
                                     :
                                     <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
                                     }

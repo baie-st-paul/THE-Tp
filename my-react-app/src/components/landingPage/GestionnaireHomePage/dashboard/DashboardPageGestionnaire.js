@@ -41,7 +41,7 @@ const DashboardPageGestionnaire = () => {
                 <div>
                     <CardPageOffres sessions={sessions} offres={offres}/>
                     <CardPageCvs cvList={cvList}/>
-                    <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
+                    <CardPageCandidaturesEmbauches contrats={contrats} candidaturesEmbauches={candidaturesEmbauches}/>
                     <CardPageContrats contrats={contrats}/>
                     <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
                 </div>

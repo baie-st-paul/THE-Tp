@@ -1,15 +1,19 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.EvaluationPDFRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -39,6 +44,9 @@ class EmployerServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
+    @Mock
+    private EvaluationPDFRepository evaluationPDFRepository;
 
     /**
      * Method under test: {@link EmployerService#existByName(String)}
@@ -140,9 +148,42 @@ class EmployerServiceTest {
         assertEquals("poste 2", result.get(1).getNomDePoste());
     }
 
+    @Test
+    public void testSaveEvaluation() throws Exception {
+        //1.On Crée un faux contenu de fichier pour simuler le PDF.
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = mock(MultipartFile.class); // On crée un mock de MultipartFile.
 
+        //2. On simule le comportement du fichier multipart.
+        when(mockFile.getOriginalFilename()).thenReturn("evaluation.pdf");
+        when(mockFile.getBytes()).thenReturn(fakePdfContent);
 
+        //3. On crée un DTO avec le fichier mocké.
+        EvaluationPdfDto evaluationPdfDto = new EvaluationPdfDto(mockFile);
 
+        //4. simule le comportement du repository.
+        EvaluationPDF evaluationPDF = new EvaluationPDF();
+        evaluationPDF.setName(evaluationPdfDto.getName());
+        evaluationPDF.setContent(evaluationPdfDto.getContent());
+        when(evaluationPDFRepository.save(any(EvaluationPDF.class))).thenReturn(evaluationPDF);
 
+        //5. On appel la méthode à tester.
+        EvaluationPdfDto savedDto = employerService.saveEvaluation(evaluationPdfDto);
+
+        //6. On vérifie que le nom du fichier est correct.
+        assertEquals("evaluation.pdf", savedDto.getName());
+
+        //7. On vérifie que le contenu est bien transmis et enregistré.
+        verify(evaluationPDFRepository).save(argThat(savedEvaluation ->
+                Arrays.equals(fakePdfContent, savedEvaluation.getContent()) &&
+                        "evaluation.pdf".equals(savedEvaluation.getName())
+        ));
+    }
 
 }
+
+
+
+
+
+

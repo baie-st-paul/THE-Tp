@@ -138,6 +138,14 @@ public class StudentServices {
     }
 
     @Transactional
+    public List<CandidatureDTO> getCandidaturesByMatricule(String matricule) {
+        return candidatureRepository.getAllCandidaturesByMatricule(matricule)
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<CandidatureDTO> getListCandidatureByOffreId(Long id){
         return candidatureRepository.findByOffreStageId(id)
                 .stream()

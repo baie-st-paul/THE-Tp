@@ -9,6 +9,7 @@ import {List} from "@mui/material";
 const DashboardPageStudent = () => {
     const [offres, setOffres] = useState([])
     const [candidaturesOffreId, setCandidaturesOffreId] = useState([])
+    const [candidatures, setCandidatures] = useState([])
 
     const [entrevues, setEntrevues] = useState([])
     const [contrats, setContrats] = useState([])
@@ -21,7 +22,8 @@ const DashboardPageStudent = () => {
 
     const getFetchs = async () => {
         setOffres(FetchsForDashboardStudent.fetchOffresStudent(token, offres, setOffres))
-        setCandidaturesOffreId(FetchsForDashboardStudent.fetchCandidatures(token, candidaturesOffreId, setCandidaturesOffreId))
+        setCandidaturesOffreId(FetchsForDashboardStudent.fetchCandidaturesOffreId(token, candidaturesOffreId, setCandidaturesOffreId))
+        setCandidatures(FetchsForDashboardStudent.fetchMesCandidatures(token, candidatures, setCandidatures))
         setEntrevues(FetchsForDashboardStudent.fetchStudentEntrevues(token, entrevues, setEntrevues))
         setContrats(FetchsForDashboardStudent.fetchContrats(token, contrats, setContrats))
     }
@@ -34,7 +36,7 @@ const DashboardPageStudent = () => {
                 <div>
                     <CardPageEntrevuesS entrevues={entrevues}/>
                     <CardPageContratsS contrats={contrats}/>
-                    <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId}/>
+                    <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId} candidatures={candidatures}/>
                 </div>
             </List>
         </div>

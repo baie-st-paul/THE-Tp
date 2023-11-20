@@ -1,6 +1,7 @@
 package com.example.tpbackend.controllers.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
@@ -93,8 +94,8 @@ public class EmployerController {
 
     @GetMapping("/employer-contracts/{employerId}")
     @PreAuthorize("authenticated")
-    public ResponseEntity<List<ContratStageDTO>> getContratsByEmployeur(@PathVariable Long employerId) {
-        List<ContratStageDTO> employerContracts = employerService.getContratStageByEmployeur(employerId);
+    public ResponseEntity<List<ContratStageDTODetails>> getContratsByEmployeur(@PathVariable Long employerId) {
+        List<ContratStageDTODetails> employerContracts = employerService.getContratStageByEmployeur(employerId);
         return ResponseEntity.ok(employerContracts);
     }
 }

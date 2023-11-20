@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
@@ -96,9 +97,9 @@ public class EmployerService {
         return tag;
     }
     @Transactional
-   public List<ContratStageDTO> getContratStageByEmployeur(Long employeurId) {
+   public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
-        return contrats.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+        return contrats.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
    }
     @Transactional
     public void signContract(ContratStageDTO contractDTO) throws Exception {

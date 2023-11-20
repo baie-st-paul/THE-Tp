@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
@@ -123,13 +124,13 @@ class EmployerServiceTest {
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findByEmployeur_Id(employeurId)).thenReturn(contrats);
 
-        List<ContratStageDTO> result = employerService.getContratStageByEmployeur(employeurId);
+        List<ContratStageDTODetails> result = employerService.getContratStageByEmployeur(employeurId);
 
         assertEquals(2, result.size());
-        assertEquals(1L, result.get(0).getCandidatureId());
-        assertEquals("poste 1", result.get(0).getNomDePoste());
-        assertEquals(2L, result.get(1).getCandidatureId());
-        assertEquals("poste 2", result.get(1).getNomDePoste());
+        assertEquals(1L, result.get(0).getCandidatureDTO().getId());
+        assertEquals("poste 1", result.get(0).getCandidatureDTO().getOffreStage().getTitre());
+        assertEquals(2L, result.get(1).getCandidatureDTO().getId());
+        assertEquals("poste 2", result.get(1).getCandidatureDTO().getOffreStage().getTitre());
     }
 
     @Test

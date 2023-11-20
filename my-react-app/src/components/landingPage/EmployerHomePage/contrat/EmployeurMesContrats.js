@@ -150,20 +150,20 @@ export default function EmployeurMesContrats({contratsTest}) {
                                     </thead>
                                     <tbody className='w-100'>
                                     {contrats.length > 0  && contrats
-                                        .map((etudiant, index) => (
+                                        .map((contrat, index) => (
                                             <tr key={index} className="table-row align-middle">
-                                                <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
-                                                <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
-                                                <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
-                                                <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
-                                                <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                <td  data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
+                                                <td  data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
+                                                <td data-label="Nom de compagnie" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
+                                                <td  data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
+                                                <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                                 {
-                                                    etudiant.statutEmployeur === 'Pas_Signer' ?
-                                                        <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
+                                                    contrat.statutEmployeur === 'Pas_Signer' ?
+                                                        <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',contrat)}><span className='h6'>Signer le contrat</span></button></td>
                                                         :
                                                         <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
                                                 }
-                                                <td data-label="Signé par gestionnaire" className="fw-semibold">{etudiant.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                             </tr>
                                         ))
                                     }

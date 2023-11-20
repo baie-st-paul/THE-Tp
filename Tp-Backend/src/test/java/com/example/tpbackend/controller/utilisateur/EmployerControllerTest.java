@@ -2,6 +2,7 @@ package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -22,8 +23,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,8 +39,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -216,6 +221,25 @@ public class EmployerControllerTest {
                 .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
                 .andExpect(jsonPath("$[1].studentId").value(contrat2.getStudentId()))
                 .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
+    }
+
+    @Test
+    public void testHandleFileUpload() throws Exception {
+        //1. Je vais mocker un fichier  MultipartFile
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+        //2. Créer une réponse attendue
+        EvaluationPdfDto mockDto = new EvaluationPdfDto("test.pdf", file.getBytes());
+        when(employerService.saveEvaluation(any(EvaluationPdfDto.class))).thenReturn(mockDto);
+
+        //3. Effectuer la requête POST avec le fichier mocké
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Fichier 'test.pdf' reçu et sauvegardé.")));
+
+        //4. ckecker si le service a été appelé avec le bon DTO
+        verify(employerService).saveEvaluation(any(EvaluationPdfDto.class));
     }
 
 }

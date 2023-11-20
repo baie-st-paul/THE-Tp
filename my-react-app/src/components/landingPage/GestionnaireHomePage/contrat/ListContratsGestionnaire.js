@@ -148,7 +148,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
-                                {contrats.length > 0  && contrats.filter(contrat => contrat.candidatureDTO.student.id.includes(filtre))
+                                {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.id?.includes(filtre))
                                     .map((contrat, index) => (
                                     <tr key={index} className="table-row align-middle">
                                         <td data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>

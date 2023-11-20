@@ -278,8 +278,6 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllCandidature() throws IOException {
         createCandidature("1234567", 1L, "lettreMotiv.pdf");
-        createCandidature("1234567", 2L, "lettreMotiv.pdf");
-        createCandidature("1234567", 3L, "lettreMotiv.pdf");
         createCandidature("1234567", 4L, "lettreMotiv.pdf");
         createCandidature("5869595", 2L, "lettreMotiv.pdf");
         createCandidature("8675848", 3L, "lettreMotiv.pdf");

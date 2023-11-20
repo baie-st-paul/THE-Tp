@@ -4,6 +4,7 @@ import CardPageOffresS from "./cards/CardPageOffresS";
 import CardPageEntrevuesS from "./cards/CardPageEntrevuesS";
 import CardPageContratsS from "./cards/CardPageContratsS";
 import FetchsForDashboardStudent from "./FetchsForDashboardStudent";
+import {List} from "@mui/material";
 
 const DashboardPageStudent = () => {
     const [offres, setOffres] = useState([])
@@ -28,12 +29,14 @@ const DashboardPageStudent = () => {
     return (
         <div>
             <h1 className="display-4 text-center"
-                style={{marginBottom: "20px"}}>Tableau de bord</h1>
-            <Grid container spacing={2}>
-                <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId}/>
-                <CardPageEntrevuesS entrevues={entrevues}/>
-                <CardPageContratsS contrats={contrats}/>
-            </Grid>
+                style={{marginBottom: "2px"}}>Tableau de bord</h1>
+            <List style={{justifyContent: "center", display: "flex"}}>
+                <div>
+                    <CardPageEntrevuesS entrevues={entrevues}/>
+                    <CardPageContratsS contrats={contrats}/>
+                    <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId}/>
+                </div>
+            </List>
         </div>
     )
 }

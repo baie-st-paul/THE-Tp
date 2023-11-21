@@ -3,6 +3,7 @@ package com.example.tpbackend.controllers.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -95,6 +96,18 @@ public class StudentController {
     public ResponseEntity<?> getCandidatures(@PathVariable("matricule") String matricule){
         try {
             List<CandidatureGetDTO> candidatureGetDTOList =  studentServices.getMesCandidaturesByMatricule(matricule);
+            return ResponseEntity.accepted().body(candidatureGetDTOList);
+        } catch (DataAccessException ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
+    @GetMapping(value = "/getCandidatures/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> getMesCandidatures(@PathVariable("matricule") String matricule){
+        try {
+            List<CandidatureDTO> candidatureGetDTOList =  studentServices.getCandidaturesByMatricule(matricule);
             return ResponseEntity.accepted().body(candidatureGetDTOList);
         } catch (DataAccessException ex) {
             String errorMessage = "An error occurred while processing your request";

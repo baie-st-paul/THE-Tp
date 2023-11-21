@@ -42,6 +42,13 @@ const NavBarStudent = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                     <ul className="navbar-nav px-2">
+                        <ul className="navbar-nav ml-auto px-1">
+                            <li className="nav-item navbarbutton">
+                                <button className="nav-link" onClick={() => navigate("/StudentHomePage")}>
+                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                                </button>
+                            </li>
+                        </ul>
                         {
                             signature !== null && cv !== null && cv.status === "Accepted" && (
                                 <div>
@@ -49,11 +56,6 @@ const NavBarStudent = () => {
                                         cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
                                         <>
                                             <ul className="navbar-nav ml-auto px-1">
-                                                <li className="nav-item navbarbutton">
-                                                    <button className="nav-link" onClick={() => navigate("/StudentHomePage")}>
-                                                        <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
-                                                    </button>
-                                                </li>
                                                 <li className="nav-item navbarbutton px-1">
                                                     <button className="nav-link" onClick={() => navigate("/offresEtudiant")}>
                                                         <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres

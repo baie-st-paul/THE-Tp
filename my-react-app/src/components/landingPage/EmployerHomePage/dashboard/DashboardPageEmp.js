@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import CardPageContratsEmp from "./cards/CardPageContratsEmp";
 import FetchsForDashboardEmp from "./FetchsForDashboardEmp";
-import CardPageCandidatures from "./cards/CardPageCandidatures";
 import {List} from "@mui/material";
+import AllCardsNotificationsEmp from "./cards/AllCardsNotificationsEmp";
 
 const DashboardPageEmp = () => {
     const [offres, setOffres] = useState([])
@@ -29,8 +28,8 @@ const DashboardPageEmp = () => {
                 style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
-                    <CardPageContratsEmp contrats={contrats}/>
-                    <CardPageCandidatures offres={offres} candidatures={candidatures} entrevues={entrevues}/>
+                    <AllCardsNotificationsEmp contrats={contrats}
+                                              offres={offres} candidatures={candidatures} entrevues={entrevues}/>
                 </div>
             </List>
         </div>

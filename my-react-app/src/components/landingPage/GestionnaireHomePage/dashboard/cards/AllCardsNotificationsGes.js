@@ -4,7 +4,7 @@ import PageNoNotifications from "../../../Dashboard/PageNoNotifications";
 import Divider from "@mui/material/Divider";
 import CardsPasCritique from "../../../Dashboard/CardsPasCritique";
 
-const AllCardsNotificationsEmp = ({sessions, offres, cvList, contrats, candidaturesEmbauches, candidaturesEntrevue}) => {
+const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidaturesEmbauches, candidaturesEntrevue}) => {
     const filteredListOffre = offres.length !== 0 && offres.length !== undefined &&
         offres.filter((dto) => dto.status === "In_review");
 
@@ -71,4 +71,4 @@ const AllCardsNotificationsEmp = ({sessions, offres, cvList, contrats, candidatu
     )
 }
 
-export default AllCardsNotificationsEmp
+export default AllCardsNotificationsGes

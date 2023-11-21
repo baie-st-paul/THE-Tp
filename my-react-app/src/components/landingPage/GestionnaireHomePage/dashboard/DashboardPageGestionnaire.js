@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import FetchsForDashboard from "./FetchsForDashboard";
 import {List} from "@mui/material";
-import AllCardsNotificationsEmp from "./cards/AllCardsNotificationsEmp";
+import AllCardsNotificationsGes from "./cards/AllCardsNotificationsGes";
 
 const DashboardPageGestionnaire = () => {
     const [cvList, setCvList] = useState([])
@@ -34,7 +34,7 @@ const DashboardPageGestionnaire = () => {
                 style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
-                    <AllCardsNotificationsEmp
+                    <AllCardsNotificationsGes
                         sessions={sessions} offres={offres}
                         cvList={cvList}
                         contrats={contrats} candidaturesEmbauches={candidaturesEmbauches}

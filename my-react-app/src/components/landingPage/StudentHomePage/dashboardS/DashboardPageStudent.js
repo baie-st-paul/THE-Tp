@@ -1,8 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Grid from "@mui/material/Grid";
-import CardPageOffresS from "./cards/CardPageOffresS";
-import CardPageEntrevuesS from "./cards/CardPageEntrevuesS";
-import CardPageContratsS from "./cards/CardPageContratsS";
 import FetchsForDashboardStudent from "./FetchsForDashboardStudent";
 import {List} from "@mui/material";
 import AllCardsNotifications from "./cards/AllCardsNotifications";

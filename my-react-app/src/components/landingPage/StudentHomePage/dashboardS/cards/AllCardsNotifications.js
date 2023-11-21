@@ -1,6 +1,8 @@
 import CardsPage from "../../../Dashboard/CardsPage";
 import React from "react";
 import PageNoNotifications from "../../../Dashboard/PageNoNotifications";
+import CardsPasCritique from "../../../Dashboard/CardsPasCritique";
+import Divider from "@mui/material/Divider";
 
 const AllCardsNotifications = ({entrevues, contrats, offres, candidaturesOffreId, candidatures}) => {
     const filteredEntrevuesEnAttente = entrevues.length !== 0 && entrevues.length !== undefined &&
@@ -35,14 +37,16 @@ const AllCardsNotifications = ({entrevues, contrats, offres, candidaturesOffreId
                                        id="cards" colorAvatar="saddlebrown"/>}
                     </div>
             }
-            {filteredOffreList.length > 0 &&
+            <Divider color="black"/>
+
+            <CardsPasCritique filteredList={filteredOffreList} card={
                 <CardsPage nbFilteredList={filteredOffreList.length} titre="nouvelles offres pas postulé" url="/offresEtudiant"
                            id="cardsPasCritique" colorAvatar="#000066"/>
-            }
-            {filterCandidaturesAccepted.length > 0 &&
+            }/>
+            <CardsPasCritique filteredList={filterCandidaturesAccepted} card={
                 <CardsPage nbFilteredList={filterCandidaturesAccepted.length} titre="candidatures acceptées par l'employeur" url="/candidaturesEtudiant"
                            id="cardsPasCritique" colorAvatar="#000066"/>
-            }
+            }/>
         </div>
     )
 }

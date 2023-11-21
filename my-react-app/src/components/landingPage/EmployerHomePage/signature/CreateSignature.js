@@ -11,7 +11,7 @@ const CreateSignature = () => {
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
-
+    const [disableModifier, setDisableModifier] = useState(true)
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
 
@@ -112,15 +112,18 @@ const CreateSignature = () => {
 
     const handleClear = () => {
         sign.clear()
-        setDisableWhenEmpty(true)
+        setDisableWhenEmpty(false)
+        setDisableModifier(true)
+        setUrlImage(null)
         console.log(sign.empty)
     }
 
     const handleSave = () => {
         console.log(sign.empty)
+        if (signature !== null ) 
+        setDisableModifier(false)
         setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
     }
-
     return (
         <div>
             <NavBarEmployeur/>
@@ -145,7 +148,7 @@ const CreateSignature = () => {
                 <Button className="btn btn-success"
                         disabled={!disableWhenEmpty}
                         onClick={handleSave}>
-                    Dessiner <FaPencilAlt
+                    Confirmer <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
@@ -165,14 +168,15 @@ const CreateSignature = () => {
                 {signature === null && urlImage !== null &&
                     <Button className="btn btn-success"
                             onClick={saveSignature}>
-                        Approuver <FaPencilAlt
+                        Sauvegarder <FaPencilAlt
                         style={{color: 'black'}}
                     />
                     </Button>
                 }
                 {signature !== null &&
                     <Button className="btn btn-primary"
-                            onClick={handleModif}>
+                            onClick={handleModif}
+                            disabled={disableModifier}>
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />

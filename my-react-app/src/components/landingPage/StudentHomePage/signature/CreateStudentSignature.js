@@ -11,7 +11,7 @@ const CreateStudentSignature = () => {
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
-
+    const [disableModifier, setDisableModifier] = useState(true)
     const token = localStorage.getItem('token');
     const studentMatricule = localStorage.getItem("loggedInUserMatricule")
 
@@ -113,13 +113,17 @@ const CreateStudentSignature = () => {
 
     const handleClear = () => {
         sign.clear()
-        setDisableWhenEmpty(true)
+        setDisableWhenEmpty(false)
+        setDisableModifier(true)
         console.log(sign.empty)
         console.log(disableWhenEmpty)
     }
 
     const handleSave = () => {
+        if (signature !== null ) 
+            setDisableModifier(false)
         setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
+      
     }
 
     return (
@@ -146,7 +150,7 @@ const CreateStudentSignature = () => {
                 <Button className="btn btn-success"
                         disabled={!disableWhenEmpty}
                         onClick={handleSave}>
-                    Dessiner <FaPencilAlt
+                    Confirmer <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
@@ -166,14 +170,15 @@ const CreateStudentSignature = () => {
                 {signature === null && urlImage !== null &&
                     <Button className="btn btn-success"
                             onClick={saveSignature}>
-                        Approuver <FaPencilAlt
+                        Sauvegarder <FaPencilAlt
                         style={{color: 'black'}}
                     />
                     </Button>
                 }
                 {signature !== null &&
                     <Button className="btn btn-primary"
-                            onClick={handleModif}>
+                            onClick={handleModif}
+                            disabled={disableModifier}>
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />

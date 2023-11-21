@@ -17,13 +17,13 @@ const CardsPasCritique = ({filteredList, card}) => {
                         <div className="col" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                             <IconButton
                                 aria-label="close"
-                                color="inherit"
+                                color="info"
                                 size="small"
                                 onClick={() => {
                                     setOpen(false);
                                 }}
                             >
-                                <CloseIcon fontSize="inherit" />
+                                <CloseIcon fontSize="info" />
                             </IconButton>
                         </div>
                     </div>

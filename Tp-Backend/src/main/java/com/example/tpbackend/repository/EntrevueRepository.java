@@ -23,17 +23,17 @@ public interface EntrevueRepository extends JpaRepository<Entrevue, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Entrevue  SET status = ?2   WHERE student.matricule =  ?1")
-    void updateStatusByMatricule(String matricule, Entrevue.Status newStatus);
+    @Query("UPDATE Entrevue SET status = ?2 WHERE id = ?1")
+    void updateStatusById(Long id, Entrevue.Status newStatus);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Entrevue  SET statusVuPasVuG = ?2   WHERE student.matricule =  ?1")
+    @Query("UPDATE Entrevue SET statusVuPasVuG = ?2 WHERE student.matricule = ?1")
     void updateStatusVuPasVuGByMatricule(String matricule, Entrevue.StatusVuPasVu newStatus);
 
     @Modifying
     @Transactional
-    @Query("UPDATE Entrevue  SET statusVuPasVuS = ?2   WHERE student.matricule =  ?1")
+    @Query("UPDATE Entrevue SET statusVuPasVuS = ?2 WHERE student.matricule = ?1")
     void updateStatusVuPasVuSByMatricule(String matricule, Entrevue.StatusVuPasVu newStatus);
 
     List<Entrevue> findByStudentNotNull();

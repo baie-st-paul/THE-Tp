@@ -53,16 +53,16 @@ public class EntrevueController {
         return new ResponseEntity<>(entrevues, HttpStatus.OK);
     }
 
-    @PutMapping("/manageStatusByMatricule/{matricule}/{newStatus}")
+    @PutMapping("/manageStatusByMatricule/{id}/{newStatus}")
     @PreAuthorize("authenticated")
-    public ResponseEntity<String> manageStatusByMatricule(@PathVariable String matricule, @PathVariable String newStatus) {
-       entrevueService.manageStatusByMatricule(matricule, newStatus);
+    public ResponseEntity<String> manageStatusByMatricule(@PathVariable Long id, @PathVariable String newStatus) {
+       entrevueService.manageStatusByMatricule(id, newStatus);
         return new ResponseEntity<>("Status changed", HttpStatus.OK);
     }
 
     @GetMapping("/students/interviewed-by-employer/{employerId}")
     @PreAuthorize("authenticated")
-    public ResponseEntity<List<StudentGetDTO>> getStudentsForInterviewByEmployerId(@PathVariable Long employerId){
+public ResponseEntity<List<StudentGetDTO>> getStudentsForInterviewByEmployerId(@PathVariable Long employerId){
         return ResponseEntity.ok(entrevueService.getStudentsForInterviewByEmployerId(employerId));
     }
 

@@ -79,8 +79,8 @@ public class EntrevueService {
     }
 
     @Transactional
-    public void manageStatusByMatricule(String matricule, String newStatus) {
-        entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
+    public void manageStatusByMatricule(Long id, String newStatus) {
+        entrevueRepository.updateStatusById(id,Entrevue.Status.valueOf(newStatus));
     }
 
     @Transactional

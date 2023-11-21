@@ -70,7 +70,7 @@ const SectionEntrevue = ({entrevueTest}) => {
 
     const handleAcceptConfirmation = () => {
         fetch(
-            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.id}/Acceptee`,
             {
                 method: "PUT",
                 headers: {
@@ -84,13 +84,8 @@ const SectionEntrevue = ({entrevueTest}) => {
         }).then(
             async (response) => {
                 const data = await response.json();
-                try {
-                    console.log(response.status)
-                }
-                catch (e) {
-                    console.log(e)
-                }
                 console.log(data)
+                setEntrevues(entrevues.filter(entrevue => entrevue.id !== selectedEntrevue.id));
                 setShouldRefetch(true);
             })
         setIsConfirmationModalOpen(false);
@@ -98,7 +93,7 @@ const SectionEntrevue = ({entrevueTest}) => {
 
     const handleRefuseConfirmation = () => {
         fetch(
-            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.id}/Refusee`,
             {
                 method: "PUT",
                 headers: {

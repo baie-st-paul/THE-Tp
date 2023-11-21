@@ -123,7 +123,7 @@ const EvaluationForm = ({ onSubmit }) => {
                         <input className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label' questionStyle label>Programme d’études :</label>
+                        <label className='questionStyle label'>Programme d’études :</label>
                         <input className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>

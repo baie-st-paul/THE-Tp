@@ -234,7 +234,7 @@ public class EmployerControllerTest {
 
         //3. Effectuer la requête POST avec le fichier mocké
         mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation").file(file)
-                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Fichier 'test.pdf' reçu et sauvegardé.")));
 

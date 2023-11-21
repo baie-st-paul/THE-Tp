@@ -5,6 +5,7 @@ import CardPageEntrevuesS from "./cards/CardPageEntrevuesS";
 import CardPageContratsS from "./cards/CardPageContratsS";
 import FetchsForDashboardStudent from "./FetchsForDashboardStudent";
 import {List} from "@mui/material";
+import AllCardsNotifications from "./cards/AllCardsNotifications";
 
 const DashboardPageStudent = () => {
     const [offres, setOffres] = useState([])
@@ -34,9 +35,9 @@ const DashboardPageStudent = () => {
                 style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
-                    <CardPageEntrevuesS entrevues={entrevues}/>
-                    <CardPageContratsS contrats={contrats}/>
-                    <CardPageOffresS offres={offres} candidaturesOffreId={candidaturesOffreId} candidatures={candidatures}/>
+                    <AllCardsNotifications entrevues={entrevues}
+                                           contrats={contrats}
+                                           offres={offres} candidaturesOffreId={candidaturesOffreId} candidatures={candidatures}/>
                 </div>
             </List>
         </div>

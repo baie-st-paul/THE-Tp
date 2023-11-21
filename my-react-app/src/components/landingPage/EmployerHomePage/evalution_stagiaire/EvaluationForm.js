@@ -119,28 +119,28 @@ const EvaluationForm = ({ onSubmit }) => {
                 <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
                 <div className='sectionStyle'>
                     <div className='questionStyle'>
-                        <label className='questionStyle label'>Nom de l’élève :</label>
-                        <input className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
+                        <label htmlFor="eleve" className='questionStyle label'>Nom de l’élève :</label>
+                        <input id="eleve" className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label' questionStyle label>Programme d’études :</label>
-                        <input className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
+                        <label htmlFor="program" className='questionStyle label'>Programme d’études :</label>
+                        <input id="program" className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label'>Nom de l’entreprise :</label>
-                        <input className= 'questionStyle input' type="text" name="nomEntreprise" value={evaluationData.nomEntreprise} onChange={handleChange} />
+                        <label htmlFor="nomEntreprise" className='questionStyle label'>Nom de l’entreprise :</label>
+                        <input id="nomEntreprise" className= 'questionStyle input' type="text" name="nomEntreprise" value={evaluationData.nomEntreprise} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label'>Nom du superviseur :</label>
-                        <input className= 'questionStyle input' type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
+                        <label htmlFor="nomSuperviseur" className='questionStyle label'>Nom du superviseur :</label>
+                        <input id="nomSuperviseur" className= 'questionStyle input' type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label'>Fonction :</label>
-                        <input className= 'questionStyle input' type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
+                        <label htmlFor="fonctionSuperviseur" className='questionStyle label'>Fonction :</label>
+                        <input id="fonctionSuperviseur" className= 'questionStyle input' type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label className='questionStyle label'>Téléphone :</label>
-                        <input className= 'questionStyle input' type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
+                        <label htmlFor="telephoneSuperviseur" className='questionStyle label'>Téléphone :</label>
+                        <input id="telephoneSuperviseur" className= 'questionStyle input' type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
                     </div>
                 </div>
 

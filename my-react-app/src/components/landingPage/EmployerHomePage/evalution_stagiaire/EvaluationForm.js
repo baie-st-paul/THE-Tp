@@ -61,7 +61,7 @@ const EvaluationForm = ({ onSubmit }) => {
         accord: '',
 
         //Acceuil prochain stage
-        accueilProchainStage: '',
+        accueilPourProchainStage: '',
         commentaireAccueilProchain: '',
         formationTechniqueSuffisante: '',
         nomSignataire: '',
@@ -319,15 +319,15 @@ const EvaluationForm = ({ onSubmit }) => {
                     <strong>L’ENTREPRISE AIMERAIT ACCUEILLIR CET ÉLÈVE POUR SON PROCHAIN STAGE :</strong><br />
                     <div className='radioGroup'>
                         <label > 
-                            <input  type="radio" name="accueilProchainStage" value="Oui" onChange={handleChange}/>
+                            <input  type="radio" name="accueilPourProchainStage" value="Oui" onChange={handleChange}/>
                             Oui
                         </label>
                         <label >
-                            <input  type="radio" name="accueilProchainStage" value="Non" onChange={handleChange} />
+                            <input  type="radio" name="accueilPourProchainStage" value="Non" onChange={handleChange} />
                             Non
                         </label>
                         <label >
-                            <input  type="radio" name="accueilProchainStage" value="Peut-être" onChange={handleChange} />
+                            <input  type="radio" name="accueilPourProchainStage" value="Peut-être" onChange={handleChange} />
                             Peut-être
                         </label><br />
                     </div>
@@ -374,25 +374,10 @@ const EvaluationForm = ({ onSubmit }) => {
 
                 <FaqAccordion />
 
-               {/*  <div class="faq-section">
-                    <h2>FAQ - Questions Fréquemment Posées</h2>
-                    <div class="faq">
-                        <h3>Que fait le bouton "Soumettre l'évaluation en PDF" ?</h3>
-                        <p>Ce bouton permet d'envoyer le formulaire d'évaluation, qui est automatiquement converti en un document PDF, directement à notre serveur pour un traitement ultérieur. Il est utilisé lorsque vous avez terminé de remplir le formulaire et que vous êtes prêt à soumettre l'évaluation complète.</p>
-                    </div>
-                    <div class="faq">
-                        <h3>Que fait le bouton "Télécharger l'évaluation en PDF" ?</h3>
-                        <p>Ce bouton permet de télécharger une copie du formulaire d'évaluation rempli en format PDF sur votre appareil local. Vous pouvez utiliser cette fonction pour conserver une copie de l'évaluation pour vos archives ou pour l'imprimer.</p>
-                    </div>
-                </div> */}
-
-
             </form>
             
         );
 
     
 }
-
-
 export default EvaluationForm;

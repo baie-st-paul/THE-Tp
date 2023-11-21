@@ -14,7 +14,6 @@ import CardPageSignature from "./dashboard/cards/signature/CardPageSignature";
 import EvaluationForm from "./evalution_stagiaire/EvaluationForm";
 import { pdf } from '@react-pdf/renderer';
 import EvaluationPDF from "./evalution_stagiaire/EvaluationPDF";
-
 const EmployerHomePage = () => {
     const [activeContent, setActiveContent] = useState("none"); 
     const navigate = useNavigate()  

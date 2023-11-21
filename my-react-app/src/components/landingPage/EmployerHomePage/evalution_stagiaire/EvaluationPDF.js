@@ -1,6 +1,7 @@
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
+
 const styles = StyleSheet.create({
     body: { padding: 10 },
     title: { fontSize: 20, textAlign: 'center', marginBottom: 10, fontWeight: 'bold' },
@@ -19,6 +20,27 @@ const styles = StyleSheet.create({
     tableRow: { margin: "auto", flexDirection: "row" },
     tableColHeader: { width: "25%", borderStyle: "solid", borderBottomWidth: 1, borderLeftWidth: 1 },
     tableCol: { width: "25%", borderStyle: "solid", borderLeftWidth: 1 },
+
+    footerInfo: {
+      textAlign: 'center',
+      fontSize: 10,  
+      marginTop: 20, 
+  },
+
+      boldText: {
+        color: 'black',
+        fontWeight: 'bold',
+        textAlign: 'left',
+    },
+    
+    /* labelStyle: {
+      fontSize: 12,
+      fontWeight: 'normal',
+  },
+    responseStyle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+    }, */
 });
 
 const EvaluationPDF = ({ evaluationData }) => (
@@ -109,7 +131,8 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Date: {evaluationData.dateSignature}</Text>
       </View>
 
-        <Text>Veuillez retourner ce formulaire à :{"\n"}
+        <Text style={styles.footerInfo}>
+          <Text style={styles.boldText}>Veuillez retourner ce formulaire à :</Text>{"\n"}
             Patrice Brodeur{"\n"}
             Cégep André-Laurendeau{"\n"}
             1111, rue Lapierre{"\n"}

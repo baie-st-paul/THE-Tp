@@ -134,9 +134,6 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                         </div>
                         {contrats !== undefined && contrats.length > 0  ?
                             <div className="table-responsive table-container">
-                                <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
-                                    <input data-testid="input" onChange={ (event)=> setFiltre(event.target.value)}></input>
-                                </div>
                                 <table className="table w-100 text-start">
                                     <thead>
                                     <tr>

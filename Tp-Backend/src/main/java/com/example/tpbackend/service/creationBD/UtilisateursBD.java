@@ -446,8 +446,9 @@ public class UtilisateursBD implements CommandLineRunner {
                 idEmp,
                 nomDePoste,
                 nom,
+                null,
+                null,
                 titreOffre,
-
                 prenom,
                 "Pas_Signer",
                 "Pas_Signer",

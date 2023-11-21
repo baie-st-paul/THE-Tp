@@ -1,8 +1,15 @@
 package com.example.tpbackend.DTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
+import static com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +20,9 @@ public class ContratStageDTO {
     private Long employerId;
     private String nomEtudiant;
     private String nomDeCompanie;
-
+    private String fileName;
+    @JsonIgnore
+    private MultipartFile rapportHeures;
     private String nomDePoste;
     private String prenomEtudiant;
     private String statutEtudiant;
@@ -45,13 +54,23 @@ public class ContratStageDTO {
         dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
         dto.setNomDePoste(contratStage.getNomDePoste());
         dto.setId(contratStage.getId());
+        dto.setRapportHeures(dto.getMultipartFileFromContract(contratStage));
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
         dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatutVuPasVuG()));
         dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatutVuPasVuE()));
         dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));
         return dto;
     }
-    public ContratStage toContratStage() {
+
+    private MultipartFile getMultipartFileFromContract(ContratStage contratStage) {
+        byte[] byteArray = contratStage.getRapportHeures();
+        String fileName = contratStage.getFileName();
+        String contentType = "application/pdf";
+
+        return new ByteArrayMultipartFile(fileName, fileName, contentType, byteArray);
+    }
+
+    public ContratStage toContratStage(){
         ContratStage contratStage = new ContratStage();
 
         contratStage.setId(this.id);

@@ -49,6 +49,10 @@ public class ContratStage {
     @JoinColumn(name = "signature_id")
     private SignatureGestionnaire gestionnaireSignature;
 
+    private String fileName;
+    @Column(name = "rapport_heures")
+    private byte[] rapportHeures;
+
     private String nomDePoste;
 
     public enum Statut {

@@ -4,7 +4,7 @@ import PageNoNotifications from "../../../Dashboard/PageNoNotifications";
 import CardsPasCritique from "../../../Dashboard/CardsPasCritique";
 import Divider from "@mui/material/Divider";
 
-const AllCardsNotifications = ({entrevues, contrats, offres, candidaturesOffreId, candidatures}) => {
+const AllCardsNotificationsEtudiant = ({entrevues, contrats, offres, candidaturesOffreId, candidatures}) => {
     const filteredEntrevuesEnAttente = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "EnAttente");
 
@@ -51,4 +51,4 @@ const AllCardsNotifications = ({entrevues, contrats, offres, candidaturesOffreId
     )
 }
 
-export default AllCardsNotifications
+export default AllCardsNotificationsEtudiant

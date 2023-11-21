@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import FetchsForDashboardStudent from "./FetchsForDashboardStudent";
 import {List} from "@mui/material";
-import AllCardsNotifications from "./cards/AllCardsNotifications";
+import AllCardsNotificationsEtudiant from "./cards/AllCardsNotificationsEtudiant";
 
 const DashboardPageStudent = () => {
     const [offres, setOffres] = useState([])
@@ -31,9 +31,9 @@ const DashboardPageStudent = () => {
                 style={{marginBottom: "2px"}}>Tableau de bord</h1>
             <List style={{justifyContent: "center", display: "flex"}}>
                 <div>
-                    <AllCardsNotifications entrevues={entrevues}
-                                           contrats={contrats}
-                                           offres={offres} candidaturesOffreId={candidaturesOffreId} candidatures={candidatures}/>
+                    <AllCardsNotificationsEtudiant entrevues={entrevues}
+                                                   contrats={contrats}
+                                                   offres={offres} candidaturesOffreId={candidaturesOffreId} candidatures={candidatures}/>
                 </div>
             </List>
         </div>

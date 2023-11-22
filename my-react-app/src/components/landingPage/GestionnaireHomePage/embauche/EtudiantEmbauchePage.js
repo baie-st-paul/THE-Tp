@@ -22,11 +22,11 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-const EtudiantEmbauchePage = () => {
-    const [candidatures, setCandidatures] = useState([])
+const EtudiantEmbauchePage = ({contratsTest, candidaturesTest}) => {
+    const [candidatures, setCandidatures] = useState(candidaturesTest)
     const [candidature, setCandidature] = useState(null);
     const [offre, setOffre] = useState(null);
-    const [contrats, setContrats] = useState([]);
+    const [contrats, setContrats] = useState(contratsTest);
     const [filtre, setFiltre] = useState('')
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
@@ -69,6 +69,7 @@ const EtudiantEmbauchePage = () => {
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
+            setCandidatures(candidaturesTest)
             if (candidatures !== undefined){
                 setCandidatures(candidatures)
             }
@@ -109,6 +110,7 @@ const EtudiantEmbauchePage = () => {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             console.log(contrats)
+            setContrats(contratsTest)
         }
     }
 

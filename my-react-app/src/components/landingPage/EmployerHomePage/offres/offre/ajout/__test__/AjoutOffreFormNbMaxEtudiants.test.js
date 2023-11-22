@@ -1,13 +1,18 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import AjoutOffreForm from '../AjoutOffreForm';
+import {BrowserRouter} from "react-router-dom";
 
 describe('AjoutOffreForm', () => {
   it('should show error message when "nbMaxEtudiants" is empty', () => {
     // onAdd est necessaire mais ne sera pas utilisé pour ce test
-    render(<AjoutOffreForm onAdd={() => {}} />); 
+    render(
+        <BrowserRouter>
+          <AjoutOffreForm onAdd={() => {}}/>
+        </BrowserRouter>
+    );
 
     const nbMaxEtudiantsInput = screen.getByPlaceholderText(/Nombre max. d’étudiants/i);
-    
+
     fireEvent.change(nbMaxEtudiantsInput, { target: { value: '' } });
     fireEvent.submit(screen.getByRole('button', { name: /Ajouter l'offre/i }));
 
@@ -16,10 +21,14 @@ describe('AjoutOffreForm', () => {
   });
 
   it('should not show error message when "nbMaxEtudiants" has a valid value', () => {
-    render(<AjoutOffreForm onAdd={() => {}} />);
+    render(
+        <BrowserRouter>
+          <AjoutOffreForm onAdd={() => {}}/>
+        </BrowserRouter>
+    );
 
     const nbMaxEtudiantsInput = screen.getByPlaceholderText(/Nombre max. d’étudiants/i);
-    
+
     fireEvent.change(nbMaxEtudiantsInput, { target: { value: '5' } });
     fireEvent.submit(screen.getByRole('button', { name: /Ajouter l'offre/i }));
 

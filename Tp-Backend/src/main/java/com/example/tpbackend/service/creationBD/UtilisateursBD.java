@@ -197,7 +197,7 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllCvs() throws IOException {
         System.out.println(createCv("web-developer-resume-example.pdf", "1234567",
-                "In_review", "vu", "pasVu"));
+                "Accepted", "vu", "pasVu"));
         createCv("web-developer-resume-example.pdf", "5869595",
                 "In_review", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "8675848",

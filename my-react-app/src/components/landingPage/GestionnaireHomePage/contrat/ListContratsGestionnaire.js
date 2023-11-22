@@ -142,6 +142,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 <th className="header-cell h5">Signé par étudiant</th>
                                 <th className="header-cell h5">Signé par employeur</th>
                                 <th className="header-cell h5" >Signé par gestionnaire</th>
+                                <th className="header-cell h5" >Contrat PDF</th>
                             </tr>
                             </thead>
                             <tbody className='w-100'>
@@ -159,6 +160,11 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                     <td data-label="Signé par étudiant"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',etudiant)}><span className='h6'>Signer le contrat</span></button></td>
                                     :
                                     <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
+                                    }
+                                    {etudiant.statutEtudiant === 'Pas_Signer' & etudiant.statutEmployeur === 'Pas_Signer'?
+                                        <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'><span className='h7'>Générer Contrat</span></button></td>
+                                        :
+                                        <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'><span className='h7'>Voir  Contrat</span></button></td>
                                     }
                                     </tr>
                                 ))

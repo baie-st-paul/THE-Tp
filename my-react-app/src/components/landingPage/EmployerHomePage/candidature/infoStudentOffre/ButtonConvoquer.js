@@ -5,12 +5,17 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
 
     useEffect(() => {
        init() 
-    },[offre]) 
+    },[offre])
  
     function init(){
-        setIsPresent(entrevues.filter(x =>
-            x.student.matricule + " " + x.offreStage.titre ===
-            matricule + " " + offre.offreStage.titre && offre.status !== 'In_review')) 
+        console.log("entrevues",entrevues)
+        console.log("matricule",matricule)
+        console.log("offre",offre)
+        setIsPresent(entrevues.filter(entrevue =>
+            entrevue.student.matricule === matricule
+            && entrevue.offreStage.id === offre.offreStage.id
+            && entrevue.status !== 'Refusee'))
+        console.log(isPresent)
     }
     function handleConvoquerEntrevue(candidatureId) { 
         setModal(candidatureId); 
@@ -21,6 +26,12 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
             {isPresent.length > 0 ?
                 <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                     {isPresent[0].dateHeure}
+                    {
+                        isPresent[0].status === 'Acceptee' ?
+                            <span className="badge bg-success ms-2">Acceptée</span>
+                            :
+                            <span className="badge bg-warning text-dark ms-2">En attente</span>
+                    }
                 </td>
                  :
                 <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0  '>

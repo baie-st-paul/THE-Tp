@@ -39,8 +39,7 @@ const OVERLAY_STYLE = {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const [listeEtudiants, setListeEtudiants] = useState([]);
-    
+    const [listeCandidature, setlisteCandidature] = useState([]);
     const [entrevues, setEntrevues] = useState([]);
     const [showConvoquer, setShowConvoquer] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -51,8 +50,8 @@ const OVERLAY_STYLE = {
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
     const [select, setSelect] = useState('')
-    const [listeEtudiantsFiltered, setListeEtudiantsFiltered] = useState([]);
-    
+    const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
+    const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
     useEffect(() => {
       fetchAll()
     }, [])
@@ -90,15 +89,15 @@ const OVERLAY_STYLE = {
                     } catch (e) {
                         console.log(e)
                     }
-                    setListeEtudiantsFiltered(data)
-                    setListeEtudiants(data);   
+                    setListeCandidatureFiltered(data)
+                    setlisteCandidature(data);
                     
                     console.log("candidatures",data)
                 }).then(allEntrevuesStudentMatricule).then(setfinFetch(true))
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            if (listeEtudiants !== undefined){
-                setListeEtudiants(listeEtudiant)
+            if (listeCandidature !== undefined){
+                setlisteCandidature(listeEtudiant)
             }
         }
     }
@@ -187,8 +186,10 @@ const OVERLAY_STYLE = {
         window.location.reload();
     }
 
-    const setModal = () => {
+    const setModal = (candidatureId) => {
         setShowConvoquer(!showConvoquer);
+        console.log(candidatureId.candidatureId)
+        if (candidatureId.candidatureId !== undefined) setSelectedCandidatureId(candidatureId);
     }
 
     const handleAcceptConfirmation = () => {
@@ -214,55 +215,57 @@ const OVERLAY_STYLE = {
 
     const createEntrevue = async (entrevue) => {
         try {
-            listeEtudiants.map(async (candidature) => {
-                const matricule = candidature.student.matricule
-                const offreId = candidature.offreStage.id
-                const token = localStorage.getItem('token');
+            console.log("got there")
+            console.log("candidature_id",selectedCandidatureId)
+            const candidature = listeCandidature.filter(candidature => candidature.id === selectedCandidatureId.candidatureId)[0]
+            const matricule = candidature.student.matricule
+            const offreId = candidature.offreStage.id
+            const token = localStorage.getItem('token');
 
-                console.log(matricule)
-                console.log(candidature.offreStage)
-                console.log(offreId)
+            console.log(matricule)
+            console.log(candidature.offreStage)
+            console.log(offreId)
 
-                let employerId = localStorage.getItem('employer_id')
+            let employerId = localStorage.getItem('employer_id')
 
-                entrevue["status"] = "EnAttente"
-                entrevue["statusVuPasVuG"] = "pasVu" 
-                entrevue["statusVuPasVuS"] = "pasVu"
-                entrevue["idEmployeur"] = employerId
-                entrevue["idEtudiant"] = matricule
-                entrevue["idOffre"] = offreId
-                console.log(JSON.stringify(entrevue))
+            entrevue["status"] = "EnAttente"
+            entrevue["statusVuPasVuG"] = "pasVu"
+            entrevue["statusVuPasVuS"] = "pasVu"
+            entrevue["idEmployeur"] = employerId
+            entrevue["idEtudiant"] = matricule
+            entrevue["idOffre"] = offreId
+            console.log(JSON.stringify(entrevue))
 
-                fetch(
-                    'http://localhost:8081/api/v1/stages/entrevues',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        withCredentials: true,
-                        body: JSON.stringify(entrevue)
-                    }
-                ).catch(error => {
-                    console.log(error)
-                }).then(
-                    async (res) => {
-                        const data = await res.json()
-                        try {
+            fetch(
+                'http://localhost:8081/api/v1/stages/entrevues',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body: JSON.stringify(entrevue)
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    const data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
                             console.log(res.status)
-                            if (res.status === 400) {
-                                console.log(res.status)
-                            }
-                        } catch (e) {
-                            console.log(e)
                         }
-                        setEntrevues([...entrevues, data])
-                        console.log(data)
-                        setShowConvoquer(false)
-                        window.location.reload()
-                    })
-            })
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    setEntrevues([...entrevues, data])
+                    console.log(data)
+                    setShowConvoquer(false)
+                    setSelectedCandidatureId(null)
+                    window.location.reload()
+                })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (entrevues !== undefined){
@@ -286,22 +289,22 @@ const OVERLAY_STYLE = {
 
     function handleSelect(e){
         if (e.target.value === 'null'){
-        setListeEtudiantsFiltered(listeEtudiants)   
+        setListeCandidatureFiltered(listeCandidature)
         }
         if (e.target.value === 'accepte'){
-        setListeEtudiantsFiltered(listeEtudiants.filter(x => x.status === 'Accepted'))    
+        setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Accepted'))
         }
         if (e.target.value === 'convoquer'){
             let arr = []
-        for (let x = 0; x < listeEtudiants.length; x++){
+        for (let x = 0; x < listeCandidature.length; x++){
             for (let x1 = 0; x1 < entrevues.length; x1++){
-            if (listeEtudiants[x].cvStudent.matricule === entrevues[x1].student.matricule  && entrevues[x1].offreStage.titre === listeEtudiants[x].offreStage.titre && listeEtudiants[x].status === 'In_review' ){
-                arr.push(listeEtudiants[x]);
+            if (listeCandidature[x].cvStudent.matricule === entrevues[x1].student.matricule  && entrevues[x1].offreStage.titre === listeCandidature[x].offreStage.titre && listeCandidature[x].status === 'In_review' ){
+                arr.push(listeCandidature[x]);
                 continue;
              }
             }    
         }        
-        setListeEtudiantsFiltered(arr)
+        setListeCandidatureFiltered(arr)
         }
     setSelect(e.target.value)
     }
@@ -337,69 +340,69 @@ const OVERLAY_STYLE = {
                         </tr>
                         </thead>
                         <tbody className='bg-light border'>
-                        {listeEtudiantsFiltered.length > 0 &&
-                            listeEtudiantsFiltered.map((etudiant, i) => (
+                        {listeCandidatureFiltered.length > 0 &&
+                            listeCandidatureFiltered.map((candidature, i) => (
                                 <tr key={i} className=''>
                                      <td  data-label="PRENOM" className='headerElement  text-break h6'>
-                                        {etudiant.student.lastName}
+                                        {candidature.student.lastName}
                                     </td>
                                     <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
-                                        {etudiant.student.firstName}
+                                        {candidature.student.firstName}
                                     </td>
                                     <td data-label="Poste" className=' headerElement h6'>
-                                        {etudiant.offreStage.titre}
+                                        {candidature.offreStage.titre}
                                     </td>
                                     <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
-                                        {etudiant.student.email}
+                                        {candidature.student.email}
                                     </td>
                                     <td data-label="NUMERO DE TELEPHONE" className=' headerElement h6'>
-                                        {etudiant.student.phoneNumber}
+                                        {candidature.student.phoneNumber}
                                     </td>
                                     <td data-label="RESUME" className='headerElement h6 px-3 pe-0 '>
                                         <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
-                                                onClick={()=>handleMontrerCv(etudiant)}><p>Curriculum Vitae</p>
+                                                onClick={()=>handleMontrerCv(candidature)}><p>Curriculum Vitae</p>
                                         </button>
                                     </td>
-                                    { etudiant.student.fileName !== '' ?
+                                    { candidature.student.fileName !== '' ?
                                         <td data-label="LETTRE DE MOTIVATION" className='headerElement h6 px-3 pe-0 '>
                                             <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
+                                                    onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
                                         :   <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
                                             <button title="Lettre de motivation" style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
-                                                    onClick={()=> handleMontrerLettre(etudiant)}> <p className='h6'>Lettre de motivation</p>
+                                                    onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
                                             </button>
                                         </td>
                                     }
                                     { finFetch === true &&
-                                        <ButtonConvoquer matricule={etudiant.student.matricule} offre={etudiant.offreStage.titre}
-                                                         entrevues={entrevues} setModal={setModal}/>
+                                        <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature.offreStage.titre}
+                                                         entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
-                                        {etudiant.status === "In_review" && (
+                                        {candidature.status === "In_review" && (
                                             <>
                                                 <FontAwesomeIcon icon={faClock} /> <span className='h6'><h6>En attente</h6></span>
                                             </>
                                         )}
-                                        {etudiant.status === "Accepted" && (
+                                        {candidature.status === "Accepted" && (
                                             <>
                                                 <FontAwesomeIcon icon={faCheck} /> Accepté
                                             </>
                                         )}
-                                        {etudiant.status === "Refused" && (
+                                        {candidature.status === "Refused" && (
                                             <>
                                                 <FontAwesomeIcon icon={faTimes} /> Refusé
                                             </>
                                         )}
                                     </td>
                                     <td data-label="ACTION" scope="row" className='headerElement breakWord h6 pe-3' aria-label='veto'>
-                                        {etudiant.status === "In_review" ? (
+                                        {candidature.status === "In_review" ? (
                                             <div className='d-flex justify-content-end me-0 pe-0'>
-                                                <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", candidature.student)}>
                                                     <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
                                                 </button>
-                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", candidature.student)}>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
                                                 </div>
@@ -410,10 +413,10 @@ const OVERLAY_STYLE = {
                         }
                         </tbody>
                     </table>
-                    {openModal && listeEtudiants.length > 0 &&
+                    {openModal && listeCandidature.length > 0 &&
                         <Modal cv={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
                     }
-                    {openModalLettre && listeEtudiants.length > 0 &&
+                    {openModalLettre && listeCandidature.length > 0 &&
                         <Modal cv={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
                     }
                     <ReactModal

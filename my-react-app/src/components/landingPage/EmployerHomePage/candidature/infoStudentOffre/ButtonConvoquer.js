@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 
-export default function ButtonConvoquer({matricule, offre, entrevues , setModal }) {
+export default function ButtonConvoquer({matricule, offre, entrevues , setModal, candidatureId }) {
     const [isPresent, setIsPresent] = useState([])
 
     useEffect(() => {
@@ -10,9 +10,8 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal 
         console.log(isPresent)
     }, [])
 
-    function handleConvoquerEntrevue(matricule) {
-        console.log(matricule)
-        setModal();
+    function handleConvoquerEntrevue(candidatureId) {
+        setModal(candidatureId);
     }
 
     return (
@@ -24,7 +23,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal 
                  :
                 <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0  '>
                     <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
-                            onClick={()=> handleConvoquerEntrevue({matricule})}>
+                            onClick={()=> handleConvoquerEntrevue({candidatureId})}>
                         Convoquer
                     </button>
                 </td>

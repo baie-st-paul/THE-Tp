@@ -11,39 +11,29 @@ import {
     faHome
 } from "@fortawesome/free-solid-svg-icons";
 import profile from "../../../../images/profile.jpg"
-import Drawer from '@mui/material/Drawer';
 import ProfilePageGes from "../../GestionnaireHomePage/profile/ProfilePageGes";
+import Modal from "react-bootstrap/Modal";
 
 const NavBarGestionnaire = () => {
     const navigate = useNavigate()
 
-    const [isDrawer, setIsDrawer] = useState(false)
-    const [placement, setPlacement] = useState()
+    const [show, setShow] = useState(false);
 
-    const handleDisconnect = () => {
-        localStorage.clear()
-        navigate('/');
-    }
-
-    const handleOpen = key => {
-        setIsDrawer(true);
-        setPlacement(key);
-    };
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
-            <Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+            <Navbar.Brand className="profile">
                 <img src={profile} style={{marginLeft: "10px"}}
-                     onClick={() => handleOpen('left')}
+                     onClick={handleShow}
                      alt="profile" className="rounded-circle" width="30"/>
             </Navbar.Brand>
 
-            <Drawer placement={placement} open={isDrawer}
-                    onClose={() => setIsDrawer(false)}>
+            <Modal show={show} onHide={handleClose}>
                 <ProfilePageGes/>
-            </Drawer>
-
-            <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+            </Modal>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                     <ul className="navbar-nav px-2">

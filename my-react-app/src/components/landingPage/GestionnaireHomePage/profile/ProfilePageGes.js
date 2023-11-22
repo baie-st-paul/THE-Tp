@@ -30,7 +30,7 @@ const ProfilePageGes = () => {
                     <div className="card-body">
                         <div className="d-flex flex-column align-items-center text-center">
                             <img src={profile}
-                                 alt="profile" className="rounded-circle" width="150"/>
+                                 alt="profile" className="rounded-circle" width="30"/>
                             <div className="mt-3">
                                 <h4>{gestionnaire.firstName + " " + gestionnaire.lastName}</h4>
                                 <p className="text-secondary mb-1">

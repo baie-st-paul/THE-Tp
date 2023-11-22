@@ -93,6 +93,56 @@
     }
 }
 
+.signatureDateContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signatureContainer, .dateContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.signatureContainer {
+    justify-content: flex-start; 
+}
+
+.dateContainer {
+    justify-content: flex-end;
+}
+
+.buttonStyleSignature {
+    display: flex; /* Utilisation de Flexbox */
+    align-items: center; /* Alignement vertical au centre */
+    justify-content: center; /* Alignement horizontal au centre */
+    padding: 8px 15px; /* Ajustement du padding */
+    background-color: #30363d;
+    color: white;
+    border: 1px solid #197fed;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 0;
+    transition: background-color 0.3s;
+}
+
+.buttonStyleSignature:hover {
+    background-color: rgb(13, 13, 14); /* Changement de couleur au survol */
+    border-color: #f8f7fa;
+}
+
+
+.signatureContainer .buttonStyleSignature {
+    margin: 0; 
+   flex-shrink: 0; 
+    margin-right: 137px;
+    text-align: center;
+}
+
+
+
 
 
 

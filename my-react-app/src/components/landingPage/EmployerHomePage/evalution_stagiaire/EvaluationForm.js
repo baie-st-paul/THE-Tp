@@ -74,7 +74,49 @@ const EvaluationForm = ({ onSubmit }) => {
 
     const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"] ;
     const choices = ["Oui", "Non"];
+    const programmeEtude = ["Techniques de l’informatique", "Techniques de l’architecture"];
+    const [signature, setSignature] = useState('');
+    const employerId = localStorage.getItem('employer_id');
+    const token = localStorage.getItem('token');
 
+
+  
+   
+    const handleSignature = async () => {
+        try {
+            const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                withCredentials: true
+            });
+    
+            if (!response.ok) {
+                throw new Error('Erreur de réseau ou réponse non-OK du serveur');
+            }
+    
+            const data = await response.json();
+            const base64Signature = data.imageLink;
+    
+            if (base64Signature && !base64Signature.startsWith('data:image')) {
+                setSignature(`data:image/png;base64,${base64Signature}`);
+            } else {
+                setSignature(base64Signature);
+                setEvaluationData(prevState => ({
+                    ...prevState,
+                    signature: base64Signature
+                }));
+            }
+    
+        } catch (error) {
+            console.error('Erreur lors de la récupération de la signature:', error);
+            setSignature(null);
+        }
+    };
+    
+    
    
 
 
@@ -111,6 +153,16 @@ const EvaluationForm = ({ onSubmit }) => {
         </select>
     );
 
+    const renderProgrammeEtude = (name) => (
+        <select name={name} value={evaluationData[name]} onChange={handleChange}>
+            <option value="">Sélectionner</option>
+            {programmeEtude.map(programme => (
+                <option key={programme} value={programme}>{programme}</option>
+            ))}
+        </select>
+    );
+
+
 
     
 
@@ -121,10 +173,10 @@ const EvaluationForm = ({ onSubmit }) => {
                     <div className='questionStyle'>
                         <label htmlFor="eleve" className='questionStyle label'>Nom de l’élève :</label>
                         <input id="eleve" className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="program" className='questionStyle label'>Programme d’études :</label>
-                        <input id="program" className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
+                    </div> 
+                   <div className='questionStyle'>
+                        <label htmlFor="planifierOrganiser"  className='questionStyle label'> Programme d'étude :</label>
+                        {renderProgrammeEtude("programmeEtudes")}
                     </div>
                     <div className='questionStyle'>
                         <label htmlFor="nomEntreprise" className='questionStyle label'>Nom de l’entreprise :</label>
@@ -135,7 +187,7 @@ const EvaluationForm = ({ onSubmit }) => {
                         <input id="nomSuperviseur" className= 'questionStyle input' type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
-                        <label htmlFor="fonctionSuperviseur" className='questionStyle label'>Fonction :</label>
+                        <label htmlFor="fonctionSuperviseur" className='questionStyle label'>Fonction du superviseur :</label>
                         <input id="fonctionSuperviseur" className= 'questionStyle input' type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
                     </div>
                     <div className='questionStyle'>
@@ -342,11 +394,36 @@ const EvaluationForm = ({ onSubmit }) => {
                     <label className='questionStyle label'>Fonction :</label><br />
                     <input className= 'questionStyle input' type="text" name="fonctionSignataire" value={evaluationData.fonctionSignataire} onChange={handleChange} /><br />
 
-                    <label className='questionStyle label'>Signature :</label><br />
-                    <input className= 'questionStyle input' type="text" name="signature" value={evaluationData.signature} onChange={handleChange} /><br />
+                    {/* <div className='questionStyle'>
+                        <label className='questionStyle label'>Signature :</label>
+                        {signature ? (
+                            <img src={signature} alt="Signature" style={{ width: '100px', height: '50px' }} />
+                        ) : (
+                            <button type="button" onClick={handleSignature} className='buttonStyle'>
+                                Signer
+                            </button>
+                        )}
+                    </div>
+                    <div className='questionStyle'><input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} /> </div> */}
 
-                    <label className='questionStyle label'>Date :</label><br />
-                    <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                <div className='signatureDateContainer'>
+                    <div className='signatureContainer'>
+                        {signature ? (
+                            <img src={signature} alt="Signature" style={{ width: '50px', height: '20px' }} />
+                        ) : (
+                            <button type="button" onClick={handleSignature} className='signatureContainer buttonStyleSignature'>
+                                Signer
+                            </button>
+                        )}
+                    </div>
+                    <div className='dateContainer'>
+                        <label className='questionStyle label'>Date  :</label>
+                        <input className='questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                    </div>
+                </div>
+
+
+
                 </div>
                 <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
                     <strong>Veuillez retourner ce formulaire à :</strong><br />
@@ -380,4 +457,6 @@ const EvaluationForm = ({ onSubmit }) => {
 
     
 }
+
+
 export default EvaluationForm;

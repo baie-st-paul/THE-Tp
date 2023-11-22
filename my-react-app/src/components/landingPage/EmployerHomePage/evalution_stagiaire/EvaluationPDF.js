@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 
 
 const styles = StyleSheet.create({
@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         textAlign: 'left',
+    },
+
+    signatureImage: {
+      width: 100, 
+      height: 50, 
+      margin: '10px 0', 
     },
     
     /* labelStyle: {
@@ -127,7 +133,13 @@ const EvaluationPDF = ({ evaluationData }) => (
         
         <Text style={styles.text}>Nom (en lettres moulées): {evaluationData.nomSignataire}</Text>
         <Text style={styles.text}>Fonction: {evaluationData.fonctionSignataire}</Text>
-        <Text style={styles.text}>Signature: {evaluationData.signature}</Text>
+        <Text style={styles.text}>Signature:</Text>
+        {evaluationData.signature && (
+          <Image
+            style={styles.signatureImage}
+            src={evaluationData.signature}
+          />
+        )}
         <Text style={styles.text}>Date: {evaluationData.dateSignature}</Text>
       </View>
 

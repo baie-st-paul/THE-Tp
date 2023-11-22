@@ -3,11 +3,13 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.RapportHeures;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
@@ -108,5 +110,17 @@ public class EmployerService {
         ContratStage contract = optionalContract.get();
         contract.setStatutEmployeur(ContratStage.Statut.Signer);
         contratStageRepository.save(contract);
+    }
+
+    public ContratStageDTO saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if(optionalContract.isEmpty()) return null;
+        ContratStage contract = optionalContract.get();
+        RapportHeures rapport = new RapportHeures();
+        rapport.setData(rapportHeuresDTO.getData());
+        rapport.setName(rapportHeuresDTO.getName());
+        contract.setRapportHeures(rapport);
+        contratStageRepository.save(contract);
+        return ContratStageDTO.fromContratStage(contract);
     }
 }

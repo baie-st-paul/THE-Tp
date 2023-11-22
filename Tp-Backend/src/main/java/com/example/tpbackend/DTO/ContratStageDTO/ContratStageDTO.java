@@ -19,9 +19,6 @@ public class ContratStageDTO {
     private Long candidatureId;
     private String nomEtudiant;
     private String nomDeCompanie;
-    private String fileName;
-    @JsonIgnore
-    private MultipartFile rapportHeures;
     private String nomDePoste;
     private String prenomEtudiant;
     private String statutEtudiant;
@@ -50,24 +47,11 @@ public class ContratStageDTO {
         dto.setNomEtudiant(contratStage.getCandidature().getStudent().getUtilisateur().getLastName());
         dto.setNomDePoste(contratStage.getNomDePoste());
         dto.setId(contratStage.getId());
-<<<<<<< HEAD:Tp-Backend/src/main/java/com/example/tpbackend/DTO/ContratStageDTO.java
-        dto.setRapportHeures(dto.getMultipartFileFromContract(contratStage));
-        dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
-=======
         dto.setPrenomEtudiant(contratStage.getCandidature().getStudent().getUtilisateur().getFirstName());
->>>>>>> origin/EQ2-237-etudiant_modif_dashboard:Tp-Backend/src/main/java/com/example/tpbackend/DTO/ContratStageDTO/ContratStageDTO.java
         dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatutVuPasVuG()));
         dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatutVuPasVuE()));
         dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));
         return dto;
-    }
-
-    private MultipartFile getMultipartFileFromContract(ContratStage contratStage) {
-        byte[] byteArray = contratStage.getRapportHeures();
-        String fileName = contratStage.getFileName();
-        String contentType = "application/pdf";
-
-        return new ByteArrayMultipartFile(fileName, fileName, contentType, byteArray);
     }
 
     public ContratStage toContratStage(){

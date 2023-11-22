@@ -423,12 +423,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 id,
                 candidatureId,
                 nom,
-<<<<<<< HEAD
-                null,
-                null,
-=======
                 nomDeCompanie,
->>>>>>> origin/EQ2-237-etudiant_modif_dashboard
                 titreOffre,
                 prenom,
                 "Pas_Signer",

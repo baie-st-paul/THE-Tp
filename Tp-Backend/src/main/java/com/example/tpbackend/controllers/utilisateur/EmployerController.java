@@ -3,6 +3,7 @@ package com.example.tpbackend.controllers.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.service.OffreStageService;
@@ -10,10 +11,13 @@ import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -97,5 +101,15 @@ public class EmployerController {
     public ResponseEntity<List<ContratStageDTODetails>> getContratsByEmployeur(@PathVariable Long employerId) {
         List<ContratStageDTODetails> employerContracts = employerService.getContratStageByEmployeur(employerId);
         return ResponseEntity.ok(employerContracts);
+    }
+
+    @PostMapping(value = "/contracts/{id}/rapport_heures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
+        try {
+            employerService.saveRapportHeures(new RapportHeuresDTO(file), id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading the file");}
     }
 }

@@ -5,7 +5,7 @@ import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "../Vetocv/Modal";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
-import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const OVERLAY_STYLE = {
     position: "fixed",

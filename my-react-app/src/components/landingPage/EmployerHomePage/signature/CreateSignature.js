@@ -1,7 +1,7 @@
 import SignatureCanvas from "react-signature-canvas";
 import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {FaPencilAlt, FaTimes} from "react-icons/fa";
+import {FaPencilAlt, FaTimes, FaTrash} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
@@ -11,7 +11,7 @@ const CreateSignature = () => {
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
-
+    const [disableModifier, setDisableModifier] = useState(true)
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
 
@@ -23,9 +23,9 @@ const CreateSignature = () => {
         setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
     }
 
-    const saveSignature = async () => {
+    const saveSignature = async () => { 
         try {
-            const imageLink = urlImage.toString()
+            const imageLink = sign.getTrimmedCanvas().toDataURL('image/png')
             const signature = ({
                 employerId,
                 imageLink
@@ -57,6 +57,7 @@ const CreateSignature = () => {
                         console.log(e)
                     }
                     setSignature(data)
+                    setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png').toString())
                     console.log(data)
                 }
             )
@@ -65,10 +66,17 @@ const CreateSignature = () => {
         }
         window.location.reload()
     }
+    
+
+    function handleSave() {
+    saveSignature()
+    
+    }
 
     const handleModif = async () => {
         try {
-            signature["imageLink"] = urlImage
+            signature["imageLink"] = sign.getTrimmedCanvas().toDataURL('image/png').toString()
+            setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png').toString())
             signature["employerId"] = employerId
             console.log(signature["imageLink"])
             console.log(signature["employerId"])
@@ -99,7 +107,7 @@ const CreateSignature = () => {
                         console.log(e)
                     }
                     setSignature(
-                        {...signature, imageLink: data.imageLink}
+                        signature
                     )
                     console.log(data)
                 }
@@ -112,72 +120,67 @@ const CreateSignature = () => {
 
     const handleClear = () => {
         sign.clear()
-        setDisableWhenEmpty(true)
+        setDisableWhenEmpty(false)
+        setDisableModifier(true)
+        setUrlImage(null)
         console.log(sign.empty)
     }
 
-    const handleSave = () => {
-        console.log(sign.empty)
-        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
-    }
-
+ 
     return (
         <div>
             <NavBarEmployeur/>
             <div id="Render" className="container content-container mt-4">
                 <h1 className="display-4 text-center">Signature</h1>
                 <div style={{border: "2px solid black"}}>
-                    <p>Dessiner la signature ici</p>
+                   <div className="">
+                    <span className="text-center "> Dessiner la signature ici</span>
+                    <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
+                        disabled={!disableWhenEmpty}
+                        onClick={handleClear}>
+                    <FaTrash
+                    style={{color: 'black'}}/>
+                   </Button>
+                   </div>
                     <SignatureCanvas
                         canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
                         ref={data => setSign(data)}
+                        onBegin={ ()=> setDisableModifier(false)}
                         onEnd={() => setDisableWhenEmpty(true)}
                     />
                 </div>
 
-                <Button className="btn btn-danger"
-                        disabled={!disableWhenEmpty}
-                        onClick={handleClear}>
-                    Effacer <FaTimes
-                    style={{color: 'black'}}
-                />
-                </Button>
-                <Button className="btn btn-success"
-                        disabled={!disableWhenEmpty}
-                        onClick={handleSave}>
-                    Dessiner <FaPencilAlt
-                    style={{color: 'black'}}
-                />
-                </Button>
-
-                <br/>
-                {signature !== null && urlImage === null &&
+                
+                {signature !== null && urlImage === null ?
+                <div>
+                    <br></br>
                     <img src={signature.imageLink} alt="imageLink"/>
+                    </div> : <p></p>
                 }
-                <br/>
-
-                <br/>
-                {urlImage !== null &&
-                    <img src={urlImage} alt="urlImage"/>
-                }
-                <br/>
-
-                {signature === null && urlImage !== null &&
-                    <Button className="btn btn-success"
-                            onClick={saveSignature}>
-                        Approuver <FaPencilAlt
-                        style={{color: 'black'}}
-                    />
-                    </Button>
-                }
-                {signature !== null &&
+              
+                {urlImage !== null ?
+                <div>
+                    <br></br>
+                    <img src={urlImage} alt="urlImage"/> </div>:
+                 <p></p>}
+              
+                {signature !== null ? (
                     <Button className="btn btn-primary"
-                            onClick={handleModif}>
+                            onClick={handleModif}
+                            disabled={disableModifier}
+                            >
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
                     </Button>
-                }
+                ) : <Button className="btn btn-success"
+                disabled={!disableWhenEmpty}
+                onClick={handleSave}>
+            Sauvegarder <FaPencilAlt
+            style={{color: 'black'}}
+        />
+        </Button>
+}
             </div>
         </div>
     )

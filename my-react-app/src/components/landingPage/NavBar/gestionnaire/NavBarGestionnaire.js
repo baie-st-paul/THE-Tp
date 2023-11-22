@@ -1,9 +1,8 @@
 import {Nav, Navbar} from "react-bootstrap";
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowRight,
     faBriefcase,
     faCalendarDay,
     faFile,
@@ -11,18 +10,32 @@ import {
     faHandshake,
     faHome
 } from "@fortawesome/free-solid-svg-icons";
+import profile from "../../../../images/profile.jpg"
+import ProfilePageGes from "../../GestionnaireHomePage/profile/ProfilePageGes";
+import Modal from "react-bootstrap/Modal";
 
 const NavBarGestionnaire = () => {
     const navigate = useNavigate()
 
-    const handleDisconnect = () => {
-        localStorage.clear()
-        navigate('/');
-    }
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+
+            <Navbar.Brand className="profile">
+                <img src={profile} style={{marginLeft: "10px"}}
+                     onClick={handleShow}
+                     alt="profile" className="rounded-circle" width="30"/>
+            </Navbar.Brand>
+
+            <Modal show={show} onHide={handleClose} contentClassName="my-modal" dialogClassName="dialog-modal">
+                <ProfilePageGes/>
+            </Modal>
+
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                     <ul className="navbar-nav px-2">
@@ -54,12 +67,6 @@ const NavBarGestionnaire = () => {
                         <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/contrats")}>
                                 <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Contrats
-                            </button>
-                        </li>
-                        <li className="nav-item navbarbutton deconnecter">
-                            <button className="nav-link" onClick={() => handleDisconnect()}>
-                                <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
-                                Se déconnecter
                             </button>
                         </li>
                     </ul>

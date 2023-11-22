@@ -38,6 +38,44 @@ const fetchSignature = async (token, employerId, signature, setSignature) => {
     }
 }
 
+const fetchEmp = async (token, employer, setEmployer) => {
+    try {
+        fetch(
+            'http://localhost:8081/api/v1/employers/getEmployer',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }
+        ).catch(error => {
+            console.log(error)
+            setEmployer(null)
+        }).then(
+            async (res) => {
+                try {
+                    console.log(res.status)
+                    if (res.ok) {
+                        const data = await res.json();
+                        setEmployer(data);
+                        console.log("employer",data)
+                    } else {
+                        console.log("Failed to fetch data");
+                        setEmployer(null)
+                    }
+                } catch (e) {
+                    console.log(e)
+                    setEmployer(null)
+                }
+            })
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+        setEmployer(null)
+    }
+}
+
 const ajoutOffre = async (navigate, offre) => {
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
@@ -87,7 +125,8 @@ const ajoutOffre = async (navigate, offre) => {
 
 const exportedFetchs = {
     fetchSignature,
-    ajoutOffre
+    ajoutOffre,
+    fetchEmp
 }
 
 export default exportedFetchs

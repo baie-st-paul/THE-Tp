@@ -436,6 +436,7 @@ public class GestionnaireServiceTest {
 
         Employer mockEmployer = new Employer();
         mockEmployer.setId(1L);
+        mockEmployer.setUtilisateur(mockUtilisateur);
 
         OffreStage mockOffreStage = new OffreStage();
         mockOffreStage.setId(3L);
@@ -443,8 +444,11 @@ public class GestionnaireServiceTest {
         mockOffreStage.setEmployer(mockEmployer);
         mockOffreStage.setSalaire(20.0);
 
+        Cv cv = mock(Cv.class);
+
         Candidature mockCandidature = mock(Candidature.class);
         when(mockCandidature.getId()).thenReturn(5L);
+        when(mockCandidature.getCvStudent()).thenReturn(cv);
         when(mockCandidature.getOffreStage()).thenReturn(mockOffreStage);
         when(mockCandidature.getStudent()).thenReturn(mockStudent);
 

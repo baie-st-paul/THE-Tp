@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {FaPencilAlt, FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
+import FetchsStudent from "../../NavBar/student/FetchsStudent";
+import NavBarStudent from "../../NavBar/student/NavBarStudent";
 
 const CreateStudentSignature = () => {
     const [sign, setSign] = useState(null)
@@ -14,43 +16,11 @@ const CreateStudentSignature = () => {
     const studentMatricule = localStorage.getItem("loggedInUserMatricule")
 
     useEffect(() => {
-        fetchSignature()
+        getFetchs()
     }, [setSignature]);
 
-    async function fetchSignature() {
-        try {
-            console.log(studentMatricule)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/student/get/${studentMatricule}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.ok) {
-                            const data = await res.json();
-                            setSignature(data);
-                        } else {
-                            console.log("Failed to fetch data");
-                            setSignature(null)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            setSignature(null)
-        }
+    const getFetchs = async () => {
+        setSignature(FetchsStudent.fetchSignature(token, signature, setSignature))
     }
 
     const saveSignature = async () => {
@@ -154,59 +124,62 @@ const CreateStudentSignature = () => {
 
     return (
         <div>
-            <h1 className="display-4 text-center">Signature</h1>
-            <div style={{border: "2px solid black"}}>
-                <p>Dessiner la signature ici</p>
-                <SignatureCanvas
-                    canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
-                    ref={data => setSign(data)}
-                    onEnd={() => setDisableWhenEmpty(true)}
+            <NavBarStudent/>
+            <div id="Render" className="container content-container mt-4">
+                <h1 className="display-4 text-center">Signature</h1>
+                <div style={{border: "2px solid black"}}>
+                    <p>Dessiner la signature ici</p>
+                    <SignatureCanvas
+                        canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
+                        ref={data => setSign(data)}
+                        onEnd={() => setDisableWhenEmpty(true)}
+                    />
+                </div>
+
+                <Button className="btn btn-danger"
+                        disabled={!disableWhenEmpty}
+                        onClick={handleClear}>
+                    Effacer <FaTimes
+                    style={{color: 'black'}}
                 />
-            </div>
-
-            <Button className="btn btn-danger"
-                    disabled={!disableWhenEmpty}
-                    onClick={handleClear}>
-                Effacer <FaTimes
-                style={{color: 'black'}}
-            />
-            </Button>
-            <Button className="btn btn-success"
-                    disabled={!disableWhenEmpty}
-                    onClick={handleSave}>
-                Dessiner <FaPencilAlt
-                style={{color: 'black'}}
-            />
-            </Button>
-
-            <br/>
-            {signature !== null && urlImage === null &&
-                <img src={signature.imageLink} alt="imageLink"/>
-            }
-            <br/>
-
-            <br/>
-            {urlImage !== null &&
-                <img src={urlImage} alt="urlImage"/>
-            }
-            <br/>
-
-            {signature === null && urlImage !== null &&
+                </Button>
                 <Button className="btn btn-success"
-                        onClick={saveSignature}>
-                    Approuver <FaPencilAlt
+                        disabled={!disableWhenEmpty}
+                        onClick={handleSave}>
+                    Dessiner <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>
-            }
-            {signature !== null &&
-                <Button className="btn btn-primary"
-                        onClick={handleModif}>
-                    Modifier <FaRepeat
-                    style={{color: 'black'}}
-                />
-                </Button>
-            }
+
+                <br/>
+                {signature !== null && urlImage === null &&
+                    <img src={signature.imageLink} alt="imageLink"/>
+                }
+                <br/>
+
+                <br/>
+                {urlImage !== null &&
+                    <img src={urlImage} alt="urlImage"/>
+                }
+                <br/>
+
+                {signature === null && urlImage !== null &&
+                    <Button className="btn btn-success"
+                            onClick={saveSignature}>
+                        Approuver <FaPencilAlt
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+                {signature !== null &&
+                    <Button className="btn btn-primary"
+                            onClick={handleModif}>
+                        Modifier <FaRepeat
+                        style={{color: 'black'}}
+                    />
+                    </Button>
+                }
+            </div>
         </div>
     )
 }

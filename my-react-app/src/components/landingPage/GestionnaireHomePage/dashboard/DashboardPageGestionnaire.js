@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from "react";
 import FetchsForDashboard from "./FetchsForDashboard";
-import CardPageOffres from "./cards/CardPageOffres";
-import Grid from "@mui/material/Grid";
-import CardPageCvs from "./cards/CardPageCvs";
-import CardPageCandidaturesEntrevue from "./cards/CardPageCandidaturesEntrevue";
-import CardPageCandidaturesEmbauches from "./cards/CardPageCandidaturesEmbauches";
-import CardPageContrats from "./cards/CardPageContrats";
+import {List} from "@mui/material";
+import AllCardsNotificationsGes from "./cards/AllCardsNotificationsGes";
 
 const DashboardPageGestionnaire = () => {
     const [cvList, setCvList] = useState([])
@@ -35,14 +31,17 @@ const DashboardPageGestionnaire = () => {
     return (
         <div>
             <h1 className="display-4 text-center"
-                style={{marginBottom: "20px"}}>Tableau de bord</h1>
-            <Grid container spacing={2}>
-                <CardPageOffres sessions={sessions} offres={offres}/>
-                <CardPageCvs cvList={cvList}/>
-                <CardPageContrats contrats={contrats}/>
-                <CardPageCandidaturesEmbauches candidaturesEmbauches={candidaturesEmbauches}/>
-                <CardPageCandidaturesEntrevue candidaturesEntrevue={candidaturesEntrevue}/>
-            </Grid>
+                style={{marginBottom: "2px"}}>Tableau de bord</h1>
+            <List style={{justifyContent: "center", display: "flex"}}>
+                <div>
+                    <AllCardsNotificationsGes
+                        sessions={sessions} offres={offres}
+                        cvList={cvList}
+                        contrats={contrats} candidaturesEmbauches={candidaturesEmbauches}
+                        candidaturesEntrevue={candidaturesEntrevue}
+                    />
+                </div>
+            </List>
         </div>
     )
 }

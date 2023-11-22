@@ -34,9 +34,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -440,7 +438,7 @@ class StudentServicesTest {
         candidature.setCvStudent(cvStudent);
         candidature.setFileName("foo.txt");
         candidature.setId(1L);
-        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setLettreMotivation("AXAXAXAX".getBytes("UTF-8"));
         candidature.setOffreStage(offreStage);
         candidature.setStudent(student);
         when(candidatureRepository.save(Mockito.<Candidature>any())).thenReturn(candidature);
@@ -554,7 +552,7 @@ class StudentServicesTest {
         candidature.setCvStudent(cvStudent);
         candidature.setFileName("foo.txt");
         candidature.setId(1L);
-        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setLettreMotivation("AXAXAXAX".getBytes("UTF-8"));
         candidature.setOffreStage(offreStage);
         candidature.setStudent(student);
 
@@ -636,13 +634,13 @@ class StudentServicesTest {
         doNothing().when(candidature).setCvStudent(Mockito.<Cv>any());
         doNothing().when(candidature).setFileName(Mockito.<String>any());
         doNothing().when(candidature).setId(Mockito.<Long>any());
-        doNothing().when(candidature).setLettre_motivation(Mockito.<byte[]>any());
+        doNothing().when(candidature).setLettreMotivation(Mockito.<byte[]>any());
         doNothing().when(candidature).setOffreStage(Mockito.<OffreStage>any());
         doNothing().when(candidature).setStudent(Mockito.<Student>any());
         candidature.setCvStudent(cvStudent);
         candidature.setFileName("foo.txt");
         candidature.setId(1L);
-        candidature.setLettre_motivation("AXAXAXAX".getBytes("UTF-8"));
+        candidature.setLettreMotivation("AXAXAXAX".getBytes("UTF-8"));
         candidature.setOffreStage(offreStage);
         candidature.setStudent(student);
 
@@ -655,7 +653,7 @@ class StudentServicesTest {
         verify(candidature).setCvStudent(Mockito.<Cv>any());
         verify(candidature).setFileName(Mockito.<String>any());
         verify(candidature).setId(Mockito.<Long>any());
-        verify(candidature).setLettre_motivation(Mockito.<byte[]>any());
+        verify(candidature).setLettreMotivation(Mockito.<byte[]>any());
         verify(candidature).setOffreStage(Mockito.<OffreStage>any());
         verify(candidature).setStudent(Mockito.<Student>any());
     }

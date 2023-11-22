@@ -1,13 +1,17 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
@@ -33,6 +37,8 @@ public class EmployerService {
     private UserService userService;
     @Autowired
     ContratStageRepository contratStageRepository;
+    @Autowired
+    private CandidatureRepository candidatureRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -72,6 +78,14 @@ public class EmployerService {
         return EmployerGetDTO.fromEmployer(employer);
     }
 
+    @Transactional
+    public List<CandidatureDTO> getAllCandidatures() {
+        return candidatureRepository.findAll()
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
+    }
+
     public Tag getTag(){
         Tag tag;
         try{
@@ -83,9 +97,9 @@ public class EmployerService {
         return tag;
     }
     @Transactional
-   public List<ContratStageDTO> getContratStageByEmployeur(Long employeurId) {
+   public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
-        return contrats.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+        return contrats.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
    }
     @Transactional
     public void signContract(ContratStageDTO contractDTO) throws Exception {

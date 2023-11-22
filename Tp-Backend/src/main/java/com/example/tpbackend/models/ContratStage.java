@@ -20,12 +20,8 @@ public class ContratStage {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "employer_id")
-    private Employer employeur;
+    @JoinColumn(name = "Candidature_id")
+    private Candidature candidature;
 
     @Enumerated(EnumType.STRING)
     private Statut statutEtudiant;

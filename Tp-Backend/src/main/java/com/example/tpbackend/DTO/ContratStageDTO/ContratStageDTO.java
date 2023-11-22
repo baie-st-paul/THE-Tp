@@ -1,4 +1,4 @@
-package com.example.tpbackend.DTO;
+package com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,8 +16,7 @@ import static com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray;
 @NoArgsConstructor
 public class ContratStageDTO {
     private Long id;
-    private String studentId;
-    private Long employerId;
+    private Long candidatureId;
     private String nomEtudiant;
     private String nomDeCompanie;
     private String fileName;
@@ -39,23 +38,24 @@ public class ContratStageDTO {
 
         ContratStageDTO dto = new ContratStageDTO();
 
-        if (contratStage.getStudent() != null) {
-            dto.setStudentId(contratStage.getStudent().getMatricule());
-        }
 
-        if (contratStage.getEmployeur() != null) {
-            dto.setEmployerId(contratStage.getEmployeur().getId());
+        if (contratStage.getCandidature() != null) {
+            dto.setCandidatureId(contratStage.getCandidature().getId());
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
-        dto.setNomDeCompanie(contratStage.getEmployeur().getCompanyName());
+        dto.setNomDeCompanie(contratStage.getCandidature().getOffreStage().getEmployer().getCompanyName());
         dto.setStatutEmployeur(contratStage.getStatutEmployeur().toString());
         dto.setStatutGestionnaire(contratStage.getStatutGestionnaire().toString());
-        dto.setNomEtudiant(contratStage.getStudent().getUtilisateur().getLastName());
+        dto.setNomEtudiant(contratStage.getCandidature().getStudent().getUtilisateur().getLastName());
         dto.setNomDePoste(contratStage.getNomDePoste());
         dto.setId(contratStage.getId());
+<<<<<<< HEAD:Tp-Backend/src/main/java/com/example/tpbackend/DTO/ContratStageDTO.java
         dto.setRapportHeures(dto.getMultipartFileFromContract(contratStage));
         dto.setPrenomEtudiant(contratStage.getStudent().getUtilisateur().getFirstName());
+=======
+        dto.setPrenomEtudiant(contratStage.getCandidature().getStudent().getUtilisateur().getFirstName());
+>>>>>>> origin/EQ2-237-etudiant_modif_dashboard:Tp-Backend/src/main/java/com/example/tpbackend/DTO/ContratStageDTO/ContratStageDTO.java
         dto.setStatusVuPasVuG(String.valueOf(contratStage.getStatutVuPasVuG()));
         dto.setStatusVuPasVuE(String.valueOf(contratStage.getStatutVuPasVuE()));
         dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));

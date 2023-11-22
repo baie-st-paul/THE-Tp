@@ -1,6 +1,6 @@
 import {useRef, useState} from "react";
 import './Entrevue.css'
-import "../../../StylesGenerales.css"
+import "../../../../StylesGenerales.css"
 
 const CreateEntrevueForm = ({onAdd , setShow}) => {
     const [date, setDate] = useState('');

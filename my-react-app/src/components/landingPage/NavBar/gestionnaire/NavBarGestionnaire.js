@@ -33,11 +33,6 @@ const NavBarGestionnaire = () => {
                             </button>
                         </li>
                         <li className="nav-item navbarbutton">
-                            <button className="nav-link" onClick={() => navigate("/profileGestionnaire")}>
-                                <FontAwesomeIcon icon={faUser} style={{ marginRight: '10px' }}/>Profile
-                            </button>
-                        </li>
-                        <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/CV-veto")}>
                                 <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '10px' }}/>Cv Véto
                             </button>
@@ -60,6 +55,12 @@ const NavBarGestionnaire = () => {
                         <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/contrats")}>
                                 <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Contrats
+                            </button>
+                        </li>
+                        <li className="nav-item navbarbutton profile">
+                            <button className="nav-link" onClick={() => navigate("/profileGestionnaire")}>
+                                <FontAwesomeIcon icon={faUser} style={{marginTop:'5px', marginRight: '10px' }}/>
+                                Profile
                             </button>
                         </li>
                         <li className="nav-item navbarbutton deconnecter">

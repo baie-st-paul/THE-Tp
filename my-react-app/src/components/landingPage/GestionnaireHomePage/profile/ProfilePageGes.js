@@ -4,6 +4,7 @@ import profile from "../../../../images/profile.jpg"
 import {useNavigate} from "react-router-dom";
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Card from "react-bootstrap/Card";
 
 const ProfilePageGes = () => {
     const [gestionnaire, setGestionnaire] = useState(null);
@@ -26,8 +27,8 @@ const ProfilePageGes = () => {
     return (
         <div>
             {gestionnaire !== null &&
-                <div className="card">
-                    <div className="card-body">
+                <Card>
+                    <Card.Body>
                         <div className="d-flex flex-column align-items-center text-center">
                             <img src={profile}
                                  alt="profile" className="rounded-circle" width="30"/>
@@ -47,8 +48,8 @@ const ProfilePageGes = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </Card.Body>
+                </Card>
             }
         </div>
     )

@@ -31,7 +31,7 @@ const NavBarGestionnaire = () => {
                      alt="profile" className="rounded-circle" width="30"/>
             </Navbar.Brand>
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} contentClassName="my-modal" dialogClassName="dialog-modal">
                 <ProfilePageGes/>
             </Modal>
             <Navbar.Collapse id="basic-navbar-nav">

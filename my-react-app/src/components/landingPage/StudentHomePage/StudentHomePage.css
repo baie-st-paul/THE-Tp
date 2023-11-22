@@ -26,7 +26,21 @@
    margin-left: 2px;
 }
 
+.modal-backdrop.fade.show{
+    display:none;
+}
 
+.my-modal {
+    width: 200px !important;
+    display: flex !important;
+}
+
+.dialog-modal {
+    position: absolute !important;
+    right: 0 !important;
+    margin-right: 20px !important;
+    margin-top: 50px !important;
+}
 
 /*couleur background de la page*/
 body {

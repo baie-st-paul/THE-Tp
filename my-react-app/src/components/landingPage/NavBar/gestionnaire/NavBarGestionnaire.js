@@ -1,9 +1,8 @@
 import {Nav, Navbar} from "react-bootstrap";
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faArrowRight,
     faBriefcase,
     faCalendarDay,
     faFile,
@@ -11,18 +10,39 @@ import {
     faHandshake,
     faHome
 } from "@fortawesome/free-solid-svg-icons";
-import {faUser} from "@fortawesome/free-regular-svg-icons";
+import profile from "../../../../images/profile.jpg"
+import Drawer from '@mui/material/Drawer';
+import ProfilePageGes from "../../GestionnaireHomePage/profile/ProfilePageGes";
 
 const NavBarGestionnaire = () => {
     const navigate = useNavigate()
+
+    const [isDrawer, setIsDrawer] = useState(false)
+    const [placement, setPlacement] = useState()
 
     const handleDisconnect = () => {
         localStorage.clear()
         navigate('/');
     }
 
+    const handleOpen = key => {
+        setIsDrawer(true);
+        setPlacement(key);
+    };
+
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
+            <Navbar.Brand>
+                <img src={profile} style={{marginLeft: "10px"}}
+                     onClick={() => handleOpen('left')}
+                     alt="profile" className="rounded-circle" width="30"/>
+            </Navbar.Brand>
+
+            <Drawer placement={placement} open={isDrawer}
+                    onClose={() => setIsDrawer(false)}>
+                <ProfilePageGes/>
+            </Drawer>
+
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
@@ -55,18 +75,6 @@ const NavBarGestionnaire = () => {
                         <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/contrats")}>
                                 <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Contrats
-                            </button>
-                        </li>
-                        <li className="nav-item navbarbutton profile">
-                            <button className="nav-link" onClick={() => navigate("/profileGestionnaire")}>
-                                <FontAwesomeIcon icon={faUser} style={{marginTop:'5px', marginRight: '10px' }}/>
-                                Profile
-                            </button>
-                        </li>
-                        <li className="nav-item navbarbutton deconnecter">
-                            <button className="nav-link" onClick={() => handleDisconnect()}>
-                                <FontAwesomeIcon icon={faArrowRight} style={{marginTop:'5px', marginRight: '10px' }}/>
-                                Se déconnecter
                             </button>
                         </li>
                     </ul>

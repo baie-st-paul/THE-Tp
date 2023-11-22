@@ -78,9 +78,48 @@ const fetchSignature = async (token, signature, setSignature) => {
     }
 }
 
+const fetchStudent = async (token, student, setStudent) => {
+    try {
+        fetch(
+            'http://localhost:8081/api/v1/student/getstudent',
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                withCredentials: true,
+            }
+        ).catch(error => {
+            console.log(error)
+            setStudent(null)
+        }).then(
+            async (res) => {
+                try {
+                    console.log(res.status)
+                    if (res.ok) {
+                        const data = await res.json();
+                        setStudent(data);
+                        console.log("student",data)
+                    } else {
+                        console.log("Failed to fetch data");
+                        setStudent(null)
+                    }
+                } catch (e) {
+                    console.log(e)
+                    setStudent(null)
+                }
+            })
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+        setStudent(null)
+    }
+}
+
 const exportedFetchs = {
     fetchSignature,
-    fetchCv
+    fetchCv,
+    fetchStudent
 }
 
 export default exportedFetchs

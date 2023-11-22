@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Nav, Navbar} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -7,23 +7,27 @@ import {
     faBriefcase,
     faEnvelope,
     faHome,
-    faArrowRight,
     faPortrait
 } from '@fortawesome/free-solid-svg-icons';
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import FetchsStudent from "./FetchsStudent";
+import profile from "../../../../images/profile.jpg";
+import Modal from "react-bootstrap/Modal";
+import ProfileEtudiant from "../../StudentHomePage/profile/ProfileEtudiant";
 
 const NavBarStudent = () => {
     const navigate = useNavigate()
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const [signature, setSignature] = useState(null)
     const [cv, setCv] = useState(null);
-
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         getFetchs()
-        console.log(signature)
-        console.log(cv)
     }, []);
 
     const getFetchs = async () => {
@@ -31,14 +35,20 @@ const NavBarStudent = () => {
         setCv(FetchsStudent.fetchCv(token, cv, setCv))
     }
 
-    const handleDisconnect = () => {
-        localStorage.clear()
-        navigate('/');
-    }
-
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+
+            <Navbar.Brand className="profile">
+                <img src={profile} style={{marginLeft: "10px"}}
+                     onClick={handleShow}
+                     alt="profile" className="rounded-circle" width="30"/>
+            </Navbar.Brand>
+
+            <Modal show={show} onHide={handleClose} contentClassName="my-modal" dialogClassName="dialog-modal">
+                <ProfileEtudiant/>
+            </Modal>
+
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                     <ul className="navbar-nav px-2">
@@ -91,12 +101,6 @@ const NavBarStudent = () => {
                             <li className="nav-item navbarbutton px-1">
                                 <button className="nav-link" onClick={() => navigate("/cvEtudiant")}>
                                     <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> CV
-                                </button>
-                            </li>
-                            <li className="nav-item navbarbutton deconnecter">
-                                <button className="nav-link" onClick={() => handleDisconnect()}>
-                                    <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
-                                    Se déconnecter
                                 </button>
                             </li>
                         </ul>

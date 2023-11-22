@@ -3,6 +3,7 @@ import com.example.tpbackend.models.Candidature;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     List<Candidature> findByStatus(Candidature.Status status);
 
     Optional<Candidature> findByStatusAndStudent(Candidature.Status statut, Student student);
+
+    Optional<Candidature> findCandidatureByStatusAndStudentAndAndOffreStage(Candidature.Status status, Student s, OffreStage o);
 }

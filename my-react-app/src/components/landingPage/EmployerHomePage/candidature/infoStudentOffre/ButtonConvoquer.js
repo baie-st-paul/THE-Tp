@@ -4,14 +4,16 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
     const [isPresent, setIsPresent] = useState([])
 
     useEffect(() => {
+       init() 
+    },[offre]) 
+ 
+    function init(){
         setIsPresent(entrevues.filter(x =>
             x.student.matricule + " " + x.offreStage.titre ===
-            matricule + " " + offre))
-        console.log(isPresent)
-    }, [])
-
-    function handleConvoquerEntrevue(candidatureId) {
-        setModal(candidatureId);
+            matricule + " " + offre.offreStage.titre && offre.status !== 'In_review')) 
+    }
+    function handleConvoquerEntrevue(candidatureId) { 
+        setModal(candidatureId); 
     }
 
     return (

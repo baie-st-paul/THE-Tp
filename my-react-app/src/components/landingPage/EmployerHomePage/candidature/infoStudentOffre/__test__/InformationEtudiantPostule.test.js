@@ -80,7 +80,7 @@ describe("Test the InformationEtudiantPostule Component", () => {
         render(<InformationEtudiantPostule listeEtudiant={testList2} />, { wrapper: createRouterWrapper(history) });
         const navigateButton = screen.getByText('RETOUR');
         fireEvent.click(navigateButton);
-        expect(history.location.pathname).toBe('/EmployeurHomePage');
+        expect(history.location.pathname).toBe('/offres');
     });
 
     it('should render button veto', ()=> {

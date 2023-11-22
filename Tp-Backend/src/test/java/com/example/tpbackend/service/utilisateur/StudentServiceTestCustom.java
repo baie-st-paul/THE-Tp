@@ -1,10 +1,9 @@
 package com.example.tpbackend.service.utilisateur;
 
-
-import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
@@ -64,21 +63,40 @@ public class StudentServiceTestCustom {
     void getContratByStudentShouldReturnContracts() {
         // Arrange
         String studentId = "S001";
-        Long employerId = 1L;
+        long employerId = 1L;
 
         Student student = new Student();
         student.setMatricule(studentId);
         student.setUtilisateur(new Utilisateur("John", "Doe", "john.doe@example.com", "1234567890", "password", Utilisateur.Role.Student.toString()));
 
+        Utilisateur utilisateur = mock(Utilisateur.class);
+        when(utilisateur.getId()).thenReturn(1L);
+        when(utilisateur.getFirstName()).thenReturn("abc");
+        when(utilisateur.getLastName()).thenReturn("abcd");
+
         Employer employer = new Employer();
         employer.setId(employerId);
-        Candidature candidatureMock = mock(Candidature.class);
+        employer.setUtilisateur(utilisateur);
+
         OffreStage offreStage = mock(OffreStage.class);
-        when(candidatureMock.getOffreStage()).thenReturn(offreStage);
         when(offreStage.getEmployer()).thenReturn(employer);
+        when(offreStage.getTitre()).thenReturn("Développeur");
+
+        OffreStage offreStage2 = mock(OffreStage.class);
+        when(offreStage2.getEmployer()).thenReturn(employer);
+        when(offreStage2.getTitre()).thenReturn("Testeur");
+
+        Cv cv = mock(Cv.class);
+
+        Candidature candidatureMock = mock(Candidature.class);
+        when(candidatureMock.getCvStudent()).thenReturn(cv);
+        when(candidatureMock.getOffreStage()).thenReturn(offreStage);
         when(candidatureMock.getStudent()).thenReturn(student);
         when(candidatureMock.getId()).thenReturn(2L);
+
         Candidature candidatureMock2 = mock(Candidature.class);
+        when(candidatureMock2.getCvStudent()).thenReturn(cv);
+        when(candidatureMock2.getOffreStage()).thenReturn(offreStage2);
         when(candidatureMock2.getStudent()).thenReturn(student);
         when(candidatureMock2.getId()).thenReturn(3L);
 

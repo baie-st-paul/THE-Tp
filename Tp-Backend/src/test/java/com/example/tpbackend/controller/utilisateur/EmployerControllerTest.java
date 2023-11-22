@@ -209,9 +209,9 @@ public class EmployerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(contrat1.getId()))
-                .andExpect(jsonPath("$[0].candidatureId").value(contrat1.getCandidatureDTO().getId()))
+                .andExpect(jsonPath("$[0].candidatureDTO.id").value(contrat1.getCandidatureDTO().getId()))
                 .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
-                .andExpect(jsonPath("$[1].candidatureId").value(contrat2.getCandidatureDTO().getId()));
+                .andExpect(jsonPath("$[1].candidatureDTO.id").value(contrat2.getCandidatureDTO().getId()));
     }
 
 }

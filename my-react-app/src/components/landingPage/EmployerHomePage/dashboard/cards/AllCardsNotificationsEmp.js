@@ -41,11 +41,11 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
                                        id="cards" colorAvatar="saddlebrown"/>}
 
                         {filterEnAttente.length > 0 &&
-                            <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/offres"
+                            <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/candidatures"
                                        id="cards" colorAvatar="saddlebrown"/>
                         }
                         {filterPasEntrevue.length > 0 &&
-                            <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/offres"
+                            <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/candidatures"
                                        id="cards" colorAvatar="saddlebrown"/>
                         }
                     </div>

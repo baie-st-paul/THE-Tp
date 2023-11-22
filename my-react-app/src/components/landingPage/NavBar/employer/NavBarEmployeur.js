@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import FetchsEmployer from "./FetchsEmployer";
 import {Nav, Navbar} from "react-bootstrap";
-import {faArrowRight, faBriefcase, faPlus, faFile, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faBriefcase, faPlus, faFile, faHome, faBookmark, faFileArchive} from "@fortawesome/free-solid-svg-icons";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -31,13 +31,13 @@ const NavBarEmployeur = () => {
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav>
+                <Nav className="px-2">
                     {
                         signature !== null &&
                         <>
-                            <ul className="navbar-nav px-2">
+                            <ul className="navbar-nav">
                                 <li className="nav-item navbarbutton">
-                                    <button className="nav-link" onClick={() => navigate("/EmployeurHomePage")}>
+                                    <button className="nav-link " onClick={() => navigate("/EmployeurHomePage")}>
                                         <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
                                     </button>
                                 </li>
@@ -56,10 +56,15 @@ const NavBarEmployeur = () => {
                                         <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
                                     </button>
                                 </li>
+                                <li className="nav-item navbarbutton">
+                                    <button className="nav-link" onClick={() => navigate("/candidatures")}>
+                                        <FontAwesomeIcon icon={faFileArchive} style={{ marginRight: '10px' }}/> Candidatures
+                                    </button>
+                                </li>
                             </ul>
                         </>
                     }
-                    <ul className="navbar-nav px-2">
+                    <ul className="navbar-nav">
                         <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/signature")}>
                                 <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature

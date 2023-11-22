@@ -23,11 +23,9 @@ const CreateSignature = () => {
         setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
     }
 
-    const saveSignature = async () => {
-        setDisableModifier(false)
-        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
+    const saveSignature = async () => { 
         try {
-            const imageLink = urlImage.toString()
+            const imageLink = sign.getTrimmedCanvas().toDataURL('image/png')
             const signature = ({
                 employerId,
                 imageLink
@@ -59,6 +57,7 @@ const CreateSignature = () => {
                         console.log(e)
                     }
                     setSignature(data)
+                    setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png').toString())
                     console.log(data)
                 }
             )
@@ -67,10 +66,17 @@ const CreateSignature = () => {
         }
         window.location.reload()
     }
+    
+
+    function handleSave() {
+    saveSignature()
+    
+    }
 
     const handleModif = async () => {
         try {
-            signature["imageLink"] = urlImage
+            signature["imageLink"] = sign.getTrimmedCanvas().toDataURL('image/png').toString()
+            setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png').toString())
             signature["employerId"] = employerId
             console.log(signature["imageLink"])
             console.log(signature["employerId"])
@@ -101,7 +107,7 @@ const CreateSignature = () => {
                         console.log(e)
                     }
                     setSignature(
-                        {...signature, imageLink: data.imageLink}
+                        signature
                     )
                     console.log(data)
                 }
@@ -120,12 +126,7 @@ const CreateSignature = () => {
         console.log(sign.empty)
     }
 
-    const handleSave = () => {
-        console.log(sign.empty)
-        if (signature !== null ) 
-        setDisableModifier(false)
-        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
-    }
+ 
     return (
         <div>
             <NavBarEmployeur/>
@@ -144,49 +145,42 @@ const CreateSignature = () => {
                     <SignatureCanvas
                         canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
                         ref={data => setSign(data)}
+                        onBegin={ ()=> setDisableModifier(false)}
                         onEnd={() => setDisableWhenEmpty(true)}
                     />
                 </div>
 
-            
-             
-                <Button className="btn btn-success"
-                        disabled={!disableWhenEmpty}
-                        onClick={saveSignature}>
-                    Sauvegarder <FaPencilAlt
-                    style={{color: 'black'}}
-                />
-                </Button>
-
-                <br/>
-                {signature !== null && urlImage === null &&
+                
+                {signature !== null && urlImage === null ?
+                <div>
+                    <br></br>
                     <img src={signature.imageLink} alt="imageLink"/>
+                    </div> : <p></p>
                 }
-                <br/>
-
-                <br/>
-                {urlImage !== null &&
-                    <img src={urlImage} alt="urlImage"/>
-                }
-                <br/>
-
-                {signature === null && urlImage !== null &&
-                    <Button className="btn btn-success"
-                            onClick={saveSignature}>
-                        Sauvegarder <FaPencilAlt
-                        style={{color: 'black'}}
-                    />
-                    </Button>
-                }
-                {signature !== null &&
+              
+                {urlImage !== null ?
+                <div>
+                    <br></br>
+                    <img src={urlImage} alt="urlImage"/> </div>:
+                 <p></p>}
+              
+                {signature !== null ? (
                     <Button className="btn btn-primary"
                             onClick={handleModif}
-                            disabled={disableModifier}>
+                            disabled={disableModifier}
+                            >
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
                     </Button>
-                }
+                ) : <Button className="btn btn-success"
+                disabled={!disableWhenEmpty}
+                onClick={handleSave}>
+            Sauvegarder <FaPencilAlt
+            style={{color: 'black'}}
+        />
+        </Button>
+}
             </div>
         </div>
     )

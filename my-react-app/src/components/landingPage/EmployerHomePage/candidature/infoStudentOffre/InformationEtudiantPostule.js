@@ -331,6 +331,11 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                 <FontAwesomeIcon icon={faTimes} /> Refusé
                                             </>
                                         )}
+                                        {candidature.status === "Interview" && (
+                                            <>
+                                                <FontAwesomeIcon icon={faClock} /> Convoqué
+                                            </>
+                                        )}
                                     </td>
                                     <td aria-label='veto'>
                                         {candidature.status === "In_review" && (

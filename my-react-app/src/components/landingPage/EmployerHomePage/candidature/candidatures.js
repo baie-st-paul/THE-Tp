@@ -49,9 +49,10 @@ const OVERLAY_STYLE = {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
-    const [select, setSelect] = useState('')
+    const [select, setSelect] = useState('Tous')
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
+    const [refreshed, setRefreshed] = useState(true)
     useEffect(() => {
       fetchAll()
     }, [])
@@ -288,8 +289,10 @@ const OVERLAY_STYLE = {
     }
 
     function handleSelect(e){
-        if (e.target.value === 'null'){
+        if (e.target.value === 'Tous'){
+        setRefreshed(false)
         setListeCandidatureFiltered(listeCandidature)
+        setRefreshed(true)
         }
         if (e.target.value === 'accepte'){
         setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Accepted'))
@@ -297,15 +300,22 @@ const OVERLAY_STYLE = {
         if (e.target.value === 'convoquer'){
             let arr = []
         for (let x = 0; x < listeCandidature.length; x++){
-            for (let x1 = 0; x1 < entrevues.length; x1++){
-            if (listeCandidature[x].cvStudent.matricule === entrevues[x1].student.matricule  && entrevues[x1].offreStage.titre === listeCandidature[x].offreStage.titre && listeCandidature[x].status === 'In_review' ){
+            if  (listeCandidature[x].status === 'Interview' ){
                 arr.push(listeCandidature[x]);
-                continue;
              }
-            }    
-        }        
+            }  
+            console.log(arr)  
+            console.log(entrevues)
         setListeCandidatureFiltered(arr)
+        setRefreshed(true)
         }
+       
+        if (e.target.value === 'pas-convoquer'){
+        setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'In_review'))   
+        
+        console.log(entrevues)
+        }
+
     setSelect(e.target.value)
     }
 
@@ -319,9 +329,10 @@ const OVERLAY_STYLE = {
                     <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1> 
                     <label htmlFor="choix" className='h5 px-3 text-primary '>FILTRER PAR : </label>
         <select className='h5 text-primary' id="choix" value={select} onChange={e => handleSelect(e)}>
-        <option value="null"></option>
-        <option value="convoquer">Convoqué</option>
-        <option value="accepte">Accepté</option>
+        <option value="Tous">Tous</option>
+        <option value="convoquer">Convoqué(es)</option>
+        <option value="accepte">Embauché(es)</option>
+        <option value="pas-convoquer">Non Convoqué(es) </option>
         </select>
                     {showConvoquer && <ModalConvoquerCreateEntrevue />}
                     <table>     
@@ -340,7 +351,7 @@ const OVERLAY_STYLE = {
                         </tr>
                         </thead>
                         <tbody className='bg-light border'>
-                        {listeCandidatureFiltered.length > 0 &&
+                        {listeCandidatureFiltered.length > 0 && refreshed &&
                             listeCandidatureFiltered.map((candidature, i) => (
                                 <tr key={i} className=''>
                                      <td  data-label="PRENOM" className='headerElement  text-break h6'>
@@ -376,9 +387,10 @@ const OVERLAY_STYLE = {
                                         </td>
                                     }
                                     { finFetch === true &&
-                                        <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature.offreStage.titre}
+                                        <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
                                                          entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}/>
                                     }
+
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {candidature.status === "In_review" && (
                                             <>
@@ -395,9 +407,14 @@ const OVERLAY_STYLE = {
                                                 <FontAwesomeIcon icon={faTimes} /> Refusé
                                             </>
                                         )}
+                                        {candidature.status === "Interview" && (
+                                            <>
+                                                <FontAwesomeIcon icon={faClock} /> Convoqué
+                                            </>
+                                        )}
                                     </td>
                                     <td data-label="ACTION" scope="row" className='headerElement breakWord h6 pe-3' aria-label='veto'>
-                                        {candidature.status === "In_review" ? (
+                                        {candidature.status === "In_review" || candidature.status === "Interview" ? (
                                             <div className='d-flex justify-content-end me-0 pe-0'>
                                                 <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", candidature.student)}>
                                                     <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
@@ -446,7 +463,7 @@ const OVERLAY_STYLE = {
                             Non
                         </button>
                     </ReactModal>
-                    <div className='d-flex justify-content-end mt-5 '>
+                    <div className='d-flex justify-content-end mt-5'>
                         <button className='btn btn-dark p-2 ' onClick={handleRetour}>RETOUR</button>
                     </div>
                 </div>

@@ -179,9 +179,9 @@ public class UtilisateursBD implements CommandLineRunner {
 
         try{
             RegisterRequest<?> registerRequest = new RegisterRequest<>(
-                    "ges",
-                    "toto",
-                    "ges@gmail.com",
+                    "joseph",
+                    "edmond",
+                    "jo@gmail.com",
                     "+15144758345",
                     "Root!123",
                     "Gestionnaire",

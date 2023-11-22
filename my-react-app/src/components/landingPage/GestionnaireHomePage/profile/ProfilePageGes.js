@@ -24,6 +24,10 @@ const ProfilePageGes = () => {
         navigate('/');
     }
 
+    const onInputUppercase = (string) => {
+        return string?.charAt(0).toUpperCase() + string?.slice(1);
+    };
+
     return (
         <div>
             {gestionnaire !== null &&
@@ -33,7 +37,7 @@ const ProfilePageGes = () => {
                             <img src={profile}
                                  alt="profile" className="rounded-circle" width="30"/>
                             <div className="mt-3">
-                                <h4>{gestionnaire.firstName + " " + gestionnaire.lastName}</h4>
+                                <h4>{onInputUppercase(gestionnaire.firstName) + " " + onInputUppercase(gestionnaire.lastName)}</h4>
                                 <p className="text-secondary mb-1">
                                     {gestionnaire.email}</p>
                                 <p className="text-secondary mb-1"><b>Tél.: </b>

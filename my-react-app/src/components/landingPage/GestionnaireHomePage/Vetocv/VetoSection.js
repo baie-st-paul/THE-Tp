@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faClock } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./Modal";
 import ReactModal from 'react-modal';
-import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 // Function to style the confirmation modal
 const customStyles = {

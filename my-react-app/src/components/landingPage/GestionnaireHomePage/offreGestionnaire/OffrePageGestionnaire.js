@@ -6,7 +6,7 @@ import { ListGroup } from "react-bootstrap";
 import ReactModal from 'react-modal';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const customStyles = {
     content: {

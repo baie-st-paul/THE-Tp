@@ -12,6 +12,13 @@
    height: 75%;
 }
 
+.profile {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    height: 75%;
+}
+
 .navbarbutton{
    border-style: solid;
    border-width: 0.1px;
@@ -19,7 +26,21 @@
    margin-left: 2px;
 }
 
+.modal-backdrop.fade.show{
+    display:none;
+}
 
+.my-modal {
+    width: 200px !important;
+    display: flex !important;
+}
+
+.dialog-modal {
+    position: absolute !important;
+    right: 0 !important;
+    margin-right: 30px !important;
+    margin-top: 55px !important;
+}
 
 /*couleur background de la page*/
 body {
@@ -104,17 +125,23 @@ h2 {
 
 
 @media only screen and (max-width: 992px) {
-  .deconnecter{
-    position: unset;
-    right: unset;
-    margin-right: unset;
-    height: unset;
-  }
-  .navbarbutton{
-    border-style:none none solid none;
-    font-size: 20px;
-  }
-  }
+    .deconnecter{
+        position: unset;
+        right: unset;
+        margin-right: unset;
+        height: unset;
+    }
+    .profile {
+        position: unset;
+        right: unset;
+        margin-right: unset;
+        height: unset;
+    }
+    .navbarbutton{
+        border-style:none none solid none;
+        font-size: 20px;
+    }
+}
 
 
   

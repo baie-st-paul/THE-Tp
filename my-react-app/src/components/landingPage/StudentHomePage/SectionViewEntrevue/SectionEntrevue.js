@@ -24,7 +24,7 @@ const SectionEntrevue = ({entrevueTest}) => {
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [selectedEntrevue, setSelectedEntrevue] = useState(null);
-    const [filterSelection, setFilterSelection] = useState("Toutes");
+    const [filterSelection, setFilterSelection] = useState("EnAttente");
     const token = localStorage.getItem('token');
     const savedMatricule = localStorage.getItem("loggedInUserMatricule");
 
@@ -154,10 +154,10 @@ const SectionEntrevue = ({entrevueTest}) => {
                     aria-label="Default select example"
                     onChange={(e) => setFilterSelection(e.target.value)}
                 >
-                    <option value="Toutes">Toutes</option>
                     <option value="EnAttente">En Attente</option>
                     <option value="Acceptee">Acceptée</option>
                     <option value="Refusee">Refusée</option>
+                    <option value="Toutes">Toutes</option>
                 </select>
                 {entrevuesFiltred().length > 0 ?
                     <div className="table-container mt-5">

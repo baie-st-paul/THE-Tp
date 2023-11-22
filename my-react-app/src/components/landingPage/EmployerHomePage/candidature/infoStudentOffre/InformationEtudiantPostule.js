@@ -71,14 +71,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             }).then(
                 async (res) => {
                     const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
+                    console.log(data)
                     setListeEtudiants(data)
                 }).then(await allEntrevuesStudentMatricule()).then(setfinFetch(true))
         } catch (error) {
@@ -93,28 +86,21 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         const token = localStorage.getItem('token');
         try {
             await fetch(
-                'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            }
-        ).catch(error => {
+            'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
                 console.log(error)
             }).then(
                 async (res) => {
                     const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
+                    console.log("all entrevues",data)
                     setEntrevues(data)
                 })
         } catch (error) {
@@ -345,10 +331,16 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     <td aria-label='veto'>
                                         {etudiant.status === "In_review" && (
                                             <div className='d-flex justify-content-end me-0 pe-0'>
-                                                <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", etudiant.student)}>
+                                                <button title="Accepter" className="btn btn-success p-1   "
+                                                    onClick={
+                                                        () => openConfirmationModal("accept", etudiant.student)
+                                                    }>
                                                     <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
                                                 </button>
-                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
+                                                <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 "
+                                                    onClick={
+                                                        () => openConfirmationModal("refuse", etudiant.student)
+                                                    }>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
                                                 </div>

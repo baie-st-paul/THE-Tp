@@ -1,7 +1,7 @@
 import SignatureCanvas from "react-signature-canvas";
 import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {FaPencilAlt, FaTimes} from "react-icons/fa";
+import {FaPencilAlt, FaTimes, FaTrash} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
@@ -24,6 +24,8 @@ const CreateSignature = () => {
     }
 
     const saveSignature = async () => {
+        setDisableModifier(false)
+        setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png'))
         try {
             const imageLink = urlImage.toString()
             const signature = ({
@@ -130,7 +132,15 @@ const CreateSignature = () => {
             <div id="Render" className="container content-container mt-4">
                 <h1 className="display-4 text-center">Signature</h1>
                 <div style={{border: "2px solid black"}}>
-                    <p>Dessiner la signature ici</p>
+                   <div className="">
+                    <span className="text-center "> Dessiner la signature ici</span>
+                    <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
+                        disabled={!disableWhenEmpty}
+                        onClick={handleClear}>
+                    <FaTrash
+                    style={{color: 'black'}}/>
+                   </Button>
+                   </div>
                     <SignatureCanvas
                         canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
                         ref={data => setSign(data)}
@@ -138,17 +148,12 @@ const CreateSignature = () => {
                     />
                 </div>
 
-                <Button className="btn btn-danger"
-                        disabled={!disableWhenEmpty}
-                        onClick={handleClear}>
-                    Effacer <FaTimes
-                    style={{color: 'black'}}
-                />
-                </Button>
+            
+             
                 <Button className="btn btn-success"
                         disabled={!disableWhenEmpty}
-                        onClick={handleSave}>
-                    Confirmer <FaPencilAlt
+                        onClick={saveSignature}>
+                    Sauvegarder <FaPencilAlt
                     style={{color: 'black'}}
                 />
                 </Button>

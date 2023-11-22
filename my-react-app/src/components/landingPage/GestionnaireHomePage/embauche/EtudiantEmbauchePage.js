@@ -7,7 +7,7 @@ import Modal from "../Vetocv/Modal";
 import {FaPencil} from "react-icons/fa6";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
-import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const OVERLAY_STYLE = {
     position: "fixed",

@@ -41,13 +41,13 @@ function App() {
                 <Route path={"/offresEtudiant"} element={<OffresPageStudent/>}/>
                 <Route path={"/entrevuesEtudiant"} element={<SectionEntrevue entrevueTest={[]}/>}/>
                 <Route path={"/candidaturesEtudiant"} element={<OffreCandidaturePage/>}/>
-                <Route path={"/contratsEtudiant"} element={<EtudiantMesContrats/>}/>
+                <Route path={"/contratsEtudiant"} element={<EtudiantMesContrats contratsTest={[]}/>}/>
 
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
                 <Route path={"/CV-veto"} element={<VetoSection/>}/>
                 <Route path={"/Offres-veto"} element={<OffresPageGestionnaire/>}/>
                 <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>
-                <Route path={"/embauchés"} element={<EtudiantEmbauchePage/>}/>
+                <Route path={"/embauchés"} element={<EtudiantEmbauchePage contratsTest={[]} candidaturesTest={[]}/>}/>
                 <Route path={"/contrats"} element={<ListContratsGestionnaire contratsTest={[]}/>}/>
 
                 <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>

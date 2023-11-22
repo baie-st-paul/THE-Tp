@@ -3,9 +3,8 @@ import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarStudent from "../../NavBar/student/NavBarStudent";
 
-export default function EtudiantMesContrats({matricule, contratsTest}) {
+export default function EtudiantMesContrats({contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
-    const [filtre, setFiltre] = useState('')
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
@@ -21,9 +20,8 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
     };
 
     useEffect(() => {
-            fetchContrats()
-        } , []
-    )
+        fetchContrats()
+    } , [])
 
     const fetchContrats = async () => {
         const savedMatricule = localStorage.getItem("loggedInUserMatricule");
@@ -58,7 +56,7 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
-            setContrats([])
+            setContrats(contratsTest)
             console.log(contrats)
 
         }
@@ -134,9 +132,6 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                         </div>
                         {contrats !== undefined && contrats.length > 0  ?
                             <div className="table-responsive table-container">
-                                <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
-                                    <input data-testid="input" onChange={ (event)=> setFiltre(event.target.value)}></input>
-                                </div>
                                 <table className="table w-100 text-start">
                                     <thead>
                                     <tr>
@@ -150,7 +145,7 @@ export default function EtudiantMesContrats({matricule, contratsTest}) {
                                     </tr>
                                     </thead>
                                     <tbody className='w-100'>
-                                    {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
+                                    {contrats.length > 0  && contrats
                                         .map((contrat, index) => (
                                             <tr key={index} className="table-row align-middle">
                                                 <td  data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>

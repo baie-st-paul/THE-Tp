@@ -1,59 +1,70 @@
 import {BrowserRouter} from "react-router-dom";
 import EtudiantEmbauchePage from "../EtudiantEmbauchePage";
-import {fireEvent, render, screen} from "@testing-library/react";
-import {testList1Acceptes, testList2Acceptes, testListAcceptes} from "./TestList";
+import {act, fireEvent, render, screen} from "@testing-library/react";
+import {testList1Acceptes, testList2Acceptes, testListAcceptes, testListContrats} from "./TestList";
+import ListContratsGestionnaire from "../../contrat/ListContratsGestionnaire";
+import React from "react";
 
 beforeEach(() => {
     fetch.resetMocks()
     fetch.mockResponse('[]')
 })
 
-const MockEtudiantEmbauchePage = ({listeCandidature}) => {
+const MockEtudiantEmbauchePage = ({contrats, candidatures}) => {
     return (
         <BrowserRouter>
-            <EtudiantEmbauchePage
-                listeCandidature={listeCandidature}
-            />
+            <EtudiantEmbauchePage contratsTest={contrats} candidaturesTest={candidatures}/>
         </BrowserRouter>
     )
 }
 
 describe("Test the EtudiantEmbauchePage Component", () => {
     it('should render titre page', () => {
-        render(<MockEtudiantEmbauchePage listeEtudiant={[]}/>)
+        render(<MockEtudiantEmbauchePage contrats={[]} candidatures={[]}/>)
         expect(screen.getByText('Liste des candidatures embauchées')).toBeInTheDocument()
     });
 
-    it("should render all info text student" , async () => {
-        fetch.mockResponse(JSON.stringify(testList1Acceptes))
-        render(<EtudiantEmbauchePage/>)
+    it("should render all info text student" , () => {
+        act(() => {
+            render(
+                <MockEtudiantEmbauchePage contrats={testListContrats}
+                                          candidatures={testList1Acceptes}/>
+            )
+        })
 
-        expect(await screen.findByTestId('dev mobile')).toBeInTheDocument()
-        expect(await screen.findByTestId('lina')).toBeInTheDocument()
-        expect(await screen.findByTestId('Moskalenko')).toBeInTheDocument()
+        expect(screen.getByText('dev mobile')).toBeInTheDocument()
+        expect(screen.getByText('lina')).toBeInTheDocument()
+        expect(screen.getByText('Moskalenko')).toBeInTheDocument()
 
         expect(screen.getByText('CV')).toBeInTheDocument()
         expect(screen.getByText('Lettre de motivation')).toBeInTheDocument()
-        expect(screen.getByText('Créer un contrat de stage')).toBeInTheDocument()
+        expect(screen.getByText('Contrat créé')).toBeInTheDocument()
+        expect(screen.findAllByRole('button', {Name: /Créer un contrat de stage/i}));
     });
 
     it("should render Button voir lettre motivation disabled si lettre n'est pas la" , async () => {
-        fetch.mockResponse(JSON.stringify(testList1Acceptes))
-        render(<EtudiantEmbauchePage/>)
+        act(() => {
+            render(
+                <MockEtudiantEmbauchePage contrats={testListContrats}
+                                          candidatures={testList1Acceptes}/>
+            )
+        })
 
-        expect(await screen.findByTestId('lina')).toBeInTheDocument()
         const bouttonElement = screen.getByText('Lettre de motivation')
         expect(bouttonElement).toBeInTheDocument()
         expect(bouttonElement).toHaveClass('disabled')
     });
 
     it('should render module afficher Résumé', async () => {
+        act(() => {
+            render(
+                <MockEtudiantEmbauchePage contrats={testListContrats}
+                                          candidatures={testListAcceptes}/>
+            )
+        })
+
         const onClickMock = jest.fn();
 
-        fetch.mockResponse(JSON.stringify(testListAcceptes))
-        render(<EtudiantEmbauchePage/>)
-
-        expect(await screen.findByTestId('danil')).toBeInTheDocument()
         const bouttonElement = await screen.getByText('CV')
         expect(bouttonElement).toBeInTheDocument()
 
@@ -68,10 +79,12 @@ describe("Test the EtudiantEmbauchePage Component", () => {
     });
 
     it('should render module afficher lettre motivation', async () => {
-        fetch.mockResponse(JSON.stringify(testList2Acceptes))
-        render(<EtudiantEmbauchePage/>)
-
-        expect(await screen.findByTestId('flo')).toBeInTheDocument()
+        act(() => {
+            render(
+                <MockEtudiantEmbauchePage contrats={testListContrats}
+                                          candidatures={testList2Acceptes}/>
+            )
+        })
 
         const bouttonElement = screen.getByText('Lettre de motivation')
         fireEvent.click(bouttonElement);
@@ -80,10 +93,12 @@ describe("Test the EtudiantEmbauchePage Component", () => {
     });
 
     it('should render click button contrat stage', async () => {
-        fetch.mockResponse(JSON.stringify(testList2Acceptes))
-        render(<EtudiantEmbauchePage/>)
-
-        expect(await screen.findByTestId('flo')).toBeInTheDocument()
+        act(() => {
+            render(
+                <MockEtudiantEmbauchePage contrats={testListContrats}
+                                          candidatures={testList2Acceptes}/>
+            )
+        })
 
         const bouttonElement = screen.getByText('Créer un contrat de stage')
         fireEvent.click(bouttonElement);

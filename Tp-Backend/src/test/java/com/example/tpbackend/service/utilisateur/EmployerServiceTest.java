@@ -1,10 +1,13 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.utilisateur.Utilisateur;
+import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -98,10 +101,31 @@ class EmployerServiceTest {
         ContratStage contrat1 = new ContratStage();
         ContratStage contrat2 = new ContratStage();
 
+        Utilisateur utilisateur = mock(Utilisateur.class);
+        Employer employer = mock(Employer.class);
+        when(employer.getUtilisateur()).thenReturn(utilisateur);
+
+        OffreStage offreStage1 = mock(OffreStage.class);
+        when(offreStage1.getEmployer()).thenReturn(employer);
+        when(offreStage1.getTitre()).thenReturn("poste 1");
+        when(offreStage1.getEmployer().getId()).thenReturn(employeurId);
+
+        OffreStage offreStage2 = mock(OffreStage.class);
+        when(offreStage2.getEmployer()).thenReturn(employer);
+        when(offreStage2.getTitre()).thenReturn("poste 2");
+        when(offreStage2.getEmployer().getId()).thenReturn(employeurId);
+
+        Cv cv = mock(Cv.class);
+
         Candidature candidatureMock1 = mock(Candidature.class);
-        Candidature candidatureMock2 = mock(Candidature.class);
         when(candidatureMock1.getId()).thenReturn(1L);
+        when(candidatureMock1.getCvStudent()).thenReturn(cv);
+        when(candidatureMock1.getOffreStage()).thenReturn(offreStage1);
+
+        Candidature candidatureMock2 = mock(Candidature.class);
         when(candidatureMock2.getId()).thenReturn(2L);
+        when(candidatureMock2.getCvStudent()).thenReturn(cv);
+        when(candidatureMock2.getOffreStage()).thenReturn(offreStage2);
 
         contrat1.setCandidature(candidatureMock1);
         contrat1.setNomDePoste("poste 1");

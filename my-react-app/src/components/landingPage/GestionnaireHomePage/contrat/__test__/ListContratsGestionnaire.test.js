@@ -1,70 +1,140 @@
 import {render, fireEvent, screen, act } from '@testing-library/react';
 import React from 'react';
 import ListContratsGestionnaire from "../ListContratsGestionnaire";
+import {BrowserRouter} from "react-router-dom";
 
 describe('Tests Gestionnaire voit tous les contrats', () => {
 
-    let contrats = [{
-        employerId : 1,
-        id : 1,
-        nomDeCompany : 'Dev',
-        nomEtudiant : 'dan',
-        prenomEtudiant : 'dan',
-        statutEmployeur : 'Pas_Signer',
-        statutEtudiant : 'Pas_Signer',
-        statutGestionnaire : "Pas_Signer",
-        studentId : "1234567"
-    }, {
-        employerId : 2,
-        id : 2,
-        nomDeCompany : 'Dev1',
-        nomEtudiant : 'dan1',
-        prenomEtudiant : 'dan1',
-        statutEmployeur : 'Pas_Signer',
-        statutEtudiant : 'Pas_Signer',
-        statutGestionnaire : "Pas_Signer",
-        studentId : "1234565"
+    let contrats = [
+        {
+            id: 1,
+            statusVuPasVuE: "pasVu",
+            statusVuPasVuG: "vu",
+            statusVuPasVuS: "vu",
+            statutEmployeur: "Pas_Signer",
+            statutEtudiant: "Pas_Signer",
+            statutGestionnaire: "Pas_Signer",
+
+            candidatureDTO: {
+                employer: {
+                    id: 1,
+                    companyName: 'Dev'
+                },
+                offreStage: {
+                    titre: 'Dev'
+                },
+                student: {
+                    firstName: 'dan',
+                    lastName: 'dan',
+                    matricule: '1234567'
+                }
+            },
+        },
+        {
+            id: 2,
+            statusVuPasVuE: "pasVu",
+            statusVuPasVuG: "vu",
+            statusVuPasVuS: "vu",
+            statutEmployeur: "Pas_Signer",
+            statutEtudiant: "Pas_Signer",
+            statutGestionnaire: "Pas_Signer",
+
+            candidatureDTO: {
+                employer: {
+                    id: 2,
+                    companyName: 'Dev1'
+                },
+                offreStage: {
+                    titre: 'Dev1'
+                },
+                student: {
+                    firstName: 'dan1',
+                    lastName: 'dan1',
+                    matricule: '1234565'
+                }
+            },
+        }]
+
+    let unContrat = [{
+        id: 1,
+        statusVuPasVuE: "pasVu",
+        statusVuPasVuG: "vu",
+        statusVuPasVuS: "vu",
+        statutEmployeur: "Pas_Signer",
+        statutEtudiant: "Pas_Signer",
+        statutGestionnaire: "Pas_Signer",
+
+        candidatureDTO: {
+            employer: {
+                id: 1,
+                companyName: 'Dev'
+            },
+            offreStage: {
+                titre: 'Dev'
+            },
+            student: {
+                firstName: 'dan',
+                lastName: 'dan',
+                matricule: '1234567'
+            }
+        },
     }]
 
-    let unContrat = [{ 
-        employerId : 1,
-        id : 1,
-        nomDePoste : 'Dev',
-        nomEtudiant : 'dan',
-        prenomEtudiant : 'dan',
-        statutEmployeur : 'Pas_Signer',
-        statutEtudiant : 'Pas_Signer',
-        statutGestionnaire : "Pas_Signer",
-        studentId : "1234567"
-    }
-    ]
-    
-    
-    let contratsSigne = [{ 
-        employerId : 1,
-        id : 1,
-        nomDePoste : 'Dev',
-        nomEtudiant : 'dan',
-        prenomEtudiant : 'dan',
-        statutEmployeur : 'Signer',
-        statutEtudiant : 'Signer',
-        statutGestionnaire : "Signer",
-        studentId : "1234567"
+    let contratsSigne = [{
+        id: 1,
+        statusVuPasVuE: "pasVu",
+        statusVuPasVuG: "vu",
+        statusVuPasVuS: "vu",
+        statutEmployeur: "Signer",
+        statutEtudiant: "Signer",
+        statutGestionnaire: "Signer",
+
+        candidatureDTO: {
+            employer: {
+                id: 1,
+                companyName: 'Dev'
+            },
+            offreStage: {
+                titre: 'Dev'
+            },
+            student: {
+                firstName: 'dan',
+                lastName: 'dan',
+                matricule: '1234567'
+            }
+        },
     }, {
-         employerId : 2,
-         id : 2,
-         nomDePoste : 'Dev1',
-         nomEtudiant : 'dan1',
-         prenomEtudiant : 'dan1',
-         statutEmployeur : 'Signer',
-         statutEtudiant : 'Signer',
-         statutGestionnaire : "Signer",
-         studentId : "1234565"
+        id: 2,
+        statusVuPasVuE: "pasVu",
+        statusVuPasVuG: "vu",
+        statusVuPasVuS: "vu",
+        statutEmployeur: "Signer",
+        statutEtudiant: "Signer",
+        statutGestionnaire: "Signer",
+
+        candidatureDTO: {
+            employer: {
+                id: 2,
+                companyName: 'Dev1'
+            },
+            offreStage: {
+                titre: 'Dev1'
+            },
+            student: {
+                firstName: 'dan1',
+                lastName: 'dan1',
+                matricule: '1234565'
+            }
+        },
     }]
 
     it('should show contracts if there is any', () => {
         act(() => {
-            render(<ListContratsGestionnaire contratsTest={unContrat}/>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={unContrat}/>
+                </BrowserRouter>
+            )
         })
         const row = document.querySelectorAll('tr')
         expect(row.length).toBe(2)
@@ -74,7 +144,11 @@ describe('Tests Gestionnaire voit tous les contrats', () => {
 
     it('should filter properly', () => {
         const { getByTestId } =
-            render(<ListContratsGestionnaire contratsTest={contrats}/>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={contrats}/>
+                </BrowserRouter>
+            )
         const inputElement = getByTestId('input');
 
         fireEvent.change(inputElement, { target: { value: '1234567' } });
@@ -87,7 +161,11 @@ describe('Tests Gestionnaire voit tous les contrats', () => {
 
     it('should have a button "sign" if user need to sign the document', ()=>{
         act(() => {
-            render(<ListContratsGestionnaire contratsTest={contrats}></ListContratsGestionnaire>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={contrats}/>
+                </BrowserRouter>
+            )
          })
          const button = screen.getAllByText('Signer le contrat', { selector: 'span' })[0] 
          expect(button).toBeInTheDocument();
@@ -95,7 +173,11 @@ describe('Tests Gestionnaire voit tous les contrats', () => {
 
     it('should have no buttons if contracts are signed', ()=>{
         act(() => {
-            render(<ListContratsGestionnaire contratsTest={contratsSigne}></ListContratsGestionnaire>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={contratsSigne}/>
+                </BrowserRouter>
+            )
          })
          const elementsSigne =  screen.getAllByText('Signé')
          expect(elementsSigne.length).toBe(6)
@@ -103,7 +185,11 @@ describe('Tests Gestionnaire voit tous les contrats', () => {
 
     it('should replace button by text after clicking on "sign"', ()=>{
         act(() => {
-            render(<ListContratsGestionnaire contratsTest={unContrat}></ListContratsGestionnaire>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={unContrat}/>
+                </BrowserRouter>
+            )
          })
          fireEvent.click(screen.getByText('Signer le contrat'));
          fireEvent.click(screen.getByText('Oui'));
@@ -112,20 +198,36 @@ describe('Tests Gestionnaire voit tous les contrats', () => {
 
     it('should do nothing when clicked on no in modal window', ()=>{
         // pas supprimer
-        let unContrat = [{ 
-            employerId : 1,
-            id : 1,
-            nomDePoste : 'Dev',
-            nomEtudiant : 'dan',
-            prenomEtudiant : 'dan',
-            statutEmployeur : 'Pas_Signer',
-            statutEtudiant : 'Pas_Signer',
-            statutGestionnaire : "Pas_Signer",
-            studentId : "1234567"
-        }
-        ]
+        let unContrat = [{
+            id: 1,
+            statusVuPasVuE: "pasVu",
+            statusVuPasVuG: "vu",
+            statusVuPasVuS: "vu",
+            statutEmployeur: "Pas_Signer",
+            statutEtudiant: "Pas_Signer",
+            statutGestionnaire: "Pas_Signer",
+
+            candidatureDTO: {
+                employer: {
+                    id: 1,
+                    companyName: 'Dev'
+                },
+                offreStage: {
+                    titre: 'Dev'
+                },
+                student: {
+                    firstName: 'dan',
+                    lastName: 'dan',
+                    matricule: '1234567'
+                }
+            },
+        }]
         act(() => {
-            render(<ListContratsGestionnaire contratsTest={unContrat}></ListContratsGestionnaire>)
+            render(
+                <BrowserRouter>
+                    <ListContratsGestionnaire contratsTest={unContrat}/>
+                </BrowserRouter>
+            )
          })
          fireEvent.click(screen.getByText('Signer le contrat'));
          fireEvent.click(screen.getByText('Non'));

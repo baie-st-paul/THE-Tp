@@ -431,7 +431,8 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Pas_Signer",
                 statusG,
                 statusE,
-                statusS
+                statusS,
+                false
         );
         gestionnaireService.createContrat(contratStageDTO);
     }

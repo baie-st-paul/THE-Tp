@@ -1,11 +1,10 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.ContratStageRepository;
@@ -15,6 +14,7 @@ import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -41,6 +42,7 @@ class EmployerServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
 
     /**
      * Method under test: {@link EmployerService#existByName(String)}
@@ -171,6 +173,23 @@ class EmployerServiceTest {
         verify(contratStageRepository, times(1)).updateStatusVuPasVuEByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
     }
 
+
+    @Test
+    public void testSaveRapportHeures() throws Exception {
+        MultipartFile mockFile = mock(MultipartFile.class);
+
+        RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO(mockFile);
+
+        ContratStage contract = new ContratStage();
+        contract.setId(1L);
+        contract.setStatutEtudiant(ContratStage.Statut.Signer);
+
+        when(contratStageRepository.findById(any())).thenReturn(Optional.of(contract));
+
+        employerService.saveRapportHeures(rapportHeuresDTO, 1L);
+
+        verify(contratStageRepository, times(1)).findById(1L);
+    }
 
 
 

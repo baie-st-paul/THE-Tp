@@ -27,6 +27,7 @@ public class ContratStageDTO {
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
+    private boolean rapportIsUploaded;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -38,6 +39,10 @@ public class ContratStageDTO {
 
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureId(contratStage.getCandidature().getId());
+        }
+
+        if(contratStage.getRapportHeures() != null){
+            dto.setRapportIsUploaded(true);
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

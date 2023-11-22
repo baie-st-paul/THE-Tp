@@ -112,15 +112,14 @@ public class EmployerService {
         contratStageRepository.save(contract);
     }
 
-    public ContratStageDTO saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception {
+    public void saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception{
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
-        if(optionalContract.isEmpty()) return null;
+        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
         ContratStage contract = optionalContract.get();
         RapportHeures rapport = new RapportHeures();
         rapport.setData(rapportHeuresDTO.getData());
         rapport.setName(rapportHeuresDTO.getName());
         contract.setRapportHeures(rapport);
         contratStageRepository.save(contract);
-        return ContratStageDTO.fromContratStage(contract);
     }
 }

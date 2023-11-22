@@ -25,6 +25,7 @@ const NavBarGestionnaire = () => {
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
+
             <Navbar.Brand className="profile">
                 <img src={profile} style={{marginLeft: "10px"}}
                      onClick={handleShow}
@@ -34,6 +35,7 @@ const NavBarGestionnaire = () => {
             <Modal show={show} onHide={handleClose} contentClassName="my-modal" dialogClassName="dialog-modal">
                 <ProfilePageGes/>
             </Modal>
+
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav>
                     <ul className="navbar-nav px-2">

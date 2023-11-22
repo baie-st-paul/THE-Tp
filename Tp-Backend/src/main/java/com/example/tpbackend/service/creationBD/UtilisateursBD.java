@@ -122,7 +122,7 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllStudent() {
         normalCreateStudent("1234567", "Informatique",
-                "lina", "lac", "lina@gmail.com",
+                "lina", "lacroix", "lina@gmail.com",
                 "+15147237392", "Root!123", "Student");
 
         normalCreateStudent("5869595", "Informatique",
@@ -153,13 +153,13 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createEmployer() {
         LinkedHashMap<String, String> employerDTO = new LinkedHashMap<>();
-        employerDTO.put("companyName", "ALaurendeau");
+        employerDTO.put("companyName", "Dell");
 
         try{
             RegisterRequest<?> registerRequest = new RegisterRequest<>(
-                    "emp",
-                    "lala",
-                    "emp@gmail.com",
+                    "william",
+                    "durand",
+                    "will@gmail.com",
                     "+15147899765",
                     "Root!123",
                     "Employeur",

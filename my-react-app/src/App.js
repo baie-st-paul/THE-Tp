@@ -48,7 +48,6 @@ function App() {
                 <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>
                 <Route path={"/embauchés"} element={<EtudiantEmbauchePage contratsTest={[]} candidaturesTest={[]}/>}/>
                 <Route path={"/contrats"} element={<ListContratsGestionnaire contratsTest={[]}/>}/>
-                <Route path={"/profileGestionnaire"} element={<ProfilePageGes/>}/>
 
                 <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
                 <Route path={"/signature"} element={<CreateSignature/>}/>

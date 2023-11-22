@@ -348,6 +348,16 @@ public class UtilisateursBD implements CommandLineRunner {
                 "1",
                 "8675848",
                 "3");
+        createEntrevue(5,
+                "2023-11-15, 10:30",
+                "rendez-vous sur teams",
+                "EnAttente",
+                "vu",
+                "pasVu",
+                "ALaurendeau",
+                "1",
+                "1234567",
+                "1");
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,

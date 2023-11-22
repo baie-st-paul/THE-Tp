@@ -11,6 +11,7 @@ import {
     faHandshake,
     faHome
 } from "@fortawesome/free-solid-svg-icons";
+import {faUser} from "@fortawesome/free-regular-svg-icons";
 
 const NavBarGestionnaire = () => {
     const navigate = useNavigate()
@@ -29,6 +30,11 @@ const NavBarGestionnaire = () => {
                         <li className="nav-item navbarbutton">
                             <button className="nav-link" onClick={() => navigate("/GestionnaireHomePage")}>
                                 <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
+                            </button>
+                        </li>
+                        <li className="nav-item navbarbutton">
+                            <button className="nav-link" onClick={() => navigate("/profileGestionnaire")}>
+                                <FontAwesomeIcon icon={faUser} style={{ marginRight: '10px' }}/>Profile
                             </button>
                         </li>
                         <li className="nav-item navbarbutton">

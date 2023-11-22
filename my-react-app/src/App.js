@@ -28,6 +28,7 @@ import CreateStudentSignature from "./components/landingPage/StudentHomePage/sig
 import OffreCandidaturePage from "./components/landingPage/StudentHomePage/candidature/OffreCandidaturePage";
 import SectionEntrevue from "./components/landingPage/StudentHomePage/SectionViewEntrevue/SectionEntrevue";
 import EtudiantMesContrats from "./components/landingPage/StudentHomePage/contrat/EtudiantMesContrats";
+import ProfilePageGes from "./components/landingPage/GestionnaireHomePage/profile/ProfilePageGes";
 
 function App() {
     return (
@@ -47,6 +48,7 @@ function App() {
                 <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>
                 <Route path={"/embauchés"} element={<EtudiantEmbauchePage contratsTest={[]} candidaturesTest={[]}/>}/>
                 <Route path={"/contrats"} element={<ListContratsGestionnaire contratsTest={[]}/>}/>
+                <Route path={"/profileGestionnaire"} element={<ProfilePageGes/>}/>
 
                 <Route path={"/EmployeurHomePage"} element={<EmployeurPrivateRoutes/>}/>
                 <Route path={"/signature"} element={<CreateSignature/>}/>

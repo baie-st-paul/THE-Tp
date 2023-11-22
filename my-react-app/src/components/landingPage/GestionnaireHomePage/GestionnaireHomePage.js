@@ -1,6 +1,6 @@
 import React from "react";
 import DashboardPageGestionnaire from "./dashboard/DashboardPageGestionnaire";
-import NavBarGestionnaire from "../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../NavBar/gestionnaire/NavBarGestionnaire";
 
 const GestionnaireHomePage = () => {
     return (

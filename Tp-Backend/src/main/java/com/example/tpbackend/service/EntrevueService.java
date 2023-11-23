@@ -110,15 +110,15 @@ public class EntrevueService {
     }
 
 
-    public EntrevueDTO updateEntrevue(EntrevueDTO entrevueDTO) {
-        Entrevue entrevue = entrevueRepository.updateById(
+    public void updateEntrevue(EntrevueDTO entrevueDTO) {
+         entrevueRepository.updateById(
                 entrevueDTO.getId(),
                 entrevueDTO.getDateHeure(),
                 entrevueDTO.getDescription(),
-                "pasVu",
-                "pasVu"
+                Entrevue.Status.valueOf(entrevueDTO.getStatus()),
+                Entrevue.StatusVuPasVu.valueOf("pasVu"),
+                Entrevue.StatusVuPasVu.valueOf("pasVu")
         );
-        return entrevue.toEntrevueDTO();
     }
 }
 

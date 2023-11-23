@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import CreateEntrevueForm from "../Entrevue/CreateEntrevueForm";
 
-export default function ButtonConvoquer({matricule, offre, entrevues , setModal, candidatureId }) {
+export default function ButtonConvoquer({matricule, offre, entrevues , setModal, candidatureId, entrevueToModify }) {
     const [isPresent, setIsPresent] = useState([])
 
     useEffect(() => {
@@ -11,22 +12,14 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
         setIsPresent(entrevues.filter(entrevue =>
             entrevue.student.matricule === matricule
             && entrevue.offreStage.id === offre.offreStage.id
-            && entrevue.status !== 'Refusee'
         ))
-        if (isPresent.length < 1) {
-            setIsPresent(entrevues.filter(entrevue =>
-                entrevue.student.matricule === matricule
-                && entrevue.offreStage.id === offre.offreStage.id
-            ))
-            if (isPresent.length > 1){
-                setIsPresent([isPresent[isPresent.length - 1]])
-            }
-        }
         console.log("isPresent", isPresent)
     }
     function handleConvoquerEntrevue(candidatureId) { 
         setModal(candidatureId); 
     }
+
+
 
     return (
         <>
@@ -46,7 +39,10 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                                 </td> :
                                 <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0' >
                                     <button title="RECONVOQUER"  className='btn btn-warning pb-5 pt-0 text-start ' style={{height : "58px", width: '105px'}}
-                                            onClick={()=> handleConvoquerEntrevue({candidatureId})}>
+                                            onClick={()=>{
+                                                handleConvoquerEntrevue({candidatureId})
+                                                entrevueToModify(isPresent[0])
+                                            }}>
                                         Entrevue Refusée
                                     </button>
                                 </td>

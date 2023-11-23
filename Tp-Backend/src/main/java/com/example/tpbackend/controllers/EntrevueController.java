@@ -39,11 +39,17 @@ public class EntrevueController {
         return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     @PreAuthorize("authenticated")
-    public ResponseEntity<EntrevueDTO> updateEntrevue(@RequestBody EntrevueDTO entrevueDTO) {
-        EntrevueDTO updatedEntrevue = entrevueService.updateEntrevue(entrevueDTO);
-        return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
+    public ResponseEntity<String> updateEntrevue(@RequestBody EntrevueDTO entrevueDTO) {
+        try {
+            entrevueService.updateEntrevue(entrevueDTO);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/students/{matricule}")

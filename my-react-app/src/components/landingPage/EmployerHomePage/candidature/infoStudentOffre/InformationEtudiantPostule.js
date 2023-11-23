@@ -49,7 +49,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
-
+    const [selectedEntrevueToModify, setSelectedEntrevueToModify] = useState(null)
 
     useEffect(() => {
         handleListePostule()
@@ -247,6 +247,9 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
     }
 
     function ModalConvoquerCreateEntrevue() {
+        if (selectedEntrevueToModify !== null) {
+            return modalConvoquerModifierEntrevue()
+        }
         return (
             <div style={OVERLAY_STYLE} className='w-100' >
                 <div style={{backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
@@ -257,6 +260,61 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             </div>
         )
     }
+
+    const updateEntrevue = async(entrevue) =>{
+        console.log(entrevue)
+        console.log(selectedEntrevueToModify)
+
+
+        try{
+            entrevue["id"] = selectedEntrevueToModify.id
+            entrevue["statusVuPasVuG"] = selectedEntrevueToModify.statusVuPasVuG
+            entrevue["statusVuPasVuS"] = selectedEntrevueToModify.statusVuPasVuS
+            entrevue["status"] = "EnAttente"
+            const token = localStorage.getItem('token');
+
+            console.log(JSON.stringify(entrevue))
+
+            fetch(
+                "http://localhost:8081/api/v1/stages/entrevues/update",
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body: JSON.stringify(entrevue)
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                () => {
+                    setShowConvoquer(false)
+                    setSelectedCandidatureId(null)
+                    window.location.reload()
+                }
+            )
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+        setSelectedEntrevueToModify(null)
+    }
+
+    function modalConvoquerModifierEntrevue() {
+        return (
+            <div style={OVERLAY_STYLE} className='w-100' >
+                <div style={{backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
+                    <div className=" opacity-100 bg-body p-3 fullscr">
+                        <CreateEntrevueForm onAdd={updateEntrevue} setShow={setModal}/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
 
     return (
         <div className='mt-5'>
@@ -313,7 +371,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     }
                                     { finFetch === true &&
                                         <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
-                                                         entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}/>
+                                         entrevues={entrevues} setModal={setModal} candidatureId={candidature.id} entrevueToModify={setSelectedEntrevueToModify}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {candidature.status === "In_review" && (

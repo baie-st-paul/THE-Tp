@@ -55,6 +55,7 @@ const OVERLAY_STYLE = {
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
     const [refreshed, setRefreshed] = useState(true)
+    const [selectedEntrevueToModify, setSelectedEntrevueToModify] = useState(null)
 
     useEffect(() => {
         fetchAll()
@@ -238,8 +239,8 @@ const OVERLAY_STYLE = {
             console.log(JSON.stringify(entrevue))
 
             fetch(
-                'http://localhost:8081/api/v1/stages/entrevues',
-                {
+            'http://localhost:8081/api/v1/stages/entrevues',
+            {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
@@ -276,11 +277,68 @@ const OVERLAY_STYLE = {
     }
 
     function ModalConvoquerCreateEntrevue() {
+        if (selectedEntrevueToModify !== null) {
+            return modalConvoquerModifierEntrevue()
+        }
         return (
             <div style={OVERLAY_STYLE} className='w-100' >
                 <div style={{backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
                     <div className=" opacity-100 bg-body p-3 fullscr">
                         <CreateEntrevueForm onAdd={createEntrevue} setShow={setModal}/>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    const updateEntrevue = async(entrevue) =>{
+        console.log(entrevue)
+        console.log(selectedEntrevueToModify)
+
+
+        try{
+            entrevue["id"] = selectedEntrevueToModify.id
+            entrevue["statusVuPasVuG"] = selectedEntrevueToModify.statusVuPasVuG
+            entrevue["statusVuPasVuS"] = selectedEntrevueToModify.statusVuPasVuS
+            entrevue["status"] = "EnAttente"
+            const token = localStorage.getItem('token');
+
+            console.log(JSON.stringify(entrevue))
+
+            fetch(
+            "http://localhost:8081/api/v1/stages/entrevues/update",
+             {
+                    method: 'PUT',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body: JSON.stringify(entrevue)
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                 () => {
+                    setShowConvoquer(false)
+                    setSelectedCandidatureId(null)
+                    window.location.reload()
+                }
+            )
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+        setSelectedEntrevueToModify(null)
+    }
+
+    function modalConvoquerModifierEntrevue() {
+        return (
+            <div style={OVERLAY_STYLE} className='w-100' >
+                <div style={{backgroundColor: 'transparent' , width: '100%'}} className='d-flex align-items-center justify-content-center h-100 w-100 '>
+                    <div className=" opacity-100 bg-body p-3 fullscr">
+                        <CreateEntrevueForm onAdd={updateEntrevue} setShow={setModal}/>
                     </div>
                 </div>
             </div>
@@ -384,7 +442,7 @@ const OVERLAY_STYLE = {
                                         }
                                         { finFetch === true &&
                                             <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
-                                                             entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}/>
+                                                entrevues={entrevues} setModal={setModal} candidatureId={candidature.id} entrevueToModify={setSelectedEntrevueToModify}/>
                                         }
                                         <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                             {candidature.status === "In_review" && (

@@ -68,7 +68,7 @@
     width: 100%;
     padding: 10px;
     margin-top: 20px;
-    background-color: #197fed;
+    background-color: #161718;
     color: white;
     border: none;
     border-radius: 6px;
@@ -114,10 +114,10 @@
 }
 
 .buttonStyleSignature {
-    display: flex; /* Utilisation de Flexbox */
-    align-items: center; /* Alignement vertical au centre */
-    justify-content: center; /* Alignement horizontal au centre */
-    padding: 8px 15px; /* Ajustement du padding */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 8px 15px; 
     background-color: #30363d;
     color: white;
     border: 1px solid #197fed;
@@ -129,7 +129,7 @@
 }
 
 .buttonStyleSignature:hover {
-    background-color: rgb(13, 13, 14); /* Changement de couleur au survol */
+    background-color: rgb(201, 6, 6); 
     border-color: #f8f7fa;
 }
 
@@ -140,6 +140,13 @@
     margin-right: 137px;
     text-align: center;
 }
+
+.error-message {
+    color: red;
+    font-size: small;
+    font-style: italic;
+}
+
 
 
 

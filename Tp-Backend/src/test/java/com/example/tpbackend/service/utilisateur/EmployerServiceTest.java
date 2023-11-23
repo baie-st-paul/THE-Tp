@@ -1,19 +1,20 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.EvaluationPDF;
+import com.example.tpbackend.models.Cv;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.repository.ContratStageRepository;
 import com.example.tpbackend.repository.EvaluationPDFRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -107,15 +108,33 @@ class EmployerServiceTest {
         ContratStage contrat1 = new ContratStage();
         ContratStage contrat2 = new ContratStage();
 
-        Student studentMock = mock(Student.class);
-        Employer employeurMock = mock(Employer.class);
+        Utilisateur utilisateur = mock(Utilisateur.class);
+        Employer employer = mock(Employer.class);
+        when(employer.getUtilisateur()).thenReturn(utilisateur);
 
-        when(studentMock.getMatricule()).thenReturn("matricule1");
-        when(studentMock.getUtilisateur()).thenReturn(new Utilisateur());
-        when(employeurMock.getId()).thenReturn(employeurId);
+        OffreStage offreStage1 = mock(OffreStage.class);
+        when(offreStage1.getEmployer()).thenReturn(employer);
+        when(offreStage1.getTitre()).thenReturn("poste 1");
+        when(offreStage1.getEmployer().getId()).thenReturn(employeurId);
 
-        contrat1.setStudent(studentMock);
-        contrat1.setEmployeur(employeurMock);
+        OffreStage offreStage2 = mock(OffreStage.class);
+        when(offreStage2.getEmployer()).thenReturn(employer);
+        when(offreStage2.getTitre()).thenReturn("poste 2");
+        when(offreStage2.getEmployer().getId()).thenReturn(employeurId);
+
+        Cv cv = mock(Cv.class);
+
+        Candidature candidatureMock1 = mock(Candidature.class);
+        when(candidatureMock1.getId()).thenReturn(1L);
+        when(candidatureMock1.getCvStudent()).thenReturn(cv);
+        when(candidatureMock1.getOffreStage()).thenReturn(offreStage1);
+
+        Candidature candidatureMock2 = mock(Candidature.class);
+        when(candidatureMock2.getId()).thenReturn(2L);
+        when(candidatureMock2.getCvStudent()).thenReturn(cv);
+        when(candidatureMock2.getOffreStage()).thenReturn(offreStage2);
+
+        contrat1.setCandidature(candidatureMock1);
         contrat1.setNomDePoste("poste 1");
         contrat1.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contrat1.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
@@ -124,8 +143,7 @@ class EmployerServiceTest {
         contrat1.setStatutVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
         contrat1.setStatutVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
 
-        contrat2.setStudent(studentMock);
-        contrat2.setEmployeur(employeurMock);
+        contrat2.setCandidature(candidatureMock2);
         contrat2.setNomDePoste("poste 2");
         contrat2.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
         contrat2.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
@@ -137,15 +155,13 @@ class EmployerServiceTest {
         List<ContratStage> contrats = Arrays.asList(contrat1, contrat2);
         when(contratStageRepository.findByEmployeur_Id(employeurId)).thenReturn(contrats);
 
-        List<ContratStageDTO> result = employerService.getContratStageByEmployeur(employeurId);
+        List<ContratStageDTODetails> result = employerService.getContratStageByEmployeur(employeurId);
 
         assertEquals(2, result.size());
-        assertEquals("matricule1", result.get(0).getStudentId());
-        assertEquals(employeurId, result.get(0).getEmployerId());
-        assertEquals("poste 1", result.get(0).getNomDePoste());
-        assertEquals("matricule1", result.get(1).getStudentId());
-        assertEquals(employeurId, result.get(1).getEmployerId());
-        assertEquals("poste 2", result.get(1).getNomDePoste());
+        assertEquals(1L, result.get(0).getCandidatureDTO().getId());
+        assertEquals("poste 1", result.get(0).getCandidatureDTO().getOffreStage().getTitre());
+        assertEquals(2L, result.get(1).getCandidatureDTO().getId());
+        assertEquals("poste 2", result.get(1).getCandidatureDTO().getOffreStage().getTitre());
     }
 
     @Test

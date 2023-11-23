@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BiSolidCloudUpload } from "react-icons/bi";
 import "./FileUploader.css";
+import NavBarStudent from "../landingPage/NavBar/student/NavBarStudent";
 
 function FileUploader({matricule}) {
     const [file, setFile] = useState(null);
@@ -76,48 +77,51 @@ function FileUploader({matricule}) {
 
     return (
         <div>
-            <h1 className="display-4 text-center">CV</h1>
-            <div
-                className="d-flex flex-column justify-content-center align-items-center mt-5"
-                onDrop={handleDrop}
-                onDragOver={(e) => e.preventDefault()}
-            >
-                <div className="border border-1 border-dark p-5 text-center file-uploader">
-                    <BiSolidCloudUpload className="upload-icon" />
-                    <h3 className="mt-4">Glissez un fichier PDF ici</h3>
-                    <span style={{ fontWeight: "bold" }}>Ou</span>
-                    <br />
-                    {file ? (
-                        <>
-                            {fileName && <div className="mt-3">Selected file: {fileName}</div>}
-                            {error && <div className="text-danger mt-3">{error}</div>}
-                            <button
-                                onClick={handleUpload}
-                                className="btn btn-primary mt-3"
-                            >
-                                Téléverser CV
-                            </button>
-                            <button
-                                onClick={handleCancel}
-                                className="btn btn-danger mt-3 ml-3"
-                            >
-                                Annuler
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <input
-                                type="file"
-                                accept=".pdf"
-                                onChange={handleFileSelect}
-                                style={{ display: "none" }}
-                                id="fileInput"
-                            />
-                            <label htmlFor="fileInput" className="btn btn-primary mt-3">
-                                Sélectionner un fichier PDF
-                            </label>
-                        </>
-                    )}
+            <NavBarStudent/>
+            <div id="Render" className="container content-container mt-4">
+                <h1 className="display-4 text-center">CV</h1>
+                <div
+                    className="d-flex flex-column justify-content-center align-items-center mt-5"
+                    onDrop={handleDrop}
+                    onDragOver={(e) => e.preventDefault()}
+                >
+                    <div className="border border-1 border-dark p-5 text-center file-uploader">
+                        <BiSolidCloudUpload className="upload-icon" />
+                        <h3 className="mt-4">Glissez un fichier PDF ici</h3>
+                        <span style={{ fontWeight: "bold" }}>Ou</span>
+                        <br />
+                        {file ? (
+                            <>
+                                {fileName && <div className="mt-3">Selected file: {fileName}</div>}
+                                {error && <div className="text-danger mt-3">{error}</div>}
+                                <button
+                                    onClick={handleUpload}
+                                    className="btn btn-primary mt-3"
+                                >
+                                    Téléverser CV
+                                </button>
+                                <button
+                                    onClick={handleCancel}
+                                    className="btn btn-danger mt-3 ml-3"
+                                >
+                                    Annuler
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <input
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={handleFileSelect}
+                                    style={{ display: "none" }}
+                                    id="fileInput"
+                                />
+                                <label htmlFor="fileInput" className="btn btn-primary mt-3">
+                                    Sélectionner un fichier PDF
+                                </label>
+                            </>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

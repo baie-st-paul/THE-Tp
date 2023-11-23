@@ -17,7 +17,7 @@ public class Candidature {
     private Long id;
 
     @Column(name = "lettre_motivation")
-    private byte[] lettre_motivation;
+    private byte[] lettreMotivation;
 
     private String fileName;
 
@@ -46,10 +46,10 @@ public class Candidature {
     @Column(name = "tag_name")
     private String tagName;
 
-    public Candidature(byte[] lettre_motivation, Student student,
-                       OffreStage offreStage, Cv cvStudent,String fileName, Status status,
+    public Candidature(byte[] lettreMotivation, Student student,
+                       OffreStage offreStage, Cv cvStudent, String fileName, Status status,
                        StatusVuPasVu statusVuPasVuG, StatusVuPasVu statusVuPasVuS) {
-        this.lettre_motivation = lettre_motivation;
+        this.lettreMotivation = lettreMotivation;
         this.student = student;
         this.offreStage = offreStage;
         this.cvStudent = cvStudent;
@@ -60,20 +60,16 @@ public class Candidature {
     }
 
     public byte[] getLettreMotivation() {
-        return lettre_motivation;
+        return lettreMotivation;
     }
 
     public CandidatureGetDTO toCandidatureGetDTO(){
-        byte[] yourByteArray = this.lettre_motivation;
+        byte[] yourByteArray = this.lettreMotivation;
         String originalFilename = fileName;
         String contentType = "application/pdf";
 
         MultipartFile multipartFile = new ByteArrayMultipartFile(fileName, originalFilename, contentType, yourByteArray);
         return new CandidatureGetDTO(this.student.getMatricule(),this.offreStage.toOffreStageDTO(),this.fileName, multipartFile);
-    }
-
-    public String getTagName() {
-        return tagName;
     }
 
     public void setTagName(String tagName) {

@@ -1,10 +1,11 @@
 package com.example.tpbackend.controller.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -195,17 +196,15 @@ public class EmployerControllerTest {
     public void getContratsByEmployeurTest() throws Exception {
         Long employerId = 1L;
 
-        ContratStageDTO contrat1 = new ContratStageDTO();
+        ContratStageDTODetails contrat1 = new ContratStageDTODetails();
         contrat1.setId(1L);
-        contrat1.setStudentId("0123456");
-        contrat1.setEmployerId(employerId);
+        contrat1.setCandidatureDTO(new CandidatureDTODetailed());
 
-        ContratStageDTO contrat2 = new ContratStageDTO();
+        ContratStageDTODetails contrat2 = new ContratStageDTODetails();
         contrat2.setId(2L);
-        contrat2.setStudentId("student2");
-        contrat2.setEmployerId(employerId);
+        contrat2.setCandidatureDTO(new CandidatureDTODetailed());
 
-        List<ContratStageDTO> contrats = Arrays.asList(contrat1, contrat2);
+        List<ContratStageDTODetails> contrats = Arrays.asList(contrat1, contrat2);
 
         when(employerService.getContratStageByEmployeur(employerId)).thenReturn(contrats);
 
@@ -214,11 +213,9 @@ public class EmployerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id").value(contrat1.getId()))
-                .andExpect(jsonPath("$[0].studentId").value(contrat1.getStudentId()))
-                .andExpect(jsonPath("$[0].employerId").value(contrat1.getEmployerId()))
+                .andExpect(jsonPath("$[0].candidatureDTO.id").value(contrat1.getCandidatureDTO().getId()))
                 .andExpect(jsonPath("$[1].id").value(contrat2.getId()))
-                .andExpect(jsonPath("$[1].studentId").value(contrat2.getStudentId()))
-                .andExpect(jsonPath("$[1].employerId").value(contrat2.getEmployerId()));
+                .andExpect(jsonPath("$[1].candidatureDTO.id").value(contrat2.getCandidatureDTO().getId()));
     }
 
     @Test

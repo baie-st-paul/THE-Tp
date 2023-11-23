@@ -3,6 +3,8 @@ import "./EvaluationForm.css";
 import EvaluationPDF from './EvaluationPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import FaqAccordion from './FaqAccordion';
+import {useNavigate} from "react-router-dom";
+import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 
 
 const EvaluationForm = ({ onSubmit }) => {
@@ -75,9 +77,6 @@ const EvaluationForm = ({ onSubmit }) => {
     const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"] ;
     const choices = ["Oui", "Non"];
 
-   
-
-
     const handleChange = (e) => {
         const {name, value} = e.target;
         setEvaluationData(prevState =>({
@@ -86,12 +85,10 @@ const EvaluationForm = ({ onSubmit }) => {
         }))
     };
 
-
+    const navigate = useNavigate()
     const handleSubmit = () => {
-        onSubmit(evaluationData);
+        onSubmit(navigate, evaluationData);
     }
-    
-    
 
     const renderDropdown = (name) => (
         <select name={name} value={evaluationData[name]} onChange={handleChange} className='dropdownStyle'>
@@ -111,273 +108,273 @@ const EvaluationForm = ({ onSubmit }) => {
         </select>
     );
 
-
-    
-
-        return (
-            <form onSubmit={onSubmit} className='formStyle'>
-                <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
-                <div className='sectionStyle'>
-                    <div className='questionStyle'>
-                        <label htmlFor="eleve" className='questionStyle label'>Nom de l’élève :</label>
-                        <input id="eleve" className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="program" className='questionStyle label'>Programme d’études :</label>
-                        <input id="program" className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="nomEntreprise" className='questionStyle label'>Nom de l’entreprise :</label>
-                        <input id="nomEntreprise" className= 'questionStyle input' type="text" name="nomEntreprise" value={evaluationData.nomEntreprise} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="nomSuperviseur" className='questionStyle label'>Nom du superviseur :</label>
-                        <input id="nomSuperviseur" className= 'questionStyle input' type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="fonctionSuperviseur" className='questionStyle label'>Fonction :</label>
-                        <input id="fonctionSuperviseur" className= 'questionStyle input' type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="telephoneSuperviseur" className='questionStyle label'>Téléphone :</label>
-                        <input id="telephoneSuperviseur" className= 'questionStyle input' type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className='sectionStyle'>
-                    <strong>1. PRODUCTIVITÉ</strong><br />
-                    Capacité d’optimiser son rendement au travail
-                </div>
-                <div className='sectionStyle'>
-                <p>Le stagiaire a été en mesure de :</p>
-                    <div className='questionStyle'>
-                        <label htmlFor="planifierOrganiser">a) Planifier et organiser son travail de façon efficace :</label>
-                        {renderDropdown("planifierOrganiser")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="comprendreDirectives">b) Comprendre rapidement les directives relatives à son travail :</label>
-                        {renderDropdown("comprendreDirectives")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="maintenirRythme">c) Maintenir un rythme de travail soutenu :</label>
-                        {renderDropdown("maintenirRythme")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="etablirPriorites">d) Établir ses priorités :</label>
-                        {renderDropdown("etablirPriorites")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="respecterEcheanciers">e) Respecter ses échéanciers :</label>
-                        {renderDropdown("respecterEcheanciers")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="commentairesProductivite">Commentaires :</label>
-                        <textarea id="commentairesProductivite" name="commentairesProductivite" value={evaluationData.commentairesProductivite} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className='sectionStyle'>
-                    <strong>2. QUALITÉ DU TRAVAIL</strong><br />
-                    Capacité de s’acquitter des tâches sous sa responsabilité en s’imposant personnellement des normes de qualité
-                </div>
-                <div className='sectionStyle'>
-                    <p>Le stagiaire a été en mesure de :</p>
-                    <div className='questionStyle'>
-                        <label htmlFor="respecterMandats">a) Respecter les mandats qui lui ont été confiés :</label>
-                        {renderDropdown("respecterMandats")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="attentionDetails">b) Porter attention aux détails dans la réalisation de ses tâches :</label>
-                        {renderDropdown("attentionDetails")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="verifierTravail">c) Vérifier son travail, s’assurer que rien n’a été oublié :</label>
-                        {renderDropdown("verifierTravail")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="perfectionner">d) Rechercher des occasions de se perfectionner :</label>
-                        {renderDropdown("perfectionner")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="analyseProblemes">e) Faire une bonne analyse des problèmes rencontrés :</label>
-                        {renderDropdown("analyseProblemes")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="commentairesQualite">Commentaires :</label>
-                        <textarea id="commentairesQualite" name="commentairesQualite" value={evaluationData.commentairesQualite} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className='sectionStyle'>
-                    <strong>3. RELATIONS INTERPERSONNELLES</strong><br />
-                    <p>Capacité à établir de bonnes relations interpersonnelles au travail</p>
-                </div>
-                <div className='sectionStyle'>
-                    <p>Le stagiaire a été en mesure de :</p>
-                    <div className='questionStyle'>
-                        <label htmlFor="etablirContacts">a) Établir facilement des contacts avec les gens :</label>
-                        {renderDropdown("etablirContacts")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="travailEquipe">b) Contribuer activement au travail d’équipe :</label>
-                        {renderDropdown("travailEquipe")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="adapterCulture">c) S’adapter facilement à la culture de l’entreprise :</label>
-                        {renderDropdown("adapterCulture")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="accepterCritiques">d) Accepter les critiques constructives :</label>
-                        {renderDropdown("accepterCritiques")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="respecterGens">e) Être respectueux envers les gens :</label>
-                        {renderDropdown("respecterGens")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="ecouteActive">f) Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre :</label>
-                        {renderDropdown("ecouteActive")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="commentairesRelations">Commentaires :</label>
-                        <textarea id="commentairesRelations" name="commentairesRelations" value={evaluationData.commentairesRelations} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <div className='sectionStyle'>
-                    <strong>4. HABILETÉS PERSONNELLES</strong><br />
-                    Capacité de faire preuve d’attitudes ou de comportements matures et responsables
-                </div>
-                <div className='sectionStyle'>
-                    <p>Le stagiaire a été en mesure de :</p>
-                    <div className='questionStyle'>
-                        <label htmlFor="interetMotivation">a) Démontrer de l’intérêt et de la motivation au travail :</label>
-                        {renderDropdown("interetMotivation")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="exprimerIdees">b) Exprimer clairement ses idées :</label>
-                        {renderDropdown("exprimerIdees")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="initiative">c) Faire preuve d’initiative :</label>
-                        {renderDropdown("initiative")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="travaillerSecuritaire">d) Travailler de façon sécuritaire :</label>
-                        {renderDropdown("travaillerSecuritaire")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="sensResponsabilites">e) Démontrer un bon sens des responsabilités ne requérant qu’un minimum de supervision :</label>
-                        {renderDropdown("sensResponsabilites")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="ponctuelAssidu">f) Être ponctuel et assidu à son travail :</label>
-                        {renderDropdown("ponctuelAssidu")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="commentairesHabiletes">Commentaires :</label>
-                        <textarea id="commentairesHabiletes" name="commentairesHabiletes" value={evaluationData.commentairesHabiletes} onChange={handleChange} />
-                    </div>
-                </div>
-
-
-                <div className='sectionStyle'>
-                    <strong>APPRECIATION GLOBALE DU STAGIAIRE</strong>
-                    <p>Le stagiaire a été en mesure de :</p>
-                    <div className='questionStyle'>
-                        <label htmlFor="appreciationGlobale">Les habiletés démontrées dépassent de beaucoup les attentes :</label>
-                        {renderDropdown("appreciationGlobale")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="discussionStagiaire">Les habiletés démontrées dépassent les attentes :</label>
-                        {renderDropdown("discussionStagiaire")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="heuresEncadrement">Les habiletés démontrées répondent pleinement aux attentes :</label>
-                        {renderDropdown("heuresEncadrement")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="accueilProchainStage">Les habiletés démontrées répondent partiellement aux attentes :</label>
-                        {renderDropdown("accueilProchainStage")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="autreElement">Les habiletés démontrées ne répondent pas aux attentes :</label>
-                        {renderDropdown("autreElement")}
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="commentaireAppreciation">PRÉCISEZ VOTRE APPRÉCIATION :</label>
-                        <textarea id="commentaireAppreciation" name="commentaireAppreciation" value={evaluationData.commentaireAppreciation} onChange={handleChange} />
-                    </div>
-                    <div className='questionStyle'>
-                        <label htmlFor="accord">Cette évaluation a été discutée avec le stagiaire :</label>
-                        {renderChoices("accord")}
-                    </div>
-                </div>
-
-
-                <div className='sectionStyle'>
-                    <strong>L’ENTREPRISE AIMERAIT ACCUEILLIR CET ÉLÈVE POUR SON PROCHAIN STAGE :</strong><br />
-                    <div className='radioGroup'>
-                        <label > 
-                            <input  type="radio" name="accueilPourProchainStage" value="Oui" onChange={handleChange}/>
-                            Oui
-                        </label>
-                        <label >
-                            <input  type="radio" name="accueilPourProchainStage" value="Non" onChange={handleChange} />
-                            Non
-                        </label>
-                        <label >
-                            <input  type="radio" name="accueilPourProchainStage" value="Peut-être" onChange={handleChange} />
-                            Peut-être
-                        </label><br />
+    return (
+        <div>
+            <NavBarEmployeur/>
+            <div id="Render" className="container content-container mt-4">
+                <form onSubmit={onSubmit} className='formStyle'>
+                    <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
+                    <div className='sectionStyle'>
+                        <div className='questionStyle'>
+                            <label htmlFor="eleve" className='questionStyle label'>Nom de l’élève :</label>
+                            <input id="eleve" className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="program" className='questionStyle label'>Programme d’études :</label>
+                            <input id="program" className= 'questionStyle input' type="text" name="programmeEtudes" value={evaluationData.programmeEtudes} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="nomEntreprise" className='questionStyle label'>Nom de l’entreprise :</label>
+                            <input id="nomEntreprise" className= 'questionStyle input' type="text" name="nomEntreprise" value={evaluationData.nomEntreprise} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="nomSuperviseur" className='questionStyle label'>Nom du superviseur :</label>
+                            <input id="nomSuperviseur" className= 'questionStyle input' type="text" name="nomSuperviseur" value={evaluationData.nomSuperviseur} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="fonctionSuperviseur" className='questionStyle label'>Fonction :</label>
+                            <input id="fonctionSuperviseur" className= 'questionStyle input' type="text" name="fonctionSuperviseur" value={evaluationData.fonctionSuperviseur} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="telephoneSuperviseur" className='questionStyle label'>Téléphone :</label>
+                            <input id="telephoneSuperviseur" className= 'questionStyle input' type="text" name="telephoneSuperviseur" value={evaluationData.telephoneSuperviseur} onChange={handleChange} />
+                        </div>
                     </div>
 
-                    <div className='questionStyle'>
-                        <label htmlFor='formationTechniqueSuffisante'>La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
-                        <textarea id='formationTechniqueSuffisante' name="formationTechniqueSuffisante" value={evaluationData.formationTechniqueSuffisante} onChange={handleChange} />
+                    <div className='sectionStyle'>
+                        <strong>1. PRODUCTIVITÉ</strong><br />
+                        Capacité d’optimiser son rendement au travail
                     </div>
-                    <label className='questionStyle label'>Nom (en lettres moulées):</label><br />
-                    <input className= 'questionStyle input' type="text" name="nomSignataire" value={evaluationData.nomSignataire} onChange={handleChange} /><br />
+                    <div className='sectionStyle'>
+                        <p>Le stagiaire a été en mesure de :</p>
+                        <div className='questionStyle'>
+                            <label htmlFor="planifierOrganiser">a) Planifier et organiser son travail de façon efficace :</label>
+                            {renderDropdown("planifierOrganiser")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="comprendreDirectives">b) Comprendre rapidement les directives relatives à son travail :</label>
+                            {renderDropdown("comprendreDirectives")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="maintenirRythme">c) Maintenir un rythme de travail soutenu :</label>
+                            {renderDropdown("maintenirRythme")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="etablirPriorites">d) Établir ses priorités :</label>
+                            {renderDropdown("etablirPriorites")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="respecterEcheanciers">e) Respecter ses échéanciers :</label>
+                            {renderDropdown("respecterEcheanciers")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="commentairesProductivite">Commentaires :</label>
+                            <textarea id="commentairesProductivite" name="commentairesProductivite" value={evaluationData.commentairesProductivite} onChange={handleChange} />
+                        </div>
+                    </div>
 
-                    <label className='questionStyle label'>Fonction :</label><br />
-                    <input className= 'questionStyle input' type="text" name="fonctionSignataire" value={evaluationData.fonctionSignataire} onChange={handleChange} /><br />
+                    <div className='sectionStyle'>
+                        <strong>2. QUALITÉ DU TRAVAIL</strong><br />
+                        Capacité de s’acquitter des tâches sous sa responsabilité en s’imposant personnellement des normes de qualité
+                    </div>
+                    <div className='sectionStyle'>
+                        <p>Le stagiaire a été en mesure de :</p>
+                        <div className='questionStyle'>
+                            <label htmlFor="respecterMandats">a) Respecter les mandats qui lui ont été confiés :</label>
+                            {renderDropdown("respecterMandats")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="attentionDetails">b) Porter attention aux détails dans la réalisation de ses tâches :</label>
+                            {renderDropdown("attentionDetails")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="verifierTravail">c) Vérifier son travail, s’assurer que rien n’a été oublié :</label>
+                            {renderDropdown("verifierTravail")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="perfectionner">d) Rechercher des occasions de se perfectionner :</label>
+                            {renderDropdown("perfectionner")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="analyseProblemes">e) Faire une bonne analyse des problèmes rencontrés :</label>
+                            {renderDropdown("analyseProblemes")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="commentairesQualite">Commentaires :</label>
+                            <textarea id="commentairesQualite" name="commentairesQualite" value={evaluationData.commentairesQualite} onChange={handleChange} />
+                        </div>
+                    </div>
 
-                    <label className='questionStyle label'>Signature :</label><br />
-                    <input className= 'questionStyle input' type="text" name="signature" value={evaluationData.signature} onChange={handleChange} /><br />
+                    <div className='sectionStyle'>
+                        <strong>3. RELATIONS INTERPERSONNELLES</strong><br />
+                        <p>Capacité à établir de bonnes relations interpersonnelles au travail</p>
+                    </div>
+                    <div className='sectionStyle'>
+                        <p>Le stagiaire a été en mesure de :</p>
+                        <div className='questionStyle'>
+                            <label htmlFor="etablirContacts">a) Établir facilement des contacts avec les gens :</label>
+                            {renderDropdown("etablirContacts")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="travailEquipe">b) Contribuer activement au travail d’équipe :</label>
+                            {renderDropdown("travailEquipe")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="adapterCulture">c) S’adapter facilement à la culture de l’entreprise :</label>
+                            {renderDropdown("adapterCulture")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="accepterCritiques">d) Accepter les critiques constructives :</label>
+                            {renderDropdown("accepterCritiques")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="respecterGens">e) Être respectueux envers les gens :</label>
+                            {renderDropdown("respecterGens")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="ecouteActive">f) Faire preuve d’écoute active en essayant de comprendre le point de vue de l’autre :</label>
+                            {renderDropdown("ecouteActive")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="commentairesRelations">Commentaires :</label>
+                            <textarea id="commentairesRelations" name="commentairesRelations" value={evaluationData.commentairesRelations} onChange={handleChange} />
+                        </div>
+                    </div>
 
-                    <label className='questionStyle label'>Date :</label><br />
-                    <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
-                </div>
-                <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
-                    <strong>Veuillez retourner ce formulaire à :</strong><br />
-                    Patrice Brodeur<br />
-                    Cégep André-Laurendeau<br />
-                    1111, rue Lapierre<br />
-                    LASALLE (Québec)<br />
-                    H8N 2J4<br />
-                    <strong>Numéro de télécopieur :</strong> (514) 364-7130
-                </div>
+                    <div className='sectionStyle'>
+                        <strong>4. HABILETÉS PERSONNELLES</strong><br />
+                        Capacité de faire preuve d’attitudes ou de comportements matures et responsables
+                    </div>
+                    <div className='sectionStyle'>
+                        <p>Le stagiaire a été en mesure de :</p>
+                        <div className='questionStyle'>
+                            <label htmlFor="interetMotivation">a) Démontrer de l’intérêt et de la motivation au travail :</label>
+                            {renderDropdown("interetMotivation")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="exprimerIdees">b) Exprimer clairement ses idées :</label>
+                            {renderDropdown("exprimerIdees")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="initiative">c) Faire preuve d’initiative :</label>
+                            {renderDropdown("initiative")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="travaillerSecuritaire">d) Travailler de façon sécuritaire :</label>
+                            {renderDropdown("travaillerSecuritaire")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="sensResponsabilites">e) Démontrer un bon sens des responsabilités ne requérant qu’un minimum de supervision :</label>
+                            {renderDropdown("sensResponsabilites")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="ponctuelAssidu">f) Être ponctuel et assidu à son travail :</label>
+                            {renderDropdown("ponctuelAssidu")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="commentairesHabiletes">Commentaires :</label>
+                            <textarea id="commentairesHabiletes" name="commentairesHabiletes" value={evaluationData.commentairesHabiletes} onChange={handleChange} />
+                        </div>
+                    </div>
 
-                <div style={{ textAlign: 'left', fontSize: 'small', marginTop: '10px' }}>
-                    <strong>Nous vous remercions de votre appui !</strong><br />
-                    Collège André-Laurendeau<br />
-                    ALTERNANCE TRAVAIL-ÉTUDES<br />
-                    2010-09-21
-                </div>
-                <button type="button" onClick={handleSubmit} className='buttonStyle'>Soumettre l'Évaluation en PDF</button>
 
-                <PDFDownloadLink
-                    document={<EvaluationPDF evaluationData={evaluationData} />}
-                    fileName="evaluation-form.pdf">
-                    {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
-                </PDFDownloadLink>
+                    <div className='sectionStyle'>
+                        <strong>APPRECIATION GLOBALE DU STAGIAIRE</strong>
+                        <p>Le stagiaire a été en mesure de :</p>
+                        <div className='questionStyle'>
+                            <label htmlFor="appreciationGlobale">Les habiletés démontrées dépassent de beaucoup les attentes :</label>
+                            {renderDropdown("appreciationGlobale")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="discussionStagiaire">Les habiletés démontrées dépassent les attentes :</label>
+                            {renderDropdown("discussionStagiaire")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="heuresEncadrement">Les habiletés démontrées répondent pleinement aux attentes :</label>
+                            {renderDropdown("heuresEncadrement")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="accueilProchainStage">Les habiletés démontrées répondent partiellement aux attentes :</label>
+                            {renderDropdown("accueilProchainStage")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="autreElement">Les habiletés démontrées ne répondent pas aux attentes :</label>
+                            {renderDropdown("autreElement")}
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="commentaireAppreciation">PRÉCISEZ VOTRE APPRÉCIATION :</label>
+                            <textarea id="commentaireAppreciation" name="commentaireAppreciation" value={evaluationData.commentaireAppreciation} onChange={handleChange} />
+                        </div>
+                        <div className='questionStyle'>
+                            <label htmlFor="accord">Cette évaluation a été discutée avec le stagiaire :</label>
+                            {renderChoices("accord")}
+                        </div>
+                    </div>
 
-                <FaqAccordion />
 
-            </form>
-            
-        );
+                    <div className='sectionStyle'>
+                        <strong>L’ENTREPRISE AIMERAIT ACCUEILLIR CET ÉLÈVE POUR SON PROCHAIN STAGE :</strong><br />
+                        <div className='radioGroup'>
+                            <label >
+                                <input  type="radio" name="accueilPourProchainStage" value="Oui" onChange={handleChange}/>
+                                Oui
+                            </label>
+                            <label >
+                                <input  type="radio" name="accueilPourProchainStage" value="Non" onChange={handleChange} />
+                                Non
+                            </label>
+                            <label >
+                                <input  type="radio" name="accueilPourProchainStage" value="Peut-être" onChange={handleChange} />
+                                Peut-être
+                            </label><br />
+                        </div>
 
-    
+                        <div className='questionStyle'>
+                            <label htmlFor='formationTechniqueSuffisante'>La formation technique du stagiaire était-elle suffisante pour accomplir le mandat de stage?</label><br />
+                            <textarea id='formationTechniqueSuffisante' name="formationTechniqueSuffisante" value={evaluationData.formationTechniqueSuffisante} onChange={handleChange} />
+                        </div>
+                        <label className='questionStyle label'>Nom (en lettres moulées):</label><br />
+                        <input className= 'questionStyle input' type="text" name="nomSignataire" value={evaluationData.nomSignataire} onChange={handleChange} /><br />
+
+                        <label className='questionStyle label'>Fonction :</label><br />
+                        <input className= 'questionStyle input' type="text" name="fonctionSignataire" value={evaluationData.fonctionSignataire} onChange={handleChange} /><br />
+
+                        <label className='questionStyle label'>Signature :</label><br />
+                        <input className= 'questionStyle input' type="text" name="signature" value={evaluationData.signature} onChange={handleChange} /><br />
+
+                        <label className='questionStyle label'>Date :</label><br />
+                        <input className= 'questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                    </div>
+                    <div style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
+                        <strong>Veuillez retourner ce formulaire à :</strong><br />
+                        Patrice Brodeur<br />
+                        Cégep André-Laurendeau<br />
+                        1111, rue Lapierre<br />
+                        LASALLE (Québec)<br />
+                        H8N 2J4<br />
+                        <strong>Numéro de télécopieur :</strong> (514) 364-7130
+                    </div>
+
+                    <div style={{ textAlign: 'left', fontSize: 'small', marginTop: '10px' }}>
+                        <strong>Nous vous remercions de votre appui !</strong><br />
+                        Collège André-Laurendeau<br />
+                        ALTERNANCE TRAVAIL-ÉTUDES<br />
+                        2010-09-21
+                    </div>
+                    <button type="button" onClick={handleSubmit} className='buttonStyle'>Soumettre l'Évaluation en PDF</button>
+
+                    <PDFDownloadLink
+                        document={<EvaluationPDF evaluationData={evaluationData} />}
+                        fileName="evaluation-form.pdf">
+                        {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                    </PDFDownloadLink>
+
+                    <FaqAccordion />
+
+                </form>
+            </div>
+        </div>
+    );
 }
+
 export default EvaluationForm;

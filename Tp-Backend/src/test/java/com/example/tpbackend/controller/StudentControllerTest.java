@@ -1,14 +1,15 @@
 package com.example.tpbackend.controller;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
+import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.tpbackend.controllers.utilisateur.StudentController;
-import com.example.tpbackend.service.security.JwtService;
-import com.example.tpbackend.service.utilisateur.StudentServices;
-import com.example.tpbackend.service.utilisateur.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -46,9 +47,9 @@ public class StudentControllerTest {
     @WithMockUser(username="admin", roles={"USER","ADMIN"})
     public void testGetContratsByStudent_Success() throws Exception {
         String studentId = "student1";
-        List<ContratStageDTO> mockContracts = List.of(
-                createMockContratStageDTO(1L, studentId, 3L,"Google", "Alice", "Software Engineer"),
-                createMockContratStageDTO(2L, studentId, 4L,"Facebook", "Bob", "Data Analyst")
+        List<ContratStageDTODetails> mockContracts = List.of(
+                createMockContratStageDTO(1L,"Google", "Alice", "Software Engineer"),
+                createMockContratStageDTO(2L,"Facebook", "Bob", "Data Analyst")
         );
 
         when(studentServices.getContratByStudent(studentId)).thenReturn(mockContracts);
@@ -58,9 +59,9 @@ public class StudentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].nomDePoste").value("Software Engineer"))
+                .andExpect(jsonPath("$[0].candidatureDTO.offreStage.titre").value("Software Engineer"))
                 .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].nomDePoste").value("Data Analyst"));
+                .andExpect(jsonPath("$[1].candidatureDTO.offreStage.titre").value("Data Analyst"));
     }
 
     @Test
@@ -74,14 +75,23 @@ public class StudentControllerTest {
                 .andExpect(content().string(containsString("Une erreur est survenue lors du traitement de votre requête")));
     }
 
-    private ContratStageDTO createMockContratStageDTO(Long id, String studentId, Long employerId, String companyName, String studentName, String poste) {
-        ContratStageDTO dto = new ContratStageDTO();
+    private ContratStageDTODetails createMockContratStageDTO(Long id, String companyName, String studentName, String poste) {
+        StudentGetDTO student = new StudentGetDTO();
+        EmployerGetDTO employerGetDTO = new EmployerGetDTO();
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+
+        CandidatureDTODetailed candidatureDTODetailed = new CandidatureDTODetailed();
+        candidatureDTODetailed.setStudent(student);
+        candidatureDTODetailed.setEmployer(employerGetDTO);
+        candidatureDTODetailed.setOffreStage(offreStageDTO);
+
+        ContratStageDTODetails dto = new ContratStageDTODetails();
         dto.setId(id);
-        dto.setEmployerId(employerId);
-        dto.setStudentId(studentId);
-        dto.setNomEtudiant(studentName);
-        dto.setNomDeCompanie(companyName);
-        dto.setNomDePoste(poste);
+        dto.setCandidatureDTO(candidatureDTODetailed);
+
+        dto.getCandidatureDTO().getStudent().setLastName(studentName);
+        dto.getCandidatureDTO().getEmployer().setCompanyName(companyName);
+        dto.getCandidatureDTO().getOffreStage().setTitre(poste);
         return dto;
     }
 }

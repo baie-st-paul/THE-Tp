@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -138,6 +138,14 @@ public class StudentServices {
     }
 
     @Transactional
+    public List<CandidatureDTO> getCandidaturesByMatricule(String matricule) {
+        return candidatureRepository.getAllCandidaturesByMatricule(matricule)
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<CandidatureDTO> getListCandidatureByOffreId(Long id){
         return candidatureRepository.findByOffreStageId(id)
                 .stream()
@@ -190,8 +198,8 @@ public class StudentServices {
     }
 
     @Transactional
-    public List<ContratStageDTO> getContratByStudent(String studentId){
+    public List<ContratStageDTODetails> getContratByStudent(String studentId){
         List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
-        return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+        return studentContracts.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
     }
 }

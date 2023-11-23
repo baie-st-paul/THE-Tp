@@ -7,6 +7,7 @@ import Modal from "../Vetocv/Modal";
 import {FaPencil} from "react-icons/fa6";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -21,11 +22,11 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-const EtudiantEmbauchePage = () => {
-    const [candidatures, setCandidatures] = useState([])
+const EtudiantEmbauchePage = ({contratsTest, candidaturesTest}) => {
+    const [candidatures, setCandidatures] = useState(candidaturesTest)
     const [candidature, setCandidature] = useState(null);
     const [offre, setOffre] = useState(null);
-    const [contrats, setContrats] = useState([]);
+    const [contrats, setContrats] = useState(contratsTest);
     const [filtre, setFiltre] = useState('')
     const [openModal, setOpenModal] = useState(false);
     const [openModalLettre, setOpenModalLettre] = useState(false);
@@ -35,6 +36,7 @@ const EtudiantEmbauchePage = () => {
 
     useEffect(() => {
         getEtudiantsEmbauches();
+        fetchContrats();
     },[])
 
     async function getEtudiantsEmbauches() {
@@ -67,33 +69,68 @@ const EtudiantEmbauchePage = () => {
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
+            setCandidatures(candidaturesTest)
             if (candidatures !== undefined){
                 setCandidatures(candidatures)
             }
         }
     }
 
+    async function fetchContrats() {
+        try {
+            fetch(
+                `http://localhost:8081/api/v1/gestionnaire/getContratsDetails`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        Authorization: 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json()
+                            console.log(data)
+                            setContrats(data)
+                        }
+                        else {
+                            const data = await res.json();
+                            console.log('Erreur', res.status, data);
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                })
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            console.log(contrats)
+            setContrats(contratsTest)
+        }
+    }
+
     async function handleCreateContrat(candidature) {
         try {
-            const studentId = candidature.student.matricule
-            const employerId = candidature.offreStage.employerId
-            const nomDePoste = candidature.offreStage.titre
-
-            console.log(studentId)
-            console.log(employerId)
-            console.log(nomDePoste)
 
             const contratStage = ({
-                "studentId": studentId,
-                "employerId": employerId,
-                nomDePoste,
-                "statutEtudiant": "Pas_Signer",
-                "statutEmployeur": "Pas_Signer",
-                "statutGestionnaire": "Pas_Signer",
+                "candidatureId": candidature.id,
+                "nomEtudiant": candidature.student.lastName,
+                "nomDeCompanie": candidature.employer.companyName,
+                "nomDePoste": candidature.offreStage.titre,
+                "prenomEtudiant": candidature.student.firstName,
+                "statutEtudiant":"Pas_Signer",
+                "statutEmployeur":"Pas_Signer",
+                "statutGestionnaire":"Pas_Signer",
                 "statusVuPasVuG":"pasVu",
                 "statusVuPasVuE":"pasVu",
                 "statusVuPasVuS":"pasVu",
             })
+
             fetch(
                 `http://localhost:8081/api/v1/gestionnaire/create-contrat`,
                 {
@@ -119,7 +156,7 @@ const EtudiantEmbauchePage = () => {
                         console.log(e)
                     }
                     console.log(data)
-                    setContrats([data])
+                    setContrats([...contrats, data])
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -169,49 +206,52 @@ const EtudiantEmbauchePage = () => {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 className="display-4 text-center">Liste des candidatures embauchées</h1>
-            <div className='text-start mt-3'> <label ><h3>Trouver par matricule &nbsp; </h3></label>
-                <input onChange={ (event)=> setFiltre(event.target.value)}></input>
-            </div>
-            {showOffreDetailed && <HandleOffreDetailed />}
-            {candidatures.length > 0 &&
-                candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
-                .map((candidature, i) => (
-                        <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
-                            <Card.Body>
-                                <Card.Title data-testid={candidature.offreStage.titre}>
-                                    <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>
-                                </Card.Title>
-                                <Button className="btn btn-primary"
-                                        onClick={() => {
-                                            setShowOffreDetailed(!showOffreDetailed)
-                                            setOffre(candidature.offreStage)
-                                }}>
-                                    Plus de détails
-                                </Button>
-                            </Card.Body>
-                            <ListGroup className="list-group-flush">
-                                <ListGroup.Item data-testid={candidature.employer.companyName}>
-                                    <b>Nom de l'entreprise:</b> {candidature.employer.companyName}
-                                </ListGroup.Item>
-                                <ListGroup.Item data-testid={candidature.student.firstName}>
-                                    <b>Prénom de l'étudiant:</b> {candidature.student.firstName}
-                                </ListGroup.Item>
-                                <ListGroup.Item data-testid={candidature.student.lastName}>
-                                    <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
-                                </ListGroup.Item>
-                                <ListGroup.Item data-testid={candidature.student.matricule}>
-                                    <b>Matricule de l'étudiant:</b> {candidature.student.matricule}
-                                </ListGroup.Item>
-                            </ListGroup>
-                            <Card.Body>
-                                <Button className="btn btn-primary"
-                                        onClick={() => handleMontrerCv(candidature)}>
-                                    CV <FaIdCard
-                                    style={{color: 'black'}}
-                                />
-                                </Button>
+        <div>
+            <NavBarGestionnaire/>
+            <div id="Render" className="container content-container mt-4">
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <h1 className="display-4 text-center">Liste des candidatures embauchées</h1>
+                    <div className='text-start mt-3'> <label ><h3>Trouver par matricule &nbsp; </h3></label>
+                        <input onChange={ (event)=> setFiltre(event.target.value)}></input>
+                    </div>
+                    {showOffreDetailed && <HandleOffreDetailed />}
+                    {candidatures.length > 0 &&
+                        candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
+                            .map((candidature, i) => (
+                                    <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
+                                        <Card.Body>
+                                            <Card.Title data-testid={candidature.offreStage.titre}>
+                                                <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>
+                                            </Card.Title>
+                                            <Button className="btn btn-primary"
+                                                    onClick={() => {
+                                                        setShowOffreDetailed(!showOffreDetailed)
+                                                        setOffre(candidature.offreStage)
+                                                    }}>
+                                                Plus de détails
+                                            </Button>
+                                        </Card.Body>
+                                        <ListGroup className="list-group-flush">
+                                            <ListGroup.Item data-testid={candidature.employer.companyName}>
+                                                <b>Nom de l'entreprise:</b> {candidature.employer.companyName}
+                                            </ListGroup.Item>
+                                            <ListGroup.Item data-testid={candidature.student.firstName}>
+                                                <b>Prénom de l'étudiant:</b> {candidature.student.firstName}
+                                            </ListGroup.Item>
+                                            <ListGroup.Item data-testid={candidature.student.lastName}>
+                                                <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
+                                            </ListGroup.Item>
+                                            <ListGroup.Item data-testid={candidature.student.matricule}>
+                                                <b>Matricule de l'étudiant:</b> {candidature.student.matricule}
+                                            </ListGroup.Item>
+                                        </ListGroup>
+                                        <Card.Body>
+                                            <Button className="btn btn-primary"
+                                                    onClick={() => handleMontrerCv(candidature)}>
+                                                CV <FaIdCard
+                                                style={{color: 'black'}}
+                                            />
+                                            </Button>
 
                                 { candidature.student.fileName !== '' ?
                                     <Button className="btn btn-primary"
@@ -225,7 +265,7 @@ const EtudiantEmbauchePage = () => {
                                         style={{color: 'black'}}
                                     /></Button>
                                 }
-                                { contrats.length > 0 ?
+                                { contrats.some( contrat => { return contrat.candidatureDTO.id === candidature.id } ) ?
                                     <>
                                         <br/>
                                         <FontAwesomeIcon icon={faCheck} /> Contrat créé
@@ -249,6 +289,8 @@ const EtudiantEmbauchePage = () => {
                 <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
                        onClose={handleMontrerLettre} />
             }
+        </div>
+    </div>
         </div>
     )
 }

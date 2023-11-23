@@ -25,7 +25,7 @@ public class CandidatureDTODetailed {
     private String statusVuPasVuS;
     private String tagName;
 
-    public static CandidatureDTODetailed toCandidatureDTODetailed(Candidature candidature) {
+    public static CandidatureDTODetailed fromCandidature(Candidature candidature) {
         if (candidature == null) {
             throw new RuntimeException("Candidature is null");
         }

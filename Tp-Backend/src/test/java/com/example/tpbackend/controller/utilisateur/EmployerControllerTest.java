@@ -230,5 +230,4 @@ public class EmployerControllerTest {
 
         verify(employerService).saveRapportHeures(any(RapportHeuresDTO.class), anyLong());
     }
-
 }

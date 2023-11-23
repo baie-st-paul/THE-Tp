@@ -9,7 +9,7 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
         contrats.filter((contrat) => contrat.statutEmployeur === "Pas_Signer");
 
     const filterEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
-        candidatures.filter((candidature) => candidature.status === "In_review");
+        candidatures.filter((candidature) => candidature.status === "Interview");
 
     const candidatureFilter = candidatures.length !== 0 && candidatures.length !== undefined &&
         candidatures.map((candidature) => candidature.student.matricule + " " + candidature.offreStage.titre)

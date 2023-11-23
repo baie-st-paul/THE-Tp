@@ -27,6 +27,7 @@ const OVERLAY_STYLE = {
 };
 
 const EmployerStageOffreList = () => {
+    const [filterOption, setFilterOption] = useState("In_review");
     const [offres, setOffres] = useState([]);
     const [offre, setOffre] = useState({});
     const [showUpdateOffre, setShowUpdateOffre] = useState(false);
@@ -183,6 +184,15 @@ const EmployerStageOffreList = () => {
         )
     }
 
+    const handleFilterChange = (event) => {
+        setFilterOption(event.target.value);
+    };
+
+    const filteredOffresList =
+        filterOption === "all"
+            ? offres
+            : offres.filter((offre) => offre.status === filterOption);
+
     if (isLoading) {
         return <div>Chargement...</div>;
     }
@@ -197,12 +207,28 @@ const EmployerStageOffreList = () => {
             <div id="Render" className="container content-container mt-4">
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
                     <h1 className="display-4 text-center">Liste des offres de stage</h1>
+                    <div className="text-center"
+                        style={{display: "flex", flexDirection: "row", width: "500px"}}>
+                        <h5 style={{width: "40%", justifyContent: "center", display: "flex",
+                        alignItems: "center"}}>Filtrer par:</h5>
+                        <select
+                            style={{width: "50%"}}
+                            className="form-control d-inline"
+                            value={filterOption}
+                            onChange={handleFilterChange}
+                        >
+                            <option value="all">Tout</option>
+                            <option value="In_review">En attente</option>
+                            <option value="Accepted">Accepté</option>
+                            <option value="Refused">Refusé</option>
+                        </select>
+                    </div>
                     {showUpdateOffre && <ModalUpdate />}
-                    {offres.length === 0 ?
+                    {filteredOffresList.length === 0 ?
                         <div>Aucune offre</div>
                         :
                         <EmployerOffreStages
-                            offreStages={offres}
+                            offreStages={filteredOffresList}
                             onDelete={deleteOffre}
                             onUpdate={(offre) => {
                                 setShowUpdateOffre(!showUpdateOffre)

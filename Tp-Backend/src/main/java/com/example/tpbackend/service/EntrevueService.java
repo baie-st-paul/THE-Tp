@@ -42,7 +42,6 @@ public class EntrevueService {
         entrevue.setDateHeure(entrevueDTO.getDateHeure());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuG()));
-        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuE()));
         entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuS()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
         entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
@@ -98,4 +97,3 @@ public class EntrevueService {
 
 
 }
-

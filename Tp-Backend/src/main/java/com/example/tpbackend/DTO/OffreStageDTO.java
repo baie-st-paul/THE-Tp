@@ -23,7 +23,6 @@ public class OffreStageDTO {
     private int nbMaxEtudiants;
     private String status;
     private String statusVuPasVuG;
-    private String statusVuPasVuE;
     private String statusVuPasVuS;
     private long employerId;
     private String tag;
@@ -40,7 +39,6 @@ public class OffreStageDTO {
                 nbMaxEtudiants,
                 status,
                 statusVuPasVuG,
-                statusVuPasVuE,
                 statusVuPasVuS
         );
     }

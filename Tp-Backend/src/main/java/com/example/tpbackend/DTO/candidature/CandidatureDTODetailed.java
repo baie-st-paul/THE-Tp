@@ -22,11 +22,10 @@ public class CandidatureDTODetailed {
     private CvDTO cvStudent;
     private String status;
     private String statusVuPasVuG;
-    private String statusVuPasVuE;
     private String statusVuPasVuS;
     private String tagName;
 
-    public static CandidatureDTODetailed toCandidatureDTODetailed(Candidature candidature) {
+    public static CandidatureDTODetailed fromCandidature(Candidature candidature) {
         if (candidature == null) {
             throw new RuntimeException("Candidature is null");
         }
@@ -44,7 +43,6 @@ public class CandidatureDTODetailed {
                 cvStudentDto,
                 String.valueOf(candidature.getStatus()),
                 String.valueOf(candidature.getStatusVuPasVuG()),
-                String.valueOf(candidature.getStatusVuPasVuE()),
                 String.valueOf(candidature.getStatusVuPasVuS()),
                 offreStageDto.getTag()
         );

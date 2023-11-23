@@ -18,7 +18,6 @@ public class EntrevueDTODetailed {
     private String description;
     private String status;
     private String statusVuPasVuG;
-    private String statusVuPasVuE;
     private String statusVuPasVuS;
     private EmployerGetDTO employer;
     private StudentGetDTO student;
@@ -37,7 +36,6 @@ public class EntrevueDTODetailed {
                 entrevue.getDescription(),
                 String.valueOf(entrevue.getStatus()),
                 String.valueOf(entrevue.getStatusVuPasVuG()),
-                String.valueOf(entrevue.getStatusVuPasVuE()),
                 String.valueOf(entrevue.getStatusVuPasVuS()),
                 employerDto,
                 studentDto,

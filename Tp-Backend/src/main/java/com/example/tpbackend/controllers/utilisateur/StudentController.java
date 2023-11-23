@@ -1,7 +1,9 @@
 package com.example.tpbackend.controllers.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
@@ -101,6 +103,18 @@ public class StudentController {
         }
     }
 
+    @GetMapping(value = "/getCandidatures/{matricule}")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> getMesCandidatures(@PathVariable("matricule") String matricule){
+        try {
+            List<CandidatureDTO> candidatureGetDTOList =  studentServices.getCandidaturesByMatricule(matricule);
+            return ResponseEntity.accepted().body(candidatureGetDTOList);
+        } catch (DataAccessException ex) {
+            String errorMessage = "An error occurred while processing your request";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+        }
+    }
+
     @GetMapping("/getSessions/{matricule}")
     @PreAuthorize("authenticated")
     public ResponseEntity<List<Object>> checkCurrentSession(@PathVariable("matricule") String matricule) {
@@ -137,7 +151,7 @@ public class StudentController {
     @GetMapping("/student-contracts/{studentId}")
     public ResponseEntity<?> getContratsByStudent(@PathVariable("studentId") String  studentId) {
         try {
-            List<ContratStageDTO> studentContracts = studentServices.getContratByStudent(studentId);
+            List<ContratStageDTODetails> studentContracts = studentServices.getContratByStudent(studentId);
             return ResponseEntity.ok(studentContracts);
         } catch (Exception ex) {
             String errorMessage = "Une erreur est survenue lors du traitement de votre requête";
@@ -147,14 +161,13 @@ public class StudentController {
 
     @PostMapping("/signerContrat")
     @PreAuthorize("authenticated")
-    public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
+    public ResponseEntity<?> signContract(@RequestBody ContratStageDTO contratStageDTO) {
         try {
             studentServices.signContract(contratStageDTO);
             return ResponseEntity.ok(contratStageDTO);
         } catch (Exception ex) {
             String errorMessage = "Le contrat n'a pas pu être signé par l'étudiant";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
 }
-

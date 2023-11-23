@@ -1,0 +1,108 @@
+.rootInfo{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+}
+
+th{
+    border-bottom: solid;
+    text-align: left;
+}
+
+table{
+    width: 100%;
+}
+
+table caption {
+    border-bottom: solid;
+    border-color: black;
+    caption-side: top;
+    padding-bottom: 2em;
+}
+.breakWord{
+    width: 150px;
+    word-wrap: break-word;
+}
+
+.headerElement{
+    padding-left: 1em;
+}
+
+.divFormInfo{
+    overflow-x: auto;
+
+
+}
+
+@media screen and (min-width: 601px) {
+    .divFormInfo{
+        width: fit-content;
+        height: min-content;
+        overflow-x: auto;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .fullscr{
+        width: 99%;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .divFormInfo{
+        border-style: none;
+        width: 100%;
+        overflow-x: unset;
+        background-color:#c5c6d0 ;
+    }
+    table {
+        width: 100%;
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1em;
+    }
+
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    table tr {
+        border-bottom: 3px solid black;
+        display: block;
+        margin-bottom: 1em;
+    }
+    .breakWord{
+        width: 100%;
+        word-wrap: unset;
+    }
+
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: end;
+        padding-right: 10px;
+    }
+    table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
+

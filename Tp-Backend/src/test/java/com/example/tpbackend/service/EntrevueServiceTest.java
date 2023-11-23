@@ -100,7 +100,6 @@ class EntrevueServiceTest {
         entrevueDTO.setDescription("Interview description");
         entrevueDTO.setStatus("EnAttente");
         entrevueDTO.setStatusVuPasVuG("pasVu");
-        entrevueDTO.setStatusVuPasVuE("pasVu");
         entrevueDTO.setStatusVuPasVuS("pasVu");
         entrevueDTO.setIdOffre(offreStage.getId() + "");
 
@@ -110,7 +109,6 @@ class EntrevueServiceTest {
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuG()));
-        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuE()));
         entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuS()));
 
         entrevue.setEmployer(employer);
@@ -178,7 +176,6 @@ class EntrevueServiceTest {
         entrevueDTO.setDescription("Interview description");
         entrevueDTO.setStatus("EnAttente");
         entrevueDTO.setStatusVuPasVuG("pasVu");
-        entrevueDTO.setStatusVuPasVuE("pasVu");
         entrevueDTO.setStatusVuPasVuS("pasVu");
         entrevueDTO.setIdOffre(offreStage.getId() + "");
 
@@ -188,7 +185,6 @@ class EntrevueServiceTest {
         entrevue.setDescription(entrevueDTO.getDescription());
         entrevue.setStatus(Entrevue.Status.valueOf(entrevueDTO.getStatus()));
         entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.pasVu);
-        entrevue.setStatusVuPasVuE(Entrevue.StatusVuPasVu.pasVu);
         entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.pasVu);
         entrevue.setEmployer(employer);
         entrevue.setStudent(student);

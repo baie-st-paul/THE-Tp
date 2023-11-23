@@ -6,20 +6,41 @@
 }
 
 .deconnecter{
-   position: absolute;
-   right: 0;
-   margin-right: 10px;
-   height: 75%;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    height: 75%;
+}
+
+.profile {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    height: 75%;
 }
 
 .navbarbutton{
-   border-style: solid;
-   border-width: 0.1px;
-   border-color: #363535;
-   margin-left: 2px;
+    border-style: solid;
+    border-width: 0.1px;
+    border-color: #363535;
+    margin-left: 2px;
 }
 
+.modal-backdrop.fade.show{
+    display:none;
+}
 
+.my-modal {
+    width: 200px !important;
+    display: flex !important;
+}
+
+.dialog-modal {
+    position: absolute !important;
+    right: 0 !important;
+    margin-right: 30px !important;
+    margin-top: 55px !important;
+}
 
 /*couleur background de la page*/
 body {
@@ -34,8 +55,8 @@ body {
 
 .button-spacing {
     margin-right: 20px;
-  }
-  
+}
+
 
 .nav-link {
     color: #fff; /* White text color for links */
@@ -67,54 +88,59 @@ h2 {
 }
 
 .light-bg {
-    background-color: #87bfcb; 
-    padding: 15px;  
-    border-radius: 5px;  
-  }
+    background-color: #87bfcb;
+    padding: 15px;
+    border-radius: 5px;
+}
 
-  .sidebar {
-  height: 150vh;
-  overflow-y: auto;
-  border: #0e141b;
-  width: 50%;
+.sidebar {
+    height: 150vh;
+    overflow-y: auto;
+    border: #0e141b;
+    width: 50%;
 }
 
 .light-bg {
-  background-color: #f7f7f7;
-  padding: 15px;
-  border-radius: 10px;
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 10px;
 }
 
 .navbar-toggler{
-  border:0;
- margin-left: 10px !important;
- 
+    border:0;
+    margin-left: 10px !important;
+
 }
 
 .navbar-toggler-icon{
-  color : black !important;
- }
+    color : black !important;
+}
 
 
- .bdark:active{
-  outline: none !important;
-  border:none;
- }
+.bdark:active{
+    outline: none !important;
+    border:none;
+}
 
 
 
 @media only screen and (max-width: 992px) {
-  .deconnecter{
-    position: unset;
-    right: unset;
-    margin-right: unset;
-    height: unset;
-  }
-  .navbarbutton{
-    border-style:none none solid none;
-    font-size: 20px;
-  }
-  }
+    .deconnecter{
+        position: unset;
+        right: unset;
+        margin-right: unset;
+        height: unset;
+    }
+    .profile {
+        position: unset;
+        right: unset;
+        margin-right: unset;
+        height: unset;
+    }
+    .navbarbutton{
+        border-style:none none solid none;
+        font-size: 20px;
+    }
+}
 
 
-  

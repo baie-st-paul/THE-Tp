@@ -17,14 +17,17 @@ public class CvDTOSerializer extends JsonSerializer<CvDTO> {
         jsonGenerator.writeStringField("fileName", cvDTO.getFileName());
 
         MultipartFile file_cv = cvDTO.getFile_cv();
-        if (file_cv != null && !file_cv.isEmpty()) {
-            String file_cvBase64 = convertMultipartFileToBase64(file_cv);
-            jsonGenerator.writeStringField("file_cv", file_cvBase64);
+        try{
+            if (file_cv != null && !file_cv.isEmpty()) {
+                String file_cvBase64 = convertMultipartFileToBase64(file_cv);
+                jsonGenerator.writeStringField("file_cv", file_cvBase64);
+            }
         }
-
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         jsonGenerator.writeStringField("status", cvDTO.getStatus());
         jsonGenerator.writeStringField("statusVuPasVuG", cvDTO.getStatusVuPasVuG());
-        jsonGenerator.writeStringField("statusVuPasVuE", cvDTO.getStatusVuPasVuE());
         jsonGenerator.writeStringField("statusVuPasVuS", cvDTO.getStatusVuPasVuS());
 
         jsonGenerator.writeEndObject();
@@ -41,4 +44,3 @@ public class CvDTOSerializer extends JsonSerializer<CvDTO> {
         return new String(base64Bytes);
     }
 }
-

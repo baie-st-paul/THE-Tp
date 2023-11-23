@@ -1,7 +1,6 @@
 package com.example.tpbackend.service.utilisateur;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -92,4 +91,3 @@ class UserServiceTest {
 
 
 }
-

@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureGetDTO;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,12 +51,12 @@ public class StudentServices {
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
         Student student = new Student(studentPostDTO.getMatricule(), studentPostDTO.getProgram(), utilisateur);
-            if (tagRepository.existsByTagName(getTag().getTagName())) {
-                student.setTagName(getTag().getTagName());
-            }else{
-                student.setTagName(getTag().getTagName());
-                tagRepository.save(new Tag(getTag().getTagName()));
-            }
+        if (tagRepository.existsByTagName(getTag().getTagName())) {
+            student.setTagName(getTag().getTagName());
+        }else{
+            student.setTagName(getTag().getTagName());
+            tagRepository.save(new Tag(getTag().getTagName()));
+        }
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);
@@ -114,7 +114,6 @@ public class StudentServices {
                 student,offreStage.get(),cv,candidaturePostDTO.getFileName(),
                 Candidature.Status.valueOf("In_review"),
                 Candidature.StatusVuPasVu.valueOf("pasVu"),
-                Candidature.StatusVuPasVu.valueOf("pasVu"),
                 Candidature.StatusVuPasVu.valueOf("pasVu"));
         if (tagRepository.existsByTagName(getTag().getTagName())) {
             candidature.setTagName(getTag().getTagName());
@@ -136,6 +135,14 @@ public class StudentServices {
         }
 
         return candidatureGetDTOList;
+    }
+
+    @Transactional
+    public List<CandidatureDTO> getCandidaturesByMatricule(String matricule) {
+        return candidatureRepository.getAllCandidaturesByMatricule(matricule)
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -191,8 +198,8 @@ public class StudentServices {
     }
 
     @Transactional
-    public List<ContratStageDTO> getContratByStudent(String studentId){
+    public List<ContratStageDTODetails> getContratByStudent(String studentId){
         List<ContratStage> studentContracts = contratStageRepository.findByStudentMatricule(studentId);
-        return studentContracts.stream().map(ContratStageDTO::fromContratStage).collect(Collectors.toList());
+        return studentContracts.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
     }
 }

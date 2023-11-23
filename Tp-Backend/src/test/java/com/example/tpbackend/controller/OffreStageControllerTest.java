@@ -59,7 +59,6 @@ public class OffreStageControllerTest {
                         "In_review",
                         "pasVu",
                         "pasVu",
-                        "pasVu",
                         5,new Tag(TagGenerator.getCurrentSession()).getTagName()),
                 new OffreStageDTO(
                         2L,
@@ -71,7 +70,6 @@ public class OffreStageControllerTest {
                         LocalDate.now().plusDays(20),
                         7,
                         "Accepted",
-                        "pasVu",
                         "pasVu",
                         "pasVu",
                         3L,new Tag(TagGenerator.getCurrentSession()).getTagName())

@@ -1,11 +1,11 @@
 package com.example.tpbackend.controllers.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
@@ -62,7 +62,7 @@ public class GestionnaireController {
     @PreAuthorize("authenticated")
     public ResponseEntity<?> createContrat( @RequestBody ContratStageDTO contratStageDTO) {
         try {
-            ContratStageDTO newContratStage = gestionnaireService.createContrat(contratStageDTO);
+            ContratStageDTODetails newContratStage = gestionnaireService.createContrat(contratStageDTO);
             return new ResponseEntity<>(newContratStage, HttpStatus.CREATED);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -75,6 +75,13 @@ public class GestionnaireController {
     public ResponseEntity<List<ContratStageDTO>> getAllContrats() {
         List<ContratStageDTO> contratStageDTOS = gestionnaireService.getAllContrats();
         return ResponseEntity.ok(contratStageDTOS);
+    }
+
+    @GetMapping("/getContratsDetails")
+    @PreAuthorize("authenticated")
+    public ResponseEntity<List<ContratStageDTODetails>> getAllContratsDetails() {
+        List<ContratStageDTODetails> contratStageDTODetails = gestionnaireService.getAllContratsDetails();
+        return ResponseEntity.ok(contratStageDTODetails);
     }
 
     @GetMapping("/candidatures/acceptees")

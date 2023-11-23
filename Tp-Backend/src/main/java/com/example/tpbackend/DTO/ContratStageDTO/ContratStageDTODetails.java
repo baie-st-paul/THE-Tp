@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 
+import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;

@@ -18,4 +18,3 @@ public class CandidatureGetDTO {
     private String fileName;
     private MultipartFile lettre_motivation;
 }
-

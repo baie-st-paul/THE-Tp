@@ -21,7 +21,6 @@ public class CandidatureDTO {
     private CvDTO cvStudent;
     private String status;
     private String statusVuPasVuG;
-    private String statusVuPasVuE;
     private String statusVuPasVuS;
     private String tagName;
 
@@ -42,7 +41,6 @@ public class CandidatureDTO {
                 cvStudentDto,
                 String.valueOf(candidature.getStatus()),
                 String.valueOf(candidature.getStatusVuPasVuG()),
-                String.valueOf(candidature.getStatusVuPasVuE()),
                 String.valueOf(candidature.getStatusVuPasVuS()),
                 offreStageDto.getTag()
         );

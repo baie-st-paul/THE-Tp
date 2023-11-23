@@ -1,90 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./StudentHomePage.css";
-import FileUploader from "../../cv/FileUploader";
 import { useUser } from "../../../Providers/UserProvider";
-import {Nav, Navbar} from "react-bootstrap";
-import OffresPageStudent from "./candidature/OffrePageStudent";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faFileUpload,
-    faBriefcase,
-    faEnvelope,
-    faHome,
-    faArrowRight,
-    faPortrait
-} from '@fortawesome/free-solid-svg-icons';
-import SectionEntrevue from "./SectionViewEntrevue/SectionEntrevue";
-import OffreCandidaturePage from "./candidature/OffreCandidaturePage";
-import { useNavigate } from "react-router-dom";
-import CreateStudentSignature from "./signature/CreateStudentSignature";
-import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
-import SessionCotroller from "./SessionController";
-import EtudiantMesContrats from "./contrat/EtudiantMesContrats";
+import SessionController from "./SessionController";
 import CardPageCvSignature from "./dashboardS/cards/cvSignature/CardPageCvSignature";
 import DashboardPageStudent from "./dashboardS/DashboardPageStudent";
-
+import NavBarStudent from "../NavBar/student/NavBarStudent";
+import FetchsStudent from "../NavBar/student/FetchsStudent";
 
 const StudentHomePage = () => {
     const { loggedInUser, setLoggedInUser } = useUser();
-    const [matricule, setMatricule] = useState(null);
-    const [activeContent, setActiveContent] = useState("none");
-    const [cv, setCv] = useState(null);
+
     const [signature, setSignature] = useState(null);
-    const [session, setSession] = useState([]);
-    const navigate = useNavigate();
+    const [cv, setCv] = useState(null);
+    const [sessions, setSessions] = useState([]);
 
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-
-        if (savedMatricule) {
-            setMatricule(savedMatricule);
-        }
-
         if (loggedInUser && loggedInUser.matricule) {
-            setMatricule(loggedInUser.matricule);
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
 
-        fetchCv()
+        setSignature(FetchsStudent.fetchSignature(token, signature, setSignature))
+        setCv(FetchsStudent.fetchCv(token, cv, setCv))
         fetchCurrentSession()
-        fetchSignature()
     }, [loggedInUser, setLoggedInUser]);
-
-    async function fetchCv() {
-        try {
-            const savedMatricule = localStorage.getItem("loggedInUserMatricule");
-            fetch(
-                `http://localhost:8081/api/v1/student/getCvByMatricule/${savedMatricule}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    const data = await res.json()
-                    try {
-                        console.log(res.status)
-                        if (res.status === 400) {
-                            console.log(res.status)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                    console.log(data)
-                    setCv(data)
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-        }
-    }
 
     async function fetchCurrentSession() {
         try {
@@ -109,7 +49,7 @@ const StudentHomePage = () => {
                         if (res.ok) {
                             const data = await res.json();
                             console.log(data)
-                            setSession(data);
+                            setSessions(data);
                         } else {
                             console.error("Failed to fetch data");
                         }
@@ -122,160 +62,21 @@ const StudentHomePage = () => {
         }
     }
 
-    async function fetchSignature() {
-        try {
-            const m = localStorage.getItem("loggedInUserMatricule")
-            console.log(m)
-            fetch(
-                `http://localhost:8081/api/v1/stages/signatures/student/get/${m}`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                }
-            ).catch(error => {
-                console.log(error)
-            }).then(
-                async (res) => {
-                    try {
-                        console.log(res.status)
-                        if (res.ok) {
-                            const data = await res.json();
-                            setSignature(data);
-                            console.log(data)
-                        } else {
-                            console.log("Failed to fetch data");
-                            setSignature(null)
-                        }
-                    } catch (e) {
-                        console.log(e)
-                    }
-                })
-        } catch (error) {
-            console.log('Une erreur est survenue:', error);
-            setSignature(null)
-        }
-    }
-
-    const handleButtonClick = (content) => {
-        setActiveContent(content);
-    };
-
-    const handleDisconnect = () => {
-        localStorage.clear()
-        navigate('/');
-    }
-
-    let contentToRender;
-
-    switch (activeContent) {
-        case "file-uploader":
-            contentToRender = <FileUploader matricule={matricule}/>
-            break;
-        case "offre-page-student":
-            contentToRender = <OffresPageStudent/>
-            break;
-        case "section-entrevue":
-            contentToRender = <SectionEntrevue entrevueTest={[]}/>
-            break;
-        case "offre-page-candidature":
-            contentToRender = <OffreCandidaturePage/>
-            break;
-        case "signature":
-            contentToRender = <CreateStudentSignature signature={signature} matricule={matricule}/>
-            break;
-        case "mes-contrats":
-            contentToRender = <EtudiantMesContrats matricule={matricule} contratsTest={[]}></EtudiantMesContrats>
-            break;
-        case "dashboardS":
-            contentToRender = <DashboardPageStudent/>
-            break;
-        default:
-            console.log(signature)
-            console.log(cv)
-            contentToRender = signature !== null && cv !== null && cv.status === "Accepted" ?
-                <DashboardPageStudent/> : <CardPageCvSignature signature={signature} cv={cv}/>
-            break;
-    }
-
     return (
         <div>
-            {session.at(2) ?  (
+            {sessions.at(2) ?  (
                 <div className="student-homepage">
-                    <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
-                        <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav>
-                                <ul className="navbar-nav px-2">
-                                    <ul className="navbar-nav ml-auto px-1">
-                                        <li className="nav-item navbarbutton deconnecter">
-                                            <button className="nav-link" onClick={() => handleDisconnect()}>
-                                                <FontAwesomeIcon icon={faArrowRight} style={{ marginTop: '5px', marginRight: '10px' }} />
-                                                Se déconnecter
-                                            </button>
-                                        </li>
-                                        <li className="nav-item navbarbutton">
-                                            <button className="nav-link" onClick={() => handleButtonClick("signature")}>
-                                                <FontAwesomeIcon icon={faPencilAlt} style={{ marginRight: '10px' }}/>Signature
-                                            </button>
-                                        </li>
-                                        <li className="nav-item navbarbutton px-1">
-                                            <button className="nav-link" onClick={() => setActiveContent('file-uploader')}>
-                                                <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> CV
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    {
-                                        signature !== null && cv !== null && cv.status === "Accepted" && (
-                                            <div>
-                                                {
-                                                    cv.matricule === localStorage.getItem("loggedInUserMatricule") &&
-                                                    <>
-                                                        <ul className="navbar-nav ml-auto px-1">
-                                                            <li className="nav-item navbarbutton">
-                                                                <button className="nav-link" onClick={() => handleButtonClick("dashboardS")}>
-                                                                    <FontAwesomeIcon icon={faHome} style={{ marginRight: '10px' }}/>Accueil
-                                                                </button>
-                                                            </li>
-                                                            <li className="nav-item navbarbutton px-1">
-                                                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-student')}>
-                                                                    <FontAwesomeIcon icon={faBriefcase} style={{ marginRight: '2px' }}/> Offres
-                                                                </button>
-                                                            </li>
-                                                            <li className="nav-item navbarbutton px-1">
-                                                                <button className="nav-link" onClick={() => handleButtonClick('offre-page-candidature')}>
-                                                                    <FontAwesomeIcon icon={faPortrait} style={{ marginRight: '2px' }}/> Mes candidatures
-                                                                </button>
-                                                            </li>
-                                                            <li className="nav-item navbarbutton px-1">
-                                                                <button className="nav-link" onClick={() => handleButtonClick('section-entrevue')}>
-                                                                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '2px' }}/> Mes Entrevues
-                                                                </button>
-                                                            </li>
-                                                            <li className="nav-item navbarbutton px-1">
-                                                                <button className="nav-link" onClick={() => setActiveContent('mes-contrats')}>
-                                                                    <FontAwesomeIcon icon={faFileUpload} style={{ marginRight: '2px' }}/> Mes Contrats
-                                                                </button>
-                                                            </li>
-                                                        </ul>
-                                                    </>
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </ul>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Navbar>
-                    <div className="container content-container mt-4">
-                        {contentToRender}
+                    <NavBarStudent/>
+                    <div id="Render" className="container content-container mt-4">
+                        <h2>Étudiant</h2>
+                        {
+                            signature !== null && cv !== null && cv.status === "Accepted" ?
+                                <DashboardPageStudent/> : <CardPageCvSignature signature={signature} cv={cv}/>
+                        }
                     </div>
                 </div>
             ) : (
-                <SessionCotroller sessionTag={session.at(0)} studentTag={session.at(1)}/>
+                <SessionController sessionTag={sessions.at(0)} studentTag={sessions.at(1)}/>
             )}
         </div>
     );

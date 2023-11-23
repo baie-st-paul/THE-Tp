@@ -5,6 +5,7 @@ import {ListGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "../Vetocv/Modal";
 import {FaEnvelopeOpen, FaIdCard} from "react-icons/fa";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const OVERLAY_STYLE = {
     position: "fixed",
@@ -100,46 +101,51 @@ export default function EtudiantsConvoquesEntrevue() {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
-            <h1 className="display-4 text-center">Liste des candidatures convoqué(es) à l'entrevue</h1>
-            <div className='text-start mt-3'> <label ><h3>Trouver par matricule &nbsp; </h3></label>
-                <input onChange={ (event)=> setFiltre(event.target.value)}></input>
+        <div>
+            <NavBarGestionnaire/>
+            <div id="Render" className="container content-container mt-4">
+                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <h1 className="display-4 text-center">Liste des candidatures convoqué(es) à l'entrevue</h1>
+                    <div className='text-start mt-3'> <label ><h3>Trouver par matricule &nbsp; </h3></label>
+                        <input onChange={ (event)=> setFiltre(event.target.value)}></input>
+                    </div>
+                    {showOffreDetailed && <HandleOffreDetailed />}
+                    {candidatures.length > 0 &&
+                        candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
+                            .map((candidature, i) => (
+                                <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
+                                    <Card.Body>
+                                        <Card.Title data-testid={candidature.offreStage.titre}>
+                                            <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>
+                                        </Card.Title>
+                                        <Button className="btn btn-primary"
+                                                onClick={() => {
+                                                    setShowOffreDetailed(!showOffreDetailed)
+                                                    setOffre(candidature.offreStage)
+                                                }}>
+                                            Plus de détails
+                                        </Button>
+                                        <br/> <b>Date, heure de l'entrevue:</b> {candidature.dateHeure} <br/>
+                                    </Card.Body>
+                                    <ListGroup className="list-group-flush">
+                                        <ListGroup.Item data-testid={candidature.employer.companyName}>
+                                            <b>Nom de l'entreprise:</b> {candidature.employer.companyName}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item data-testid={candidature.student.firstName}>
+                                            <b>Prénom de l'étudiant:</b> {candidature.student.firstName}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item data-testid={candidature.student.lastName}>
+                                            <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
+                                        </ListGroup.Item>
+                                        <ListGroup.Item data-testid={candidature.student.matricule}>
+                                            <b>Matricule de l'étudiant:</b> {candidature.student.matricule}
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                </Card>
+                            ))
+                    }
+                </div>
             </div>
-            {showOffreDetailed && <HandleOffreDetailed />}
-            {candidatures.length > 0 &&
-                candidatures.filter(candidatureNf => candidatureNf.student?.matricule?.includes(filtre))
-                .map((candidature, i) => (
-                    <Card key={i} className="container-fluid" style={{ width: '85%', margin:"20px", textAlign: "left"}}>
-                        <Card.Body>
-                            <Card.Title data-testid={candidature.offreStage.titre}>
-                                <b>Nom de l'offre:</b> {candidature.offreStage.titre} <br/>
-                            </Card.Title>
-                            <Button className="btn btn-primary"
-                                    onClick={() => {
-                                        setShowOffreDetailed(!showOffreDetailed)
-                                        setOffre(candidature.offreStage)
-                                    }}>
-                                Plus de détails
-                            </Button>
-                            <br/> <b>Date, heure de l'entrevue:</b> {candidature.dateHeure} <br/>
-                        </Card.Body>
-                        <ListGroup className="list-group-flush">
-                            <ListGroup.Item data-testid={candidature.employer.companyName}>
-                                <b>Nom de l'entreprise:</b> {candidature.employer.companyName}
-                            </ListGroup.Item>
-                            <ListGroup.Item data-testid={candidature.student.firstName}>
-                                <b>Prénom de l'étudiant:</b> {candidature.student.firstName}
-                            </ListGroup.Item>
-                            <ListGroup.Item data-testid={candidature.student.lastName}>
-                                <b>Nom de famille de l'étudiant:</b> {candidature.student.lastName}
-                            </ListGroup.Item>
-                            <ListGroup.Item data-testid={candidature.student.matricule}>
-                                <b>Matricule de l'étudiant:</b> {candidature.student.matricule}
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Card>
-                ))
-            }
         </div>
     )
 }

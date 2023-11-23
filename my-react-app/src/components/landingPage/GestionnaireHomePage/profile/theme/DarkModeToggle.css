@@ -1,0 +1,34 @@
+.App {
+    background-color: var(--background-color);
+    margin: 50px
+}
+
+:root {
+    --background-color: #f6f6f6;
+    --foreground-color: #003cff;
+    --primary-text-color: #0a0a0a;
+    --secondary-text-color: #ffffff;
+    --toggle-bg: #f0eb9d;
+    --toggle-fg: #ffd000;
+}
+
+.title {
+    color: var(--primary-text-color);
+}
+
+.box {
+    padding: 20px;
+    margin: 50px;
+    border-radius: 10px;
+    background-color: var(--foreground-color);
+    color: var(--secondary-text-color);
+}
+
+[data-theme="dark"] {
+    --background-color: #0a0a0a;
+    --foreground-color: #567aff;
+    --primary-text-color: #f6f6f6;
+    --secondary-text-color: #0a0a0a;
+    --toggle-bg: #283452;
+    --toggle-fg: #00a6ff;
+}

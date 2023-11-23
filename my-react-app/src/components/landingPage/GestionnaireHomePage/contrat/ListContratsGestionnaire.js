@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import ReactModal from "react-modal";
-import NavBarGestionnaire from "../../NavBar/NavBarGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
+
 const ListContratsGestionnaire = ({contratsTest}) => {
     const [contrats, setContrats] = useState(contratsTest)
     const [filtre, setFiltre] = useState('')

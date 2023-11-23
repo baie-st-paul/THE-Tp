@@ -7,10 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
-import static com.example.tpbackend.DTO.CvDTO.convertMultipartFileToByteArray;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,13 +33,16 @@ public class ContratStageDTO {
 
         ContratStageDTO dto = new ContratStageDTO();
 
-
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureId(contratStage.getCandidature().getId());
         }
 
-        if(contratStage.getRapportHeures() != null){
+        if(contratStage.getRapportHeures() != null) {
             dto.setRapportFile(new ByteArrayMultipartFile(contratStage.getRapportHeures().getName(), contratStage.getRapportHeures().getName(), "application/pdf", contratStage.getRapportHeures().getData()));
+        }
+
+        if (contratStage.getCandidature() != null) {
+            dto.setCandidatureId(contratStage.getCandidature().getId());
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

@@ -12,7 +12,6 @@ import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentPostDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.EmployerController;
-import com.example.tpbackend.models.RapportHeures;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;

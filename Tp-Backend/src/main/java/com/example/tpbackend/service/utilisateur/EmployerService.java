@@ -7,7 +7,6 @@ import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
-import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.RapportHeures;
 import com.example.tpbackend.models.Tag;

@@ -312,7 +312,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                         </td>
                                     }
                                     { finFetch === true &&
-                                        <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature.offreStage.titre}
+                                        <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
                                                          entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>

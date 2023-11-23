@@ -110,5 +110,15 @@ public class EntrevueService {
     }
 
 
+    public EntrevueDTO updateEntrevue(EntrevueDTO entrevueDTO) {
+        Entrevue entrevue = entrevueRepository.updateById(
+                entrevueDTO.getId(),
+                entrevueDTO.getDateHeure(),
+                entrevueDTO.getDescription(),
+                "pasVu",
+                "pasVu"
+        );
+        return entrevue.toEntrevueDTO();
+    }
 }
 

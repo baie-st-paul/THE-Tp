@@ -40,4 +40,8 @@ public interface EntrevueRepository extends JpaRepository<Entrevue, Long> {
 
     List<Entrevue> findByEmployer(Employer employer);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Entrevue SET dateHeure = ?2, description = ?3, statusVuPasVuG = ?4, statusVuPasVuS = ?5 WHERE id = ?1")
+    Entrevue updateById(long id, String dateHeure, String description, String statusVuPasVuG, String statusVuPasVuS);
 }

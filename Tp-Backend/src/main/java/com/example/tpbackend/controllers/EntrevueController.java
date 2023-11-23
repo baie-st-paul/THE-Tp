@@ -39,6 +39,13 @@ public class EntrevueController {
         return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
     }
 
+    @PutMapping
+    @PreAuthorize("authenticated")
+    public ResponseEntity<EntrevueDTO> updateEntrevue(@RequestBody EntrevueDTO entrevueDTO) {
+        EntrevueDTO updatedEntrevue = entrevueService.updateEntrevue(entrevueDTO);
+        return new ResponseEntity<>(updatedEntrevue, HttpStatus.OK);
+    }
+
     @GetMapping("/students/{matricule}")
     @PreAuthorize("authenticated")
     public ResponseEntity<List<EntrevueDTO>> getStudentEntrevues(@PathVariable String matricule) {

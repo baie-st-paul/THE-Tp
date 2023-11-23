@@ -331,7 +331,7 @@ public class UtilisateursBD implements CommandLineRunner {
         createEntrevue(3,
                 "2023-11-15, 10:30",
                 "rendez-vous sur zoom",
-                "Acceptee",
+                "Refusee",
                 "vu",
                 "pasVu",
                 "ALaurendeau",

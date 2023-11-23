@@ -77,13 +77,19 @@ const EtudiantEmbauchePage = () => {
         try {
             const studentId = candidature.student.matricule
             const employerId = candidature.offreStage.employerId
+            const nomDePoste = candidature.offreStage.titre
 
             console.log(studentId)
             console.log(employerId)
+            console.log(nomDePoste)
 
             const contratStage = ({
                 "studentId": studentId,
                 "employerId": employerId,
+                nomDePoste,
+                "statutEtudiant": "Pas_Signer",
+                "statutEmployeur": "Pas_Signer",
+                "statutGestionnaire": "Pas_Signer",
                 "statusVuPasVuG":"pasVu",
                 "statusVuPasVuE":"pasVu",
                 "statusVuPasVuS":"pasVu",

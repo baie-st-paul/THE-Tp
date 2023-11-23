@@ -42,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -242,7 +241,6 @@ public class GestionnaireServiceTest {
         cv.setMatricule("Matricule");
         cv.setStatus(Cv.Status.Accepted);
         cv.setStatusVuPasVuG(Cv.StatusVuPasVu.pasVu);
-        cv.setStatusVuPasVuE(Cv.StatusVuPasVu.pasVu);
         cv.setStatusVuPasVuS(Cv.StatusVuPasVu.pasVu);
 
         ArrayList<Cv> cvList = new ArrayList<>();
@@ -255,7 +253,6 @@ public class GestionnaireServiceTest {
         assertEquals("foo.txt", getResult.getFileName());
         assertEquals("Accepted", getResult.getStatus());
         assertEquals("pasVu", getResult.getStatusVuPasVuG());
-        assertEquals("pasVu", getResult.getStatusVuPasVuE());
         assertEquals("pasVu", getResult.getStatusVuPasVuS());
         assertEquals("Matricule", getResult.getMatricule());
         MultipartFile file_cv = getResult.getFile_cv();
@@ -477,7 +474,6 @@ public class GestionnaireServiceTest {
         contratDTO.setStatutEtudiant("Pas_Signer");
         contratDTO.setStatutEmployeur("Pas_Signer");
         contratDTO.setStatusVuPasVuG("pasVu");
-        contratDTO.setStatusVuPasVuE("pasVu");
         contratDTO.setStatusVuPasVuS("pasVu");
 
         Mockito.when(studentRepository.findByMatricule(anyString())).thenReturn(mockStudent);
@@ -580,9 +576,9 @@ public class GestionnaireServiceTest {
         Cv mockCv = mock(Cv.class);
 
         Candidature candidature1 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier1.pdf",
-                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
         Candidature candidature2 = new Candidature(mockLetter, mockStudent, mockOffreStage, mockCv, "fichier2.pdf",
-                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
+                Candidature.Status.Accepted, Candidature.StatusVuPasVu.pasVu, Candidature.StatusVuPasVu.pasVu);
 
         List<Candidature> mockedList = Arrays.asList(candidature1, candidature2);
 
@@ -606,79 +602,5 @@ public class GestionnaireServiceTest {
         System.out.println(result);
 
         assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void signContract() throws Exception {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("jane.doe@example.com");
-        utilisateur.setId(1L);
-        utilisateur.setPassword("iloveyou");
-        utilisateur.setRole(Utilisateur.Role.Gestionnaire);
-        utilisateur.setFirstName("Jane");
-        utilisateur.setLastName("Gestionnaire");
-        utilisateur.setPhoneNumber("6625550141");
-
-        Utilisateur utilisateur2 = new Utilisateur();
-        utilisateur2.setEmail("jane.stu@gmail.com");
-        utilisateur2.setId(2L);
-        utilisateur2.setPassword("iloveyou");
-        utilisateur2.setRole(Utilisateur.Role.Student);
-        utilisateur2.setFirstName("Jane");
-        utilisateur2.setLastName("Student");
-        utilisateur2.setPhoneNumber("5142141424");
-
-        Utilisateur utilisateur3 = new Utilisateur();
-        utilisateur3.setEmail("jane.emp@example.org");
-        utilisateur3.setId(3L);
-        utilisateur3.setPassword("iloveyou");
-        utilisateur3.setRole(Utilisateur.Role.Employeur);
-        utilisateur3.setFirstName("Jane");
-        utilisateur3.setLastName("Employer");
-        utilisateur3.setPhoneNumber("5145542232");
-
-        Gestionnaire gestionnaire = new Gestionnaire();
-        gestionnaire.setMatricule("2222222");
-        gestionnaire.setUtilisateur(utilisateur);
-
-        Student student = new Student();
-        student.setProgram("Informatique");
-        student.setMatricule("2058982");
-        student.setOffresStages(new ArrayList<>());
-        student.setCandidatures(new ArrayList<>());
-        student.setUtilisateur(utilisateur2);
-
-        Employer employer = new Employer();
-        employer.setId(7L);
-        employer.setUtilisateur(utilisateur3);
-        employer.setOffresStages(new ArrayList<>());
-        employer.setCompanyName("ABC");
-
-        ContratStage contract = new ContratStage();
-        contract.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
-        contract.setId(1L);
-        contract.setStudent(student);
-        contract.setEmployeur(employer);
-        contract.setNomDePoste("Poste 1");
-        contract.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
-        contract.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
-
-        ContratStage contractUpdated = new ContratStage();
-        contractUpdated.setStatutGestionnaire(ContratStage.Statut.Signer);
-        contractUpdated.setId(1L);
-        contractUpdated.setStudent(student);
-        contractUpdated.setEmployeur(employer);
-        contractUpdated.setNomDePoste("Poste 1");
-        contractUpdated.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
-        contractUpdated.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
-
-
-        when(contratStageRepository.findById(anyLong())).thenReturn(Optional.of(contract));
-        when(contratStageRepository.save(any(ContratStage.class))).thenReturn(contractUpdated);
-
-        ContratStageDTO result = gestionnaireService.signContract(ContratStageDTO.fromContratStage(contract));
-
-        verify(contratStageRepository, times(1)).save(ArgumentMatchers.any(ContratStage.class));
-        assertEquals(ContratStage.Statut.Signer.toString(), result.getStatutGestionnaire());
     }
 }

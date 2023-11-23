@@ -180,8 +180,19 @@ class EmployerServiceTest {
         ));
     }
 
-}
+    void testUpdateStatusContractSetViewedByEmployer() {
+        ContratStage contratStage = new ContratStage();
+        contratStage.setId(1L);
+        contratStage.setStatutVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatutVuPasVuG(ContratStage.StatusVuPasVu.pasVu);
+        contratStage.setStatutVuPasVuS(ContratStage.StatusVuPasVu.pasVu);
 
+        doNothing().when(contratStageRepository).updateStatusVuPasVuEByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
+        employerService.updateStatusContratVuE("2222222", ContratStage.StatusVuPasVu.vu.toString());
+
+        verify(contratStageRepository, times(1)).updateStatusVuPasVuEByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
+    }
+}
 
 
 

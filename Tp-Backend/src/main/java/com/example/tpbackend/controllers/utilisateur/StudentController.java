@@ -147,13 +147,13 @@ public class StudentController {
 
     @PostMapping("/signerContrat")
     @PreAuthorize("authenticated")
-    public ResponseEntity<ContratStageDTO> signContract(@RequestBody ContratStageDTO contratStageDTO) {
+    public ResponseEntity<?> signContract(@RequestBody ContratStageDTO contratStageDTO) {
         try {
             studentServices.signContract(contratStageDTO);
             return ResponseEntity.ok(contratStageDTO);
         } catch (Exception ex) {
             String errorMessage = "Le contrat n'a pas pu être signé par l'étudiant";
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }
     }
 }

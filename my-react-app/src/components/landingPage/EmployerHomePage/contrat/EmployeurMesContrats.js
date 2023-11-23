@@ -139,6 +139,7 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
                             <tr>
                                 <th className="header-cell h5">Nom, Prénom</th>
                                 <th className="header-cell h5">Matricule</th>
+                                <th className='header-cell h5'>Nom de compagnie</th>
                                 <th className='header-cell h5'>Poste</th>
                                 <th className="header-cell h5">Signé par étudiant</th>
                                 <th className="header-cell h5">Signé par employeur</th>
@@ -151,7 +152,8 @@ export default function EmployeurMesContrats({employerId, contratsTest}) {
                                     <tr key={index} className="table-row align-middle">
                                         <td  data-label="Nom" className="fw-semibold">{etudiant.nomEtudiant + ', ' + etudiant.prenomEtudiant}</td>
                                         <td  data-label="Matricule" className="fw-semibold">{etudiant.studentId}</td>
-                                        <td data-label="Poste" className="fw-semibold">{etudiant.nomDeCompanie}</td>
+                                        <td data-label="Nom de compagnie" className="fw-semibold">{etudiant.nomDeCompanie}</td>
+                                        <td  data-label="Poste" className="fw-semibold">{etudiant.nomDePoste}</td>
                                         <td data-label="Signé par étudiant" className="fw-semibold">{etudiant.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                         {
                                     etudiant.statutEmployeur === 'Pas_Signer' ?

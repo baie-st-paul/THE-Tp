@@ -212,7 +212,6 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
 
                 entrevue["status"] = "EnAttente"
                 entrevue["statusVuPasVuG"] = "pasVu"
-                entrevue["statusVuPasVuE"] = "pasVu"
                 entrevue["statusVuPasVuS"] = "pasVu"
                 entrevue["idEmployeur"] = employerId
                 entrevue["idEtudiant"] = matricule

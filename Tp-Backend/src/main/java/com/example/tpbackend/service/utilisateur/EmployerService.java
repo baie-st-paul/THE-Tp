@@ -1,6 +1,7 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.RapportHeuresDTO;
@@ -9,11 +10,13 @@ import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.RapportHeures;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.EvaluationPDFRepository;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
@@ -22,6 +25,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,7 +41,9 @@ public class EmployerService {
     @Autowired
     private UserService userService;
     @Autowired
-    ContratStageRepository contratStageRepository;
+    private ContratStageRepository contratStageRepository;
+    @Autowired
+    EvaluationPDFRepository evaluationPDFRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
 
@@ -98,10 +104,10 @@ public class EmployerService {
         return tag;
     }
     @Transactional
-   public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
+    public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
         return contrats.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
-   }
+    }
     @Transactional
     public void signContract(ContratStageDTO contractDTO) throws Exception {
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
@@ -120,5 +126,19 @@ public class EmployerService {
         rapport.setName(rapportHeuresDTO.getName());
         contract.setRapportHeures(rapport);
         contratStageRepository.save(contract);
+    }
+
+    @Transactional
+    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto) throws IOException {
+        EvaluationPDF evaluation = new EvaluationPDF();
+        evaluation.setName(evaluationPdfDto.getName());
+        evaluation.setContent(evaluationPdfDto.getContent());
+
+        EvaluationPDF savedEvaluation = evaluationPDFRepository.save(evaluation);
+
+        EvaluationPdfDto savedEvaluationDto = new EvaluationPdfDto();
+        savedEvaluationDto.setName(savedEvaluation.getName());
+
+        return savedEvaluationDto;
     }
 }

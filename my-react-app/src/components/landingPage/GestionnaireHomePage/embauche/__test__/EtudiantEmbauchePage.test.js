@@ -2,7 +2,6 @@ import {BrowserRouter} from "react-router-dom";
 import EtudiantEmbauchePage from "../EtudiantEmbauchePage";
 import {act, fireEvent, render, screen} from "@testing-library/react";
 import {testList1Acceptes, testList2Acceptes, testListAcceptes, testListContrats} from "./TestList";
-import ListContratsGestionnaire from "../../contrat/ListContratsGestionnaire";
 import React from "react";
 
 beforeEach(() => {

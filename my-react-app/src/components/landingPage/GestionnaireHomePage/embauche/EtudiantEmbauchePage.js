@@ -253,44 +253,44 @@ const EtudiantEmbauchePage = ({contratsTest, candidaturesTest}) => {
                                             />
                                             </Button>
 
-                                { candidature.student.fileName !== '' ?
-                                    <Button className="btn btn-primary"
-                                            onClick={() => handleMontrerLettre(candidature)}>
-                                        Lettre de motivation <FaEnvelopeOpen
-                                        style={{color: 'black'}}
-                                    /></Button>
-                                    : <Button className="btn btn-primary disabled"
-                                              onClick={() => handleMontrerLettre(candidature)}>
-                                        Lettre de motivation <FaEnvelopeOpen
-                                        style={{color: 'black'}}
-                                    /></Button>
-                                }
-                                { contrats.some( contrat => { return contrat.candidatureDTO.id === candidature.id } ) ?
-                                    <>
-                                        <br/>
-                                        <FontAwesomeIcon icon={faCheck} /> Contrat créé
-                                    </> :
-                                    <Button className="btn btn-primary"
-                                            onClick={() => handleCreateContrat(candidature)}>
-                                        Créer un contrat de stage <FaPencil
-                                        style={{color: 'black'}}
-                                    /></Button>
-                                }
-                            </Card.Body>
-                        </Card>
-                    )
-                )
-            }
-            {openModal && candidatures.length > 0 &&
-                <Modal cv={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
-                       onClose={handleMontrerCv} />
-            }
-            {openModalLettre && candidatures.length > 0 &&
-                <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
-                       onClose={handleMontrerLettre} />
-            }
-        </div>
-    </div>
+                                            { candidature.student.fileName !== '' ?
+                                                <Button className="btn btn-primary"
+                                                        onClick={() => handleMontrerLettre(candidature)}>
+                                                    Lettre de motivation <FaEnvelopeOpen
+                                                    style={{color: 'black'}}
+                                                /></Button>
+                                                : <Button className="btn btn-primary disabled"
+                                                          onClick={() => handleMontrerLettre(candidature)}>
+                                                    Lettre de motivation <FaEnvelopeOpen
+                                                    style={{color: 'black'}}
+                                                /></Button>
+                                            }
+                                            { contrats.some( contrat => { return contrat.candidatureDTO.id === candidature.id } ) ?
+                                                <>
+                                                    <br/>
+                                                    <FontAwesomeIcon icon={faCheck} /> Contrat créé
+                                                </> :
+                                                <Button className="btn btn-primary"
+                                                        onClick={() => handleCreateContrat(candidature)}>
+                                                    Créer un contrat de stage <FaPencil
+                                                    style={{color: 'black'}}
+                                                /></Button>
+                                            }
+                                        </Card.Body>
+                                    </Card>
+                                )
+                            )
+                    }
+                    {openModal && candidatures.length > 0 &&
+                        <Modal cv={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
+                               onClose={handleMontrerCv} />
+                    }
+                    {openModalLettre && candidatures.length > 0 &&
+                        <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
+                               onClose={handleMontrerLettre} />
+                    }
+                </div>
+            </div>
         </div>
     )
 }

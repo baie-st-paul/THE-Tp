@@ -11,6 +11,7 @@ const CreateEntrevueForm = ({onAdd , setShow}) => {
     const heureRef = useRef(null);
     const descriptionRef = useRef(null);
 
+
     const onSubmit = (e) => {
         e.preventDefault()
 
@@ -88,8 +89,8 @@ const CreateEntrevueForm = ({onAdd , setShow}) => {
                                 <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                             </div>
                             <div className="w-100">
-                            <input type='submit' value="Créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2 '/>
-                            <input type="button" className='btn btn-danger btn-block font text-white m-0' value="Fermer" onClick={setShow}></input>
+                                <input type='submit' value="Créer l'entrevue" className='btn btn-block bg-black text-light m-0 mb-2 '/>
+                                <input type="button" className='btn btn-danger btn-block font text-white m-0' value="Fermer" onClick={setShow}></input>
                             </div>
                         </div>
                     </form>

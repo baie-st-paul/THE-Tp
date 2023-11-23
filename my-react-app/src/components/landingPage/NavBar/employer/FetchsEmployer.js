@@ -1,3 +1,6 @@
+import EvaluationPDF from "../../EmployerHomePage/evalution_stagiaire/EvaluationPDF";
+import {pdf} from "@react-pdf/renderer";
+
 const fetchSignature = async (token, employerId, signature, setSignature) => {
     try {
         console.log(employerId)
@@ -123,9 +126,57 @@ const ajoutOffre = async (navigate, offre) => {
     }
 }
 
+const handleEvaluationSubmit = async (navigate, evaluationData) => {
+    const token = localStorage.getItem('token');
+    try {
+        pdf(<EvaluationPDF evaluationData={evaluationData} />).toBlob().then(blob => {
+            const formData = new FormData();
+            formData.append('file', blob, 'evaluation.pdf');
+
+            fetch(
+                'http://localhost:8081/api/v1/employers/upload_evaluation',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body: formData,
+                }
+            ).catch((err) => {
+                console.log(err)
+            }).then(
+                (res) => {
+                    try{
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data= res.json()
+                            console.log("PDF envoyé avec succès");
+                            console.log(data)
+                            navigate("/evaluation")
+                            return data;
+                        } else {
+                            console.log("Erreur lors de l'envoi du PDF");
+                            throw new Error("Erreur lors de l'envoi");
+                        }
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+            )
+        }).catch(error => {
+            console.error("Erreur lors de la génération du PDF:", error);
+        });
+    } catch (error) {
+        console.log('Une erreur est survenue:', error);
+    }
+}
+
 const exportedFetchs = {
     fetchSignature,
     ajoutOffre,
+    handleEvaluationSubmit,
     fetchEmp
 }
 

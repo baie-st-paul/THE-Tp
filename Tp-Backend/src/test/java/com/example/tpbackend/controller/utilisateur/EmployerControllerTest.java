@@ -2,6 +2,7 @@ package com.example.tpbackend.controller.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
@@ -31,7 +32,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.client.ExpectedCount.times;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.time.LocalDate;
@@ -181,7 +182,7 @@ public class EmployerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", offerId))
                 .andExpect(status().isNotFound())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune candidature trouvée pour cette offre."));
     }
 
@@ -228,5 +229,24 @@ public class EmployerControllerTest {
                 .andExpect(status().isOk());
 
         verify(employerService).saveRapportHeures(any(RapportHeuresDTO.class), anyLong());
+    }
+
+    @Test
+    public void testHandleFileUpload() throws Exception {
+        //1. Je vais mocker un fichier  MultipartFile
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+        //2. Créer une réponse attendue
+        EvaluationPdfDto mockDto = new EvaluationPdfDto("test.pdf", file.getBytes());
+        when(employerService.saveEvaluation(any(EvaluationPdfDto.class))).thenReturn(mockDto);
+
+        //3. Effectuer la requête POST avec le fichier mocké
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Fichier 'test.pdf' reçu et sauvegardé.")));
+
+        //4. ckecker si le service a été appelé avec le bon DTO
+        verify(employerService).saveEvaluation(any(EvaluationPdfDto.class));
     }
 }

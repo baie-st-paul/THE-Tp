@@ -100,7 +100,7 @@ export default function EmployeurMesContrats({contratsTest}) {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        }
+    }
 
     const handleAcceptConfirmation = () => {
         setIsConfirmationModalOpen(false);
@@ -111,16 +111,16 @@ export default function EmployeurMesContrats({contratsTest}) {
         setContrats(arrTmp)
         handleSignerContrat(contrat)
     };
-    
-    
-    
+
+
+
     const openConfirmationModal = (type, contrat1) => {
         setIsConfirmationModalOpen(true);
         setContrat(contrat1)
         setConfirmationType(type)
-        
+
     };
-    
+
     const closeConfirmationModal = () => {
         setIsConfirmationModalOpen(false);
     };

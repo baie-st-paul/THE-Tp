@@ -94,15 +94,15 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         try {
             await fetch(
                 'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                withCredentials: true,
-            }
-        ).catch(error => {
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
                 console.log(error)
             }).then(
                 async (res) => {
@@ -292,7 +292,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         {listeEtudiants.length > 0 &&
                             listeEtudiants.map((etudiant, i) => (
                                 <tr key={i} className=''>
-                                     <td  data-label="PRENOM" className='headerElement  text-break h6'>
+                                    <td  data-label="PRENOM" className='headerElement  text-break h6'>
                                         {etudiant.student.lastName}
                                     </td>
                                     <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
@@ -351,7 +351,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                 <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", etudiant.student)}>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
-                                                </div>
+                                            </div>
                                         )}
                                     </td>
                                 </tr>

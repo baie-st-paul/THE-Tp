@@ -14,5 +14,6 @@ public class RapportHeures {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Lob
     private byte[]  data;
 }

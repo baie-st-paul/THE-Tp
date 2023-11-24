@@ -23,7 +23,6 @@ public class ContratStageDTO {
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
-    @JsonIgnore
     private MultipartFile rapportFile;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
@@ -39,6 +38,8 @@ public class ContratStageDTO {
 
         if(contratStage.getRapportHeures() != null) {
             dto.setRapportFile(new ByteArrayMultipartFile(contratStage.getRapportHeures().getName(), contratStage.getRapportHeures().getName(), "application/pdf", contratStage.getRapportHeures().getData()));
+        } else {
+            dto.setRapportFile(null);
         }
 
         if (contratStage.getCandidature() != null) {
@@ -67,5 +68,6 @@ public class ContratStageDTO {
         return contratStage;
     }
 }
+
 
 

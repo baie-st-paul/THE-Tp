@@ -116,17 +116,22 @@ public class EmployerService {
     }
 
     @Transactional
-    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto) throws IOException {
-        EvaluationPDF evaluation = new EvaluationPDF();
-        evaluation.setName(evaluationPdfDto.getName());
-        evaluation.setContent(evaluationPdfDto.getContent());
+    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto, Long contractId) throws Exception {
+
+        EvaluationPDF evaluation = EvaluationPdfDto.toEvaluationPDF(evaluationPdfDto);
 
         EvaluationPDF savedEvaluation = evaluationPDFRepository.save(evaluation);
 
-        EvaluationPdfDto savedEvaluationDto = new EvaluationPdfDto();
-        savedEvaluationDto.setName(savedEvaluation.getName());
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+        ContratStage contract = optionalContract.get();
+        contract.setEvaluationPDF(savedEvaluation);
+        contratStageRepository.save(contract);
 
-        return savedEvaluationDto;
+        return EvaluationPdfDto.fromEvaluationPDF(savedEvaluation);
     }
+
 
 }

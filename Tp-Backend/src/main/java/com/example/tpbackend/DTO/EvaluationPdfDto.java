@@ -25,4 +25,30 @@ public class EvaluationPdfDto {
         }
     }
 
+    public static EvaluationPdfDto fromEvaluationPDF(EvaluationPDF evaluationPDF) {
+        if (evaluationPDF == null) {
+            return null;
+        }
+
+        EvaluationPdfDto dto = new EvaluationPdfDto();
+
+        dto.setName(evaluationPDF.getName());
+        dto.setContent(evaluationPDF.getContent());
+
+        return dto;
+    }
+
+    public static EvaluationPDF toEvaluationPDF(EvaluationPdfDto evaluationPdfDto) {
+        if (evaluationPdfDto == null) {
+            return null;
+        }
+
+        EvaluationPDF evaluationPDF = new EvaluationPDF();
+
+        evaluationPDF.setName(evaluationPdfDto.getName());
+        evaluationPDF.setContent(evaluationPdfDto.getContent());
+
+        return evaluationPDF;
+    }
+
 }

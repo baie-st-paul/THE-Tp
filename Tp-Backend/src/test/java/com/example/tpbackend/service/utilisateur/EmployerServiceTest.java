@@ -18,6 +18,7 @@ import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -166,34 +168,47 @@ class EmployerServiceTest {
 
     @Test
     public void testSaveEvaluation() throws Exception {
-        //1.On Crée un faux contenu de fichier pour simuler le PDF.
+
         byte[] fakePdfContent = "pdf content".getBytes();
-        MultipartFile mockFile = mock(MultipartFile.class); // On crée un mock de MultipartFile.
+        MultipartFile mockFile = new MockMultipartFile("file", "evaluation.pdf", "application/pdf", fakePdfContent);
 
-        //2. On simule le comportement du fichier multipart.
-        when(mockFile.getOriginalFilename()).thenReturn("evaluation.pdf");
-        when(mockFile.getBytes()).thenReturn(fakePdfContent);
-
-        //3. On crée un DTO avec le fichier mocké.
         EvaluationPdfDto evaluationPdfDto = new EvaluationPdfDto(mockFile);
 
-        //4. simule le comportement du repository.
         EvaluationPDF evaluationPDF = new EvaluationPDF();
         evaluationPDF.setName(evaluationPdfDto.getName());
         evaluationPDF.setContent(evaluationPdfDto.getContent());
         when(evaluationPDFRepository.save(any(EvaluationPDF.class))).thenReturn(evaluationPDF);
 
-        //5. On appel la méthode à tester.
-        EvaluationPdfDto savedDto = employerService.saveEvaluation(evaluationPdfDto);
+        Long contractId = 1L;
+        ContratStage contratStageMock = new ContratStage();
+        contratStageMock.setId(contractId);
+        when(contratStageRepository.findById(contractId)).thenReturn(Optional.of(contratStageMock));
 
-        //6. On vérifie que le nom du fichier est correct.
+        EvaluationPdfDto savedDto = employerService.saveEvaluation(evaluationPdfDto, contractId);
+
+        assertNotNull(savedDto);
+
         assertEquals("evaluation.pdf", savedDto.getName());
 
-        //7. On vérifie que le contenu est bien transmis et enregistré.
-        verify(evaluationPDFRepository).save(argThat(savedEvaluation ->
-                Arrays.equals(fakePdfContent, savedEvaluation.getContent()) &&
-                        "evaluation.pdf".equals(savedEvaluation.getName())
+        verify(contratStageRepository).save(argThat(contract ->
+                contract.getEvaluationPDF() != null &&
+                        contract.getEvaluationPDF().getName().equals("evaluation.pdf")
         ));
+    }
+
+    @Test
+    public void testSaveEvaluationContractNotFound() {
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = new MockMultipartFile("file", "evaluation.pdf", "application/pdf", fakePdfContent);
+
+        EvaluationPdfDto evaluationPdfDto = new EvaluationPdfDto(mockFile);
+
+        Long contractId = 1L;
+        when(contratStageRepository.findById(contractId)).thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, () -> {
+            employerService.saveEvaluation(evaluationPdfDto, contractId);
+        });
     }
 
     @Test

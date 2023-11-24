@@ -45,6 +45,10 @@ public class ContratStage {
     @JoinColumn(name = "signature_id")
     private SignatureGestionnaire gestionnaireSignature;
 
+    @OneToOne
+    @JoinColumn(name = "evaluation_pdf_id")
+    private EvaluationPDF evaluationPDF;
+
     private String nomDePoste;
 
     public enum Statut {

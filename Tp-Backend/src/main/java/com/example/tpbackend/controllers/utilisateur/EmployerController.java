@@ -104,17 +104,17 @@ public class EmployerController {
         return ResponseEntity.ok(employerContracts);
     }
 
-    @PostMapping(value = "/upload_evaluation", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload_evaluation/{contractId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("authenticated")
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
         try {
             EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
-            EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO);
-            String message = String.format("Fichier '%s' reçu et sauvegardé.", savedDocumentDto.getName());
+            EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO, contractId);
+            String message = String.format("Fichier '%s' reçu et sauvegardé pour le contrat ID: %d.", savedDocumentDto.getName(), contractId);
 
             return ResponseEntity.ok(message);
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
         }
     }
 }

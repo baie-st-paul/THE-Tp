@@ -42,7 +42,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                                         handleConvoquerEntrevue({candidatureId})
                                         entrevueToModify(isPresent[0])
                                     }}>
-                                Refusée, convoquer à nouveau
+                                Refusée, <br/> Convoquer à nouveau
                             </button>
                         </td>
                     }

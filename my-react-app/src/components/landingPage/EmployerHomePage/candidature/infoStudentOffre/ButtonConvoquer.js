@@ -35,27 +35,27 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                                     <span className="badge bg-warning text-dark ms-2">En attente</span>
                             }
                         </td> :
-                        <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0' >
-                            <button title="RECONVOQUER"  className='btn btn-warning pb-5 pt-0 text-start ' style={{height : "58px", width: '105px'}}
+                        <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
+                            {isPresent[0].dateHeure}
+                            <button title="RECONVOQUER" className='badge bg-danger text-dark ms-2' style={{borderColor: "red"}}
                                     onClick={()=>{
                                         handleConvoquerEntrevue({candidatureId})
                                         entrevueToModify(isPresent[0])
                                     }}>
-
-                                Entrevue Refusée
+                                Refusée, <br/> Convoquer à nouveau
                             </button>
                         </td>
                     }
                 </>
                  :
-                <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0  '>
+                <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-3'>
                     { offre.status === "Interview" ?
                         <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
                                 onClick={()=> handleConvoquerEntrevue({candidatureId})}>
                             Convoquer
                         </button>
                         :
-                        <span>Pas Entrevue</span>
+                        <span className="badge bg-info text-dark ms-2">Pas d'entrevue</span>
                     }
                 </td>
             }

@@ -371,7 +371,8 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                     }
                                     { finFetch === true &&
                                         <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
-                                         entrevues={entrevues} setModal={setModal} candidatureId={candidature.id} entrevueToModify={setSelectedEntrevueToModify}/>
+                                         entrevues={entrevues} setModal={setModal} candidatureId={candidature.id}
+                                                         entrevueToModify={setSelectedEntrevueToModify}/>
                                     }
                                     <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
                                         {candidature.status === "In_review" && (

@@ -49,7 +49,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                 </>
                  :
                 <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-3'>
-                    { offre.status === "Interview" ?
+                    { offre.status === "In_review" ?
                         <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
                                 onClick={()=> handleConvoquerEntrevue({candidatureId})}>
                             Convoquer

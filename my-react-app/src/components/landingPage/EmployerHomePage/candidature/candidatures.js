@@ -39,7 +39,6 @@ const OVERLAY_STYLE = {
     overflowY: "auto"
 };
 
-    const location = useLocation();
     const navigate = useNavigate();
     const [listeCandidature, setlisteCandidature] = useState([]);
     const [entrevues, setEntrevues] = useState([]);
@@ -51,7 +50,11 @@ const OVERLAY_STYLE = {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
-    const [select, setSelect] = useState('Tous')
+
+    const filtre = localStorage.getItem('filtreCandidature');
+    console.log(filtre)
+    const [select, setSelect] = useState(filtre)
+
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
     const [refreshed, setRefreshed] = useState(true)
@@ -346,15 +349,20 @@ const OVERLAY_STYLE = {
     }
 
     function handleSelect(e){
-        if (e.target.value === 'Tous'){
+        localStorage.setItem('filtreCandidature', e.target.value);
+        setSelect(localStorage.getItem('filtreCandidature'));
+        if (e.target.value === 'all'){
             setRefreshed(false)
             setListeCandidatureFiltered(listeCandidature)
             setRefreshed(true)
         }
-        if (e.target.value === 'accepte'){
+        if (e.target.value === 'Accepted'){
             setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Accepted'))
         }
-        if (e.target.value === 'convoquer'){
+        if (e.target.value === 'Refused'){
+            setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Refused'))
+        }
+        if (e.target.value === 'Interview'){
             let arr = []
             for (let x = 0; x < listeCandidature.length; x++){
                 if  (listeCandidature[x].status === 'Interview' ){
@@ -367,12 +375,13 @@ const OVERLAY_STYLE = {
             setRefreshed(true)
         }
 
-        if (e.target.value === 'pas-convoquer'){
+        if (e.target.value === 'In_review'){
             setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'In_review'))
             console.log(entrevues)
         }
-        setSelect(e.target.value)
     }
+
+    console.log(select)
 
     return (
         <div>
@@ -381,13 +390,23 @@ const OVERLAY_STYLE = {
                 <div className='rootInfo font'>
                     <div className='divFormInfo'>
                         <h1 className='text-center text-dark'>LISTE D'ÉTUDIANTS POSTULÉS</h1>
-                        <label htmlFor="choix" className='h5 px-3 text-primary '>FILTRER PAR : </label>
-                        <select className='h5 text-primary' id="choix" value={select} onChange={e => handleSelect(e)}>
-                            <option value="Tous">Tous</option>
-                            <option value="convoquer">Convoqué(es)</option>
-                            <option value="accepte">Embauché(es)</option>
-                            <option value="pas-convoquer">Non Convoqué(es) </option>
-                        </select>
+                        <div className="text-center"
+                             style={{display: "flex", flexDirection: "row", width: "500px"}}>
+                            <h5 style={{width: "40%", justifyContent: "center", display: "flex",
+                                alignItems: "center"}}>Filtrer par:</h5>
+                            <select
+                                style={{width: "50%"}}
+                                className="form-control d-inline"
+                                value={select}
+                                onChange={handleSelect}
+                            >
+                                <option value="all">Tous</option>
+                                <option value="Accepted">Embauché(es)</option>
+                                <option value="Refused">Refusé(es)</option>
+                                <option value="Interview">Convoqué(es)</option>
+                                <option value="In_review">Non Convoqué(es) </option>
+                            </select>
+                        </div>
                         {showConvoquer && <ModalConvoquerCreateEntrevue />}
                         <table>
                             <thead>

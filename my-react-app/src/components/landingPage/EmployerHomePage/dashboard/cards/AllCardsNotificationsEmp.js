@@ -22,8 +22,8 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
         )
     console.log("filterPasEntrevue",filterPasEntrevue)
 
-    const offresNotAccepted = offres.length !== 0 && offres.length !== undefined &&
-        offres.filter((offre) => offre.status !== "Accepted")
+    const offresAccepted = offres.length !== 0 && offres.length !== undefined &&
+        offres.filter((offre) => offre.status === "Accepted")
 
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");
@@ -54,12 +54,12 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
             <CardsPasCritique filteredList={filterEntrevuesRefused} card={
                 <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
-                           url="/offres"
+                           url="/candidatures"
                            id="cardsPasCritique" colorAvatar="#000066"/>
             }/>
-            <CardsPasCritique filteredList={offresNotAccepted} card={
-                <CardsPage nbFilteredList={offresNotAccepted.length}
-                           titre="offres pas encore acceptées par le gestionnaire" url="/offres"
+            <CardsPasCritique filteredList={offresAccepted} card={
+                <CardsPage nbFilteredList={offresAccepted.length}
+                           titre="offres acceptées par le gestionnaire" url="/offres"
                            id="cardsPasCritique" colorAvatar="#000066"/>
             }/>
         </div>

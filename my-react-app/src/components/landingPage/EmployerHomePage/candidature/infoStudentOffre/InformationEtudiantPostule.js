@@ -382,7 +382,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                         )}
                                         {candidature.status === "Accepted" && (
                                             <>
-                                                <FontAwesomeIcon icon={faCheck} /> Accepté
+                                                <FontAwesomeIcon icon={faCheck} /> Embauché
                                             </>
                                         )}
                                         {candidature.status === "Refused" && (

@@ -37,12 +37,12 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                         </td> :
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
-                            <button title="RECONVOQUER" className='badge bg-danger text-dark ms-2' style={{borderColor: "red"}}
+                            <button title="RECONVOQUER" className='badge bg-danger text-white ms-2' style={{borderColor: "red"}}
                                     onClick={()=>{
                                         handleConvoquerEntrevue({candidatureId})
                                         entrevueToModify(isPresent[0])
                                     }}>
-                                Refusée, <br/> Convoquer à nouveau
+                                Refusée, <br/> Re-convoquer
                             </button>
                         </td>
                     }

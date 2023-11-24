@@ -299,7 +299,7 @@ public class UtilisateursBD implements CommandLineRunner {
         studentServices.updateCandidatureStatus("1234567", "Accepted");
         studentServices.updateCandidatureStatus("5869595", "Accepted");
         studentServices.updateCandidatureStatus("8675848", "Accepted");
-        studentServices.updateCandidatureStatus("4738494", "Accepted");
+       // studentServices.updateCandidatureStatus("4738494", "Accepted");
     }
 
     public void updateCandidatureEmbauche() {

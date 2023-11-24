@@ -37,7 +37,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                         </td> :
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
-                            <button title="RECONVOQUER"  className='badge bg-danger text-dark ms-2' style={{borderColor: "red"}}
+                            <button title="RECONVOQUER" className='badge bg-danger text-dark ms-2' style={{borderColor: "red"}}
                                     onClick={()=>{
                                         handleConvoquerEntrevue({candidatureId})
                                         entrevueToModify(isPresent[0])
@@ -48,11 +48,15 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                     }
                 </>
                  :
-                <td data-label="ENTREVUE" className='headerElement h6 px-3 pe-0  '>
-                    <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
-                            onClick={()=> handleConvoquerEntrevue({candidatureId})}>
-                        Convoquer
-                    </button>
+                <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-3'>
+                    { offre.status === "Interview" ?
+                        <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
+                                onClick={()=> handleConvoquerEntrevue({candidatureId})}>
+                            Convoquer
+                        </button>
+                        :
+                        <span className="badge bg-info text-dark ms-2">Pas d'entrevue</span>
+                    }
                 </td>
             }
         </>

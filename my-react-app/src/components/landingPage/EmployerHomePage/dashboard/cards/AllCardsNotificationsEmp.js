@@ -9,10 +9,13 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
         contrats.filter((contrat) => contrat.statutEmployeur === "Pas_Signer");
 
     const filterEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
-        candidatures.filter((candidature) => candidature.status === "Interview");
+        candidatures.filter((candidature) => candidature.status === "Interview" ||
+            candidature.status === "In_review");
 
-    const candidatureFilter = candidatures.length !== 0 && candidatures.length !== undefined &&
-        candidatures.map((candidature) => candidature.student.matricule + " " + candidature.offreStage.titre)
+    const candidaturesEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
+        candidatures.filter((candidature) => candidature.status === "In_review")
+    const candidatureFilter = candidaturesEnAttente.length !== 0 && candidaturesEnAttente.length !== undefined &&
+        candidaturesEnAttente.map((candidature) => candidature.student.matricule  + " " +  candidature.offreStage.titre)
     const entrevueFilter = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.map((entrevue) => entrevue.student.matricule + " " + entrevue.offreStage.titre)
     const filterPasEntrevue = entrevueFilter.length !== 0 && entrevueFilter.length !== undefined &&
@@ -24,6 +27,7 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
     const offresAccepted = offres.length !== 0 && offres.length !== undefined &&
         offres.filter((offre) => offre.status === "Accepted")
+    localStorage.setItem('filtreOffre', "Accepted");
 
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");

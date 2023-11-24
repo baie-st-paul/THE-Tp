@@ -27,9 +27,10 @@ const OVERLAY_STYLE = {
 };
 
 const EmployerStageOffreList = () => {
-    const [filterOption, setFilterOption] = useState("Accepted");
-    localStorage.setItem('filtre', filterOption);
-
+    const filtre = localStorage.getItem('filtreOffre');
+    console.log(filtre)
+    const [filterOption, setFilterOption] = useState(filtre);
+    console.log(filterOption)
     const [offres, setOffres] = useState([]);
     const [offre, setOffre] = useState({});
     const [showUpdateOffre, setShowUpdateOffre] = useState(false);
@@ -187,13 +188,11 @@ const EmployerStageOffreList = () => {
     }
 
     const handleFilterChange = (event) => {
-        setFilterOption(event.target.value);
-        localStorage.setItem('filtre', filterOption);
+        localStorage.setItem('filtreOffre', event.target.value);
+        setFilterOption(localStorage.getItem('filtreOffre'));
     };
 
-    const filtre = localStorage.getItem('filtre');
-    console.log(filtre)
-
+    console.log(filterOption)
     const filteredOffresList =
         filterOption === "all"
             ? offres

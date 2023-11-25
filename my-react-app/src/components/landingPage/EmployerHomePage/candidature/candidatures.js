@@ -357,15 +357,15 @@ const OVERLAY_STYLE = {
             setRefreshed(true)
         }
         if (e.target.value === 'Accepted'){
-            setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Accepted'))
+            setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
         }
         if (e.target.value === 'Refused'){
-            setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'Refused'))
+            setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
         }
         if (e.target.value === 'Interview'){
             let arr = []
             for (let x = 0; x < listeCandidature.length; x++){
-                if  (listeCandidature[x].status === 'Interview' ){
+                if  (listeCandidature[x].status === e.target.value){
                     arr.push(listeCandidature[x]);
                 }
             }
@@ -376,7 +376,7 @@ const OVERLAY_STYLE = {
         }
 
         if (e.target.value === 'In_review'){
-            setListeCandidatureFiltered(listeCandidature.filter(x => x.status === 'In_review'))
+            setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
             console.log(entrevues)
         }
     }

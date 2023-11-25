@@ -108,9 +108,8 @@ public class EmployerController {
         try {
             EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
             EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO, contractId);
-            String message = String.format("Fichier '%s' reçu et sauvegardé pour le contrat ID: %d.", savedDocumentDto.getName(), contractId);
 
-            return ResponseEntity.ok(message);
+            return new ResponseEntity<>(savedDocumentDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
         }

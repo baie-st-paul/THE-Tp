@@ -35,8 +35,8 @@ export default function EmployeurMesContrats({contratsTest}) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
-    const [isEvaluationModalOpen, setIsEvaluationModalOpen] = useState(false);
     const [showEvaluation, setShowEvaluation] = useState(false)
+    const [evaluations, setEvaluations] = useState([])
 
 
     let employerId = localStorage.getItem('employer_id')
@@ -179,9 +179,9 @@ export default function EmployeurMesContrats({contratsTest}) {
                             if (res.ok) {
                                 const data= res.json()
                                 console.log("PDF envoyé avec succès");
-                                console.log(data)
+                                setEvaluations([...evaluations, data])
+                                console.log("evaluation",data)
                                 setShowEvaluation(false)
-                                return data;
                             } else {
                                 console.log("Erreur lors de l'envoi du PDF");
                                 throw new Error("Erreur lors de l'envoi");
@@ -196,6 +196,9 @@ export default function EmployeurMesContrats({contratsTest}) {
             });
         } catch (error) {
             console.log('Une erreur est survenue:', error);
+            if (evaluations !== undefined){
+                setEvaluations(evaluations)
+            }
         }
     }
 

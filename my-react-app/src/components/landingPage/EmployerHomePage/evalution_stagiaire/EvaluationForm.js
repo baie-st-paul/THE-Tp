@@ -4,10 +4,9 @@ import EvaluationPDF from './EvaluationPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import FaqAccordion from './FaqAccordion';
 import {useNavigate} from "react-router-dom";
-import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 import PhoneInput from "react-phone-number-input";
 
-const EvaluationForm = ({ onSubmit }) => {
+const EvaluationForm = ({contrat, onSubmit}) => {
     const initialState = {
         nomEleve: '',
         programmeEtudes: '',
@@ -477,7 +476,8 @@ const EvaluationForm = ({ onSubmit }) => {
 
         if (annuler === true) {
         } else {
-            onSubmit(navigate, evaluationData);
+            console.log(contrat)
+            onSubmit(contrat.id, navigate, evaluationData);
         }
     }
 

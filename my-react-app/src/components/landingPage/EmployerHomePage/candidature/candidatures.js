@@ -51,9 +51,9 @@ const OVERLAY_STYLE = {
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
 
-    const filtre = localStorage.getItem('filtreCandidature');
-    console.log(filtre)
-    const [select, setSelect] = useState(filtre)
+    //const filtre = localStorage.getItem('filtreCandidature');
+    //console.log(filtre)
+    const [select, setSelect] = useState("all")
 
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);

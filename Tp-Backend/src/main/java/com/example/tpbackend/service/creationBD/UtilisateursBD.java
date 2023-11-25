@@ -548,5 +548,22 @@ public class UtilisateursBD implements CommandLineRunner {
                 "pasVu",
                 1,
                 "AU23");
+        createOffre(5,
+                "Dev python",
+                10,
+                "Informatique",
+                "Un développeur Python est membre d'une équipe logicielle compétente dans la création, " +
+                        "la conception et la fourniture d'applications informatiques et d'autres programmes en Python. " +
+                        "Un développeur Python est également responsable de la localisation et de la correction des erreurs " +
+                        "(débogage) dans les projets de développement basés sur Python.",
+                LocalDate.of(2023, 12, 3),
+                LocalDate.of(2023, 12, 21),
+                5,
+                "Refused",
+                "pasVu",
+                "vu",
+                "pasVu",
+                1,
+                "AU23");
     }
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
+import RapportForm from './rapportHeures/RapportForm';
 
 
 export default function EmployeurMesContrats({ contratsTest }) {
@@ -109,7 +110,6 @@ export default function EmployeurMesContrats({ contratsTest }) {
         let arrTmp = [...contrats]
         let idx = arrTmp.findIndex((x) => x.id === contrat.id)
         if (action === "generate") {
-            arrTmp[idx].statutEmployeur = 'SomeValueForGenerateAction';
             //handleGenerateRapport(contrat);
           } else {
             arrTmp[idx].statutEmployeur = 'Signer';
@@ -213,7 +213,7 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                 </>
                             ) : confirmationType === "generate" ? (
                                 <>
-                                    <p>Êtes-vous sûr de vouloir générer le rapport ?</p>
+                                    <p>Êtes-vous sûr de vouloir générer le rapport? Vous ne pouvez le faire qu'une seule fois.</p>
                                     <button title="ConfirmGenerate" className="btn btn-success" onClick={() => handleAcceptConfirmation(confirmationType)}>
                                         Oui
                                     </button>

@@ -135,129 +135,150 @@ const RapportForm = ({ onSubmit }) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Nom Employeur:
+            <form onSubmit={handleSubmit} className="container mt-5">
+                <div className="form-group">
+                    <label htmlFor="nomEmployeur">Nom Employeur:</label>
                     <input
                         type="text"
+                        className="form-control"
                         name="nomEmployeur"
                         value={formData.nomEmployeur}
                         onChange={(e) => setFormData({ ...formData, nomEmployeur: e.target.value })}
                     />
-                    <span ref={nomEmployeurRef}></span>
-                </label>
-                <label>
-                    Nom Superviseur:
+                    <span ref={nomEmployeurRef} className="error-message"></span>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="nomSuperviseur">Nom Superviseur:</label>
                     <input
                         type="text"
+                        className="form-control"
                         name="nomSuperviseur"
                         value={formData.nomSuperviseur}
                         onChange={(e) => setFormData({ ...formData, nomSuperviseur: e.target.value })}
                     />
-                    <span ref={nomSuperviseurRef}></span>
-                </label>
-                <label>
-                    Titre:
+                    <span ref={nomSuperviseurRef} className="error-message"></span>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="titre">Titre:</label>
                     <input
                         type="text"
+                        className="form-control"
                         name="titre"
                         value={formData.titre}
                         onChange={(e) => setFormData({ ...formData, titre: e.target.value })}
                     />
-                    <span ref={titreRef}></span>
-                </label>
-                <label>
-                    Nom Stagiaire:
+                    <span ref={titreRef} className="error-message"></span>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="nomStagiaire">Nom Stagiaire:</label>
                     <input
                         type="text"
+                        className="form-control"
                         name="nomStagiaire"
                         value={formData.nomStagiaire}
                         onChange={(e) => setFormData({ ...formData, nomStagiaire: e.target.value })}
                     />
-                    <span ref={nomStagiaireRef}></span>
-                </label>
-
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Semaine de</th>
-                        <th>Semaine au</th>
-                        <th>Heures réelles travaillées</th>
-                        <th>Heures réelles de supervision directe</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {formData.semaines.map((rowData, rowIndex) => (
-                        <tr key={rowIndex}>
-                            <td>
-                                <input
-                                    type="date"
-                                    value={rowData.semaineDe}
-                                    onChange={(e) => handleChange(e, rowIndex, 'semaineDe')}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="date"
-                                    value={rowData.semaineAu}
-                                    onChange={(e) => handleChange(e, rowIndex, 'semaineAu')}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    value={rowData.heuresReelles}
-                                    onChange={(e) => handleChange(e, rowIndex, 'heuresReelles')}
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    value={rowData.heuresSupervision}
-                                    onChange={(e) => handleChange(e, rowIndex, 'heuresSupervision')}
-                                />
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-
-                <div className='signatureContainer'>
-                    Signature:
-                    {signature ? (
-                        <img src={signature} alt="Signature" style={{ width: '100px', height: '50px' }} />
-                    ) : (
-                        <button type="button" onClick={handleSignature} className='signatureContainer buttonStyleSignature'>
-                            Signer
-                        </button>
-                    )}
-                    <span ref={signatureRef} className="error-message"></span>
+                    <span ref={nomStagiaireRef} className="error-message"></span>
                 </div>
 
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Semaine de</th>
+                                <th>Semaine au</th>
+                                <th>Heures réelles travaillées</th>
+                                <th>Heures réelles de supervision directe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {formData.semaines.map((rowData, rowIndex) => (
+                                <tr key={rowIndex}>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            value={rowData.semaineDe}
+                                            onChange={(e) => handleChange(e, rowIndex, 'semaineDe')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="date"
+                                            className="form-control"
+                                            value={rowData.semaineAu}
+                                            onChange={(e) => handleChange(e, rowIndex, 'semaineAu')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={rowData.heuresReelles}
+                                            onChange={(e) => handleChange(e, rowIndex, 'heuresReelles')}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            value={rowData.heuresSupervision}
+                                            onChange={(e) => handleChange(e, rowIndex, 'heuresSupervision')}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
-                <label>
-                    Fonction:
-                    <input
-                        type="text"
-                        name="fonction"
-                        value={formData.fonction}
-                        onChange={(e) => setFormData({ ...formData, fonction: e.target.value })}
-                    />
-                    <span ref={fonctionRef}></span>
-                </label>
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="form-group signatureContainer">
+                            <label>Signature:</label>
+                            {signature ? (
+                                <img src={signature} alt="Signature" className="img-fluid" />
+                            ) : (
+                                <button type="button" onClick={handleSignature} className="btn btn-primary">
+                                    Signer
+                                </button>
+                            )}
+                            <span ref={signatureRef} className="error-message"></span>
+                        </div>
+                    </div>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label>Fonction:</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                name="fonction"
+                                value={formData.fonction}
+                                onChange={(e) => setFormData({ ...formData, fonction: e.target.value })}
+                            />
+                            <span ref={fonctionRef} className="error-message"></span>
+                        </div>
+                    </div>
+                </div>
 
-                <button type="submit">Submit</button>
-                <div className="text-center" style={{ marginTop: '20px', padding: '10px', border: '1px solid black' }}>
+                <button type="submit" className="btn btn-primary">Submit</button>
+
+                <div className="text-center mt-3" style={{ padding: '10px', border: '1px solid black' }}>
                     <strong>Note: </strong>
                     Veuillez retourner ce formulaire complété dès la fin du stage
                 </div>
             </form>
-            
-            <PDFDownloadLink
-                        document={<RapportPDF formData={formData} />}
-                        fileName="rapport-heures.pdf">
-                        {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
-            </PDFDownloadLink>
+
+            <div className='text-center'>
+                <PDFDownloadLink
+                    document={<RapportPDF formData={formData} />}
+                    fileName="rapport-heures.pdf">
+                    {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                </PDFDownloadLink>
+            </div>
         </div>
     );
 }

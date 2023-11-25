@@ -2,6 +2,7 @@ import React from 'react'
 import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
+import EvaluationForm from "../../../../../src/components/landingPage/EmployerHomePage/evalution_stagiaire/EvaluationForm"
 
 export default function EmployeurMesContrats({contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
@@ -9,6 +10,8 @@ export default function EmployeurMesContrats({contratsTest}) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
+    const [isEvaluationModalOpen, setIsEvaluationModalOpen] = useState(false);
+
 
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
@@ -125,6 +128,14 @@ export default function EmployeurMesContrats({contratsTest}) {
         setIsConfirmationModalOpen(false);
     };
 
+    const openEvaluationModal = () => {
+        setIsEvaluationModalOpen(true);
+    };
+
+    const closeEvaluationModal = () => {
+        setIsEvaluationModalOpen(false);
+    };
+
 
     return (
         <div>
@@ -150,6 +161,7 @@ export default function EmployeurMesContrats({contratsTest}) {
                                         <th className="header-cell h5">Signé par étudiant</th>
                                         <th className="header-cell h5">Signé par employeur</th>
                                         <th className="header-cell h5" >Signé par gestionnaire</th>
+                                        <th className="header-cell h5">Rapport d'évaluation</th>
                                     </tr>
                                     </thead>
                                     <tbody className='w-100'>
@@ -168,11 +180,35 @@ export default function EmployeurMesContrats({contratsTest}) {
                                                         <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
                                                 }
                                                 <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                <td data-label="Evaluation">
+                                                    {!contrat.evaluationCompleted ? (
+                                                        <button className='m-0 text-center btn btn-primary' onClick={openEvaluationModal}>
+                                                        <span className='h7'>Évaluer</span>
+                                                        </button>
+                                                    ) : (
+                                                        <button className='m-0 text-center btn btn-secondary'>
+                                                        <span className='h7'>Voir Évaluation</span>
+                                                        </button>
+                                                    )}
+                                                </td>
                                             </tr>
                                         ))
                                     }
                                     </tbody>
                                 </table>
+                                <ReactModal
+                                    isOpen={isEvaluationModalOpen}
+                                    onRequestClose={closeEvaluationModal}
+                                    ariaHideApp={false}
+                                    contentLabel="Evaluation Modal"
+                                >
+                                    <EvaluationForm 
+                                    // onSubmit={closeEvaluationModal}
+                                    />
+                                    <button className="btn btn-danger" onClick={closeEvaluationModal}>
+                                        Fermer
+                                    </button>
+                                </ReactModal>
                             </div>
                             : <div>AUCUN CONTRAT À AFFICHER</div> }
                     </div>
@@ -208,3 +244,4 @@ export default function EmployeurMesContrats({contratsTest}) {
         </div>
     )
 }
+

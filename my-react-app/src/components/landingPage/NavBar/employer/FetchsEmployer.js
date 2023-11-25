@@ -126,6 +126,8 @@ const ajoutOffre = async (navigate, offre) => {
     }
 }
 
+const contratId = localStorage.getItem('contrat_id')
+
 const handleEvaluationSubmit = async (navigate, evaluationData) => {
     const token = localStorage.getItem('token');
     try {
@@ -134,11 +136,10 @@ const handleEvaluationSubmit = async (navigate, evaluationData) => {
             formData.append('file', blob, 'evaluation.pdf');
 
             fetch(
-                'http://localhost:8081/api/v1/employers/upload_evaluation',
+                `http://localhost:8081/api/v1/employers/upload_evaluation/${contratId}`,
                 {
                     method: 'POST',
                     headers: {
-                        'Content-type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
                     withCredentials: true,

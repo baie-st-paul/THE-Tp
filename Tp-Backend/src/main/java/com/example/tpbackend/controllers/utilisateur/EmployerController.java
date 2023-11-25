@@ -1,12 +1,11 @@
 package com.example.tpbackend.controllers.utilisateur;
 
-import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
-import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -18,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;

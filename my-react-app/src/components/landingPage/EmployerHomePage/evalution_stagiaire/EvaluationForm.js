@@ -73,15 +73,12 @@ const EvaluationForm = ({ onSubmit }) => {
     };
 
     const [evaluationData, setEvaluationData] = useState(initialState);
-
     const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"] ;
     const choices = ["Oui", "Non"];
     const programmeEtude = ["Techniques de l’informatique", "Techniques de l’architecture"];
-
     const [signature, setSignature] = useState('');
     const employerId = localStorage.getItem('employer_id');
     const token = localStorage.getItem('token');
-
     const navigate = useNavigate()
     
     const nomEleveRef = useRef(null);
@@ -511,6 +508,8 @@ const EvaluationForm = ({ onSubmit }) => {
         </select>
     );
 
+   
+
     return (
         <div>
             <NavBarEmployeur/>
@@ -572,7 +571,7 @@ const EvaluationForm = ({ onSubmit }) => {
                         <p>Le stagiaire a été en mesure de :</p>
                         <div className='questionStyle'>
                             <label htmlFor="planifierOrganiser">a) Planifier et organiser son travail de façon efficace :</label>
-                            {renderDropdown("planifierOrganiser")}
+                            {renderDropdown("planifierEtOrganiser")}
                             <span ref={planifierEtOrganiserRef} className="error-message"></span>
                         </div>
 

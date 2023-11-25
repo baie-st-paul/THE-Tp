@@ -8,7 +8,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import profile from "../../../../images/profile.jpg";
 import Modal from "react-bootstrap/Modal";
 import ProfileEmp from "../../EmployerHomePage/profile/ProfileEmp";
-import {faFilePdf} from "@fortawesome/free-regular-svg-icons";
 
 const NavBarEmployeur = () => {
     const navigate = useNavigate()
@@ -69,11 +68,6 @@ const NavBarEmployeur = () => {
                                 <li className="nav-item navbarbutton">
                                     <button className="nav-link" onClick={() => navigate("/contrats-emp")}>
                                         <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
-                                    </button>
-                                </li>
-                                <li className="nav-item navbarbutton">
-                                    <button className="nav-link" onClick={() => navigate("/evaluation")}>
-                                        <FontAwesomeIcon icon={faFilePdf} style={{ marginRight: '10px' }}/>Évaluation
                                     </button>
                                 </li>
                             </ul>

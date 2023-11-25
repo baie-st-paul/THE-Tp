@@ -512,7 +512,6 @@ const EvaluationForm = ({ onSubmit }) => {
 
     return (
         <div>
-            <NavBarEmployeur/>
             <div id="Render" className="container content-container mt-4">
                 <form onSubmit={onSubmit} className='formStyle'>
                     <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
@@ -823,9 +822,14 @@ const EvaluationForm = ({ onSubmit }) => {
                                 <span ref={signatureRef} className="error-message"></span>
                             </div>
 
-                            <div className='dateContainer'>
-                                <label className='questionStyle label'>Date  :</label>
-                                <input className='questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                            <div className='form-group'>
+                                <label className='questionStyle label'
+                                       style={{display: "block", textAlign: "left"}}>Date :</label>
+                                <input className='form-control saisie saisie-user px-3 m-0
+                                questionStyle input' type='date' name="dateSignature"
+                                       style={{color: 'grey', fontSize : '20px'}}
+                                       value={evaluationData.dateSignature}
+                                       onChange={handleChange}/>
                                 <span ref={dateSignatureRef} className="error-message"></span>
                             </div>
                         </div>
@@ -854,7 +858,8 @@ const EvaluationForm = ({ onSubmit }) => {
                     <PDFDownloadLink
                         document={<EvaluationPDF evaluationData={evaluationData} />}
                         fileName="evaluation-form.pdf">
-                        {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                        {({ blob, url, loading, error }) =>
+                            (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
                     </PDFDownloadLink>
 
                     <FaqAccordion />

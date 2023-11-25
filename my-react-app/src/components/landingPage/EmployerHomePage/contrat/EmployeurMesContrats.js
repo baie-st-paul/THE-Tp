@@ -3,6 +3,7 @@ import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 import EvaluationForm from "../../../../../src/components/landingPage/EmployerHomePage/evalution_stagiaire/EvaluationForm"
+import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 
 export default function EmployeurMesContrats({contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
@@ -202,8 +203,11 @@ export default function EmployeurMesContrats({contratsTest}) {
                                     ariaHideApp={false}
                                     contentLabel="Evaluation Modal"
                                 >
-                                    <EvaluationForm 
-                                    // onSubmit={closeEvaluationModal}
+                                    <div className="titleCloseBtn">
+                                        <button onClick={closeEvaluationModal}>X</button>
+                                    </div>
+                                    <EvaluationForm
+                                        onSubmit={FetchsEmployer.handleEvaluationSubmit}
                                     />
                                     <button className="btn btn-danger" onClick={closeEvaluationModal}>
                                         Fermer

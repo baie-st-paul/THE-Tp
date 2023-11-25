@@ -53,7 +53,6 @@ function App() {
                 <Route path={"/signature"} element={<CreateSignature/>}/>
                 <Route path={"/offres"} element={<EmployerStageOffreList/>}/>
                 <Route path={"/ajoutOffre"} element={<AjoutOffreForm onAdd={FetchsEmployer.ajoutOffre}/>}/>
-                <Route path={"/evaluation"} element={<EvaluationForm onSubmit={FetchsEmployer.handleEvaluationSubmit}/>}/>
                 <Route path={"/contrats-emp"} element={<EmployeurMesContrats contratsTest={[]}/>}/>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}/>
 

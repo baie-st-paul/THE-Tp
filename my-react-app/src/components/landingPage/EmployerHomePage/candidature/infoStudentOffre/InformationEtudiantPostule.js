@@ -360,10 +360,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         </tbody>
                     </table>
                     {openModal && listeEtudiants.length > 0 &&
-                        <Modal cv={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
+                        <Modal fichier={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
                     }
                     {openModalLettre && listeEtudiants.length > 0 &&
-                        <Modal cv={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
+                        <Modal fichier={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
                     }
                     <ReactModal
                         isOpen={isConfirmationModalOpen}

@@ -3,9 +3,9 @@ import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 import EvaluationForm from "../../../../../src/components/landingPage/EmployerHomePage/evalution_stagiaire/EvaluationForm"
-import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 import {pdf} from "@react-pdf/renderer";
 import EvaluationPDF from "../evalution_stagiaire/EvaluationPDF";
+import Modal from "../../GestionnaireHomePage/Vetocv/Modal";
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -37,7 +37,7 @@ export default function EmployeurMesContrats({contratsTest}) {
     const [contrat, setContrat] = useState(null)
     const [showEvaluation, setShowEvaluation] = useState(false)
     const [evaluations, setEvaluations] = useState([])
-
+    const [openModal, setOpenModal] = useState(false);
 
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
@@ -152,16 +152,16 @@ export default function EmployeurMesContrats({contratsTest}) {
         setIsConfirmationModalOpen(false);
     };
 
-    const handleEvaluationSubmit = async (contratId, navigate, evaluationData) => {
+    const handleEvaluationSubmit = async (contrat, evaluationData) => {
         const token = localStorage.getItem('token');
-        console.log(contratId)
+        console.log(contrat)
         try {
             pdf(<EvaluationPDF evaluationData={evaluationData} />).toBlob().then(blob => {
                 const formData = new FormData();
                 formData.append('file', blob, 'evaluation.pdf');
 
                 fetch(
-                    `http://localhost:8081/api/v1/employers/upload_evaluation/${contratId}`,
+                    `http://localhost:8081/api/v1/employers/upload_evaluation/${contrat.id}`,
                     {
                         method: 'POST',
                         headers: {
@@ -189,6 +189,7 @@ export default function EmployeurMesContrats({contratsTest}) {
                         } catch (e) {
                             console.log(e)
                         }
+                        window.location.reload()
                     }
                 )
             }).catch(error => {
@@ -223,6 +224,11 @@ export default function EmployeurMesContrats({contratsTest}) {
                 </div>
             </div>
         )
+    }
+
+    function handleMontrerEvaluation(contrat) {
+        setOpenModal(!openModal)
+        setContrat(contrat)
     }
 
     return (
@@ -269,21 +275,27 @@ export default function EmployeurMesContrats({contratsTest}) {
                                                         <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
                                                 }
                                                 <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                                <td data-label="Evaluation">
-                                                    {!contrat.evaluationCompleted ? (
-                                                        <button className='m-0 text-center btn btn-primary' onClick={() => {
-                                                            setShowEvaluation(!showEvaluation)
-                                                            setContrat(contrat)
-                                                            console.log("contratEvaluation", contrat)
-                                                        }}>
-                                                        <span className='h7'>Évaluer</span>
-                                                        </button>
-                                                    ) : (
-                                                        <button className='m-0 text-center btn btn-secondary'>
-                                                        <span className='h7'>Voir Évaluation</span>
-                                                        </button>
-                                                    )}
-                                                </td>
+                                                {
+                                                    contrat.statutEtudiant === 'Signer' &&
+                                                    contrat.statutGestionnaire === 'Signer' &&
+                                                    contrat.statutEmployeur === 'Signer' &&
+                                                        <td data-label="Évaluation">
+                                                            {contrat.evaluationPDF !== null ? (
+                                                                <button className='m-0 text-center btn btn-secondary'
+                                                                        onClick={() => handleMontrerEvaluation(contrat)}>
+                                                                    <span className='h7'>Voir Évaluation</span>
+                                                                </button>
+                                                            ) : (
+                                                                <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                    setShowEvaluation(!showEvaluation)
+                                                                    setContrat(contrat)
+                                                                    console.log("contratEvaluation", contrat)
+                                                                }}>
+                                                                    <span className='h7'>Évaluer</span>
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                }
                                             </tr>
                                         ))
                                     }
@@ -292,6 +304,9 @@ export default function EmployeurMesContrats({contratsTest}) {
                             </div>
                             : <div>AUCUN CONTRAT À AFFICHER</div> }
                     </div>
+                    {openModal && contrats.length > 0 &&
+                        <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />
+                    }
                     <ReactModal
                         isOpen={isConfirmationModalOpen}
                         onRequestClose={closeConfirmationModal}

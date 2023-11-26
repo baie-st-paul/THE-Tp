@@ -3,7 +3,6 @@ import "./EvaluationForm.css";
 import EvaluationPDF from './EvaluationPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import FaqAccordion from './FaqAccordion';
-import {useNavigate} from "react-router-dom";
 import PhoneInput from "react-phone-number-input";
 
 const EvaluationForm = ({contrat, onSubmit}) => {
@@ -78,7 +77,6 @@ const EvaluationForm = ({contrat, onSubmit}) => {
     const [signature, setSignature] = useState('');
     const employerId = localStorage.getItem('employer_id');
     const token = localStorage.getItem('token');
-    const navigate = useNavigate()
     
     const nomEleveRef = useRef(null);
     const programmeEtudesRef = useRef(null);
@@ -477,7 +475,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         if (annuler === true) {
         } else {
             console.log(contrat)
-            onSubmit(contrat.id, navigate, evaluationData);
+            onSubmit(contrat, evaluationData);
         }
     }
 

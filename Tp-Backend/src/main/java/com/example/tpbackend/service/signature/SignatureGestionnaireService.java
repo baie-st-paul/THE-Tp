@@ -32,14 +32,13 @@ public class SignatureGestionnaireService {
 
     @Transactional
     public SignatureGestionnaireDTO updateGestionnaireSignature(SignatureGestionnaireDTO dto){
-        Gestionnaire gestionnaire = gestionnaireRepository.findByMatricule(dto.getGestionnaireMatricule());
-        SignatureGestionnaire signature = dto.toSignatureGestionnaire();
-        signature.setImageLink(dto.getImageLink());
-        signature.setGestionnaire(gestionnaire);
-        gestionnaire.setSignature(signature);
-        signatureGestionnaireRepository.save(signature);
-        gestionnaireRepository.save(gestionnaire);
-        return signature.toSignatureGestionnaireDTO();
+        SignatureGestionnaire signatureGestionnaire = dto.toSignatureGestionnaire();
+        signatureGestionnaire.setGestionnaire(gestionnaireRepository.findByMatricule(dto.getGestionnaireMatricule()));
+        signatureGestionnaireRepository.updateSignatureGestionnairesByGestionnaire_Matricule(
+                dto.getGestionnaireMatricule(),
+                signatureGestionnaire.getImageLink()
+        );
+        return signatureGestionnaire.toSignatureGestionnaireDTO();
     }
 
     @Transactional

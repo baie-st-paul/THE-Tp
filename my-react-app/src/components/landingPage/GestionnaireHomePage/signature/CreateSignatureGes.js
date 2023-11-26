@@ -3,37 +3,39 @@ import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {FaPencilAlt, FaTrash} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
-import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
+import FetchsGestionnaire from "../../NavBar/gestionnaire/FetchsGestionnaire";
 
-const CreateSignature = () => {
+const CreateSignatureGes = () => {
     const [sign, setSign] = useState(null)
     const [urlImage, setUrlImage] = useState(null)
     const [signature, setSignature] = useState(null)
     const [disableWhenEmpty, setDisableWhenEmpty] = useState(false)
     const [disableModifier, setDisableModifier] = useState(true)
-    let employerId = localStorage.getItem('employer_id')
+
     const token = localStorage.getItem('token');
+    const gestionnaireMatricule = localStorage.getItem("gestionnaireMatricule")
 
     useEffect(() => {
         getFetchs()
     }, []);
 
     const getFetchs = async () => {
-        setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
+        setSignature(FetchsGestionnaire.fetchSignature(token, signature, setSignature))
     }
 
     const saveSignature = async () => {
         try {
+            console.log(gestionnaireMatricule)
             const imageLink = sign.getTrimmedCanvas().toDataURL('image/png')
             const signature = ({
-                employerId,
+                gestionnaireMatricule,
                 imageLink
             })
             console.log(JSON.stringify(signature))
 
             await fetch(
-                'http://localhost:8081/api/v1/stages/signatures/employer/create',
+                'http://localhost:8081/api/v1/stages/signatures/gestionnaire/create',
                 {
                     method: 'POST',
                     headers: {
@@ -70,20 +72,19 @@ const CreateSignature = () => {
 
     function handleSave() {
         saveSignature()
-
     }
 
     const handleModif = async () => {
         try {
             signature["imageLink"] = sign.getTrimmedCanvas().toDataURL('image/png').toString()
             setUrlImage(sign.getTrimmedCanvas().toDataURL('image/png').toString())
-            signature["employerId"] = employerId
+            signature["gestionnaireMatricule"] = gestionnaireMatricule
             console.log(signature["imageLink"])
-            console.log(signature["employerId"])
+            console.log(signature["gestionnaireMatricule"])
             console.log(JSON.stringify(signature))
 
             await fetch(
-                `http://localhost:8081/api/v1/stages/signatures/employer/update`,
+                `http://localhost:8081/api/v1/stages/signatures/gestionnaire/update`,
                 {
                     method: 'PUT',
                     headers: {
@@ -186,4 +187,4 @@ const CreateSignature = () => {
     )
 }
 
-export default CreateSignature
+export default CreateSignatureGes

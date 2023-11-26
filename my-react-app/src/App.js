@@ -29,6 +29,7 @@ import OffreCandidaturePage from "./components/landingPage/StudentHomePage/candi
 import SectionEntrevue from "./components/landingPage/StudentHomePage/SectionViewEntrevue/SectionEntrevue";
 import EtudiantMesContrats from "./components/landingPage/StudentHomePage/contrat/EtudiantMesContrats";
 import Candidatures from './components/landingPage/EmployerHomePage/candidature/candidatures';
+import CreateSignatureGes from "./components/landingPage/GestionnaireHomePage/signature/CreateSignatureGes";
 
 function App() {
     return (
@@ -44,6 +45,7 @@ function App() {
                 <Route path={"/contratsEtudiant"} element={<EtudiantMesContrats contratsTest={[]}/>}/>
 
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
+                <Route path={"/signatureGes"} element={<CreateSignatureGes/>}/>
                 <Route path={"/CV-veto"} element={<VetoSection/>}/>
                 <Route path={"/Offres-veto"} element={<OffresPageGestionnaire/>}/>
                 <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>

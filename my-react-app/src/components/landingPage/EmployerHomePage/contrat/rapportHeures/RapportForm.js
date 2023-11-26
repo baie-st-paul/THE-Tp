@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import RapportPDF from './RapportPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { useParams } from 'react-router-dom';
+import {pdf} from "@react-pdf/renderer";
 
-const RapportForm = ({ onSubmit }) => {
+const RapportForm = () => {
     const initialState = {
         nomEmployeur: " ",
         nomSuperviseur: " ",
@@ -12,6 +14,8 @@ const RapportForm = ({ onSubmit }) => {
         signature: " ",
         fonction: " "
     }
+
+    const { contractId } = useParams();
 
     const [formData, setFormData] = useState(initialState)
     const [signature, setSignature] = useState('');
@@ -25,13 +29,19 @@ const RapportForm = ({ onSubmit }) => {
     const signatureRef = useRef(null);
     const fonctionRef = useRef(null);
 
+    
     const handleSignature = async () => {
         try {
             const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                    body: formData
                 },
                 withCredentials: true
             });
@@ -58,6 +68,34 @@ const RapportForm = ({ onSubmit }) => {
             setSignature(null);
         }
     };
+
+    const onSubmit = async (formData) => {
+        const token = localStorage.getItem('token');
+        try{
+            pdf(<RapportPDF formData={formData} />).toBlob().then(blob => {
+                const formData = new FormData();
+                formData.append('file', blob, 'rapport-heures.pdf');
+                fetch(`http://localhost:8081/api/v1/employers/contracts/${contractId}/rapport_heures`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData,
+                    withCredentials: true
+                }).then(res => {
+                    if (res.ok) {
+                        alert('Rapport des heures ajouté avec succès');
+                    } else {
+                        alert('Erreur lors de l\'ajout du rapport des heures');
+                    }
+                });
+            });
+        }
+        catch (error) {
+            console.log('Une erreur est survenue:', error);
+        }
+    }
 
     const handleChange = (e, rowIndex, key) => {
         const { value } = e.target;
@@ -135,9 +173,10 @@ const RapportForm = ({ onSubmit }) => {
 
     return (
         <div>
+            <h3 className='text-center mt-4'>Rapport des heures travaillées par l'étudiant</h3>
             <form onSubmit={handleSubmit} className="container mt-5">
                 <div className="form-group">
-                    <label htmlFor="nomEmployeur">Nom Employeur:</label>
+                    <label htmlFor="nomEmployeur">Nom de l'employeur:</label>
                     <input
                         type="text"
                         className="form-control"
@@ -149,7 +188,7 @@ const RapportForm = ({ onSubmit }) => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="nomSuperviseur">Nom Superviseur:</label>
+                    <label htmlFor="nomSuperviseur">Nom du superviseur:</label>
                     <input
                         type="text"
                         className="form-control"
@@ -173,7 +212,7 @@ const RapportForm = ({ onSubmit }) => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="nomStagiaire">Nom Stagiaire:</label>
+                    <label htmlFor="nomStagiaire">Nom du stagiaire:</label>
                     <input
                         type="text"
                         className="form-control"

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
-import RapportForm from './rapportHeures/RapportForm';
+import { useNavigate } from "react-router-dom";
 
 
 export default function EmployeurMesContrats({ contratsTest }) {
@@ -14,6 +14,8 @@ export default function EmployeurMesContrats({ contratsTest }) {
 
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchContrats()
@@ -110,7 +112,7 @@ export default function EmployeurMesContrats({ contratsTest }) {
         let arrTmp = [...contrats]
         let idx = arrTmp.findIndex((x) => x.id === contrat.id)
         if (action === "generate") {
-            //handleGenerateRapport(contrat);
+            navigate('/rapportHeures/' + contrat.id);
           } else {
             arrTmp[idx].statutEmployeur = 'Signer';
             handleSignerContrat(contrat);

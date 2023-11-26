@@ -3,8 +3,8 @@ import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
 import {FaPencilAlt, FaTrash} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
-import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 import FetchsGestionnaire from "../../NavBar/gestionnaire/FetchsGestionnaire";
+import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
 
 const CreateSignatureGes = () => {
     const [sign, setSign] = useState(null)
@@ -130,7 +130,7 @@ const CreateSignatureGes = () => {
 
     return (
         <div>
-            <NavBarEmployeur/>
+            <NavBarGestionnaire/>
             <div id="Render" className="container content-container mt-4">
                 <h1 className="display-4 text-center">Signature</h1>
                 <div style={{border: "2px solid black"}}>

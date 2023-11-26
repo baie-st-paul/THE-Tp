@@ -1,6 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class ContratStageDTODetails {
     private Long id;
     private CandidatureDTODetailed candidatureDTO;
+    private EvaluationPdfDto evaluationPDF;
     private String statutEtudiant;
     private String statutEmployeur;
     private String statutGestionnaire;
@@ -30,6 +31,10 @@ public class ContratStageDTODetails {
 
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureDTO(CandidatureDTODetailed.fromCandidature(contratStage.getCandidature()));
+        }
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

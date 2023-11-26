@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import CreateEntrevueForm from "../Entrevue/CreateEntrevueForm";
 
 export default function ButtonConvoquer({matricule, offre, entrevues , setModal, candidatureId, entrevueToModify }) {
     const [isPresent, setIsPresent] = useState([])
 
     useEffect(() => {
-       init() 
+        init()
     },[offre])
- 
+
     function init(){
         setIsPresent(entrevues.filter(entrevue =>
             entrevue.student.matricule === matricule
@@ -15,8 +14,8 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
         ))
         console.log("isPresent", isPresent)
     }
-    function handleConvoquerEntrevue(candidatureId) { 
-        setModal(candidatureId); 
+    function handleConvoquerEntrevue(candidatureId) {
+        setModal(candidatureId);
     }
 
 
@@ -47,7 +46,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                         </td>
                     }
                 </>
-                 :
+                :
                 <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-3'>
                     { offre.status === "In_review" ?
                         <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}

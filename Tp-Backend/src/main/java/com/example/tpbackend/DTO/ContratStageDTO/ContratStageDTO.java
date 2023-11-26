@@ -1,4 +1,5 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,13 +22,19 @@ public class ContratStageDTO {
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
+    private EvaluationPdfDto evaluationPDF;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
             return null;
         }
 
+
         ContratStageDTO dto = new ContratStageDTO();
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
+        }
 
 
         if (contratStage.getCandidature() != null) {
@@ -55,6 +62,5 @@ public class ContratStageDTO {
         return contratStage;
     }
 }
-
 
 

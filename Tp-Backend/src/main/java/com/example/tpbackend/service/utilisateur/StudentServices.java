@@ -51,12 +51,12 @@ public class StudentServices {
     public StudentPostDTO saveStudent(String firstName, String lastName, String email, String phoneNumber, String password, String role, StudentPostDTO studentPostDTO) {
         Utilisateur utilisateur = new Utilisateur(firstName, lastName, email, phoneNumber, password, role);
         Student student = new Student(studentPostDTO.getMatricule(), studentPostDTO.getProgram(), utilisateur);
-            if (tagRepository.existsByTagName(getTag().getTagName())) {
-                student.setTagName(getTag().getTagName());
-            }else{
-                student.setTagName(getTag().getTagName());
-                tagRepository.save(new Tag(getTag().getTagName()));
-            }
+        if (tagRepository.existsByTagName(getTag().getTagName())) {
+            student.setTagName(getTag().getTagName());
+        }else{
+            student.setTagName(getTag().getTagName());
+            tagRepository.save(new Tag(getTag().getTagName()));
+        }
         utilisateurRepository.save(utilisateur);
         studentRepository.save(student);
         return StudentPostDTO.fromStudent(student);

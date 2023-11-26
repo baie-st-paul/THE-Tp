@@ -70,7 +70,7 @@ const CreateStudentSignature = () => {
 
     function handleSave() {
         saveSignature()
-        }
+    }
 
     const handleModif = async () => {
         try {
@@ -131,15 +131,15 @@ const CreateStudentSignature = () => {
             <div id="Render" className="container content-container mt-4">
                 <h1 className="display-4 text-center">Signature</h1>
                 <div style={{border: "2px solid black"}}>
-                   <div className="">
-                    <span className="text-center "> Dessiner la signature ici</span>
-                    <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
-                        disabled={!disableWhenEmpty}
-                        onClick={handleClear}>
-                    <FaTrash
-                    style={{color: 'black'}}/>
-                   </Button>
-                   </div>
+                    <div className="">
+                        <span className="text-center "> Dessiner la signature ici</span>
+                        <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
+                                disabled={!disableWhenEmpty}
+                                onClick={handleClear}>
+                            <FaTrash
+                                style={{color: 'black'}}/>
+                        </Button>
+                    </div>
                     <SignatureCanvas
                         canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
                         ref={data => setSign(data)}
@@ -148,40 +148,40 @@ const CreateStudentSignature = () => {
                     />
                 </div>
 
-                
+
                 {signature !== null && urlImage === null ?
-                <div>
-                    <br></br>
-                    <img src={signature.imageLink} alt="imageLink"/>
+                    <div>
+                        <br></br>
+                        <img src={signature.imageLink} alt="imageLink"/>
                     </div> : <p></p>
                 }
-                
-               
+
+
                 {urlImage !== null ?
-                <div>
-                    <br></br>
-                    <img src={urlImage} alt="urlImage"/>
+                    <div>
+                        <br></br>
+                        <img src={urlImage} alt="urlImage"/>
                     </div> : <p></p>
                 }
-               <br></br>
-               {signature !== null ? (
+                <br></br>
+                {signature !== null ? (
                     <Button className="btn btn-primary"
                             onClick={handleModif}
                             disabled={disableModifier}
-                            >
+                    >
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
                     </Button>
                 ) : <Button className="btn btn-success"
-                disabled={!disableWhenEmpty}
-                onClick={handleSave}>
-            Sauvegarder <FaPencilAlt
-            style={{color: 'black'}}
-        />
-        </Button>
-}        
-                 </div>   
+                            disabled={!disableWhenEmpty}
+                            onClick={handleSave}>
+                    Sauvegarder <FaPencilAlt
+                    style={{color: 'black'}}
+                />
+                </Button>
+                }
+            </div>
         </div>
     )
 }

@@ -88,7 +88,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         const token = localStorage.getItem('token');
         try {
             await fetch(
-            'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
+                'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
                 {
                     method: 'GET',
                     headers: {
@@ -340,10 +340,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         {listeCandidature.length > 0 &&
                             listeCandidature.map((candidature, i) => (
                                 <tr key={i} className=''>
-                                     <td  data-label="PRENOM" className='headerElement  text-break h6'>
+                                     <td  data-label="NOM" className='headerElement  text-break h6'>
                                         {candidature.student.lastName}
                                     </td>
-                                    <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
+                                    <td data-label="PRENOM" scope="row" className='headerElement text-break  h6'>
                                         {candidature.student.firstName}
                                     </td>
                                     <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
@@ -411,7 +411,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                                     }>
                                                     <FontAwesomeIcon icon={faTimes} /> REFUSER
                                                 </button>
-                                                </div>
+                                            </div>
                                         )}
                                     </td>
                                 </tr>
@@ -420,10 +420,10 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                         </tbody>
                     </table>
                     {openModal && listeCandidature.length > 0 &&
-                        <Modal cv={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
+                        <Modal fichier={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
                     }
                     {openModalLettre && listeCandidature.length > 0 &&
-                        <Modal cv={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
+                        <Modal fichier={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
                     }
                     <ReactModal
                         isOpen={isConfirmationModalOpen}

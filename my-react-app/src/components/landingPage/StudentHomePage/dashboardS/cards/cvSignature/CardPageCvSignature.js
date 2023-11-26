@@ -16,18 +16,18 @@ const CardPageCvSignature = ({signature, cv}) => {
                         <div>Ajouter une signature, le cv a été accepté</div> :
                         signature !== null && cv === null ?
                             <div>La signature a bien été ajoutée, ajouter un cv !</div>
-                    : signature !== null && cv !== null && cv.status === "In_review" ?
-                        <div>Le cv n'a pas encore été accepté,
-                            la signature a bien été ajoutée</div> :
-                        signature !== null && cv !== null && cv.status === "Refused" ?
-                            <div>Le cv a été refusé, ajouter un nouveau cv,
-                                la signature a bien été ajoutée</div> :
-                        signature === null && cv !== null && cv.status === "In_review" ?
-                            <div>Le cv n'a pas encore été accepté,
-                                ajouter une signature !</div> :
-                            signature === null && cv.length !== null && cv.status === "Refused" &&
-                            <div>Le cv a été refusé, ajouter un nouveau cv,
-                                ajouter une signature !</div>
+                            : signature !== null && cv !== null && cv.status === "In_review" ?
+                                <div>Le cv n'a pas encore été accepté,
+                                    la signature a bien été ajoutée</div> :
+                                signature !== null && cv !== null && cv.status === "Refused" ?
+                                    <div>Le cv a été refusé, ajouter un nouveau cv,
+                                        la signature a bien été ajoutée</div> :
+                                    signature === null && cv !== null && cv.status === "In_review" ?
+                                        <div>Le cv n'a pas encore été accepté,
+                                            ajouter une signature !</div> :
+                                        signature === null && cv.length !== null && cv.status === "Refused" &&
+                                        <div>Le cv a été refusé, ajouter un nouveau cv,
+                                            ajouter une signature !</div>
                 }
                 <p className="lead">Le tableau de bord sera affiché par la suite</p>
             </div>

@@ -6,13 +6,13 @@
     overflow-x: auto;
 }
 
- th{
+th{
     border-bottom: solid;
     text-align: left;
 }
 
 table{
-  width: 100%;
+    width: 100%;
 }
 
 table caption {
@@ -20,20 +20,20 @@ table caption {
     border-color: black;
     caption-side: top;
     padding-bottom: 2em;
-  }
+}
 .breakWord{
-width: 150px;
-word-wrap: break-word;
+    width: 150px;
+    word-wrap: break-word;
 }
 
 .headerElement{
-padding-left: 1em;
+    padding-left: 1em;
 }
 
 .divFormInfo{
     overflow-x: auto;
-    
-    
+
+
 }
 
 @media screen and (min-width: 601px) {
@@ -46,9 +46,9 @@ padding-left: 1em;
 
 
 @media screen and (max-width: 600px) {
-  .fullscr{
-    width: 99%;
-  }
+    .fullscr{
+        width: 99%;
+    }
 }
 
 @media screen and (max-width: 1250px) {
@@ -60,13 +60,13 @@ padding-left: 1em;
     table {
         width: 100%;
         border: 0;
-      }
-    
-      table caption {
+    }
+
+    table caption {
         font-size: 1em;
-      }
-      
-      table thead {
+    }
+
+    table thead {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -75,34 +75,33 @@ padding-left: 1em;
         padding: 0;
         position: absolute;
         width: 1px;
-      }
-      
-      table tr {
+    }
+
+    table tr {
         border-bottom: 3px solid black;
         display: block;
         margin-bottom: 1em;
-      }
-      .breakWord{
+    }
+    .breakWord{
         width: 100%;
         word-wrap: unset;
-      }
-      
-      table td {
+    }
+
+    table td {
         border-bottom: 1px solid #ddd;
         display: block;
         font-size: .8em;
         text-align: end;
         padding-right: 10px;
-      }
-      table td:before {
+    }
+    table td:before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
         text-transform: uppercase;
-      }
-      table td:last-child {
+    }
+    table td:last-child {
         border-bottom: 0;
-      }
-  }
-
+    }
+}
 

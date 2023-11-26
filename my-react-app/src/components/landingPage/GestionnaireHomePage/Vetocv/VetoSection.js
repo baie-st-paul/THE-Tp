@@ -208,7 +208,7 @@ const VetoSection = () => {
                     </table>
                 </div>
                 {openModal && selectedCv && (
-                    <Modal cv={selectedCv.file_cv} fileName={selectedCv.fileName} onClose={() => setOpenModal(false)} />
+                    <Modal fichier={selectedCv.file_cv} fileName={selectedCv.fileName} onClose={() => setOpenModal(false)} />
                 )}
                 <ReactModal
                     isOpen={isConfirmationModalOpen}

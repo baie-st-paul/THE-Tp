@@ -2,6 +2,32 @@ import React from 'react'
 import { useState , useEffect } from "react";
 import ReactModal from "react-modal";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
+import EvaluationForm from "../../../../../src/components/landingPage/EmployerHomePage/evalution_stagiaire/EvaluationForm"
+import {pdf} from "@react-pdf/renderer";
+import EvaluationPDF from "../evalution_stagiaire/EvaluationPDF";
+import Modal from "../../GestionnaireHomePage/Vetocv/Modal";
+
+const MODAL_STYLES = {
+    position: "absolute",
+    backgroundColor: "#FFF",
+    padding: "15px",
+    zIndex: "1000",
+    width: "70%",
+    borderRadius: ".5em"
+};
+
+const OVERLAY_STYLE = {
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, .8)",
+    zIndex: "1000",
+    overflowY: "auto"
+};
 
 export default function EmployeurMesContrats({contratsTest}) {
     const [contrats, setContrats] = useState(contratsTest)
@@ -9,6 +35,9 @@ export default function EmployeurMesContrats({contratsTest}) {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
+    const [showEvaluation, setShowEvaluation] = useState(false)
+    const [evaluations, setEvaluations] = useState([])
+    const [openModal, setOpenModal] = useState(false);
 
     let employerId = localStorage.getItem('employer_id')
     const token = localStorage.getItem('token');
@@ -100,7 +129,7 @@ export default function EmployeurMesContrats({contratsTest}) {
         } catch (error) {
             console.log('Une erreur est survenue:', error);
         }
-        }
+    }
 
     const handleAcceptConfirmation = () => {
         setIsConfirmationModalOpen(false);
@@ -111,24 +140,101 @@ export default function EmployeurMesContrats({contratsTest}) {
         setContrats(arrTmp)
         handleSignerContrat(contrat)
     };
-    
-    
-    
+
     const openConfirmationModal = (type, contrat1) => {
         setIsConfirmationModalOpen(true);
         setContrat(contrat1)
         setConfirmationType(type)
-        
+
     };
-    
+
     const closeConfirmationModal = () => {
         setIsConfirmationModalOpen(false);
     };
 
+    const handleEvaluationSubmit = async (contrat, evaluationData) => {
+        const token = localStorage.getItem('token');
+        console.log(contrat)
+        try {
+            pdf(<EvaluationPDF evaluationData={evaluationData} />).toBlob().then(blob => {
+                const formData = new FormData();
+                formData.append('file', blob, 'evaluation.pdf');
+
+                fetch(
+                    `http://localhost:8081/api/v1/employers/upload_evaluation/${contrat.id}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                        body: formData,
+                    }
+                ).catch((err) => {
+                    console.log(err)
+                }).then(
+                    (res) => {
+                        try{
+                            console.log(res.status)
+                            if (res.ok) {
+                                const data= res.json()
+                                console.log("PDF envoyé avec succès");
+                                setEvaluations([...evaluations, data])
+                                console.log("evaluation",data)
+                                setShowEvaluation(false)
+                            } else {
+                                console.log("Erreur lors de l'envoi du PDF");
+                                throw new Error("Erreur lors de l'envoi");
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        window.location.reload()
+                    }
+                )
+            }).catch(error => {
+                console.error("Erreur lors de la génération du PDF:", error);
+            });
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (evaluations !== undefined){
+                setEvaluations(evaluations)
+            }
+        }
+    }
+
+    function ModalEvaluation() {
+        return (
+            <div>
+                <div style={OVERLAY_STYLE}>
+                    <div style={MODAL_STYLES}>
+                        <div className="titleCloseBtn">
+                            <button onClick={() => setShowEvaluation(false)}>X</button>
+                        </div>
+                        <div className="body">
+                            <EvaluationForm
+                                contrat={contrat}
+                                onSubmit={handleEvaluationSubmit}
+                            />
+                        </div>
+                        <div className="footer">
+                            <button id="cancelBtn" onClick={() => setShowEvaluation(false)}>Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    function handleMontrerEvaluation(contrat) {
+        setOpenModal(!openModal)
+        setContrat(contrat)
+    }
 
     return (
         <div>
             <NavBarEmployeur/>
+            {showEvaluation && <ModalEvaluation/>}
             <div id="Render" className="container content-container mt-4">
                 <div className="container w-100">
                     <div className="row">
@@ -150,6 +256,7 @@ export default function EmployeurMesContrats({contratsTest}) {
                                         <th className="header-cell h5">Signé par étudiant</th>
                                         <th className="header-cell h5">Signé par employeur</th>
                                         <th className="header-cell h5" >Signé par gestionnaire</th>
+                                        <th className="header-cell h5">Rapport d'évaluation</th>
                                     </tr>
                                     </thead>
                                     <tbody className='w-100'>
@@ -168,6 +275,27 @@ export default function EmployeurMesContrats({contratsTest}) {
                                                         <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
                                                 }
                                                 <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                {
+                                                    contrat.statutEtudiant === 'Signer' &&
+                                                    contrat.statutGestionnaire === 'Signer' &&
+                                                    contrat.statutEmployeur === 'Signer' &&
+                                                        <td data-label="Évaluation">
+                                                            {contrat.evaluationPDF !== null ? (
+                                                                <button className='m-0 text-center btn btn-secondary'
+                                                                        onClick={() => handleMontrerEvaluation(contrat)}>
+                                                                    <span className='h7'>Voir Évaluation</span>
+                                                                </button>
+                                                            ) : (
+                                                                <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                    setShowEvaluation(!showEvaluation)
+                                                                    setContrat(contrat)
+                                                                    console.log("contratEvaluation", contrat)
+                                                                }}>
+                                                                    <span className='h7'>Évaluer</span>
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                }
                                             </tr>
                                         ))
                                     }
@@ -176,6 +304,9 @@ export default function EmployeurMesContrats({contratsTest}) {
                             </div>
                             : <div>AUCUN CONTRAT À AFFICHER</div> }
                     </div>
+                    {openModal && contrats.length > 0 &&
+                        <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />
+                    }
                     <ReactModal
                         isOpen={isConfirmationModalOpen}
                         onRequestClose={closeConfirmationModal}
@@ -208,3 +339,4 @@ export default function EmployeurMesContrats({contratsTest}) {
         </div>
     )
 }
+

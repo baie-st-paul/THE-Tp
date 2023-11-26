@@ -65,16 +65,16 @@ const StudentHomePage = () => {
     return (
         <div>
             {sessions.at(2) ?  (
-                    <div className="student-homepage">
-                        <NavBarStudent/>
-                        <div id="Render" className="container content-container mt-4">
-                            <h2>Étudiant</h2>
-                            {
-                                signature !== null && cv !== null && cv.status === "Accepted" ?
-                                    <DashboardPageStudent/> : <CardPageCvSignature signature={signature} cv={cv}/>
-                            }
-                        </div>
+                <div className="student-homepage">
+                    <NavBarStudent/>
+                    <div id="Render" className="container content-container mt-4">
+                        <h2>Étudiant</h2>
+                        {
+                            signature !== null && cv !== null && cv.status === "Accepted" ?
+                                <DashboardPageStudent/> : <CardPageCvSignature signature={signature} cv={cv}/>
+                        }
                     </div>
+                </div>
             ) : (
                 <SessionController sessionTag={sessions.at(0)} studentTag={sessions.at(1)}/>
             )}

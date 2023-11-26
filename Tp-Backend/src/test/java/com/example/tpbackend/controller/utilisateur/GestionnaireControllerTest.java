@@ -3,7 +3,6 @@ package com.example.tpbackend.controller.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;

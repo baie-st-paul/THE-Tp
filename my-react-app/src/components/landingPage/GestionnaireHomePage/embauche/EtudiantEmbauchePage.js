@@ -282,11 +282,11 @@ const EtudiantEmbauchePage = ({contratsTest, candidaturesTest}) => {
                             )
                     }
                     {openModal && candidatures.length > 0 &&
-                        <Modal cv={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
+                        <Modal fichier={candidature.cvStudent.file_cv} fileName={candidature.cvStudent.fileName}
                                onClose={handleMontrerCv} />
                     }
                     {openModalLettre && candidatures.length > 0 &&
-                        <Modal cv={candidature.lettreMotivation} fileName={candidature.fileName}
+                        <Modal fichier={candidature.lettreMotivation} fileName={candidature.fileName}
                                onClose={handleMontrerLettre} />
                     }
                 </div>

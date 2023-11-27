@@ -156,6 +156,8 @@ const ListContratsGestionnaire = ({contratsTest}) => {
         setEndWorkHours(value);
     };
 
+   
+
 
     return (
         <div>
@@ -181,6 +183,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                     <th className="header-cell h5">Signé par employeur</th>
                                     <th className="header-cell h5" >Signé par gestionnaire</th>
                                     <th className="header-cell h5" >Contrat PDF</th>
+                                    <th className="header-cell h5" >Evaluation</th>
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
@@ -204,7 +207,9 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                                 :
                                                 <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'><span className='h7'>Voir  Contrat</span></button></td>
                                             }
+                                          
 
+                                           
                                             <ReactModal
                                                 isOpen={isPdfModalOpen}
                                                 onRequestClose={closePdfModal}
@@ -323,10 +328,12 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                                 </form>
                                             </ReactModal>
                                         </tr>
+                                        
                                     ))
                                 }
                                 </tbody>
                             </table>
+                   
                         </div>
                         : <div>AUCUN CONTRAT À AFFICHER</div> }
                 </div>

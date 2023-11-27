@@ -61,7 +61,7 @@ const EvaluationPDF = ({ evaluationData }) => (
         <Text style={styles.text}>Nom de l’entreprise: {evaluationData.nomEntreprise}</Text>
         <Text style={styles.text}>Nom du superviseur: {evaluationData.nomSuperviseur}</Text>
         <Text style={styles.text}>Fonction: {evaluationData.fonctionSuperviseur}</Text>
-        <Text style={styles.text}>Numéro de téléphone: {evaluationData.numeroTelephone}</Text>
+        <Text style={styles.text}>Numéro de téléphone: {evaluationData.telephoneSuperviseur}</Text>
       </View>
 
       {/* Section Productivité */}

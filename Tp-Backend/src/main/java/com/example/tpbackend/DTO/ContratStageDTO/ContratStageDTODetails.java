@@ -1,6 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ContratStageDTODetails {
     private Long id;
     private CandidatureDTODetailed candidatureDTO;
+    private EvaluationPdfDto evaluationPDF;
     private String statutEtudiant;
     private String statutEmployeur;
     private String statutGestionnaire;
@@ -35,8 +36,12 @@ public class ContratStageDTODetails {
             dto.setCandidatureDTO(CandidatureDTODetailed.fromCandidature(contratStage.getCandidature()));
         }
 
-        if(contratStage.getRapportHeures() != null){
+        if(contratStage.getRapportHeures() != null) {
             dto.setRapportFile(new ByteArrayMultipartFile(contratStage.getRapportHeures().getName(), contratStage.getRapportHeures().getName(), "application/pdf", contratStage.getRapportHeures().getData()));
+        }
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

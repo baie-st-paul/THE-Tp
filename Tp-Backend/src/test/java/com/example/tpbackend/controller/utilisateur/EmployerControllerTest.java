@@ -233,20 +233,19 @@ public class EmployerControllerTest {
 
     @Test
     public void testHandleFileUpload() throws Exception {
-        //1. Je vais mocker un fichier  MultipartFile
         MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+        Long mockContractId = 1L;
 
-        //2. Créer une réponse attendue
         EvaluationPdfDto mockDto = new EvaluationPdfDto("test.pdf", file.getBytes());
-        when(employerService.saveEvaluation(any(EvaluationPdfDto.class))).thenReturn(mockDto);
+        when(employerService.saveEvaluation(any(EvaluationPdfDto.class), any(Long.class))).thenReturn(mockDto);
 
-        //3. Effectuer la requête POST avec le fichier mocké
-        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation").file(file)
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation/1")
+                        .file(file)
+                        .param("contractId", String.valueOf(mockContractId))
                         .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Fichier 'test.pdf' reçu et sauvegardé.")));
+                .andExpect(content().string(containsString("Fichier '%s' reçu et sauvegardé pour le contrat ID: %d.".formatted(mockDto.getName(), mockContractId))));
 
-        //4. ckecker si le service a été appelé avec le bon DTO
-        verify(employerService).saveEvaluation(any(EvaluationPdfDto.class));
+        verify(employerService).saveEvaluation(any(EvaluationPdfDto.class), any(Long.class));
     }
 }

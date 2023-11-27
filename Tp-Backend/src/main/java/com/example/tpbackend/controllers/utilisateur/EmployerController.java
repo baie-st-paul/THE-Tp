@@ -1,13 +1,12 @@
 package com.example.tpbackend.controllers.utilisateur;
 
-import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
-import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
@@ -19,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,24 +107,25 @@ public class EmployerController {
     @PreAuthorize("authenticated")
     public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
         try {
-            employerService.saveRapportHeures(new RapportHeuresDTO(file), id);
-            return ResponseEntity.ok().build();
+            RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO(file);
+            RapportHeuresDTO savedRapportHeuresDTO = employerService.saveRapportHeures(rapportHeuresDTO, id);
+
+            return new ResponseEntity<>(savedRapportHeuresDTO, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading the file");
         }
     }
 
-    @PostMapping(value = "/upload_evaluation", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/upload_evaluation/{contractId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("authenticated")
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> handleFileUploadEvaluation(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
         try {
             EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
-            EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO);
-            String message = String.format("Fichier '%s' reçu et sauvegardé.", savedDocumentDto.getName());
+            EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO, contractId);
 
-            return ResponseEntity.ok(message);
-        } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier");
+            return new ResponseEntity<>(savedDocumentDto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
         }
     }
 }

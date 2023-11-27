@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import RapportPDF from './RapportPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import { useParams } from 'react-router-dom';
-import {pdf} from "@react-pdf/renderer";
 
-const RapportForm = () => {
+const RapportForm = ({contrat, onSubmit}) => {
     const initialState = {
         nomEmployeur: " ",
         nomSuperviseur: " ",
@@ -14,8 +12,6 @@ const RapportForm = () => {
         signature: " ",
         fonction: " "
     }
-
-    const { contractId } = useParams();
 
     const [formData, setFormData] = useState(initialState)
     const [signature, setSignature] = useState('');
@@ -29,19 +25,14 @@ const RapportForm = () => {
     const signatureRef = useRef(null);
     const fonctionRef = useRef(null);
 
-    
+
     const handleSignature = async () => {
         try {
             const response = await fetch(`http://localhost:8081/api/v1/stages/signatures/employer/get/${employerId}`, {
                 method: 'GET',
                 headers: {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    withCredentials: true,
-                    body: formData
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
                 },
                 withCredentials: true
             });
@@ -68,34 +59,6 @@ const RapportForm = () => {
             setSignature(null);
         }
     };
-
-    const onSubmit = async (formData) => {
-        const token = localStorage.getItem('token');
-        try{
-            pdf(<RapportPDF formData={formData} />).toBlob().then(blob => {
-                const formData = new FormData();
-                formData.append('file', blob, 'rapport-heures.pdf');
-                fetch(`http://localhost:8081/api/v1/employers/contracts/${contractId}/rapport_heures`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: formData,
-                    withCredentials: true
-                }).then(res => {
-                    if (res.ok) {
-                        alert('Rapport des heures ajouté avec succès');
-                    } else {
-                        alert('Erreur lors de l\'ajout du rapport des heures');
-                    }
-                });
-            });
-        }
-        catch (error) {
-            console.log('Une erreur est survenue:', error);
-        }
-    }
 
     const handleChange = (e, rowIndex, key) => {
         const { value } = e.target;
@@ -166,7 +129,8 @@ const RapportForm = () => {
         }
 
         if (formIsValid) {
-            onSubmit(formData);
+            console.log(contrat)
+            onSubmit(contrat, formData);
         }
     };
 
@@ -174,7 +138,7 @@ const RapportForm = () => {
     return (
         <div>
             <h3 className='text-center mt-4'>Rapport des heures travaillées par l'étudiant</h3>
-            <form onSubmit={handleSubmit} className="container mt-5">
+            <form onSubmit={onSubmit} className="container mt-5">
                 <div className="form-group">
                     <label htmlFor="nomEmployeur">Nom de l'employeur:</label>
                     <input
@@ -279,7 +243,7 @@ const RapportForm = () => {
                         <div className="form-group signatureContainer">
                             <label>Signature:</label>
                             {signature ? (
-                                <img src={signature} alt="Signature" className="img-fluid" />
+                                <img src={signature} alt="Signature" style={{ width: '50px', height: '20px' }} />
                             ) : (
                                 <button type="button" onClick={handleSignature} className="btn btn-primary">
                                     Signer
@@ -288,6 +252,7 @@ const RapportForm = () => {
                             <span ref={signatureRef} className="error-message"></span>
                         </div>
                     </div>
+
                     <div className="col-md-6">
                         <div className="form-group">
                             <label>Fonction:</label>
@@ -303,7 +268,7 @@ const RapportForm = () => {
                     </div>
                 </div>
 
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" onClick={handleSubmit} className="btn btn-primary">Soumettre le rapport</button>
 
                 <div className="text-center mt-3" style={{ padding: '10px', border: '1px solid black' }}>
                     <strong>Note: </strong>
@@ -315,7 +280,8 @@ const RapportForm = () => {
                 <PDFDownloadLink
                     document={<RapportPDF formData={formData} />}
                     fileName="rapport-heures.pdf">
-                    {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                    {({ blob, url, loading, error }) =>
+                        (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
                 </PDFDownloadLink>
             </div>
         </div>

@@ -14,10 +14,7 @@ import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.EvaluationPDFRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.TagGenerator;
@@ -43,9 +40,11 @@ public class EmployerService {
     @Autowired
     private ContratStageRepository contratStageRepository;
     @Autowired
-    EvaluationPDFRepository evaluationPDFRepository;
+    private EvaluationPDFRepository evaluationPDFRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private RapportHeuresRepository rapportHeuresRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -117,28 +116,38 @@ public class EmployerService {
         contratStageRepository.save(contract);
     }
 
-    public void saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception{
+    @Transactional
+    public RapportHeuresDTO saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception{
+        RapportHeures rapportHeures = RapportHeuresDTO.toRapportHeure(rapportHeuresDTO);
+        RapportHeures savedRapportHeures = rapportHeuresRepository.save(rapportHeures);
+
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
-        if(optionalContract.isEmpty()) throw new Exception("Contract not found");
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+
         ContratStage contract = optionalContract.get();
-        RapportHeures rapport = new RapportHeures();
-        rapport.setData(rapportHeuresDTO.getData());
-        rapport.setName(rapportHeuresDTO.getName());
-        contract.setRapportHeures(rapport);
+        contract.setRapportHeures(savedRapportHeures);
         contratStageRepository.save(contract);
+
+        return RapportHeuresDTO.fromRapportHeure(savedRapportHeures);
     }
 
     @Transactional
-    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto) throws IOException {
-        EvaluationPDF evaluation = new EvaluationPDF();
-        evaluation.setName(evaluationPdfDto.getName());
-        evaluation.setContent(evaluationPdfDto.getContent());
+    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto, Long contractId) throws Exception {
+
+        EvaluationPDF evaluation = EvaluationPdfDto.toEvaluationPDF(evaluationPdfDto);
 
         EvaluationPDF savedEvaluation = evaluationPDFRepository.save(evaluation);
 
-        EvaluationPdfDto savedEvaluationDto = new EvaluationPdfDto();
-        savedEvaluationDto.setName(savedEvaluation.getName());
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+        ContratStage contract = optionalContract.get();
+        contract.setEvaluationPDF(savedEvaluation);
+        contratStageRepository.save(contract);
 
-        return savedEvaluationDto;
+        return EvaluationPdfDto.fromEvaluationPDF(savedEvaluation);
     }
 }

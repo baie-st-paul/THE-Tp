@@ -3,11 +3,9 @@ import "./EvaluationForm.css";
 import EvaluationPDF from './EvaluationPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import FaqAccordion from './FaqAccordion';
-import {useNavigate} from "react-router-dom";
-import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
 import PhoneInput from "react-phone-number-input";
 
-const EvaluationForm = ({ onSubmit }) => {
+const EvaluationForm = ({contrat, onSubmit}) => {
     const initialState = {
         nomEleve: '',
         programmeEtudes: '',
@@ -73,16 +71,12 @@ const EvaluationForm = ({ onSubmit }) => {
     };
 
     const [evaluationData, setEvaluationData] = useState(initialState);
-
     const options = ["Totalement en accord", "Plutôt en accord", "Plutôt en désaccord", "Totalement en désaccord", "N/A"] ;
     const choices = ["Oui", "Non"];
     const programmeEtude = ["Techniques de l’informatique", "Techniques de l’architecture"];
-
     const [signature, setSignature] = useState('');
     const employerId = localStorage.getItem('employer_id');
     const token = localStorage.getItem('token');
-
-    const navigate = useNavigate()
     
     const nomEleveRef = useRef(null);
     const programmeEtudesRef = useRef(null);
@@ -480,7 +474,8 @@ const EvaluationForm = ({ onSubmit }) => {
 
         if (annuler === true) {
         } else {
-            onSubmit(navigate, evaluationData);
+            console.log(contrat)
+            onSubmit(contrat, evaluationData);
         }
     }
 
@@ -511,9 +506,10 @@ const EvaluationForm = ({ onSubmit }) => {
         </select>
     );
 
+   
+
     return (
         <div>
-            <NavBarEmployeur/>
             <div id="Render" className="container content-container mt-4">
                 <form onSubmit={onSubmit} className='formStyle'>
                     <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
@@ -572,7 +568,7 @@ const EvaluationForm = ({ onSubmit }) => {
                         <p>Le stagiaire a été en mesure de :</p>
                         <div className='questionStyle'>
                             <label htmlFor="planifierOrganiser">a) Planifier et organiser son travail de façon efficace :</label>
-                            {renderDropdown("planifierOrganiser")}
+                            {renderDropdown("planifierEtOrganiser")}
                             <span ref={planifierEtOrganiserRef} className="error-message"></span>
                         </div>
 
@@ -824,9 +820,14 @@ const EvaluationForm = ({ onSubmit }) => {
                                 <span ref={signatureRef} className="error-message"></span>
                             </div>
 
-                            <div className='dateContainer'>
-                                <label className='questionStyle label'>Date  :</label>
-                                <input className='questionStyle input' type="date" name="dateSignature" value={evaluationData.dateSignature} onChange={handleChange} />
+                            <div className='form-group'>
+                                <label className='questionStyle label'
+                                       style={{display: "block", textAlign: "left"}}>Date :</label>
+                                <input className='form-control saisie saisie-user px-3 m-0
+                                questionStyle input' type='date' name="dateSignature"
+                                       style={{color: 'grey', fontSize : '20px'}}
+                                       value={evaluationData.dateSignature}
+                                       onChange={handleChange}/>
                                 <span ref={dateSignatureRef} className="error-message"></span>
                             </div>
                         </div>
@@ -855,7 +856,8 @@ const EvaluationForm = ({ onSubmit }) => {
                     <PDFDownloadLink
                         document={<EvaluationPDF evaluationData={evaluationData} />}
                         fileName="evaluation-form.pdf">
-                        {({ blob, url, loading, error }) => (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                        {({ blob, url, loading, error }) =>
+                            (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
                     </PDFDownloadLink>
 
                     <FaqAccordion />

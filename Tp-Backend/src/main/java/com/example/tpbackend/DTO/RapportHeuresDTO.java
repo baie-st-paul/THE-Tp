@@ -16,7 +16,32 @@ public class RapportHeuresDTO {
         try {
             this.data = file.getBytes();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+    }
+
+    public static RapportHeuresDTO fromRapportHeure(RapportHeures rapportHeures) {
+        if (rapportHeures == null) {
+            return null;
+        }
+
+        RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO();
+        rapportHeuresDTO.setName(rapportHeures.getName());
+        rapportHeuresDTO.setData(rapportHeures.getData());
+
+        return rapportHeuresDTO;
+    }
+
+    public static RapportHeures toRapportHeure(RapportHeuresDTO rapportHeuresDTO) {
+        if (rapportHeuresDTO == null) {
+            return null;
+        }
+
+        RapportHeures rapportHeures = new RapportHeures();
+
+        rapportHeures.setName(rapportHeuresDTO.getName());
+        rapportHeures.setData(rapportHeuresDTO.getData());
+
+        return rapportHeures;
     }
 }

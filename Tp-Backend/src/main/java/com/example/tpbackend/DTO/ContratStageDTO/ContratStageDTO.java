@@ -1,4 +1,5 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,11 +25,13 @@ public class ContratStageDTO {
     private String statusVuPasVuE;
     private String statusVuPasVuS;
     private MultipartFile rapportFile;
+    private EvaluationPdfDto evaluationPDF;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
             return null;
         }
+
 
         ContratStageDTO dto = new ContratStageDTO();
 
@@ -42,8 +45,8 @@ public class ContratStageDTO {
             dto.setRapportFile(null);
         }
 
-        if (contratStage.getCandidature() != null) {
-            dto.setCandidatureId(contratStage.getCandidature().getId());
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

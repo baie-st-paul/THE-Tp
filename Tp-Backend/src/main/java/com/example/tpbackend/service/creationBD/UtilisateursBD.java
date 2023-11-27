@@ -7,6 +7,7 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
 import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.service.EntrevueService;
@@ -378,7 +379,10 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Dev web react",
                 "vu",
                 "pasVu",
-                "pasVu"
+                "pasVu",
+                "Signer",
+                "Signer",
+                "Signer"
         );
         createContrat(
                 2L,
@@ -389,7 +393,10 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Dev web angular",
                 "vu",
                 "pasVu",
-                "pasVu"
+                "pasVu",
+                "Pas_Signer",
+                "Pas_Signer",
+                "Pas_Signer"
         );
         /*
         createContrat(
@@ -418,7 +425,7 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createContrat(Long id, Long candidatureId, String nomDeCompanie, String prenom, String nom, String titreOffre,
-                              String statusG, String statusE, String statusS) {
+                              String statusG, String statusE, String statusS, String signeS, String signeE, String signeG) {
         ContratStageDTO contratStageDTO = new ContratStageDTO(
                 id,
                 candidatureId,
@@ -426,12 +433,13 @@ public class UtilisateursBD implements CommandLineRunner {
                 nomDeCompanie,
                 titreOffre,
                 prenom,
-                "Pas_Signer",
-                "Pas_Signer",
-                "Pas_Signer",
+                signeS,
+                signeE,
+                signeG,
                 statusG,
                 statusE,
                 statusS,
+                null,
                 null
         );
         gestionnaireService.createContrat(contratStageDTO);

@@ -47,11 +47,11 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
                         {filterEnAttente.length > 0 &&
                             <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/candidatures"
-                                       id="cards" colorAvatar="saddlebrown"/>
+                                       id="cards" colorAvatar="saddlebrown" filter="need-action"/>
                         }
                         {filterPasEntrevue.length > 0 &&
                             <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/candidatures"
-                                       id="cards" colorAvatar="saddlebrown"/>
+                                       id="cards" colorAvatar="saddlebrown" filter="In_review"/>
                         }
                     </div>
             }
@@ -60,7 +60,7 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
             <CardsPasCritique filteredList={filterEntrevuesRefused} card={
                 <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
                            url="/candidatures"
-                           id="cardsPasCritique" colorAvatar="#000066"/>
+                           id="cardsPasCritique" colorAvatar="#000066" filter="refused" />
             }/>
             <CardsPasCritique filteredList={offresAccepted} card={
                 <CardsPage nbFilteredList={offresAccepted.length}

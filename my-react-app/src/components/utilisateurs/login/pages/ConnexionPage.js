@@ -32,84 +32,90 @@ const ConnexionPage = () => {
                 console.error(error);
                 setErreur(true);
             }).then(async (res) => {
-                const data = await res.json();
-                console.log(data)
-                localStorage.clear()
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user_type', data.role);
+                if(res.status === 404){
+                    setErreur(true);
+                }
+                else {
+                    const data = await res.json();
+                    console.log(data)
+                    localStorage.clear()
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user_type', data.role);
+                }
             });
+            if (!erreur){
+                const role = localStorage.getItem('user_type').replace(/["]/g, '');
+                const token = localStorage.getItem('token');
+                console.log(token)
+                console.log(role)
 
-            const role = localStorage.getItem('user_type').replace(/["]/g, '');
-            const token = localStorage.getItem('token');
-            console.log(token)
-            console.log(role)
+                if (role) {
+                    switch (role) {
+                        case "Student":
+                            await fetch(
+                                'http://localhost:8081/api/v1/student/getstudent',
+                                {
+                                    method: 'GET',
+                                    headers: {
+                                        'Authorization': 'Bearer ' + token
+                                    },
+                                    withCredentials: true
 
-            if (role) {
-                switch (role) {
-                    case "Student":
-                        await fetch(
-                            'http://localhost:8081/api/v1/student/getstudent',
-                            {
-                                method: 'GET',
-                                headers: {
-                                    'Authorization': 'Bearer ' + token
-                                },
-                                withCredentials: true
+                                }
+                            ).catch((error) => {
+                                console.error(error);
 
-                            }
-                        ).catch((error) => {
-                            console.error(error);
-
-                        }).then(async (res) => {
-                            const dataStudentGetDTO = await res.json();
-                            console.log(dataStudentGetDTO)
-                            setLoggedInUser(dataStudentGetDTO);
-                            setRedirectTo("/StudentHomePage");
-                        });
-                        break;
-                    case 'Gestionnaire':
-                        await fetch(
-                            'http://localhost:8081/api/v1/gestionnaire/getGestionnaire',
-                            {
-                                method: 'GET',
-                                headers: {
-                                    Authorization: 'Bearer ' + token
-                                },
-                                withCredentials: true
-                            }
-                        ).catch((error) => {
-                            console.error(error);
-                            setErreur(true);
-                        }).then(async (res) => {
-                            const dataGestionnaireGetDTO = await res.json();
-                            console.log(dataGestionnaireGetDTO)
-                            setLoggedInUser(dataGestionnaireGetDTO);
-                            setRedirectTo("/GestionnaireHomePage");
-                        });
-                        break;
-                    case 'Employeur':
-                        await fetch(
-                            'http://localhost:8081/api/v1/employers/getEmployer',
-                            {
-                                method: 'GET',
-                                headers: {
-                                    Authorization: 'Bearer ' + token
-                                },
-                                withCredentials: true
-                            }
-                        ).catch((error) => {
-                            console.error(error);
-                            setErreur(true);
-                        }).then(async (res) => {
-                            const dataEmployeurGetDTO = await res.json();
-                            console.log(dataEmployeurGetDTO)
-                            setLoggedInUser(dataEmployeurGetDTO);
-                            localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
-                            setRedirectTo("/EmployeurHomePage");
-                        });
-                        break;
-                    default:
-                        break;
+                            }).then(async (res) => {
+                                const dataStudentGetDTO = await res.json();
+                                console.log(dataStudentGetDTO)
+                                setLoggedInUser(dataStudentGetDTO);
+                                setRedirectTo("/StudentHomePage");
+                            });
+                            break;
+                        case 'Gestionnaire':
+                            await fetch(
+                                'http://localhost:8081/api/v1/gestionnaire/getGestionnaire',
+                                {
+                                    method: 'GET',
+                                    headers: {
+                                        Authorization: 'Bearer ' + token
+                                    },
+                                    withCredentials: true
+                                }
+                            ).catch((error) => {
+                                console.error(error);
+                                setErreur(true);
+                            }).then(async (res) => {
+                                const dataGestionnaireGetDTO = await res.json();
+                                console.log(dataGestionnaireGetDTO)
+                                setLoggedInUser(dataGestionnaireGetDTO);
+                                setRedirectTo("/GestionnaireHomePage");
+                            });
+                            break;
+                        case 'Employeur':
+                            await fetch(
+                                'http://localhost:8081/api/v1/employers/getEmployer',
+                                {
+                                    method: 'GET',
+                                    headers: {
+                                        Authorization: 'Bearer ' + token
+                                    },
+                                    withCredentials: true
+                                }
+                            ).catch((error) => {
+                                console.error(error);
+                                setErreur(true);
+                            }).then(async (res) => {
+                                const dataEmployeurGetDTO = await res.json();
+                                console.log(dataEmployeurGetDTO)
+                                setLoggedInUser(dataEmployeurGetDTO);
+                                localStorage.setItem("employer_id", JSON.stringify(dataEmployeurGetDTO.id));
+                                setRedirectTo("/EmployeurHomePage");
+                            });
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
             }
@@ -125,7 +131,7 @@ const ConnexionPage = () => {
     return (
         <div className='bg-light '>
             <ConnexionForm onAdd={connexion} />
-            {erreur && (
+            {erreur ?
                 <div className='w-100 vh-100'>
                     <div className="modal show bg-dark bg-opacity-75"
                          style={{ display: 'flex', position: 'fixed', justifyContent: 'center', alignItems: 'center' }}>
@@ -143,7 +149,7 @@ const ConnexionPage = () => {
                         </Modal.Dialog>
                     </div>
                 </div>
-            )}
+            : null}
         </div>
     );
 };

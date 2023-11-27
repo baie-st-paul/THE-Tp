@@ -9,10 +9,13 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
         contrats.filter((contrat) => contrat.statutEmployeur === "Pas_Signer");
 
     const filterEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
-        candidatures.filter((candidature) => candidature.status === "In_review");
+        candidatures.filter((candidature) => candidature.status === "Interview" ||
+            candidature.status === "In_review");
 
-    const candidatureFilter = candidatures.length !== 0 && candidatures.length !== undefined &&
-        candidatures.map((candidature) => candidature.student.matricule + " " + candidature.offreStage.titre)
+    const candidaturesEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
+        candidatures.filter((candidature) => candidature.status === "In_review")
+    const candidatureFilter = candidaturesEnAttente.length !== 0 && candidaturesEnAttente.length !== undefined &&
+        candidaturesEnAttente.map((candidature) => candidature.student.matricule  + " " +  candidature.offreStage.titre)
     const entrevueFilter = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.map((entrevue) => entrevue.student.matricule + " " + entrevue.offreStage.titre)
     const filterPasEntrevue = entrevueFilter.length !== 0 && entrevueFilter.length !== undefined &&
@@ -22,11 +25,13 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
         )
     console.log("filterPasEntrevue",filterPasEntrevue)
 
-    const offresNotAccepted = offres.length !== 0 && offres.length !== undefined &&
-        offres.filter((offre) => offre.status !== "Accepted")
+    const offresAccepted = offres.length !== 0 && offres.length !== undefined &&
+        offres.filter((offre) => offre.status === "Accepted")
+    localStorage.setItem('filtreOffre', "Accepted");
 
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");
+    //localStorage.setItem('filtreCandidature', "In_review")
 
     return (
         <div>
@@ -41,11 +46,11 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
                                        id="cards" colorAvatar="saddlebrown"/>}
 
                         {filterEnAttente.length > 0 &&
-                            <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/offres"
+                            <CardsPage nbFilteredList={filterEnAttente.length} titre="candidats en attente d'embauche" url="/candidatures"
                                        id="cards" colorAvatar="saddlebrown"/>
                         }
                         {filterPasEntrevue.length > 0 &&
-                            <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/offres"
+                            <CardsPage nbFilteredList={filterPasEntrevue.length} titre="candidats pas encore convoqués" url="/candidatures"
                                        id="cards" colorAvatar="saddlebrown"/>
                         }
                     </div>
@@ -54,12 +59,12 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
             <CardsPasCritique filteredList={filterEntrevuesRefused} card={
                 <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
-                           url="/offres"
+                           url="/candidatures"
                            id="cardsPasCritique" colorAvatar="#000066"/>
             }/>
-            <CardsPasCritique filteredList={offresNotAccepted} card={
-                <CardsPage nbFilteredList={offresNotAccepted.length}
-                           titre="offres pas encore acceptées par le gestionnaire" url="/offres"
+            <CardsPasCritique filteredList={offresAccepted} card={
+                <CardsPage nbFilteredList={offresAccepted.length}
+                           titre="offres acceptées par le gestionnaire" url="/offres"
                            id="cardsPasCritique" colorAvatar="#000066"/>
             }/>
         </div>

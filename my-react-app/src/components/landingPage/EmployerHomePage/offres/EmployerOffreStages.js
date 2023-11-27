@@ -1,5 +1,6 @@
 import EmployerOffreCard from "./offre/EmployerOffreCard";
 
+
 const EmployerOffreStages = ({offreStages, onDelete, onUpdate, showUpdate}) => {
     return (
         <>

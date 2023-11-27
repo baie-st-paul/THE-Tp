@@ -7,7 +7,7 @@ const CardsPasCritique = ({filteredList, card}) => {
     const [open, setOpen] = React.useState(true);
 
     return (
-        <div>
+        <div style={{height: "90px"}}>
             <Collapse in={open}>
                 {filteredList.length > 0 &&
                     <div className="row">

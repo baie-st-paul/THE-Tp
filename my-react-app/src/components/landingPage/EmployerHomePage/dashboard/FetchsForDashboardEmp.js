@@ -34,7 +34,7 @@ const fetchOffresEmp = async (token, offres, setOffres) => {
     }
 }
 
-const fetchAllCandidatures = async (token, candidatures, setCandidatures) => {
+const fetchAllCandidatures = async (token, candidatures, setCandidatures, allEntrevuesStudentMatricule, setfinFetch) => {
     try {
         fetch(
             'http://localhost:8081/api/v1/employers/candidatures',
@@ -58,10 +58,10 @@ const fetchAllCandidatures = async (token, candidatures, setCandidatures) => {
                     }
                 } catch (e) {
                     console.log(e)
-                }
-                setCandidatures(data);
+                } 
+                setCandidatures(data);        
                 console.log("candidatures",data)
-            })
+            }).then(await allEntrevuesStudentMatricule).then(setfinFetch(true))
     } catch (error) {
         console.log('Une erreur est survenue:', error);
         if (candidatures !== undefined){

@@ -256,14 +256,13 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                     <th className="header-cell h5">Signé par employeur</th>
                                     <th className="header-cell h5" >Signé par gestionnaire</th>
                                     <th className="header-cell h5" >Contrat PDF</th>
-                                    <th className="header-cell h5" >Evaluation</th>
                                 </tr>
                                 </thead>
                                 <tbody className='w-100'>
                                 {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
                                     .map((contrat, index) => (
                                         <tr key={index} className="table-row align-middle">
-                                            <td data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
+                                            <td data-label="Nom, Prénom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
                                             <td data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
                                             <td data-label="Nom de compagnie" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
                                             <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
@@ -279,12 +278,28 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                                     <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
                                             }
                                             {
-                                                contrat.statutEtudiant === 'Pas_Signer' && contrat.statutEmployeur === 'Pas_Signer'?
-                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'>
-                                                    <span className='h7'>Générer Contrat</span></button></td>
-                                                :
-                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'>
-                                                    <span className='h7'>Voir  Contrat</span></button></td>
+                                                contrat.statutEtudiant === 'Signer' &&
+                                                contrat.statutGestionnaire === 'Signer' &&
+                                                contrat.statutEmployeur === 'Signer' ?
+                                                    <td data-label="Contrat PDF">
+                                                        {contrat.generateContrat !== null ? (
+                                                            <button className='m-0 text-center btn btn-secondary'
+                                                                    onClick={() => handleMontrerGenerateContrat(contrat)}>
+                                                                <span className='h7'>Voir Contrat</span>
+                                                            </button>
+                                                        ) : (
+                                                            <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                setShowGenerateContrat(!showGenerateContrat)
+                                                                setContrat(contrat)
+                                                                console.log("contratGenerate", contrat)
+                                                            }}>
+                                                                <span className='h7'>Générer le contrat</span>
+                                                            </button>
+                                                        )}
+                                                    </td> :
+                                                    <td data-label="Contrat PDF">
+                                                        <p>En attente des signatures</p>
+                                                    </td>
                                             }
                                         </tr>
                                     ))

@@ -3,7 +3,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {TimePicker} from "@mui/x-date-pickers/TimePicker";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import FetchsGestionnaire from "../../../NavBar/gestionnaire/FetchsGestionnaire";
 import FetchsEmployer from "../../../NavBar/employer/FetchsEmployer";
 import FetchsStudent from "../../../NavBar/student/FetchsStudent";
@@ -45,9 +45,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     const [signatureEmployeur, setSignatureEmployeur] = useState('');
     const [signatureGestionnaire, setSignatureGestionnaire] = useState('');
 
+    const token = localStorage.getItem('token');
     const matriculeGes = localStorage.getItem("gestionnaireMatricule")
     console.log(matriculeGes)
-    const token = localStorage.getItem('token');
 
     const offreStageLieuRef = useRef(null)
     const dateDebutRef = useRef(null)
@@ -64,6 +64,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     const dateSignatureEtudiantRef = useRef(null);
     const dateSignatureEmployeurRef = useRef(null);
     const dateSignatureGestionnaireRef = useRef(null);
+
+    useEffect(() => {
+        handleSignatureEtudiant()
+        handleSignatureEmployer()
+        handleSignatureGestionnaire()
+    }, []);
 
     const handleSignatureEtudiant = async () => {
         try {
@@ -338,11 +344,19 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                             <h4>RESPONSABILITES</h4>
                             <div>
                                 <p>Le Collège s'engage à:</p>
-                                <p>{formData.commentaireCollege}</p>
+                                <textarea id="commentaireCollege" name="commentaireCollege"
+                                          value={formData.commentaireCollege}
+                                          onChange={handleChange} />
+
                                 <p>L'entreprise s'engage à:</p>
-                                <p>{formData.commentaireEntreprise}</p>
+                                <textarea id="commentaireEntreprise" name="commentaireEntreprise"
+                                          value={formData.commentaireEntreprise}
+                                          onChange={handleChange} />
+
                                 <p>L'étudiant s'engage à:</p>
-                                <p>{formData.commentaireEtudiant}</p>
+                                <textarea id="commentaireEtudiant" name="commentaireEtudiant"
+                                          value={formData.commentaireEtudiant}
+                                          onChange={handleChange} />
                             </div>
                         </div>
                     </div>
@@ -356,6 +370,13 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <p><b>L'étudiant(e)</b></p>
                                 <div className="row">
                                     <div className="row">
+                                        {
+                                            signatureEtudiant !== null && (
+                                                <div>
+                                                    <img src={signatureEtudiant} alt="signatureEtudiant" style={{ width: '50px', height: '20px' }} />
+                                                </div>
+                                            )
+                                        }
                                         <div>
                                             <label htmlFor="dateSignatureEtudiant" style={{display: "block", textAlign: "left"}}>Date signature:</label>
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
@@ -375,6 +396,13 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <p><b>L'employeur</b></p>
                                 <div className="row">
                                     <div className="row">
+                                        {
+                                            signatureEmployeur !== null && (
+                                                <div>
+                                                    <img src={signatureEmployeur} alt="signatureEmployeur" style={{ width: '50px', height: '20px' }} />
+                                                </div>
+                                            )
+                                        }
                                         <div>
                                             <label htmlFor="dateSignatureEmployeur" style={{display: "block", textAlign: "left"}}>Date signature:</label>
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
@@ -394,6 +422,13 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <p><b>Le gestionnaire de stage</b></p>
                                 <div className="row">
                                     <div className="row">
+                                        {
+                                            signatureGestionnaire !== null && (
+                                                <div>
+                                                    <img src={signatureGestionnaire} alt="signatureGestionnaire" style={{ width: '50px', height: '20px' }} />
+                                                </div>
+                                            )
+                                        }
                                         <div>
                                             <label htmlFor="dateSignatureGestionnaire" style={{display: "block", textAlign: "left"}}>Date signature:</label>
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"

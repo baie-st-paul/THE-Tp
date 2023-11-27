@@ -243,8 +243,8 @@ public class EmployerControllerTest {
                         .file(file)
                         .param("contractId", String.valueOf(mockContractId))
                         .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Fichier '%s' reçu et sauvegardé pour le contrat ID: %d.".formatted(mockDto.getName(), mockContractId))));
+                .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("\"name\":\"test.pdf\"")));
 
         verify(employerService).saveEvaluation(any(EvaluationPdfDto.class), any(Long.class));
     }

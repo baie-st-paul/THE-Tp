@@ -147,6 +147,22 @@
     font-style: italic;
 }
 
+.formStyle .red-italic {
+    color: red;
+    font-style: italic;
+    font-size: small;
+}
+
+.signatureError {
+    color: red;
+    font-size: small;
+    font-style: italic;
+    margin-top: 5px;
+    
+}
+
+
+
 
 
 

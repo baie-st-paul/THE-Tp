@@ -7,6 +7,8 @@ import React, {useEffect, useRef, useState} from "react";
 import FetchsGestionnaire from "../../../NavBar/gestionnaire/FetchsGestionnaire";
 import FetchsEmployer from "../../../NavBar/employer/FetchsEmployer";
 import FetchsStudent from "../../../NavBar/student/FetchsStudent";
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import GenereContratPDF from "./GenereContratPDF";
 
 const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     const initialState = {
@@ -26,9 +28,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         salaireHoraire: "",
 
         offreDescription: contrat.candidatureDTO.offreStage.description,
-        commentaireCollege: "Aucun commentaire",
-        commentaireEntreprise: "Aucun commentaire",
-        commentaireEtudiant: "Aucun commentaire",
+        commentaireCollege: "Aucun engagement",
+        commentaireEntreprise: "Aucun engagement",
+        commentaireEtudiant: "Aucun engagement",
 
         signatureEtudiant: "",
         dateSignatureEtudiant: "",
@@ -232,6 +234,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         <div>
             <div id="Render" className="container content-container mt-4">
                 <form onSubmit={onSubmit} className='formStyle'>
+                    <h5 className="red-italic ">
+                        il est recommandé de télécharger le formulaire complété avant de le soumettre
+                    </h5>
                     <div>
                         <h2 className="mb-4">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
                         <p>Dans le cadre de la formule ATE, les parties citées ci-dessous :</p>
@@ -448,6 +453,17 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                         </div>
                     </div>
                     <button type="button" onClick={handleSubmit} className='buttonStyle'>Générer le PDF</button>
+
+                    <PDFDownloadLink
+                        document={<GenereContratPDF formData={formData}/>}
+                        fileName="contrat-genere.pdf">
+                        {({ blob, url, loading, error }) =>
+                            (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
+                    </PDFDownloadLink>
+
+                    <h5 className="red-italic ">
+                        il est recommandé de télécharger le formulaire complété avant de le soumettre
+                    </h5>
                 </form>
             </div>
         </div>

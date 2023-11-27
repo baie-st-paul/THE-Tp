@@ -73,7 +73,7 @@ const GenereContratPDF = ({formData}) => (
                     <Text style={styles.tableCell}>SALAIRE</Text>
                 </View>
 
-                <View key={rowIndex} style={styles.tableRow}>
+                <View style={styles.tableRow}>
                     <View style={styles.tableCol}>
                         <Text style={styles.tableCell}>Adresse: {formData.offreLieuStage}</Text>
                     </View>
@@ -142,7 +142,7 @@ const GenereContratPDF = ({formData}) => (
                         <Text style={styles.tableCell}>{formData.dateSignatureEtudiant}</Text>
                     </View>
 
-                    <View key={rowIndex} style={styles.tableRow}>
+                    <View style={styles.tableRow}>
                         <View style={styles.tableCol}>
                             <Text style={styles.tableCell}>{formData.nomEtudiant}</Text>
                         </View>
@@ -172,7 +172,7 @@ const GenereContratPDF = ({formData}) => (
                         <Text style={styles.tableCell}>{formData.dateSignatureEmployeur}</Text>
                     </View>
 
-                    <View key={rowIndex} style={styles.tableRow}>
+                    <View style={styles.tableRow}>
                         <View style={styles.tableCol}>
                             <Text style={styles.tableCell}>{formData.nomEmployeur}</Text>
                         </View>
@@ -202,7 +202,7 @@ const GenereContratPDF = ({formData}) => (
                         <Text style={styles.tableCell}>{formData.dateSignatureGestionnaire}</Text>
                     </View>
 
-                    <View key={rowIndex} style={styles.tableRow}>
+                    <View style={styles.tableRow}>
                         <View style={styles.tableCol}>
                             <Text style={styles.tableCell}>{formData.nomGestionnaire}</Text>
                         </View>

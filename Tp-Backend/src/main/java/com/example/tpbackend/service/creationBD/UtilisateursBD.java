@@ -450,6 +450,7 @@ public class UtilisateursBD implements CommandLineRunner {
                 statusE,
                 statusS,
                 null,
+                null,
                 null
         );
         gestionnaireService.createContrat(contratStageDTO);

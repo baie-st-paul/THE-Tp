@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class ContratStageDTO {
     private String statusVuPasVuS;
     private RapportHeuresDTO rapportFile;
     private EvaluationPdfDto evaluationPDF;
+    private GenerateContratPdfDTO generateContrat;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -43,6 +45,10 @@ public class ContratStageDTO {
 
         if (contratStage.getEvaluationPDF() != null) {
             dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
+        }
+
+        if (contratStage.getContratPDF() != null) {
+            dto.setGenerateContrat(GenerateContratPdfDTO.fromContratPdf(contratStage.getContratPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

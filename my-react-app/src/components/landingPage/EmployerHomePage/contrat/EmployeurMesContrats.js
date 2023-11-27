@@ -9,6 +9,14 @@ import EvaluationPDF from "./evalution_stagiaire/EvaluationPDF";
 import {pdf} from "@react-pdf/renderer";
 import RapportPDF from "./rapportHeures/RapportPDF";
 import RapportForm from "./rapportHeures/RapportForm";
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -324,151 +332,181 @@ export default function EmployeurMesContrats({ contratsTest }) {
         setContrat(contrat)
     }
 
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
+
     return (
         <div>
             <NavBarEmployeur/>
             {showEvaluation && <ModalEvaluation/>}
             {showRapportHeure && <ModalRapportHeure/>}
-            <div id="Render" className="container content-container mt-4">
-                <div className="container w-100">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
-                        </div>
-                        {contrats.length > 0 ?
-                            <div className="table-responsive table-container">
-                                <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
-                                    <input data-testid="input" onChange={(event) => setFiltre(event.target.value)}></input>
-                                </div>
-                                <table className="table w-100 text-start">
-                                    <thead>
-                                    <tr>
-                                        <th className="header-cell h6">Nom, Prénom</th>
-                                        <th className="header-cell h6">Matricule</th>
-                                        <th className='header-cell h6'>Nom de compagnie</th>
-                                        <th className='header-cell h6'>Poste</th>
-                                        <th className="header-cell h6">Signé par étudiant</th>
-                                        <th className="header-cell h6">Signé par employeur</th>
-                                        <th className="header-cell h6" >Signé par gestionnaire</th>
-                                        <th className="header-cell h6">Rapport des heures</th>
-                                        <th className="header-cell h6">Rapport d'évaluation</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody className='w-100'>
-                                    {contrats.length > 0 && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
-                                        .map((contrat, index) => (
-                                            <tr key={index} className="table-row align-middle">
-                                                <td data-label="Nom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
-                                                <td data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
-                                                <td data-label="Nom de compagnie" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
-                                                <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
-                                                <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                                {
-                                                    contrat.statutEmployeur === 'Pas_Signer' ?
-                                                        <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></td>
-                                                        :
-                                                        <td data-label="Signé par employeur" className="fw-semibold">Signé</td>
-                                                }
-                                                <td data-label="Signé par gestionnaire" className="fw-semibold">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                                {
-                                                    contrat.statutEtudiant === 'Signer' &&
-                                                    contrat.statutGestionnaire === 'Signer' &&
-                                                    contrat.statutEmployeur === 'Signer' ?
-                                                        <td data-label="Rapport des heures">
-                                                            {contrat.rapportFile !== null ? (
-                                                                <button className='m-0 text-center btn btn-secondary'
-                                                                        onClick={() => handleMontrerRapportHeure(contrat)}>
-                                                                    <span className='h7'>Voir Rapport</span>
-                                                                </button>
-                                                            ) : (
-                                                                <button className='m-0 text-center btn btn-primary' onClick={() => {
-                                                                    setShowRapportHeure(!showRapportHeure)
-                                                                    setContrat(contrat)
-                                                                    console.log("contratRapport", contrat)
-                                                                }}>
-                                                                    <span className='h7'>Générer Rapport</span>
-                                                                </button>
-                                                            )}
-                                                        </td> :
-                                                        <td data-label="Rapport des heures">
-                                                            <p>En attente des signatures</p>
-                                                        </td>
-                                                }
-                                                {
-                                                    contrat.statutEtudiant === 'Signer' &&
-                                                    contrat.statutGestionnaire === 'Signer' &&
-                                                    contrat.statutEmployeur === 'Signer' ?
-                                                        <td data-label="Évaluation">
-                                                            {contrat.evaluationPDF !== null ? (
-                                                                <button className='m-0 text-center btn btn-secondary'
-                                                                        onClick={() => handleMontrerEvaluation(contrat)}>
-                                                                    <span className='h7'>Voir Évaluation</span>
-                                                                </button>
-                                                            ) : (
-                                                                <button className='m-0 text-center btn btn-primary' onClick={() => {
-                                                                    setShowEvaluation(!showEvaluation)
-                                                                    setContrat(contrat)
-                                                                    console.log("contratEvaluation", contrat)
-                                                                }}>
-                                                                    <span className='h7'>Évaluer</span>
-                                                                </button>
-                                                            )}
-                                                        </td> :
-                                                        <td data-label="Évaluation">
-                                                            <p>En attente des signatures</p>
-                                                        </td>
-                                                }
-                                            </tr>
-                                        ))
-                                    }
-                                    </tbody>
-                                </table>
-                            </div>
-                            : <div>AUCUN CONTRAT À AFFICHER</div>}
+            <div style={{margin: "30px"}}>
+                <div>
+                    <div className="col-lg-12">
+                        <h1 className="display-5 text-center m-2 mb-5">Mes Contrats</h1>
                     </div>
-                    {openModalEvaluation && contrats.length > 0 &&
-                        <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />
-                    }
-                    {openModalRapportHeure && contrats.length > 0 &&
-                        <Modal fichier={contrat.rapportFile.data} fileName="PDF du rapport" onClose={handleMontrerRapportHeure} />
-                    }
-                    <ReactModal
-                        isOpen={isConfirmationModalOpen}
-                        onRequestClose={closeConfirmationModal}
-                        style={customStyles}
-                        ariaHideApp={false}
-                        contentLabel="Confirmation Modal"
-                    >
-                        <h2 title="Confirmation modal">Confirmation</h2>
-                        {
-                            confirmationType === "accept" ? (
-                                <>
-                                    <p>Êtes-vous sûr de vouloir signer le contrat ?</p>
-                                    <button title="ConfirmAccept" className="btn btn-success" onClick={() => handleAcceptConfirmation(confirmationType)}>
-                                        Oui
-                                    </button>
-                                </>
-                            ) : confirmationType === "refuse" ? (
-                                <>
-                                    <p>Êtes-vous sûr de vouloir refuser ?</p>
-                                    <button title="ConfirmRefuse" className="btn btn-danger">
-                                        Oui
-                                    </button>
-                                </>
-                            ) : confirmationType === "generate" ? (
-                                <>
-                                    <p>Êtes-vous sûr de vouloir générer le rapport? Vous ne pouvez le faire qu'une seule fois.</p>
-                                    <button title="ConfirmGenerate" className="btn btn-success" onClick={() => handleAcceptConfirmation(confirmationType)}>
-                                        Oui
-                                    </button>
-                                </>
-                            ) : null
-                        }
-                        <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
-                            Non
-                        </button>
-                    </ReactModal>
+                    {contrats.length > 0 ?
+                        <div>
+                            <div className='text-center mt-3 mb-2'>
+                                <label ><h4>Trouver par matricule &nbsp; </h4></label>
+                                <input data-testid="input" onChange={(event) => setFiltre(event.target.value)}></input>
+                            </div>
+                            <TableContainer component={Paper}>
+                                <Table aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>Prénom, Nom</StyledTableCell>
+                                            <StyledTableCell align="right">Matricule</StyledTableCell>
+                                            <StyledTableCell align="right">Compagnie</StyledTableCell>
+                                            <StyledTableCell align="right">Poste</StyledTableCell>
+                                            <StyledTableCell align="right">Signé par étudiant</StyledTableCell>
+                                            <StyledTableCell align="right">Signé par gestionnaire</StyledTableCell>
+                                            <StyledTableCell align="right">Signé par employeur</StyledTableCell>
+                                            <StyledTableCell align="right">Rapport des heures</StyledTableCell>
+                                            <StyledTableCell align="right">Évaluation</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {contrats.length > 0 && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
+                                            .map((contrat, index) => (
+                                                <StyledTableRow key={index}>
+                                                    <td data-label="Prénom, Nom">
+                                                        {contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}
+                                                    </td>
+                                                    <td data-label="Matricule">
+                                                        {contrat.candidatureDTO.student.matricule}
+                                                    </td>
+                                                    <td data-label="Compagnie">
+                                                        {contrat.candidatureDTO.employer.companyName}
+                                                    </td>
+                                                    <td data-label="Poste">
+                                                        {contrat.candidatureDTO.offreStage.titre}
+                                                    </td>
+                                                    <td data-label="Signé par étudiant">
+                                                        {contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'}
+                                                    </td>
+                                                    {
+                                                        contrat.statutEmployeur === 'Pas_Signer' ?
+                                                            <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></td>
+                                                            :
+                                                            <td data-label="Signé par employeur">Signé</td>
+                                                    }
+                                                    <td data-label="Signé par gestionnaire">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                    {
+                                                        contrat.statutEtudiant === 'Signer' &&
+                                                        contrat.statutGestionnaire === 'Signer' &&
+                                                        contrat.statutEmployeur === 'Signer' ?
+                                                            <td data-label="Rapport des heures">
+                                                                {contrat.rapportFile !== null ? (
+                                                                    <button className='m-0 text-center btn btn-secondary'
+                                                                            onClick={() => handleMontrerRapportHeure(contrat)}>
+                                                                        <span className='h7'>Voir Rapport</span>
+                                                                    </button>
+                                                                ) : (
+                                                                    <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                        setShowRapportHeure(!showRapportHeure)
+                                                                        setContrat(contrat)
+                                                                        console.log("contratRapport", contrat)
+                                                                    }}>
+                                                                        <span className='h7'>Générer Rapport</span>
+                                                                    </button>
+                                                                )}
+                                                            </td> :
+                                                            <td data-label="Rapport des heures">
+                                                                <p>En attente des signatures</p>
+                                                            </td>
+                                                    }
+                                                    {
+                                                        contrat.statutEtudiant === 'Signer' &&
+                                                        contrat.statutGestionnaire === 'Signer' &&
+                                                        contrat.statutEmployeur === 'Signer' ?
+                                                            <td data-label="Évaluation">
+                                                                {contrat.evaluationPDF !== null ? (
+                                                                    <button className='m-0 text-center btn btn-secondary'
+                                                                            onClick={() => handleMontrerEvaluation(contrat)}>
+                                                                        <span className='h7'>Voir Évaluation</span>
+                                                                    </button>
+                                                                ) : (
+                                                                    <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                        setShowEvaluation(!showEvaluation)
+                                                                        setContrat(contrat)
+                                                                        console.log("contratEvaluation", contrat)
+                                                                    }}>
+                                                                        <span className='h7'>Évaluer</span>
+                                                                    </button>
+                                                                )}
+                                                            </td> :
+                                                            <td data-label="Évaluation">
+                                                                <p>En attente des signatures</p>
+                                                            </td>
+                                                    }
+                                                </StyledTableRow>
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                        : <div>AUCUN CONTRAT À AFFICHER</div>}
                 </div>
+                {openModalEvaluation && contrats.length > 0 &&
+                    <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />
+                }
+                {openModalRapportHeure && contrats.length > 0 &&
+                    <Modal fichier={contrat.rapportFile.data} fileName="PDF du rapport" onClose={handleMontrerRapportHeure} />
+                }
+                <ReactModal
+                    isOpen={isConfirmationModalOpen}
+                    onRequestClose={closeConfirmationModal}
+                    style={customStyles}
+                    ariaHideApp={false}
+                    contentLabel="Confirmation Modal"
+                >
+                    <h2 title="Confirmation modal">Confirmation</h2>
+                    {
+                        confirmationType === "accept" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir signer le contrat ?</p>
+                                <button title="ConfirmAccept" className="btn btn-success" onClick={() => handleAcceptConfirmation(confirmationType)}>
+                                    Oui
+                                </button>
+                            </>
+                        ) : confirmationType === "refuse" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir refuser ?</p>
+                                <button title="ConfirmRefuse" className="btn btn-danger">
+                                    Oui
+                                </button>
+                            </>
+                        ) : confirmationType === "generate" ? (
+                            <>
+                                <p>Êtes-vous sûr de vouloir générer le rapport? Vous ne pouvez le faire qu'une seule fois.</p>
+                                <button title="ConfirmGenerate" className="btn btn-success" onClick={() => handleAcceptConfirmation(confirmationType)}>
+                                    Oui
+                                </button>
+                            </>
+                        ) : null
+                    }
+                    <button title="ConfirmNon" className="btn btn-secondary" onClick={closeConfirmationModal}>
+                        Non
+                    </button>
+                </ReactModal>
             </div>
         </div>
     )

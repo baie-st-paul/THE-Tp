@@ -11,7 +11,6 @@ const InscriptionPageE = () => {
 
     async function inscription(etudiant) {
         try {
-            console.log(erreur)
             fetch(
                 'http://localhost:8081/api/v1/utilisateur/register',
                 {
@@ -26,20 +25,20 @@ const InscriptionPageE = () => {
                 console.log(error)
             }).then(
                 async (res) => {
-                    const data = await res.json()
                     try {
+                        const data = await res.json()
                         console.log(res.status)
-                        if (res.status === 400) {
+                        if (res.status !== 200) {
                             console.log(res.status)
-                            setErreur(true)
                             throw new Error('Cette matricule ou Email est déjà associé à un compte');
                         }
+                        setErreur(false)
+                        setEtudiants([...etudiants, data])
+                        console.log(data)
                     } catch (e) {
                         console.log(e)
+                        setErreur(true)
                     }
-                    setErreur(false)
-                    setEtudiants([...etudiants, data])
-                    console.log(data)
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);

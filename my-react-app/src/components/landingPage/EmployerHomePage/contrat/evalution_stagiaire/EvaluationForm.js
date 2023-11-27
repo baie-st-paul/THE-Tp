@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import "./EvaluationForm.css";
 import FaqAccordion from './FaqAccordion';
 import PhoneInput from "react-phone-number-input";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import EvaluationPDF from './EvaluationPDF';
 
 const EvaluationForm = ({contrat, onSubmit}) => {
     const initialState = {
@@ -871,12 +873,12 @@ const EvaluationForm = ({contrat, onSubmit}) => {
                     <button type="button" onClick={handleSubmit} className='buttonStyle'>Soumettre l'Évaluation en PDF</button>
                    
 
-                    {/* <PDFDownloadLink
+                    <PDFDownloadLink
                         document={<EvaluationPDF evaluationData={evaluationData} />}
                         fileName="evaluation-form.pdf">
                         {({ blob, url, loading, error }) =>
                             (loading ? 'Chargement du document...' : 'Télécharger en PDF')}
-                    </PDFDownloadLink> */}
+                    </PDFDownloadLink>
 
                     <FaqAccordion />
                        

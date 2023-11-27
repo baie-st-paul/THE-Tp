@@ -157,7 +157,6 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
         } catch (error) {
             console.error("Error accepting/refusing etudiant:", error);
         }
-        //window.location.reload();
     }
 
     const setModal = (candidatureId) => {
@@ -197,7 +196,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
             console.log(matricule)
             console.log(candidature.offreStage)
             console.log(offreId)
-
+            
             let employerId = localStorage.getItem('employer_id')
 
             entrevue["status"] = "EnAttente"

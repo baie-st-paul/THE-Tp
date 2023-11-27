@@ -13,6 +13,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
             && entrevue.offreStage.id === offre.offreStage.id
         ))
         console.log("isPresent", isPresent)
+        console.log("offre", offre)
     }
     function handleConvoquerEntrevue(candidatureId) {
         setModal(candidatureId);
@@ -24,11 +25,11 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
         <>
             {isPresent.length > 0 /*|| isPresent[0].status !== 'Refusee'*/ ?
                 <>
-                    { isPresent[0].status !== 'Refusee' ?
+                    { isPresent[0].status !== 'Refusee' || offre.status === 'Accepted' ?
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
                             {
-                                isPresent[0].status === 'Acceptee' ?
+                                offre.status === 'Accepted' ?
                                     <span className="badge bg-success ms-2">Acceptée</span>
                                     :
                                     <span className="badge bg-warning text-dark ms-2">En attente</span>

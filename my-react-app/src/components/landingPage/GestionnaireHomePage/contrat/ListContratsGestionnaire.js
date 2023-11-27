@@ -192,7 +192,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                         } catch (e) {
                             console.log(e)
                         }
-                        //window.location.reload()
+                        window.location.reload()
                     }
                 )
             }).catch(error => {

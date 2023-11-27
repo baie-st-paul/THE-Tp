@@ -79,7 +79,8 @@ public class Candidature {
     public enum Status {
         Accepted,
         In_review,
-        Refused
+        Refused,
+        Interview
     }
 
     public enum StatusVuPasVu {

@@ -4,18 +4,17 @@ import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.RapportHeures;
 import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.EvaluationPDFRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.TagGenerator;
@@ -41,9 +40,11 @@ public class EmployerService {
     @Autowired
     private ContratStageRepository contratStageRepository;
     @Autowired
-    EvaluationPDFRepository evaluationPDFRepository;
+    private EvaluationPDFRepository evaluationPDFRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private RapportHeuresRepository rapportHeuresRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -116,6 +117,23 @@ public class EmployerService {
     }
 
     @Transactional
+    public RapportHeuresDTO saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception{
+        RapportHeures rapportHeures = RapportHeuresDTO.toRapportHeure(rapportHeuresDTO);
+        RapportHeures savedRapportHeures = rapportHeuresRepository.save(rapportHeures);
+
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+
+        ContratStage contract = optionalContract.get();
+        contract.setRapportHeures(savedRapportHeures);
+        contratStageRepository.save(contract);
+
+        return RapportHeuresDTO.fromRapportHeure(savedRapportHeures);
+    }
+
+    @Transactional
     public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto, Long contractId) throws Exception {
 
         EvaluationPDF evaluation = EvaluationPdfDto.toEvaluationPDF(evaluationPdfDto);
@@ -132,6 +150,4 @@ public class EmployerService {
 
         return EvaluationPdfDto.fromEvaluationPDF(savedEvaluation);
     }
-
-
 }

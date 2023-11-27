@@ -24,7 +24,7 @@ const SectionEntrevue = ({entrevueTest}) => {
     const [confirmationType, setConfirmationType] = useState("");
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [selectedEntrevue, setSelectedEntrevue] = useState(null);
-
+    const [filterSelection, setFilterSelection] = useState("EnAttente");
     const token = localStorage.getItem('token');
     const savedMatricule = localStorage.getItem("loggedInUserMatricule");
 
@@ -70,7 +70,7 @@ const SectionEntrevue = ({entrevueTest}) => {
 
     const handleAcceptConfirmation = () => {
         fetch(
-            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Acceptee`,
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.id}/Acceptee`,
             {
                 method: "PUT",
                 headers: {
@@ -83,14 +83,13 @@ const SectionEntrevue = ({entrevueTest}) => {
             console.log(error)
         }).then(
             async (response) => {
-                const data = await response.json();
-                try {
-                    console.log(response.status)
-                }
-                catch (e) {
-                    console.log(e)
-                }
-                console.log(data)
+                console.log(response.status)
+                setEntrevues(entrevues.map(entrevue => {
+                    if (entrevue.id === selectedEntrevue.id) {
+                        entrevue.status = "Acceptee";
+                    }
+                    return entrevue;
+                }));
                 setShouldRefetch(true);
             })
         setIsConfirmationModalOpen(false);
@@ -98,7 +97,7 @@ const SectionEntrevue = ({entrevueTest}) => {
 
     const handleRefuseConfirmation = () => {
         fetch(
-            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.idEtudiant}/Refusee`,
+            `http://localhost:8081/api/v1/stages/entrevues/manageStatusByMatricule/${selectedEntrevue.id}/Refusee`,
             {
                 method: "PUT",
                 headers: {
@@ -111,14 +110,13 @@ const SectionEntrevue = ({entrevueTest}) => {
             console.log(error)
         }).then(
             async (response) => {
-                const data = await response.json();
-                try{
-                    console.log(response.status)
-                }
-                catch (e) {
-                    console.log(e)
-                }
-                console.log(data)
+                console.log(response.status)
+                setEntrevues(entrevues.map(entrevue => {
+                    if (entrevue.id === selectedEntrevue.id) {
+                        entrevue.status = "Refusee";
+                    }
+                    return entrevue;
+                }));
                 setShouldRefetch(true);
             }
         )
@@ -141,15 +139,28 @@ const SectionEntrevue = ({entrevueTest}) => {
         });
     };
 
-    const entrevuesEnAttente = entrevues.filter(entrevue => entrevue.status === "EnAttente");
+    const entrevuesFiltred = () => {
+        if (filterSelection === "Toutes") return entrevues;
+        return entrevues.filter(entrevue => entrevue.status === filterSelection);
+    }
 
     return (
         <div>
             <NavBarStudent/>
-            <div id="Render" className="container content-container mt-4">
+            <div id="Render" className="container-lg mt-4">
                 <h1 className="display-4 text-center">Liste des Entrevues</h1>
-                {entrevuesEnAttente.length > 0 ?
-                    <div className="table-container mt-3">
+                <select
+                    className="form-select mx-auto w-25"
+                    aria-label="Default select example"
+                    onChange={(e) => setFilterSelection(e.target.value)}
+                >
+                    <option value="EnAttente">En Attente</option>
+                    <option value="Acceptee">Acceptée</option>
+                    <option value="Refusee">Refusée</option>
+                    <option value="Toutes">Toutes</option>
+                </select>
+                {entrevuesFiltred().length > 0 ?
+                    <div className="table-container mt-5">
                         <table className="table table-hover">
                             <thead>
                             <tr className="h3">
@@ -160,13 +171,13 @@ const SectionEntrevue = ({entrevueTest}) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {entrevuesEnAttente.map((entrevue, index) => (
+                            {entrevuesFiltred().map((entrevue, index) => (
                                 <tr key={index} onClick={() => setSelectedEntrevue(entrevue)}>
                                     <td className="align-middle text-center w-5">{entrevue.companyName}</td>
                                     <td className="fw-bolder align-middle text-center">
                                         {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}
                                     </td>
-                                    <td className="align-middle text-center w-50">
+                                    <td className="align-middle text-center ">
                                         {entrevue.description.length > 200  && !expandedDescriptions[index] ? (
                                             <>
                                                 {entrevue.description.slice(0, 200)}...
@@ -192,19 +203,31 @@ const SectionEntrevue = ({entrevueTest}) => {
                                         )}
                                     </td>
                                     <td className="align-middle text-center">
-                                        <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
-                                            <FontAwesomeIcon icon={faCheck} /> Accepter
-                                        </button>
-                                        <button data-testid="refuser-button-1" className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
-                                            <FontAwesomeIcon icon={faTimes} /> Refuser
-                                        </button>
+                                        { entrevue.status === "EnAttente" ?
+                                        <div>
+                                            <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                                <FontAwesomeIcon icon={faCheck} /> Accepter
+                                            </button>
+                                            <button data-testid="refuser-button-1" className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                                <FontAwesomeIcon icon={faTimes} /> Refuser
+                                            </button>
+                                        </div>
+                                        :
+                                        <>
+                                            { entrevue.status === "Acceptee" ?
+                                                <>Acceptée <FontAwesomeIcon className="text-success" icon={faCheck} /></>
+                                                :
+                                                <>Refusée <FontAwesomeIcon className="text-danger" icon={faTimes} /></>
+                                            }
+                                        </>
+                                        }
                                     </td>
                                 </tr>
                             ))}
                             </tbody>
                         </table>
                     </div> :
-                    <p>Il n'y a pas encore d'entrevues...</p>
+                    <p className="align-middle text-center mt-5">Il n'y a pas d'entrevues...</p>
                 }
                 <ReactModal
                     isOpen={isConfirmationModalOpen}

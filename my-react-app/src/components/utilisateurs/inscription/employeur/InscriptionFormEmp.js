@@ -55,12 +55,14 @@ const InscriptionFormEmp = ({onAdd}) => {
         if (
             firstName.trim() === ''
         ) {
+            annuler = true;
             firstNameRef.current.innerHTML  = '* Veuillez entrer votre prenom *';
         } else {
             firstNameRef.current.innerHTML = '';
         }
 
         if(lastName.trim() === '') {
+            annuler = true;
             lastNameRef.current.innerHTML = '* Veuillez entrer votre nom *';
         } else {
             lastNameRef.current.innerHTML = ''
@@ -74,12 +76,14 @@ const InscriptionFormEmp = ({onAdd}) => {
             annuler = true;
         }
         if(companyName.trim() === '') {
+            annuler = true;
             companyNameRef.current.innerHTML = '* Veuillez entrer votre nom de compagnie *';
         } else {
             companyNameRef.current.innerHTML = ''
         }
 
         if (phoneNumber.trim()=== '') {
+            annuler = true;
             phoneNumberRef.current.innerHTML = '* Veuillez entrer votre numéro de téléphone *'
         }
         else {
@@ -92,22 +96,26 @@ const InscriptionFormEmp = ({onAdd}) => {
         }
 
         if (email.trim() === '') {
+            annuler = true;
             emailRef.current.innerHTML = '* Veuillez entrer votre émail';
         } else {
             emailRef.current.innerHTML = ''
         }
 
         if (email.trim()!== '' && !validEmail) {
+            annuler = true;
             emailRef.current.innerHTML = '* Email n\'est pas valide *';
         }
 
         if (password.trim() ==='') {
+            annuler = true;
             passwordRef.current.innerHTML = '* Veuillez entrer votre mot de passe *'
         } else {
             passwordRef.current.innerHTML = '';
         }
 
         if (confirmPassword.trim() === '') {
+            annuler = true;
             confirmPasswordRef.current.innerHTML = '* Veuillez entrer la confirmation de mot de passe *'
         } else {
             confirmPasswordRef.current.innerHTML ='';
@@ -125,8 +133,7 @@ const InscriptionFormEmp = ({onAdd}) => {
             confirmPasswordRef.current.innerHTML = '';
         }
 
-        if (annuler === true) {
-        } else {
+        if (annuler !== true) {
             onAdd({
                 firstName,
                 lastName,

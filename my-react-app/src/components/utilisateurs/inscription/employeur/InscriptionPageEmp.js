@@ -25,20 +25,21 @@ const InscriptionPageEmp = () => {
                 console.log(error)
             }).then(
                 async (res) => {
-                    const data = await res.json()
                     try {
+                        const data = await res.json()
                         console.log(res.status)
                         if (res.status === 400) {
                             console.log(res.status)
-                            setErreur(true)
                             throw new Error('Cet Email est déjà associé à un compte');
                         }
+                        setErreur(false)
+                        setEmployeurs([...employeurs, data])
+                        console.log(data)
                     } catch (e) {
                         console.log(e)
+                        setErreur(true)
                     }
-                    setErreur(false)
-                    setEmployeurs([...employeurs, data])
-                    console.log(data)
+
                 })
         } catch (error) {
             console.log('Une erreur est survenue:', error);

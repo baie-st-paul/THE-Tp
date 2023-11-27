@@ -78,10 +78,10 @@ const RapportForm = ({contrat, onSubmit}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let formIsValid = true;
+        let annuler = false;
 
         if (formData.nomEmployeur.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             nomEmployeurRef.current.innerHTML = "Le nom de l'employeur est requis";
             nomEmployeurRef.current.focus();
         } else {
@@ -89,7 +89,7 @@ const RapportForm = ({contrat, onSubmit}) => {
         }
 
         if (formData.nomSuperviseur.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             nomSuperviseurRef.current.innerHTML = "Le nom du superviseur est requis";
             nomSuperviseurRef.current.focus();
         } else {
@@ -97,7 +97,7 @@ const RapportForm = ({contrat, onSubmit}) => {
         }
 
         if (formData.titre.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             titreRef.current.innerHTML = "Le titre est requis";
             titreRef.current.focus();
         } else {
@@ -105,7 +105,7 @@ const RapportForm = ({contrat, onSubmit}) => {
         }
 
         if (formData.nomStagiaire.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             nomStagiaireRef.current.innerHTML = "Le nom du stagiaire est requis";
             nomStagiaireRef.current.focus();
         } else {
@@ -113,7 +113,7 @@ const RapportForm = ({contrat, onSubmit}) => {
         }
 
         if (formData.signature.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             signatureRef.current.innerHTML = "La signature est requise";
             signatureRef.current.focus();
         } else {
@@ -121,14 +121,15 @@ const RapportForm = ({contrat, onSubmit}) => {
         }
 
         if (formData.fonction.trim() === "") {
-            formIsValid = false;
+            annuler = true;
             fonctionRef.current.innerHTML = "La fonction est requise";
             fonctionRef.current.focus();
         } else {
             fonctionRef.current.innerHTML = "";
         }
 
-        if (formIsValid) {
+        if (annuler === true) {
+        } else {
             console.log(contrat)
             onSubmit(contrat, formData);
         }

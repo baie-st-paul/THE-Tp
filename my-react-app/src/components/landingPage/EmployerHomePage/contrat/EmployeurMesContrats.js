@@ -282,7 +282,7 @@ export default function EmployeurMesContrats({ contratsTest }) {
                         } catch (e) {
                             console.log(e)
                         }
-                        //window.location.reload()
+                        window.location.reload()
                     }
                 )
             }).catch(error => {
@@ -428,6 +428,9 @@ export default function EmployeurMesContrats({ contratsTest }) {
                     </div>
                     {openModalEvaluation && contrats.length > 0 &&
                         <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />
+                    }
+                    {openModalRapportHeure && contrats.length > 0 &&
+                        <Modal fichier={contrat.rapportFile.data} fileName="PDF du rapport" onClose={handleMontrerRapportHeure} />
                     }
                     <ReactModal
                         isOpen={isConfirmationModalOpen}

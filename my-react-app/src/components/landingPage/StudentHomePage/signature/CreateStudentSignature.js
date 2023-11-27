@@ -20,7 +20,7 @@ const CreateStudentSignature = () => {
     }, [setSignature]);
 
     const getFetchs = async () => {
-        setSignature(FetchsStudent.fetchSignature(token, signature, setSignature))
+        setSignature(FetchsStudent.fetchSignature(token, studentMatricule, signature, setSignature))
     }
 
     const saveSignature = async () => {

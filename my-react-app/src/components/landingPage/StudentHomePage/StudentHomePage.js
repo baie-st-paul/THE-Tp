@@ -21,7 +21,7 @@ const StudentHomePage = () => {
             localStorage.setItem("loggedInUserMatricule", loggedInUser.matricule);
         }
 
-        setSignature(FetchsStudent.fetchSignature(token, signature, setSignature))
+        setSignature(FetchsStudent.fetchSignature(token, localStorage.getItem("loggedInUserMatricule"), signature, setSignature))
         setCv(FetchsStudent.fetchCv(token, cv, setCv))
         fetchCurrentSession()
     }, [loggedInUser, setLoggedInUser]);

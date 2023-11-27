@@ -38,12 +38,10 @@ const fetchCv = async (token, cv, setCv) => {
     }
 }
 
-const fetchSignature = async (token, signature, setSignature) => {
+const fetchSignature = async (token, matricule, signature, setSignature) => {
     try {
-        const m = localStorage.getItem("loggedInUserMatricule")
-        console.log(m)
         fetch(
-            `http://localhost:8081/api/v1/stages/signatures/student/get/${m}`,
+            `http://localhost:8081/api/v1/stages/signatures/student/get/${matricule}`,
             {
                 method: 'GET',
                 headers: {

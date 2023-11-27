@@ -155,9 +155,9 @@ public class GestionnaireService {
 
         contratStage.setNomDePoste(candidature.getOffreStage().getTitre());
 
-        contratStage.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
-        contratStage.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+        contratStage.setStatutGestionnaire(ContratStage.Statut.valueOf(contratStageDTO.getStatutGestionnaire()));
+        contratStage.setStatutEtudiant(ContratStage.Statut.valueOf(contratStageDTO.getStatutEtudiant()));
+        contratStage.setStatutEmployeur(ContratStage.Statut.valueOf(contratStageDTO.getStatutEmployeur()));
 
         contratStage.setStatutVuPasVuS(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));
         contratStage.setStatutVuPasVuG(ContratStage.StatusVuPasVu.valueOf(contratStageDTO.getStatusVuPasVuG()));

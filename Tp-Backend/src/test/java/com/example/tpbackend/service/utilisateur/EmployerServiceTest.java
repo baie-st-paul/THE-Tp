@@ -3,6 +3,7 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
 import com.example.tpbackend.models.EvaluationPDF;
@@ -224,8 +225,21 @@ class EmployerServiceTest {
 
         verify(contratStageRepository, times(1)).updateStatusVuPasVuEByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
     }
+
+    @Test
+    public void testSaveRapportHeures() throws Exception {
+        MultipartFile mockFile = mock(MultipartFile.class);
+
+        RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO(mockFile);
+
+        ContratStage contract = new ContratStage();
+        contract.setId(1L);
+        contract.setStatutEtudiant(ContratStage.Statut.Signer);
+
+        when(contratStageRepository.findById(any())).thenReturn(Optional.of(contract));
+
+        employerService.saveRapportHeures(rapportHeuresDTO, 1L);
+
+        verify(contratStageRepository, times(1)).findById(1L);
+    }
 }
-
-
-
-

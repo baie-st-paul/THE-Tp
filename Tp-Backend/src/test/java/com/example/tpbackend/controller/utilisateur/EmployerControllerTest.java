@@ -4,6 +4,7 @@ import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -27,10 +28,11 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.time.LocalDate;
@@ -219,6 +221,17 @@ public class EmployerControllerTest {
     }
 
     @Test
+    public void testSaveRapportHeures() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/contracts/1/rapport_heures").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isOk());
+
+        verify(employerService).saveRapportHeures(any(RapportHeuresDTO.class), anyLong());
+    }
+
+    @Test
     public void testHandleFileUpload() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
         Long mockContractId = 1L;
@@ -235,5 +248,4 @@ public class EmployerControllerTest {
 
         verify(employerService).saveEvaluation(any(EvaluationPdfDto.class), any(Long.class));
     }
-
 }

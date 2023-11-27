@@ -33,6 +33,11 @@ const NavBarEmployeur = () => {
         setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
     }
 
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
+    }
+
     return (
         <Navbar className="navbar-dark navbarClass border border-dark" expand="lg">
             <Navbar.Toggle aria-controls="basic-navbar-nav navbar-fluid"/>

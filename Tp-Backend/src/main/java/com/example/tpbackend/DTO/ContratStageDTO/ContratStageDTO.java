@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,6 @@ public class ContratStageDTO {
     private Long candidatureId;
     private String nomEtudiant;
     private String nomDeCompanie;
-
     private String nomDePoste;
     private String prenomEtudiant;
     private String statutEtudiant;
@@ -22,6 +22,7 @@ public class ContratStageDTO {
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
+    private RapportHeuresDTO rapportFile;
     private EvaluationPdfDto evaluationPDF;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
@@ -32,13 +33,16 @@ public class ContratStageDTO {
 
         ContratStageDTO dto = new ContratStageDTO();
 
-        if (contratStage.getEvaluationPDF() != null) {
-            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
-        }
-
-
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureId(contratStage.getCandidature().getId());
+        }
+
+        if(contratStage.getRapportHeures() != null) {
+            dto.setRapportFile(RapportHeuresDTO.fromRapportHeure(contratStage.getRapportHeures()));
+        }
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
@@ -54,7 +58,8 @@ public class ContratStageDTO {
         dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));
         return dto;
     }
-    public ContratStage toContratStage() {
+
+    public ContratStage toContratStage(){
         ContratStage contratStage = new ContratStage();
 
         contratStage.setId(this.id);
@@ -62,5 +67,6 @@ public class ContratStageDTO {
         return contratStage;
     }
 }
+
 
 

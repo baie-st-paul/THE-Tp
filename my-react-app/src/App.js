@@ -16,8 +16,7 @@ import OffresPageGestionnaire from "./components/landingPage/GestionnaireHomePag
 import OffresPageStudent from "./components/landingPage/StudentHomePage/candidature/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/EmployerHomePage/candidature/infoStudentOffre/InformationEtudiantPostule';
 import VetoSection from "./components/landingPage/GestionnaireHomePage/Vetocv/VetoSection";
-import EtudiantsConvoquesEntrevue
-    from "./components/landingPage/GestionnaireHomePage/entrevue/EtudiantsConvoquesEntrevue";
+import EtudiantsConvoquesEntrevue from "./components/landingPage/GestionnaireHomePage/entrevue/EtudiantsConvoquesEntrevue";
 import EtudiantEmbauchePage from "./components/landingPage/GestionnaireHomePage/embauche/EtudiantEmbauchePage";
 import ListContratsGestionnaire from "./components/landingPage/GestionnaireHomePage/contrat/ListContratsGestionnaire";
 import EmployerStageOffreList from "./components/landingPage/EmployerHomePage/offres/EmployerStageOffreList";

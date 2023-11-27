@@ -4,6 +4,7 @@ import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.service.OffreStageService;
@@ -102,9 +103,22 @@ public class EmployerController {
         return ResponseEntity.ok(employerContracts);
     }
 
+    @PostMapping(value = "/contracts/{id}/rapport_heures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
+        try {
+            RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO(file);
+            RapportHeuresDTO savedRapportHeuresDTO = employerService.saveRapportHeures(rapportHeuresDTO, id);
+
+            return new ResponseEntity<>(savedRapportHeuresDTO, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading the file");
+        }
+    }
+
     @PostMapping(value = "/upload_evaluation/{contractId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("authenticated")
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
+    public ResponseEntity<?> handleFileUploadEvaluation(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
         try {
             EvaluationPdfDto evaluationDTO = new EvaluationPdfDto(file);
             EvaluationPdfDto savedDocumentDto = employerService.saveEvaluation(evaluationDTO, contractId);

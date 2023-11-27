@@ -78,9 +78,8 @@ const OVERLAY_STYLE = {
                     entr[i]["lettreMotivation"] = candidature.lettreMotivation;
                 }
                 setListeCandidatureFiltered(entr)
-                console.log(entr)
                 }
-        }
+        
         if (state.selectVar === 'In_review'){
             setSelect('In_review')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review'))
@@ -89,6 +88,8 @@ const OVERLAY_STYLE = {
             setSelect('need-action')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
             }
+        
+        }   
     }
 
     const getAllCandidatures = async() => {
@@ -118,6 +119,7 @@ const OVERLAY_STYLE = {
                             console.log(e)
                         }
                         data1Ref.current = data
+                        setListeCandidatureFiltered(data);
                         setlisteCandidature(data);
                     }).then(allEntrevuesStudentMatricule).then(setfinFetch(true))
         } catch (error) {

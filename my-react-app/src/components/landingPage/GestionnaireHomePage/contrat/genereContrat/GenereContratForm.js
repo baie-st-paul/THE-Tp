@@ -260,9 +260,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                         <div>
                             <h4>ENDROIT DU STAGE</h4>
 
-                            <label htmlFor="adresseStage" className='questionStyle label'>Adresse:</label>
-                            <input id="adresseStage" className= 'questionStyle input'
-                                   type="text" name="adresseStage" value={formData.offreLieuStage}
+                            <label htmlFor="offreLieuStage" className='questionStyle label'>Adresse:</label>
+                            <input id="offreLieuStage" className= 'questionStyle input'
+                                   type="text" name="offreLieuStage" value={formData.offreLieuStage}
                                    onChange={handleChange} />
                             <span ref={offreStageLieuRef} className="error-message"></span>
                         </div>
@@ -275,6 +275,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date debut"
                                        style={{color: 'grey', fontSize : '20px'}}
                                        id="dateDebut"
+                                       name="dateDebut"
                                        value={formData.dateDebut}
                                        onChange={handleChange}/>
                                 <span ref={dateDebutRef} className="error-message"></span>
@@ -283,6 +284,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date fin"
                                        style={{color: 'grey', fontSize : '20px'}}
                                        id="dateFin"
+                                       name="dateFin"
                                        value={formData.dateFin}
                                        onChange={handleChange}/>
                                 <span ref={dateFinRef} className="error-message"></span>
@@ -290,7 +292,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
 
                             <div className='questionStyle'>
                                 <label htmlFor="nbTotalSemaines" className='questionStyle label'>Nombre total de semaines :</label>
-                                <input id="nbTotalSemaines" className= 'questionStyle input' type="number" name="nbTotalSemaines"
+                                <input id="nbTotalSemaines" className='questionStyle input' type="number" name="nbTotalSemaines"
                                        value={formData.nbTotalSemaines} onChange={handleChange} />
                                 <span ref={nbTotalSemainesRef} className="error-message"></span>
                             </div>
@@ -301,22 +303,25 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
 
                             <div className='questionStyle'>
                                 <label className='questionStyle label'>Horaire de travail :</label>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DemoContainer components={['TimePicker', 'TimePicker']}>
-                                        <TimePicker
-                                            label="De:"
-                                            value={formData.startWorkHours}
-                                            onChange={handleChange}
-                                            format="HH:mm"
-                                        />
-                                        <TimePicker
-                                            label="À:"
-                                            value={formData.endWorkHours}
-                                            onChange={handleChange}
-                                            format="HH:mm"
-                                        />
-                                    </DemoContainer>
-                                </LocalizationProvider>
+                                <div className='form-group'>
+                                    <label htmlFor="startWorkHours" style={{display: "block", textAlign: "left"}}>De:</label>
+                                    <input className='form-control saisie saisie-user px-3 m-0' type='time' placeholder="heure debut"
+                                           style={{color: 'grey', fontSize : '20px'}}
+                                           id="startWorkHours"
+                                           name="startWorkHours"
+                                           value={formData.startWorkHours}
+                                           onChange={handleChange}/>
+                                    <span ref={startWorkHoursRef} className="error-message"></span>
+
+                                    <label htmlFor="endWorkHours" style={{display: "block", textAlign: "left"}}>À:</label>
+                                    <input className='form-control saisie saisie-user px-3 m-0' type='time' placeholder="heure fin"
+                                           style={{color: 'grey', fontSize : '20px'}}
+                                           id="endWorkHours"
+                                           name="endWorkHours"
+                                           value={formData.endWorkHours}
+                                           onChange={handleChange}/>
+                                    <span ref={endWorkHoursRef} className="error-message"></span>
+                                </div>
                             </div>
 
                             <div className='questionStyle'>
@@ -387,6 +392,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
                                                    style={{color: 'grey', fontSize: '20px'}}
                                                    id="dateSignatureEtudiant"
+                                                   name="dateSignatureEtudiant"
                                                    value={formData.dateSignatureEtudiant}
                                                    onChange={handleChange}/>
                                             <span ref={dateSignatureEtudiantRef} className="error-message"></span>
@@ -394,7 +400,6 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </div>
                                     <div className="row">
                                         <p>Prénom, Nom: {formData.nomEtudiant}</p>
-                                        <p>Date</p>
                                     </div>
                                 </div>
 
@@ -413,6 +418,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
                                                    style={{color: 'grey', fontSize: '20px'}}
                                                    id="dateSignatureEmployeur"
+                                                   name="dateSignatureEmployeur"
                                                    value={formData.dateSignatureEmployeur}
                                                    onChange={handleChange}/>
                                             <span ref={dateSignatureEmployeurRef} className="error-message"></span>
@@ -420,7 +426,6 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </div>
                                     <div className="row">
                                         <p>Prénom, Nom: {formData.nomEmployeur}</p>
-                                        <p>Date</p>
                                     </div>
                                 </div>
 
@@ -439,6 +444,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
                                                    style={{color: 'grey', fontSize: '20px'}}
                                                    id="dateSignatureGestionnaire"
+                                                   name="dateSignatureGestionnaire"
                                                    value={formData.dateSignatureGestionnaire}
                                                    onChange={handleChange}/>
                                             <span ref={dateSignatureGestionnaireRef} className="error-message"></span>
@@ -446,7 +452,6 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </div>
                                     <div className="row">
                                         <p>Prénom, Nom: {formData.nomGestionnaire}</p>
-                                        <p>Date</p>
                                     </div>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ import {pdf} from "@react-pdf/renderer";
 import GenereContratPDF from "./genereContrat/GenereContratPDF";
 import GenereContratForm from "./genereContrat/GenereContratForm";
 import Modal from "../Vetocv/Modal";
+import FetchsGestionnaire from "../../NavBar/gestionnaire/FetchsGestionnaire";
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -52,8 +53,10 @@ const ListContratsGestionnaire = ({contratsTest}) => {
     const [openModalGenerateContrat, setOpenModalGenerateContrat] = useState(false)
 
     const token = localStorage.getItem('token');
+    const [gestionnaire, setGestionnaire] = useState(null);
 
     useEffect(() => {
+        setGestionnaire(FetchsGestionnaire.fetchGestionnaire(token, gestionnaire, setGestionnaire))
         fetchContrats()
     }, []);
 
@@ -213,6 +216,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                         </div>
                         <div className="body">
                             <GenereContratForm
+                                gestionnaire={gestionnaire}
                                 contrat={contrat}
                                 onSubmit={handleGenerateContratSubmit}
                             />

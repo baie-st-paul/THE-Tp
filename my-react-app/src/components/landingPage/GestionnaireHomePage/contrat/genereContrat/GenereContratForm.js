@@ -349,7 +349,67 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     <div className="mt-4">
                         <div>
                             <h4>SIGNATURES</h4>
-                            
+                            <h5><b>Les parties s'engagent à respecter cette entente de stage</b></h5>
+                            <p><b>En foi de quoi les parties ont signé,</b></p>
+
+                            <div>
+                                <p><b>L'étudiant(e)</b></p>
+                                <div className="row">
+                                    <div className="row">
+                                        <div>
+                                            <label htmlFor="dateSignatureEtudiant" style={{display: "block", textAlign: "left"}}>Date signature:</label>
+                                            <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
+                                                   style={{color: 'grey', fontSize: '20px'}}
+                                                   id="dateSignatureEtudiant"
+                                                   value={formData.dateSignatureEtudiant}
+                                                   onChange={handleChange}/>
+                                            <span ref={dateSignatureEtudiantRef} className="error-message"></span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <p>Prénom, Nom: {formData.nomEtudiant}</p>
+                                        <p>Date</p>
+                                    </div>
+                                </div>
+
+                                <p><b>L'employeur</b></p>
+                                <div className="row">
+                                    <div className="row">
+                                        <div>
+                                            <label htmlFor="dateSignatureEmployeur" style={{display: "block", textAlign: "left"}}>Date signature:</label>
+                                            <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
+                                                   style={{color: 'grey', fontSize: '20px'}}
+                                                   id="dateSignatureEmployeur"
+                                                   value={formData.dateSignatureEmployeur}
+                                                   onChange={handleChange}/>
+                                            <span ref={dateSignatureEmployeurRef} className="error-message"></span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <p>Prénom, Nom: {formData.nomEmployeur}</p>
+                                        <p>Date</p>
+                                    </div>
+                                </div>
+
+                                <p><b>Le gestionnaire de stage</b></p>
+                                <div className="row">
+                                    <div className="row">
+                                        <div>
+                                            <label htmlFor="dateSignatureGestionnaire" style={{display: "block", textAlign: "left"}}>Date signature:</label>
+                                            <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"
+                                                   style={{color: 'grey', fontSize: '20px'}}
+                                                   id="dateSignatureGestionnaire"
+                                                   value={formData.dateSignatureGestionnaire}
+                                                   onChange={handleChange}/>
+                                            <span ref={dateSignatureGestionnaireRef} className="error-message"></span>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <p>Prénom, Nom: {formData.nomGestionnaire}</p>
+                                        <p>Date</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="button" onClick={handleSubmit} className='buttonStyle'>Générer le PDF</button>

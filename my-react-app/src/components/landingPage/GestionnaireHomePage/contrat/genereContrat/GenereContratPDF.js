@@ -1,4 +1,4 @@
-import {Document, Page, StyleSheet, Text, View} from "@react-pdf/renderer";
+import {Document, Image, Page, StyleSheet, Text, View} from "@react-pdf/renderer";
 import React from "react";
 
 const styles = StyleSheet.create({
@@ -127,7 +127,15 @@ const GenereContratPDF = ({formData}) => (
 
                 <View style={styles.tableRow}>
                     <View style={styles.tableCol}>
-                        <Text style={styles.tableCell}>{formData.signatureEtudiant}</Text>
+                        <Text style={styles.tableCell}>
+                            {
+                                formData.signatureEtudiant && (
+                                    <div>
+                                        <Image style={styles.signatureImage} src={formData.signatureEtudiant} />
+                                    </div>
+                                )
+                            }
+                        </Text>
                     </View>
 
                     <View style={styles.tableCol}>
@@ -149,7 +157,15 @@ const GenereContratPDF = ({formData}) => (
 
                 <View style={styles.tableRow}>
                     <View style={styles.tableCol}>
-                        <Text style={styles.tableCell}>{formData.signatureEmployeur}</Text>
+                        <Text style={styles.tableCell}>
+                            {
+                                formData.signatureEmployeur && (
+                                    <div>
+                                        <Image style={styles.signatureImage} src={formData.signatureEmployeur} />
+                                    </div>
+                                )
+                            }
+                        </Text>
                     </View>
 
                     <View style={styles.tableCol}>
@@ -171,7 +187,15 @@ const GenereContratPDF = ({formData}) => (
 
                 <View style={styles.tableRow}>
                     <View style={styles.tableCol}>
-                        <Text style={styles.tableCell}>{formData.signatureGestionnaire}</Text>
+                        <Text style={styles.tableCell}>
+                            {
+                                formData.signatureGestionnaire && (
+                                    <div>
+                                        <Image style={styles.signatureImage} src={formData.signatureGestionnaire} />
+                                    </div>
+                                )
+                            }
+                        </Text>
                     </View>
 
                     <View style={styles.tableCol}>

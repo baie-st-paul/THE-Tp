@@ -1,12 +1,44 @@
 import React, {useEffect, useState} from "react";
 import ReactModal from "react-modal";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import NavBarGestionnaire from "../../NavBar/gestionnaire/NavBarGestionnaire";
+import {pdf} from "@react-pdf/renderer";
+import GenereContratPDF from "./genereContrat/GenereContratPDF";
+import GenereContratForm from "./genereContrat/GenereContratForm";
+import Modal from "../Vetocv/Modal";
+
+const MODAL_STYLES = {
+    position: "absolute",
+    backgroundColor: "#FFF",
+    padding: "15px",
+    zIndex: "1000",
+    width: "70%",
+    borderRadius: ".5em"
+};
+
+const OVERLAY_STYLE = {
+    position: "fixed",
+    display: "flex",
+    justifyContent: "center",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0, .8)",
+    zIndex: "1000",
+    overflowY: "auto"
+};
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)",
+    },
+};
 
 const ListContratsGestionnaire = ({contratsTest}) => {
     const [contrats, setContrats] = useState(contratsTest)
@@ -14,28 +46,16 @@ const ListContratsGestionnaire = ({contratsTest}) => {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationType, setConfirmationType] = useState("");
     const [contrat, setContrat] = useState(null)
-    const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
-    const [selectedDateDebut, setSelectedDateDebut] = useState(null);
-    const [selectedDateFin, setSelectedDateFin] = useState(null);
-    const [startWorkHours, setStartWorkHours] = useState('09:00');
-    const [endWorkHours, setEndWorkHours] = useState('17:00');
+
+    const [showGenerateContrat, setShowGenerateContrat] = useState(false)
+    const [generateContrats, setGenerateContrats] = useState([])
+    const [openModalGenerateContrat, setOpenModalGenerateContrat] = useState(false)
 
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         fetchContrats()
     }, []);
-
-    const customStyles = {
-        content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
-        },
-    };
 
     const fetchContrats = async () => {
         try {
@@ -121,14 +141,6 @@ const ListContratsGestionnaire = ({contratsTest}) => {
         handleSignerContrat(contrat)
     };
 
-    const handleDateChangeDebut = (date) => {
-        setSelectedDateDebut(date);
-    };
-
-    const handleDateChangeFin = (date) => {
-        setSelectedDateFin(date);
-    };
-
     const openConfirmationModal = (type, contrat1) => {
         setIsConfirmationModalOpen(true);
         setContrat(contrat1)
@@ -140,28 +152,89 @@ const ListContratsGestionnaire = ({contratsTest}) => {
         setIsConfirmationModalOpen(false);
     };
 
-    const handleGeneratePdf = () => {
-        setIsPdfModalOpen(true);
-    };
+    const handleGenerateContratSubmit = async (contrat, contratGenerateData) => {
+        const token = localStorage.getItem('token');
+        console.log(contrat)
+        try {
+            pdf(<GenereContratPDF formData={contratGenerateData}/>).toBlob().then(blob => {
+                const formData = new FormData();
+                formData.append('file', blob, 'contrat-genere.pdf');
 
-    const closePdfModal = () => {
-        setIsPdfModalOpen(false);
-    };
+                fetch(
+                    `http://localhost:8081/api/v1/gestionnaire/upload_contrat/${contrat.id}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                        body: formData,
+                    }
+                ).catch((err) => {
+                    console.log(err)
+                }).then(
+                    (res) => {
+                        try{
+                            console.log(res.status)
+                            if (res.ok) {
+                                const data= res.json()
+                                console.log("PDF envoyé avec succès");
+                                setGenerateContrats([...generateContrats, data])
+                                console.log("contratGenere",data)
+                                setShowGenerateContrat(false)
+                            } else {
+                                console.log("Erreur lors de l'envoi du PDF");
+                                throw new Error("Erreur lors de l'envoi");
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        //window.location.reload()
+                    }
+                )
+            }).catch(error => {
+                console.error("Erreur lors de la génération du PDF:", error);
+            });
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (generateContrats !== undefined){
+                setGenerateContrats(generateContrats)
+            }
+        }
+    }
 
-    const handleStartWorkHoursChange = (value) => {
-        setStartWorkHours(value);
-    };
+    function ModalGenerateContrat() {
+        return (
+            <div>
+                <div style={OVERLAY_STYLE}>
+                    <div style={MODAL_STYLES}>
+                        <div className="titleCloseBtn">
+                            <button onClick={() => setShowGenerateContrat(false)}>X</button>
+                        </div>
+                        <div className="body">
+                            <GenereContratForm
+                                contrat={contrat}
+                                onSubmit={handleGenerateContratSubmit}
+                            />
+                        </div>
+                        <div className="footer">
+                            <button id="cancelBtn" onClick={() => setShowGenerateContrat(false)}>Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
-    const handleEndWorkHoursChange = (value) => {
-        setEndWorkHours(value);
-    };
-
-   
-
+    function handleMontrerGenerateContrat(contrat) {
+        setOpenModalGenerateContrat(!openModalGenerateContrat)
+        setContrat(contrat)
+    }
 
     return (
         <div>
             <NavBarGestionnaire/>
+            {showGenerateContrat && <ModalGenerateContrat/>}
             <div id="render" className="container w-100">
                 <div className="row">
                     <div className="col-lg-12">
@@ -198,137 +271,22 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                             <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
                                             {
                                                 contrat.statutGestionnaire === 'Pas_Signer' ?
-                                                    <td data-label="Signé par Gestionnaire"><button className='m-0 text-center btn btn-primary' onClick={()=>openConfirmationModal('accept',contrat)}><span className='h6'>Signer le contrat</span></button></td>
+                                                    <td data-label="Signé par Gestionnaire">
+                                                        <button className='m-0 text-center btn btn-primary'
+                                                                onClick={()=> openConfirmationModal('accept', contrat)}>
+                                                        <span className='h6'>Signer le contrat</span></button></td>
                                                     :
                                                     <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
                                             }
-                                            {contrat.statutEtudiant === 'Pas_Signer' && contrat.statutEmployeur === 'Pas_Signer'?
-                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary' onClick={() => handleGeneratePdf()}><span className='h7'>Générer Contrat</span></button></td>
+                                            {
+                                                contrat.statutEtudiant === 'Pas_Signer' && contrat.statutEmployeur === 'Pas_Signer'?
+                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'>
+                                                    <span className='h7'>Générer Contrat</span></button></td>
                                                 :
-                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'><span className='h7'>Voir  Contrat</span></button></td>
+                                                <td data-label="Contrat PDF"><button className='m-0 text-center btn btn-primary'>
+                                                    <span className='h7'>Voir  Contrat</span></button></td>
                                             }
-                                          
-
-                                           
-                                            <ReactModal
-                                                isOpen={isPdfModalOpen}
-                                                onRequestClose={closePdfModal}
-                                                ariaHideApp={false}
-                                                contentLabel="PDF Generation Modal"
-                                            >
-                                                <form id="pdfForm">
-                                                    <h2 className="mb-4">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
-                                                    <p>Dans le cadre de la formule ATE, les parties citées ci-dessous :</p>
-
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Le gestionnaire de stage:</label>
-                                                        <input type="text" className="form-control" id="nomGestionnaire" name="nomGestionnaire"/>
-                                                    </div>
-
-                                                    <div className="mb-3">
-                                                        <label  className="form-label">L’employeur:</label>
-                                                        <h2 className="text-capitalize">{contrat.candidatureDTO.employer.companyName}</h2>
-                                                    </div>
-
-                                                    <div className="mb-3">
-                                                        <label  className="form-label">L’étudiant(e):</label>
-                                                        <h2 className="text-capitalize">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</h2>
-                                                    </div>
-                                                    <hr/>
-                                                    <h2 className="mt-4">Conviennent des conditions de stage suivantes</h2>
-                                                    <div className="mt-4">
-                                                        <div>
-                                                            <h4>ENDROIT DU STAGE</h4>
-                                                            <label className="form-label">Adresse:</label>
-                                                            <input type="text" className="form-control" id="adresseStage" name="adresseStage"/>
-                                                        </div>
-                                                        <div>
-                                                            <h4>DUREE DU STAGE</h4>
-                                                            <div>
-                                                                <h6>Date de début de stage:</h6>
-                                                                <DatePicker
-                                                                    selected={selectedDateDebut}
-                                                                    onChange={handleDateChangeDebut}
-                                                                    className="form-control"
-                                                                    dateFormat="MM/dd/yyyy"
-                                                                />
-                                                                <h6>Date de fin de stage:</h6>
-                                                                <DatePicker
-                                                                    selected={selectedDateFin}
-                                                                    onChange={handleDateChangeFin}
-                                                                    className="form-control"
-                                                                    dateFormat="MM/dd/yyyy"
-                                                                />
-                                                                <h6>Nombre total de semaines :</h6>
-                                                                <input
-                                                                    type="number"
-                                                                    className="form-control w-25"
-                                                                    placeholder="Entrez un chiffre"
-                                                                />
-                                                                <h4>HORAIRE DE TRAVAIL</h4>
-                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                    <DemoContainer components={['TimePicker', 'TimePicker']}>
-                                                                        <TimePicker
-                                                                            label="De:"
-                                                                            value={startWorkHours}
-                                                                            onChange={handleStartWorkHoursChange}
-                                                                            format="HH:mm"
-                                                                        />
-                                                                        <TimePicker
-                                                                            label="À:"
-                                                                            value={endWorkHours}
-                                                                            onChange={handleEndWorkHoursChange}
-                                                                            format="HH:mm"
-                                                                        />
-                                                                    </DemoContainer>
-                                                                </LocalizationProvider>
-                                                                <h6 className="mt-3">Nombre total d’heures par semaine :</h6>
-                                                                <input
-                                                                    type="number"
-                                                                    className="form-control w-25"
-                                                                    placeholder="Entrez un chiffre"
-                                                                />
-                                                                <h4 className="mt-3">Salaire (Taux horaire):</h4>
-                                                                <input
-                                                                    type="number"
-                                                                    className="form-control w-50"
-                                                                    placeholder="Entrez un salaire taux horaire"
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <hr/>
-                                                    <h3 className="mt-5">SIGNATURES</h3>
-
-                                                    <div className="mb-3">
-                                                        <label className="form-label">L’étudiant(e) :</label>
-                                                        <input type="text" className="form-control" id="signatureEtudiant" name="signatureEtudiant"/>
-                                                        <label className="form-label">Date :</label>
-                                                        <input type="text" className="form-control" id="dateSignatureEtudiant" name="dateSignatureEtudiant"/>
-                                                    </div>
-
-                                                    <div className="mb-3">
-                                                        <label className="form-label">L’employeur :</label>
-                                                        <input type="text" className="form-control" id="signatureEmployeur" name="signatureEmployeur"/>
-                                                        <label className="form-label">Date :</label>
-                                                        <input type="text" className="form-control" id="dateSignatureEmployeur" name="dateSignatureEmployeur"/>
-                                                    </div>
-
-                                                    <div className="mb-3">
-                                                        <label className="form-label">Le gestionnaire de stage :</label>
-                                                        <input type="text" className="form-control" id="signatureGestionnaire" name="signatureGestionnaire"/>
-                                                        <label className="form-label">Date :</label>
-                                                        <input type="text" className="form-control" id="dateSignatureGestionnaire" name="dateSignatureGestionnaire"/>
-                                                    </div>
-                                                    <button className="btn btn-primary" >Generate PDF</button>
-                                                    <button className="btn btn-primary" onClick={closePdfModal}>
-                                                        Annuler
-                                                    </button>
-                                                </form>
-                                            </ReactModal>
                                         </tr>
-                                        
                                     ))
                                 }
                                 </tbody>
@@ -337,6 +295,9 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                         </div>
                         : <div>AUCUN CONTRAT À AFFICHER</div> }
                 </div>
+                {openModalGenerateContrat && contrats.length > 0 &&
+                    <Modal fichier={contrat.generateContrat.content} fileName="PDF du contrat" onClose={handleMontrerGenerateContrat} />
+                }
                 <ReactModal
                     isOpen={isConfirmationModalOpen}
                     onRequestClose={closeConfirmationModal}

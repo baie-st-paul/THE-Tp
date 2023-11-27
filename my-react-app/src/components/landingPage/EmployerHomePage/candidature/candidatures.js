@@ -1,10 +1,9 @@
 import React from 'react'
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
-import { useState , useEffect } from "react";
+import { useState , useEffect,useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './infoStudentOffre/InformationEtudiantPostule.css'
-import { useNavigate  } from "react-router-dom";
-import {useLocation} from 'react-router-dom';
+import { useLocation, useNavigate  } from "react-router-dom";
 import Modal from "../../GestionnaireHomePage/Vetocv/Modal";
 import ReactModal from "react-modal";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -40,6 +39,7 @@ const OVERLAY_STYLE = {
 };
 
     const navigate = useNavigate();
+    const {state} = useLocation()
     const [listeCandidature, setlisteCandidature] = useState([]);
     const [entrevues, setEntrevues] = useState([]);
     const [showConvoquer, setShowConvoquer] = useState(false);
@@ -50,29 +50,52 @@ const OVERLAY_STYLE = {
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [finFetch, setfinFetch ]= useState(false);
-
-    //const filtre = localStorage.getItem('filtreCandidature');
-    //console.log(filtre)
     const [select, setSelect] = useState("all")
-
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
     const [refreshed, setRefreshed] = useState(true)
     const [selectedEntrevueToModify, setSelectedEntrevueToModify] = useState(null)
-
+    const data2Ref = useRef(null);
+    const data1Ref = useRef(null);
     useEffect(() => {
-        fetchAll()
+        fetchAll()  
     }, [])
 
-    function fetchAll(){
-        getAllCandidatures()
-        allEntrevuesStudentMatricule()
+   async function fetchAll(){
+     Promise.all([allEntrevuesStudentMatricule(),getAllCandidatures()]).then(()=> checkRefused())
+    }
+
+
+    function checkRefused(){
+        if (state!== null) {
+        if (state.selectVar === 'refused'){
+            setSelect('Refused_student')
+                let entr = data2Ref.current.filter(candidature => candidature.status === 'Refusee' && candidature.status !== 'In_review');
+                for (let i=0; i< entr.length; i++){
+                    let candidature = data1Ref.current.filter(x => x.cvStudent.matricule === entr[i].student.matricule)[0];
+                    console.log(candidature);
+                    entr[i]["cvStudent"] = candidature.cvStudent ;
+                    entr[i]["lettreMotivation"] = candidature.lettreMotivation;
+                }
+                setListeCandidatureFiltered(entr)
+                }
+        
+        if (state.selectVar === 'In_review'){
+            setSelect('In_review')
+            setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review'))
+            }
+            if (state.selectVar === 'need-action'){
+            setSelect('need-action')
+            setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
+            }
+        
+        }   
     }
 
     const getAllCandidatures = async() => {
         const token = localStorage.getItem('token');
         try {
-            fetch(
+           await fetch(
                 'http://localhost:8081/api/v1/employers/candidatures',
                 {
                     method: 'GET',
@@ -95,9 +118,9 @@ const OVERLAY_STYLE = {
                         } catch (e) {
                             console.log(e)
                         }
-                        setListeCandidatureFiltered(data)
+                        data1Ref.current = data
+                        setListeCandidatureFiltered(data);
                         setlisteCandidature(data);
-                        console.log("candidatures",data)
                     }).then(allEntrevuesStudentMatricule).then(setfinFetch(true))
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -134,6 +157,7 @@ const OVERLAY_STYLE = {
                             console.log(e)
                         }
                         setEntrevues(data)
+                        data2Ref.current = data
                     })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
@@ -146,6 +170,7 @@ const OVERLAY_STYLE = {
     function handleMontrerCv(student){
         setOpenModal(!openModal)
         setStudent(student)
+        
     }
 
     function handleMontrerLettre(student){
@@ -182,7 +207,6 @@ const OVERLAY_STYLE = {
                         } catch (e) {
                             console.log(e)
                         }
-                        console.log(data)
                         setShouldRefetch(!shouldRefetch);
                     })
         } catch (error) {
@@ -349,12 +373,11 @@ const OVERLAY_STYLE = {
     }
 
     function handleSelect(e){
-        localStorage.setItem('filtreCandidature', e.target.value);
-        setSelect(localStorage.getItem('filtreCandidature'));
+        console.log(e)
+        console.log(e.target.value)
+        setSelect(e.target.value);
         if (e.target.value === 'all'){
-            setRefreshed(false)
             setListeCandidatureFiltered(listeCandidature)
-            setRefreshed(true)
         }
         if (e.target.value === 'Accepted'){
             setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
@@ -374,14 +397,24 @@ const OVERLAY_STYLE = {
             setListeCandidatureFiltered(arr)
             setRefreshed(true)
         }
-
         if (e.target.value === 'In_review'){
             setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
-            console.log(entrevues)
+        }
+        if (e.target.value === 'Refused_student'){
+            let entr = entrevues.filter(candidature => candidature.status === 'Refusee' && candidature.status !== 'In_review');
+            for (let i=0; i< entr.length; i++){
+                let candidature = listeCandidature.filter(x => x.cvStudent.matricule === entr[i].student.matricule)[0];
+                console.log(candidature);
+                entr[i]["cvStudent"] = candidature.cvStudent ;
+                entr[i]["lettreMotivation"] = candidature.lettreMotivation;
+            }
+            setListeCandidatureFiltered(entr)
+        } 
+
+        if (e.target.value === 'need-action'){
+            setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
         }
     }
-
-    console.log(select)
 
     return (
         <div>
@@ -402,9 +435,11 @@ const OVERLAY_STYLE = {
                             >
                                 <option value="all">Tous</option>
                                 <option value="Accepted">Embauché(es)</option>
+                                <option value="need-action">En attente</option>
                                 <option value="Refused">Refusé(es)</option>
                                 <option value="Interview">Convoqué(es)</option>
                                 <option value="In_review">Non Convoqué(es) </option>
+                                <option value="Refused_student">Entrevue refusé par étudiant(e)</option>
                             </select>
                         </div>
                         {showConvoquer && <ModalConvoquerCreateEntrevue />}
@@ -502,10 +537,10 @@ const OVERLAY_STYLE = {
                             }
                             </tbody>
                         </table>
-                        {openModal && listeCandidature.length > 0 &&
+                        {openModal && listeCandidatureFiltered.length > 0 &&
                             <Modal fichier={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
                         }
-                        {openModalLettre && listeCandidature.length > 0 &&
+                        {openModalLettre && listeCandidatureFiltered.length > 0 &&
                             <Modal fichier={student.lettreMotivation} fileName={student.fileName} onClose={handleMontrerLettre} />
                         }
                         <ReactModal

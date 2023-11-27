@@ -46,8 +46,8 @@ public class ContratStage {
     private RapportHeures rapportHeures;
 
     @OneToOne
-    @JoinColumn(name = "signature_id")
-    private SignatureGestionnaire gestionnaireSignature;
+    @JoinColumn(name = "contrat_generate_id")
+    private GenerateContratPDF contratPDF;
 
     @OneToOne
     @JoinColumn(name = "evaluation_pdf_id")

@@ -3,27 +3,18 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
-import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.Entrevue;
-import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.EntrevueRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
@@ -61,6 +52,8 @@ public class GestionnaireService {
     private UserService userService;
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private GenerateContratPDFRepository generateContratPDFRepository;
 
     public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
         if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
@@ -214,4 +207,20 @@ public class GestionnaireService {
         return ContratStageDTO.fromContratStage(contratStageRepository.save(contract));
     }
 
+    @Transactional
+    public GenerateContratPdfDTO saveContratGenere(GenerateContratPdfDTO contratPdfDTO, Long contractId) throws Exception {
+        GenerateContratPDF contratPDF = GenerateContratPdfDTO.toContratPdf(contratPdfDTO);
+
+        GenerateContratPDF savedContratPDF = generateContratPDFRepository.save(contratPDF);
+
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+        ContratStage contract = optionalContract.get();
+        contract.setContratPDF(savedContratPDF);
+        contratStageRepository.save(contract);
+
+        return GenerateContratPdfDTO.fromContratPdf(savedContratPDF);
+    }
 }

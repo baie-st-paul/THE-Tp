@@ -3,6 +3,7 @@ package com.example.tpbackend.controllers.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
@@ -11,9 +12,11 @@ import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -111,6 +114,18 @@ public class GestionnaireController {
             return ResponseEntity.ok(contratStageDTO);
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping(value = "/upload_contrat/{contractId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> handleFileUploadContrat(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
+        try {
+            GenerateContratPdfDTO contratPdfDTO = new GenerateContratPdfDTO(file);
+            GenerateContratPdfDTO savedContratPdfDTO = gestionnaireService.saveContratGenere(contratPdfDTO, contractId);
+            return new ResponseEntity<>(savedContratPdfDTO, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
         }
     }
 }

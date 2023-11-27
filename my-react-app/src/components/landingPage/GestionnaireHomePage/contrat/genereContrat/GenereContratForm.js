@@ -381,9 +381,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <div className="row">
                                     <div className="row">
                                         {
-                                            signatureEtudiant !== null && (
+                                            formData.signatureEtudiant && (
                                                 <div>
-                                                    <img src={signatureEtudiant} alt="signatureEtudiant" style={{ width: '50px', height: '20px' }} />
+                                                    <img src={formData.signatureEtudiant} alt="signatureEtudiant" style={{ width: '50px', height: '20px' }} />
                                                 </div>
                                             )
                                         }
@@ -407,9 +407,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <div className="row">
                                     <div className="row">
                                         {
-                                            signatureEmployeur !== null && (
+                                            formData.signatureEmployeur && (
                                                 <div>
-                                                    <img src={signatureEmployeur} alt="signatureEmployeur" style={{ width: '50px', height: '20px' }} />
+                                                    <img src={formData.signatureEmployeur} alt="signatureEmployeur" style={{ width: '50px', height: '20px' }} />
                                                 </div>
                                             )
                                         }
@@ -433,9 +433,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                 <div className="row">
                                     <div className="row">
                                         {
-                                            signatureGestionnaire !== null && (
+                                            formData.signatureGestionnaire && (
                                                 <div>
-                                                    <img src={signatureGestionnaire} alt="signatureGestionnaire" style={{ width: '50px', height: '20px' }} />
+                                                    <img src={formData.signatureGestionnaire} alt="signatureGestionnaire" style={{ width: '50px', height: '20px' }} />
                                                 </div>
                                             )
                                         }

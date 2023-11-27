@@ -39,7 +39,7 @@ const OVERLAY_STYLE = {
 };
 
     const navigate = useNavigate();
-    const {state} = useLocation()
+    let {state} = useLocation()
     const [listeCandidature, setlisteCandidature] = useState([]);
     const [entrevues, setEntrevues] = useState([]);
     const [showConvoquer, setShowConvoquer] = useState(false);
@@ -54,12 +54,14 @@ const OVERLAY_STYLE = {
     const [listeCandidatureFiltered, setListeCandidatureFiltered] = useState([]);
     const [selectedCandidatureId, setSelectedCandidatureId] = useState(null);
     const [refreshed, setRefreshed] = useState(true)
+    const [selectDisabled, setSelectDisabled] = useState(false)
     const [selectedEntrevueToModify, setSelectedEntrevueToModify] = useState(null)
+    const [reload, setReload] = useState(false)
     const data2Ref = useRef(null);
     const data1Ref = useRef(null);
     useEffect(() => {
         fetchAll()  
-    }, [])
+    }, [reload])
 
    async function fetchAll(){
      Promise.all([allEntrevuesStudentMatricule(),getAllCandidatures()]).then(()=> checkRefused())
@@ -70,6 +72,7 @@ const OVERLAY_STYLE = {
         if (state!== null) {
         if (state.selectVar === 'refused'){
             setSelect('Refused_student')
+            setSelectDisabled(true)
                 let entr = data2Ref.current.filter(candidature => candidature.status === 'Refusee' && candidature.status !== 'In_review');
                 for (let i=0; i< entr.length; i++){
                     let candidature = data1Ref.current.filter(x => x.cvStudent.matricule === entr[i].student.matricule)[0];
@@ -81,15 +84,17 @@ const OVERLAY_STYLE = {
                 }
         
         if (state.selectVar === 'In_review'){
+            setSelectDisabled(true)
             setSelect('In_review')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review'))
             }
             if (state.selectVar === 'need-action'){
+            setSelectDisabled(true)
             setSelect('need-action')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
-            }
-        
-        }   
+            } 
+        }  
+      
     }
 
     const getAllCandidatures = async() => {
@@ -119,7 +124,10 @@ const OVERLAY_STYLE = {
                             console.log(e)
                         }
                         data1Ref.current = data
+                        console.log(data)
+                        if (select === 'all' ){
                         setListeCandidatureFiltered(data);
+                        }
                         setlisteCandidature(data);
                     }).then(allEntrevuesStudentMatricule).then(setfinFetch(true))
         } catch (error) {
@@ -179,7 +187,7 @@ const OVERLAY_STYLE = {
     }
 
     function handleRetour(){
-        navigate('/offres');
+        navigate('/EmployeurHomePage');
     }
 
     const updateStatus = async (matricule, status) => {
@@ -292,7 +300,7 @@ const OVERLAY_STYLE = {
                     setEntrevues([...entrevues, data])
                     console.log(data)
                     setShowConvoquer(false)
-                    setSelectedCandidatureId(null)
+                    setSelectedCandidatureId(null) 
                     window.location.reload()
                 })
         } catch (error) {
@@ -321,7 +329,6 @@ const OVERLAY_STYLE = {
     const updateEntrevue = async(entrevue) =>{
         console.log(entrevue)
         console.log(selectedEntrevueToModify)
-
 
         try{
             entrevue["id"] = selectedEntrevueToModify.id
@@ -401,19 +408,29 @@ const OVERLAY_STYLE = {
             setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === e.target.value))
         }
         if (e.target.value === 'Refused_student'){
-            let entr = entrevues.filter(candidature => candidature.status === 'Refusee' && candidature.status !== 'In_review');
+            let entr = entrevues.filter(candidature => candidature.status === 'Refusee'); 
+            let entrevuesNew = entrevues;
             for (let i=0; i< entr.length; i++){
-                let candidature = listeCandidature.filter(x => x.cvStudent.matricule === entr[i].student.matricule)[0];
-                console.log(candidature);
-                entr[i]["cvStudent"] = candidature.cvStudent ;
-                entr[i]["lettreMotivation"] = candidature.lettreMotivation;
+                let index = entrevuesNew.findIndex(x => x.id === entr[i].id)
+                console.log(index)
+                let candidature = listeCandidature.filter(x => x.cvStudent.matricule === entr[i].student.matricule && x.offreStage.id === entr[i].offreStage.id)[0];
+                entr[i]["cvStudent"] = candidature.cvStudent;
+                entr[i]["lettreMotivation"] = candidature.lettreMotivation; 
+                
+                entrevuesNew[index]["status"] = "Refusee"
+                entr[i]["status"] = candidature.status;
             }
+            console.log(entrevuesNew) 
+            setEntrevues(entrevuesNew)      
             setListeCandidatureFiltered(entr)
+            console.log(entr)
+            console.log(entrevues) 
         } 
 
         if (e.target.value === 'need-action'){
             setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
         }
+        setReload(!reload)
     }
 
     return (
@@ -428,10 +445,11 @@ const OVERLAY_STYLE = {
                             <h5 style={{width: "40%", justifyContent: "center", display: "flex",
                                 alignItems: "center"}}>Filtrer par:</h5>
                             <select
-                                style={{width: "50%"}}
+                                style={{width: "50%"}} 
                                 className="form-control d-inline"
                                 value={select}
                                 onChange={handleSelect}
+                                disabled= {selectDisabled}
                             >
                                 <option value="all">Tous</option>
                                 <option value="Accepted">Embauché(es)</option>

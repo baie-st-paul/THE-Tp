@@ -5,25 +5,25 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
 
     useEffect(() => {
         init()
-    },[offre])
+    },[entrevues])   
 
     function init(){
+        Promise.all([
         setIsPresent(entrevues.filter(entrevue =>
             entrevue.student.matricule === matricule
             && entrevue.offreStage.id === offre.offreStage.id
-        ))
-        console.log("isPresent", isPresent)
-        console.log("offre", offre)
+        ))])
+
     }
     function handleConvoquerEntrevue(candidatureId) {
-        setModal(candidatureId);
+        setModal(candidatureId); 
     }
     
     return (
         <>
             {isPresent.length > 0 /*|| isPresent[0].status !== 'Refusee'*/ ?
                 <>
-                    { isPresent[0].status !== 'Refusee' || offre.status === 'Accepted' ?
+                    { isPresent[0].status !== 'Refusee'  ?
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
                             {
@@ -46,9 +46,9 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                     }
                 </>
                 :
-                <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-3'>
+                <td data-label="ENTREVUE" className='headerElement breakWord h6 pe-1 px-3 '>
                     { offre.status === "In_review" ?
-                        <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start' style={{height : "58px", width: '105px' }}
+                        <button title="CONVOQUER" className='btn btn-primary pb-5 pt-0 text-start ' style={{height : "58px", width: '105px' }}
                                 onClick={()=> handleConvoquerEntrevue({candidatureId})}>
                             Convoquer
                         </button>

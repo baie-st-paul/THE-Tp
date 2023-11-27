@@ -2,8 +2,8 @@ import React from "react";
 import "./Modal.css";
 
 function Modal({fichier, fileName, onClose }) {
-
     return (
+        
         <div className="modalBackground">
             <div className="modalContainer w-75 h-100">
                 <button className="closeButton" onClick={onClose}>

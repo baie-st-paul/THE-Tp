@@ -17,9 +17,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
     function handleConvoquerEntrevue(candidatureId) {
         setModal(candidatureId);
     }
-
-
-
+    
     return (
         <>
             {isPresent.length > 0 /*|| isPresent[0].status !== 'Refusee'*/ ?

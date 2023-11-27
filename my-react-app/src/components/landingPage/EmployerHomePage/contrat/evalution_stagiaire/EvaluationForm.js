@@ -522,7 +522,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
                         <div className='questionStyle'>
                             <label htmlFor="eleve" className='questionStyle label'>Nom de l’élève :</label>
                             <input id="eleve" className= 'questionStyle input' type="text" name="nomEleve" value={evaluationData.nomEleve} onChange={handleChange} />
-                        <span ref={nomEleveRef} className="error-message"></span>
+                            <span ref={nomEleveRef} className="error-message"></span>
                         </div>
 
                         <div className='questionStyle'>

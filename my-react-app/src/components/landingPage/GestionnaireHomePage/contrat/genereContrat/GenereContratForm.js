@@ -13,11 +13,15 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         nomGestionnaire: gestionnaire.firstName + ", " + gestionnaire.lastName,
         nomEmployeur: contrat.candidatureDTO.employer.firstName + ", " + contrat.candidatureDTO.employer.lastName,
         nomEtudiant: contrat.candidatureDTO.student.firstName + ", " + contrat.candidatureDTO.student.lastName,
-        offreLieuStage: "N/A",
+        offreLieuStage: "",
+
         dateDebut: "",
         dateFin: "",
         nbTotalSemaines: "",
-        horaireTravail: "",
+
+        startWorkHours: "",
+        endWorkHours: "",
+
         nbTotalHeureParSemaine: "",
         salaireHoraire: "",
 
@@ -45,17 +49,17 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     console.log(matriculeGes)
     const token = localStorage.getItem('token');
 
+    const offreStageLieuRef = useRef(null)
     const dateDebutRef = useRef(null)
     const dateFinRef = useRef(null)
 
     const nbTotalSemainesRef = useRef(null)
-    const horaireTravailRef = useRef(null)
+
+    const startWorkHoursRef = useRef(null)
+    const endWorkHoursRef = useRef(null)
+
     const nbTotalHeureParSemaineRef = useRef(null)
     const salaireHoraireRef = useRef(null)
-
-    const signatureEtudiantRef = useRef(null);
-    const signatureEmployeurRef = useRef(null);
-    const signatureGestionnaireRef = useRef(null);
 
     const dateSignatureEtudiantRef = useRef(null);
     const dateSignatureEmployeurRef = useRef(null);
@@ -121,114 +125,232 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         }
     }
 
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData(prevState =>({
+            ...prevState,
+            [name]: value
+        }))
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        let annuler = false;
+
+        if(formData.offreLieuStage.trim() === ''){
+            offreStageLieuRef.current.innerHTML = " * Veuillez entrer le lieu du stage *"
+            annuler = true;
+        } else {
+            offreStageLieuRef.current.innerHTML = ""
+        }
+
+        if(formData.dateDebut.trim() === ''){
+            dateDebutRef.current.innerHTML = " * Veuillez entrer la date de début *"
+            annuler = true;
+        } else {
+            dateDebutRef.current.innerHTML = ""
+        }
+
+        if(formData.dateFin.trim() === ''){
+            dateFinRef.current.innerHTML = " * Veuillez entrer la date de fin *"
+            annuler = true;
+        } else {
+            dateFinRef.current.innerHTML = ""
+        }
+
+        if(formData.nbTotalSemaines.trim() === ''){
+            nbTotalSemainesRef.current.innerHTML = " * Veuillez entrer le nombre total de semaines *"
+            annuler = true;
+        } else {
+            nbTotalSemainesRef.current.innerHTML = ""
+        }
+
+        if(formData.startWorkHours.trim() === ''){
+            startWorkHoursRef.current.innerHTML = " * Veuillez entrer debut de l'horaire de travail *"
+            annuler = true;
+        } else {
+            startWorkHoursRef.current.innerHTML = ""
+        }
+
+        if(formData.endWorkHours.trim() === ''){
+            endWorkHoursRef.current.innerHTML = " * Veuillez entrer fin de l'horaire de travail *"
+            annuler = true;
+        } else {
+            endWorkHoursRef.current.innerHTML = ""
+        }
+
+        if(formData.nbTotalHeureParSemaine.trim() === ''){
+            nbTotalHeureParSemaineRef.current.innerHTML = " * Veuillez entrer le nombre total d'heures par semaine *"
+            annuler = true;
+        } else {
+            nbTotalHeureParSemaineRef.current.innerHTML = ""
+        }
+
+        if(formData.salaireHoraire.trim() === ''){
+            salaireHoraireRef.current.innerHTML = " * Veuillez entrer le salaire horaire *"
+            annuler = true;
+        } else {
+            salaireHoraireRef.current.innerHTML = ""
+        }
+
+        if(formData.dateSignatureEtudiant.trim() === ''){
+            dateSignatureEtudiantRef.current.innerHTML = " * Veuillez entrer la date de la signature de l'étudiant *"
+            annuler = true;
+        } else {
+            dateSignatureEtudiantRef.current.innerHTML = ""
+        }
+
+        if(formData.dateSignatureEmployeur.trim() === ''){
+            dateSignatureEmployeurRef.current.innerHTML = " * Veuillez entrer la date de la signature de l'employeur *"
+            annuler = true;
+        } else {
+            dateSignatureEmployeurRef.current.innerHTML = ""
+        }
+
+        if(formData.dateSignatureGestionnaire.trim() === ''){
+            dateSignatureGestionnaireRef.current.innerHTML = " * Veuillez entrer la date de la signature du gestionnaire *"
+            annuler = true;
+        } else {
+            dateSignatureGestionnaireRef.current.innerHTML = ""
+        }
+
+        if (annuler === true) {
+        } else {
+            console.log(contrat)
+            onSubmit(contrat, formData)
+        }
+    }
+
     return (
         <div>
             <div id="Render" className="container content-container mt-4">
                 <form onSubmit={onSubmit} className='formStyle'>
-                    <h2 className="mb-4">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
-                    <p>Dans le cadre de la formule ATE, les parties citées ci-dessous :</p>
+                    <div>
+                        <h2 className="mb-4">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
+                        <p>Dans le cadre de la formule ATE, les parties citées ci-dessous :</p>
 
-                    <div className="mb-3">
-                        <label className="form-label">Le gestionnaire de stage:</label>
-                        <input type="text" className="form-control"
-                               id="nomGestionnaire" name="nomGestionnaire"/>
+                        <div className="questionStyle">
+                            <h6 className='questionStyle'>Le gestionnaire de stage, {formData.nomGestionnaire}</h6>
+                        </div>
+
+                        <div className="questionStyle">
+                            <h6 className='questionStyle'>L'employeur, {formData.nomEmployeur}</h6>
+                        </div>
+
+                        <div className="questionStyle">
+                            <h6 className='questionStyle'>L'étudiant(e), {formData.nomEtudiant}</h6>
+                        </div>
+
+                        <h6 className="mt-4">Conviennent des conditions de stage suivantes:</h6>
                     </div>
 
-                    <div className="mb-3">
-                        <label  className="form-label">L’employeur:</label>
-                        <h2 className="text-capitalize">{contrat.candidatureDTO.employer.companyName}</h2>
-                    </div>
-
-                    <div className="mb-3">
-                        <label  className="form-label">L’étudiant(e):</label>
-                        <h2 className="text-capitalize">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</h2>
-                    </div>
-                    <hr/>
-                    <h2 className="mt-4">Conviennent des conditions de stage suivantes</h2>
                     <div className="mt-4">
                         <div>
                             <h4>ENDROIT DU STAGE</h4>
-                            <label className="form-label">Adresse:</label>
-                            <input type="text" className="form-control" id="adresseStage" name="adresseStage"/>
+
+                            <label htmlFor="adresseStage" className='questionStyle label'>Adresse:</label>
+                            <input id="adresseStage" className= 'questionStyle input'
+                                   type="text" name="adresseStage" value={formData.offreLieuStage}
+                                   onChange={handleChange} />
+                            <span ref={offreStageLieuRef} className="error-message"></span>
                         </div>
+
                         <div>
                             <h4>DUREE DU STAGE</h4>
-                            <div>
-                                <h6>Date de début de stage:</h6>
-                                <DatePicker
-                                    selected={selectedDateDebut}
-                                    onChange={handleDateChangeDebut}
-                                    className="form-control"
-                                    dateFormat="MM/dd/yyyy"
-                                />
-                                <h6>Date de fin de stage:</h6>
-                                <DatePicker
-                                    selected={selectedDateFin}
-                                    onChange={handleDateChangeFin}
-                                    className="form-control"
-                                    dateFormat="MM/dd/yyyy"
-                                />
-                                <h6>Nombre total de semaines :</h6>
-                                <input
-                                    type="number"
-                                    className="form-control w-25"
-                                    placeholder="Entrez un chiffre"
-                                />
-                                <h4>HORAIRE DE TRAVAIL</h4>
+
+                            <div className='form-group'>
+                                <label htmlFor="dateDebut" style={{display: "block", textAlign: "left"}}>Date de début:</label>
+                                <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date debut"
+                                       style={{color: 'grey', fontSize : '20px'}}
+                                       id="dateDebut"
+                                       value={formData.dateDebut}
+                                       onChange={handleChange}/>
+                                <span ref={dateDebutRef} className="error-message"></span>
+
+                                <label htmlFor="dateFin" style={{display: "block", textAlign: "left"}}>Date de fin:</label>
+                                <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date fin"
+                                       style={{color: 'grey', fontSize : '20px'}}
+                                       id="dateFin"
+                                       value={formData.dateFin}
+                                       onChange={handleChange}/>
+                                <span ref={dateFinRef} className="error-message"></span>
+                            </div>
+
+                            <div className='questionStyle'>
+                                <label htmlFor="nbTotalSemaines" className='questionStyle label'>Nombre total de semaines :</label>
+                                <input id="nbTotalSemaines" className= 'questionStyle input' type="number" name="nbTotalSemaines"
+                                       value={formData.nbTotalSemaines} onChange={handleChange} />
+                                <span ref={nbTotalSemainesRef} className="error-message"></span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4>HORAIRE DE TRAVAIL</h4>
+
+                            <div className='questionStyle'>
+                                <label className='questionStyle label'>Horaire de travail :</label>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DemoContainer components={['TimePicker', 'TimePicker']}>
                                         <TimePicker
                                             label="De:"
-                                            value={startWorkHours}
-                                            onChange={handleStartWorkHoursChange}
+                                            value={formData.startWorkHours}
+                                            onChange={handleChange}
                                             format="HH:mm"
                                         />
                                         <TimePicker
                                             label="À:"
-                                            value={endWorkHours}
-                                            onChange={handleEndWorkHoursChange}
+                                            value={formData.endWorkHours}
+                                            onChange={handleChange}
                                             format="HH:mm"
                                         />
                                     </DemoContainer>
                                 </LocalizationProvider>
-                                <h6 className="mt-3">Nombre total d’heures par semaine :</h6>
-                                <input
-                                    type="number"
-                                    className="form-control w-25"
-                                    placeholder="Entrez un chiffre"
-                                />
-                                <h4 className="mt-3">Salaire (Taux horaire):</h4>
-                                <input
-                                    type="number"
-                                    className="form-control w-50"
-                                    placeholder="Entrez un salaire taux horaire"
-                                />
+                            </div>
+
+                            <div className='questionStyle'>
+                                <label htmlFor="nbTotalHeureParSemaine" className='questionStyle label'>Nombre total d’heures par semaine :</label>
+                                <input id="nbTotalHeureParSemaine" className='questionStyle input' type="number" name="nbTotalHeureParSemaine"
+                                       value={formData.nbTotalHeureParSemaine} onChange={handleChange} />
+                                <span ref={nbTotalHeureParSemaineRef} className="error-message"></span>
                             </div>
                         </div>
 
-                    </div>
-                    <hr/>
-                    <h3 className="mt-5">SIGNATURES</h3>
+                        <div>
+                            <h4>SALAIRE</h4>
 
-                    <div className="mb-3">
-                        <label className="form-label">L’étudiant(e) :</label>
-                        <input type="text" className="form-control" id="signatureEtudiant" name="signatureEtudiant"/>
-                        <label className="form-label">Date :</label>
-                        <input type="text" className="form-control" id="dateSignatureEtudiant" name="dateSignatureEtudiant"/>
+                            <div className='questionStyle'>
+                                <label htmlFor="salaireHoraire" className='questionStyle label'>Salaire (Taux horaire):</label>
+                                <input id="salaireHoraire" className='questionStyle input' type="number" name="salaireHoraire"
+                                       value={formData.salaireHoraire} onChange={handleChange} />
+                                <span ref={salaireHoraireRef} className="error-message"></span>
+                            </div>
+                        </div>
                     </div>
+                    <div className="mt-4">
+                        <div>
+                            <h4>TACHES ET RESPONSABILITES DU STAGIAIRE</h4>
 
-                    <div className="mb-3">
-                        <label className="form-label">L’employeur :</label>
-                        <input type="text" className="form-control" id="signatureEmployeur" name="signatureEmployeur"/>
-                        <label className="form-label">Date :</label>
-                        <input type="text" className="form-control" id="dateSignatureEmployeur" name="dateSignatureEmployeur"/>
+                            <div>
+                                {formData.offreDescription}
+                            </div>
+
+                            <h4>RESPONSABILITES</h4>
+                            <div>
+                                <p>Le Collège s'engage à:</p>
+                                <p>{formData.commentaireCollege}</p>
+                                <p>L'entreprise s'engage à:</p>
+                                <p>{formData.commentaireEntreprise}</p>
+                                <p>L'étudiant s'engage à:</p>
+                                <p>{formData.commentaireEtudiant}</p>
+                            </div>
+                        </div>
                     </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Le gestionnaire de stage :</label>
-                        <input type="text" className="form-control" id="signatureGestionnaire" name="signatureGestionnaire"/>
-                        <label className="form-label">Date :</label>
-                        <input type="text" className="form-control" id="dateSignatureGestionnaire" name="dateSignatureGestionnaire"/>
+                    <div className="mt-4">
+                        <div>
+                            <h4>SIGNATURES</h4>
+                            
+                        </div>
                     </div>
                     <button type="button" onClick={handleSubmit} className='buttonStyle'>Générer le PDF</button>
                 </form>

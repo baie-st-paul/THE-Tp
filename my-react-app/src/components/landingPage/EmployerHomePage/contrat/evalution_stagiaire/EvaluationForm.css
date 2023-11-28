@@ -1,0 +1,172 @@
+
+.formStyle {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); 
+    border: 3px solid #f3e6e6; 
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+
+
+.sectionStyle {
+    text-align: center;
+    border-bottom: 2px solid #605d5d;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.questionStyle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.questionStyle label {
+    flex: 0 0 30%;
+    text-align: right;
+    margin-right: 20px;
+    font-weight: 600;
+}
+
+.questionStyle input,
+.questionStyle select,
+.questionStyle textarea {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+
+.radioGroup {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px; 
+    margin-top: 10px; 
+}
+
+.radioGroup label {
+    display: flex;
+    align-items: center;
+}
+
+.radioGroup input[type="radio"] {
+    margin-right: 10px; 
+}
+
+.dropdownStyle {
+    width: auto; 
+}
+
+.buttonStyle {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #161718;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.buttonStyle:hover {
+    background-color: #160082;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .questionStyle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .questionStyle label {
+        margin-bottom: 5px;
+        text-align: left;
+    }
+}
+
+.signatureDateContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signatureContainer, .dateContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.signatureContainer {
+    justify-content: flex-start; 
+}
+
+.dateContainer {
+    justify-content: flex-end;
+}
+
+.buttonStyleSignature {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 8px 15px; 
+    background-color: #30363d;
+    color: white;
+    border: 1px solid #197fed;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 0;
+    transition: background-color 0.3s;
+}
+
+.buttonStyleSignature:hover {
+    background-color: rgb(201, 6, 6); 
+    border-color: #f8f7fa;
+}
+
+
+.signatureContainer .buttonStyleSignature {
+    margin: 0; 
+   flex-shrink: 0; 
+    margin-right: 137px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: small;
+    font-style: italic;
+}
+
+.formStyle .red-italic {
+    color: red;
+    font-style: italic;
+    font-size: small;
+}
+
+.signatureError {
+    color: red;
+    font-size: small;
+    font-style: italic;
+    margin-top: 5px;
+    
+}
+
+
+
+
+
+
+
+
+
+

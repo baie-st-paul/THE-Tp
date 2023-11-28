@@ -33,7 +33,7 @@ public class OffreStage {
     @NotNull(message = "Le nombre maximal d'étudiants ne doit pas être null.")
     @PositiveOrZero(message = "Le nombre maximal d'étudiants doit être positif ou zéro.")
     private int nbMaxEtudiants;
-    
+
     @Enumerated(EnumType.STRING)
     private Status status;
 

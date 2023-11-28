@@ -3,10 +3,12 @@ package com.example.tpbackend.controller.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.utilisateur.GestionnaireController;
+import com.example.tpbackend.models.GenerateContratPDF;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,11 +25,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -170,5 +173,21 @@ public class GestionnaireControllerTest {
                 .andExpect(jsonPath("$[1].matricule").value("5678"))
                 .andExpect(jsonPath("$[1].statusVuPasVuG").value("vu"))
                 .andExpect(jsonPath("$[1].statusVuPasVuS").value("pasVu"));
+    }
+
+    @Test
+    public void testGenerateContratPdf() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+
+        GenerateContratPdfDTO mockDto = new GenerateContratPdfDTO("test.pdf", file. getBytes());
+        when(gestionnaireService.saveContratGenere(any(GenerateContratPdfDTO.class), anyLong())).thenReturn(mockDto);
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/gestionnaire/upload_contrat/1").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isCreated());
+
+
+        verify(gestionnaireService).saveContratGenere(any(GenerateContratPdfDTO.class), anyLong());
     }
 }

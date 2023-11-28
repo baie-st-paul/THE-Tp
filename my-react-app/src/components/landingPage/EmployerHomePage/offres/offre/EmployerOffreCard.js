@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import {FaTimes} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 import {ListGroup} from "react-bootstrap";
+import {faCheck, faClock, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
     const [etudiantsNb, setEtudiantsNb] = useState(null);
@@ -64,11 +66,28 @@ const EmployerOffreCard = ({offre, onDelete, onUpdate}) => {
                 {offre.description}
             </Card.Body>
             <ListGroup className="list-group-flush">
-                <ListGroup.Item><b>Salaire:</b> {offre.salaire}$/h</ListGroup.Item>
-                <ListGroup.Item><b>Programme:</b> {offre.studentProgram}</ListGroup.Item>
-                <ListGroup.Item><b>Nombre postes disponible:</b> {offre.nbMaxEtudiants}</ListGroup.Item>
-                <ListGroup.Item><b>Date de début:</b> {offre.dateDebut}</ListGroup.Item>
-                <ListGroup.Item><b>Date de fin:</b> {offre.dateFin}</ListGroup.Item>
+                <ListGroup.Item><b>Salaire: </b> {offre.salaire}$/h</ListGroup.Item>
+                <ListGroup.Item><b>Programme: </b> {offre.studentProgram}</ListGroup.Item>
+                <ListGroup.Item><b>Nombre postes disponible: </b> {offre.nbMaxEtudiants}</ListGroup.Item>
+                <ListGroup.Item><b>Date de début: </b> {offre.dateDebut}</ListGroup.Item>
+                <ListGroup.Item><b>Date de fin: </b> {offre.dateFin}</ListGroup.Item>
+                <ListGroup.Item><b>Statut: </b>
+                    {offre.status === "In_review" && (
+                        <>
+                            <FontAwesomeIcon icon={faClock} /> En attente
+                        </>
+                    )}
+                    {offre.status === "Accepted" && (
+                        <>
+                            <FontAwesomeIcon icon={faCheck} /> Accepté
+                        </>
+                    )}
+                    {offre.status === "Refused" && (
+                        <>
+                            <FontAwesomeIcon icon={faTimes} /> Refusé
+                        </>
+                    )}
+                </ListGroup.Item>
             </ListGroup>
             <Card.Body>
                 { etudiantsNb === 0 ?

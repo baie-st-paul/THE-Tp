@@ -1,7 +1,7 @@
 import SignatureCanvas from "react-signature-canvas";
 import React, {useEffect, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {FaPencilAlt, FaTimes, FaTrash} from "react-icons/fa";
+import {FaPencilAlt, FaTrash} from "react-icons/fa";
 import {FaRepeat} from "react-icons/fa6";
 import FetchsEmployer from "../../NavBar/employer/FetchsEmployer";
 import NavBarEmployeur from "../../NavBar/employer/NavBarEmployeur";
@@ -23,7 +23,7 @@ const CreateSignature = () => {
         setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
     }
 
-    const saveSignature = async () => { 
+    const saveSignature = async () => {
         try {
             const imageLink = sign.getTrimmedCanvas().toDataURL('image/png')
             const signature = ({
@@ -66,11 +66,11 @@ const CreateSignature = () => {
         }
         window.location.reload()
     }
-    
+
 
     function handleSave() {
-    saveSignature()
-    
+        saveSignature()
+
     }
 
     const handleModif = async () => {
@@ -126,22 +126,22 @@ const CreateSignature = () => {
         console.log(sign.empty)
     }
 
- 
+
     return (
         <div>
             <NavBarEmployeur/>
             <div id="Render" className="container content-container mt-4">
                 <h1 className="display-4 text-center">Signature</h1>
                 <div style={{border: "2px solid black"}}>
-                   <div className="">
-                    <span className="text-center "> Dessiner la signature ici</span>
-                    <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
-                        disabled={!disableWhenEmpty}
-                        onClick={handleClear}>
-                    <FaTrash
-                    style={{color: 'black'}}/>
-                   </Button>
-                   </div>
+                    <div className="">
+                        <span className="text-center "> Dessiner la signature ici</span>
+                        <Button style={{position: 'relative', backgroundColor: 'transparent' }} className="btn float-end m-0"
+                                disabled={!disableWhenEmpty}
+                                onClick={handleClear}>
+                            <FaTrash
+                                style={{color: 'black'}}/>
+                        </Button>
+                    </div>
                     <SignatureCanvas
                         canvasProps={{width: 500, height: 200, className: 'sigCanvas'}}
                         ref={data => setSign(data)}
@@ -150,37 +150,37 @@ const CreateSignature = () => {
                     />
                 </div>
 
-                
+
                 {signature !== null && urlImage === null ?
-                <div>
-                    <br></br>
-                    <img src={signature.imageLink} alt="imageLink"/>
+                    <div>
+                        <br></br>
+                        <img src={signature.imageLink} alt="imageLink"/>
                     </div> : <p></p>
                 }
-              
+
                 {urlImage !== null ?
-                <div>
-                    <br></br>
-                    <img src={urlImage} alt="urlImage"/> </div>:
-                 <p></p>}
-              
+                    <div>
+                        <br></br>
+                        <img src={urlImage} alt="urlImage"/> </div>:
+                    <p></p>}
+
                 {signature !== null ? (
                     <Button className="btn btn-primary"
                             onClick={handleModif}
                             disabled={disableModifier}
-                            >
+                    >
                         Modifier <FaRepeat
                         style={{color: 'black'}}
                     />
                     </Button>
                 ) : <Button className="btn btn-success"
-                disabled={!disableWhenEmpty}
-                onClick={handleSave}>
-            Sauvegarder <FaPencilAlt
-            style={{color: 'black'}}
-        />
-        </Button>
-}
+                            disabled={!disableWhenEmpty}
+                            onClick={handleSave}>
+                    Sauvegarder <FaPencilAlt
+                    style={{color: 'black'}}
+                />
+                </Button>
+                }
             </div>
         </div>
     )

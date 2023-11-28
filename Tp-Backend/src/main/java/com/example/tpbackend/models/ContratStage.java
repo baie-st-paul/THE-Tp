@@ -42,8 +42,16 @@ public class ContratStage {
     private StatusVuPasVu statutVuPasVuS;
 
     @OneToOne
-    @JoinColumn(name = "signature_id")
-    private SignatureGestionnaire gestionnaireSignature;
+    @JoinColumn(name = "rapport_heures_id")
+    private RapportHeures rapportHeures;
+
+    @OneToOne
+    @JoinColumn(name = "contrat_generate_id")
+    private GenerateContratPDF contratPDF;
+
+    @OneToOne
+    @JoinColumn(name = "evaluation_pdf_id")
+    private EvaluationPDF evaluationPDF;
 
     private String nomDePoste;
 

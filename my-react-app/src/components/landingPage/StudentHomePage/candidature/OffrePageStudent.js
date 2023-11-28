@@ -32,24 +32,24 @@ const OffresPageStudent = () => {
                     },
                     withCredentials: true,
                 }
-                ).catch(error => {
-                    console.log(error)
-                }).then(
-                    async (res) => {
-                        let data = await res.json()
-                        try {
+            ).catch(error => {
+                console.log(error)
+            }).then(
+                async (res) => {
+                    let data = await res.json()
+                    try {
+                        console.log(res.status)
+                        if (res.status === 400) {
                             console.log(res.status)
-                            if (res.status === 400) {
-                                console.log(res.status)
-                            }
-                        } catch (e) {
-                            console.log(e)
                         }
-                        data = data.filter((offre) => {
-                            return offre.status === "Accepted"
-                        })
-                        setOffres(data);
+                    } catch (e) {
+                        console.log(e)
+                    }
+                    data = data.filter((offre) => {
+                        return offre.status === "Accepted"
                     })
+                    setOffres(data);
+                })
         } catch (error) {
             console.log('Une erreur est survenue:', error);
             if (offres !== undefined){
@@ -71,23 +71,23 @@ const OffresPageStudent = () => {
                     },
                     withCredentials: true,
                 }
-                ).catch((error) => {
-                    console.error("Error:", error);
-                }).then(
-                    async (response) => {
-                        const data = await response.json();
+            ).catch((error) => {
+                console.error("Error:", error);
+            }).then(
+                async (response) => {
+                    const data = await response.json();
+                    console.log(response.status)
+                    try{
                         console.log(response.status)
-                        try{
-                            console.log(response.status)
-                        }
-                        catch (e) {
-                            console.log(e)
-                        }
-                        setCandidaturesOffreId(data.map(
-                            (candidature) => {
-                                return candidature.offreStageDTO.id
-                            }))
-                    });
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                    setCandidaturesOffreId(data.map(
+                        (candidature) => {
+                            return candidature.offreStageDTO.id
+                        }))
+                });
         } catch (error) {
             console.log("Error fetching data:", error)
         }

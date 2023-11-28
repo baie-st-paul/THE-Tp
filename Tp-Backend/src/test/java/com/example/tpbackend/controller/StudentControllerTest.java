@@ -1,7 +1,11 @@
 package com.example.tpbackend.controller;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
+import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
+import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
+import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
+import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.service.security.JwtService;
 import com.example.tpbackend.service.utilisateur.StudentServices;
 import com.example.tpbackend.service.utilisateur.UserService;
@@ -55,9 +59,9 @@ public class StudentControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].nomDePoste").value("Software Engineer"))
+                .andExpect(jsonPath("$[0].candidatureDTO.offreStage.titre").value("Software Engineer"))
                 .andExpect(jsonPath("$[1].id").value(2L))
-                .andExpect(jsonPath("$[1].nomDePoste").value("Data Analyst"));
+                .andExpect(jsonPath("$[1].candidatureDTO.offreStage.titre").value("Data Analyst"));
     }
 
     @Test
@@ -72,9 +76,19 @@ public class StudentControllerTest {
     }
 
     private ContratStageDTODetails createMockContratStageDTO(Long id, String companyName, String studentName, String poste) {
+        StudentGetDTO student = new StudentGetDTO();
+        EmployerGetDTO employerGetDTO = new EmployerGetDTO();
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+
+        CandidatureDTODetailed candidatureDTODetailed = new CandidatureDTODetailed();
+        candidatureDTODetailed.setStudent(student);
+        candidatureDTODetailed.setEmployer(employerGetDTO);
+        candidatureDTODetailed.setOffreStage(offreStageDTO);
+
         ContratStageDTODetails dto = new ContratStageDTODetails();
         dto.setId(id);
-        dto.setCandidatureDTO(new CandidatureDTODetailed());
+        dto.setCandidatureDTO(candidatureDTODetailed);
+
         dto.getCandidatureDTO().getStudent().setLastName(studentName);
         dto.getCandidatureDTO().getEmployer().setCompanyName(companyName);
         dto.getCandidatureDTO().getOffreStage().setTitre(poste);

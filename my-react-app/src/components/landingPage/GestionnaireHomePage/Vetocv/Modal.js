@@ -1,9 +1,9 @@
 import React from "react";
 import "./Modal.css";
 
-function Modal({ cv, fileName, onClose }) {
-
+function Modal({fichier, fileName, onClose }) {
     return (
+        
         <div className="modalBackground">
             <div className="modalContainer w-75 h-100">
                 <button className="closeButton" onClick={onClose}>
@@ -13,7 +13,7 @@ function Modal({ cv, fileName, onClose }) {
                 <div className="pdfContainer h-100 p-3">
                     <iframe
                         title="PDF Viewer"
-                        src={`data:application/pdf;base64,${cv}`}
+                        src={`data:application/pdf;base64,${fichier}`}
                         width="100%"
                         height="100%"
                     ></iframe>

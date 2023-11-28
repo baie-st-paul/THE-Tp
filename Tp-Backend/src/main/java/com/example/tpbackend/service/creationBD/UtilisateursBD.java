@@ -7,6 +7,7 @@ import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
 import com.example.tpbackend.models.Candidature;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.TagRepository;
 import com.example.tpbackend.service.EntrevueService;
@@ -197,7 +198,7 @@ public class UtilisateursBD implements CommandLineRunner {
 
     public void createAllCvs() throws IOException {
         System.out.println(createCv("web-developer-resume-example.pdf", "1234567",
-                "In_review", "vu", "pasVu"));
+                "Accepted", "vu", "pasVu"));
         createCv("web-developer-resume-example.pdf", "5869595",
                 "In_review", "pasVu", "pasVu");
         createCv("web-developer-resume-example.pdf", "8675848",
@@ -299,7 +300,7 @@ public class UtilisateursBD implements CommandLineRunner {
         studentServices.updateCandidatureStatus("1234567", "Accepted");
         studentServices.updateCandidatureStatus("5869595", "Accepted");
         studentServices.updateCandidatureStatus("8675848", "Accepted");
-        studentServices.updateCandidatureStatus("4738494", "Accepted");
+       // studentServices.updateCandidatureStatus("4738494", "Accepted");
     }
 
     public void updateCandidatureEmbauche() {
@@ -331,7 +332,7 @@ public class UtilisateursBD implements CommandLineRunner {
         createEntrevue(3,
                 "2023-11-15, 10:30",
                 "rendez-vous sur zoom",
-                "Acceptee",
+                "Refusee",
                 "vu",
                 "pasVu",
                 "ALaurendeau",
@@ -348,6 +349,16 @@ public class UtilisateursBD implements CommandLineRunner {
                 "1",
                 "8675848",
                 "3");
+        createEntrevue(5,
+                "2023-11-15, 10:30",
+                "rendez-vous sur teams",
+                "EnAttente",
+                "vu",
+                "pasVu",
+                "ALaurendeau",
+                "1",
+                "1234567",
+                "1");
     }
 
     public void createEntrevue(long id, String dateHeure, String description, String status,
@@ -378,7 +389,10 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Dev web react",
                 "vu",
                 "pasVu",
-                "pasVu"
+                "pasVu",
+                "Signer",
+                "Signer",
+                "Signer"
         );
         createContrat(
                 2L,
@@ -389,7 +403,10 @@ public class UtilisateursBD implements CommandLineRunner {
                 "Dev web angular",
                 "vu",
                 "pasVu",
-                "pasVu"
+                "pasVu",
+                "Pas_Signer",
+                "Pas_Signer",
+                "Pas_Signer"
         );
         /*
         createContrat(
@@ -418,7 +435,7 @@ public class UtilisateursBD implements CommandLineRunner {
     }
 
     public void createContrat(Long id, Long candidatureId, String nomDeCompanie, String prenom, String nom, String titreOffre,
-                              String statusG, String statusE, String statusS) {
+                              String statusG, String statusE, String statusS, String signeS, String signeE, String signeG) {
         ContratStageDTO contratStageDTO = new ContratStageDTO(
                 id,
                 candidatureId,
@@ -426,12 +443,15 @@ public class UtilisateursBD implements CommandLineRunner {
                 nomDeCompanie,
                 titreOffre,
                 prenom,
-                "Pas_Signer",
-                "Pas_Signer",
-                "Pas_Signer",
+                signeS,
+                signeE,
+                signeG,
                 statusG,
                 statusE,
-                statusS
+                statusS,
+                null,
+                null,
+                null
         );
         gestionnaireService.createContrat(contratStageDTO);
     }
@@ -534,6 +554,23 @@ public class UtilisateursBD implements CommandLineRunner {
                 LocalDate.of(2023, 11, 30),
                 15,
                 "Accepted",
+                "pasVu",
+                "vu",
+                "pasVu",
+                1,
+                "AU23");
+        createOffre(5,
+                "Dev python",
+                10,
+                "Informatique",
+                "Un développeur Python est membre d'une équipe logicielle compétente dans la création, " +
+                        "la conception et la fourniture d'applications informatiques et d'autres programmes en Python. " +
+                        "Un développeur Python est également responsable de la localisation et de la correction des erreurs " +
+                        "(débogage) dans les projets de développement basés sur Python.",
+                LocalDate.of(2023, 12, 3),
+                LocalDate.of(2023, 12, 21),
+                5,
+                "Refused",
                 "pasVu",
                 "vu",
                 "pasVu",

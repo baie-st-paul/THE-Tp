@@ -3,9 +3,12 @@ package com.example.tpbackend.service;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTO;
 import com.example.tpbackend.DTO.utilisateur.student.StudentGetDTO;
 import com.example.tpbackend.exceptionHandler.ResourceNotFoundException;
+import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.Entrevue;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import com.example.tpbackend.repository.CandidatureRepository;
 import com.example.tpbackend.repository.EntrevueRepository;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +29,8 @@ public class EntrevueService {
     @Autowired
     private EntrevueRepository entrevueRepository;
 
+    @Autowired
+    private CandidatureRepository candidatureRepository;
     @Autowired
     private EmployerRepository employerRepository;
 
@@ -44,8 +50,16 @@ public class EntrevueService {
         entrevue.setStatusVuPasVuG(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuG()));
         entrevue.setStatusVuPasVuS(Entrevue.StatusVuPasVu.valueOf(entrevueDTO.getStatusVuPasVuS()));
         entrevue.setEmployer(employerRepository.findEmployerById(Long.parseLong(entrevueDTO.getIdEmployer())));
-        entrevue.setStudent(studentRepository.findByMatricule(entrevueDTO.getIdEtudiant()));
-        entrevue.setOffreStage(offreStageRepository.getOffreById(Long.parseLong(entrevueDTO.getIdOffre())));
+        Student s = studentRepository.findByMatricule(entrevueDTO.getIdEtudiant());
+        OffreStage offre = offreStageRepository.getOffreById(Long.parseLong(entrevueDTO.getIdOffre()));
+        entrevue.setStudent(s);
+        entrevue.setOffreStage(offre);
+        Optional<Candidature> candidature = candidatureRepository.findCandidatureByStatusAndStudentAndAndOffreStage(Candidature.Status.In_review, s,offre);
+        if (candidature.isPresent()){
+            candidature.get().setStatus(Candidature.Status.Interview);
+            candidatureRepository.save(candidature.get());
+        }
+
         return entrevueRepository.save(entrevue).toEntrevueDTO();
     }
 
@@ -79,8 +93,8 @@ public class EntrevueService {
     }
 
     @Transactional
-    public void manageStatusByMatricule(String matricule, String newStatus) {
-        entrevueRepository.updateStatusByMatricule(matricule,Entrevue.Status.valueOf(newStatus));
+    public void manageStatusByMatricule(Long id, String newStatus) {
+        entrevueRepository.updateStatusById(id,Entrevue.Status.valueOf(newStatus));
     }
 
     @Transactional
@@ -96,5 +110,14 @@ public class EntrevueService {
     }
 
 
+    public void updateEntrevue(EntrevueDTO entrevueDTO) {
+         entrevueRepository.updateById(
+                entrevueDTO.getId(),
+                entrevueDTO.getDateHeure(),
+                entrevueDTO.getDescription(),
+                Entrevue.Status.valueOf(entrevueDTO.getStatus()),
+                Entrevue.StatusVuPasVu.valueOf("pasVu"),
+                Entrevue.StatusVuPasVu.valueOf("pasVu")
+        );
+    }
 }
-

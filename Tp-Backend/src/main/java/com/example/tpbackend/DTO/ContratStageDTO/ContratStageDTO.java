@@ -1,4 +1,7 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +15,6 @@ public class ContratStageDTO {
     private Long candidatureId;
     private String nomEtudiant;
     private String nomDeCompanie;
-
     private String nomDePoste;
     private String prenomEtudiant;
     private String statutEtudiant;
@@ -21,17 +23,32 @@ public class ContratStageDTO {
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
+    private RapportHeuresDTO rapportFile;
+    private EvaluationPdfDto evaluationPDF;
+    private GenerateContratPdfDTO generateContrat;
 
     public static ContratStageDTO fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
             return null;
         }
 
-        ContratStageDTO dto = new ContratStageDTO();
 
+        ContratStageDTO dto = new ContratStageDTO();
 
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureId(contratStage.getCandidature().getId());
+        }
+
+        if(contratStage.getRapportHeures() != null) {
+            dto.setRapportFile(RapportHeuresDTO.fromRapportHeure(contratStage.getRapportHeures()));
+        }
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
+        }
+
+        if (contratStage.getContratPDF() != null) {
+            dto.setGenerateContrat(GenerateContratPdfDTO.fromContratPdf(contratStage.getContratPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());
@@ -47,7 +64,8 @@ public class ContratStageDTO {
         dto.setStatusVuPasVuS(String.valueOf(contratStage.getStatutVuPasVuS()));
         return dto;
     }
-    public ContratStage toContratStage() {
+
+    public ContratStage toContratStage(){
         ContratStage contratStage = new ContratStage();
 
         contratStage.setId(this.id);

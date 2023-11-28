@@ -16,8 +16,7 @@ import OffresPageGestionnaire from "./components/landingPage/GestionnaireHomePag
 import OffresPageStudent from "./components/landingPage/StudentHomePage/candidature/OffrePageStudent";
 import InformationEtudiantPostule from './components/landingPage/EmployerHomePage/candidature/infoStudentOffre/InformationEtudiantPostule';
 import VetoSection from "./components/landingPage/GestionnaireHomePage/Vetocv/VetoSection";
-import EtudiantsConvoquesEntrevue
-    from "./components/landingPage/GestionnaireHomePage/entrevue/EtudiantsConvoquesEntrevue";
+import EtudiantsConvoquesEntrevue from "./components/landingPage/GestionnaireHomePage/entrevue/EtudiantsConvoquesEntrevue";
 import EtudiantEmbauchePage from "./components/landingPage/GestionnaireHomePage/embauche/EtudiantEmbauchePage";
 import ListContratsGestionnaire from "./components/landingPage/GestionnaireHomePage/contrat/ListContratsGestionnaire";
 import EmployerStageOffreList from "./components/landingPage/EmployerHomePage/offres/EmployerStageOffreList";
@@ -28,12 +27,14 @@ import CreateStudentSignature from "./components/landingPage/StudentHomePage/sig
 import OffreCandidaturePage from "./components/landingPage/StudentHomePage/candidature/OffreCandidaturePage";
 import SectionEntrevue from "./components/landingPage/StudentHomePage/SectionViewEntrevue/SectionEntrevue";
 import EtudiantMesContrats from "./components/landingPage/StudentHomePage/contrat/EtudiantMesContrats";
-import ProfilePageGes from "./components/landingPage/GestionnaireHomePage/profile/ProfilePageGes";
+import Candidatures from './components/landingPage/EmployerHomePage/candidature/candidatures';
+import CreateSignatureGes from "./components/landingPage/GestionnaireHomePage/signature/CreateSignatureGes";
 
 function App() {
     return (
         <div>
             <Routes>
+                
                 <Route path={"/StudentHomePage"} element={<StudentPrivateRoutes/>}/>
                 <Route path={"/cvEtudiant"} element={<FileUploader matricule={localStorage.getItem("loggedInUserMatricule")}/>}/>
                 <Route path={"/signatureEtudiant"} element={<CreateStudentSignature/>}/>
@@ -43,6 +44,7 @@ function App() {
                 <Route path={"/contratsEtudiant"} element={<EtudiantMesContrats contratsTest={[]}/>}/>
 
                 <Route path={"/GestionnaireHomePage"} element={<GestionnairePrivateRoutes/>}/>
+                <Route path={"/signatureGes"} element={<CreateSignatureGes/>}/>
                 <Route path={"/CV-veto"} element={<VetoSection/>}/>
                 <Route path={"/Offres-veto"} element={<OffresPageGestionnaire/>}/>
                 <Route path={"/entrevues"} element={<EtudiantsConvoquesEntrevue/>}/>
@@ -55,6 +57,7 @@ function App() {
                 <Route path={"/ajoutOffre"} element={<AjoutOffreForm onAdd={FetchsEmployer.ajoutOffre}/>}/>
                 <Route path={"/contrats-emp"} element={<EmployeurMesContrats contratsTest={[]}/>}/>
                 <Route path={"/infoStudent"} element={<InformationEtudiantPostule/>}/>
+                <Route path={"/candidatures"} element={<Candidatures/>}/>
 
                 <Route path="*" element={<PageNotFound/>}/>
                 <Route path="/" element={<UtilisateursMain/>}/>

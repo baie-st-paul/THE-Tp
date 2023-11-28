@@ -1,6 +1,8 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 
-import com.example.tpbackend.DTO.candidature.CandidatureDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
@@ -13,12 +15,15 @@ import lombok.NoArgsConstructor;
 public class ContratStageDTODetails {
     private Long id;
     private CandidatureDTODetailed candidatureDTO;
+    private EvaluationPdfDto evaluationPDF;
     private String statutEtudiant;
     private String statutEmployeur;
     private String statutGestionnaire;
     private String statusVuPasVuG;
     private String statusVuPasVuE;
     private String statusVuPasVuS;
+    private RapportHeuresDTO rapportFile;
+    private GenerateContratPdfDTO generateContrat;
 
     public static ContratStageDTODetails fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -30,6 +35,18 @@ public class ContratStageDTODetails {
 
         if (contratStage.getCandidature() != null) {
             dto.setCandidatureDTO(CandidatureDTODetailed.fromCandidature(contratStage.getCandidature()));
+        }
+
+        if(contratStage.getRapportHeures() != null) {
+            dto.setRapportFile(RapportHeuresDTO.fromRapportHeure(contratStage.getRapportHeures()));
+        }
+
+        if (contratStage.getEvaluationPDF() != null) {
+            dto.setEvaluationPDF(EvaluationPdfDto.fromEvaluationPDF(contratStage.getEvaluationPDF()));
+        }
+
+        if (contratStage.getContratPDF() != null) {
+            dto.setGenerateContrat(GenerateContratPdfDTO.fromContratPdf(contratStage.getContratPDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

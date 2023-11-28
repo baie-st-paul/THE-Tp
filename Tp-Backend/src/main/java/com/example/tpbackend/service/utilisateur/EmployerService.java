@@ -1,19 +1,20 @@
 package com.example.tpbackend.service.utilisateur;
 
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerGetDTO;
 import com.example.tpbackend.DTO.utilisateur.employeur.EmployerPostDTO;
-import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.RapportHeures;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.TagRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 import com.example.tpbackend.service.TagGenerator;
@@ -21,6 +22,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,9 +38,13 @@ public class EmployerService {
     @Autowired
     private UserService userService;
     @Autowired
-    ContratStageRepository contratStageRepository;
+    private ContratStageRepository contratStageRepository;
+    @Autowired
+    private EvaluationPDFRepository evaluationPDFRepository;
     @Autowired
     private CandidatureRepository candidatureRepository;
+    @Autowired
+    private RapportHeuresRepository rapportHeuresRepository;
 
     @Transactional
     public boolean existByName(String companyName) {
@@ -97,10 +103,10 @@ public class EmployerService {
         return tag;
     }
     @Transactional
-   public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
+    public List<ContratStageDTODetails> getContratStageByEmployeur(Long employeurId) {
         List<ContratStage> contrats = contratStageRepository.findByEmployeur_Id(employeurId);
         return contrats.stream().map(ContratStageDTODetails::fromContratStage).collect(Collectors.toList());
-   }
+    }
     @Transactional
     public void signContract(ContratStageDTO contractDTO) throws Exception {
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractDTO.getId());
@@ -108,5 +114,40 @@ public class EmployerService {
         ContratStage contract = optionalContract.get();
         contract.setStatutEmployeur(ContratStage.Statut.Signer);
         contratStageRepository.save(contract);
+    }
+
+    @Transactional
+    public RapportHeuresDTO saveRapportHeures(RapportHeuresDTO rapportHeuresDTO, Long contractId) throws Exception{
+        RapportHeures rapportHeures = RapportHeuresDTO.toRapportHeure(rapportHeuresDTO);
+        RapportHeures savedRapportHeures = rapportHeuresRepository.save(rapportHeures);
+
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+
+        ContratStage contract = optionalContract.get();
+        contract.setRapportHeures(savedRapportHeures);
+        contratStageRepository.save(contract);
+
+        return RapportHeuresDTO.fromRapportHeure(savedRapportHeures);
+    }
+
+    @Transactional
+    public EvaluationPdfDto saveEvaluation(EvaluationPdfDto evaluationPdfDto, Long contractId) throws Exception {
+
+        EvaluationPDF evaluation = EvaluationPdfDto.toEvaluationPDF(evaluationPdfDto);
+
+        EvaluationPDF savedEvaluation = evaluationPDFRepository.save(evaluation);
+
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("ContratStage not found with id: " + contractId);
+        }
+        ContratStage contract = optionalContract.get();
+        contract.setEvaluationPDF(savedEvaluation);
+        contratStageRepository.save(contract);
+
+        return EvaluationPdfDto.fromEvaluationPDF(savedEvaluation);
     }
 }

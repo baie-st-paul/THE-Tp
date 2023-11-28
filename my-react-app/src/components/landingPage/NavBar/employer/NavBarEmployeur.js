@@ -2,7 +2,12 @@ import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import FetchsEmployer from "./FetchsEmployer";
 import {Nav, Navbar} from "react-bootstrap";
-import {faBriefcase, faPlus, faFile, faHome} from "@fortawesome/free-solid-svg-icons";
+import {faBriefcase,
+    faPlus,
+    faFile,
+    faHome,
+    faFileArchive
+} from "@fortawesome/free-solid-svg-icons";
 import {faPencilAlt} from "@fortawesome/free-solid-svg-icons/faPencilAlt";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import profile from "../../../../images/profile.jpg";
@@ -26,6 +31,11 @@ const NavBarEmployeur = () => {
 
     const getFetchs = async () => {
         setSignature(FetchsEmployer.fetchSignature(token, employerId, signature, setSignature))
+    }
+
+    const handleDisconnect = () => {
+        localStorage.clear()
+        navigate('/');
     }
 
     return (
@@ -68,6 +78,11 @@ const NavBarEmployeur = () => {
                                 <li className="nav-item navbarbutton">
                                     <button className="nav-link" onClick={() => navigate("/contrats-emp")}>
                                         <FontAwesomeIcon icon={faFile} style={{ marginRight: '10px' }}/>Mes contrats
+                                    </button>
+                                </li>
+                                <li className="nav-item navbarbutton">
+                                    <button className="nav-link" onClick={() => navigate("/candidatures")}>
+                                        <FontAwesomeIcon icon={faFileArchive} style={{ marginRight: '10px' }}/> Candidatures
                                     </button>
                                 </li>
                             </ul>

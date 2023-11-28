@@ -25,13 +25,14 @@ const NavBarStudent = () => {
     const [signature, setSignature] = useState(null)
     const [cv, setCv] = useState(null);
     const token = localStorage.getItem('token');
+    const studentMatricule = localStorage.getItem("loggedInUserMatricule")
 
     useEffect(() => {
         getFetchs()
     }, []);
 
     const getFetchs = async () => {
-        setSignature(FetchsStudent.fetchSignature(token, signature, setSignature))
+        setSignature(FetchsStudent.fetchSignature(token, studentMatricule, signature, setSignature))
         setCv(FetchsStudent.fetchCv(token, cv, setCv))
     }
 

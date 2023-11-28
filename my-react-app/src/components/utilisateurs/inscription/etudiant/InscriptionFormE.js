@@ -59,12 +59,14 @@ const InscriptionFormE = ({onAdd}) => {
         if (
             firstName.trim() === ''
         ) {
+            annuler = true;
             firstNameRef.current.innerHTML  = '* Veuillez entrer votre prenom *';
         } else {
             firstNameRef.current.innerHTML = '';
         }
 
         if(lastName.trim() === '') {
+            annuler = true;
             lastNameRef.current.innerHTML = '* Veuillez entrer votre nom *';
         } else {
             lastNameRef.current.innerHTML = ''
@@ -80,31 +82,37 @@ const InscriptionFormE = ({onAdd}) => {
         }
 
         if (matricule.trim() === '') {
+            annuler = true;
             matriculeRef.current.innerHTML = '* Veuillez entrer votre matricule *';
         } else {
             matriculeRef.current.innerHTML = '';
         }
 
         if (matricule.trim() !== '' && !validMatricule) {
+            annuler = true;
             matriculeRef.current.innerHTML = '* Matricule invalide *';
         }
 
         if (matricule.trim() !== '' && matricule.length !== 7) {
+            annuler = true;
             matriculeRef.current.innerHTML = '* Matricule doit être d\'une longueur de 7 *';
             annuler = true;
         }
 
         if (email.trim() === '') {
+            annuler = true;
             emailRef.current.innerHTML = '* Veuillez entrer votre émail';
         } else {
             emailRef.current.innerHTML = ''
         }
 
         if (email.trim()!== '' && !validEmail) {
+            annuler = true;
             emailRef.current.innerHTML = '* Email n\'est pas valide *';
         }
 
         if (phoneNumber.trim()=== '') {
+            annuler = true;
             phoneNumberRef.current.innerHTML = '* Veuillez entrer votre numéro de téléphone *'
         }
         else {
@@ -117,37 +125,41 @@ const InscriptionFormE = ({onAdd}) => {
         }
 
         if (program.trim() === '') {
+            annuler = true;
             programRef.current.innerHTML = '* Veuillez entrer votre programme d\'étude *'
         } else {
             programRef.current.innerHTML = '';
         }
 
         if (password.trim() ==='') {
+            annuler = true;
             passwordRef.current.innerHTML = '* Veuillez entrer votre mot de passe *'
         } else {
             passwordRef.current.innerHTML = '';
         }
 
         if (confirmPassword.trim() === '') {
+            annuler = true;
             confirmPasswordRef.current.innerHTML = '* Veuillez entrer la confirmation de mot de passe *'
         } else {
             confirmPasswordRef.current.innerHTML ='';
         }
 
         if (password.trim()!=='' && !validPassword) {
+            annuler = true;
             passwordRef.current.innerHTML = '* Le mot de passe doit etre de 6-20 caractères, 1 caractère special et 1 caractère en majuscule *'
             annuler = true;
         }
 
         if (confirmPassword.trim()!=='' && password.trim()!== '' && confirmPassword !== password) {
+            annuler = true;
             confirmPasswordRef.current.innerHTML = '* La confirmation est différente du mot de passe *'
             annuler = true
         } else {
             confirmPasswordRef.current.innerHTML = '';
         }
 
-        if (annuler === true) {
-        } else {
+        if (!annuler) {
             onAdd({
                 firstName,
                 lastName,

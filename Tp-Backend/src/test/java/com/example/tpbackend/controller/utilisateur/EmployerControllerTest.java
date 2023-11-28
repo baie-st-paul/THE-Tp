@@ -1,9 +1,10 @@
 package com.example.tpbackend.controller.utilisateur;
 
-import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.candidature.CandidaturePostDTO;
@@ -24,8 +25,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -34,8 +42,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -177,7 +183,7 @@ public class EmployerControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/v1/employers/{offerId}/applicants", offerId))
                 .andExpect(status().isNotFound())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error").value("Aucune candidature trouvée pour cette offre."));
     }
 
@@ -215,4 +221,32 @@ public class EmployerControllerTest {
                 .andExpect(jsonPath("$[1].candidatureDTO.id").value(contrat2.getCandidatureDTO().getId()));
     }
 
+    @Test
+    public void testSaveRapportHeures() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/contracts/1/rapport_heures").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isOk());
+
+        verify(employerService).saveRapportHeures(any(RapportHeuresDTO.class), anyLong());
+    }
+
+    @Test
+    public void testHandleFileUpload() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+        Long mockContractId = 1L;
+
+        EvaluationPdfDto mockDto = new EvaluationPdfDto("test.pdf", file.getBytes());
+        when(employerService.saveEvaluation(any(EvaluationPdfDto.class), any(Long.class))).thenReturn(mockDto);
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/employers/upload_evaluation/1")
+                        .file(file)
+                        .param("contractId", String.valueOf(mockContractId))
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isCreated())
+                .andExpect(content().string(containsString("\"name\":\"test.pdf\"")));
+
+        verify(employerService).saveEvaluation(any(EvaluationPdfDto.class), any(Long.class));
+    }
 }

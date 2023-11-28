@@ -1,20 +1,25 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.DTO.RapportHeuresDTO;
 import com.example.tpbackend.models.Candidature;
 import com.example.tpbackend.models.ContratStage;
+import com.example.tpbackend.models.EvaluationPDF;
 import com.example.tpbackend.models.Cv;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.ContratStageRepository;
+import com.example.tpbackend.repository.EvaluationPDFRepository;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.UtilisateurRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +27,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -41,6 +48,9 @@ class EmployerServiceTest {
 
     @Mock
     private UtilisateurRepository utilisateurRepository;
+
+    @Mock
+    private EvaluationPDFRepository evaluationPDFRepository;
 
     /**
      * Method under test: {@link EmployerService#existByName(String)}
@@ -158,7 +168,52 @@ class EmployerServiceTest {
     }
 
     @Test
-    void testUpdateStatusContractSetViewedByEmployer(){
+    public void testSaveEvaluation() throws Exception {
+
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = new MockMultipartFile("file", "evaluation.pdf", "application/pdf", fakePdfContent);
+
+        EvaluationPdfDto evaluationPdfDto = new EvaluationPdfDto(mockFile);
+
+        EvaluationPDF evaluationPDF = new EvaluationPDF();
+        evaluationPDF.setName(evaluationPdfDto.getName());
+        evaluationPDF.setContent(evaluationPdfDto.getContent());
+        when(evaluationPDFRepository.save(any(EvaluationPDF.class))).thenReturn(evaluationPDF);
+
+        Long contractId = 1L;
+        ContratStage contratStageMock = new ContratStage();
+        contratStageMock.setId(contractId);
+        when(contratStageRepository.findById(contractId)).thenReturn(Optional.of(contratStageMock));
+
+        EvaluationPdfDto savedDto = employerService.saveEvaluation(evaluationPdfDto, contractId);
+
+        assertNotNull(savedDto);
+
+        assertEquals("evaluation.pdf", savedDto.getName());
+
+        verify(contratStageRepository).save(argThat(contract ->
+                contract.getEvaluationPDF() != null &&
+                        contract.getEvaluationPDF().getName().equals("evaluation.pdf")
+        ));
+    }
+
+    @Test
+    public void testSaveEvaluationContractNotFound() {
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = new MockMultipartFile("file", "evaluation.pdf", "application/pdf", fakePdfContent);
+
+        EvaluationPdfDto evaluationPdfDto = new EvaluationPdfDto(mockFile);
+
+        Long contractId = 1L;
+        when(contratStageRepository.findById(contractId)).thenReturn(Optional.empty());
+
+        assertThrows(Exception.class, () -> {
+            employerService.saveEvaluation(evaluationPdfDto, contractId);
+        });
+    }
+
+    @Test
+    public void testUpdateStatusContractSetViewedByEmployer() {
         ContratStage contratStage = new ContratStage();
         contratStage.setId(1L);
         contratStage.setStatutVuPasVuE(ContratStage.StatusVuPasVu.pasVu);
@@ -171,8 +226,20 @@ class EmployerServiceTest {
         verify(contratStageRepository, times(1)).updateStatusVuPasVuEByMatricule("2222222", ContratStage.StatusVuPasVu.vu);
     }
 
+    @Test
+    public void testSaveRapportHeures() throws Exception {
+        MultipartFile mockFile = mock(MultipartFile.class);
 
+        RapportHeuresDTO rapportHeuresDTO = new RapportHeuresDTO(mockFile);
 
+        ContratStage contract = new ContratStage();
+        contract.setId(1L);
+        contract.setStatutEtudiant(ContratStage.Statut.Signer);
 
+        when(contratStageRepository.findById(any())).thenReturn(Optional.of(contract));
 
+        employerService.saveRapportHeures(rapportHeuresDTO, 1L);
+
+        verify(contratStageRepository, times(1)).findById(1L);
+    }
 }

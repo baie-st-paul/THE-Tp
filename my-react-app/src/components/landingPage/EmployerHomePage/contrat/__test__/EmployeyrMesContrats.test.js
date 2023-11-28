@@ -166,9 +166,9 @@ describe('Tests Employeur voit ses contrats', () => {
                     <EmployeurMesContrats employerId={1} contratsTest={contrats}/>
                 </BrowserRouter>
             )
-         })
-         const button = screen.getAllByText('Signer le contrat', { selector: 'span' })[0] 
-         expect(button).toBeInTheDocument();
+        })
+        const button = screen.getAllByText('Signer le contrat', { selector: 'span' })[0]
+        expect(button).toBeInTheDocument();
     } )
 
     it('should have no buttons if contracts are signed', ()=>{
@@ -178,9 +178,9 @@ describe('Tests Employeur voit ses contrats', () => {
                     <EmployeurMesContrats employerId={1} contratsTest={contratsSigne}/>
                 </BrowserRouter>
             )
-         })
-         const elementsSigne =  screen.getAllByText('Signé')
-         expect(elementsSigne.length).toBe(6)
+        })
+        const elementsSigne =  screen.getAllByText('Signé')
+        expect(elementsSigne.length).toBe(6)
     })
 
     it('should replace button by text after clicking on "sign"', ()=>{
@@ -190,10 +190,10 @@ describe('Tests Employeur voit ses contrats', () => {
                     <EmployeurMesContrats employerId={1} contratsTest={unContrat}/>
                 </BrowserRouter>
             )
-         })
-         fireEvent.click(screen.getByText('Signer le contrat'));
-         fireEvent.click(screen.getByText('Oui'));
-         expect(screen.getByText('Signé')).toBeInTheDocument();
+        })
+        fireEvent.click(screen.getByText('Signer le contrat'));
+        fireEvent.click(screen.getByText('Oui'));
+        expect(screen.getByText('Signé')).toBeInTheDocument();
     })
 
     it('should do nothing when clicked on no in modal window', ()=>{
@@ -228,9 +228,9 @@ describe('Tests Employeur voit ses contrats', () => {
                     <EmployeurMesContrats employerId={1} contratsTest={unContrat}/>
                 </BrowserRouter>
             )
-         })
-         fireEvent.click(screen.getByText('Signer le contrat'));
-         fireEvent.click(screen.getByText('Non'));
-         expect(screen.getByText('Signer le contrat')).toBeInTheDocument();
+        })
+        fireEvent.click(screen.getByText('Signer le contrat'));
+        fireEvent.click(screen.getByText('Non'));
+        expect(screen.getByText('Signer le contrat')).toBeInTheDocument();
     })
 })

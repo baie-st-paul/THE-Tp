@@ -121,7 +121,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                         <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                                     </div>
                                     <div className='form-group'>
-                                        <input className='form-control saisie saisie-user px-3 m-0' type='number' placeholder='Salaire offert'
+                                        <input className='form-control saisie saisie-user px-3 m-0' type='number' placeholder='Salaire hebdomadaire'
                                                value={salaire}
                                                onChange={(e) => setSalaire(e.target.value)} />
                                         <p ref={salaireRef} className="font px-1 textAvertissement text-danger"></p>

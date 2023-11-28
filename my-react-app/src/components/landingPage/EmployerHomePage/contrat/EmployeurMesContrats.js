@@ -372,48 +372,48 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                 <Table aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell>Prénom, Nom</StyledTableCell>
-                                            <StyledTableCell align="right">Matricule</StyledTableCell>
-                                            <StyledTableCell align="right">Compagnie</StyledTableCell>
-                                            <StyledTableCell align="right">Poste</StyledTableCell>
-                                            <StyledTableCell align="right">Signé par étudiant</StyledTableCell>
-                                            <StyledTableCell align="right">Signé par gestionnaire</StyledTableCell>
-                                            <StyledTableCell align="right">Signé par employeur</StyledTableCell>
-                                            <StyledTableCell align="right">Rapport des heures</StyledTableCell>
-                                            <StyledTableCell align="right">Évaluation</StyledTableCell>
+                                            <StyledTableCell align="center">Prénom, Nom</StyledTableCell>
+                                            <StyledTableCell align="center">Matricule</StyledTableCell>
+                                            <StyledTableCell align="center">Compagnie</StyledTableCell>
+                                            <StyledTableCell align="center">Poste</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par étudiant</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par gestionnaire</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par employeur</StyledTableCell>
+                                            <StyledTableCell align="center">Rapport des heures</StyledTableCell>
+                                            <StyledTableCell align="center">Évaluation</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                         {contrats.length > 0 && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
                                             .map((contrat, index) => (
                                                 <StyledTableRow key={index}>
-                                                    <td data-label="Prénom, Nom">
+                                                    <StyledTableCell align="center" data-label="Prénom, Nom">
                                                         {contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}
-                                                    </td>
-                                                    <td data-label="Matricule">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Matricule">
                                                         {contrat.candidatureDTO.student.matricule}
-                                                    </td>
-                                                    <td data-label="Compagnie">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Compagnie">
                                                         {contrat.candidatureDTO.employer.companyName}
-                                                    </td>
-                                                    <td data-label="Poste">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Poste">
                                                         {contrat.candidatureDTO.offreStage.titre}
-                                                    </td>
-                                                    <td data-label="Signé par étudiant">
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Signé par étudiant">
                                                         {contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'}
-                                                    </td>
+                                                    </StyledTableCell>
                                                     {
                                                         contrat.statutEmployeur === 'Pas_Signer' ?
-                                                            <td data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></td>
+                                                            <StyledTableCell align="center" data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></StyledTableCell>
                                                             :
-                                                            <td data-label="Signé par employeur">Signé</td>
+                                                            <StyledTableCell align="center" data-label="Signé par employeur">Signé</StyledTableCell>
                                                     }
-                                                    <td data-label="Signé par gestionnaire">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
+                                                    <StyledTableCell align="center" data-label="Signé par gestionnaire">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </StyledTableCell>
                                                     {
                                                         contrat.statutEtudiant === 'Signer' &&
                                                         contrat.statutGestionnaire === 'Signer' &&
                                                         contrat.statutEmployeur === 'Signer' ?
-                                                            <td data-label="Rapport des heures">
+                                                            <StyledTableCell align="center" data-label="Rapport des heures">
                                                                 {contrat.rapportFile !== null ? (
                                                                     <button className='m-0 text-center btn btn-secondary'
                                                                             onClick={() => handleMontrerRapportHeure(contrat)}>
@@ -428,16 +428,16 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                                                         <span className='h7'>Générer Rapport</span>
                                                                     </button>
                                                                 )}
-                                                            </td> :
-                                                            <td data-label="Rapport des heures">
+                                                            </StyledTableCell> :
+                                                            <StyledTableCell align="center" data-label="Rapport des heures">
                                                                 <p>En attente des signatures</p>
-                                                            </td>
+                                                            </StyledTableCell>
                                                     }
                                                     {
                                                         contrat.statutEtudiant === 'Signer' &&
                                                         contrat.statutGestionnaire === 'Signer' &&
                                                         contrat.statutEmployeur === 'Signer' ?
-                                                            <td data-label="Évaluation">
+                                                            <StyledTableCell align="center" data-label="Évaluation">
                                                                 {contrat.evaluationPDF !== null ? (
                                                                     <button className='m-0 text-center btn btn-secondary'
                                                                             onClick={() => handleMontrerEvaluation(contrat)}>
@@ -452,10 +452,10 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                                                         <span className='h7'>Évaluer</span>
                                                                     </button>
                                                                 )}
-                                                            </td> :
-                                                            <td data-label="Évaluation">
+                                                            </StyledTableCell> :
+                                                            <StyledTableCell align="center" data-label="Évaluation">
                                                                 <p>En attente des signatures</p>
-                                                            </td>
+                                                            </StyledTableCell>
                                                     }
                                                 </StyledTableRow>
                                             ))}

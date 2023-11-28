@@ -1,8 +1,4 @@
-
 import React, {useEffect, useRef, useState} from "react";
-import FetchsGestionnaire from "../../../NavBar/gestionnaire/FetchsGestionnaire";
-import FetchsEmployer from "../../../NavBar/employer/FetchsEmployer";
-import FetchsStudent from "../../../NavBar/student/FetchsStudent";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import GenereContratPDF from "./GenereContratPDF";
 import './GenereContratForm.css'
@@ -21,7 +17,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         startWorkHours: "",
         endWorkHours: "",
 
-        nbTotalHeureParSemaine: "",
+        nbTotalHeureParSemaine: "", 
         salaireHoraire: "",
 
         offreDescription: contrat.candidatureDTO.offreStage.description,
@@ -67,68 +63,164 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     useEffect(() => {
         handleSignatureEtudiant()
         handleSignatureEmployer()
-        handleSignatureGestionnaire()
+        handleSignatureGestionnaire()  
     }, []);
 
+    let base64Signature;
     const handleSignatureEtudiant = async () => {
-        try {
-            setSignatureEtudiant(FetchsStudent.fetchSignature(token, contrat.candidatureDTO.student.matricule, signatureEtudiant, setSignatureEtudiant))
-            const base64Signature = signatureEtudiant.imageLink;
-
-            if (base64Signature && !base64Signature.startsWith('data:image')) {
-                setSignatureEtudiant(`data:image/png;base64,${base64Signature}`);
-            } else {
-                setSignatureEtudiant(base64Signature);
-                setFormData(prevState => ({
-                    ...prevState,
-                    signatureEtudiant: base64Signature
-                }));
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération de la signature:', error);
-            setSignatureEtudiant(null);
-        }
+            try {
+                fetch(
+                    `http://localhost:8081/api/v1/stages/signatures/student/get/${contrat.candidatureDTO.student.matricule}`, 
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                    }
+                ).catch(error => {
+                    console.log(error)
+                    setSignatureEtudiant(null)
+                }).then(
+                    async (res) => {
+                        try {
+                            console.log(res.status)
+                            if (res.ok) {
+                                const data = await res.json();
+                                setSignatureEtudiant(data); 
+                                base64Signature = data.imageLink; 
+                                console.log("signatureEtudiant",data)
+                                 
+                                if (base64Signature && !base64Signature.startsWith('data:image')) {
+                                    setSignatureEtudiant(`data:image/png;base64,${base64Signature}`);
+                                    
+                                } else {
+                                    setSignatureEtudiant(base64Signature);
+                                    setFormData(prevState => ({
+                                        ...prevState,
+                                        signatureEtudiant: base64Signature
+                                    }));
+                                }
+                            } else {
+                                console.log("Failed to fetch data");
+                                setSignatureEtudiant(null)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                            setSignatureEtudiant(null)
+                        }
+                    })
+            } catch (error) {
+                console.log('Une erreur est survenue:', error); 
+                setSignatureEtudiant(null)
+            } 
+            console.log(signatureEtudiant)
     };
 
     const handleSignatureEmployer = async () => {
         try {
-            setSignatureEmployeur(FetchsEmployer.fetchSignature(token, contrat.candidatureDTO.employer.id, signatureEmployeur, setSignatureEmployeur))
-            const base64Signature = signatureEmployeur.imageLink;
+            console.log(contrat.candidatureDTO.employer.id)
+            fetch(
+                `http://localhost:8081/api/v1/stages/signatures/employer/get/${contrat.candidatureDTO.employer.id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+                setSignatureEmployeur(null)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                            setSignatureEmployeur(data);
+                            base64Signature = data.imageLink;
+                            console.log("signatureEmployeur",data)
 
-            if (base64Signature && !base64Signature.startsWith('data:image')) {
-                setSignatureEmployeur(`data:image/png;base64,${base64Signature}`);
-            } else {
-                setSignatureEmployeur(base64Signature);
-                setFormData(prevState => ({
-                    ...prevState,
-                    signatureEmployeur: base64Signature
-                }));
-            }
+                            if (base64Signature && !base64Signature.startsWith('data:image')) {
+                                setSignatureEmployeur(`data:image/png;base64,${base64Signature}`);
+
+                            } else {
+                                setSignatureEmployeur(base64Signature);
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    signatureEmployeur: base64Signature
+                                }));
+                            }
+                        } else {
+                            console.log("Failed to fetch data");
+                            setSignatureEmployeur(null)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                        setSignatureEmployeur(null)
+                    }
+                })
         } catch (error) {
-            console.error('Erreur lors de la récupération de la signature:', error);
-            setSignatureEmployeur(null);
+            console.log('Une erreur est survenue:', error);
+            setSignatureEmployeur(null)
         }
+        console.log(signatureEmployeur)
     };
 
     const handleSignatureGestionnaire = async () => {
         try {
-            setSignatureGestionnaire(FetchsGestionnaire.fetchSignature(token, signatureGestionnaire, setSignatureGestionnaire))
-            const base64Signature = signatureGestionnaire.imageLink;
+            console.log(matriculeGes)
+            fetch(
+                `http://localhost:8081/api/v1/stages/signatures/gestionnaire/get/${matriculeGes}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    withCredentials: true,
+                }
+            ).catch(error => {
+                console.log(error)
+                setSignatureGestionnaire(null)
+            }).then(
+                async (res) => {
+                    try {
+                        console.log(res.status)
+                        if (res.ok) {
+                            const data = await res.json();
+                            setSignatureGestionnaire(data);
+                            base64Signature = data.imageLink;
+                            console.log("signatureGestionnaire",data)
 
-            if (base64Signature && !base64Signature.startsWith('data:image')) {
-                setSignatureGestionnaire(`data:image/png;base64,${base64Signature}`);
-            } else {
-                setSignatureGestionnaire(base64Signature);
-                setFormData(prevState => ({
-                    ...prevState,
-                    signatureGestionnaire: base64Signature
-                }));
-            }
+                            if (base64Signature && !base64Signature.startsWith('data:image')) {
+                                setSignatureGestionnaire(`data:image/png;base64,${base64Signature}`);
+
+                            } else {
+                                setSignatureGestionnaire(base64Signature);
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    signatureGestionnaire: base64Signature
+                                }));
+                            }
+                        } else {
+                            console.log("Failed to fetch data");
+                            setSignatureGestionnaire(null)
+                        }
+                    } catch (e) {
+                        console.log(e)
+                        setSignatureGestionnaire(null)
+                    }
+                })
         } catch (error) {
-            console.error('Erreur lors de la récupération de la signature:', error);
-            setSignatureGestionnaire(null);
+            console.log('Une erreur est survenue:', error);
+            setSignatureGestionnaire(null)
         }
-    }
+        console.log(signatureGestionnaire)
+    };
 
     const handleChange = (e) => {
         const {name, value} = e.target;

@@ -1,13 +1,10 @@
 package com.example.tpbackend.service.utilisateur;
 
+import com.example.tpbackend.DTO.*;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
-import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
-import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 import com.example.tpbackend.models.*;
@@ -222,5 +219,21 @@ public class GestionnaireService {
         contratStageRepository.save(contract);
 
         return GenerateContratPdfDTO.fromContratPdf(savedContratPDF);
+    }
+
+    @Transactional
+    public EvaluationMilieuStageDTO saveEvaluationMilieuStage(EvaluationMilieuStageDTO dto, Long contractId) throws Exception {
+        Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
+        if (optionalContract.isEmpty()) {
+            throw new Exception("Contract not found with id: " + contractId);
+        }
+        ContratStage contract = optionalContract.get();
+        EvaluationMilieuStage evaluation = new EvaluationMilieuStage();
+        evaluation.setData(dto.getData());
+        evaluation.setName(dto.getName());
+        contract.setEvaluationMilieuStage(evaluation);
+        contratStageRepository.save(contract);
+
+        return EvaluationMilieuStageDTO.fromEvaluationMilieuStage(contract.getEvaluationMilieuStage());
     }
 }

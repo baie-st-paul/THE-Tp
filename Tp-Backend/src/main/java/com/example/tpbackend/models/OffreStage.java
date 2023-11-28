@@ -59,10 +59,6 @@ public class OffreStage {
     @Column(name = "tag_name")
     private String tagName;
 
-    @OneToOne
-    @JoinColumn(name = "evaluation_milieu_stage_id")
-    private EvaluationMilieuStage evaluationMilieuStage;
-
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
                       LocalDate dateFin, int nbMaxEtudiant, String status,
@@ -78,7 +74,6 @@ public class OffreStage {
         this.status = Status.valueOf(status);
         this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
         this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
-        this.evaluationMilieuStage = null;
     }
 
     public OffreStageDTO toOffreStageDTO() {
@@ -96,8 +91,6 @@ public class OffreStage {
         offreStageDTO.setStatusVuPasVuS(String.valueOf(statusVuPasVuS));
         offreStageDTO.setEmployerId(employer.getId());
         offreStageDTO.setTag(tagName);
-        if(evaluationMilieuStage != null)
-            offreStageDTO.setEvaluationMilieuStage(new ByteArrayMultipartFile(evaluationMilieuStage.getName(), evaluationMilieuStage.getName(), "application/pdf", evaluationMilieuStage.getData()));
 
         return offreStageDTO;
     }

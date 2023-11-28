@@ -21,4 +21,5 @@ public class EvaluationMilieuStage {
         this.name = name;
         this.data = data;
     }
+
 }

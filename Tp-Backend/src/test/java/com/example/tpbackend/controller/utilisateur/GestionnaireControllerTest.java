@@ -3,6 +3,7 @@ package com.example.tpbackend.controller.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
@@ -189,5 +190,20 @@ public class GestionnaireControllerTest {
 
 
         verify(gestionnaireService).saveContratGenere(any(GenerateContratPdfDTO.class), anyLong());
+    }
+
+    @Test
+    public void testCreateEvaluationMilieuStage() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+        EvaluationMilieuStageDTO mockDto = new EvaluationMilieuStageDTO(file);
+
+        when(gestionnaireService.saveEvaluationMilieuStage(any(EvaluationMilieuStageDTO.class), anyLong())).thenReturn(mockDto);
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/gestionnaire/upload_evaluation_milieu_stage/1").file(file)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isCreated());
+
+        verify(gestionnaireService).saveEvaluationMilieuStage(any(EvaluationMilieuStageDTO.class), anyLong());
+
     }
 }

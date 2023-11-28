@@ -81,18 +81,4 @@ public class OffreStageController {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
-
-    @PostMapping(value = "/{id}/evaluation", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @PreAuthorize("authenticated")
-    public ResponseEntity<?> addEvaluation(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
-        try {
-            EvaluationMilieuStageDTO evaluationMilieuStageDTO = new EvaluationMilieuStageDTO(file);
-            OffreStageDTO response = offreStageService.saveEvaluationMilieuStage(evaluationMilieuStageDTO, id);
-            String message = String.format("Fichier '%s' reçu et sauvegardé.", response.getEvaluationMilieuStage().getName());
-            return ResponseEntity.ok(message);
-
-        } catch (OffreNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading the file");
-        }
-    }
 }

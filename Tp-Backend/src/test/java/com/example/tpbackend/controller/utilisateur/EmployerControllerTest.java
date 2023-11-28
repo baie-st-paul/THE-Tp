@@ -153,8 +153,7 @@ public class EmployerControllerTest {
                 "pasVu",
                 "pasVu",
                 1,
-                new Tag(TagGenerator.getCurrentSession()).getTagName(),
-                null
+                new Tag(TagGenerator.getCurrentSession()).getTagName()
         );
         offreStageService.saveOffre(offreStageDTO);
         CandidaturePostDTO candidaturePostDTO = new CandidaturePostDTO(

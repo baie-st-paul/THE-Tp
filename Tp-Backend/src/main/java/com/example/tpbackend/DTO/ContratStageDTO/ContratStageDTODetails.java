@@ -1,5 +1,6 @@
 package com.example.tpbackend.DTO.ContratStageDTO;
 
+import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.EvaluationPdfDto;
 import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.RapportHeuresDTO;
@@ -8,6 +9,7 @@ import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -24,6 +26,7 @@ public class ContratStageDTODetails {
     private String statusVuPasVuS;
     private RapportHeuresDTO rapportFile;
     private GenerateContratPdfDTO generateContrat;
+    private EvaluationMilieuStageDTO evaluationMilieuStage;
 
     public static ContratStageDTODetails fromContratStage(ContratStage contratStage) {
         if (contratStage == null) {
@@ -47,6 +50,10 @@ public class ContratStageDTODetails {
 
         if (contratStage.getContratPDF() != null) {
             dto.setGenerateContrat(GenerateContratPdfDTO.fromContratPdf(contratStage.getContratPDF()));
+        }
+
+        if (contratStage.getEvaluationMilieuStage() != null) {
+            dto.setEvaluationMilieuStage(EvaluationMilieuStageDTO.fromEvaluationMilieuStage(contratStage.getEvaluationMilieuStage()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

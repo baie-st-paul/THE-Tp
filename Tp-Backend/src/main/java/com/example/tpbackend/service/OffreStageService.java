@@ -129,15 +129,4 @@ public class OffreStageService {
         return new Tag(TagGenerator.getCurrentSession());
     }
 
-    @Transactional
-    public OffreStageDTO saveEvaluationMilieuStage(EvaluationMilieuStageDTO dto, Long offreId){
-        OffreStage offreStage = offreStageRepository.findOffreById(offreId)
-                .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + offreId));
-        EvaluationMilieuStage evaluation = new EvaluationMilieuStage();
-        evaluation.setData(dto.getData());
-        evaluation.setName(dto.getName());
-        offreStage.setEvaluationMilieuStage(evaluation);
-        return offreStageRepository.save(offreStage).toOffreStageDTO();
-    }
-
 }

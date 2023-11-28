@@ -30,7 +30,6 @@ public class OffreStageDTO {
     private String statusVuPasVuS;
     private long employerId;
     private String tag;
-    private MultipartFile evaluationMilieuStage;
 
     public OffreStage toOffreStage() {
         OffreStage offreStage = new OffreStage(
@@ -46,19 +45,6 @@ public class OffreStageDTO {
                 statusVuPasVuG,
                 statusVuPasVuS
         );
-
-        if (evaluationMilieuStage != null) {
-            try {
-                offreStage.setEvaluationMilieuStage(
-                        new EvaluationMilieuStage(
-                                evaluationMilieuStage.getOriginalFilename(),
-                                evaluationMilieuStage.getBytes()
-                        )
-                );
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
 
         return offreStage;
     }

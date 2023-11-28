@@ -1,13 +1,10 @@
 package com.example.tpbackend.controllers.utilisateur;
 
+import com.example.tpbackend.DTO.*;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
-import com.example.tpbackend.DTO.CvDTO;
-import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
-import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.DTO.TagDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnaireGetDTO;
 import com.example.tpbackend.service.utilisateur.GestionnaireService;
 import lombok.RequiredArgsConstructor;
@@ -124,6 +121,18 @@ public class GestionnaireController {
             GenerateContratPdfDTO contratPdfDTO = new GenerateContratPdfDTO(file);
             GenerateContratPdfDTO savedContratPdfDTO = gestionnaireService.saveContratGenere(contratPdfDTO, contractId);
             return new ResponseEntity<>(savedContratPdfDTO, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
+        }
+    }
+
+    @PostMapping(value = "/upload_evaluation_milieu_stage/{contractId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("authenticated")
+    public ResponseEntity<?> handleFileUploadEvaluationMilieuStage(@RequestParam("file") MultipartFile file, @PathVariable Long contractId) {
+        try {
+            EvaluationMilieuStageDTO evaluationMilieuStageDTO = new EvaluationMilieuStageDTO(file);
+            EvaluationMilieuStageDTO savedEvaluation = gestionnaireService.saveEvaluationMilieuStage(evaluationMilieuStageDTO, contractId);
+            return new ResponseEntity<>(savedEvaluation, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Échec de l'enregistrement du fichier: " + e.getMessage());
         }

@@ -3,26 +3,20 @@ package com.example.tpbackend.service.utilisateur;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTO;
 import com.example.tpbackend.DTO.ContratStageDTO.ContratStageDTODetails;
 import com.example.tpbackend.DTO.CvDTO;
+import com.example.tpbackend.DTO.EvaluationPdfDto;
+import com.example.tpbackend.DTO.GenerateContratPdfDTO;
 import com.example.tpbackend.DTO.candidature.CandidatureDTODetailed;
 import com.example.tpbackend.DTO.entrevue.EntrevueDTODetailed;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.DTO.utilisateur.gestionnaire.GestionnairePostDTO;
 
-import com.example.tpbackend.models.ContratStage;
-import com.example.tpbackend.models.Candidature;
-import com.example.tpbackend.models.Cv;
-import com.example.tpbackend.models.Entrevue;
-import com.example.tpbackend.models.OffreStage;
+import com.example.tpbackend.models.*;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
 import com.example.tpbackend.models.utilisateur.gestionnaire.Gestionnaire;
 
-import com.example.tpbackend.repository.ContratStageRepository;
-import com.example.tpbackend.repository.CandidatureRepository;
-import com.example.tpbackend.repository.CvRepository;
-import com.example.tpbackend.repository.EntrevueRepository;
-import com.example.tpbackend.repository.OffreStageRepository;
+import com.example.tpbackend.repository.*;
 import com.example.tpbackend.repository.utilisateur.EmployerRepository;
 import com.example.tpbackend.repository.utilisateur.GestionnaireRepository;
 import com.example.tpbackend.repository.utilisateur.StudentRepository;
@@ -32,10 +26,12 @@ import com.example.tpbackend.utils.ByteArrayMultipartFile;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.*;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -51,12 +47,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -67,6 +61,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ContextConfiguration(classes = {GestionnaireService.class})
 @ExtendWith(MockitoExtension.class)
@@ -95,6 +92,9 @@ public class GestionnaireServiceTest {
 
     @Mock
     private EmployerRepository employerRepository;
+
+    @Mock
+    private GenerateContratPDFRepository generateContratPDFRepository;
 
     @Mock
     private ContratStageRepository contratStageRepository;
@@ -574,5 +574,42 @@ public class GestionnaireServiceTest {
         System.out.println(result);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void generateContractPdf() throws Exception {
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = mock(MultipartFile.class);
+
+        when(mockFile.getOriginalFilename()).thenReturn("evaluation.pdf");
+        when(mockFile.getBytes()).thenReturn(fakePdfContent);
+
+        Candidature mockCandidature = mock(Candidature.class);
+
+        ContratStage mockContrat = new ContratStage();
+        mockContrat.setCandidature(mockCandidature);
+        mockContrat.setId(3L);
+        mockContrat.setStatutEtudiant(ContratStage.Statut.Pas_Signer);
+        mockContrat.setStatutGestionnaire(ContratStage.Statut.Pas_Signer);
+        mockContrat.setStatutEmployeur(ContratStage.Statut.Pas_Signer);
+
+        GenerateContratPdfDTO contractDto = new GenerateContratPdfDTO(mockFile);
+
+        GenerateContratPDF contract = new GenerateContratPDF();
+        contract.setName(contractDto.getName());
+        contract.setContent(contractDto.getContent());
+        contract.setId(1L);
+
+        when(generateContratPDFRepository.save(any(GenerateContratPDF.class))).thenReturn(contract);
+        when(contratStageRepository.findById(anyLong())).thenReturn(Optional.of(mockContrat));
+
+        GenerateContratPdfDTO result = gestionnaireService.saveContratGenere(contractDto, 1L);
+
+
+        verify(generateContratPDFRepository).save(argThat(savedContrat ->
+                Arrays.equals(fakePdfContent, savedContrat.getContent()) &&
+                        "evaluation.pdf".equals(savedContrat.getName())
+        ));
+
     }
 }

@@ -275,10 +275,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                         />
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td colSpan="2"><strong>DUREE DU STAGE</strong></td>
+                                    <td colSpan="2">
+                                        <span ref={offreStageLieuRef} className="error-message"></span>
+                                    </td>
                                 </tr>
+
                                 <tr>
                                     <td>Date de début :</td>
                                     <td>
@@ -291,6 +293,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colSpan="2">
+                                        <span ref={dateDebutRef} className="error-message"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <td>Date de fin :</td>
                                     <td>
                                         <input 
@@ -302,6 +310,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colSpan="2">
+                                        <span ref={dateFinRef} className="error-message"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <td>Nombre total de semaines :</td>
                                     <td>
                                         <input 
@@ -312,10 +326,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                         />
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td colSpan="2"><strong>HORAIRE DE TRAVAIL</strong></td>
+                                    <td colSpan="2">
+                                        <span ref={nbTotalSemainesRef} className="error-message"></span>
+                                    </td>
                                 </tr>
+
                                 <tr>
                                     <td>Horaire de travail :</td>
                                     <td>
@@ -335,6 +351,13 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colSpan="2">
+                                        <span ref={startWorkHoursRef} className="error-message"></span>
+                                        <span ref={endWorkHoursRef} className="error-message"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
                                     <td>Nombre total d’heures par semaine :</td>
                                     <td>
                                         <input 
@@ -345,10 +368,12 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                         />h
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td colSpan="2"><strong>SALAIRE</strong></td>
+                                    <td colSpan="2">
+                                        <span ref={nbTotalHeureParSemaineRef} className="error-message"></span>
+                                    </td>
                                 </tr>
+
                                 <tr>
                                     <td>Salaire horaire :</td>
                                     <td>
@@ -360,9 +385,15 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                         />
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colSpan="2">
+                                        <span ref={salaireHoraireRef} className="error-message"></span>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
+
                     <div>
                         <strong>TACHES ET RESPONSABILITES DU STAGIAIRE</strong>
                         <textarea
@@ -492,7 +523,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                             </div>
                         </div>
                     </div>
-                    <button type="button" onClick={handleSubmit} className='buttonStyle'>Générer le PDF</button>
+                    <button type="button" onClick={handleSubmit} className='buttonStyle'>Soumettre le Contrat</button>
 
                     <PDFDownloadLink
                         document={<GenereContratPDF formData={formData}/>}

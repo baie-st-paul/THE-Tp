@@ -283,7 +283,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                 <Table aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell>Prénom, Nom</StyledTableCell>
+                                            <StyledTableCell align="center">Prénom, Nom</StyledTableCell>
                                             <StyledTableCell align="center">Matricule</StyledTableCell>
                                             <StyledTableCell align="center">Compagnie</StyledTableCell>
                                             <StyledTableCell align="center">Poste</StyledTableCell>
@@ -312,13 +312,17 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                                     <StyledTableCell align="center" data-label="Signé par étudiant">
                                                         {contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'}
                                                     </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Signé par employeur">
+                                                        {contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'}
+                                                    </StyledTableCell>
                                                     {
-                                                        contrat.statutEmployeur === 'Pas_Signer' ?
-                                                            <StyledTableCell align="center" data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></StyledTableCell>
+                                                        contrat.statutGestionnaire === 'Pas_Signer' ?
+                                                            <StyledTableCell align="center" data-label="Signé par gestionnaire">
+                                                                <button className='m-0 text-center btn btn-primary' onClick={() =>
+                                                                    openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></StyledTableCell>
                                                             :
-                                                            <StyledTableCell align="center" data-label="Signé par employeur">Signé</StyledTableCell>
+                                                            <StyledTableCell align="center" data-label="Signé par gestionnaire">Signé</StyledTableCell>
                                                     }
-                                                    <StyledTableCell align="center" data-label="Signé par gestionnaire">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </StyledTableCell>
                                                     {
                                                         contrat.statutEtudiant === 'Signer' &&
                                                         contrat.statutGestionnaire === 'Signer' &&

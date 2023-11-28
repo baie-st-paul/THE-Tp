@@ -372,7 +372,7 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                 <Table aria-label="customized table">
                                     <TableHead>
                                         <TableRow>
-                                            <StyledTableCell>Prénom, Nom</StyledTableCell>
+                                            <StyledTableCell align="center">Prénom, Nom</StyledTableCell>
                                             <StyledTableCell align="center">Matricule</StyledTableCell>
                                             <StyledTableCell align="center">Compagnie</StyledTableCell>
                                             <StyledTableCell align="center">Poste</StyledTableCell>

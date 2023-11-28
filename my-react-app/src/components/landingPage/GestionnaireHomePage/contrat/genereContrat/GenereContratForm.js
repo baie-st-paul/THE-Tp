@@ -494,6 +494,8 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
 
                                 <p><b>Le gestionnaire de stage</b></p>
                                 <div className="row">
+
+
                                     <div className="row">
                                         {
                                             formData.signatureGestionnaire && (
@@ -502,6 +504,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                                                 </div>
                                             )
                                         }
+
                                         <div>
                                             <label htmlFor="dateSignatureGestionnaire" style={{display: "block", textAlign: "left"}}>Date signature:</label>
                                             <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date signature"

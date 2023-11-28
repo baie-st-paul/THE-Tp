@@ -1,0 +1,76 @@
+
+
+.formTitle {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.subTitle {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.participant {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.et {
+    text-align: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.tableStyle {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.tableStyle th, .tableStyle td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+.sectionTitle {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.responsibilities {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.infoTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.infoTable td {
+    border: 1px solid black;
+    padding: 8px;
+}
+
+.infoTable tr td:first-child {
+    font-weight: bold;
+    width: 50%;
+}
+
+.infoTable tr td[colspan="2"] {
+    text-align: center;
+    background-color: #f2f2f2;
+}
+
+.textareaStyle {
+    width: 100%; 
+    border: 1px solid black;
+    padding: 8px;
+    margin: 10px 0;
+    height: 100px; 
+}
+
+

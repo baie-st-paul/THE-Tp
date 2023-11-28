@@ -1,14 +1,11 @@
-import DatePicker from "react-datepicker";
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {TimePicker} from "@mui/x-date-pickers/TimePicker";
+
 import React, {useEffect, useRef, useState} from "react";
 import FetchsGestionnaire from "../../../NavBar/gestionnaire/FetchsGestionnaire";
 import FetchsEmployer from "../../../NavBar/employer/FetchsEmployer";
 import FetchsStudent from "../../../NavBar/student/FetchsStudent";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import GenereContratPDF from "./GenereContratPDF";
+import './GenereContratForm.css'
 
 const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     const initialState = {
@@ -238,137 +235,175 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                         il est recommandé de télécharger le formulaire complété avant de le soumettre
                     </h5>
                     <div>
-                        <h2 className="mb-4">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
-                        <p>Dans le cadre de la formule ATE, les parties citées ci-dessous :</p>
+                        <h2 className="formTitle">ENTENTE DE STAGE INTERVENUE ENTRE LES PARTIES SUIVANTES</h2>
+                        <p className="subTitle">Dans le cadre de la formule ATE, les parties citées ci-dessous :</p><br/>
 
-                        <div className="questionStyle">
-                            <h6 className='questionStyle'>Le gestionnaire de stage, {formData.nomGestionnaire}</h6>
-                        </div>
+                        <div className="participant">
+                            <h6 className='participant'>Le gestionnaire de stage, {formData.nomGestionnaire}</h6>
+                        </div><br/>
 
-                        <div className="questionStyle">
-                            <h6 className='questionStyle'>L'employeur, {formData.nomEmployeur}</h6>
-                        </div>
+                        <div className="et"><strong>Et</strong></div><br/>
 
-                        <div className="questionStyle">
-                            <h6 className='questionStyle'>L'étudiant(e), {formData.nomEtudiant}</h6>
-                        </div>
+                        <div className="participant">
+                            <h6 className='participant'>L'employeur, {formData.nomEmployeur}</h6>
+                        </div><br/>
+
+                        <div className="et"><strong>Et</strong></div><br/>
+
+                        <div className="participant">
+                            <h6 className='participant'>L'étudiant(e), {formData.nomEtudiant}</h6>
+                        </div><br/>
+
 
                         <h6 className="mt-4">Conviennent des conditions de stage suivantes:</h6>
                     </div>
 
-                    <div className="mt-4">
-                        <div>
-                            <h4>ENDROIT DU STAGE</h4>
+                    <div>
+                        <table className="infoTable">
+                            <tbody>
+                                <tr>
+                                    <td colSpan="2"><strong>ENDROIT DU STAGE</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Adresse :</td>
+                                    <td>
+                                        <input 
+                                            type="text" 
+                                            name="offreLieuStage" 
+                                            value={formData.offreLieuStage} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
 
-                            <label htmlFor="offreLieuStage" className='questionStyle label'>Adresse:</label>
-                            <input id="offreLieuStage" className= 'questionStyle input'
-                                   type="text" name="offreLieuStage" value={formData.offreLieuStage}
-                                   onChange={handleChange} />
-                            <span ref={offreStageLieuRef} className="error-message"></span>
-                        </div>
+                                <tr>
+                                    <td colSpan="2"><strong>DUREE DU STAGE</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Date de début :</td>
+                                    <td>
+                                        <input 
+                                            type="date" 
+                                            name="dateDebut" 
+                                            value={formData.dateDebut} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date de fin :</td>
+                                    <td>
+                                        <input 
+                                            type="date" 
+                                            name="dateFin" 
+                                            value={formData.dateFin} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre total de semaines :</td>
+                                    <td>
+                                        <input 
+                                            type="number" 
+                                            name="nbTotalSemaines" 
+                                            value={formData.nbTotalSemaines} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
 
-                        <div>
-                            <h4>DUREE DU STAGE</h4>
+                                <tr>
+                                    <td colSpan="2"><strong>HORAIRE DE TRAVAIL</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Horaire de travail :</td>
+                                    <td>
+                                        <input 
+                                            type="time" 
+                                            name="startWorkHours" 
+                                            value={formData.startWorkHours} 
+                                            onChange={handleChange} 
+                                        />
+                                        À
+                                        <input 
+                                            type="time" 
+                                            name="endWorkHours" 
+                                            value={formData.endWorkHours} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre total d’heures par semaine :</td>
+                                    <td>
+                                        <input 
+                                            type="number" 
+                                            name="nbTotalHeureParSemaine" 
+                                            value={formData.nbTotalHeureParSemaine} 
+                                            onChange={handleChange} 
+                                        />h
+                                    </td>
+                                </tr>
 
-                            <div className='form-group'>
-                                <label htmlFor="dateDebut" style={{display: "block", textAlign: "left"}}>Date de début:</label>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date debut"
-                                       style={{color: 'grey', fontSize : '20px'}}
-                                       id="dateDebut"
-                                       name="dateDebut"
-                                       value={formData.dateDebut}
-                                       onChange={handleChange}/>
-                                <span ref={dateDebutRef} className="error-message"></span>
-
-                                <label htmlFor="dateFin" style={{display: "block", textAlign: "left"}}>Date de fin:</label>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='date' placeholder="date fin"
-                                       style={{color: 'grey', fontSize : '20px'}}
-                                       id="dateFin"
-                                       name="dateFin"
-                                       value={formData.dateFin}
-                                       onChange={handleChange}/>
-                                <span ref={dateFinRef} className="error-message"></span>
-                            </div>
-
-                            <div className='questionStyle'>
-                                <label htmlFor="nbTotalSemaines" className='questionStyle label'>Nombre total de semaines :</label>
-                                <input id="nbTotalSemaines" className='questionStyle input' type="number" name="nbTotalSemaines"
-                                       value={formData.nbTotalSemaines} onChange={handleChange} />
-                                <span ref={nbTotalSemainesRef} className="error-message"></span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4>HORAIRE DE TRAVAIL</h4>
-
-                            <div className='questionStyle'>
-                                <label className='questionStyle label'>Horaire de travail :</label>
-                                <div className='form-group'>
-                                    <label htmlFor="startWorkHours" style={{display: "block", textAlign: "left"}}>De:</label>
-                                    <input className='form-control saisie saisie-user px-3 m-0' type='time' placeholder="heure debut"
-                                           style={{color: 'grey', fontSize : '20px'}}
-                                           id="startWorkHours"
-                                           name="startWorkHours"
-                                           value={formData.startWorkHours}
-                                           onChange={handleChange}/>
-                                    <span ref={startWorkHoursRef} className="error-message"></span>
-
-                                    <label htmlFor="endWorkHours" style={{display: "block", textAlign: "left"}}>À:</label>
-                                    <input className='form-control saisie saisie-user px-3 m-0' type='time' placeholder="heure fin"
-                                           style={{color: 'grey', fontSize : '20px'}}
-                                           id="endWorkHours"
-                                           name="endWorkHours"
-                                           value={formData.endWorkHours}
-                                           onChange={handleChange}/>
-                                    <span ref={endWorkHoursRef} className="error-message"></span>
-                                </div>
-                            </div>
-
-                            <div className='questionStyle'>
-                                <label htmlFor="nbTotalHeureParSemaine" className='questionStyle label'>Nombre total d’heures par semaine :</label>
-                                <input id="nbTotalHeureParSemaine" className='questionStyle input' type="number" name="nbTotalHeureParSemaine"
-                                       value={formData.nbTotalHeureParSemaine} onChange={handleChange} />
-                                <span ref={nbTotalHeureParSemaineRef} className="error-message"></span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4>SALAIRE</h4>
-
-                            <div className='questionStyle'>
-                                <label htmlFor="salaireHoraire" className='questionStyle label'>Salaire (Taux horaire):</label>
-                                <input id="salaireHoraire" className='questionStyle input' type="number" name="salaireHoraire"
-                                       value={formData.salaireHoraire} onChange={handleChange} />
-                                <span ref={salaireHoraireRef} className="error-message"></span>
-                            </div>
-                        </div>
+                                <tr>
+                                    <td colSpan="2"><strong>SALAIRE</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Salaire horaire :</td>
+                                    <td>
+                                        <input 
+                                            type="number" 
+                                            name="salaireHoraire" 
+                                            value={formData.salaireHoraire} 
+                                            onChange={handleChange} 
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div className="mt-4">
-                        <div>
-                            <h4>TACHES ET RESPONSABILITES DU STAGIAIRE</h4>
+                    <div>
+                        <strong>TACHES ET RESPONSABILITES DU STAGIAIRE</strong>
+                        <textarea
+                            name="tachesResponsabilitesStagiaire"
+                            value={formData.tachesResponsabilitesStagiaire}
+                            onChange={handleChange}
+                            className="textareaStyle"
+                        />
+                    </div>
 
-                            <div>
-                                {formData.offreDescription}
-                            </div>
+                    <div className="responsibilities">
+                        <strong>RESPONSABILITES</strong>
+                    </div>
+                    <div>
+                        <p>Le Collège s’engage à :</p>
+                        <textarea
+                            name="responsabiliteCollege"
+                            value={formData.responsabiliteCollege}
+                            onChange={handleChange}
+                            className="textareaStyle"
+                        />
+                    </div>
 
-                            <h4>RESPONSABILITES</h4>
-                            <div>
-                                <p>Le Collège s'engage à:</p>
-                                <textarea id="commentaireCollege" name="commentaireCollege"
-                                          value={formData.commentaireCollege}
-                                          onChange={handleChange} />
+                    <div>
+                        <p>L’entreprise s’engage à :</p>
+                        <textarea
+                            name="responsabiliteEntreprise"
+                            value={formData.responsabiliteEntreprise}
+                            onChange={handleChange}
+                            className="textareaStyle"
+                        />
+                    </div>
 
-                                <p>L'entreprise s'engage à:</p>
-                                <textarea id="commentaireEntreprise" name="commentaireEntreprise"
-                                          value={formData.commentaireEntreprise}
-                                          onChange={handleChange} />
-
-                                <p>L'étudiant s'engage à:</p>
-                                <textarea id="commentaireEtudiant" name="commentaireEtudiant"
-                                          value={formData.commentaireEtudiant}
-                                          onChange={handleChange} />
-                            </div>
-                        </div>
+                    <div>
+                        <p>L’étudiant s’engage à :</p>
+                        <textarea
+                            name="responsabiliteEtudiant"
+                            value={formData.responsabiliteEtudiant}
+                            onChange={handleChange}
+                            className="textareaStyle"
+                        />
                     </div>
                     <div className="mt-4">
                         <div>

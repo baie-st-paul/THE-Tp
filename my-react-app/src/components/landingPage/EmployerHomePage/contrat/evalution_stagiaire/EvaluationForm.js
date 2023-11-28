@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 import "./EvaluationForm.css";
-import EvaluationPDF from './EvaluationPDF';
-import { PDFDownloadLink } from '@react-pdf/renderer';
 import FaqAccordion from './FaqAccordion';
 import PhoneInput from "react-phone-number-input";
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import EvaluationPDF from './EvaluationPDF';
 
 const EvaluationForm = ({contrat, onSubmit}) => {
     const initialState = {
@@ -17,14 +17,14 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         qualityOfWork: '',
         interpersonalSkills: '',
         personalAbilities: '',
-        comments: '',
+        comments: 'Aucun commentaire ...',
         // Productivité
         planifierEtOrganiser: '',
         comprendreDirectives: '',
         maintenirRythme: '',
         etablirPriorites: '',
         respecterEcheanciers: '',
-        commentairesProductivite: '',
+        commentairesProductivite: 'Aucun commentaire ...',
     
         // Qualité du travail
         respecterMandats: '',
@@ -32,7 +32,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         verifierTravail: '',
         perfectionner: '',
         analyseProblemes: '',
-        commentairesQualite: '',
+        commentairesQualite: 'Aucun commentaire ...',
     
         // Relations interpersonnelles
         etablirContacts: '',
@@ -41,7 +41,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         accepterCritiques: '',
         respecterGens: '',
         ecouteActive: '',
-        commentairesRelations: '',
+        commentairesRelations: 'Aucun commentaire ...',
     
         // Habiletés personnelles
         interetMotivation: '',
@@ -50,20 +50,21 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         travaillerSecuritaire: '',
         sensResponsabilites: '',
         ponctuelAssidu: '',
-        commentairesHabiletes: '',
+        commentairesHabiletes: 'Aucun commentaire ...',
     
         // appréciation globale du stagiaire
         appreciationGlobale: '',
         discussionStagiaire: '',
         heuresEncadrement: '',
         accueilProchainStage: '',
-        commentaireAppreciation: '',
+        autreElement: '',
+        commentaireAppreciation: 'Aucun commentaire ...',
         accord: '',
 
         //Acceuil prochain stage
         accueilPourProchainStage: '',
         commentaireAccueilProchain: '',
-        formationTechniqueSuffisante: '',
+        formationTechniqueSuffisante: 'Aucun commentaire ...',
         nomSignataire: '',
         fonctionSignataire: '',
         signature: '',
@@ -123,7 +124,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
     const fonctionSignataireRef = useRef(null);
     const signatureRef = useRef(null);
     const dateSignatureRef = useRef(null);
-    const habileteNeRepondPasRef = useRef(null);
+    const autreElementRef = useRef(null);
    
     const handleSignature = async () => {
         try {
@@ -186,6 +187,20 @@ const EvaluationForm = ({contrat, onSubmit}) => {
             programmeEtudesRef.current.innerHTML = "";
         }
 
+        if (evaluationData.appreciationGlobale.trim() === '') {
+            appreciationGlobaleRef.current.innerHTML = "* Veuillez choisir une option *";
+            annuler = true;
+        } else {
+            appreciationGlobaleRef.current.innerHTML = "";
+        }
+
+        if (evaluationData.autreElement.trim() === '') {
+            autreElementRef.current.innerHTML = "* Veuillez entrer un commentaire *";
+            annuler = true;
+        } else {
+            autreElementRef.current.innerHTML = "";
+        }
+
         if (evaluationData.nomEntreprise.trim() === '') {
             nomEntrepriseRef.current.innerHTML = "* Veuillez entrer le nom de l'entreprise *";
             annuler = true;
@@ -221,13 +236,13 @@ const EvaluationForm = ({contrat, onSubmit}) => {
             planifierEtOrganiserRef.current.innerHTML = "";
         }
 
-       /*  if (evaluationData.comprendreDirectives.trim() === '') {
+        if (evaluationData.comprendreDirectives.trim() === '') {
             comprendreDirectivesRef.current.innerHTML = "* Veuillez choisir une option *";
             annuler = true;
         } else {
             comprendreDirectivesRef.current.innerHTML = "";
         }
- */
+
         if (evaluationData.maintenirRythme.trim() === '') {
             maintenirRythmeRef.current.innerHTML = "* Veuillez choisir une option *";
             annuler = true;
@@ -514,9 +529,6 @@ const EvaluationForm = ({contrat, onSubmit}) => {
         <div>
             <div id="Render" className="container content-container mt-4">
                 <form onSubmit={onSubmit} className='formStyle'>
-                    <h5 className="red-italic ">
-                        il est recommandé de télécharger le formulaire complété avant de le soumettre
-                    </h5><br />
                     <h1><strong>FICHE D’ÉVALUATION DU STAGIAIRE</strong></h1>
                     <div className='sectionStyle'>
                         <div className='questionStyle'>
@@ -762,7 +774,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
                         <div className='questionStyle'>
                             <label htmlFor="autreElement">Les habiletés démontrées ne répondent pas aux attentes :</label>
                             {renderDropdown("autreElement")}
-                            <span ref={habileteNeRepondPasRef} className="error-message"></span>
+                            <span ref={autreElementRef} className="error-message"></span>
                         </div>
                         <div className='questionStyle'>
                             <label htmlFor="commentaireAppreciation">PRÉCISEZ VOTRE APPRÉCIATION :</label>
@@ -869,9 +881,7 @@ const EvaluationForm = ({contrat, onSubmit}) => {
                     </PDFDownloadLink>
 
                     <FaqAccordion />
-                        <h5 className="red-italic ">
-                        il est recommandé de télécharger le formulaire complété avant de le soumettre
-                        </h5>
+                       
                 </form>
             </div>
         </div>

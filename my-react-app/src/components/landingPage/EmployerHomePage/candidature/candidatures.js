@@ -462,100 +462,104 @@ const OVERLAY_STYLE = {
                             </select>
                         </div>
                         {showConvoquer && <ModalConvoquerCreateEntrevue />}
-                        <table>
-                            <thead>
-                            <tr>
-                                <th scope='col' className='headerElement w-25'>PRENOM</th>
-                                <th scope="col" className='headerElement w-25'>NOM</th>
-                                <th scope="col" className='headerElement w-25'>Poste</th>
-                                <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
-                                <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
-                                <th scope='col' className='headerElement'>RESUME</th>
-                                <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
-                                <th scope='col' className='headerElement '>ENTREVUE</th>
-                                <th scope='col' className='headerElement text-center'>STATUT</th>
-                                <th scope='col' className='headerElement text-center'>ACTION</th>
-                            </tr>
-                            </thead>
-                            <tbody className='bg-light border'>
-                            {listeCandidatureFiltered.length > 0 && refreshed &&
-                                listeCandidatureFiltered.map((candidature, i) => (
-                                    <tr key={i} className=''>
-                                        <td  data-label="PRENOM" className='headerElement  text-break h6'>
-                                            {candidature.student.lastName}
-                                        </td>
-                                        <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
-                                            {candidature.student.firstName}
-                                        </td>
-                                        <td data-label="Poste" className=' headerElement h6'>
-                                            {candidature.offreStage.titre}
-                                        </td>
-                                        <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
-                                            {candidature.student.email}
-                                        </td>
-                                        <td data-label="NUMERO DE TELEPHONE" className=' headerElement h6'>
-                                            {candidature.student.phoneNumber}
-                                        </td>
-                                        <td data-label="RESUME" className='headerElement h6 px-3 pe-0 '>
-                                            <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
-                                                    onClick={()=>handleMontrerCv(candidature)}><p>Curriculum Vitae</p>
-                                            </button>
-                                        </td>
-                                        { candidature.student.fileName !== '' ?
-                                            <td data-label="LETTRE DE MOTIVATION" className='headerElement h6 px-3 pe-0 '>
+                        {listeCandidatureFiltered.length > 0 && refreshed ?
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th scope='col' className='headerElement w-25'>PRENOM</th>
+                                    <th scope="col" className='headerElement w-25'>NOM</th>
+                                    <th scope="col" className='headerElement w-25'>Poste</th>
+                                    <th scope='col' className='headerElement w-25'>ADRESSE COURRIEL</th>
+                                    <th scope='col' className='headerElement'>NUMERO DE TELEPHONE</th>
+                                    <th scope='col' className='headerElement'>RESUME</th>
+                                    <th scope='col' className='headerElement'>LETTRE DE MOTIVATION</th>
+                                    <th scope='col' className='headerElement '>ENTREVUE</th>
+                                    <th scope='col' className='headerElement text-center'>STATUT</th>
+                                    <th scope='col' className='headerElement text-center'>ACTION</th>
+                                </tr>
+                                </thead>
+                                <tbody className='bg-light border'>
+                                {listeCandidatureFiltered.length > 0 && refreshed &&
+                                    listeCandidatureFiltered.map((candidature, i) => (
+                                        <tr key={i} className=''>
+                                            <td  data-label="PRENOM" className='headerElement  text-break h6'>
+                                                {candidature.student.lastName}
+                                            </td>
+                                            <td data-label="NOM" scope="row" className='headerElement text-break  h6'>
+                                                {candidature.student.firstName}
+                                            </td>
+                                            <td data-label="Poste" className=' headerElement h6'>
+                                                {candidature.offreStage.titre}
+                                            </td>
+                                            <td data-label="ADRESSE COURRIEL" className=' headerElement h6'>
+                                                {candidature.student.email}
+                                            </td>
+                                            <td data-label="NUMERO DE TELEPHONE" className=' headerElement h6'>
+                                                {candidature.student.phoneNumber}
+                                            </td>
+                                            <td data-label="RESUME" className='headerElement h6 px-3 pe-0 '>
                                                 <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
-                                                        onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
+                                                        onClick={()=>handleMontrerCv(candidature)}><p>Curriculum Vitae</p>
                                                 </button>
                                             </td>
-                                            : <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
-                                                <button title="Lettre de motivation" style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
-                                                        onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
-                                                </button>
+                                            { candidature.student.fileName !== '' ?
+                                                <td data-label="LETTRE DE MOTIVATION" className='headerElement h6 px-3 pe-0 '>
+                                                    <button style={{height : "58px", width: '105px' }} className='btn btn-primary pt-0 text-start'
+                                                            onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
+                                                    </button>
+                                                </td>
+                                                : <td data-label="LETTRE DE MOTIVATION" className='headerElement h4 px-0'>
+                                                    <button title="Lettre de motivation" style={{height : "58px", width: '105px' }} className='btn btn-primary disabled'
+                                                            onClick={()=> handleMontrerLettre(candidature)}> <p className='h6'>Lettre de motivation</p>
+                                                    </button>
+                                                </td>
+                                            }
+                                            { finFetch === true &&
+                                                <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
+                                                                 entrevues={entrevues} setModal={setModal} candidatureId={candidature.id} entrevueToModify={setSelectedEntrevueToModify}/>
+                                            }
+                                            <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
+                                                {candidature.status === "In_review" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faClock} /> <span className='h6'><h6>En attente</h6></span>
+                                                    </>
+                                                )}
+                                                {candidature.status === "Accepted" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faCheck} /> Embauché
+                                                    </>
+                                                )}
+                                                {candidature.status === "Refused" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faTimes} /> Refusé
+                                                    </>
+                                                )}
+                                                {candidature.status === "Interview" && (
+                                                    <>
+                                                        <FontAwesomeIcon icon={faClock} /> Convoqué
+                                                    </>
+                                                )}
                                             </td>
-                                        }
-                                        { finFetch === true &&
-                                            <ButtonConvoquer matricule={candidature.student.matricule} offre={candidature}
-                                                entrevues={entrevues} setModal={setModal} candidatureId={candidature.id} entrevueToModify={setSelectedEntrevueToModify}/>
-                                        }
-                                        <td data-label="Statut ÉTUDIANT" scope="row" className='headerElement breakWord h6 pe-3'>
-                                            {candidature.status === "In_review" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faClock} /> <span className='h6'><h6>En attente</h6></span>
-                                                </>
-                                            )}
-                                            {candidature.status === "Accepted" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faCheck} /> Embauché
-                                                </>
-                                            )}
-                                            {candidature.status === "Refused" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faTimes} /> Refusé
-                                                </>
-                                            )}
-                                            {candidature.status === "Interview" && (
-                                                <>
-                                                    <FontAwesomeIcon icon={faClock} /> Convoqué
-                                                </>
-                                            )}
-                                        </td>
-                                        <td data-label="ACTION" scope="row" className='headerElement breakWord h6 pe-3' aria-label='veto'>
-                                            {candidature.status === "In_review" || candidature.status === "Interview" ? (
-                                                <div className='d-flex justify-content-end me-0 pe-0'>
-                                                    <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", candidature.student)}>
-                                                        <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
-                                                    </button>
-                                                    <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", candidature.student)}>
-                                                        <FontAwesomeIcon icon={faTimes} /> REFUSER
-                                                    </button>
-                                                </div>
-                                            ) :<br></br>}
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                            </tbody>
-                        </table>
+                                            <td data-label="ACTION" scope="row" className='headerElement breakWord h6 pe-3' aria-label='veto'>
+                                                {candidature.status === "In_review" || candidature.status === "Interview" ? (
+                                                    <div className='d-flex justify-content-end me-0 pe-0'>
+                                                        <button title="Accepter" className="btn btn-success p-1   " onClick={() => openConfirmationModal("accept", candidature.student)}>
+                                                            <FontAwesomeIcon icon={faCheck} /> EMBAUCHER
+                                                        </button>
+                                                        <button title="Refuser" className="btn btn-danger px-3 pt-1 pb-1 " onClick={() => openConfirmationModal("refuse", candidature.student)}>
+                                                            <FontAwesomeIcon icon={faTimes} /> REFUSER
+                                                        </button>
+                                                    </div>
+                                                ) :<br></br>}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table> :
+                            <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                                AUCUNES CANDIDATURES À AFFICHER
+                            </div>
+                        }
                         {openModal && listeCandidatureFiltered.length > 0 &&
                             <Modal fichier={student.cvStudent.file_cv} fileName={student.cvStudent.fileName} onClose={handleMontrerCv} />
                         }

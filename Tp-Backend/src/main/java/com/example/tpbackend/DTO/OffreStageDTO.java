@@ -1,12 +1,16 @@
 package com.example.tpbackend.DTO;
 
+import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Data
@@ -26,9 +30,10 @@ public class OffreStageDTO {
     private String statusVuPasVuS;
     private long employerId;
     private String tag;
+    private MultipartFile evaluationMilieuStage;
 
     public OffreStage toOffreStage() {
-        return new OffreStage(
+        OffreStage offreStage = new OffreStage(
                 id,
                 titre,
                 salaire,
@@ -41,6 +46,21 @@ public class OffreStageDTO {
                 statusVuPasVuG,
                 statusVuPasVuS
         );
+
+        if (evaluationMilieuStage != null) {
+            try {
+                offreStage.setEvaluationMilieuStage(
+                        new EvaluationMilieuStage(
+                                evaluationMilieuStage.getOriginalFilename(),
+                                evaluationMilieuStage.getBytes()
+                        )
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return offreStage;
     }
 
     public static OffreStageDTO fromOffreStage(OffreStage offreStage) {

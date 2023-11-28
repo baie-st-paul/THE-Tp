@@ -453,7 +453,8 @@ public class UtilisateursBD implements CommandLineRunner {
                 statusVuPasVuG,
                 statusVuPasVuS,
                 idEmp,
-                new Tag(tag).getTagName()
+                new Tag(tag).getTagName(),
+                null
         );
 
         System.out.println("tag" + offreStageDTO.getTag());

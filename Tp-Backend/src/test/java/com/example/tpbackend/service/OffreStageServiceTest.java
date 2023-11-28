@@ -1,10 +1,7 @@
 package com.example.tpbackend.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -12,7 +9,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
+import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
@@ -23,8 +22,10 @@ import com.example.tpbackend.repository.utilisateur.StudentRepository;
 import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 @ContextConfiguration(classes = {OffreStageService.class})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -756,5 +758,68 @@ class OffreStageServiceTest {
 
 
 
+    @Test
+    public void testSaveEvaluation() throws IOException {
+        byte[] fakePdfContent = "pdf content".getBytes();
+        MultipartFile mockFile = mock(MultipartFile.class);
+
+        when(mockFile.getOriginalFilename()).thenReturn("evaluation.pdf");
+        when(mockFile.getBytes()).thenReturn(fakePdfContent);
+
+        Utilisateur utilisateur = new Utilisateur();
+        utilisateur.setEmail("jane.doe@example.org");
+        utilisateur.setId(1L);
+        utilisateur.setFirstName("Jane");
+        utilisateur.setPassword("iloveyou");
+        utilisateur.setLastName("Doe");
+        utilisateur.setRole(Utilisateur.Role.Student);
+        utilisateur.setPhoneNumber("6625550144");
+
+        Employer employer = new Employer();
+        employer.setCompanyName("Company Name");
+        employer.setId(1L);
+        employer.setOffresStages(new ArrayList<>());
+        employer.setUtilisateur(utilisateur);
+
+        OffreStage offreStage = new OffreStage();
+        offreStage.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStage.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStage.setDescription("The characteristics of someone or something");
+        offreStage.setEmployer(employer);
+        offreStage.setId(1L);
+        offreStage.setSalaire(10.0d);
+        offreStage.setStatus(OffreStage.Status.Accepted);
+        offreStage.setStudentProgram("Student Program");
+        offreStage.setTitre("Titre");
+
+        OffreStage offreStageResult = new OffreStage();
+        offreStageResult.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStageResult.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStageResult.setDescription("The characteristics of someone or something");
+        offreStageResult.setEmployer(employer);
+        offreStageResult.setId(1L);
+        offreStageResult.setSalaire(10.0d);
+        offreStageResult.setStatus(OffreStage.Status.Accepted);
+        offreStageResult.setStudentProgram("Student Program");
+        offreStageResult.setTitre("Titre");
+        offreStageResult.setEvaluationMilieuStage(new EvaluationMilieuStage(mockFile.getName(), mockFile.getBytes()));
+
+        EvaluationMilieuStageDTO evaluationDTO = new EvaluationMilieuStageDTO(mockFile);
+
+        when(offreStageRepository.findOffreById(anyLong())).thenReturn(Optional.of(offreStage));
+        when(offreStageRepository.save(any(OffreStage.class))).thenReturn(offreStageResult);
+
+        OffreStageDTO result = offreStageService.saveEvaluationMilieuStage(evaluationDTO, 1L);
+
+        assertEquals(offreStage.getId(), result.getId());
+        assertEquals(offreStage.getTitre(), result.getTitre());
+        assertEquals(offreStage.getDescription(), result.getDescription());
+        assertEquals(offreStage.getStudentProgram(), result.getStudentProgram());
+        assertEquals(offreStage.getSalaire(), result.getSalaire());
+        assertEquals(offreStage.getDateDebut(), result.getDateDebut());
+        assertEquals(offreStage.getDateFin(), result.getDateFin());
+        assertEquals(offreStage.getEmployer().getId(), result.getEmployerId());
+        assertNotNull(result.getEvaluationMilieuStage());
+    }
 
 }

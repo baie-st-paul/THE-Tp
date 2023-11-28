@@ -3,6 +3,7 @@ package com.example.tpbackend.models;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.models.utilisateur.etudiant.Student;
+import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,6 +59,10 @@ public class OffreStage {
     @Column(name = "tag_name")
     private String tagName;
 
+    @OneToOne
+    @JoinColumn(name = "evaluation_milieu_stage_id")
+    private EvaluationMilieuStage evaluationMilieuStage;
+
     public OffreStage(long id, String titre, Double salaire, String studentProgram,
                       String description, LocalDate dateDebut,
                       LocalDate dateFin, int nbMaxEtudiant, String status,
@@ -73,24 +78,28 @@ public class OffreStage {
         this.status = Status.valueOf(status);
         this.statusVuPasVuG = StatusVuPasVu.valueOf(statusVuPasVuG);
         this.statusVuPasVuS = StatusVuPasVu.valueOf(statusVuPasVuS);
+        this.evaluationMilieuStage = null;
     }
 
     public OffreStageDTO toOffreStageDTO() {
-        return new OffreStageDTO(
-                id,
-                titre,
-                salaire,
-                studentProgram,
-                description,
-                dateDebut,
-                dateFin,
-                nbMaxEtudiants,
-                String.valueOf(status),
-                String.valueOf(statusVuPasVuG),
-                String.valueOf(statusVuPasVuS),
-                employer.getId(),
-                tagName
-        );
+        OffreStageDTO offreStageDTO = new OffreStageDTO();
+        offreStageDTO.setId(id);
+        offreStageDTO.setTitre(titre);
+        offreStageDTO.setSalaire(salaire);
+        offreStageDTO.setStudentProgram(studentProgram);
+        offreStageDTO.setDescription(description);
+        offreStageDTO.setDateDebut(dateDebut);
+        offreStageDTO.setDateFin(dateFin);
+        offreStageDTO.setNbMaxEtudiants(nbMaxEtudiants);
+        offreStageDTO.setStatus(String.valueOf(status));
+        offreStageDTO.setStatusVuPasVuG(String.valueOf(statusVuPasVuG));
+        offreStageDTO.setStatusVuPasVuS(String.valueOf(statusVuPasVuS));
+        offreStageDTO.setEmployerId(employer.getId());
+        offreStageDTO.setTag(tagName);
+        if(evaluationMilieuStage != null)
+            offreStageDTO.setEvaluationMilieuStage(new ByteArrayMultipartFile(evaluationMilieuStage.getName(), evaluationMilieuStage.getName(), "application/pdf", evaluationMilieuStage.getData()));
+
+        return offreStageDTO;
     }
 
     public String getTagName() {

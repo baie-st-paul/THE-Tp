@@ -1,7 +1,9 @@
 package com.example.tpbackend.service;
 
+import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
+import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.OffreStageRepository;
@@ -15,6 +17,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -125,4 +128,16 @@ public class OffreStageService {
     public Tag getTag(){
         return new Tag(TagGenerator.getCurrentSession());
     }
+
+    @Transactional
+    public OffreStageDTO saveEvaluationMilieuStage(EvaluationMilieuStageDTO dto, Long offreId){
+        OffreStage offreStage = offreStageRepository.findOffreById(offreId)
+                .orElseThrow(() -> new RuntimeException("Offre de stage non trouvée pour l'ID : " + offreId));
+        EvaluationMilieuStage evaluation = new EvaluationMilieuStage();
+        evaluation.setData(dto.getData());
+        evaluation.setName(dto.getName());
+        offreStage.setEvaluationMilieuStage(evaluation);
+        return offreStageRepository.save(offreStage).toOffreStageDTO();
+    }
+
 }

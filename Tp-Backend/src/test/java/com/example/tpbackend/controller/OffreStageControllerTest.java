@@ -1,8 +1,11 @@
 package com.example.tpbackend.controller;
 
+import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.OffreStageController;
+import com.example.tpbackend.models.EvaluationMilieuStage;
+import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;
@@ -14,17 +17,22 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -59,7 +67,8 @@ public class OffreStageControllerTest {
                         "In_review",
                         "pasVu",
                         "pasVu",
-                        5,new Tag(TagGenerator.getCurrentSession()).getTagName()),
+                        5,new Tag(TagGenerator.getCurrentSession()).getTagName(),
+                        null),
                 new OffreStageDTO(
                         2L,
                         "Titre2",
@@ -72,7 +81,8 @@ public class OffreStageControllerTest {
                         "Accepted",
                         "pasVu",
                         "pasVu",
-                        3L,new Tag(TagGenerator.getCurrentSession()).getTagName())
+                        3L,new Tag(TagGenerator.getCurrentSession()).getTagName(),
+                        null)
         );
     }
 
@@ -116,4 +126,27 @@ public class OffreStageControllerTest {
                 .andExpect(jsonPath("$.nbMaxEtudiants", is(5)));
     }
 
+    @Test
+    public void testUploadEvaluation() throws Exception {
+        MockMultipartFile mockFile = new MockMultipartFile("file", "test.pdf", "application/pdf", "PDF content".getBytes());
+
+        OffreStageDTO offreStageResult = new OffreStageDTO();
+        offreStageResult.setDateDebut(LocalDate.of(1970, 1, 1));
+        offreStageResult.setDateFin(LocalDate.of(1970, 1, 1));
+        offreStageResult.setDescription("The characteristics of someone or something");
+        offreStageResult.setId(1L);
+        offreStageResult.setSalaire(10.0d);
+        offreStageResult.setStudentProgram("Student Program");
+        offreStageResult.setTitre("Titre");
+        offreStageResult.setEvaluationMilieuStage(mockFile);
+
+        when(offreStageService.saveEvaluationMilieuStage(any(EvaluationMilieuStageDTO.class), anyLong())).thenReturn(offreStageResult);
+
+        mockMvc.perform(multipart("http://localhost:8081/api/v1/stages/offres/1/evaluation").file(mockFile)
+                        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Fichier 'file' reçu et sauvegardé.")));
+
+        verify(offreStageService).saveEvaluationMilieuStage(any(EvaluationMilieuStageDTO.class), anyLong());
+    }
 }

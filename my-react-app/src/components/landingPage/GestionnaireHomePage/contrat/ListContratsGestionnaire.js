@@ -7,6 +7,14 @@ import GenereContratPDF from "./genereContrat/GenereContratPDF";
 import GenereContratForm from "./genereContrat/GenereContratForm";
 import Modal from "../Vetocv/Modal";
 import FetchsGestionnaire from "../../NavBar/gestionnaire/FetchsGestionnaire";
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -235,82 +243,111 @@ const ListContratsGestionnaire = ({contratsTest}) => {
         setContrat(contrat)
     }
 
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
+
     return (
         <div>
             <NavBarGestionnaire/>
             {showGenerateContrat && <ModalGenerateContrat/>}
-            <div id="render" className="container w-100">
-                <div className="row">
+            <div style={{margin: "30px"}}>
+                <div>
                     <div className="col-lg-12">
-                        <h1 className="display-4 text-center">Liste de tous les contrats</h1>
+                        <h1 className="display-5 text-center m-2 mb-5">Liste de tous les contrats</h1>
                     </div>
                     {contrats.length > 0  ?
-                        <div className="table-responsive table-container">
-                            <div className='text-start mt-3 mb-2'> <label ><h4>Trouver par matricule &nbsp; </h4></label>
-                                <input data-testid="input" onChange={ (event)=> setFiltre(event.target.value)}></input>
+                        <div>
+                            <div className='text-center mt-3 mb-2'>
+                                <label ><h4>Trouver par matricule &nbsp; </h4></label>
+                                <input data-testid="input" onChange={ (event)=>
+                                    setFiltre(event.target.value)}></input>
                             </div>
-                            <table className="table w-100 text-start">
-                                <thead>
-                                <tr>
-                                    <th className="header-cell h5">Nom, Prénom</th>
-                                    <th className="header-cell h5">Matricule</th>
-                                    <th className="header-cell h5">Nom de compagnie</th>
-                                    <th className='header-cell h5'>Poste</th>
-                                    <th className="header-cell h5">Signé par étudiant</th>
-                                    <th className="header-cell h5">Signé par employeur</th>
-                                    <th className="header-cell h5" >Signé par gestionnaire</th>
-                                    <th className="header-cell h5" >Contrat PDF</th>
-                                </tr>
-                                </thead>
-                                <tbody className='w-100'>
-                                {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
-                                    .map((contrat, index) => (
-                                        <tr key={index} className="table-row align-middle">
-                                            <td data-label="Nom, Prénom" className="fw-semibold">{contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}</td>
-                                            <td data-label="Matricule" className="fw-semibold">{contrat.candidatureDTO.student.matricule}</td>
-                                            <td data-label="Nom de compagnie" className="fw-semibold">{contrat.candidatureDTO.employer.companyName}</td>
-                                            <td data-label="Poste" className="fw-semibold">{contrat.candidatureDTO.offreStage.titre}</td>
-                                            <td data-label="Signé par étudiant" className="fw-semibold">{contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                            <td data-label="Signé par employeur" className="fw-semibold">{contrat.statutEmployeur === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </td>
-                                            {
-                                                contrat.statutGestionnaire === 'Pas_Signer' ?
-                                                    <td data-label="Signé par Gestionnaire">
-                                                        <button className='m-0 text-center btn btn-primary'
-                                                                onClick={()=> openConfirmationModal('accept', contrat)}>
-                                                        <span className='h6'>Signer le contrat</span></button></td>
-                                                    :
-                                                    <td data-label="Signé par Gestionnaire" className="fw-semibold">Signé</td>
-                                            }
-                                            {
-                                                contrat.statutEtudiant === 'Signer' &&
-                                                contrat.statutGestionnaire === 'Signer' &&
-                                                contrat.statutEmployeur === 'Signer' ?
-                                                    <td data-label="Contrat PDF">
-                                                        {contrat.generateContrat !== null ? (
-                                                            <button className='m-0 text-center btn btn-secondary'
-                                                                    onClick={() => handleMontrerGenerateContrat(contrat)}>
-                                                                <span className='h7'>Voir Contrat</span>
-                                                            </button>
-                                                        ) : (
-                                                            <button className='m-0 text-center btn btn-primary' onClick={() => {
-                                                                setShowGenerateContrat(!showGenerateContrat)
-                                                                setContrat(contrat)
-                                                                console.log("contratGenerate", contrat)
-                                                            }}>
-                                                                <span className='h7'>Générer le contrat</span>
-                                                            </button>
-                                                        )}
-                                                    </td> :
-                                                    <td data-label="Contrat PDF">
-                                                        <p>En attente des signatures</p>
-                                                    </td>
-                                            }
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </table>
-                   
+                            <TableContainer component={Paper}>
+                                <Table aria-label="customized table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <StyledTableCell>Prénom, Nom</StyledTableCell>
+                                            <StyledTableCell align="center">Matricule</StyledTableCell>
+                                            <StyledTableCell align="center">Compagnie</StyledTableCell>
+                                            <StyledTableCell align="center">Poste</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par étudiant</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par gestionnaire</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par employeur</StyledTableCell>
+                                            <StyledTableCell align="center">Contrat PDF</StyledTableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {contrats.length > 0  && contrats.filter(contrat => contrat?.candidatureDTO?.student?.matricule?.includes(filtre))
+                                            .map((contrat, index) => (
+                                                <StyledTableRow key={index}>
+                                                    <StyledTableCell align="center" data-label="Prénom, Nom">
+                                                        {contrat.candidatureDTO.student.lastName + ', ' + contrat.candidatureDTO.student.firstName}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Matricule">
+                                                        {contrat.candidatureDTO.student.matricule}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Compagnie">
+                                                        {contrat.candidatureDTO.employer.companyName}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Poste">
+                                                        {contrat.candidatureDTO.offreStage.titre}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell align="center" data-label="Signé par étudiant">
+                                                        {contrat.statutEtudiant === 'Pas_Signer' ? 'Signature requise' : 'Signé'}
+                                                    </StyledTableCell>
+                                                    {
+                                                        contrat.statutEmployeur === 'Pas_Signer' ?
+                                                            <StyledTableCell align="center" data-label="Signé par employeur"><button className='m-0 text-center btn btn-primary' onClick={() => openConfirmationModal('accept', contrat)}><span className='h6'>Signer le contrat</span></button></StyledTableCell>
+                                                            :
+                                                            <StyledTableCell align="center" data-label="Signé par employeur">Signé</StyledTableCell>
+                                                    }
+                                                    <StyledTableCell align="center" data-label="Signé par gestionnaire">{contrat.statutGestionnaire === 'Pas_Signer' ? 'Signature requise' : 'Signé'} </StyledTableCell>
+                                                    {
+                                                        contrat.statutEtudiant === 'Signer' &&
+                                                        contrat.statutGestionnaire === 'Signer' &&
+                                                        contrat.statutEmployeur === 'Signer' ?
+                                                            <StyledTableCell align="center" data-label="Contrat PDF">
+                                                                {contrat.generateContrat !== null ? (
+                                                                    <button className='m-0 text-center btn btn-secondary'
+                                                                            onClick={() => handleMontrerGenerateContrat(contrat)}>
+                                                                        <span className='h7'>Voir Contrat</span>
+                                                                    </button>
+                                                                ) : (
+                                                                    <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                        setShowGenerateContrat(!showGenerateContrat)
+                                                                        setContrat(contrat)
+                                                                        console.log("contratGenerate", contrat)
+                                                                    }}>
+                                                                        <span className='h7'>Générer le contrat</span>
+                                                                    </button>
+                                                                )}
+                                                            </StyledTableCell> :
+                                                            <StyledTableCell align="center" data-label="Contrat PDF">
+                                                                <p>En attente des signatures</p>
+                                                            </StyledTableCell>
+                                                    }
+                                                </StyledTableRow>
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>
                         : <div>AUCUN CONTRAT À AFFICHER</div> }
                 </div>

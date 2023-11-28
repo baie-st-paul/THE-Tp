@@ -23,7 +23,7 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
         <>
             {isPresent.length > 0 /*|| isPresent[0].status !== 'Refusee'*/ ?
                 <>
-                    { isPresent[0].status !== 'Refusee'  ?
+                    { offre.status !== 'Refusee'  || offre.status === 'Accepted' ?
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
                             {

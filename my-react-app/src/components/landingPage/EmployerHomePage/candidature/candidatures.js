@@ -99,9 +99,10 @@ const OVERLAY_STYLE = {
 
     const getAllCandidatures = async() => {
         const token = localStorage.getItem('token');
+        const employerId = localStorage.getItem('employer_id');
         try {
            await fetch(
-                'http://localhost:8081/api/v1/employers/candidatures',
+                'http://localhost:8081/api/v1/employers/candidatures/' + employerId,
                 {
                     method: 'GET',
                     headers: {

@@ -150,4 +150,12 @@ public class EmployerService {
 
         return EvaluationPdfDto.fromEvaluationPDF(savedEvaluation);
     }
+
+    public List<CandidatureDTO> getCandidaturesById(Long empId) {
+        return candidatureRepository.findByEmployerId(empId)
+                .stream()
+                .map(CandidatureDTO::fromCandidature)
+                .collect(Collectors.toList());
+    }
+
 }

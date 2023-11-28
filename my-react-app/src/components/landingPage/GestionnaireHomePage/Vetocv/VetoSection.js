@@ -131,10 +131,10 @@ const VetoSection = () => {
     return (
         <div>
             <NavBarGestionnaire/>
-            <div id="Render" className="container content-container mt-4">
-                <div className="row align-items-center">
+            <div style={{margin: "30px"}}>
+                <div>
                     <div className="col-lg-12">
-                        <h1 className="display-4 text-center m-2">CV des étudiants</h1>
+                        <h1 className="display-5 text-center m-2 mb-5">CV des étudiants</h1>
                     </div>
                     <div className="col-lg-6 align-items-center">
                         <div className="text-center">
@@ -157,55 +157,61 @@ const VetoSection = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="table-responsive table-container">
-                    <table className="table custom-table">
-                        <thead>
-                        <tr>
-                            <th className="header-cell display-4">Matricule</th>
-                            <th className="header-cell display-4">Nom de fichier</th>
-                            <th className="header-cell display-4">Statut</th>
-                            <th className="header-cell display-4">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {filteredCvList.map((cvDto, index) => (
-                            <tr key={index} className="table-row align-middle" onClick={() => setSelectedCv(cvDto)}>
-                                <td className="fw-semibold" onClick={() => setOpenModal(true)}>{cvDto.matricule}</td>
-                                <td className="fw-semibold" onClick={() => setOpenModal(true)}>{cvDto.fileName}</td>
-                                <td className="fw-semibold" onClick={() => setOpenModal(true)}>
-                                    {cvDto.status === "In_review" && (
-                                        <>
-                                            <FontAwesomeIcon icon={faClock} /> En attente
-                                        </>
-                                    )}
-                                    {cvDto.status === "Accepted" && (
-                                        <>
-                                            <FontAwesomeIcon icon={faCheck} /> Accepté
-                                        </>
-                                    )}
-                                    {cvDto.status === "Refused" && (
-                                        <>
-                                            <FontAwesomeIcon icon={faTimes} /> Refusé
-                                        </>
-                                    )}
-                                </td>
-                                <td>
-                                    {cvDto.status === "In_review" && (
-                                        <>
-                                            <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
-                                                <FontAwesomeIcon icon={faCheck} /> Accepter
-                                            </button>
-                                            <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
-                                                <FontAwesomeIcon icon={faTimes} /> Refuser
-                                            </button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
+
+                    {filteredCvList.length > 0 ?
+                        <div>
+                            <table className="table custom-table">
+                                <thead>
+                                <tr>
+                                    <th className="header-cell display-4">Matricule</th>
+                                    <th className="header-cell display-4">Nom de fichier</th>
+                                    <th className="header-cell display-4">Statut</th>
+                                    <th className="header-cell display-4">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {filteredCvList.map((cvDto, index) => (
+                                    <tr key={index} className="table-row align-middle" onClick={() => setSelectedCv(cvDto)}>
+                                        <td className="fw-semibold" onClick={() => setOpenModal(true)}>{cvDto.matricule}</td>
+                                        <td className="fw-semibold" onClick={() => setOpenModal(true)}>{cvDto.fileName}</td>
+                                        <td className="fw-semibold" onClick={() => setOpenModal(true)}>
+                                            {cvDto.status === "In_review" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faClock} /> En attente
+                                                </>
+                                            )}
+                                            {cvDto.status === "Accepted" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faCheck} /> Accepté
+                                                </>
+                                            )}
+                                            {cvDto.status === "Refused" && (
+                                                <>
+                                                    <FontAwesomeIcon icon={faTimes} /> Refusé
+                                                </>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {cvDto.status === "In_review" && (
+                                                <>
+                                                    <button className="btn btn-success" onClick={() => openConfirmationModal("accept")}>
+                                                        <FontAwesomeIcon icon={faCheck} /> Accepter
+                                                    </button>
+                                                    <button className="btn btn-danger" onClick={() => openConfirmationModal("refuse")}>
+                                                        <FontAwesomeIcon icon={faTimes} /> Refuser
+                                                    </button>
+                                                </>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div> :
+                        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                            AUCUN CV À AFFICHER
+                        </div>
+                    }
                 </div>
                 {openModal && selectedCv && (
                     <Modal fichier={selectedCv.file_cv} fileName={selectedCv.fileName} onClose={() => setOpenModal(false)} />

@@ -78,7 +78,7 @@ const OffreCandidaturePage = () => {
                             ))}
                         </Grid>
                     </Box> :
-                    <p>Il n'y a pas encore d'offres de stage...</p>
+                    <p>Vous n'avez pas encore postulé sur aucune offre...</p>
                 }
             </div>
         </div>

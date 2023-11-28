@@ -8,6 +8,14 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
     const filteredContratsList = contrats.length !== 0 && contrats.length !== undefined &&
         contrats.filter((contrat) => contrat.statutEmployeur === "Pas_Signer");
 
+    const filteredNotifyRapportHeure = contrats.length !== 0 && contrats.length !== undefined &&
+        contrats.filter((contrat) => contrat.statutEtudiant === 'Signer' && contrat.statutGestionnaire === 'Signer' &&
+            contrat.statutEmployeur === 'Signer' && contrat.rapportFile === null);
+
+    const filteredNotifyEvaluationStudent = contrats.length !== 0 && contrats.length !== undefined &&
+        contrats.filter((contrat) => contrat.statutEtudiant === 'Signer' && contrat.statutGestionnaire === 'Signer' &&
+            contrat.statutEmployeur === 'Signer' && contrat.evaluationPDF === null);
+
     const filterEnAttente = candidatures.length !== 0 && candidatures.length !== undefined &&
         candidatures.filter((candidature) => candidature.status === "Interview" ||
             candidature.status === "In_review");
@@ -31,18 +39,27 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");
-    //localStorage.setItem('filtreCandidature', "In_review")
 
     return (
         <div>
             {
                 filteredContratsList.length === 0 &&
+                filteredNotifyRapportHeure.length === 0 &&
+                filteredNotifyEvaluationStudent.length === 0 &&
                 filterEnAttente.length === 0 &&
                 filterPasEntrevue.length === 0 ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredContratsList.length > 0 &&
                             <CardsPage nbFilteredList={filteredContratsList.length} titre="signatures de contrats en attente" url="/contrats-emp"
+                                       id="cards" colorAvatar="saddlebrown"/>}
+
+                        {filteredNotifyRapportHeure.length > 0 &&
+                            <CardsPage nbFilteredList={filteredNotifyRapportHeure.length} titre="formulaire de rapport des heures à remplir" url="/contrats-emp"
+                                       id="cards" colorAvatar="saddlebrown"/>}
+
+                        {filteredNotifyEvaluationStudent.length > 0 &&
+                            <CardsPage nbFilteredList={filteredNotifyEvaluationStudent.length} titre="formulaire de l'évaluation d'un stagiaire à remplir" url="/contrats-emp"
                                        id="cards" colorAvatar="saddlebrown"/>}
 
                         {filterEnAttente.length > 0 &&

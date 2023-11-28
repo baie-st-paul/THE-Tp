@@ -33,4 +33,8 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     Optional<Candidature> findByStatusAndStudent(Candidature.Status statut, Student student);
 
     Optional<Candidature> findCandidatureByStatusAndStudentAndAndOffreStage(Candidature.Status status, Student s, OffreStage o);
+
+    @Transactional
+    @Query("SELECT c FROM Candidature c WHERE c.offreStage.employer.id = ?1")
+    List<Candidature> findByEmployerId(Long empId);
 }

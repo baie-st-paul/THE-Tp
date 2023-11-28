@@ -463,7 +463,11 @@ export default function EmployeurMesContrats({ contratsTest }) {
                                 </Table>
                             </TableContainer>
                         </div>
-                        : <div>AUCUN CONTRAT À AFFICHER</div>}
+                        :
+                        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+                            AUCUN CONTRAT À AFFICHER
+                        </div>
+                    }
                 </div>
                 {openModalEvaluation && contrats.length > 0 &&
                     <Modal fichier={contrat.evaluationPDF.content} fileName="PDF de l'évaluation" onClose={handleMontrerEvaluation} />

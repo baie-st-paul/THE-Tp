@@ -22,8 +22,7 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
         )
 
     const filteredListContratsPasSigne = contrats.length !== 0 && contrats.length !== undefined &&
-        contrats.filter((dto) => dto.statutGestionnaire === "Pas_Signer"
-            && dto.statutEmployeur === "Signer" && dto.statutEtudiant === "Signer");
+        contrats.filter((dto) => dto.statutGestionnaire === "Pas_Signer");
 
     const filteredEntrevues = candidaturesEntrevue.length !== 0 && candidaturesEntrevue.length !== undefined &&
         candidaturesEntrevue.filter((entrevue) => entrevue.status === "EnAttente");

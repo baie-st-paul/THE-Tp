@@ -23,7 +23,7 @@ export default function OffresPageGestionnaire({ listeOffres }) {
     const [offres, setOffres] = useState([]);
     const [sessions, setSession] = useState([]);
     const [filterOption, setFilterOption] = useState("In_review");
-    const [selectedTagName, setSelectedTagName] = useState("");
+    const [selectedTagName, setSelectedTagName] = useState("AU23");
     const [shouldRefetch, setShouldRefetch] = useState(false);
     const [selectedOffre, setSelectedOffre] = useState(null);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);

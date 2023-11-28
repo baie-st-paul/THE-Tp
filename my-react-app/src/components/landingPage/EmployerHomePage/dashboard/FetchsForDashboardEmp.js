@@ -36,8 +36,9 @@ const fetchOffresEmp = async (token, offres, setOffres) => {
 
 const fetchAllCandidatures = async (token, candidatures, setCandidatures, allEntrevuesStudentMatricule, setfinFetch) => {
     try {
+        const employerId = localStorage.getItem('employer_id');
         fetch(
-            'http://localhost:8081/api/v1/employers/candidatures',
+            'http://localhost:8081/api/v1/employers/candidatures/' + employerId,
             {
                 method: 'GET',
                 headers: {

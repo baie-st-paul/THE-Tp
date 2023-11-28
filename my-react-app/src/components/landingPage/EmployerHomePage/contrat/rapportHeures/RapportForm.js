@@ -201,15 +201,16 @@ const RapportForm = ({contrat, onSubmit}) => {
                         <tbody>
                             {formData.semaines.map((rowData, rowIndex) => (
                                 <tr key={rowIndex}>
-                                    <td>
+                                    <td  data-label="Semaine De">
                                         <input
+                                           
                                             type="date"
                                             className="form-control"
                                             value={rowData.semaineDe}
                                             onChange={(e) => handleChange(e, rowIndex, 'semaineDe')}
                                         />
                                     </td>
-                                    <td>
+                                    <td data-label="Semaine au">
                                         <input
                                             type="date"
                                             className="form-control"
@@ -217,7 +218,7 @@ const RapportForm = ({contrat, onSubmit}) => {
                                             onChange={(e) => handleChange(e, rowIndex, 'semaineAu')}
                                         />
                                     </td>
-                                    <td>
+                                    <td data-label="Heures réelles travaillées">
                                         <input
                                             type="number"
                                             className="form-control"
@@ -225,7 +226,7 @@ const RapportForm = ({contrat, onSubmit}) => {
                                             onChange={(e) => handleChange(e, rowIndex, 'heuresReelles')}
                                         />
                                     </td>
-                                    <td>
+                                    <td data-label="Heures réelles de supervision directe">
                                         <input
                                             type="number"
                                             className="form-control"

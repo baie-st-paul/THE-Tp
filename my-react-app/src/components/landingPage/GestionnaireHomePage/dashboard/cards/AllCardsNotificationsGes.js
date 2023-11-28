@@ -24,6 +24,10 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
     const filteredListContratsPasSigne = contrats.length !== 0 && contrats.length !== undefined &&
         contrats.filter((dto) => dto.statutGestionnaire === "Pas_Signer");
 
+    const filteredListNotifyGenerateContrat = contrats.length !== 0 && contrats.length !== undefined &&
+        contrats.filter((contrat) => contrat.statutEtudiant === 'Signer' && contrat.statutGestionnaire === 'Signer' &&
+            contrat.statutEmployeur === 'Signer' && contrat.generateContrat === null);
+
     const filteredEntrevues = candidaturesEntrevue.length !== 0 && candidaturesEntrevue.length !== undefined &&
         candidaturesEntrevue.filter((entrevue) => entrevue.status === "EnAttente");
     const filteredPasVuEntrevues = candidaturesEntrevue.length !== 0 && candidaturesEntrevue.length !== undefined &&
@@ -35,6 +39,7 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
                 filteredListOffre.length === 0 &&
                 filteredListCv.length === 0 &&
                 filterEmbauchePasContrat.length === 0 &&
+                filteredListNotifyGenerateContrat.length === 0 &&
                 filteredListContratsPasSigne.length === 0 ?
                     <PageNoNotifications/> :
                     <div>
@@ -52,6 +57,10 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
 
                         {filteredListContratsPasSigne.length > 0 &&
                             <CardsPage nbFilteredList={filteredListContratsPasSigne.length} titre="signatures de contrats en attente" url="/contrats"
+                                       id="cards" colorAvatar="saddlebrown"/>}
+
+                        {filteredListNotifyGenerateContrat.length > 0 &&
+                            <CardsPage nbFilteredList={filteredListNotifyGenerateContrat.length} titre="formualaire de contrat de stage à générer" url="/contrats"
                                        id="cards" colorAvatar="saddlebrown"/>}
                     </div>
             }

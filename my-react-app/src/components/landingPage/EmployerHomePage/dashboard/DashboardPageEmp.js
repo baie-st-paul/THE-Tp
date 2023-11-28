@@ -10,6 +10,7 @@ const DashboardPageEmp = () => {
     const [contrats, setContrats] = useState([])
 
     const token = localStorage.getItem('token');
+    const employerId = localStorage.getItem('employer_id')
 
     useEffect(() => {
         getFetchs()
@@ -18,7 +19,7 @@ const DashboardPageEmp = () => {
     const getFetchs = async () => {
         setOffres(FetchsForDashboardEmp.fetchOffresEmp(token, offres, setOffres))
         setCandidatures(FetchsForDashboardEmp.fetchAllCandidatures(token, candidatures, setCandidatures))
-        setEntrevues(FetchsForDashboardEmp.fetchAllEntrevues(token, entrevues, setEntrevues))
+        setEntrevues(FetchsForDashboardEmp.fetchAllEntrevues(token, entrevues, setEntrevues, employerId))
         setContrats(FetchsForDashboardEmp.fetchContratsEmp(token, contrats, setContrats))
     }
 

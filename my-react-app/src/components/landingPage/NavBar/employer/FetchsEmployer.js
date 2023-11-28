@@ -112,9 +112,9 @@ const ajoutOffre = async (navigate, offre) => {
                 } catch (e) {
                     console.log(e)
                 }
-
-                navigate("/offres")
+                localStorage.setItem('filtreOffre', "all");
                 console.log(data)
+                navigate("/offres")
             }
         )
     } catch (error) {

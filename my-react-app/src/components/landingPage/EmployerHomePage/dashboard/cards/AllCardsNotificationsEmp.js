@@ -31,7 +31,6 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
 
     const filterEntrevuesRefused = entrevues.length !== 0 && entrevues.length !== undefined &&
         entrevues.filter((entrevue) => entrevue.status === "Refusee");
-    //localStorage.setItem('filtreCandidature', "In_review")
 
     return (
         <div>

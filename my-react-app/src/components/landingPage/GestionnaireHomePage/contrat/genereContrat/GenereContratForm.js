@@ -21,7 +21,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
         startWorkHours: "",
         endWorkHours: "",
 
-        nbTotalHeureParSemaine: "",
+        nbTotalHeureParSemaine: "", 
         salaireHoraire: "",
 
         offreDescription: contrat.candidatureDTO.offreStage.description,
@@ -67,28 +67,60 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
     useEffect(() => {
         handleSignatureEtudiant()
         handleSignatureEmployer()
-        handleSignatureGestionnaire()
+        handleSignatureGestionnaire()  
     }, []);
 
+    let base64Signature;
     const handleSignatureEtudiant = async () => {
-        try {
-            setSignatureEtudiant(FetchsStudent.fetchSignature(token, contrat.candidatureDTO.student.matricule, signatureEtudiant, setSignatureEtudiant))
-            const base64Signature = signatureEtudiant.imageLink;
-
-            if (base64Signature && !base64Signature.startsWith('data:image')) {
-                setSignatureEtudiant(`data:image/png;base64,${base64Signature}`);
-            } else {
-                setSignatureEtudiant(base64Signature);
-                setFormData(prevState => ({
-                    ...prevState,
-                    signatureEtudiant: base64Signature
-                }));
-            }
-        } catch (error) {
-            console.error('Erreur lors de la récupération de la signature:', error);
-            setSignatureEtudiant(null);
-        }
-    };
+            try {
+                fetch(
+                    `http://localhost:8081/api/v1/stages/signatures/student/get/${contrat.candidatureDTO.student.matricule}`, 
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                    }
+                ).catch(error => {
+                    console.log(error)
+                    setSignatureEtudiant(null)
+                }).then(
+                    async (res) => {
+                        try {
+                            console.log(res.status)
+                            if (res.ok) {
+                                const data = await res.json();
+                                setSignatureEtudiant(data); 
+                                base64Signature = data.imageLink; 
+                                console.log("signature",data)
+                                 
+                                if (base64Signature && !base64Signature.startsWith('data:image')) {
+                                    setSignatureEtudiant(`data:image/png;base64,${base64Signature}`);
+                                    
+                                } else {
+                                    setSignatureEtudiant(base64Signature);
+                                    setFormData(prevState => ({
+                                        ...prevState,
+                                        signatureEtudiant: base64Signature
+                                    }));
+                                }
+                            } else {
+                                console.log("Failed to fetch data");
+                                setSignatureEtudiant(null)
+                            }
+                        } catch (e) {
+                            console.log(e)
+                            setSignatureEtudiant(null)
+                        }
+                    })
+            } catch (error) {
+                console.log('Une erreur est survenue:', error); 
+                setSignatureEtudiant(null)
+            } 
+            console.log(signatureEtudiant)
+    }; 
 
     const handleSignatureEmployer = async () => {
         try {
@@ -96,18 +128,20 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
             const base64Signature = signatureEmployeur.imageLink;
 
             if (base64Signature && !base64Signature.startsWith('data:image')) {
-                setSignatureEmployeur(`data:image/png;base64,${base64Signature}`);
+                setSignatureEmployeur(`data:image/png;base64,${base64Signature}`); 
             } else {
                 setSignatureEmployeur(base64Signature);
                 setFormData(prevState => ({
                     ...prevState,
                     signatureEmployeur: base64Signature
                 }));
+                
             }
         } catch (error) {
             console.error('Erreur lors de la récupération de la signature:', error);
             setSignatureEmployeur(null);
         }
+        
     };
 
     const handleSignatureGestionnaire = async () => {
@@ -123,6 +157,7 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     ...prevState,
                     signatureGestionnaire: base64Signature
                 }));
+                
             }
         } catch (error) {
             console.error('Erreur lors de la récupération de la signature:', error);

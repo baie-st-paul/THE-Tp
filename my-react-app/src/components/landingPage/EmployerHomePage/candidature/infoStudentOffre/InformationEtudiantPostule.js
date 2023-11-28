@@ -396,7 +396,7 @@ export default function InformationEtudiantPostule({listeEtudiant}) {
                                         )}
                                     </td>
                                     <td aria-label='veto'>
-                                        {candidature.status === "In_review" && (
+                                        {(candidature.status === "In_review" || candidature.status === "Interview")  && (
                                             <div className='d-flex justify-content-end me-0 pe-0'>
                                                 <button title="Accepter" className="btn btn-success p-1   "
                                                     onClick={

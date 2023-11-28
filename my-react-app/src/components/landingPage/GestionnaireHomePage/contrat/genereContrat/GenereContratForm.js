@@ -365,12 +365,9 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     </div>
                     <div>
                         <strong>TACHES ET RESPONSABILITES DU STAGIAIRE</strong>
-                        <textarea
-                            name="tachesResponsabilitesStagiaire"
-                            value={formData.tachesResponsabilitesStagiaire}
-                            onChange={handleChange}
-                            className="textareaStyle"
-                        />
+                        <p>
+                            {formData.offreDescription}
+                        </p>
                     </div>
 
                     <div className="responsibilities">
@@ -379,8 +376,8 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     <div>
                         <p>Le Collège s’engage à :</p>
                         <textarea
-                            name="responsabiliteCollege"
-                            value={formData.responsabiliteCollege}
+                            name="commentaireCollege"
+                            value={formData.commentaireCollege}
                             onChange={handleChange}
                             className="textareaStyle"
                         />
@@ -389,8 +386,8 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     <div>
                         <p>L’entreprise s’engage à :</p>
                         <textarea
-                            name="responsabiliteEntreprise"
-                            value={formData.responsabiliteEntreprise}
+                            name="commentaireEntreprise"
+                            value={formData.commentaireEntreprise}
                             onChange={handleChange}
                             className="textareaStyle"
                         />
@@ -399,8 +396,8 @@ const GenereContratForm = ({gestionnaire, contrat, onSubmit}) => {
                     <div>
                         <p>L’étudiant s’engage à :</p>
                         <textarea
-                            name="responsabiliteEtudiant"
-                            value={formData.responsabiliteEtudiant}
+                            name="commentaireEtudiant"
+                            value={formData.commentaireEtudiant}
                             onChange={handleChange}
                             className="textareaStyle"
                         />

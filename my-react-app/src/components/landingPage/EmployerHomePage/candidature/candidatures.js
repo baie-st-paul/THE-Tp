@@ -300,15 +300,16 @@ const OVERLAY_STYLE = {
                     try {
                         console.log(res.status)
                         if (res.status === 400) {
+
                             console.log(res.status)
                         }
                     } catch (e) {
                         console.log(e)
                     }
-                    setEntrevues([...entrevues, data])
-                    console.log(data)
-                    setShowConvoquer(false)
-                    setSelectedCandidatureId(null) 
+                  //  setEntrevues([...entrevues, data])
+                  //  console.log(data)
+                  //  setShowConvoquer(false)
+                  //  setSelectedCandidatureId(null)
                     window.location.reload()
                 })
         } catch (error) {

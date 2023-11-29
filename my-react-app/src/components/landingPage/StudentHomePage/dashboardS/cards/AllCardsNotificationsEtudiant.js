@@ -45,7 +45,7 @@ const AllCardsNotificationsEtudiant = ({entrevues, contrats, offres, candidature
             }/>
             <CardsPasCritique filteredList={filterCandidaturesAccepted} card={
                 <CardsPage nbFilteredList={filterCandidaturesAccepted.length} titre="candidatures acceptées par l'employeur" url="/candidaturesEtudiant"
-                           id="cardsPasCritique" colorAvatar="#000066"/>
+                           id="cardsPasCritique" colorAvatar="#000066" filter="Accepted"/>
             }/>
         </div>
     )

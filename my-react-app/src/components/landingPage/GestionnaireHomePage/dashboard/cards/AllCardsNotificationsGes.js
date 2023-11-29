@@ -36,11 +36,11 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
     return (
         <div>
             {
-                filteredListOffre.length === 0 &&
-                filteredListCv.length === 0 &&
-                filterEmbauchePasContrat.length === 0 &&
-                filteredListNotifyGenerateContrat.length === 0 &&
-                filteredListContratsPasSigne.length === 0 ?
+                filteredListOffre.length === 0 || filteredListOffre.length === undefined &&
+                filteredListCv.length === 0 || filteredListCv.length === undefined &&
+                filterEmbauchePasContrat.length === 0 || filterEmbauchePasContrat.length === undefined &&
+                filteredListNotifyGenerateContrat.length === 0 || filteredListNotifyGenerateContrat.length === undefined &&
+                filteredListContratsPasSigne.length === 0 || filteredListContratsPasSigne.length === undefined ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredListOffre.length > 0 &&

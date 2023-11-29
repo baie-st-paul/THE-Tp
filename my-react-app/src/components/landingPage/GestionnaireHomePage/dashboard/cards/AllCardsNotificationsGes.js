@@ -66,10 +66,7 @@ const AllCardsNotificationsGes = ({sessions, offres, cvList, contrats, candidatu
             }
             <Divider color="black"/>
 
-            <CardsPasCritique filteredList={filteredPasVuEntrevues} card={
-                <CardsPage nbFilteredList={filteredPasVuEntrevues.length} titre="nouvelles entrevues" url="/entrevues"
-                           id="cardsPasCritique" colorAvatar="#000066"/>
-            }/>
+          
             <CardsPasCritique filteredList={filteredEntrevues} card={
                 <CardsPage nbFilteredList={filteredEntrevues.length} titre="entrevues pas encore accepté par l'étudiant"
                            url="/entrevues"

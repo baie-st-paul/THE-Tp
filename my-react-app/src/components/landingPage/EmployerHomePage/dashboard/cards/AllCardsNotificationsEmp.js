@@ -74,15 +74,15 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
             }
             <Divider color="black"/>
 
-            <CardsPasCritique filteredList={filterEntrevuesRefused} card={
-                <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
-                           url="/candidatures"
-                           id="cardsPasCritique" colorAvatar="#000066" filter="refused" />
-            }/>
             <CardsPasCritique filteredList={offresAccepted} card={
                 <CardsPage nbFilteredList={offresAccepted.length}
                            titre="offres acceptées par le gestionnaire" url="/offres"
                            id="cardsPasCritique" colorAvatar="#000066"/>
+            }/>
+            <CardsPasCritique filteredList={filterEntrevuesRefused} card={
+                <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
+                           url="/candidatures"
+                           id="cardsPasCritique" colorAvatar="#000066" filter="refused" />
             }/>
         </div>
     )

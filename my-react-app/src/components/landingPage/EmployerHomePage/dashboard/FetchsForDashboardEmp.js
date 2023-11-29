@@ -71,7 +71,9 @@ const fetchAllCandidatures = async (token, candidatures, setCandidatures, allEnt
     }
 }
 
-const fetchAllEntrevues = async (token, entrevues, setEntrevues) => {
+
+
+const fetchAllEntrevues = async (token, entrevues, setEntrevues, employer_id) => {
     try {
         fetch(
             'http://localhost:8081/api/v1/gestionnaire/studentsWithEntrevue',
@@ -96,8 +98,10 @@ const fetchAllEntrevues = async (token, entrevues, setEntrevues) => {
                 } catch (e) {
                     console.log(e)
                 }
-                setEntrevues(data)
+                let arr = data.filter((x) => x.employer.id.toString() === employer_id.toString())
+                setEntrevues(arr)
                 console.log("entrevues", data)
+                console.log(arr) 
             })
     } catch (error) {
         console.log('Une erreur est survenue:', error);

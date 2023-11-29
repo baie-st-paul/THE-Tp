@@ -164,7 +164,7 @@ const SectionEntrevue = ({entrevueTest}) => {
                         <table className="table table-hover">
                             <thead>
                             <tr className="h3">
-                                <th className="text-center">Entreprise</th>
+                                <th  className="text-center">Entreprise</th>
                                 <th className="text-center">Date et Heure</th>
                                 <th className="text-center">Description</th>
                                 <th className="text-center">Action</th>
@@ -173,11 +173,11 @@ const SectionEntrevue = ({entrevueTest}) => {
                             <tbody>
                             {entrevuesFiltred().map((entrevue, index) => (
                                 <tr key={index} onClick={() => setSelectedEntrevue(entrevue)}>
-                                    <td className="align-middle text-center w-5">{entrevue.companyName}</td>
-                                    <td className="fw-bolder align-middle text-center">
+                                    <td data-label="Entreprise" className="align-middle text-center w-5">{entrevue.companyName}</td>
+                                    <td data-label="Date et heure" className="fw-bolder align-middle text-center">
                                         {format(new Date(entrevue.dateHeure), "yyyy-MM-dd HH:mm")}
                                     </td>
-                                    <td className="align-middle text-center ">
+                                    <td data-label="Description" className="align-middle text-center ">
                                         {entrevue.description.length > 200  && !expandedDescriptions[index] ? (
                                             <>
                                                 {entrevue.description.slice(0, 200)}...
@@ -202,7 +202,7 @@ const SectionEntrevue = ({entrevueTest}) => {
                                             </>
                                         )}
                                     </td>
-                                    <td className="align-middle text-center">
+                                    <td data-label="Action" className="align-middle text-center">
                                         { entrevue.status === "EnAttente" ?
                                         <div>
                                             <button data-testid="accept-button-1" className="btn btn-success" onClick={() => openConfirmationModal("accept")}>

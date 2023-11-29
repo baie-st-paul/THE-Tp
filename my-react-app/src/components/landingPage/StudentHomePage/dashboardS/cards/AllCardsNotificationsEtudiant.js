@@ -21,8 +21,8 @@ const AllCardsNotificationsEtudiant = ({entrevues, contrats, offres, candidature
     return (
         <div>
             {
-                filteredEntrevuesEnAttente.length === 0 &&
-                filteredContratsList.length === 0 ?
+                (filteredEntrevuesEnAttente.length === 0 || filteredEntrevuesEnAttente.length === undefined) &&
+                (filteredContratsList.length === 0 || filteredContratsList.length === undefined) ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredEntrevuesEnAttente.length > 0 &&

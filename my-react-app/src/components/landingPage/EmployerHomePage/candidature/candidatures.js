@@ -57,6 +57,7 @@ const OVERLAY_STYLE = {
     const [selectDisabled, setSelectDisabled] = useState(false)
     const [selectedEntrevueToModify, setSelectedEntrevueToModify] = useState(null)
     const [reload, setReload] = useState(false)
+    const [selectLocked, setSelectLocked] = useState(true)
     const data2Ref = useRef(null);
     const data1Ref = useRef(null);
     useEffect(() => {
@@ -69,7 +70,7 @@ const OVERLAY_STYLE = {
 
 
     function checkRefused(){
-        if (state!== null) {
+        if (state!== null && selectLocked === true) {
         if (state.selectVar === 'refused'){
             setSelect('Refused_student')
             setSelectDisabled(true)
@@ -381,6 +382,7 @@ const OVERLAY_STYLE = {
     }
 
     function handleSelect(e){
+        setSelectLocked(false)
         console.log(e)
         console.log(e.target.value)
         setSelect(e.target.value);
@@ -432,6 +434,7 @@ const OVERLAY_STYLE = {
             setListeCandidatureFiltered(listeCandidature.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
         }
         setReload(!reload)
+        
     }
 
     return (
@@ -450,7 +453,7 @@ const OVERLAY_STYLE = {
                                 className="form-control d-inline"
                                 value={select}
                                 onChange={handleSelect}
-                                disabled= {selectDisabled}
+                                
                             >
                                 <option value="all">Tous</option>
                                 <option value="Accepted">Embauché(es)</option>

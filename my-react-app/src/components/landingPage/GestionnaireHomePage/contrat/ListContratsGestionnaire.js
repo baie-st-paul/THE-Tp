@@ -15,6 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import EvaluationMilieuStageForm from "./evaluationMilieuStage/EvaluationMilieuStageForm";
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -57,6 +58,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
     const [contrat, setContrat] = useState(null)
 
     const [showGenerateContrat, setShowGenerateContrat] = useState(false)
+    const [showCreateEvaluationMilieuStage, setShowCreateEvaluationMilieuStage] = useState(false)
     const [generateContrats, setGenerateContrats] = useState([])
     const [openModalGenerateContrat, setOpenModalGenerateContrat] = useState(false)
 
@@ -127,6 +129,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
             }).then(
                 async (res) => {
                     try {
+                        console.log(contrat.candidatureDTO.employer.companyName)
                         console.log(res.status)
                         if (res.ok) {
                             await res.json();
@@ -262,10 +265,12 @@ const ListContratsGestionnaire = ({contratsTest}) => {
             border: 0,
         },
     }));
+    
 
     return (
         <div>
             <NavBarGestionnaire/>
+            <EvaluationMilieuStageForm />
             {showGenerateContrat && <ModalGenerateContrat/>}
             <div style={{margin: "30px"}}>
                 <div>

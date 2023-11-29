@@ -43,11 +43,11 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
     return (
         <div>
             {
-                filteredContratsList.length === 0 || filteredContratsList.length === undefined &&
-                filteredNotifyRapportHeure.length === 0 || filteredNotifyRapportHeure.length === undefined &&
-                filteredNotifyEvaluationStudent.length === 0 || filteredNotifyEvaluationStudent.length === undefined &&
-                filterEnAttente.length === 0 || filterEnAttente.length === undefined &&
-                filterPasEntrevue.length === 0 || filterPasEntrevue.length === undefined ?
+                (filteredContratsList.length === 0 || filteredContratsList.length === undefined) &&
+                (filteredNotifyRapportHeure.length === 0 || filteredNotifyRapportHeure.length === undefined) &&
+                (filteredNotifyEvaluationStudent.length === 0 || filteredNotifyEvaluationStudent.length === undefined) &&
+                (filterEnAttente.length === 0 || filterEnAttente.length === undefined) &&
+                (filterPasEntrevue.length === 0 || filterPasEntrevue.length === undefined) ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredContratsList.length > 0 &&

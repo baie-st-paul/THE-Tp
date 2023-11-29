@@ -20,7 +20,7 @@ const DashboardPageEmp = () => {
         setOffres(FetchsForDashboardEmp.fetchOffresEmp(token, offres, setOffres))
         setCandidatures(FetchsForDashboardEmp.fetchAllCandidatures(token, candidatures, setCandidatures))
         setEntrevues(FetchsForDashboardEmp.fetchAllEntrevues(token, entrevues, setEntrevues, employerId))
-        setContrats(FetchsForDashboardEmp.fetchContratsEmp(token, contrats, setContrats))
+        setContrats(FetchsForDashboardEmp.fetchContratsEmp(token, contrats, setContrats)) 
     }
 
     return (

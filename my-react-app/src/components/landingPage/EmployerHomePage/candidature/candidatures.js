@@ -65,7 +65,7 @@ const OVERLAY_STYLE = {
     }, [reload])
 
    async function fetchAll(){
-     Promise.all([allEntrevuesStudentMatricule(),getAllCandidatures()]).then(()=> checkRefused())
+     Promise.all([allEntrevuesStudentMatricule(),getAllCandidatures()]).then(()=> checkRefused()) 
     }
 
 
@@ -73,18 +73,24 @@ const OVERLAY_STYLE = {
         if (state!== null && selectLocked === true) {
         if (state.selectVar === 'refused'){
             setSelect('Refused_student')
-            setSelectDisabled(true)
                 let entr = data2Ref.current.filter(candidature => candidature.status === 'Refusee' && candidature.status !== 'In_review');
+                let entrevuesNew = data2Ref.current;
                 for (let i=0; i< entr.length; i++){
-                    let candidature = data1Ref.current.filter(x => x.cvStudent.matricule === entr[i].student.matricule)[0];
-                    console.log(candidature);
+                    let index = entrevuesNew.findIndex(x => x.id === entr[i].id)
+                    let candidature = data1Ref.current.filter(x => x.cvStudent.matricule === entr[i].student.matricule && x.offreStage.id === entr[i].offreStage.id)[0];
+                    entrevuesNew[index]["status"] = "Refusee"
+                    entr[i]["status"] = candidature.status;
                     entr[i]["cvStudent"] = candidature.cvStudent ;
-                    entr[i]["lettreMotivation"] = candidature.lettreMotivation;
+                    entr[i]["lettreMotivation"] = candidature.lettreMotivation; 
                 }
+                console.log(entrevuesNew) 
+                setEntrevues(entrevuesNew)       
                 setListeCandidatureFiltered(entr)
+                setReload(!reload)
+                setSelectLocked(false)
                 }
         
-        if (state.selectVar === 'In_review'){
+        if (state.selectVar === 'In_review'){ 
             setSelectDisabled(true)
             setSelect('In_review')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review'))
@@ -94,7 +100,7 @@ const OVERLAY_STYLE = {
             setSelect('need-action')
             setListeCandidatureFiltered(data1Ref.current.filter(candidature => candidature.status === 'In_review' || candidature.status === 'Interview'  ))
             } 
-        }  
+        } 
       
     }
 
@@ -424,7 +430,7 @@ const OVERLAY_STYLE = {
                 entr[i]["status"] = candidature.status;
             }
             console.log(entrevuesNew) 
-            setEntrevues(entrevuesNew)      
+            setEntrevues(entrevuesNew)       
             setListeCandidatureFiltered(entr)
             console.log(entr)
             console.log(entrevues) 

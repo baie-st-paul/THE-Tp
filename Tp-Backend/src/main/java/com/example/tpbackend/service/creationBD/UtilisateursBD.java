@@ -50,26 +50,26 @@ public class UtilisateursBD implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws IOException {
-        createAllStudent();
-        System.out.println("students created");
-        createEmployer();
-        System.out.println("1 employer created");
+       // createAllStudent();
+       // System.out.println("students created");
+      //  createEmployer();
+      //  System.out.println("1 employer created");
         createGestionnaire();
         System.out.println("1 gestionnaire created");
-        createAllCvs();
-        System.out.println("cvs created");
-        createAllOffreStage();
-        System.out.println("offres stage created");
-        createAllCandidature();
-        System.out.println("candidatures created");
-        createAllEntrevues();
-        System.out.println("entrevues created");
-        candidatureEmbauche();
-        System.out.println("candidatures embauches");
-        updateCandidatureEmbauche();
-        System.out.println("update candidatures embauches");
-        createAllContrats();
-        System.out.println("contrats created");
+      //  createAllCvs();
+      //  System.out.println("cvs created");
+       // createAllOffreStage();
+       // System.out.println("offres stage created");
+      //  createAllCandidature();
+       // System.out.println("candidatures created");
+      //  createAllEntrevues();
+        //System.out.println("entrevues created");
+      //  candidatureEmbauche();
+       // System.out.println("candidatures embauches");
+       // updateCandidatureEmbauche();
+       // System.out.println("update candidatures embauches");
+       // createAllContrats();
+       // System.out.println("contrats created");
     }
 
     public void normalCreateStudent(String matricule, String program,

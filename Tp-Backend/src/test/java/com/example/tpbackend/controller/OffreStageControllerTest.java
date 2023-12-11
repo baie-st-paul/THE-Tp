@@ -1,11 +1,8 @@
 package com.example.tpbackend.controller;
 
-import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.config.JwtAuthenticationFilter;
 import com.example.tpbackend.controllers.OffreStageController;
-import com.example.tpbackend.models.EvaluationMilieuStage;
-import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.service.OffreStageService;
 import com.example.tpbackend.service.TagGenerator;
@@ -21,14 +18,12 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

@@ -1,16 +1,11 @@
 package com.example.tpbackend.DTO;
 
-import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
-import com.example.tpbackend.models.Tag;
-import com.example.tpbackend.utils.ByteArrayMultipartFile;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 @Data

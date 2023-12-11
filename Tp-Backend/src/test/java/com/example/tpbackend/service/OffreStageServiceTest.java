@@ -1,7 +1,6 @@
 package com.example.tpbackend.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -11,25 +10,19 @@ import static org.mockito.Mockito.when;
 
 import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
-import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.utilisateur.Utilisateur;
 import com.example.tpbackend.models.utilisateur.employeur.Employer;
 import com.example.tpbackend.repository.OffreStageRepository;
 import com.example.tpbackend.repository.TagRepository;
-import com.example.tpbackend.repository.utilisateur.EmployerRepository;
-import com.example.tpbackend.repository.utilisateur.StudentRepository;
-import com.example.tpbackend.service.security.AuthenticationService;
 import com.example.tpbackend.service.utilisateur.EmployerService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.tpbackend.service.utilisateur.UserService;
 import org.junit.jupiter.api.Disabled;
 
 import org.junit.jupiter.api.Test;
@@ -39,10 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.MultipartFile;
 

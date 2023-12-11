@@ -16,6 +16,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import EvaluationMilieuStageForm from "./evaluationMilieuStage/EvaluationMilieuStageForm";
+import GenereEvaluationMilieuStagePDF from "./evaluationMilieuStage/GenereEvaluationMilieuStagePDF";
 
 const MODAL_STYLES = {
     position: "absolute",
@@ -58,9 +59,12 @@ const ListContratsGestionnaire = ({contratsTest}) => {
     const [contrat, setContrat] = useState(null)
 
     const [showGenerateContrat, setShowGenerateContrat] = useState(false)
-    const [showCreateEvaluationMilieuStage, setShowCreateEvaluationMilieuStage] = useState(false)
     const [generateContrats, setGenerateContrats] = useState([])
     const [openModalGenerateContrat, setOpenModalGenerateContrat] = useState(false)
+
+    const [showCreateEvaluationMilieuStage, setShowCreateEvaluationMilieuStage] = useState(false)
+    const [evaluationsMilieuStage, setEvaluationsMilieuStage] = useState([])
+    const [openModalCreateEvaluationMilieuStage, setOpenModalCreateEvaluationMilieuStage] = useState(false)
 
     const token = localStorage.getItem('token');
     const [gestionnaire, setGestionnaire] = useState(null);
@@ -246,6 +250,86 @@ const ListContratsGestionnaire = ({contratsTest}) => {
         setContrat(contrat)
     }
 
+
+    const handleEvaluationMilieuStageSubmit = async (contrat, formData) => {
+        const token = localStorage.getItem('token');
+        console.log(contrat)
+        try {
+            pdf(<GenereEvaluationMilieuStagePDF formData={formData}/>).toBlob().then(blob => {
+                const formData = new FormData();
+                formData.append('file', blob, 'evaluation-milieu-stage.pdf');
+
+                fetch(
+                    `http://localhost:8081/api/v1/gestionnaire/upload_evaluation_milieu_stage/${contrat.id}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        withCredentials: true,
+                        body: formData,
+                    }
+                ).catch((err) => {
+                    console.log(err)
+                }).then(
+                    (res) => {
+                        try{
+                            console.log(res.status)
+                            if (res.ok) {
+                                const data= res.json()
+                                console.log("PDF envoyé avec succès");
+                                setEvaluationsMilieuStage([...evaluationsMilieuStage, data])
+                                console.log("evaluationMilieuStage",data)
+                                setShowCreateEvaluationMilieuStage(false)
+                            } else {
+                                console.log("Erreur lors de l'envoi du PDF");
+                                throw new Error("Erreur lors de l'envoi");
+                            }
+                        } catch (e) {
+                            console.log(e)
+                        }
+                        window.location.reload()
+                    }
+                )
+            }).catch(error => {
+                console.error("Erreur lors de la génération du PDF:", error);
+            });
+        } catch (error) {
+            console.log('Une erreur est survenue:', error);
+            if (evaluationsMilieuStage !== undefined){
+                setEvaluationsMilieuStage(evaluationsMilieuStage)
+            }
+        }
+    }
+
+    function ModalEvaluationMilieuStageForm() {
+        return (
+            <div>
+                <div style={OVERLAY_STYLE}>
+                    <div style={MODAL_STYLES}>
+                        <div className="titleCloseBtn">
+                            <button onClick={() => setShowCreateEvaluationMilieuStage(false)}>X</button>
+                        </div>
+                        <div className="body">
+                            <EvaluationMilieuStageForm
+                                contrat={contrat}
+                                onSubmit={handleEvaluationMilieuStageSubmit}
+                            />
+                        </div>
+                        <div className="footer">
+                            <button id="cancelBtn" onClick={() => setShowCreateEvaluationMilieuStage(false)}>Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    function handleMontrerEvaluationMilieuStageForm(contrat) {
+        setOpenModalCreateEvaluationMilieuStage(!openModalCreateEvaluationMilieuStage)
+        setContrat(contrat)
+    }
+
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             backgroundColor: theme.palette.common.black,
@@ -270,8 +354,8 @@ const ListContratsGestionnaire = ({contratsTest}) => {
     return (
         <div>
             <NavBarGestionnaire/>
-            <EvaluationMilieuStageForm />
             {showGenerateContrat && <ModalGenerateContrat/>}
+            {showCreateEvaluationMilieuStage && <ModalEvaluationMilieuStageForm/>}
             <div style={{margin: "30px"}}>
                 <div>
                     <div className="col-lg-12">
@@ -296,6 +380,7 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                             <StyledTableCell align="center">Signé par gestionnaire</StyledTableCell>
                                             <StyledTableCell align="center">Signé par employeur</StyledTableCell>
                                             <StyledTableCell align="center">Contrat PDF</StyledTableCell>
+                                            <StyledTableCell align="center">Évaluation de milieu de stage</StyledTableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -352,6 +437,30 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                                                 <p>En attente des signatures</p>
                                                             </StyledTableCell>
                                                     }
+                                                    {
+                                                        contrat.statutEtudiant === 'Signer' &&
+                                                        contrat.statutGestionnaire === 'Signer' &&
+                                                        contrat.statutEmployeur === 'Signer' ?
+                                                            <StyledTableCell align="center" data-label="Évaluation de milieu de stage">
+                                                                {contrat.evaluationMilieuStage !== null ? (
+                                                                    <button className='m-0 text-center btn btn-secondary'
+                                                                            onClick={() => handleMontrerEvaluationMilieuStageForm(contrat)}>
+                                                                        <span className='h7'>Voir évaluation</span>
+                                                                    </button>
+                                                                ) : (
+                                                                    <button className='m-0 text-center btn btn-primary' onClick={() => {
+                                                                        setShowCreateEvaluationMilieuStage(!showCreateEvaluationMilieuStage)
+                                                                        setContrat(contrat)
+                                                                        console.log("evaluationMilieuStage", contrat)
+                                                                    }}>
+                                                                        <span className='h7'>évaluation</span>
+                                                                    </button>
+                                                                )}
+                                                            </StyledTableCell> :
+                                                            <StyledTableCell align="center" data-label="Évaluation de milieu de stage">
+                                                                <p>En attente des signatures</p>
+                                                            </StyledTableCell>
+                                                    }
                                                 </StyledTableRow>
                                             ))}
                                     </TableBody>
@@ -362,6 +471,9 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                 </div>
                 {openModalGenerateContrat && contrats.length > 0 &&
                     <Modal fichier={contrat.generateContrat.content} fileName="PDF du contrat" onClose={handleMontrerGenerateContrat} />
+                }
+                {openModalCreateEvaluationMilieuStage && contrats.length > 0 &&
+                    <Modal fichier={contrat.evaluationMilieuStage.data} fileName="PDF de l'évaluation milieu de stage" onClose={handleMontrerEvaluationMilieuStageForm} />
                 }
                 <ReactModal
                     isOpen={isConfirmationModalOpen}

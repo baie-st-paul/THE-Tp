@@ -51,6 +51,8 @@ public class GestionnaireService {
     private TagRepository tagRepository;
     @Autowired
     private GenerateContratPDFRepository generateContratPDFRepository;
+    @Autowired
+    private EvaluationMilieuStageRepository evaluationMilieuStageRepository;
 
     public GestionnairePostDTO saveGestionnaire(String firstName, String lastName, String email,String phoneNumber, String password, String role, GestionnairePostDTO gestionnairePostDTO){
         if(existsByEmail(email) || existsByMatricule(gestionnairePostDTO.getMatricule())){
@@ -223,17 +225,18 @@ public class GestionnaireService {
 
     @Transactional
     public EvaluationMilieuStageDTO saveEvaluationMilieuStage(EvaluationMilieuStageDTO dto, Long contractId) throws Exception {
+        EvaluationMilieuStagePDF evaluationMilieuStagePDF = EvaluationMilieuStageDTO.toEvaluationMilieuStagePDF(dto);
+
+        EvaluationMilieuStagePDF savedMilieuStagePDF = evaluationMilieuStageRepository.save(evaluationMilieuStagePDF);
+
         Optional<ContratStage> optionalContract = contratStageRepository.findById(contractId);
         if (optionalContract.isEmpty()) {
             throw new Exception("Contract not found with id: " + contractId);
         }
         ContratStage contract = optionalContract.get();
-        EvaluationMilieuStage evaluation = new EvaluationMilieuStage();
-        evaluation.setData(dto.getData());
-        evaluation.setName(dto.getName());
-        contract.setEvaluationMilieuStage(evaluation);
+        contract.setEvaluationMilieuStagePDF(savedMilieuStagePDF);
         contratStageRepository.save(contract);
 
-        return EvaluationMilieuStageDTO.fromEvaluationMilieuStage(contract.getEvaluationMilieuStage());
+        return EvaluationMilieuStageDTO.fromEvaluationMilieuStage(savedMilieuStagePDF);
     }
 }

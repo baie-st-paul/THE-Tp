@@ -1,9 +1,7 @@
 package com.example.tpbackend.service;
 
-import com.example.tpbackend.DTO.EvaluationMilieuStageDTO;
 import com.example.tpbackend.DTO.OffreStageDTO;
 import com.example.tpbackend.custom_exceptions.OffreNotFoundException;
-import com.example.tpbackend.models.EvaluationMilieuStage;
 import com.example.tpbackend.models.OffreStage;
 import com.example.tpbackend.models.Tag;
 import com.example.tpbackend.repository.OffreStageRepository;
@@ -13,11 +11,9 @@ import jakarta.transaction.Transactional;
 import com.example.tpbackend.service.utilisateur.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

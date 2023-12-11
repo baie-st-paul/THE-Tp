@@ -9,7 +9,6 @@ import com.example.tpbackend.models.ContratStage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor
@@ -52,8 +51,8 @@ public class ContratStageDTODetails {
             dto.setGenerateContrat(GenerateContratPdfDTO.fromContratPdf(contratStage.getContratPDF()));
         }
 
-        if (contratStage.getEvaluationMilieuStage() != null) {
-            dto.setEvaluationMilieuStage(EvaluationMilieuStageDTO.fromEvaluationMilieuStage(contratStage.getEvaluationMilieuStage()));
+        if (contratStage.getEvaluationMilieuStagePDF() != null) {
+            dto.setEvaluationMilieuStage(EvaluationMilieuStageDTO.fromEvaluationMilieuStage(contratStage.getEvaluationMilieuStagePDF()));
         }
 
         dto.setStatutEtudiant(contratStage.getStatutEtudiant().toString());

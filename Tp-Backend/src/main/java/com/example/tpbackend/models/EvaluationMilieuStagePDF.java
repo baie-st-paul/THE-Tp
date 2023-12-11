@@ -9,17 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EvaluationMilieuStage {
+public class EvaluationMilieuStagePDF {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     @Lob
     private byte[]  data;
-
-    public EvaluationMilieuStage(String name, byte[] data){
-        this.name = name;
-        this.data = data;
-    }
-
 }

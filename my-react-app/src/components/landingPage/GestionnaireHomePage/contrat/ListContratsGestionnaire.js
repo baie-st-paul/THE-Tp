@@ -377,8 +377,8 @@ const ListContratsGestionnaire = ({contratsTest}) => {
                                             <StyledTableCell align="center">Compagnie</StyledTableCell>
                                             <StyledTableCell align="center">Poste</StyledTableCell>
                                             <StyledTableCell align="center">Signé par étudiant</StyledTableCell>
-                                            <StyledTableCell align="center">Signé par gestionnaire</StyledTableCell>
                                             <StyledTableCell align="center">Signé par employeur</StyledTableCell>
+                                            <StyledTableCell align="center">Signé par gestionnaire</StyledTableCell>
                                             <StyledTableCell align="center">Contrat PDF</StyledTableCell>
                                             <StyledTableCell align="center">Évaluation de milieu de stage</StyledTableCell>
                                         </TableRow>

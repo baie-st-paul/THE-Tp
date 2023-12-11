@@ -106,28 +106,31 @@ const AjoutOffreForm = ({onAdd}) => {
                                 <h2 className="h3 font text-center">AJOUTER UN OFFRE D'EMPLOI</h2>
                                 <div className="w-100">
                                     <div  className='form-group'>
-                                        <input ref={titreRef} className='form-control saisie saisie-user px-3 mb-0' type='text' placeholder="Titre"
+                                        <label style={{display: "block", textAlign: "left"}}>Titre</label>
+                                        <input ref={titreRef} className='form-control saisie saisie-user m-0' type='text' placeholder="Titre"
                                                value={titre}
                                                onChange={(e) => setTitre(e.target.value)}/>
                                         <p ref={titreRef} className="font px-1 textAvertissement text-danger"></p>
                                     </div>
                                     <div className='form-group'>
-                                <textarea
-                                    className="form-control saisie saisie-user px-3 m-0"
-                                    placeholder='Description sommaire'
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
+                                        <label style={{display: "block", textAlign: "left"}}>Description</label>
+                                        <textarea
+                                            className="form-control saisie saisie-user px-3 m-0"
+                                            placeholder='Description sommaire'
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
+                                        />
                                         <p ref={descriptionRef} className="font px-1 textAvertissement text-danger"></p>
                                     </div>
                                     <div className='form-group'>
-                                        <input className='form-control saisie saisie-user px-3 m-0' type='number' placeholder='Salaire offert'
+                                        <label style={{display: "block", textAlign: "left"}}>Salaire horaire</label>
+                                        <input className='form-control saisie saisie-user px-3 m-0' type='number' placeholder='Salaire horraire'
                                                value={salaire}
                                                onChange={(e) => setSalaire(e.target.value)} />
                                         <p ref={salaireRef} className="font px-1 textAvertissement text-danger"></p>
                                     </div>
-
                                     <div className='form-group'>
+                                        <label style={{display: "block", textAlign: "left"}}>Programme de l'étudiant</label>
                                         <select
                                             className='form-control saisie saisie-user px-3 m-0' style={{color: 'grey', fontSize : '20px'}}
                                             value={studentProgram}
@@ -140,6 +143,7 @@ const AjoutOffreForm = ({onAdd}) => {
                                     </div>
 
                                     <div className='form-group'>
+                                        <label style={{display: "block", textAlign: "left"}}>Nombre max. d'étudiants</label>
                                         <input
                                             className='form-control saisie saisie-user px-3 m-0'
                                             type='number'

@@ -21,8 +21,8 @@ const AllCardsNotificationsEtudiant = ({entrevues, contrats, offres, candidature
     return (
         <div>
             {
-                filteredEntrevuesEnAttente.length === 0 &&
-                filteredContratsList.length === 0 ?
+                (filteredEntrevuesEnAttente.length === 0 || filteredEntrevuesEnAttente.length === undefined) &&
+                (filteredContratsList.length === 0 || filteredContratsList.length === undefined) ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredEntrevuesEnAttente.length > 0 &&
@@ -45,7 +45,7 @@ const AllCardsNotificationsEtudiant = ({entrevues, contrats, offres, candidature
             }/>
             <CardsPasCritique filteredList={filterCandidaturesAccepted} card={
                 <CardsPage nbFilteredList={filterCandidaturesAccepted.length} titre="candidatures acceptées par l'employeur" url="/candidaturesEtudiant"
-                           id="cardsPasCritique" colorAvatar="#000066"/>
+                           id="cardsPasCritique" colorAvatar="#000066" filter="Accepted"/>
             }/>
         </div>
     )

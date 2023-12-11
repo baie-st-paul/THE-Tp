@@ -23,17 +23,20 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
         <>
             {isPresent.length > 0 /*|| isPresent[0].status !== 'Refusee'*/ ?
                 <>
-                    { isPresent[0].status !== 'Refusee'  ?
+                    { isPresent[0].status !== 'Refusee' ?
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
                             {isPresent[0].dateHeure}
                             {
-                                offre.status === 'Accepted' ?
+                                isPresent[0].status === 'Acceptee' ?
                                     <span className="badge bg-success ms-2">Acceptée</span>
                                     :
                                     <span className="badge bg-warning text-dark ms-2">En attente</span>
                             }
                         </td> :
+                         
                         <td data-label="ENTREVUE" scope="row" className='headerElement breakWord h6 pe-3'>
+                            { offre.status !== 'Accepted' ?
+                            <div>
                             {isPresent[0].dateHeure}
                             <button title="RECONVOQUER" className='badge bg-danger text-white ms-2' style={{borderColor: "red"}}
                                     onClick={()=>{
@@ -42,6 +45,15 @@ export default function ButtonConvoquer({matricule, offre, entrevues , setModal,
                                     }}>
                                 Refusée, <br/> Re-convoquer
                             </button>
+                        </div>  :   <div>
+                            {isPresent[0].dateHeure}
+                            <br></br>
+                            <button title="RECONVOQUER" className='badge bg-danger text-white ms-2 w-75' style={{borderColor: "red"}}
+                                    >
+                                        
+                                Refusée
+                            </button>
+                        </div> }
                         </td>
                     }
                 </>

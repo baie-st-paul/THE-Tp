@@ -43,11 +43,11 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
     return (
         <div>
             {
-                filteredContratsList.length === 0 &&
-                filteredNotifyRapportHeure.length === 0 &&
-                filteredNotifyEvaluationStudent.length === 0 &&
-                filterEnAttente.length === 0 &&
-                filterPasEntrevue.length === 0 ?
+                (filteredContratsList.length === 0 || filteredContratsList.length === undefined) &&
+                (filteredNotifyRapportHeure.length === 0 || filteredNotifyRapportHeure.length === undefined) &&
+                (filteredNotifyEvaluationStudent.length === 0 || filteredNotifyEvaluationStudent.length === undefined) &&
+                (filterEnAttente.length === 0 || filterEnAttente.length === undefined) &&
+                (filterPasEntrevue.length === 0 || filterPasEntrevue.length === undefined) ?
                     <PageNoNotifications/> :
                     <div>
                         {filteredContratsList.length > 0 &&
@@ -74,15 +74,15 @@ const AllCardsNotificationsEmp = ({contrats, offres, candidatures, entrevues}) =
             }
             <Divider color="black"/>
 
-            <CardsPasCritique filteredList={filterEntrevuesRefused} card={
-                <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
-                           url="/candidatures"
-                           id="cardsPasCritique" colorAvatar="#000066" filter="refused" />
-            }/>
             <CardsPasCritique filteredList={offresAccepted} card={
                 <CardsPage nbFilteredList={offresAccepted.length}
                            titre="offres acceptées par le gestionnaire" url="/offres"
                            id="cardsPasCritique" colorAvatar="#000066"/>
+            }/>
+            <CardsPasCritique filteredList={filterEntrevuesRefused} card={
+                <CardsPage nbFilteredList={filterEntrevuesRefused.length} titre="entrevues refusées par l'étudiant"
+                           url="/candidatures"
+                           id="cardsPasCritique" colorAvatar="#000066" filter="refused" />
             }/>
         </div>
     )

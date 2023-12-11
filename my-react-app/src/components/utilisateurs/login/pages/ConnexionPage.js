@@ -129,7 +129,7 @@ const ConnexionPage = () => {
     }
 
     return (
-        <div className='bg-light '>
+        <div>
             <ConnexionForm onAdd={connexion} />
             {erreur ?
                 <div className='w-100 vh-100'>

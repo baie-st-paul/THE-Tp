@@ -29,6 +29,7 @@ import SectionEntrevue from "./components/landingPage/StudentHomePage/SectionVie
 import EtudiantMesContrats from "./components/landingPage/StudentHomePage/contrat/EtudiantMesContrats";
 import Candidatures from './components/landingPage/EmployerHomePage/candidature/candidatures';
 import CreateSignatureGes from "./components/landingPage/GestionnaireHomePage/signature/CreateSignatureGes";
+import Connexion from "./components/utilisateurs/login/pages/Connexion";
 
 function App() {
     return (
@@ -64,7 +65,7 @@ function App() {
 
                 <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
                 <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
-                <Route path="/utilisateurConnexion" element={<ConnexionPage/>} />
+                <Route path="/utilisateurConnexion" element={<Connexion/>} />
             </Routes>
         </div>
     )

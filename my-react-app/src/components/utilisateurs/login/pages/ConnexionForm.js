@@ -1,6 +1,7 @@
 import {useRef, useState} from "react";
 import './ConnexionPage.css'
 import {Link} from "react-router-dom";
+import "./Connexion.css"
 
 const ConnexionForm = ({onAdd}) => {
     const [email, setEmail] = useState('');
@@ -64,32 +65,83 @@ const ConnexionForm = ({onAdd}) => {
     }
 
     return (
-        <div className="rootConnection vh-100  ">
-            <div className='fondIUConnection'>
-                <div className="divFormConnection">
-                    <form autoComplete="off" name='abc'  id="formm"  className='formConnection font add-form' onSubmit={onSubmit}>
-                        <h2 className="h3 text-center">CONNEXION UTILISATEUR</h2>
+        <div>
+            <div>
+                <div>
+                    <form onSubmit={onSubmit}>
+                        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 20, display: 'flex'}}>
+                            <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 40, display: 'flex'}}>
+                                <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 16, display: 'flex'}}>
+                                    <div style={{color: '#4A4543', fontSize: 42, fontFamily: 'Roboto',
+                                        fontWeight: '400', wordWrap: 'break-word'}}>Content de vous revoir</div>
+                                    <div style={{color: '#808080', fontSize: 16, fontFamily: 'Roboto', fontWeight: '400',
+                                        letterSpacing: 0.16, wordWrap: 'break-word'}}>Veuillez entrer vos informations.</div>
+                                </div>
+                                <div style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                    alignItems: 'flex-start', gap: 20, display: 'flex'}}>
 
-                        <div className='form-group'>
-                            <input className='form-control saisieConnection saisie-user px-3 m-0' type='text' placeholder='Email'
-                                   value={email}
-                                   onChange={(e) => setEmail(e.target.value)}/>
-                            <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
-                        </div>
-                        <div className='form-group'>
-                            <input ref={showPasswRef} id="pass" className='form-control saisieConnection saisie-psw-connection m-0' type='password' placeholder='Mot de passe'
-                                   value={password}
-                                   onChange={(e) => setPassword(e.target.value)}/>
-                            <p ref={passwordRef} className="font px-1 textAvertissement text-danger"></p>
-                            <div className="d-flex justify-content-end pt-0 pb-3">
-                                <h5 className="font px-3 pt-2 ">AFFICHER LE MOT DE PASSE</h5>
-                                <input onClick={showPass} className='mdp' type="checkbox" />
+                                    <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                        alignItems: 'flex-start', gap: 8, display: 'flex'}}>
+
+                                        <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                            fontWeight: '500', wordWrap: 'break-word'}}>Email</label>
+
+                                        <input className='form-control m-0' id="emailMdpInput"
+                                               type='text' placeholder="Entrer l'email"
+                                               value={email}
+                                               onChange={(e) => setEmail(e.target.value)}/>
+                                        <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
+                                    </div>
+
+                                    <div className='form-group'style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                        alignItems: 'flex-start', gap: 8, display: 'flex'}}>
+
+                                        <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                            fontWeight: '500', wordWrap: 'break-word'}}>Mot de passe</label>
+
+                                        <input ref={showPasswRef} id="emailMdpInput"
+                                               className='form-control m-0'
+                                               type='password' placeholder='Entrer le mot de passe'
+                                               value={password}
+                                               onChange={(e) => setPassword(e.target.value)}/>
+                                        <p ref={passwordRef} className="font px-1 textAvertissement text-danger"></p>
+                                    </div>
+
+                                    <div style={{width: 152, justifyContent: 'space-between', alignItems: 'center',
+                                        display: 'inline-flex'}}>
+                                        <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 8,
+                                            display: 'flex'}}>
+                                            <input onClick={showPass} type="checkbox"
+                                                   style={{width: 14, height: 14, borderRadius: 2,
+                                                border: '1px #DADADA solid'}} />
+                                            <div style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Voir le mot de passe</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                                gap: 16, display: 'flex'}}>
+                                <div style={{width: 360, height: 45, position: 'relative',
+                                    background: '#FE8660', borderRadius: 8, overflow: 'hidden'}}>
+                                    <input type='submit' value="Se connecter" className='btn btn-block'
+                                           style={{color: 'white', fontSize: 16, fontFamily: 'Roboto',
+                                               fontWeight: '500', wordWrap: 'break-word'}}/>
+                                </div>
+                            </div>
+
+                            <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 4,
+                                display: 'inline-flex'}}>
+                                <div style={{color: '#808080', fontSize: 17, fontFamily: 'Roboto', fontWeight: '500',
+                                    wordWrap: 'break-word'}}>Pas de compte ?</div>
+
+                                <Link to='/' className='btn'
+                                      style={{color: '#DE8C73', fontSize: 17,
+                                          fontFamily: 'Roboto', fontWeight: '500',
+                                          wordWrap: 'break-word'}}>Créer un compte</Link>
                             </div>
                         </div>
-                        <input type='submit' value='Connexion' className='btn btn-block bg-black text-light m-0 mb-2'/>
-                        <Link to='/' className='btn btn-block bg-danger m-0 mt-0 text-light'>
-                            <span style={{fontSize : '20px'}}> Retour</span>
-                        </Link>
                     </form>
                 </div>
             </div>

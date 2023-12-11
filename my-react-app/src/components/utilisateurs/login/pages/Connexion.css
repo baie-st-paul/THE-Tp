@@ -1,0 +1,57 @@
+.imageLogo {
+    left: 36px;
+    top: 36px;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    display: inline-flex
+}
+
+.imageBackground {
+    display: block;
+    margin-left: auto;
+}
+
+.formConnexion {
+    left: 100px;
+    top: 180px;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    display: inline-flex;
+}
+
+#emailMdpInput {
+    color: #808080;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+#emailMdpInput::placeholder {
+    color: #808080;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.inputConnexion {
+    color: white;
+    font-size: 16px;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.linkToInscriptionButton {
+    color: #DE8C73;
+    font-size: 20px;
+    font-family: Roboto, sans-serif;
+    font-weight: 500;
+    word-wrap: break-word
+}

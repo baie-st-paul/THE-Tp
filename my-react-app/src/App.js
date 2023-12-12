@@ -30,6 +30,8 @@ import EtudiantMesContrats from "./components/landingPage/StudentHomePage/contra
 import Candidatures from './components/landingPage/EmployerHomePage/candidature/candidatures';
 import CreateSignatureGes from "./components/landingPage/GestionnaireHomePage/signature/CreateSignatureGes";
 import Connexion from "./components/utilisateurs/login/pages/Connexion";
+import InscriptionEtudiant from "./components/utilisateurs/inscription/etudiant/InscriptionEtudiant";
+import InscriptionEmployeur from "./components/utilisateurs/inscription/employeur/InscriptionEmployeur";
 
 function App() {
     return (
@@ -63,8 +65,8 @@ function App() {
                 <Route path="*" element={<PageNotFound/>}/>
                 <Route path="/" element={<UtilisateursMain/>}/>
 
-                <Route path="/etudiantInscription" element={<InscriptionPageE/>} />
-                <Route path="/employeurInscription" element={<InscriptionPageEmp/>} />
+                <Route path="/etudiantInscription" element={<InscriptionEtudiant/>} />
+                <Route path="/employeurInscription" element={<InscriptionEmployeur/>} />
                 <Route path="/utilisateurConnexion" element={<Connexion/>} />
             </Routes>
         </div>

@@ -97,7 +97,7 @@ const InscriptionFormEmp = ({onAdd}) => {
 
         if (email.trim() === '') {
             annuler = true;
-            emailRef.current.innerHTML = '* Veuillez entrer votre émail';
+            emailRef.current.innerHTML = '* Veuillez entrer votre email *';
         } else {
             emailRef.current.innerHTML = ''
         }
@@ -160,65 +160,172 @@ const InscriptionFormEmp = ({onAdd}) => {
     }
 
     return (
-        <div className="root vh-100">
-            <div className='fondIU'>
-                <div className="divForm">
-                    <form autoComplete="off" name='abc'  id="formm"  className='form font add-form' onSubmit={onSubmit}>
-                        <h2 className="h3 text-center">INSCRIPTION EMPLOYEUR</h2>
-                        <div className="w-100">
-                            <div  className='form-group'>
-                                <input ref={firstNameRef} className='form-control saisie saisie-user px-3 mb-0' type='text' placeholder='Prénom'
-                                       value={firstName}
-                                       onChange={(e) => setFirstName(e.target.value)}/>
-                                <p ref={firstNameRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Nom de famille'
-                                       value={lastName}
-                                       onChange={(e) => setLastName(e.target.value)}/>
-                                <p ref={lastNameRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Nom de compagnie'
-                                       value={companyName}
-                                       onChange={(e) => setCompanyName(e.target.value)}/>
-                                <p ref={companyNameRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div>
-                                <PhoneInput
-                                    className="form-group"
-                                    placeholder="Entrer numéro téléphone"
-                                    defaultCountry="CA"
-                                    value={phoneNumber}
-                                    onChange={setPhoneNumber}/>
-                                <p ref={phoneNumberRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div className='form-group'>
-                                <input className='form-control saisie saisie-user px-3 m-0' type='text' placeholder='Email'
-                                       value={email}
-                                       onChange={(e) => setEmail(e.target.value)}/>
-                                <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div className='form-group'>
-                                <input ref={showPasswRef} id="pass" className='form-control saisie saisie-psw m-0' type='password' placeholder='Mot de passe'
-                                       value={password}
-                                       onChange={(e) => setPassword(e.target.value)}/>
-                                <p ref={passwordRef} className="font px-1 textAvertissement text-danger"></p>
-                            </div>
-                            <div className='form-group'>
-                                <input ref={showPassConfwRef} id="passC" className='form-control saisie saisie-psw m-0' type='password' placeholder='Confirmer le mot de passe'
-                                       value={confirmPassword}
-                                       onChange={(e) => setConfirmPassword(e.target.value)}/>
-                                <p ref={confirmPasswordRef} className="font px-1 textAvertissement text-danger"></p>
-                                <div className="d-flex justify-content-end pt-0 pb-3">
-                                    <h5 className="font px-3 pt-2 ">AFFICHER LE MOT DE PASSE</h5>
-                                    <input onClick={showPass} className='mdp' type="checkbox" />
+        <div>
+            <div>
+                <div>
+                    <form onSubmit={onSubmit}>
+                        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                            gap: 16, display: 'flex'}}>
+                            <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                                gap: 16, display: 'flex'}}>
+
+                                <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                                    display: 'flex'}}>
+                                    <div style={{color: '#4A4543', fontSize: 42, fontFamily: 'Roboto', fontWeight: '400',
+                                        wordWrap: 'break-word'}}>Bienvenue</div>
+                                    <div style={{color: '#808080', fontSize: 16, fontFamily: 'Roboto', fontWeight: '400',
+                                        letterSpacing: 0.16, wordWrap: 'break-word'}}>Veuillez entrer vos informations.</div>
+                                </div>
+
+                                <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                                    gap: 10, display: 'flex'}}>
+
+                                    <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                        display: 'inline-flex'}}>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex', width: 220}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Prénom</label>
+
+                                            <input className='form-control m-0 inputStyle'
+                                                   style={{width: 220}}
+                                                   type='text' placeholder='Entrer le prénom'
+                                                   value={firstName}
+                                                   onChange={(e) => setFirstName(e.target.value)}/>
+                                            <p ref={firstNameRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex'}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Nom de famille</label>
+
+                                            <input className='form-control m-0 inputStyle'
+                                                   style={{width: 220}}
+                                                   type='text' placeholder='Entrer le nom de famille'
+                                                   value={lastName}
+                                                   onChange={(e) => setLastName(e.target.value)}/>
+                                            <p ref={lastNameRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+                                    </div>
+
+                                    <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                        alignItems: 'flex-start', gap: 8, display: 'flex', width: 220}}>
+
+                                        <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                            fontWeight: '500', wordWrap: 'break-word'}}>Nom de compagnie</label>
+
+                                        <input ref={firstNameRef} className='form-control m-0 inputStyle'
+                                               style={{width: 448}}
+                                               type='text' placeholder='Entrer le nom de compagnie'
+                                               value={companyName}
+                                               onChange={(e) => setCompanyName(e.target.value)}/>
+                                        <p ref={companyNameRef} className="font px-1 textAvertissement text-danger"></p>
+                                    </div>
+
+                                    <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                        display: 'inline-flex'}}>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex', width: 220}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Numéro de téléphone</label>
+
+                                            <PhoneInput
+                                                className="form-group m-0"
+                                                style={{width: 220, borderRadius: 8, border: '1px #DADADA solid'}}
+                                                placeholder="Entrer num."
+                                                defaultCountry="CA"
+                                                value={phoneNumber}
+                                                onChange={setPhoneNumber}/>
+                                            <p ref={phoneNumberRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex'}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Email</label>
+
+                                            <input className='form-control m-0 inputStyle'
+                                                   style={{width: 220}}
+                                                   type='text' placeholder='Entrer l’email'
+                                                   value={email}
+                                                   onChange={(e) => setEmail(e.target.value)}/>
+                                            <p ref={emailRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+                                    </div>
+
+                                    <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8,
+                                        display: 'inline-flex'}}>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex', width: 220}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Mot de passe</label>
+
+                                            <input ref={showPasswRef} className='form-control m-0 inputStyle'
+                                                   style={{width: 220}}
+                                                   type='password' placeholder='Entrer le mot de passe'
+                                                   value={password}
+                                                   onChange={(e) => setPassword(e.target.value)}/>
+                                            <p ref={passwordRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+
+                                        <div className='form-group' style={{flexDirection: 'column', justifyContent: 'flex-start',
+                                            alignItems: 'flex-start', gap: 8, display: 'flex'}}>
+
+                                            <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Confirmer le mot de passe</label>
+
+                                            <input ref={showPassConfwRef} className='form-control m-0 inputStyle'
+                                                   style={{width: 220}}
+                                                   type='password' placeholder='Entrer le mot de passe'
+                                                   value={confirmPassword}
+                                                   onChange={(e) => setConfirmPassword(e.target.value)}/>
+                                            <p ref={confirmPasswordRef} className="font px-1 textAvertissement text-danger"></p>
+                                        </div>
+                                    </div>
+
+                                    <div style={{width: 152, justifyContent: 'space-between', alignItems: 'center',
+                                        display: 'inline-flex'}}>
+                                        <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 8,
+                                            display: 'flex'}}>
+                                            <input onClick={showPass} type="checkbox"
+                                                   style={{width: 14, height: 14, borderRadius: 2,
+                                                       border: '1px #DADADA solid'}} />
+                                            <div style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
+                                                fontWeight: '500', wordWrap: 'break-word'}}>Voir le mot de passe</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <input type='submit' value='Inscription' className='btn btn-block bg-black text-light m-0 mb-2'/>
-                            <Link to='/' className='btn btn-block bg-danger m-0 mt-0 text-light'>
-                                <span style={{fontSize : '20px'}}>Retour</span>
-                            </Link>
+
+                            <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
+                                display: 'flex'}}>
+                                <div style={{width: 448, height: 45, background: '#FE8660',
+                                    borderRadius: 8}}>
+                                    <input type='submit' value="S'inscrire" className='btn btn-block'
+                                           style={{color: 'white', fontSize: 16, fontFamily: 'Roboto',
+                                               fontWeight: '500', wordWrap: 'break-word'}}/>
+                                </div>
+                            </div>
+
+                            <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: 4,
+                                display: 'inline-flex'}}>
+                                <div style={{color: '#808080', fontSize: 17, fontFamily: 'Roboto', fontWeight: '500',
+                                    wordWrap: 'break-word'}}>Vous avez déjà un compte ?</div>
+
+                                <Link to='/utilisateurConnexion' className='btn'
+                                      style={{color: '#DE8C73', fontSize: 17,
+                                          fontFamily: 'Roboto', fontWeight: '500',
+                                          wordWrap: 'break-word'}}>Se connecter</Link>
+                            </div>
                         </div>
                     </form>
                 </div>

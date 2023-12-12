@@ -140,11 +140,13 @@ const ConnexionPage = () => {
                                 <Modal.Title className=' font'><span className='font h4'>Erreur de connexion</span></Modal.Title>
                             </Modal.Header>
                             <Modal.Body className='text-danger'>
-                                <h4 className='font h5'>CET EMAIL</h4>
-                                <h4 className='font h5'>N'EST PAS ASSOCIÉ À UN COMPTE</h4>
+                                <h4 className='font h5'>Cet email <br/>
+                                    n'est pas associé à un compte
+                                </h4>
                             </Modal.Body>
                             <Modal.Footer className='border-0'>
-                                <Button className='w-100 btn button' onClick={() => setErreur(false)} variant='success'>Okay</Button>
+                                <Button className='w-100 btn button' onClick={() => setErreur(false)}
+                                        variant='success'>D'accord</Button>
                             </Modal.Footer>
                         </Modal.Dialog>
                     </div>

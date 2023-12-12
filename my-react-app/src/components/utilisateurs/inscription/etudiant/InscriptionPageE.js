@@ -46,7 +46,7 @@ const InscriptionPageE = () => {
     }
 
     return (
-        <div className='bg-light vh-100'>
+        <div>
             {<InscriptionFormE onAdd={inscription}/>}
             {
                 etudiants.length > 0 ?
@@ -62,12 +62,14 @@ const InscriptionPageE = () => {
                                 <Modal.Title className=' font'><span className='font h4'>Erreur d'inscription</span></Modal.Title>
                             </Modal.Header>
                             <Modal.Body className='text-danger'>
-                                <h4 className='font h5'>CETTE MATRICULE OU EMAIL</h4>
-                                <h4 className='font h5'>EST DÉJÀ ASSOCIÉ À UN COMPTE</h4>
+                                <h4 className='font h5'>Cette matricule ou email <br/>
+                                    est déjà associé à un compte
+                                </h4>
                             </Modal.Body>
 
                             <Modal.Footer className='border-0'>
-                                <Button className='w-100 btn button' onClick={()=> setErreur(!erreur)} variant='success'>Okay</Button>
+                                <Button className='w-100 btn button' onClick={()=> setErreur(!erreur)}
+                                        variant='success'>D'accord</Button>
                             </Modal.Footer>
                         </Modal.Dialog>
                     </div>

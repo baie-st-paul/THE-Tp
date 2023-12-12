@@ -86,7 +86,7 @@ const ConnexionForm = ({onAdd}) => {
                                         <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                             fontWeight: '500', wordWrap: 'break-word'}}>Email</label>
 
-                                        <input className='form-control m-0' id="emailMdpInput"
+                                        <input className='form-control m-0 inputStyle'
                                                type='text' placeholder="Entrer l'email"
                                                value={email}
                                                onChange={(e) => setEmail(e.target.value)}/>
@@ -99,8 +99,8 @@ const ConnexionForm = ({onAdd}) => {
                                         <label style={{color: '#4A4543', fontSize: 14, fontFamily: 'Roboto',
                                             fontWeight: '500', wordWrap: 'break-word'}}>Mot de passe</label>
 
-                                        <input ref={showPasswRef} id="emailMdpInput"
-                                               className='form-control m-0'
+                                        <input ref={showPasswRef}
+                                               className='form-control m-0 inputStyle'
                                                type='password' placeholder='Entrer le mot de passe'
                                                value={password}
                                                onChange={(e) => setPassword(e.target.value)}/>

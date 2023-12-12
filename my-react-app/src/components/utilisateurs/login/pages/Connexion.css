@@ -24,7 +24,7 @@
     display: inline-flex;
 }
 
-#emailMdpInput {
+.inputStyle {
     color: #808080;
     font-size: 16px;
     font-family: Roboto;
@@ -32,7 +32,23 @@
     word-wrap: break-word;
 }
 
-#emailMdpInput::placeholder {
+.inputStyle::placeholder {
+    color: #808080;
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.PhoneInputInput {
+    font-size: 16px;
+    font-family: Roboto;
+    font-weight: 400;
+    word-wrap: break-word;
+    height: 30px;
+}
+
+.PhoneInputInput::placeholder {
     color: #808080;
     font-size: 16px;
     font-family: Roboto;

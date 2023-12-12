@@ -1,3 +1,17 @@
+.formInscriptionE {
+    left: 100px;
+    top: 110px;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 40px;
+    display: inline-flex;
+    width: 520px;
+    height: 610px;
+    overflow: auto;
+}
+
 .form{
     padding-top: 5px;
     width: 100%;

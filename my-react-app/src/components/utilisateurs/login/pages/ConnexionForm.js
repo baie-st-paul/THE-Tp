@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import './ConnexionPage.css'
 import {Link} from "react-router-dom";
-import "./Connexion.css"
+import "../../login/pages/Connexion.css"
 
 const ConnexionForm = ({onAdd}) => {
     const [email, setEmail] = useState('');

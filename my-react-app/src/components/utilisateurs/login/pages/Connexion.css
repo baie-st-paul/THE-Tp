@@ -1,31 +1,115 @@
-html, body, #app, #app>div {
-    height: 100%
-}
-
-.imageLogo {
-    left: 36px;
-    top: 36px;
-    position: absolute;
-    justify-content: center;
+.appConnexion {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    display: inline-flex
-}
-
-.imageBackground {
-    display: block;
-    margin-left: auto;
+    gap: 20px;
+    height: auto;
+    font-family: 'Roboto';
 }
 
 .formConnexion {
-    left: 100px;
-    top: 180px;
-    position: absolute;
+    top: 200px;
+    position: relative;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     gap: 40px;
     display: inline-flex;
+    overflow: auto;
+    height: 85%;
+}
+
+@media screen and (min-width: 1300px) {
+    .appConnexion {
+        height: 100vh;
+        background-image: url('../../../../images/backgroundUserMainXL.png');
+        background-repeat: no-repeat;
+        background-position-x: right;
+        background-size: auto 100%;
+        overflow: auto;
+    }
+
+    .formConnexion {
+        right: 30%;
+        top: 101px;
+        position: relative;
+        width: 500px;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .imageLogo {
+        left: 36px;
+        top: 36px;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        display: inline-flex
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .imageLogo {
+        right: 10px;
+        top: 25px;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        display: inline-flex
+    }
+}
+
+@media screen and (max-width: 1300px) and (min-width: 800px) {
+    .appConnexion {
+        height: 100vh;
+        background-image: url('../../../../images/backgroundUserMainLg.png');
+        background-repeat: no-repeat;
+        background-position-x: right;
+        background-size: 50% 100%;
+        overflow: auto;
+    }
+
+    .formConnexion {
+        right: 25%;
+        top: 101px;
+        position: relative;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        display: inline-flex;
+        overflow: auto;
+        height: 85%;
+    }
+
+    .imageLogo {
+        left: 36px;
+        top: 36px;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        display: inline-flex
+    }
+}
+
+@media screen and (max-width: 800px) and (min-width: 600px) {
+    .appConnexion {
+        background-image: url('../../../../images/backgroundUserMainM.png');
+        background-size: 100% 186px;
+        background-repeat: no-repeat;
+        background-position-x: initial;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .appConnexion {
+        background-image: url('../../../../images/backgroundUserMainSm.png');
+        background-size: 100% 186px;
+        background-repeat: no-repeat;
+        background-position-x: initial;
+    }
 }
 
 .inputStyle {
@@ -58,20 +142,4 @@ html, body, #app, #app>div {
     font-family: Roboto;
     font-weight: 400;
     word-wrap: break-word;
-}
-
-.inputConnexion {
-    color: white;
-    font-size: 16px;
-    font-family: Roboto, sans-serif;
-    font-weight: 500;
-    word-wrap: break-word;
-}
-
-.linkToInscriptionButton {
-    color: #DE8C73;
-    font-size: 20px;
-    font-family: Roboto, sans-serif;
-    font-weight: 500;
-    word-wrap: break-word
 }

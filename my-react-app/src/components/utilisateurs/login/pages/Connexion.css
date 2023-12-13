@@ -1,3 +1,7 @@
+html, body, #app, #app>div {
+    height: 100%
+}
+
 .imageLogo {
     left: 36px;
     top: 36px;

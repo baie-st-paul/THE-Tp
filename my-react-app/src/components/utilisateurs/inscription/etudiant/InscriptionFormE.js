@@ -1,10 +1,9 @@
 import {useRef, useState} from "react";
-import "../InscriptionPage.css"
 import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
 import {Link} from "react-router-dom";
-import '../../../StylesGenerales.css'
+import "../../login/pages/Connexion.css"
 
 const InscriptionFormE = ({onAdd}) => {
 
@@ -198,7 +197,7 @@ const InscriptionFormE = ({onAdd}) => {
                                 <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start',
                                     display: 'flex'}}>
                                     <div style={{color: '#4A4543', fontSize: 42, fontFamily: 'Roboto', fontWeight: '400',
-                                        wordWrap: 'break-word'}}>Bienvenue</div>
+                                        wordWrap: 'break-word'}}>Bienvenue étudiant</div>
                                     <div style={{color: '#808080', fontSize: 16, fontFamily: 'Roboto', fontWeight: '400',
                                         letterSpacing: 0.16, wordWrap: 'break-word'}}>Veuillez entrer vos informations.</div>
                                 </div>

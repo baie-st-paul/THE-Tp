@@ -6,16 +6,12 @@ import InscriptionPageEmp from "./InscriptionPageEmp";
 
 const InscriptionEmployeur = () => {
     return (
-        <div>
+        <div className="appConnexion">
             <Link to="/" className="imageLogo">
                 <img style={{width: 230}} src={al} alt="logo"/>
             </Link>
 
-            <div>
-                <img className="imageBackground" src={backgroundConnexionInscription}  alt="photo école"/>
-            </div>
-
-            <div className="formInscriptionE">
+            <div className="formConnexion">
                 <InscriptionPageEmp/>
             </div>
         </div>

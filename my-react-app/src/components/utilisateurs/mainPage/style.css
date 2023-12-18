@@ -9,6 +9,18 @@
     background-image: url("../../../images/backgroundUserMain.png");
 }
 
+.appGestionnaire {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    gap: 10px;
+    height: 100vh;
+    font-family: 'Roboto';
+    background-image: url("../../../images/backgroundUserMain.png");
+}
+
 .title {
     font-size: 50px;
     margin-bottom: 20px;
@@ -25,12 +37,30 @@
     height: 50%;
 }
 
+.boxContainerG {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.37);
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 60%;
+    height: 80%;
+}
+
 @media screen and (max-width: 560px) {
     .title {
         font-size: 40px;
         margin-bottom: 20px;
         color: white;
         font-weight: 800;
+    }
+
+    .boxContainerG {
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.37);
+        padding: 2rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        width: 60%;
+        height: 70%;
     }
 }
 
@@ -42,6 +72,15 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         width: 60%;
         height: 70%;
+    }
+
+    .boxContainerG {
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.37);
+        padding: 2rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        width: 60%;
+        height: 80%;
     }
 }
 
@@ -75,6 +114,15 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         width: 43%;
         height: 40%;
+    }
+
+    .boxContainerG {
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.37);
+        padding: 2rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        width: 60%;
+        height: 70%;
     }
 }
 
